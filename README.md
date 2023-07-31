@@ -33,7 +33,7 @@ See [USAGE.md](./usage.md) for a step-by-step demo of Concoction.
 
 ## Data
 
-Data are available [here](./dataset).
+Data are available [here](./dataset/README.md).
 
 ## Main Results
 Full list of code vulnerabilities discovered by Concoction can be found [here](./vul_info/README.md).
