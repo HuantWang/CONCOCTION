@@ -10,4 +10,4 @@ model/detectionModel/transformer/graphcodebert-base
 __pycache__*/
 data*/
 model/pathSelection/princeton-nlp/sup-simcse-bert-base-uncased
-/home/ae/CONCOCTION/model/*.zip
+model/*.zip
