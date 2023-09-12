@@ -1,3 +1,11 @@
 .ipynb_checkpoints
 .idea
 .idea/*
+*.log
+CONCOCTION/getFeature/getFeature/data/file_new
+getFeature/staticFeature/joern-cli_new/out
+model/pretrainedModel/staticRepresentation/graphcodebert-base
+model/detectionModel/transformer/bert-base-uncased
+model/detectionModel/transformer/graphcodebert-base
+__pycache__*/
+data*/
