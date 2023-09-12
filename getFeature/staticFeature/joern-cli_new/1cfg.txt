@@ -1,0 +1,64 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"79" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "79" 
+}
+
+digraph "helperGood" {  
+"11" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>3</SUB>> ]
+"16" [label = <(&lt;operator&gt;.assignment,* reversedString = NULL)<SUB>5</SUB>> ]
+"20" [label = <(&lt;operator&gt;.notEquals,aString != NULL)<SUB>6</SUB>> ]
+"24" [label = <(&lt;operator&gt;.assignment,i = strlen(aString))<SUB>8</SUB>> ]
+"28" [label = <(&lt;operator&gt;.assignment,reversedString = (char *) malloc(i+1))<SUB>9</SUB>> ]
+"66" [label = <(&lt;operator&gt;.assignment,reversedString[i] = '\0')<SUB>15</SUB>> ]
+"71" [label = <(RETURN,return reversedString;,return reversedString;)<SUB>17</SUB>> ]
+"26" [label = <(strlen,strlen(aString))<SUB>8</SUB>> ]
+"30" [label = <(&lt;operator&gt;.cast,(char *) malloc(i+1))<SUB>9</SUB>> ]
+"37" [label = <(&lt;operator&gt;.equals,reversedString == NULL)<SUB>10</SUB>> ]
+"49" [label = <(&lt;operator&gt;.lessThan,j &lt; i)<SUB>11</SUB>> ]
+"52" [label = <(&lt;operator&gt;.postIncrement,j++)<SUB>11</SUB>> ]
+"67" [label = <(&lt;operator&gt;.indirectIndexAccess,reversedString[i])<SUB>15</SUB>> ]
+"75" [label = <(RETURN,return NULL;,return NULL;)<SUB>21</SUB>> ]
+"31" [label = <(UNKNOWN,char *,char *)<SUB>9</SUB>> ]
+"32" [label = <(malloc,malloc(i+1))<SUB>9</SUB>> ]
+"41" [label = <(exit,exit(-1))<SUB>10</SUB>> ]
+"46" [label = <(&lt;operator&gt;.assignment,j = 0)<SUB>11</SUB>> ]
+"55" [label = <(&lt;operator&gt;.assignment,reversedString[j] = aString[i-j-1])<SUB>13</SUB>> ]
+"33" [label = <(&lt;operator&gt;.addition,i+1)<SUB>9</SUB>> ]
+"42" [label = <(&lt;operator&gt;.minus,-1)<SUB>10</SUB>> ]
+"56" [label = <(&lt;operator&gt;.indirectIndexAccess,reversedString[j])<SUB>13</SUB>> ]
+"59" [label = <(&lt;operator&gt;.indirectIndexAccess,aString[i-j-1])<SUB>13</SUB>> ]
+"61" [label = <(&lt;operator&gt;.subtraction,i-j-1)<SUB>13</SUB>> ]
+"62" [label = <(&lt;operator&gt;.subtraction,i-j)<SUB>13</SUB>> ]
+"7" [label = <(METHOD,helperGood)<SUB>1</SUB>> ]
+"77" [label = <(METHOD_RETURN,char*)<SUB>1</SUB>> ]
+  "11" -> "16" 
+  "16" -> "20" 
+  "20" -> "26" 
+  "20" -> "75" 
+  "24" -> "31" 
+  "28" -> "37" 
+  "66" -> "71" 
+  "71" -> "77" 
+  "26" -> "24" 
+  "30" -> "28" 
+  "37" -> "42" 
+  "37" -> "46" 
+  "49" -> "56" 
+  "49" -> "67" 
+  "52" -> "49" 
+  "67" -> "66" 
+  "75" -> "77" 
+  "31" -> "33" 
+  "32" -> "30" 
+  "41" -> "46" 
+  "46" -> "49" 
+  "55" -> "52" 
+  "33" -> "32" 
+  "42" -> "41" 
+  "56" -> "62" 
+  "59" -> "55" 
+  "61" -> "59" 
+  "62" -> "61" 
+  "7" -> "11" 
+}

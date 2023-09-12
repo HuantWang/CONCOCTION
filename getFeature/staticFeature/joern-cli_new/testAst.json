@@ -1,0 +1,24 @@
+int get_sign (int x)
+int x
+<empty>
+if (x == 0)
+x == 0
+x
+0
+<empty>
+return 0;
+0
+if (x < 0)
+x < 0
+x
+0
+<empty>
+return -1;
+-1
+1
+else
+<empty>
+return 1;
+1
+RET
+int x
