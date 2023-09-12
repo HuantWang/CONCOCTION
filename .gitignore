@@ -11,3 +11,8 @@ __pycache__*/
 data*/
 model/pathSelection/princeton-nlp/sup-simcse-bert-base-uncased
 model/*.zip
+model/pretrainedModel/dynamicRepresentation/bert-base-uncased
+model/pretrainedModel/dynamicRepresentation/result
+getFeature/staticFeature/joern-cli_new/frontends/ghidra2cpg/lib/io.shiftleft.ghidra-10.1_PUBLIC_20211210a.jar
+model/pretrainedModel/staticRepresentation/trainedModel
+
