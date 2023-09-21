@@ -1,0 +1,135 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"151" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "151" 
+}
+
+digraph "main" {  
+"26" [label = <(&lt;operator&gt;.assignment,numiters = atoi(argv[1]))<SUB>14</SUB>> ]
+"32" [label = <(jas_tmr_start,jas_tmr_start(&amp;tmr))<SUB>16</SUB>> ]
+"49" [label = <(jas_tmr_stop,jas_tmr_stop(&amp;tmr))<SUB>20</SUB>> ]
+"52" [label = <(&lt;operator&gt;.assignment,t = jas_tmr_get(&amp;tmr))<SUB>21</SUB>> ]
+"57" [label = <(&lt;operator&gt;.assignmentDivision,t /= numiters)<SUB>22</SUB>> ]
+"60" [label = <(printf,printf(&quot;jas_tmr_start %.3f us\n&quot;, t * 1e6))<SUB>23</SUB>> ]
+"65" [label = <(jas_tmr_start,jas_tmr_start(&amp;tmr))<SUB>25</SUB>> ]
+"82" [label = <(jas_tmr_stop,jas_tmr_stop(&amp;tmr))<SUB>29</SUB>> ]
+"85" [label = <(&lt;operator&gt;.assignment,t = jas_tmr_get(&amp;tmr))<SUB>30</SUB>> ]
+"90" [label = <(&lt;operator&gt;.assignmentDivision,t /= numiters)<SUB>31</SUB>> ]
+"93" [label = <(printf,printf(&quot;jas_tmr_stop  %.3f us\n&quot;, t * 1e6))<SUB>32</SUB>> ]
+"98" [label = <(&lt;operator&gt;.assignment,t = 0)<SUB>34</SUB>> ]
+"123" [label = <(&lt;operator&gt;.assignmentDivision,t /= numiters)<SUB>40</SUB>> ]
+"126" [label = <(printf,printf(&quot;zero time %.3f us\n&quot;, t * 1e6))<SUB>41</SUB>> ]
+"131" [label = <(jas_tmr_start,jas_tmr_start(&amp;tmr))<SUB>43</SUB>> ]
+"134" [label = <(sleep,sleep(1))<SUB>44</SUB>> ]
+"136" [label = <(jas_tmr_stop,jas_tmr_stop(&amp;tmr))<SUB>45</SUB>> ]
+"139" [label = <(&lt;operator&gt;.assignment,t = jas_tmr_get(&amp;tmr))<SUB>46</SUB>> ]
+"144" [label = <(printf,printf(&quot;time delay %.8f s\n&quot;, t))<SUB>47</SUB>> ]
+"147" [label = <(exit,exit(0))<SUB>49</SUB>> ]
+"17" [label = <(&lt;operator&gt;.lessThan,argc &lt; 2)<SUB>9</SUB>> ]
+"28" [label = <(atoi,atoi(argv[1]))<SUB>14</SUB>> ]
+"33" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>16</SUB>> ]
+"40" [label = <(&lt;operator&gt;.greaterThan,i &gt; 0)<SUB>17</SUB>> ]
+"43" [label = <(&lt;operator&gt;.preDecrement,--i)<SUB>17</SUB>> ]
+"50" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>20</SUB>> ]
+"54" [label = <(jas_tmr_get,jas_tmr_get(&amp;tmr))<SUB>21</SUB>> ]
+"62" [label = <(&lt;operator&gt;.multiplication,t * 1e6)<SUB>23</SUB>> ]
+"66" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>25</SUB>> ]
+"73" [label = <(&lt;operator&gt;.greaterThan,i &gt; 0)<SUB>26</SUB>> ]
+"76" [label = <(&lt;operator&gt;.preDecrement,--i)<SUB>26</SUB>> ]
+"83" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>29</SUB>> ]
+"87" [label = <(jas_tmr_get,jas_tmr_get(&amp;tmr))<SUB>30</SUB>> ]
+"95" [label = <(&lt;operator&gt;.multiplication,t * 1e6)<SUB>32</SUB>> ]
+"106" [label = <(&lt;operator&gt;.greaterThan,i &gt; 0)<SUB>35</SUB>> ]
+"109" [label = <(&lt;operator&gt;.preDecrement,--i)<SUB>35</SUB>> ]
+"128" [label = <(&lt;operator&gt;.multiplication,t * 1e6)<SUB>41</SUB>> ]
+"132" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>43</SUB>> ]
+"137" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>45</SUB>> ]
+"141" [label = <(jas_tmr_get,jas_tmr_get(&amp;tmr))<SUB>46</SUB>> ]
+"21" [label = <(fprintf,fprintf(stderr, &quot;bad usage :P\n&quot;))<SUB>10</SUB>> ]
+"24" [label = <(exit,exit(1))<SUB>11</SUB>> ]
+"29" [label = <(&lt;operator&gt;.indirectIndexAccess,argv[1])<SUB>14</SUB>> ]
+"37" [label = <(&lt;operator&gt;.assignment,i = numiters)<SUB>17</SUB>> ]
+"46" [label = <(jas_tmr_start,jas_tmr_start(&amp;dummytmr))<SUB>18</SUB>> ]
+"55" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>21</SUB>> ]
+"70" [label = <(&lt;operator&gt;.assignment,i = numiters)<SUB>26</SUB>> ]
+"79" [label = <(jas_tmr_stop,jas_tmr_stop(&amp;dummytmr))<SUB>27</SUB>> ]
+"88" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>30</SUB>> ]
+"103" [label = <(&lt;operator&gt;.assignment,i = numiters)<SUB>35</SUB>> ]
+"112" [label = <(jas_tmr_start,jas_tmr_start(&amp;tmr))<SUB>36</SUB>> ]
+"115" [label = <(jas_tmr_stop,jas_tmr_stop(&amp;tmr))<SUB>37</SUB>> ]
+"118" [label = <(&lt;operator&gt;.assignmentPlus,t += jas_tmr_get(&amp;tmr))<SUB>38</SUB>> ]
+"142" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>46</SUB>> ]
+"47" [label = <(&lt;operator&gt;.addressOf,&amp;dummytmr)<SUB>18</SUB>> ]
+"80" [label = <(&lt;operator&gt;.addressOf,&amp;dummytmr)<SUB>27</SUB>> ]
+"113" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>36</SUB>> ]
+"116" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>37</SUB>> ]
+"120" [label = <(jas_tmr_get,jas_tmr_get(&amp;tmr))<SUB>38</SUB>> ]
+"121" [label = <(&lt;operator&gt;.addressOf,&amp;tmr)<SUB>38</SUB>> ]
+"7" [label = <(METHOD,main)<SUB>1</SUB>> ]
+"149" [label = <(METHOD_RETURN,int)<SUB>1</SUB>> ]
+  "26" -> "33" 
+  "32" -> "37" 
+  "49" -> "55" 
+  "52" -> "57" 
+  "57" -> "62" 
+  "60" -> "66" 
+  "65" -> "70" 
+  "82" -> "88" 
+  "85" -> "90" 
+  "90" -> "95" 
+  "93" -> "98" 
+  "98" -> "103" 
+  "123" -> "128" 
+  "126" -> "132" 
+  "131" -> "134" 
+  "134" -> "137" 
+  "136" -> "142" 
+  "139" -> "144" 
+  "144" -> "147" 
+  "147" -> "149" 
+  "17" -> "21" 
+  "17" -> "29" 
+  "28" -> "26" 
+  "33" -> "32" 
+  "40" -> "47" 
+  "40" -> "50" 
+  "43" -> "40" 
+  "50" -> "49" 
+  "54" -> "52" 
+  "62" -> "60" 
+  "66" -> "65" 
+  "73" -> "80" 
+  "73" -> "83" 
+  "76" -> "73" 
+  "83" -> "82" 
+  "87" -> "85" 
+  "95" -> "93" 
+  "106" -> "113" 
+  "106" -> "123" 
+  "109" -> "106" 
+  "128" -> "126" 
+  "132" -> "131" 
+  "137" -> "136" 
+  "141" -> "139" 
+  "21" -> "24" 
+  "24" -> "29" 
+  "29" -> "28" 
+  "37" -> "40" 
+  "46" -> "43" 
+  "55" -> "54" 
+  "70" -> "73" 
+  "79" -> "76" 
+  "88" -> "87" 
+  "103" -> "106" 
+  "112" -> "116" 
+  "115" -> "121" 
+  "118" -> "109" 
+  "142" -> "141" 
+  "47" -> "46" 
+  "80" -> "79" 
+  "113" -> "112" 
+  "116" -> "115" 
+  "120" -> "118" 
+  "121" -> "120" 
+  "7" -> "17" 
+}

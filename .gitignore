@@ -1,4 +1,5 @@
 data/
+.idea/
 *.log
 __pycache__/
 *.zip
@@ -13,3 +14,11 @@ concoction/pretrainedModel/dynamicRepresentation/bert-base-uncased/pytorch_model
 concoction/pretrainedModel/dynamicRepresentation/result/pytorch_model.bin
 concoction/pretrainedModel/staticRepresentation/graphcodebert-base/pytorch_model.bin
 concoction/pretrainedModel/staticRepresentation/trainedModel/pytorch_model.bin
+
+feature/static/github/joern-cli/parse_result/good.bin
+feature/static/github/joern-cli_new/lib.zip
+feature/static/github/joern-cli_new/frontends/ghidra2cpg/lib/io.shiftleft.ghidra-10.1_PUBLIC_20211210a.jar
+feature/static/github/joern-cli_new/frontends/jssrc2cpg/bin/astgen/astgen-linux
+feature/static/github/joern-cli_new/frontends/jssrc2cpg/bin/astgen/astgen-macos-arm
+feature/static/github/joern-cli_new/frontends/jssrc2cpg/bin/astgen/astgen-macos
+*.dot

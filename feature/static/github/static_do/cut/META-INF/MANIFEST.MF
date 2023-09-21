@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: slice.Main
+Class-Path: cdt_core-5_6_0_201402142303.jar equinox_common-3_6_200_v20130402-1505.jar
+

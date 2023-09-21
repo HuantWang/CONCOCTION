@@ -1,0 +1,293 @@
+<global>
+<empty>
+int main (int argc,char **argv)
+int argc
+char **argv
+<empty>
+int i
+jas_tmr_t tmr
+jas_tmr_t dummytmr
+double t
+int numiters
+if (argc < 2)
+argc < 2
+argc
+2
+<empty>
+fprintf(stderr, "bad usage :P\n")
+stderr
+"bad usage :P\n"
+exit(1)
+1
+numiters = atoi(argv[1])
+numiters
+atoi(argv[1])
+argv[1]
+argv
+1
+jas_tmr_start(&tmr)
+&tmr
+tmr
+for (i = numiters;i > 0;--i)
+<empty>
+i = numiters
+i
+numiters
+i > 0
+i
+0
+--i
+i
+<empty>
+jas_tmr_start(&dummytmr)
+&dummytmr
+dummytmr
+jas_tmr_stop(&tmr)
+&tmr
+tmr
+t = jas_tmr_get(&tmr)
+t
+jas_tmr_get(&tmr)
+&tmr
+tmr
+t /= numiters
+t
+numiters
+printf("jas_tmr_start %.3f us\n", t * 1e6)
+"jas_tmr_start %.3f us\n"
+t * 1e6
+t
+1e6
+jas_tmr_start(&tmr)
+&tmr
+tmr
+for (i = numiters;i > 0;--i)
+<empty>
+i = numiters
+i
+numiters
+i > 0
+i
+0
+--i
+i
+<empty>
+jas_tmr_stop(&dummytmr)
+&dummytmr
+dummytmr
+jas_tmr_stop(&tmr)
+&tmr
+tmr
+t = jas_tmr_get(&tmr)
+t
+jas_tmr_get(&tmr)
+&tmr
+tmr
+t /= numiters
+t
+numiters
+printf("jas_tmr_stop  %.3f us\n", t * 1e6)
+"jas_tmr_stop  %.3f us\n"
+t * 1e6
+t
+1e6
+t = 0
+t
+0
+for (i = numiters;i > 0;--i)
+<empty>
+i = numiters
+i
+numiters
+i > 0
+i
+0
+--i
+i
+<empty>
+jas_tmr_start(&tmr)
+&tmr
+tmr
+jas_tmr_stop(&tmr)
+&tmr
+tmr
+t += jas_tmr_get(&tmr)
+t
+jas_tmr_get(&tmr)
+&tmr
+tmr
+t /= numiters
+t
+numiters
+printf("zero time %.3f us\n", t * 1e6)
+"zero time %.3f us\n"
+t * 1e6
+t
+1e6
+jas_tmr_start(&tmr)
+&tmr
+tmr
+sleep(1)
+1
+jas_tmr_stop(&tmr)
+&tmr
+tmr
+t = jas_tmr_get(&tmr)
+t
+jas_tmr_get(&tmr)
+&tmr
+tmr
+printf("time delay %.8f s\n", t)
+"time delay %.8f s\n"
+t
+exit(0)
+0
+RET
+int argc
+char **argv
+RET
+int main (int argc,char **argv)
+int argc
+char **argv
+<empty>
+int i
+jas_tmr_t tmr
+jas_tmr_t dummytmr
+double t
+int numiters
+if (argc < 2)
+argc < 2
+argc
+2
+<empty>
+fprintf(stderr, "bad usage :P\n")
+stderr
+"bad usage :P\n"
+exit(1)
+1
+numiters = atoi(argv[1])
+numiters
+atoi(argv[1])
+argv[1]
+argv
+1
+jas_tmr_start(&tmr)
+&tmr
+tmr
+for (i = numiters;i > 0;--i)
+<empty>
+i = numiters
+i
+numiters
+i > 0
+i
+0
+--i
+i
+<empty>
+jas_tmr_start(&dummytmr)
+&dummytmr
+dummytmr
+jas_tmr_stop(&tmr)
+&tmr
+tmr
+t = jas_tmr_get(&tmr)
+t
+jas_tmr_get(&tmr)
+&tmr
+tmr
+t /= numiters
+t
+numiters
+printf("jas_tmr_start %.3f us\n", t * 1e6)
+"jas_tmr_start %.3f us\n"
+t * 1e6
+t
+1e6
+jas_tmr_start(&tmr)
+&tmr
+tmr
+for (i = numiters;i > 0;--i)
+<empty>
+i = numiters
+i
+numiters
+i > 0
+i
+0
+--i
+i
+<empty>
+jas_tmr_stop(&dummytmr)
+&dummytmr
+dummytmr
+jas_tmr_stop(&tmr)
+&tmr
+tmr
+t = jas_tmr_get(&tmr)
+t
+jas_tmr_get(&tmr)
+&tmr
+tmr
+t /= numiters
+t
+numiters
+printf("jas_tmr_stop  %.3f us\n", t * 1e6)
+"jas_tmr_stop  %.3f us\n"
+t * 1e6
+t
+1e6
+t = 0
+t
+0
+for (i = numiters;i > 0;--i)
+<empty>
+i = numiters
+i
+numiters
+i > 0
+i
+0
+--i
+i
+<empty>
+jas_tmr_start(&tmr)
+&tmr
+tmr
+jas_tmr_stop(&tmr)
+&tmr
+tmr
+t += jas_tmr_get(&tmr)
+t
+jas_tmr_get(&tmr)
+&tmr
+tmr
+t /= numiters
+t
+numiters
+printf("zero time %.3f us\n", t * 1e6)
+"zero time %.3f us\n"
+t * 1e6
+t
+1e6
+jas_tmr_start(&tmr)
+&tmr
+tmr
+sleep(1)
+1
+jas_tmr_stop(&tmr)
+&tmr
+tmr
+t = jas_tmr_get(&tmr)
+t
+jas_tmr_get(&tmr)
+&tmr
+tmr
+printf("time delay %.8f s\n", t)
+"time delay %.8f s\n"
+t
+exit(0)
+0
+RET
+int argc
+char **argv
