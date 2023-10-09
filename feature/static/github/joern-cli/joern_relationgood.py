@@ -20,7 +20,6 @@ def graphRelation(rootpath,pathdir,tag):
                 # Determine whether the data is empty
                 node1 = []
                 node2 = []
-                print()
                 relation = []
                 if (alllist[1] != ""):
                     filename = alllist[0].split("/")[-1]
@@ -107,7 +106,8 @@ if __name__ == '__main__':
     # bad or good
     dataTag = 'good'
     graphRelation(dataPath,outPath,dataTag)
-    print("ooooooooooooooover")
+    print("joern_relationgood.py over...")
+
 
 
 

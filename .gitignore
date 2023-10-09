@@ -6,19 +6,10 @@ __pycache__/
 concoction/data/dataset/jas_cm.c-jas_cmshapmatlut_invert.c.txt
 concoction/princeton-nlp.zip
 concoction/SIMCSE.zip
-concoction/detectionModel/transformer/bert-base-uncased/pytorch_model.bin
-concoction/detectionModel/transformer/graphcodebert-base/pytorch_model.bin
-concoction/pathSelection/princeton-nlp/sup-simcse-bert-base-uncased/flax_model.msgpack
-concoction/pathSelection/princeton-nlp/sup-simcse-bert-base-uncased/pytorch_model.bin
-concoction/pretrainedModel/dynamicRepresentation/bert-base-uncased/pytorch_model.bin
-concoction/pretrainedModel/dynamicRepresentation/result/pytorch_model.bin
-concoction/pretrainedModel/staticRepresentation/graphcodebert-base/pytorch_model.bin
-concoction/pretrainedModel/staticRepresentation/trainedModel/pytorch_model.bin
+
 
 feature/static/github/joern-cli/parse_result/good.bin
-feature/static/github/joern-cli_new/lib.zip
-feature/static/github/joern-cli_new/frontends/ghidra2cpg/lib/io.shiftleft.ghidra-10.1_PUBLIC_20211210a.jar
-feature/static/github/joern-cli_new/frontends/jssrc2cpg/bin/astgen/astgen-linux
-feature/static/github/joern-cli_new/frontends/jssrc2cpg/bin/astgen/astgen-macos-arm
-feature/static/github/joern-cli_new/frontends/jssrc2cpg/bin/astgen/astgen-macos
+
 *.dot
+.ipynb_checkpoints/
+workspace/
