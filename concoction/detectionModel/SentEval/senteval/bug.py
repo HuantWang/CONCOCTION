@@ -608,16 +608,23 @@ class BUGEval(object):
                 embeddings = batcher(params, batch)
                 sst_embed[key]["X"].append(embeddings)
 
-            sst_embed[key]["X"] = torch.cat(sst_embed[key]["X"]).detach().numpy()
+            sst_embed[key]["X"] = torch.cat(sst_embed[key]["X"]).detach().cpu().numpy()
             sst_embed[key]["y"] = np.array(self.sst_data[key]["label"])
             logging.info("Computed {0} embeddings".format(key))
-
+        # device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        device="cpu"
+        if device=="cpu":
+            cudaEfficient=False
+        else:
+            cudaEfficient=True
+            
         config_classifier = {
             "nclasses": self.nclasses,
             "seed": self.seed,
             "usepytorch": params.usepytorch,
             "classifier": params.classifier,
-            "modelpath":self.modelpath
+            "modelpath":self.modelpath,
+            "cudaEfficient":cudaEfficient
         }
 
         clf = SplitClassifier(
@@ -667,17 +674,23 @@ class BUGEval(object):
             embeddings = batcher(params, batch)
             sst_embed["data"]["X"].append(embeddings)
 
-        sst_embed["data"]["X"] = torch.cat(sst_embed["data"]["X"]).detach().numpy()
+        sst_embed["data"]["X"] = torch.cat(sst_embed["data"]["X"]).detach().cpu().numpy()
         sst_embed["data"]["y"] = np.array(self.sst_data["data"]["label"])
         sst_embed["data"]["name"] = np.array(self.sst_data["data"]["name"])
         logging.info("Computed {0} embeddings".format("data"))
 
+        device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        if device=="cpu":
+            cudaEfficient=False
+        else:
+            cudaEfficient=True
         config_classifier = {
             "nclasses": self.nclasses,
             "seed": self.seed,
             "usepytorch": params.usepytorch,
             "classifier": params.classifier,
-            "modelpath": self.modelpath
+            "modelpath": self.modelpath,
+            "cudaEfficient":cudaEfficient
         }
 
         clf = SplitClassifier(

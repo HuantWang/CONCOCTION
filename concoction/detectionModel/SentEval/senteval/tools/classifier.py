@@ -32,6 +32,7 @@ class PyTorchClassifier(object):
         self.l2reg = l2reg
         self.batch_size = batch_size
         self.cudaEfficient = cudaEfficient
+        self.device = torch.device('cuda:0') if self.cudaEfficient else torch.device('cpu')
 
     def prepare_split(self, X, y, validation_data=None, validation_split=None):
         # Preparing validation data
@@ -46,8 +47,8 @@ class PyTorchClassifier(object):
             trainX, trainy = X[trainidx], y[trainidx]
             devX, devy = X[devidx], y[devidx]
 
-        # device = torch.device('cpu') if self.cudaEfficient else torch.device('cuda')
-        device = "cpu"
+        device = self.device
+        # device = "cpu"
         trainX = torch.from_numpy(trainX).to(device, dtype=torch.float32)
         trainy = torch.from_numpy(trainy).to(device, dtype=torch.int64)
         devX = torch.from_numpy(devX).to(device, dtype=torch.float32)
@@ -130,7 +131,10 @@ class PyTorchClassifier(object):
 
 
     def trainepoch(self, X, y, epoch_size):
-        self.model.train()
+        #todo 修改的合理点：在何处将self.model device改为cuda
+        # if self.cudaEfficient:
+        #     self.model.to("cuda:0")
+        # self.model.train()
         for _ in range(self.nepoch, self.nepoch + epoch_size):
             permutation = np.random.permutation(len(X))
             all_costs = []
@@ -162,23 +166,26 @@ class PyTorchClassifier(object):
     def score(self, devX, devy):
         self.model.eval()
         correct = 0
-
-        test_acc = torchmetrics.Accuracy()
-        test_recall = torchmetrics.Recall(average="none", num_classes=2)
-        test_precision = torchmetrics.Precision(average="none", num_classes=2)
-        if not isinstance(devX, torch.cuda.FloatTensor) or self.cudaEfficient:
+        test_acc = torchmetrics.Accuracy().to(self.device)
+        test_recall = torchmetrics.Recall(average="none", num_classes=2).to(self.device)
+        test_precision = torchmetrics.Precision(average="none", num_classes=2).to(self.device)
+        if not isinstance(devX, torch.cuda.FloatTensor) and self.cudaEfficient:
+            devX = torch.FloatTensor(devX).to(self.device)
+            # .cuda()
+            devy = torch.LongTensor(devy).to(self.device)
+            # .cuda()
+        else:
             devX = torch.FloatTensor(devX)
-            # .cuda()
             devy = torch.LongTensor(devy)
-            # .cuda()
+        
         with torch.no_grad():
             for i in range(0, len(devX), self.batch_size):
                 Xbatch = devX[i : i + self.batch_size]
                 ybatch = devy[i : i + self.batch_size]
                 if self.cudaEfficient:
-                    Xbatch = Xbatch
+                    Xbatch = Xbatch.to(self.device)
                     # cuda()
-                    ybatch = ybatch
+                    ybatch = ybatch.to(self.device)
                     # cuda()
                 output = self.model(Xbatch)
                 pred = output.data.max(1)[1]
@@ -187,11 +194,11 @@ class PyTorchClassifier(object):
                 test_recall(pred, ybatch.data.long())
                 test_precision(pred, ybatch.data.long())
             accuracy = 1.0 * correct / len(devX)
-        total_acc = test_acc.compute().numpy()
-        total_recall1 = test_recall.compute().numpy()
-        total_precision1 = test_precision.compute().numpy()
-        total_recall = test_recall.compute().numpy()[1]
-        total_precision = test_precision.compute().numpy()[1]
+        total_acc = test_acc.compute().cpu().numpy()
+        total_recall1 = test_recall.compute().cpu().numpy()
+        total_precision1 = test_precision.compute().cpu().numpy()
+        total_recall = test_recall.compute().cpu().numpy()[1]
+        total_precision = test_precision.compute().cpu().numpy()[1]
 
         if total_recall + total_precision == 0:
             total_F1 = 0
@@ -207,9 +214,11 @@ class PyTorchClassifier(object):
 
     def predict(self, devX):
         self.model.eval()
-        if not isinstance(devX, torch.cuda.FloatTensor):
-            devX = torch.FloatTensor(devX)
+        if not isinstance(devX, torch.cuda.FloatTensor) and self.cudaEfficient:
+            devX = torch.FloatTensor(devX).to(self.device)
             # .cuda()
+        else:
+            devX = torch.FloatTensor(devX)
         yhat = np.array([])
         with torch.no_grad():
             for i in range(0, len(devX), self.batch_size):
@@ -234,9 +243,11 @@ class PyTorchClassifier(object):
 
     def predict_output(self,devX):
         self.model.eval()
-        if not isinstance(devX, torch.cuda.FloatTensor):
-            devX = torch.FloatTensor(devX)
+        if not isinstance(devX, torch.cuda.FloatTensor)and self.cudaEfficient:
+            devX = torch.FloatTensor(devX).to(self.device)
             # .cuda()
+        else:
+            devX = torch.FloatTensor(devX)
         yhat = np.empty((0, 2))
         with torch.no_grad():
             for i in range(0, len(devX), self.batch_size):
@@ -314,12 +325,12 @@ class MLP(PyTorchClassifier):
         self.max_epoch =80 if "max_epoch" not in params else params["max_epoch"]
         self.dropout = 0.0 if "dropout" not in params else params["dropout"]
         self.batch_size = 64 if "batch_size" not in params else params["batch_size"]
+        device = torch.device('cuda:0') if self.cudaEfficient else torch.device('cpu')
 
-        
         if params["nhid"] == 0:
             self.model = nn.Sequential(
                 nn.Linear(self.inputdim, self.nclasses),
-            )
+            ).to(device)
             # ).cuda()
         else:
             self.model = nn.Sequential(
@@ -327,7 +338,7 @@ class MLP(PyTorchClassifier):
                 nn.Dropout(p=self.dropout),
                 nn.Sigmoid(),
                 nn.Linear(params["nhid"], self.nclasses),
-            )
+            ).to(device)
             # ).cuda()
         # self.loss_fn = nn.CrossEntropyLoss().cuda()
         self.loss_fn = nn.CrossEntropyLoss()

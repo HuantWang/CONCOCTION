@@ -41,8 +41,7 @@ def main(args):
     tokenizer = AutoTokenizer.from_pretrained(cache1)
     model_g = RobertaForSequenceClassification.from_pretrained(cache2)
     tokenizer_g = RobertaTokenizer.from_pretrained(cache2)
-    # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    device = "cpu"
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
     model_g = model_g.to(device)
 
@@ -99,12 +98,14 @@ def main(args):
             batch_dynamic[k] = batch_dynamic[k].to(device)
 
         mask = torch.tensor(batch_Graph).to(torch.int64)
+        mask=mask.to(device)
         tokens_ids = []
         for i in batch_Node:
             code_tokens = tokenizer_g.tokenize(i + security)
             token_ids = tokenizer_g.convert_tokens_to_ids(code_tokens[:Graph_length])
             tokens_ids.append(token_ids)
         tokens_ids = torch.tensor(tokens_ids).to(torch.int64)
+        tokens_ids=tokens_ids.to(device)
 
         # Get raw embeddings
         with torch.no_grad():
