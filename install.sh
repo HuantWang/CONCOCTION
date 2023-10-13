@@ -53,7 +53,7 @@ install_klee=(
 " cd klee-2.1"
 " mkdir build"
 " cd build"
-" cmake -DENABLE_SOLVER_Z3=ON -DENABLE_POSIX_RUNTIME=ON -DENABLE_KLEE_UCLIBC=ON -DKLEE_UCLIBC_PATH=$soft_dir/klee-uclibc -DLLVM_CONFIG_BINARY=$soft_dir/llvm-project/llvm/build/bin/llvm-config -DLLVMCC=$soft_dir/llvm-project/llvm/build/bin/clang -DLLVMCXX=$soft_dir/llvm-project/llvm/build/bin/clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ .."
+" cmake -DENABLE_SOLVER_Z3=ON -DENABLE_POSIX_RUNTIME=ON -DENABLE_KLEE_UCLIBC=ON -DKLEE_UCLIBC_PATH=$soft_dir/klee-uclibc -DLLVM_CONFIG_BINARY=$soft_dir/llvm-project/build/bin/llvm-config -DLLVMCC=$soft_dir/llvm-project/build/bin/clang -DLLVMCXX=$soft_dir/llvm-project/build/bin/clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ .."
 "make -j $make_j"
 "make install"
 )
