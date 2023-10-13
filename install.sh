@@ -121,3 +121,5 @@ done
 for command in "${install_wllvm[@]}"; do
     execute_command "$command" "$log_file_klee"
 done
+
+conda env create -f concoction_environment.yml
