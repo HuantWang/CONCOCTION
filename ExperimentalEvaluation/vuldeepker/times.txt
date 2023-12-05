@@ -1,0 +1,11 @@
+0 times  total time is 0/n1 times  total time is 0/n2 times  total time is 0/n3 times  total time is 0/n4 times  total time is 0/n5 times  total time is 0/n6 times  total time is 0/n7 times  total time is 0/n8 times  total time is 0/n9 times  total time is 0/naverage is 0.0max is 0min is 00 times  total time is 9
+1 times  total time is 7
+2 times  total time is 7
+3 times  total time is 7
+4 times  total time is 7
+5 times  total time is 7
+6 times  total time is 7
+7 times  total time is 7
+8 times  total time is 8
+9 times  total time is 7
+average is 7.3max is 9min is 7
