@@ -129,7 +129,7 @@ def preprocess(Path,outputPath):
                         X_dynamic_single = X_dynamic_single + [X_Code_line]
                 f.close()
             except:
-                logging.info("please delete the file " + file)
+                print("please delete the file " + file)
 
             # Sentence= gap.join(X_dynamic_single).split()
             S_write = " ".join(X_dynamic_single)+ "\n"
@@ -140,7 +140,7 @@ def preprocess(Path,outputPath):
 
             f.close()
 
-    logging.info("Saving success")
+    print("Saving success")
     
 if __name__=='__main__':
     parser = argparse.ArgumentParser()

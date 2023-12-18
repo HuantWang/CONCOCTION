@@ -38,7 +38,7 @@ class BUGEval(object):
 
     def loadFile(self, fpath):
         if os.path.exists(os.path.join(fpath, "feature.npy")):
-            logging.info("Load data from exist npy")
+            print("Load data from exist npy")
             X_feature = np.load(
                 os.path.join(fpath, "feature.npy"), allow_pickle=True
             ).item()
@@ -48,7 +48,7 @@ class BUGEval(object):
 
             train_idx = int(len(X_feature["name"]) * 0.6)
             dev_idx = int(len(X_feature["name"]) * 0.8)
-            print("total train files is ", train_idx)
+            # print("total train files is ", train_idx)
             index_train = index[:train_idx]
             index_dev = index[train_idx  : dev_idx ]
             index_test = index[dev_idx :]
@@ -112,7 +112,7 @@ class BUGEval(object):
 
             return train, dev, test
         else:
-            logging.info("preprocess data........")
+            print("preprocess data........")
 
             def findAllFile(dir):
                 for root, ds, fs in os.walk(dir):
@@ -143,7 +143,7 @@ class BUGEval(object):
             X_feature["label"] = []
 
             # for root, file in tqdm(findAllFile(data_path), desc='dirs'):
-            for root, file in tqdm(findAllFile(data_path), desc="dirs"):
+            for root, file in tqdm(findAllFile(data_path), desc="dirs",disable=True):
                 if file.endswith(".txt"):
                     flag = "none"
                     file_path = os.path.join(root, file)
@@ -277,7 +277,7 @@ class BUGEval(object):
                                 X_dynamic_single = X_dynamic_single + [X_Code_line]
                         f.close()
                     except:
-                        logging.info("please delete the file " + file)
+                        print("please delete the file " + file)
 
                     X_feature["name"].append(file_path)
                     X_feature["X_Code"].append(gap.join(X_Code_Single))
@@ -298,9 +298,9 @@ class BUGEval(object):
             index_dev = index[train_idx : dev_idx]
             index_test = index[dev_idx + 2 :-1]
 
-            logging.info("Saving embedding...")
+            print("Saving embedding...")
             np.save(os.path.join(fpath, "feature.npy"), X_feature)
-            logging.info("Saving success")
+            print("Saving success")
 
             train = {
                 "name": {},
@@ -363,7 +363,7 @@ class BUGEval(object):
 
     def loadFile_pred(self, fpath):
         if not os.path.exists(os.path.join(fpath, "feature.npy")):
-            logging.info("preprocess data........")
+            print("preprocess data........")
 
             def findAllFile(dir):
                 for root, ds, fs in os.walk(dir):
@@ -394,7 +394,7 @@ class BUGEval(object):
             X_feature["label"] = []
 
             # for root, file in tqdm(findAllFile(data_path), desc='dirs'):
-            for root, file in tqdm(findAllFile(data_path), desc="dirs"):
+            for root, file in tqdm(findAllFile(data_path), desc="dirs",disable=True):
                 if file.endswith(".txt"):
                     flag = "none"
                     file_path = os.path.join(root, file)
@@ -528,7 +528,7 @@ class BUGEval(object):
                                 X_dynamic_single = X_dynamic_single + [X_Code_line]
                         f.close()
                     except:
-                        logging.info("please delete the file " + file)
+                        print("please delete the file " + file)
 
                     X_feature["name"].append(file_path)
                     X_feature["X_Code"].append(gap.join(X_Code_Single))
@@ -539,11 +539,11 @@ class BUGEval(object):
                     X_feature["X_dynamic"].append(gap.join(X_dynamic_single).split())
                     X_feature["label"].append(int(y[0]))
 
-            logging.info("Saving embedding...")
+            print("Saving embedding...")
             np.save(os.path.join(fpath, "feature.npy"), X_feature)
-            logging.info("Saving success")
+            print("Saving success")
 
-        logging.info("Load data from exist npy")
+        print("Load data from exist npy")
         X_feature = np.load(
             os.path.join(fpath, "feature.npy"), allow_pickle=True
         ).item()
@@ -570,7 +570,7 @@ class BUGEval(object):
         bsize = params.batch_size
 
         for key in self.sst_data:
-            logging.info("Computing embedding for {0}".format(key))
+            print("Computing embedding for {0}".format(key))
             # Sort to reduce padding
             sorted_data = sorted(
                 zip(
@@ -598,7 +598,7 @@ class BUGEval(object):
             ) = map(list, zip(*sorted_data))
 
             sst_embed[key]["X"] = []
-            for ii in tqdm(range(0, len(self.sst_data[key]["label"]), bsize)):
+            for ii in tqdm(range(0, len(self.sst_data[key]["label"]), bsize),disable=True):
                 embeddings = []
                 batch = (
                     self.sst_data[key]["X_dynamic"][ii : ii + bsize],
@@ -610,7 +610,7 @@ class BUGEval(object):
 
             sst_embed[key]["X"] = torch.cat(sst_embed[key]["X"]).detach().cpu().numpy()
             sst_embed[key]["y"] = np.array(self.sst_data[key]["label"])
-            logging.info("Computed {0} embeddings".format(key))
+            print("Computed {0} embeddings".format(key))
         # device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         device="cpu"
         if device=="cpu":
@@ -664,7 +664,7 @@ class BUGEval(object):
         bsize = params.batch_size
         sst_embed = {"data": {}}
         sst_embed["data"]["X"] = []
-        for ii in tqdm(range(0, len(self.sst_data["data"]["label"]), bsize)):
+        for ii in tqdm(range(0, len(self.sst_data["data"]["label"]), bsize),disable=True):
             embeddings = []
             batch = (
                 self.sst_data["data"]["X_dynamic"][ii: ii + bsize],
@@ -677,7 +677,7 @@ class BUGEval(object):
         sst_embed["data"]["X"] = torch.cat(sst_embed["data"]["X"]).detach().cpu().numpy()
         sst_embed["data"]["y"] = np.array(self.sst_data["data"]["label"])
         sst_embed["data"]["name"] = np.array(self.sst_data["data"]["name"])
-        logging.info("Computed {0} embeddings".format("data"))
+        print("Computed {0} embeddings".format("data"))
 
         device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         if device=="cpu":

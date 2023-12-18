@@ -1,8 +1,8 @@
 import sys
-import io, os
+import io, os,re
 import numpy as np
 import logging
-logging.basicConfig(format="%(asctime)s : %(message)s", level=logging.DEBUG)
+logging.basicConfig(format="%(asctime)s : %(message)s", level=logging.ERROR)
 import argparse
 from prettytable import PrettyTable
 import torch
@@ -12,6 +12,7 @@ import warnings
 import nni
 from transformers import AutoModel, AutoTokenizer,logging
 logging.set_verbosity_error()
+
 
 warnings.filterwarnings("ignore")
 from sys import getrefcount
@@ -130,7 +131,7 @@ def main(args):
 
     se = senteval.engine.SE(params, batcher, prepare)
     se.eval("BUG")
-    print(f"this is the data path: {args.path_to_data}")
+    # print(f"this is the data path: {args.path_to_data}")
     # results['BUG'] = result
 
 def mainPred(args):
@@ -229,7 +230,7 @@ def mainPred(args):
 
     se = senteval.engine.SE(params, batcher, prepare)
     se.predict("BUG",args.model_to_load)
-    print(f"this is the data path: {args.path_to_data}")
+    # print(f"this is the data path: {args.path_to_data}")
     # results['BUG'] = result
 
 if __name__ == "__main__":

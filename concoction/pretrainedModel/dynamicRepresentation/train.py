@@ -1,6 +1,6 @@
 import logging
 import math
-import os
+import os,re
 import sys
 from dataclasses import dataclass, field
 from typing import Optional, Union, List, Dict, Tuple
@@ -10,7 +10,7 @@ import random
 
 from datasets import load_dataset
 '''
-python ./model/SimCSE/train.py --model_name_or_path ./model/SimCSE/bert-base-uncased     --train_file /home/CONCOCTION/model/data/Ours/output_simcse.txt   --output_dir ./result     --num_train_epochs 1     --per_device_train_batch_size 32     --learning_rate 3e-5     --max_seq_length 32      --metric_for_best_model stsb_spearman     --load_best_model_at_end     --eval_steps 2     --pooler_type cls     --mlp_only_train     --overwrite_output_dir     --temp 0.05     --do_train
+python train.py --model_name_or_path ./bert-base-uncased     --train_file /homee/concoction/data/output_dynamic.txt   --output_dir ./result     --num_train_epochs 1     --per_device_train_batch_size 32     --learning_rate 3e-5     --max_seq_length 32      --metric_for_best_model stsb_spearman     --load_best_model_at_end     --eval_steps 2     --pooler_type cls     --mlp_only_train     --overwrite_output_dir     --temp 0.05     --do_train
 '''
 
 import transformers
@@ -39,6 +39,24 @@ from transformers.data.data_collator import DataCollatorForLanguageModeling
 from transformers.file_utils import cached_property, torch_required, is_torch_available, is_torch_tpu_available
 from utils.models import RobertaForCL, BertForCL
 from utils.trainers import CLTrainer
+
+def set_global_logging_level(level=logging.ERROR, prefices=[""]):
+    """
+    Override logging levels of different modules based on their name as a prefix.
+    It needs to be invoked after the modules have been loaded so that their loggers have been initialized.
+
+    Args:
+        - level: desired level. e.g. logging.INFO. Optional. Default is logging.ERROR
+        - prefices: list of one or more str prefices to match (e.g. ["transformers", "torch"]). Optional.
+          Default is `[""]` to match all active loggers.
+          The match is a case-sensitive `module_name.startswith(prefix)`
+    """
+    prefix_re = re.compile(fr'^(?:{ "|".join(prefices) })')
+    for name in logging.root.manager.loggerDict:
+        if re.match(prefix_re, name):
+            logging.getLogger(name).setLevel(level)
+set_global_logging_level(logging.ERROR, ["transformers", "nlp", "torch", "tensorflow", "tensorboard", "wandb"])
+
 
 logger = logging.getLogger(__name__)
 MODEL_CONFIG_CLASSES = list(MODEL_FOR_MASKED_LM_MAPPING.keys())
@@ -205,7 +223,7 @@ class OurTrainingArguments(TrainingArguments):
     @cached_property
     @torch_required
     def _setup_devices(self) -> "torch.device":
-        logger.info("PyTorch: setting up devices")
+        print("PyTorch: setting up devices")
         if self.no_cuda:
             device = torch.device("cpu")
             self._n_gpu = 0
@@ -250,8 +268,6 @@ class OurTrainingArguments(TrainingArguments):
 
         if device.type == "cuda":
             torch.cuda.set_device(device)
-        print(device)
-        print('device')
         return device
 
 
@@ -288,16 +304,16 @@ def main():
     )
 
     # Log on each process the small summary:
-    logger.warning(
-        f"Process rank: {training_args.local_rank}, device: {training_args.device}, n_gpu: {training_args.n_gpu}"
-        + f" distributed training: {bool(training_args.local_rank != -1)}, 16-bits training: {training_args.fp16}"
-    )
+    # logger.warning(
+    #     f"Process rank: {training_args.local_rank}, device: {training_args.device}, n_gpu: {training_args.n_gpu}"
+    #     + f" distributed training: {bool(training_args.local_rank != -1)}, 16-bits training: {training_args.fp16}"
+    # )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
         transformers.utils.logging.set_verbosity_info()
         transformers.utils.logging.enable_default_handler()
         transformers.utils.logging.enable_explicit_format()
-    logger.info("Training/evaluation parameters %s", training_args)
+    # logger.info("Training/evaluation parameters %s", training_args)
 
     # Set seed before initializing model.
     set_seed(training_args.seed)
@@ -341,7 +357,7 @@ def main():
         config = AutoConfig.from_pretrained(model_args.model_name_or_path, **config_kwargs)
     else:
         config = CONFIG_MAPPING[model_args.model_type]()
-        logger.warning("You are instantiating a new config instance from scratch.")
+        # logger.warning("You are instantiating a new config instance from scratch.")
 
     tokenizer_kwargs = {
         "cache_dir": model_args.cache_dir,
@@ -387,7 +403,7 @@ def main():
             raise NotImplementedError
     else:
         raise NotImplementedError
-        logger.info("Training new model from scratch")
+        print("Training new model from scratch")
         model = AutoModelForMaskedLM.from_config(config)
 
     model.resize_token_embeddings(len(tokenizer))
@@ -565,9 +581,9 @@ def main():
         output_train_file = os.path.join(training_args.output_dir, "train_results.txt")
         if trainer.is_world_process_zero():
             with open(output_train_file, "w") as writer:
-                logger.info("***** Train results *****")
+                print("***** Train results *****")
                 for key, value in sorted(train_result.metrics.items()):
-                    logger.info(f"  {key} = {value}")
+                    print(f"  {key} = {value}")
                     writer.write(f"{key} = {value}\n")
 
             # Need to save the state, since Trainer.save_model saves only the tokenizer with the model
@@ -576,15 +592,15 @@ def main():
     # Evaluation
     results = {}
     if training_args.do_eval:
-        logger.info("*** Evaluate ***")
+        print("*** Evaluate ***")
         results = trainer.evaluate(eval_senteval_transfer=True)
 
         output_eval_file = os.path.join(training_args.output_dir, "eval_results.txt")
         if trainer.is_world_process_zero():
             with open(output_eval_file, "w") as writer:
-                logger.info("***** Eval results *****")
+                print("***** Eval results *****")
                 for key, value in sorted(results.items()):
-                    logger.info(f"  {key} = {value}")
+                    print(f"  {key} = {value}")
                     writer.write(f"{key} = {value}\n")
 
     return results
@@ -620,16 +636,16 @@ def train_main(train_file,output_dir):
     )
 
     # Log on each process the small summary:
-    logger.warning(
-        f"Process rank: {training_args.local_rank}, device: {training_args.device}, n_gpu: {training_args.n_gpu}"
-        + f" distributed training: {bool(training_args.local_rank != -1)}, 16-bits training: {training_args.fp16}"
-    )
+    # logger.warning(
+    #     f"Process rank: {training_args.local_rank}, device: {training_args.device}, n_gpu: {training_args.n_gpu}"
+    #     + f" distributed training: {bool(training_args.local_rank != -1)}, 16-bits training: {training_args.fp16}"
+    # )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
         transformers.utils.logging.set_verbosity_info()
         transformers.utils.logging.enable_default_handler()
         transformers.utils.logging.enable_explicit_format()
-    logger.info("Training/evaluation parameters %s", training_args)
+    # logger.info("Training/evaluation parameters %s", training_args)
 
     # Set seed before initializing model.
     set_seed(training_args.seed)
@@ -673,7 +689,7 @@ def train_main(train_file,output_dir):
         config = AutoConfig.from_pretrained(model_args.model_name_or_path, **config_kwargs)
     else:
         config = CONFIG_MAPPING[model_args.model_type]()
-        logger.warning("You are instantiating a new config instance from scratch.")
+        # logger.warning("You are instantiating a new config instance from scratch.")
 
     tokenizer_kwargs = {
         "cache_dir": model_args.cache_dir,
@@ -719,7 +735,7 @@ def train_main(train_file,output_dir):
             raise NotImplementedError
     else:
         raise NotImplementedError
-        logger.info("Training new model from scratch")
+        print("Training new model from scratch")
         model = AutoModelForMaskedLM.from_config(config)
 
     model.resize_token_embeddings(len(tokenizer))
@@ -897,9 +913,9 @@ def train_main(train_file,output_dir):
         output_train_file = os.path.join(training_args.output_dir, "train_results.txt")
         if trainer.is_world_process_zero():
             with open(output_train_file, "w") as writer:
-                logger.info("***** Train results *****")
+                print("***** Train results *****")
                 for key, value in sorted(train_result.metrics.items()):
-                    logger.info(f"  {key} = {value}")
+                    print(f"  {key} = {value}")
                     writer.write(f"{key} = {value}\n")
 
             # Need to save the state, since Trainer.save_model saves only the tokenizer with the model
@@ -908,15 +924,15 @@ def train_main(train_file,output_dir):
     # Evaluation
     results = {}
     if training_args.do_eval:
-        logger.info("*** Evaluate ***")
+        print("*** Evaluate ***")
         results = trainer.evaluate(eval_senteval_transfer=True)
 
         output_eval_file = os.path.join(training_args.output_dir, "eval_results.txt")
         if trainer.is_world_process_zero():
             with open(output_eval_file, "w") as writer:
-                logger.info("***** Eval results *****")
+                print("***** Eval results *****")
                 for key, value in sorted(results.items()):
-                    logger.info(f"  {key} = {value}")
+                    print(f"  {key} = {value}")
                     writer.write(f"{key} = {value}\n")
 
     return results
@@ -924,3 +940,4 @@ def train_main(train_file,output_dir):
     
 if __name__ == "__main__":
     main()
+     

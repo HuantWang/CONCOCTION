@@ -82,16 +82,19 @@ class PyTorchClassifier(object):
                 if early_stop_count >= self.tenacity:
                     stop_train = True
                 early_stop_count += 1
-            logging.info(
-                "Training for {4} epochs: f1 = {0}, precision = {2},recall = {3},accuracy = {1}".format(
-                    f1, accuracy, precision, recall, self.nepoch
-                )
-            )
-        logging.info(
-            "Training best: f1 = {0}, precision = {2},recall = {3},accuracy = {1}".format(
+            # logging.info(
+            #     "Training for {4} epochs: f1 = {0}, precision = {2},recall = {3},accuracy = {1}".format(
+            #         f1, accuracy, precision, recall, self.nepoch
+            #     )
+            # )
+        # logging.info(
+        #     "Training best: f1 = {0}, precision = {2},recall = {3},accuracy = {1}".format(
+        #         bestf1, bestacc, bestprecision, bestrecall, self.nepoch
+        #     )
+        # )
+        print("Training best: f1 = {0}, precision = {2},recall = {3},accuracy = {1}".format(
                 bestf1, bestacc, bestprecision, bestrecall, self.nepoch
-            )
-        )
+            ))
         # nni.report_final_result(bestacc)
         self.model = bestmodel
 

@@ -5,17 +5,19 @@ GPT, GPT-2 and CTRL are fine-tuned using a causal language modeling (CLM) loss. 
 using a masked language modeling (MLM) loss. XLNet is fine-tuned using a permutation language modeling (PLM) loss.
 python train.py --model_name_or_path graphcodebert-base --train_data_file /home/CONCOCTION/model/data/Ours/output_simcse.txt --per_device_train_batch_size 8 --do_train --output_dir /tmp/test-mlm --mlm --overwrite_output_dir --line_by_line
 """
-
-
 import logging
 import math
-import os
+import os,re
 from dataclasses import dataclass, field
 from glob import glob
 from typing import Optional
+import warnings 
+warnings.simplefilter (action='ignore', category=FutureWarning)
+warnings.simplefilter (action='ignore', category=UserWarning)
+
+os.environ['CUDA_VISIBLE_DEVICES'] = "0" 
 
 from torch.utils.data import ConcatDataset
-
 import transformers
 from transformers import (
     CONFIG_MAPPING,
@@ -35,6 +37,7 @@ from transformers import (
     TrainingArguments,
     set_seed,
 )
+
 from transformers.trainer_utils import is_main_process
 
 
@@ -44,6 +47,22 @@ logger = logging.getLogger(__name__)
 MODEL_CONFIG_CLASSES = list(MODEL_WITH_LM_HEAD_MAPPING.keys())
 MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
 
+def set_global_logging_level(level=logging.ERROR, prefices=[""]):
+    """
+    Override logging levels of different modules based on their name as a prefix.
+    It needs to be invoked after the modules have been loaded so that their loggers have been initialized.
+
+    Args:
+        - level: desired level. e.g. logging.INFO. Optional. Default is logging.ERROR
+        - prefices: list of one or more str prefices to match (e.g. ["transformers", "torch"]). Optional.
+          Default is `[""]` to match all active loggers.
+          The match is a case-sensitive `module_name.startswith(prefix)`
+    """
+    prefix_re = re.compile(fr'^(?:{ "|".join(prefices) })')
+    for name in logging.root.manager.loggerDict:
+        if re.match(prefix_re, name):
+            logging.getLogger(name).setLevel(level)
+set_global_logging_level(logging.ERROR, ["transformers", "nlp", "torch", "tensorflow", "tensorboard", "wandb"])
 
 @dataclass
 class ModelArguments:
@@ -186,10 +205,8 @@ def main():
     # See all possible arguments in src/transformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
-
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-
     if data_args.eval_data_file is None and training_args.do_eval:
         raise ValueError(
             "Cannot do evaluation without an evaluation data file. Either supply a file to --eval_data_file "
@@ -210,22 +227,23 @@ def main():
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
         datefmt="%m/%d/%Y %H:%M:%S",
-        level=logging.INFO if training_args.local_rank in [-1, 0] else logging.WARN,
+        # level=logging.INFO if training_args.local_rank in [-1, 0] else logging.WARN,
+        level=-1
     )
-    logger.warning(
-        "Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
-        training_args.local_rank,
-        training_args.device,
-        training_args.n_gpu,
-        bool(training_args.local_rank != -1),
-        training_args.fp16,
-    )
+    # logger.warning(
+    #     "Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
+    #     training_args.local_rank,
+    #     training_args.device,
+    #     training_args.n_gpu,
+    #     bool(training_args.local_rank != -1),
+    #     training_args.fp16,
+    # )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
         transformers.utils.logging.set_verbosity_info()
         transformers.utils.logging.enable_default_handler()
         transformers.utils.logging.enable_explicit_format()
-    logger.info("Training/evaluation parameters %s", training_args)
+    # logger.info("Training/evaluation parameters %s", training_args)
 
     # Set seed
     set_seed(training_args.seed)
@@ -242,7 +260,7 @@ def main():
         config = AutoConfig.from_pretrained(model_args.model_name_or_path, cache_dir=model_args.cache_dir)
     else:
         config = CONFIG_MAPPING[model_args.model_type]()
-        logger.warning("You are instantiating a new config instance from scratch.")
+        # logger.warning("You are instantiating a new config instance from scratch.")
 
     if model_args.tokenizer_name:
         tokenizer = AutoTokenizer.from_pretrained(model_args.tokenizer_name, cache_dir=model_args.cache_dir)
@@ -262,7 +280,7 @@ def main():
             cache_dir=model_args.cache_dir,
         )
     else:
-        logger.info("Training new model from scratch")
+        # logger.info("Training new model from scratch")
         model = AutoModelWithLMHead.from_config(config)
 
     model.resize_token_embeddings(len(tokenizer))

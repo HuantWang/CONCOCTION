@@ -16,7 +16,7 @@ def preprocess(fpath,storedDir):
     path_num=16
     security = "safe word " * 64
     cache=os.path.join(os.path.dirname(__file__),'princeton-nlp/sup-simcse-bert-base-uncased')
-    model = AutoModel.from_pretrained(cache)
+    model = AutoModel.from_pretrained(cache).to(device)
     tokenizer = AutoTokenizer.from_pretrained(cache)
     def save_dict_to_pickle(dict_data, file_path):
         with open(file_path, 'wb') as f:
@@ -78,7 +78,6 @@ def preprocess(fpath,storedDir):
 
         map_toc_dict = {}
         for root, file in tqdm(findAllFile(data_path), desc='dirs'):
-            print(root + '/' + file)
             if file.endswith(".txt"):
                 flag = "none"
                 file_path = os.path.join(root, file)
@@ -144,7 +143,7 @@ def preprocess(fpath,storedDir):
                                     max_length=64,
                                     padding="max_length",
                                     truncation="longest_first",
-                                )
+                                ).to(device)
 
                                 with torch.no_grad():
                                     dynamic_last_output = model(
@@ -175,8 +174,7 @@ def preprocess(fpath,storedDir):
             else:
                 continue
 
-        print("Saving embedding...")
-        print("Saving success")
+        print(f"Execution path representation stored in {storedDir}")
 
 
 

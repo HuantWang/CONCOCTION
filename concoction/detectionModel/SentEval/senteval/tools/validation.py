@@ -53,11 +53,11 @@ class InnerKFoldClassifier(object):
         self.k = 5 if "kfold" not in config else config["kfold"]
 
     def run(self):
-        logging.info(
-            "Training {0} with (inner) {1}-fold cross-validation".format(
-                self.modelname, self.k
-            )
-        )
+        # logging.info(
+        #     "Training {0} with (inner) {1}-fold cross-validation".format(
+        #         self.modelname, self.k
+        #     )
+        # )
 
         regs = (
             [10**t for t in range(-5, -1)]
@@ -102,12 +102,12 @@ class InnerKFoldClassifier(object):
                     regscores.append(clf.score(X_in_test, y_in_test))
                 scores.append(100 * np.mean(regscores))
             optreg = regs[np.argmax(scores)]
-            logging.info(
-                "Best param found at split {0}: l2reg = {1} \
-                with score {2}".format(
-                    count, optreg, np.max(scores)
-                )
-            )
+            # logging.info(
+            #     "Best param found at split {0}: l2reg = {1} \
+            #     with score {2}".format(
+            #         count, optreg, np.max(scores)
+            #     )
+            # )
             self.devresults.append(np.max(scores))
 
             if self.usepytorch:
@@ -155,7 +155,7 @@ class SplitClassifier(object):
         self.modelpath=config["modelpath"]
 
     def run(self):
-        logging.info("Training {0} with standard validation..".format(self.modelname))
+        # logging.info("Training {0} with standard validation..".format(self.modelname))
         regs = (
             [10**t for t in range(-5, -1)]
             if self.usepytorch
@@ -190,9 +190,9 @@ class SplitClassifier(object):
             scores.append(
                 np.array(clf.score(self.X["valid"], self.y["valid"]), dtype=float)
             )
-        logging.info(
-            [("reg:" + str(regs[idx]), scores[idx]) for idx in range(len(scores))]
-        )
+        # logging.info(
+        #     [("reg:" + str(regs[idx]), scores[idx]) for idx in range(len(scores))]
+        # )
         # a=np.argmax(scores)
         # optreg = regs[np.argmax(scores)]
 
@@ -206,13 +206,16 @@ class SplitClassifier(object):
 
         optreg = regs[scores_idx]
         devaccuracy, devprecision, devrecall, devf1 = scores[scores_idx]
-        logging.info(
-            "Validation : f1 = {1}, precision = {2},recall = {3},accuracy = {4}".format(
+        # logging.info(
+        #     "Validation : f1 = {1}, precision = {2},recall = {3},accuracy = {4}".format(
+        #         optreg, devf1, devprecision, devrecall, devaccuracy
+        #     )
+        # )
+        print("Validation : f1 = {1}, precision = {2},recall = {3},accuracy = {4}".format(
                 optreg, devf1, devprecision, devrecall, devaccuracy
-            )
-        )
+            ))
         clf = LogisticRegression(C=optreg, random_state=self.seed)
-        logging.info("Evaluating...")
+        # logging.info("Evaluating...")
         if self.usepytorch:
             clf = MLP(
                 self.classifier_config,
@@ -233,11 +236,14 @@ class SplitClassifier(object):
             #  p=os.path.join(os.path.dirname(os.path.realpath(__file__)),"./f1_{bestf1}_{datetime.datetime.now().strftime('%Y-%m-%d')}.h5")
             path = f"./f1_{bestf1}_{datetime.datetime.now().strftime('%Y-%m-%d')}.h5"
             torch.save(clf, path)
-            logging.info(
-                "model clf saved to{0}...".format(
+            # logging.info(
+            #     "model clf saved to{0}...".format(
+            #         path
+            #     )
+            # )
+            print("model clf saved to{0}...".format(
                     path
-                )
-            )
+                ))
         else:
             clf = LogisticRegression(C=optreg, random_state=self.seed)
             clf.fit(self.X["train"], self.y["train"])
@@ -247,12 +253,16 @@ class SplitClassifier(object):
         )
         # nni.report_final_result(testaccuracy)
         # testaccuracy = 100*testaccuracy, 2
-        logging.info(
-            "Test : f1 = {1}, precision = {2},recall = {3},accuracy = {4}".format(
+        # logging.info(
+        #     "Test : f1 = {1}, precision = {2},recall = {3},accuracy = {4}".format(
+        #         # optreg, devf1, devprecision, devrecall, devaccuracy
+        #         optreg,testf1,testprecision,testrecall,testaccuracy
+        #     )
+        # )
+        print("Test : f1 = {1}, precision = {2},recall = {3},accuracy = {4}".format(
                 # optreg, devf1, devprecision, devrecall, devaccuracy
                 optreg,testf1,testprecision,testrecall,testaccuracy
-            )
-        )
+            ))
         return (
             devaccuracy,
             devprecision,
@@ -267,18 +277,24 @@ class SplitClassifier(object):
 #对指定路径下的特征进行预测输出预测结果以及pos file的地址
     def predict(self):
         clf=torch.load(self.modelpath)
-        logging.info(
-            "model load from{0}".format(
+        # logging.info(
+        #     "model load from{0}".format(
+        #         self.modelpath
+        #     )
+        # )
+        print("model load from{0}".format(
                 self.modelpath
-            )
-        )
+            ))
         yhat=clf.predict(self.X["train"])
         accuracy, precision, recall, f1 = clf.score(self.X["train"], self.y["train"])
-        logging.info(
-            "prediction : f1 = {0}, precision = {2},recall = {3},accuracy = {1}".format(
+        # logging.info(
+        #     "prediction : f1 = {0}, precision = {2},recall = {3},accuracy = {1}".format(
+        #         f1, accuracy, precision, recall
+        #     )
+        # )
+        print("prediction : f1 = {0}, precision = {2},recall = {3},accuracy = {1}".format(
                 f1, accuracy, precision, recall
-            )
-        )
+            ))
         pos=0
         all=0
         pos_file=[]

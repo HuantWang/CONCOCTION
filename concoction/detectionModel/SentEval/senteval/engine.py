@@ -16,7 +16,7 @@ class SE(object):
         params.seed = 0 if "seed" not in params else params.seed
         # params.seed=int(random.sample(string.digits,k=4)[0])*int(random.sample(string.digits,k=4)[1])*int(random.sample(string.digits,k=4)[2])
 
-        print(params.seed)
+        # print(params.seed)
 
         params.batch_size = 64 if "batch_size" not in params else params.batch_size
         params.nhid = 0 if "nhid" not in params else params.nhid
