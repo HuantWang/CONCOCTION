@@ -103,7 +103,8 @@ def result(methodRegex: String = ""): List[r] = {
   val list = result(".*")
   println(list.length)
   //Please modify the path of the result
-  val dirPath = "/home/feature/static/github/joern-cli/raw_result/good"
+  val path = new java.io.File(".").getCanonicalPath
+  val dirPath = path+"/raw_result/good"
   val resultPath = new File(dirPath)
   resultPath.mkdirs()
 

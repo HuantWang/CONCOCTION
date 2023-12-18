@@ -14,13 +14,11 @@ check_cmd() {
 SCRIPT_ABS_PATH=$(readlink -f "$0")
 SCRIPT_ABS_DIR=$(dirname "$SCRIPT_ABS_PATH")
 SCRIPT_ABS_DIR_feature=$(dirname "$SCRIPT_ABS_DIR")
-echo $SCRIPT_ABS_PATH
-echo $SCRIPT_ABS_DIR
+
 logdir="$SCRIPT_ABS_DIR/log"
 
 
 if [ ! -d "$logdir" ]; then
-    echo $logdir
     mkdir -p "$logdir"
 fi
 if [ -d "$SCRIPT_ABS_DIR_feature/static/github/static" ]; then

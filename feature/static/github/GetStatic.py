@@ -10,7 +10,7 @@ def log(mess):
      logging.info(mess)
      
 project_path=sys.argv[1]
-log(f'project : {project_path}')
+# log(f'project : {project_path}')
 path = os.path.dirname(os.path.realpath(__file__))
 logDir=path+"/log"
 if not os.path.exists(logDir):
@@ -42,7 +42,7 @@ if os.path.exists("result"):
 os.mkdir("parse_result")
 os.mkdir("raw_result")
 os.mkdir("result")
-os.system("python3 main.py "+path)
+os.system("python3 main.py "+path+" 2>main.py.log")
 
 log("start to get seven edges...")
 os.chdir(path+"/static_do/side/src/sevenEdges/")

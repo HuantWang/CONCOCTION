@@ -77,7 +77,7 @@ def map_dynamic(paths_path,dynamic_path,new_path):
                         file_path = os.path.join(root, file)
                         #print(file_path)
                         dynamic_filename=file
-                        print(file)
+                        # print(file)
                         #name_dynamic = dynamic_filename.split("-")[-1]
                         #name_dynamicfile = name_dynamic.split(".")[0]
                         name_dynamicfile = dynamic_filename.lstrip('0123456789')
@@ -122,7 +122,7 @@ def map_dynamic(paths_path,dynamic_path,new_path):
                                     #匹配括号 if fprintf for while
                                     if paths_line[num_paths].lstrip()[:7] == "fprintf":
                                         #paths_line[num_paths] = paths_line[num_paths].strip().lstrip("{")
-                                        print(len(paths_line[num_paths]))
+                                        # print(len(paths_line[num_paths]))
                                         while (1):
                                             left_num = 0
                                             right_num = 0
@@ -142,7 +142,7 @@ def map_dynamic(paths_path,dynamic_path,new_path):
                                     #for
                                     if paths_line[num_paths].lstrip()[:3] == "for":
                                         #paths_line[num_paths] = paths_line[num_paths].strip().lstrip("{")
-                                        print(len(paths_line[num_paths]))
+                                        # print(len(paths_line[num_paths]))
                                         while (1):
                                             left_num = 0
                                             right_num = 0
@@ -161,7 +161,7 @@ def map_dynamic(paths_path,dynamic_path,new_path):
                                     # if
                                     if paths_line[num_paths].lstrip()[:2] == "if":
                                         #paths_line[num_paths] = paths_line[num_paths].strip().lstrip("{")
-                                        print(len(paths_line[num_paths]))
+                                        # print(len(paths_line[num_paths]))
                                         while (1):
                                             left_num = 0
                                             right_num = 0
@@ -180,7 +180,7 @@ def map_dynamic(paths_path,dynamic_path,new_path):
                                     #while
                                     if paths_line[num_paths].lstrip()[:5] == "while":
                                         #paths_line[num_paths] = paths_line[num_paths].strip().lstrip("{")
-                                        print(len(paths_line[num_paths]))
+                                        # print(len(paths_line[num_paths]))
                                         while (1):
                                             left_num = 0
                                             right_num = 0
@@ -196,8 +196,8 @@ def map_dynamic(paths_path,dynamic_path,new_path):
                                                 num_paths = num_paths + 1
                                             else:
                                                 break
-                                    print(paths_line[num_paths].strip().rstrip("{"))
-                                    print(dynamic_line[num_dynamic].strip().rstrip("{"))
+                                    # print(paths_line[num_paths].strip().rstrip("{"))
+                                    # print(dynamic_line[num_dynamic].strip().rstrip("{"))
                                     if paths_line[num_paths].strip().rstrip("{").replace(" ","") == dynamic_line[num_dynamic].strip().rstrip("{").replace(" ",""):
                                         # 语句能够匹配，dynamic和path下一句
                                         num_paths = num_paths + 1
@@ -234,6 +234,7 @@ def main():
     dynamic_path =sys.argv[2]
     new_path =sys.argv[3]
     map_dynamic(paths_path, dynamic_path, new_path)
+    print(f"Execution results stored in the {new_path}")
 
 if __name__== "__main__" :
     main()
