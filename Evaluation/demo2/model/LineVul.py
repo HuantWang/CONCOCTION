@@ -11,10 +11,10 @@ class LineVul:
         self.dataDir=dataDir
         self.load_saved_model=load_saved_model
     def run(self):
-        dir=os.path.join(ExperimentalEvaluation,'LineVul/linevul')
+        dir=os.path.join(ExperimentalEvaluation,'lineVul/linevul')
         os.chdir(dir)
         scriptPath="linevul_main.py"
-        cmd="/root/anaconda3/envs/Linevul/bin/python "+scriptPath+" --data_file \'"+self.dataDir+"\' --evaluate_during_training  --do_pre --model_name "+self.load_saved_model
+        cmd="/root/anaconda3/envs/linevul/bin/python "+scriptPath+" --data_file \'"+self.dataDir+"\' --evaluate_during_training  --do_pre --model_name "+self.load_saved_model
         print(cmd)
         execute_shell_script(cmd)
         

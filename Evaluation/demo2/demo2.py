@@ -58,7 +58,7 @@ class EvaluationSard:
         print(f"method:concoction\nload_saved_model:{load_saved_model}\ndataDir:{self.dataDir}")
         concoction(self.dataDir,load_saved_model).run()
     def LineVul_run(self):
-        load_saved_model=os.path.join(ExperimentalEvaluation,"LineVul/linevul/saved_modelss/"+self.cwetype+".h5")
+        load_saved_model=os.path.join(ExperimentalEvaluation,"lineVul/linevul/saved_modelss/"+self.cwetype+".h5")
         print(f"method:linvul\nload_saved_model:{load_saved_model}\ndataDir:{self.dataDir}")
         LineVul(self.dataDir,load_saved_model).run() 
     def Liger_run(self):
@@ -161,7 +161,7 @@ class EvaluationGithub:
         print(f"method:vuldeepecker\nload_saved_model:{load_saved_model}\ndataDir:{self.dataDir}")
         concoction(self.dataDir,load_saved_model).run()
     def LineVul_run(self):
-        load_saved_model=os.path.join(ExperimentalEvaluation,'LineVul/linevul/saved_modelss/0.727699530516432_123456_1.h5')
+        load_saved_model=os.path.join(ExperimentalEvaluation,'lineVul/linevul/saved_modelss/0.727699530516432_123456_1.h5')
         print(f"method:vuldeepecker\nload_saved_model:{load_saved_model}\ndataDir:{self.dataDir}")
         LineVul(self.dataDir,load_saved_model).run()
     def Liger_run(self):
