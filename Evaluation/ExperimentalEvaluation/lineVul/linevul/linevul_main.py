@@ -45,10 +45,10 @@ logger = logging.getLogger(__name__)
 
 
 def loadFile(fpath):
-    if os.path.exists(os.path.join(fpath, "feature.npy")):
+    if os.path.exists(os.path.join(fpath, "feature_linevul.npy")):
         logging.info("Load data from exist npy")
         X_feature = np.load(
-            os.path.join(fpath, "feature.npy"), allow_pickle=True
+            os.path.join(fpath, "feature_linevul.npy"), allow_pickle=True
         ).item()
 
         index = list(range(len(X_feature["name"])))
@@ -307,7 +307,7 @@ def loadFile(fpath):
         index_test = index[dev_idx + 2:-1]
 
         logging.info("Saving embedding...")
-        np.save(os.path.join(fpath, "feature.npy"), X_feature)
+        np.save(os.path.join(fpath, "feature_linevul.npy"), X_feature)
         logging.info("Saving success")
 
         train = {
@@ -369,10 +369,10 @@ def loadFile(fpath):
 
         return train, dev, test
 def loadFile_pre(fpath):
-    if os.path.exists(os.path.join(fpath, "feature.npy")):
+    if os.path.exists(os.path.join(fpath, "feature_linevul.npy")):
         logging.info("Load data from exist npy")
         X_feature = np.load(
-            os.path.join(fpath, "feature.npy"), allow_pickle=True
+            os.path.join(fpath, "feature_linevul.npy"), allow_pickle=True
         ).item()
 
         index = list(range(len(X_feature["name"])))
@@ -578,7 +578,7 @@ def loadFile_pre(fpath):
 
 
         logging.info("Saving embedding...")
-        np.save(os.path.join(fpath, "feature.npy"), X_feature)
+        np.save(os.path.join(fpath, "feature_linevul.npy"), X_feature)
         logging.info("Saving success")
 
         return X_feature
@@ -1152,6 +1152,16 @@ def test_functionlevel(args, model, tokenizer, test_dataset, best_threshold=0.5)
     logger.info("***** Test results *****")
     for key in sorted(result.keys()):
         logger.info("  %s = %s", key, str(round(result[key], 4)))
+    
+    def result_log(acc,precision,recall,f1):
+        file_path="./result.log"
+        with open(file_path, 'w') as f:
+            f.writelines(f"acc,{acc}\n")
+            f.writelines(f"pre,{precision}\n")
+            f.writelines(f"recall,{recall}\n")
+            f.writelines(f"f1,{f1}")
+            
+    result_log(result["test_accuracy"],result["test_precision"],result["test_recall"],result["test_f1"])
 
 
 

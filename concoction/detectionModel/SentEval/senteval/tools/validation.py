@@ -305,6 +305,16 @@ class SplitClassifier(object):
         indexes = [index for index, value in enumerate(yhat) if value == 1.0]
         for i in indexes:
             pos_file.append(self.name["train"][i])
+            
+        def result_log(acc,precision,recall,f1):
+            file_path="./result.log"
+            with open(file_path, 'w') as f:
+                f.writelines(f"acc,{acc}\n")
+                f.writelines(f"pre,{precision}\n")
+                f.writelines(f"recall,{recall}\n")
+                f.writelines(f"f1,{f1}")
+                
+        result_log(accuracy,precision,recall,f1)
 
 
 

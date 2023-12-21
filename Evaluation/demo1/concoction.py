@@ -14,7 +14,7 @@ class concoction():
     
     def trainDetectModel():
         current=ROOT_PATH
-        path=os.path.join(current,'concoction/data/github_0.6_new/train')
+        path=os.path.join(current,'Evaluation/ExperimentalEvaluation/data/github_0.6_new/train')
         dir=os.path.join(current,'concoction/detectionModel')
         cmd=f"cd {dir} && {python} evaluation_bug.py --path_to_data {path} --mode train"
         print("Training the detection Model...")
@@ -78,7 +78,7 @@ class concoction():
     def showDetectModel():
         print("Show the Trained Model (Load trained model and test on test case)")
         current=ROOT_PATH
-        path=os.path.join(current,'concoction/data/github_0.6_new/test')
+        path=os.path.join(current,'Evaluation/ExperimentalEvaluation/data/github_0.6_new/test')
         dir=os.path.join(current,'concoction/detectionModel')
         model_to_load=os.path.join(current,'Evaluation/ExperimentalEvaluation/Concoction/saved_models/github.h5')
         cmd=f"cd {dir} && {python} evaluation_bug.py  --model_to_load {model_to_load} --path_to_data {path}  --mode test"
@@ -87,9 +87,11 @@ class concoction():
     def extractPathRepre():
         print("Extracting Execution path representation...")
         current=ROOT_PATH
-        path=os.path.join(current,'concoction/data/dataset')
+        path=os.path.join(current,'concoction/data/dataset0')
         storedDir=os.path.join(current,'concoction/data/feature_path')
         dir=os.path.join(current,'concoction/pathSelection')
+
+           
         if not os.path.exists(storedDir):
             os.mkdir(storedDir)
         cmd=f"cd {dir} && {python} preprocess.py --data_path {path} --stored_path {storedDir}"
@@ -100,14 +102,17 @@ class concoction():
        
         print("Active learning for path selection...")
         current=ROOT_PATH
-        path=os.path.join(current,'concoction/data/feature')
         storedDir=os.path.join(current,'concoction/data/feature_path')
         final_storedDir=os.path.join(current,'concoction/data/feature_path_text')
         dir=os.path.join(current,'concoction/pathSelection')
+
+
         if not os.path.exists(storedDir):
             os.mkdir(storedDir)
         cmd=f"cd {dir} && {python} train.py --data_path {storedDir} --stored_path {final_storedDir}"
         execute_shell_script(cmd)
+        cmd2=f"bash {current}/Evaluation/demo1/showSelectedPath.sh"
+        execute_shell_script(cmd2)
 
     def symbolicOnPath():
         # Symbolic execution for chosen paths (Sec. 3.6.3)

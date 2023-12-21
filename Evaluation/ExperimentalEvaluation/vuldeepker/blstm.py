@@ -145,18 +145,6 @@ class BLSTM:
         print('F1 score is...',f1 )
         
         
-
-
-
-        #写人excel
-        # data = pd.DataFrame([[os.path.basename(self.name),self.randomstate,values[1],recall,precision,f1,tpr,fpr,tnr,fnr]])
-        #
-        # filename = str(self.name+"_result.xlsx")
-        # writer = pd.ExcelWriter(filename)  # 写入Excel文件
-        # data.to_excel(writer, index=False,header=["name","seed","acc","recall","precision","f1","tpr","fpr","tnr","fnr"],encoding="utf8")  # ‘page_1’是写入excel的sheet名
-        # writer.save()
-        # writer.close()
-        
     """
     Tests accuracy of model based on all data (test data+ train data in this class)
     Loads weights from file if no weights are attached to model object
@@ -177,17 +165,13 @@ class BLSTM:
         print('F1 score is...',f1 )
         
 
-        def draw(acc,pre,recall,f1):
-            # data = pd.read_excel(path)
-            bar_width = 0.5
-            # plt.bar(data.iloc[:, 0], data.iloc[:, 1],)
-            # plt.show()
-            x = np.array(["accuracy", "precision", "recall", "f1"])
-            y = np.array([acc, pre, recall, f1])
-            plt.bar(x,y,width=bar_width,color='#EEB0AF')
-            plt.savefig('plot.png')  
-            plt.show()
-            
-        draw(acc,precision,recall,f1)
-        print("draw(acc,precision,recall,f1).....")
+        def result_log(acc,precision,recall,f1):
+            file_path="./result.log"
+            with open(file_path, 'w') as f:
+                f.writelines(f"acc,{acc}\n")
+                f.writelines(f"pre,{precision}\n")
+                f.writelines(f"recall,{recall}\n")
+                f.writelines(f"f1,{f1}")
+                
+        result_log(acc,precision,recall,f1)
     

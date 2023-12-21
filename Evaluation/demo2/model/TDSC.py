@@ -1,4 +1,31 @@
 import subprocess,os
+
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+
+def draw(log):
+    results={}
+    with open(log,"r") as f:
+        lines=f.readlines()
+        for line in lines:
+            key, value = line.split(',')
+            value=value.replace("\n","")                  
+            results[key]=float(value)
+            
+    keys = np.array(list(results.keys()))
+    values = np.array(list(results.values()))
+    print(keys)
+    print(values)
+    
+    bar_width = 0.4  
+    colors=['#4D1E17','#B43A24','#D89F8A','#F6E1C6']
+    plt.bar(keys,values,width=bar_width,color=colors)
+    plt.show()
+
+
+
+
 def execute_shell_script(cmd):
     
     p = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE)
@@ -14,9 +41,12 @@ class TDSC:
         dir=os.path.join(ExperimentalEvaluation,'TDSC')
         os.chdir(dir)
         scriptPath="TDSC.py"
-        cmd="/root/anaconda3/envs/vuldeepecker1/bin/python "+scriptPath+" --data_path \'"+self.dataDir+"\' --mode pre --model_to_load "+self.load_saved_model
+        cmd="/root/anaconda3/envs/vuldeepecker1/bin/python "+scriptPath+" --data_path \'"+self.dataDir+"\' --mode pre --model_to_load "+self.load_saved_model+" >run.log  2>&1"
         print(cmd)
         execute_shell_script(cmd)
+        
+        log=ExperimentalEvaluation+"/TDSC/result.log"
+        draw(log)
         
 # if __name__=="__main__":
 #     Funded("/home/ExperimentalEvaluation/FUNDED_NISL-main/FUNDED/data/data/data/cve/badall","/home/ExperimentalEvaluation/FUNDED_NISL-main/FUNDED/cli/trained_model/GGNN_GraphBinaryClassification__2023-02-01_05-36-00_f1=0.800_best.pkl").predict()

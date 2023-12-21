@@ -17,7 +17,7 @@ def train_AE_withC(net, feature, p_q, p_Rq, config):
     objective_func = AEloss()
 
     for i in range(1, config.getint('trainsetting', 'epoch')+1):
-        
+        torch.cuda.empty_cache()
         optimizer.zero_grad()
         output = net(feature, c_state=True, c_cluster_state=True)
 

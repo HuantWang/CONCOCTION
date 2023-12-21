@@ -579,6 +579,17 @@ class StateTraining_pre:
                 print(metrics.confusion_matrix(_y_true, _y_pred))
                 # fpr, tpr, tresholds = metrics.roc_curve(_y_true, _y_pred)
                 
+                def result_log(acc,precision,recall,f1):
+                    file_path="./result.log"
+                    with open(file_path, 'w') as f:
+                        f.writelines(f"acc,{acc}\n")
+                        f.writelines(f"pre,{precision}\n")
+                        f.writelines(f"recall,{recall}\n")
+                        f.writelines(f"f1,{f1}")
+                        
+                result_log(_accuracy,metrics.precision_score(_y_true, _y_pred),metrics.recall_score(_y_true, _y_pred),metrics.f1_score(_y_true, _y_pred))
+    
+                
 
 
 

@@ -179,3 +179,14 @@ class BLSTM:
         print('Precision is...', precision)
         f1 = (2 * precision * recall) / (precision + recall)
         print('F1 score is...',f1 )
+        
+        def result_log(acc,precision,recall,f1):
+            file_path="./result.log"
+            with open(file_path, 'w') as f:
+                f.writelines(f"acc,{acc}\n")
+                f.writelines(f"pre,{precision}\n")
+                f.writelines(f"recall,{recall}\n")
+                f.writelines(f"f1,{f1}")
+                
+        result_log(acc,precision,recall,f1)
+    

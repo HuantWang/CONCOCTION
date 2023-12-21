@@ -1,16 +1,25 @@
 #/bin/bash
-#Extract Program Information (To show dynamic code information 
-#params:projectPath souce code'directory
-
-project_path="$1"
 SCRIPT_ABS_PATH=$(readlink -f "$0")
 ROOT_PATH=$(dirname $(dirname $(dirname "$SCRIPT_ABS_PATH")))
 
+func(){
+    ROOT_PATH=$(dirname $(dirname $(dirname "$SCRIPT_ABS_PATH")))
+    dirr=$ROOT_PATH"/concoction/data/dataset0_dy"
+    if [ -z "$(ls -A $dirr)" ]; then
+        echo "目录为空"
+    else
+        smallest_file=$(find $dirr -type f -exec du {} + | sort -n | head -n 1 | awk '{print $2}')
+        #echo $(basename "$smallest_file")
+        echo "showing the dynamic code information of "$smallest_file
+        cat $smallest_file
+    fi
+}
 
-
-dir=$ROOT_PATH"/feature/dynamic/"
-shell_file=$dir"main.sh"
-dependency_txt=$dir"before_insert.txt"
-compile_txt=$dir"compile.txt"
-kleecmd_txt=$dir"do.txt"
-cd $dir && sh $shell_file $project_path $dependency_txt $compile_txt $kleecmd_txt 
+# 指令和超时时间
+command_to_execute="sh /homee/Evaluation/demo1/execDynamic.sh"
+timeout_duration=60
+timeout 60s sh /homee/Evaluation/demo1/execDynamic.sh
+if [ $? -eq 124 ]; then
+    echo "timeout"
+fi
+func

@@ -1,20 +1,22 @@
 import sys,os
 current_folder = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(current_folder)
-from model.Funded import Funded
-from model.devign import Devign
+# from model.Funded import Funded
+# from model.devign import Devign
 from model.reveal import Reveal
 from model.codebert import CodeBERT
-from model.graphcodebert import GraphCodeBERT
-from model.regvd import ReGVD
+# from model.graphcodebert import GraphCodeBERT
+# from model.regvd import ReGVD
 from model.TDSC import TDSC
 from model.vuldeepecker import vuldeepecker
 from model.concoction import concoction
 from model.LineVul import LineVul
-from model.ContraFlow import ContraFlow
+# from model.ContraFlow import ContraFlow
 from model.linger import Liger
-import os
-ExperimentalEvaluation=r"/homee/Evaluation/ExperimentalEvaluation"     
+
+
+ExperimentalEvaluation=r"/homee/Evaluation/ExperimentalEvaluation"  
+
 class EvaluationSard:
     def __init__(self,dataset,method) -> None:
         self.cwetype=""
@@ -30,11 +32,13 @@ class EvaluationSard:
         Devign(self.dataDir,load_saved_model,self.dataset).predict()
         
     def reveal_run(self):
-        load_saved_model=r"../ExperimentalEvaluation/pkl"
+        load_saved_model=os.path.join(ExperimentalEvaluation,'new_Reveal/DynamicBugDetection-Reveal/modles/test-checkpoint/78.87323943661973.pkl')
+        print(f"method:vuldeepecker\nload_saved_model:{load_saved_model}\ndataDir:{self.dataDir}")
         Reveal(self.dataDir,load_saved_model).predict()
 
     def codebert_run(self):
-        load_saved_model = r""
+        load_saved_model=os.path.join(ExperimentalEvaluation,'CodeBert/Defect-detection/code/pre-saved_models/test-checkpoint/0.9730639730639731_123456.bin')
+        print(f"method:vuldeepecker\nload_saved_model:{load_saved_model}\ndataDir:{self.dataDir}")
         CodeBERT(self.dataDir,load_saved_model).predict()
     
     def graphcodebert_run(self):
@@ -92,7 +96,7 @@ class EvaluationSard:
             "CWE-126":"cwe126"
         }
 
-        method=["funded","devign","reveal","codebert","graphcodebert","regvd","TDSC","vuldeepecker","concoction","LineVul","ContraFlow","Liger"]
+        method=["funded","devign","reveal","codebert","graphcodebert","regvd","TDSC","vuldeepecker","concoction","LineVul","ContraFlow","Liger",""]
         if self.dataset in sardDataset.keys():
             self.dataDir=sardDataset[self.dataset]
             self.cwetype=sardType[self.dataset]
@@ -137,17 +141,25 @@ class EvaluationGithub:
         self.dataset=dataset
         self.dataDir=""
         self.method=method
-    def funded_run(self):
-        load_saved_model=r"../ExperimentalEvaluation/FUNDED_NISL-main/FUNDED/cli/trained_model/GGNN_GraphBinaryClassification__2023-02-01_05-36-00_f1=0.800_best.pkl"
-        Funded(self.dataDir,load_saved_model).predict()
+    # def funded_run(self):
+    #     load_saved_model=r"../ExperimentalEvaluation/FUNDED_NISL-main/FUNDED/cli/trained_model/GGNN_GraphBinaryClassification__2023-02-01_05-36-00_f1=0.800_best.pkl"
+    #     Funded(self.dataDir,load_saved_model).predict()
         
-    def devign_run(self):
-        load_saved_model=r"../ExperimentalEvaluation/Devign/models/ours/GGNNSumModel86.02150537634408_42.bin"
-        Devign(self.dataDir,load_saved_model).predict()
+    # def devign_run(self):
+    #     load_saved_model=r"../ExperimentalEvaluation/Devign/models/ours/GGNNSumModel86.02150537634408_42.bin"
+    #     Devign(self.dataDir,load_saved_model).predict()
         
     def reveal_run(self):
-        load_saved_model=r"../ExperimentalEvaluation/pkl"
+        load_saved_model=os.path.join(ExperimentalEvaluation,'new_Reveal/DynamicBugDetection-Reveal/modles/test-checkpoint/78.87323943661973.pkl')
+        # load_saved_model=r"../ExperimentalEvaluation/new_Reveal/DynamicBugDetection-Reveal/modles/test-checkpoint/78.87323943661973.pkl"
+        print(f"method:reveal\nload_saved_model:{load_saved_model}\ndataDir:{self.dataDir}")
         Reveal(self.dataDir,load_saved_model).predict()
+
+    def codebert_run(self):
+        load_saved_model=os.path.join(ExperimentalEvaluation,'CodeBert/Defect-detection/code/pre-saved_models/test-checkpoint/0.9730639730639731_123456.bin')
+        print(f"method:codebert\nload_saved_model:{load_saved_model}\ndataDir:{self.dataDir}")
+        CodeBERT(self.dataDir,load_saved_model).predict()
+
     def TDSC_run(self):
         load_saved_model=os.path.join(ExperimentalEvaluation,"TDSC/saved_models/github.h5")
         print(f"method:vuldeepecker\nload_saved_model:{load_saved_model}\ndataDir:{self.dataDir}")
@@ -178,8 +190,8 @@ class EvaluationGithub:
         GithubDataset={#todo github dataset
             "Github":path
         }
-        method=["funded","devign","reveal","TDSC","vuldeepecker","concoction","LineVul","ContraFlow","Liger"]
-
+        method=["funded","devign","reveal","TDSC","vuldeepecker","concoction","LineVul","ContraFlow","Liger","codebert"]
+        # method=["reveal"]
         if self.dataset == 'Github':# todo: Github datadir
             self.dataDir=GithubDataset["Github"]
         else:
@@ -187,12 +199,14 @@ class EvaluationGithub:
             return
             
         if self.method in method:
-            if self.method=="funded":
-                self.funded_run()
-            if self.method=="devign":
-                self.devign_run()
+            # if self.method=="funded":
+            #     self.funded_run()
+            # if self.method=="devign":
+            #     self.devign_run()
             if self.method=="reveal":
                 self.reveal_run()
+            if self.method=="codebert":
+                self.codebert_run()
             if self.method=="TDSC":
                 self.TDSC_run()
             if self.method=="vuldeepecker":
@@ -201,10 +215,10 @@ class EvaluationGithub:
                 self.concoction_run()
             if self.method=="LineVul":
                 self.LineVul_run()
-            if self.method=="Liger":
-                self.Liger_run()
-            if self.method=="ContraFlow":
-                self.ContraFlow_run()
+            # if self.method=="Liger":
+            #     self.Liger_run()
+            # if self.method=="ContraFlow":
+            #     self.ContraFlow_run()
             
         else:
             print('unknown method.')
@@ -235,12 +249,12 @@ if __name__=="__main__":
     # EvaluationSard("CWE-78", "LineVul").run()
     # print("---------------------------------------------")
     # # EvaluationSard("CWE-416", "vuldeepecker").run()
-    print("---------------------------------------------")
+    # print("---------------------------------------------")
     # EvaluationGithub("Github","Liger").run()
+    # print("---------------------------------------------")
+    # EvaluationSard("CWE-191", "Liger").run()
     print("---------------------------------------------")
-    EvaluationSard("CWE-191", "Liger").run()
-
-    # 
+    EvaluationGithub("Github","codebert").run()
 
 
     

@@ -3,6 +3,8 @@ data/
 *.log
 __pycache__/
 *.zip
+*.h5
+log/
 concoction/data/dataset/jas_cm.c-jas_cmshapmatlut_invert.c.txt
 concoction/princeton-nlp.zip
 concoction/SIMCSE.zip
