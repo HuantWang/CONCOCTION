@@ -1,23 +1,82 @@
 # Installation
 
-Concoction was tested with Python 3.6 and Ubuntu 18.04.
+CONCOCTION was tested with Python 3.6 and Ubuntu 18.04.
 
-#### 1) Clone this repo
+## DOCKER
 
-``` console
-$ git clone git@github.com:Anonymization
+Install docker engine by following the instructions [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
+
+1. Fetch the docker image from docker hub.
+
+```
+$ sudo docker pull nwussimage/concoction_0.1
 ```
 
-#### 2) Install Prerequisites
+To check the list of images, run:
 
-``` console
-$ conda env create -f environment.yml
 ```
-[environment.yml](https://github.com/HuantWang/CONCOCTION/blob/main/environment.yml)
+$ sudo docker images
+REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
+nwussimage/concoction_0.1		     latest              ac6b624d06de        2 hours ago         41.8GB
+```
 
-#### 3) train the detection model 
+1. Run the docker image.
 
-``` console
-$ cd src/detection_model
-$ python evaluation_bug.py --model_name_or_path princeton-nlp/sup-simcse-bert-base-uncased --mode test
+```
+$ docker run -dit -P --name=supersonic nwussimage/concoction_0.1 /bin/bash
+$ docker start concoction 
+$ docker exec -it concoction /bin/bash
+```
+
+## Building from Source
+
+## 1.1. Dependences
+
+### 1.1.1 Toolchain and Python
+
+We recommend using [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/) to manage the remaining build dependencies. First create a conda environment with the required dependencies:
+
+```shell
+# add python environment, 
+$ conda create -y -n concoction python=3.8
+$ pip install -r requirements.txt
+$ conda activate concoction
+```
+
+#### ***Alternative: using different environments to evaluate other SOTA approaches***
+
+|  Approaches   | Conda name |
+| :-----------: | :--------: |
+|    LineVul    |            |
+| VulDeepecker  |            |
+|    Devign     |            |
+| GraphCodeBERT |            |
+|    REVEAL     |            |
+|   CodeXGLUE   |            |
+|    Funded     |            |
+|    LineVD     |            |
+|     ReGVD     |            |
+|  ContraFlow   |            |
+|     LIGER     |            |
+|  Concoction   |            |
+
+Using following command to control your anaconda version：
+
+```shell
+# add python environment
+$ conda create -y -n concoction_1 python=3.8
+$ pip install -r requirements_1.txt
+$ conda activate concoction
+```
+
+## 1.2. KLEE
+
+We use KLEE to extract dynamic information, so we have to build the KLEE first. The version of KLEE we used is **v3.0**. [Download]<https://klee.github.io/build-llvm13/> with **LLVM**.
+
+## Have a Test
+
+### Test demo
+
+```shell 
+$ python supersonic_main.py --task CSR  --mode test
 ```
