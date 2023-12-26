@@ -1,0 +1,26 @@
+authorName: NNI Example
+experimentName: linevul
+trialConcurrency: 1
+maxExecDuration: 5h # max executable time :110h
+maxTrialNum: 40 # max trial num:500
+trainingServicePlatform: local
+searchSpacePath: search_space.json # path of search space
+useAnnotation: false
+tuner:
+    builtinTunerName: TPE
+    classArgs:
+        optimize_mode: maximize # choices: maximize, minimize
+    gpuIndices: "1" # specify GPUof optimizer
+trial:
+    command: python ./linevul_main.py --data_file=/home/ExperimentalEvaluation/data/github_0.6_new/train --output_dir=./saved_models --model_type=roberta --tokenizer_name=microsoft/codebert-base --model_name_or_path=microsoft/codebert-base --do_train --do_test --epochs 3 --block_size 512 --train_batch_size 8 --eval_batch_size 8 --learning_rate 2e-5 --max_grad_norm 1.0 --evaluate_during_training --seed 123456 --do_pre
+    codeDir: .
+    gpuNum: 0
+logDir: /home/Linevul/log
+localConfig:
+    gpuIndices: "0" # specify GPU number
+    useActiveGpu: true
+assessor:
+    builtinAssessorName: Medianstop
+    classArgs:
+        optimize_mode: maximize
+        start_step: 20
