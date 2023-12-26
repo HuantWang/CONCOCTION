@@ -16,3 +16,4 @@ feature/static/github/joern-cli/parse_result/good.bin
 *.dot
 .ipynb_checkpoints/
 workspace/
+src/concoction/pathSelection/princeton-nlp/sup-simcse-bert-base-uncased
