@@ -1,0 +1,20 @@
+# extract dynamic feature
+## dependency
+install klee and llvm
+```
+# klee -version
+KLEE 2.1 (https://klee.github.io)
+  Build mode: RelWithDebInfo (Asserts: ON)
+  Build revision: unknown
+
+LLVM (http://llvm.org/):
+  LLVM version 6.0.1
+  Optimized build.
+  Default target: x86_64-unknown-linux-gnu
+  Host CPU: skylake-avx512
+```
+## run the example
+extract the dynamic feature from project 'jasper1.9.1'
+```
+sh main.sh /home/example/jasper-version-1.900.1 ./before_insert.txt ./compile.txt ./do.txt
+```
