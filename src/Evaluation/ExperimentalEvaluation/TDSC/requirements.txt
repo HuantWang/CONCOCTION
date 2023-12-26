@@ -1,0 +1,4 @@
+Tensorflow >= 1.5
+Keras >= 2.1.6
+Scikit-learn
+Gensim
