@@ -86,21 +86,15 @@ The results presented here correspond to Figure 7 in the submitted manuscript. T
 
 ```shell
 #Client RL search
-(docker) $ python SuperSonic/policy_search/supersonic_main.py --env BanditHalideEnv-v0  --datapath "tasks/halide/resource" --mode policy --total_steps 10 2>/dev/null
-
-# download the PDF from docker container to the host machine
-(docker) $ sz /home/sys/SUPERSONIC/AE/halide/graph/*
+(docker) $ python /homee/Evaluation/demo2/demo2.py --dataset CWE-416 --model vuldeepecker
 ```
 
 You can change the following parameters:
 
-```--env ``` The task environment that passed to RL client (Include 4 cases: BanditStokeEnv-v0, BanditTvmEnv-v0, BanditCSREnv-v0, BanditHalideEnv-v0). In this case, we set to BanditHalideEnv-v0. 
+```--dataset ``` Perform comparative experiments using different types of datasets.
 
-```--datapath``` Data path ( Change data path to use different benchmarks to support RL policy search). In this case, we set to the halide benchmarks' path "tasks/halide/resource". 
+```--model``` Perform experiments with various comparative tasks.
 
- ```--mode ``` "policy" - An automatic process includes RL Policy Search, and deploy the policy as well as parameters to the task; "config" - Parameters Tuning;  "deploy" - Deploy Policy and Parameter; We set it to "policy" to do the entire process.
-
-```--epoch``` to set the number of trials spent on client RL search. 
 
 ##### 2.2.2. **CVE dataset**
 
@@ -110,21 +104,15 @@ The results presented here correspond to Figure 8 in the submitted manuscript. T
 
 ```shell
 #Client RL search
-(docker) $ python SuperSonic/policy_search/supersonic_main.py --env BanditHalideEnv-v0  --datapath "tasks/halide/resource" --mode policy --total_steps 10 2>/dev/null
-
-# download the PDF from docker container to the host machine
-(docker) $ sz /home/sys/SUPERSONIC/AE/halide/graph/*
+(docker) $ python /homee/Evaluation/demo2/demo2.py --dataset Github --model reveal
 ```
 
 You can change the following parameters:
 
-```--env ``` The task environment that passed to RL client (Include 4 cases: BanditStokeEnv-v0, BanditTvmEnv-v0, BanditCSREnv-v0, BanditHalideEnv-v0). In this case, we set to BanditHalideEnv-v0. 
+```--dataset ``` Perform comparative experiments using different types of datasets.
 
-```--datapath``` Data path ( Change data path to use different benchmarks to support RL policy search). In this case, we set to the halide benchmarks' path "tasks/halide/resource". 
+```--model``` Perform experiments with various comparative tasks.
 
- ```--mode ``` "policy" - An automatic process includes RL Policy Search, and deploy the policy as well as parameters to the task; "config" - Parameters Tuning;  "deploy" - Deploy Policy and Parameter; We set it to "policy" to do the entire process.
-
-```--total_steps``` to set the number of trials spent on client RL search. 
 
 #### 2.3. **Comparison on Known CVEs**
 
