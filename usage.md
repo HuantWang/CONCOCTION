@@ -92,6 +92,7 @@ The results presented here correspond to Figure 7 in the submitted manuscript. T
 You can change the following parameters:
 
 ```--dataset ``` Perform comparative experiments using different types of datasets.
+Note: Eight different public vulnerability datasets can be selected here, namely: CWE-416, CWE-789, CWE-78, CWE-124, CWE-122, CWE-190, CWE-191, CWE-126.
 
 ```--model``` Perform experiments with various comparative tasks.
 
