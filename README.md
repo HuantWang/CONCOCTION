@@ -30,9 +30,9 @@ The system was tested on the following operating systems:
 
 See [INSTALL.md](INSTALL.md) for further details.
 
-## Useage
+## Usage
 
-See [AE.md](./usage.md) for a step-by-step demo of Concoction.
+See [AE.md](./AE.md) for a step-by-step demo of Concoction.
 
 ## Data
 
