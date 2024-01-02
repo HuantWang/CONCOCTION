@@ -32,21 +32,20 @@ Install Docker by following the instructions [here](https://docs.docker.com/inst
 Fetch the docker image from docker hub.
 
 ```
-$ sudo docker pull nwussimage/supersonic_0.1
+$ sudo docker pull nwu/concoction:v1
 ```
 
 To check the list of images, run:
 
 ```
 $ sudo docker images
-REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
-nwussimage/concoction_0.1		     latest              ac6b624d06de        2 hours ago         41.8GB
+
 ```
 
 Run the docker image.
 
 ```
-$ docker run -dit -P --name=supersonic nwussimage/concoction_0.1 /bin/bash
+$ docker run -itd --gpus all  -p 10052:22 10051:8888 --name concoction nwu/concoction:v1 /bin/bash
 $ docker start concoction 
 $ docker exec -it concoction /bin/bash
 ```
@@ -57,13 +56,13 @@ $ docker exec -it concoction /bin/bash
 After importing the docker container **and getting into bash** in the container, run the following command to select the conda environment, before using any of the AE scripts:
 
 `````` shell
-$ conda activate concoction
+$ conda activate pytorch1.7.1
 ``````
 
 Then, go to the root directory of our tool:
 
 ```
-(docker) $ cd /home/sys/Concoction
+(docker) $ cd /homee/
 ```
 
 ### 2. Evaluation
@@ -135,18 +134,34 @@ The program representation component maps the input source code and dynamic symb
 
 #### *Static representation model  training*:
 
+## 1.preprocess
 ```
-(docker) $ cd ./concoction/pretrainedModel/staticRepresentation
-(docker) $ python preprocess.py --data_path [data path] --output_path [output path]
-(docker) $ python train.py --model_name_or_path graphcodebert-base --train_data_file [output_path] --per_device_train_batch_size 8 --do_train --output_dir [the path to save the model] --mlm --overwrite_output_dir --line_by_line
+$ conda activate pytorch1.7.1
+$ cd ./src/concoction/pretrainedModel/staticRepresentation
+$ python preprocess.py --data_path ../data/dataset --output_path ../data/output_static.txt
+```
+
+## 2.pretrain
+```
+$ conda activate pytorch1.7.1
+$ cd ./src/concoction/pretrainedModel/staticRepresentation
+$ python train.py --model_name_or_path graphcodebert-base --train_data_file ../data/output_static.txt --per_device_train_batch_size 8 --do_train --output_dir ./trainedModel --mlm --overwrite_output_dir --line_by_line
 ```
 
 #### *Dynamic representation model* training:
 
+## 1.data preprocess
 ```
-(docker) $ cd ./concoction/pretrainedModel/dynamicRepresentation
-(docker) $ python preprocess.py --data_path [data path] --output_path [txtfile path]
-(docker) $ python train.py --model_name_or_path bert-base-uncased     --train_file [txtfile path]   --output_dir ./result    --num_train_epochs 1     --per_device_train_batch_size 32     --learning_rate 3e-5     --max_seq_length 32      --metric_for_best_model stsb_spearman  --load_best_model_at_end     --eval_steps 2     --pooler_type cls     --mlp_only_train     --overwrite_output_dir     --temp 0.05     --do_train
+$ conda activate pytorch1.7.1
+$ cd ./src/concoction/pretrainedModel/dynamicRepresentation
+$ python preprocess.py --data_path ../data/dataset  --output_path ../data/output_dynamic.txt
+```
+
+## 2.train
+```
+$ conda activate pytorch1.7.1
+$ cd ./src/concoction/pretrainedModel/dynamicRepresentation
+$ python train.py --model_name_or_path bert-base-uncased     --train_file ../data/output_dynamic.txt   --output_dir ./result    --num_train_epochs 1     --per_device_train_batch_size 32     --learning_rate 3e-5     --max_seq_length 32      --metric_for_best_model stsb_spearman  --load_best_model_at_end     --eval_steps 2     --pooler_type cls     --mlp_only_train     --overwrite_output_dir     --temp 0.05     --do_train
 ```
 
 
@@ -156,12 +171,18 @@ Concoction’s detection component takes the joint embedding as input to predict
 
 #### *Vulnerability Detection model training*:
 
+## train
+```
+$ conda activate pytorch1.7.1
+$ cd ./src/concoction/detectionModel
+$ python evaluation_bug.py --path_to_data ../data/data/train --mode train
 ```
 
-(docker) $ cd ./concoction/detectionModel
-(docker) $ python evaluation_bug.py --path_to_data /path/to/dataset --mode train
-
-
+## test
+```
+$ conda activate concoction
+$ cd ./src/concoction/detectionModel
+$ python evaluation_bug.py --path_to_data ../data/data/test --mode test --model_to_load ./trained_model/github.h5
 ```
 
 
@@ -176,11 +197,17 @@ After training the end-to-end model, we develop a path selection component to au
 
 *approximate runtime ~ 30 minutes*
 
+## 1.preprocess
 ```
-(docker) $ cd ./concoction/pathSelection
-(docker) $ python preprocess.py --data_path [feature path] --stored_path [output path](docker) 
-(docker) $ python main.py --data_path /home/CONCOCTION/model/DUAL/data/ours/embedding --stored_path /home/CONCOCTION/model/DUAL/data/ours/path_text
+$ conda activate pytorch1.7.1
+$ cd ./src/concoction/pathSelection
+$ python preprocess.py --data_path ../data/dataset0 --stored_path ../data/dataset0_pathselect
 
+```
+## 2.path select
+
+```
+$ python train.py --data_path ../data/dataset0_pathselect --stored_path ../data/dataset0_pathselect_result
 ```
 
 #### *Fuzzing for Test Case Generation*:
