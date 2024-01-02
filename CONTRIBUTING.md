@@ -54,7 +54,7 @@ is simple:
 
 We use [pre-commit](https://pre-commit.com/) to ensure that code is formatted
 prior to committing. Before submitting pull requests, please run pre-commit. See
-the [config file](/.pre-commit-config.yaml) for installation and usage
+the [config file](/AE.md) for installation and usage
 instructions.
 
 Other common sense rules we encourage are:
