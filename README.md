@@ -16,11 +16,14 @@ framework. This is the first DL system to learn program presentations by
 combining static source code information and dynamic program execution 
 traces.
 
+Check [our paper](https://github.com/HuantWang/HuantWang.github.io/blob/main/ICSE_24.pdf) for detailed information.
 
 ## Installation
 
 Concoction builds upon:
 -	Python v3.6
+-	KLEE v3.0
+-	LLVM v13.0
 	
 The system was tested on the following operating systems:
 - Ubuntu 18.04
@@ -29,14 +32,14 @@ See [INSTALL.md](INSTALL.md) for further details.
 
 ## Useage
 
-See [USAGE.md](./usage.md) for a step-by-step demo of Concoction.
+See [AE.md](./usage.md) for a step-by-step demo of Concoction.
 
 ## Data
 
 Data are available at [here](./dataset/README.md).
 
 ## Main Results
-Full list of code vulnerabilities discovered by Concoction can be found [here](./vul_info/README.md).
+A full list of code vulnerabilities discovered by Concoction can be found [here](./vul_info/README.md).
 
 ## Contributing
 
