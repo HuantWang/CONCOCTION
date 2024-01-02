@@ -71,11 +71,11 @@ The following steps describe how to evaluate our technique for bug detection. Fi
 
 #### 2.1. **Detect Vulnerabilities in Large-scale Testing**
 
-This section provides a quantified summary of Concoction's performance in detecting function-level code vulnerabilities across the 20 projects listed in Table 3 in our paper. In total, this part includes 54 reports that we have submitted.
+This section provides a quantified summary of Concoction's performance in detecting function-level code vulnerabilities across the 20 projects listed in Table 3 in our paper. Please follow this part(https://github.com/HuantWang/CONCOCTION/tree/main/vul_info) for detailed information.
 
 #### 2.2. **Comparison on Open Datasets**
 
-***Note:*** **Make sure the environment is chosen correct as [this table](https://github.com/HuantWang/CONCOCTION/blob/AE/INSTALL.md#alternative-using-different-environments-to-evaluate-other-sota-approaches)**. 
+***Note:*** **Make sure the environment is chosen correctly as [this table](https://github.com/HuantWang/CONCOCTION/blob/AE/INSTALL.md#alternative-using-different-environments-to-evaluate-other-sota-approaches)**. 
 
 ##### 2.2.1.  *SARD dataset*
 
