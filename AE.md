@@ -94,6 +94,7 @@ You can change the following parameters:
 Note: Eight different public vulnerability datasets can be selected here, namely: CWE-416, CWE-789, CWE-78, CWE-124, CWE-122, CWE-190, CWE-191, CWE-126.
 
 ```--model``` Perform experiments with various comparative tasks.
+Note：Ten different pcomparative tasks can be selected here, namely：funded,devign,reveal,TDSC,vuldeepecker,LineVul,ContraFlow,Liger,codebert,concoction.
 
 
 ##### 2.2.2. **CVE dataset**
@@ -112,6 +113,7 @@ You can change the following parameters:
 ```--dataset ``` Perform comparative experiments using different types of datasets.
 
 ```--model``` Perform experiments with various comparative tasks.
+Note：Ten different pcomparative tasks can be selected here, namely：funded,devign,reveal,TDSC,vuldeepecker,LineVul,ContraFlow,Liger,codebert,concoction.
 
 
 #### 2.3. **Comparison on Known CVEs**
