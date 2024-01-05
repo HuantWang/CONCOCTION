@@ -128,6 +128,7 @@ The results presented here correspond to Table 5 in the submitted manuscript. We
 
 
 
+
 # The Concoction Tutorial 
 
 ## Step 1. Program representation
@@ -139,15 +140,15 @@ The program representation component maps the input source code and dynamic symb
 ## 1.preprocess
 ```
 $ conda activate pytorch1.7.1
-$ cd ./src/concoction/pretrainedModel/staticRepresentation
-$ python preprocess.py --data_path ../data/dataset --output_path ../data/output_static.txt
+$ cd /homee/concoction/pretrainedModel/staticRepresentation
+$ python preprocess.py --data_path /homee/concoction/data/dataset --output_path /homee/concoction/data/output_static.txt
 ```
 
 ## 2.pretrain
 ```
 $ conda activate pytorch1.7.1
-$ cd ./src/concoction/pretrainedModel/staticRepresentation
-$ python train.py --model_name_or_path graphcodebert-base --train_data_file ../data/output_static.txt --per_device_train_batch_size 8 --do_train --output_dir ./trainedModel --mlm --overwrite_output_dir --line_by_line
+$ cd /homee/concoction/pretrainedModel/staticRepresentation
+$ python train.py --model_name_or_path graphcodebert-base --train_data_file /homee/concoction/data/output_static.txt --per_device_train_batch_size 4 --do_train --output_dir ./trainedModel --mlm --overwrite_output_dir --line_by_line
 ```
 
 #### *Dynamic representation model* training:
@@ -155,15 +156,15 @@ $ python train.py --model_name_or_path graphcodebert-base --train_data_file ../d
 ## 1.data preprocess
 ```
 $ conda activate pytorch1.7.1
-$ cd ./src/concoction/pretrainedModel/dynamicRepresentation
-$ python preprocess.py --data_path ../data/dataset  --output_path ../data/output_dynamic.txt
+$ cd /homee/concoction/pretrainedModel/dynamicRepresentation
+$ python preprocess.py --data_path /homee/concoction/data/dataset  --output_path /homee/concoction/data/output_dynamic.txt
 ```
 
 ## 2.train
 ```
 $ conda activate pytorch1.7.1
-$ cd ./src/concoction/pretrainedModel/dynamicRepresentation
-$ python train.py --model_name_or_path bert-base-uncased     --train_file ../data/output_dynamic.txt   --output_dir ./result    --num_train_epochs 1     --per_device_train_batch_size 32     --learning_rate 3e-5     --max_seq_length 32      --metric_for_best_model stsb_spearman  --load_best_model_at_end     --eval_steps 2     --pooler_type cls     --mlp_only_train     --overwrite_output_dir     --temp 0.05     --do_train
+$ cd /homee/concoction/pretrainedModel/dynamicRepresentation
+$ python train.py --model_name_or_path bert-base-uncased     --train_file /homee/concoction/data/output_dynamic.txt   --output_dir ./result    --num_train_epochs 1     --per_device_train_batch_size 4     --learning_rate 3e-5     --max_seq_length 32      --metric_for_best_model stsb_spearman  --load_best_model_at_end     --eval_steps 2     --pooler_type cls     --mlp_only_train     --overwrite_output_dir     --temp 0.05     --do_train
 ```
 
 
@@ -176,15 +177,15 @@ Concoction’s detection component takes the joint embedding as input to predict
 ## train
 ```
 $ conda activate pytorch1.7.1
-$ cd ./src/concoction/detectionModel
-$ python evaluation_bug.py --path_to_data ../data/data/train --mode train
+$ cd /homee/concoction/detectionModel
+$ python evaluation_bug.py --path_to_data /homee/concoction/data/data/train --mode train
 ```
 
 ## test
 ```
 $ conda activate concoction
-$ cd ./src/concoction/detectionModel
-$ python evaluation_bug.py --path_to_data ../data/data/test --mode test --model_to_load ./trained_model/github.h5
+$ cd /homee/concoction/detectionModel
+$ python evaluation_bug.py --path_to_data /homee/concoction/data/data/test --mode test --model_to_load ./trained_model/github.h5
 ```
 
 
@@ -202,14 +203,14 @@ After training the end-to-end model, we develop a path selection component to au
 ## 1.preprocess
 ```
 $ conda activate pytorch1.7.1
-$ cd ./src/concoction/pathSelection
-$ python preprocess.py --data_path ../data/dataset0 --stored_path ../data/dataset0_pathselect
+$ cd /homee/concoction/pathSelection
+$ python preprocess.py --data_path /homee/concoction/data/dataset0 --stored_path  /homee/concoction/data/dataset0_pathselect
 
 ```
 ## 2.path select
 
 ```
-$ python train.py --data_path ../data/dataset0_pathselect --stored_path ../data/dataset0_pathselect_result
+$ python train.py --data_path  /homee/concoction/data/dataset0_pathselect --stored_path  /homee/concoction/data/dataset0_pathselect_result
 ```
 
 #### *Fuzzing for Test Case Generation*:
