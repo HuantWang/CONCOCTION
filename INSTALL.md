@@ -79,5 +79,5 @@ If you just want to quickly get started with the dynamic feature extraction func
 ### Test demo
 
 ```shell 
-$ python supersonic_main.py --task CSR  --mode test
+$ python concoction.py --test
 ```
