@@ -45,20 +45,20 @@ $ conda activate concoction
 
 #### ***Alternative: using different environments to evaluate other SOTA approaches***
 
-|  Approaches   | Conda name |
-| :-----------: | :--------: |
-|    LineVul    |            |
-| VulDeepecker  |            |
-|    Devign     |            |
-| GraphCodeBERT |            |
-|    REVEAL     |            |
-|   CodeXGLUE   |            |
-|    Funded     |            |
-|    LineVD     |            |
-|     ReGVD     |            |
-|  ContraFlow   |            |
-|     LIGER     |            |
-|  Concoction   |            |
+|  Approaches   |  Conda name   |
+| :-----------: | :-----------: |
+|    LineVul    |    LineVul    |
+| VulDeepecker  | VulDeepecker  |
+|    Devign     |    Devign     |
+| GraphCodeBERT | GraphCodeBERT |
+|    REVEAL     |    REVEAL     |
+|   CodeXGLUE   |   CodeXGLUE   |
+|    Funded     |    Funded     |
+|    LineVD     |    LineVD     |
+|     ReGVD     |     ReGVD     |
+|  ContraFlow   |  ContraFlow   |
+|     LIGER     |     LIGER     |
+|  Concoction   |  Concoction   |
 
 Using following command to control your anaconda version：
 
