@@ -65,7 +65,94 @@ Then, go to the root directory of our tool:
 (docker) $ cd /homee/
 ```
 
-### 2. Evaluation
+# The Concoction Tutorial 
+
+## Step 1. Program representation
+
+The program representation component maps the input source code and dynamic symbolic execution traces of the target function into a numerical embedding vector.
+
+#### *Static representation model  training*:
+
+## Preprocess
+
+```
+$ conda activate pytorch1.7.1
+$ cd /homee/concoction/pretrainedModel/staticRepresentation
+$ python preprocess.py --data_path /homee/concoction/data/dataset --output_path /homee/concoction/data/output_static.txt
+```
+
+## Train
+
+```
+$ conda activate pytorch1.7.1
+$ cd /homee/concoction/pretrainedModel/staticRepresentation
+$ python train.py --model_name_or_path graphcodebert-base --train_data_file /homee/concoction/data/output_static.txt --per_device_train_batch_size 4 --do_train --output_dir ./trainedModel --mlm --overwrite_output_dir --line_by_line
+```
+
+#### *Dynamic representation model* training:
+
+## Preprocess
+
+```
+$ conda activate pytorch1.7.1
+$ cd /homee/concoction/pretrainedModel/dynamicRepresentation
+$ python preprocess.py --data_path /homee/concoction/data/dataset  --output_path /homee/concoction/data/output_dynamic.txt
+```
+
+## Train
+
+```
+$ conda activate pytorch1.7.1
+$ cd /homee/concoction/pretrainedModel/dynamicRepresentation
+$ python train.py --model_name_or_path bert-base-uncased     --train_file /homee/concoction/data/output_dynamic.txt   --output_dir ./result    --num_train_epochs 1     --per_device_train_batch_size 4     --learning_rate 3e-5     --max_seq_length 32      --metric_for_best_model stsb_spearman  --load_best_model_at_end     --eval_steps 2     --pooler_type cls     --mlp_only_train     --overwrite_output_dir     --temp 0.05     --do_train
+```
+
+
+## Step 2. Vulnerability Detection
+
+Concoction’s detection component takes the joint embedding as input to predict the presence of vulnerabilities. Our current implementation only identifies whether a function may contain a vulnerability or bug and does not specify the type of vulnerability. Here we use SARD benchmarks.
+
+#### *Vulnerability Detection model training*:
+
+## Train
+
+```
+# Train
+$ conda activate pytorch1.7.1
+$ cd /homee/concoction/detectionModel
+$ python evaluation_bug.py --path_to_data /homee/concoction/data/data/train --mode train
+# TEST
+$ conda activate concoction
+$ cd /homee/concoction/detectionModel
+$ python evaluation_bug.py --path_to_data /homee/concoction/data/data/test --mode test --model_to_load ./trained_model/github.h5
+```
+
+## Step 3. Deployment
+
+This demo shows how to deploy our trained model on a real world project. Here we apply the xx as our test project.
+
+#### *Path Selection for Symbolic Execution*:
+
+After training the end-to-end model, we develop a path selection component to automatically select a subset of important paths whose dynamic traces are likely to improve prediction accuracy during deployment.
+
+*approximate runtime ~ 30 minutes*
+
+## 1.Preprocess
+
+```
+$ conda activate pytorch1.7.1
+$ cd /homee/concoction/pathSelection
+$ python preprocess.py --data_path /homee/concoction/data/dataset0 --stored_path  /homee/concoction/data/dataset0_pathselect
+
+```
+
+## 2.Path selection
+
+```
+$ python train.py --data_path  /homee/concoction/data/dataset0_pathselect --stored_path  /homee/concoction/data/dataset0_pathselect_result
+```
+
+# Evaluation
 
 The following steps describe how to evaluate our technique for bug detection. First, we explain how to train the detection model using the Concoction dataset. Then, we demonstrate how to evaluate the performance of our detection model and compare the results against the baselines.
 
@@ -94,7 +181,9 @@ You can change the following parameters:
 Note: Eight different public vulnerability datasets can be selected here, namely: CWE-416, CWE-789, CWE-78, CWE-124, CWE-122, CWE-190, CWE-191, CWE-126.
 
 ```--model``` Perform experiments with various comparative tasks.
-Note：Ten different pcomparative tasks can be selected here, namely：funded,devign,reveal,TDSC,vuldeepecker,LineVul,ContraFlow,Liger,codebert,concoction.
+Note：12 different pcomparative tasks can be selected here：
+
+funded,devign,reveal,TDSC,vuldeepecker,LineVul,ContraFlow,Liger,codebert,concoction.
 
 
 ##### 2.2.2. **CVE dataset**
@@ -128,91 +217,3 @@ The results presented here correspond to Table 5 in the submitted manuscript. We
 
 
 
-
-# The Concoction Tutorial 
-
-## Step 1. Program representation
-
-The program representation component maps the input source code and dynamic symbolic execution traces of the target function into a numerical embedding vector.
-
-#### *Static representation model  training*:
-
-## 1.preprocess
-```
-$ conda activate pytorch1.7.1
-$ cd /homee/concoction/pretrainedModel/staticRepresentation
-$ python preprocess.py --data_path /homee/concoction/data/dataset --output_path /homee/concoction/data/output_static.txt
-```
-
-## 2.pretrain
-```
-$ conda activate pytorch1.7.1
-$ cd /homee/concoction/pretrainedModel/staticRepresentation
-$ python train.py --model_name_or_path graphcodebert-base --train_data_file /homee/concoction/data/output_static.txt --per_device_train_batch_size 4 --do_train --output_dir ./trainedModel --mlm --overwrite_output_dir --line_by_line
-```
-
-#### *Dynamic representation model* training:
-
-## 1.data preprocess
-```
-$ conda activate pytorch1.7.1
-$ cd /homee/concoction/pretrainedModel/dynamicRepresentation
-$ python preprocess.py --data_path /homee/concoction/data/dataset  --output_path /homee/concoction/data/output_dynamic.txt
-```
-
-## 2.train
-```
-$ conda activate pytorch1.7.1
-$ cd /homee/concoction/pretrainedModel/dynamicRepresentation
-$ python train.py --model_name_or_path bert-base-uncased     --train_file /homee/concoction/data/output_dynamic.txt   --output_dir ./result    --num_train_epochs 1     --per_device_train_batch_size 4     --learning_rate 3e-5     --max_seq_length 32      --metric_for_best_model stsb_spearman  --load_best_model_at_end     --eval_steps 2     --pooler_type cls     --mlp_only_train     --overwrite_output_dir     --temp 0.05     --do_train
-```
-
-
-## Step 2. Vulnerability Detection
-
-Concoction’s detection component takes the joint embedding as input to predict the presence of vulnerabilities. Our current implementation only identifies whether a function may contain a vulnerability or bug and does not specify the type of vulnerability. Here we use SARD benchmarks.
-
-#### *Vulnerability Detection model training*:
-
-## train
-```
-$ conda activate pytorch1.7.1
-$ cd /homee/concoction/detectionModel
-$ python evaluation_bug.py --path_to_data /homee/concoction/data/data/train --mode train
-```
-
-## test
-```
-$ conda activate concoction
-$ cd /homee/concoction/detectionModel
-$ python evaluation_bug.py --path_to_data /homee/concoction/data/data/test --mode test --model_to_load ./trained_model/github.h5
-```
-
-
-
-## Step 3. Deployment
-
-This demo shows how to deploy our trained model on a real world project. Here we apply the xx as our test project.
-
-#### *Path Selection for Symbolic Execution*:
-
-After training the end-to-end model, we develop a path selection component to automatically select a subset of important paths whose dynamic traces are likely to improve prediction accuracy during deployment.
-
-*approximate runtime ~ 30 minutes*
-
-## 1.preprocess
-```
-$ conda activate pytorch1.7.1
-$ cd /homee/concoction/pathSelection
-$ python preprocess.py --data_path /homee/concoction/data/dataset0 --stored_path  /homee/concoction/data/dataset0_pathselect
-
-```
-## 2.path select
-
-```
-$ python train.py --data_path  /homee/concoction/data/dataset0_pathselect --stored_path  /homee/concoction/data/dataset0_pathselect_result
-```
-
-#### *Fuzzing for Test Case Generation*:
-
-We use fuzzing techniques to generate test cases for functions predicted to contain potential vulnerabilities, aiming to automate the testing process and minimize the need for manual inspection.
