@@ -212,8 +212,10 @@ The results presented here correspond to Table 5 in the submitted manuscript. We
 (*approximate runtime:  **~ 300 minutes**, ~ 30 minutes for each baseline model)
 
 ```shell
-(docker) $ python tasks/halide/run.py
+(docker) $ python /homee/Evaluation/demo2/demo2CVE.py --model concoction
 ```
+You can change the following parameter:
 
-
+```--model``` Perform experiments with various comparative tasks.
+Note：Ten different pcomparative tasks can be selected here, namely：funded,devign,reveal,TDSC,vuldeepecker,LineVul,ContraFlow,Liger,codebert,concoction.
 
