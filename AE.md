@@ -188,7 +188,7 @@ The results presented here correspond to Figure 7 in the submitted manuscript. T
 
 ```shell
 #Client RL search
-(docker) $ python /homee/Evaluation/demo2/demo2.py --dataset CWE-416 --model vuldeepecker
+(docker) $ python /homee/Evaluation/demo2/demo2_CMD.py --dataset CWE-416 --model vuldeepecker
 ```
 
 You can change the following parameters:
@@ -199,7 +199,7 @@ Note: Eight different public vulnerability datasets can be selected here, namely
 ```--model``` Perform experiments with various comparative tasks.
 Note：12 different pcomparative tasks can be selected here：
 
-funded,devign,reveal,TDSC,vuldeepecker,LineVul,ContraFlow,Liger,codebert,concoction.
+"funded","devign","reveal","vuldeepecker","concoction","LineVul","Linevd","ContraFlow","Liger","codebert","graphcodebert","regvd","Linevd".
 
 
 ##### 2.2.2. **CVE dataset**
@@ -210,7 +210,7 @@ The results presented here correspond to Figure 8 in the submitted manuscript. T
 
 ```shell
 #Client RL search
-(docker) $ python /homee/Evaluation/demo2/demo2.py --dataset Github --model reveal
+(docker) $ python /homee/Evaluation/demo2/demo2_CMD.py --dataset Github --model reveal
 ```
 
 You can change the following parameters:
@@ -218,7 +218,7 @@ You can change the following parameters:
 ```--dataset ``` Perform comparative experiments using different types of datasets.
 
 ```--model``` Perform experiments with various comparative tasks.
-Note：Ten different pcomparative tasks can be selected here, namely：funded,devign,reveal,TDSC,vuldeepecker,LineVul,ContraFlow,Liger,codebert,concoction.
+Note：Ten different pcomparative tasks can be selected here, namely："funded","devign","reveal","vuldeepecker","concoction","LineVul","Linevd","ContraFlow","Liger","codebert","graphcodebert","regvd","Linevd"
 
 
 #### 2.3. **Comparison on Known CVEs**
@@ -233,5 +233,5 @@ The results presented here correspond to Table 5 in the submitted manuscript. We
 You can change the following parameter:
 
 ```--model``` Perform experiments with various comparative tasks.
-Note：Ten different pcomparative tasks can be selected here, namely：funded,devign,reveal,TDSC,vuldeepecker,LineVul,ContraFlow,Liger,codebert,concoction.
+Note：Ten different pcomparative tasks can be selected here, namely："funded","devign","reveal","vuldeepecker","concoction","LineVul","Linevd","ContraFlow","Liger","codebert","graphcodebert","regvd","Linevd"
 
