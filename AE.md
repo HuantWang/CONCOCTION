@@ -14,7 +14,7 @@ Please check [the notebook](http://43.129.205.177:8080/) for a small-scale demo 
 
 The main results of our work are presented in Figures 7 to 8 and Tables 3 to 5 in the submitted paper, which compare Concoction against 16 alternative techniques for bug detection.
 
-## ★ Docker Image (uploading to dockerhub, will be finished before 7th Jan 2024.)
+## ★ Docker Image
 
 We prepare our artifact within a Docker image to run "out of the box". 
 Our docker image was tested on a host machine running Ubuntu 18.04.
