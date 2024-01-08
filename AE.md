@@ -2,7 +2,7 @@
 
 The recommended approach for AE is to use the pre-configured, interactive Jupyter notebook with the instructions given in the AE submission.
 
-The following step-by-step instructions are provided for using a Docker Image running on a local host. Our Docker image (70 GB uncompressed) contains the entire execution environment (including Python and system dependencies), benchmarks, and source code, which includes 16 state-of-the-art bug detection frameworks. All of our code and data are open-sourced and have been developed with extensibility as a primary goal.
+The following step-by-step instructions are provided for using a Docker Image running on a local host. Our Docker image (80 GB uncompressed) contains the entire execution environment (including Python and system dependencies), benchmarks, and source code, which includes 16 state-of-the-art bug detection frameworks. All of our code and data are open-sourced and have been developed with extensibility as a primary goal.
 
 Please check [the notebook](http://43.129.205.177:8080/) for a small-scale demo showcasing vulnerability detection and evaluation as described in the paper.
 
