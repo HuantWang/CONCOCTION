@@ -235,3 +235,9 @@ You can change the following parameter:
 ```--model``` Perform experiments with various comparative tasks.
 Note：Ten different pcomparative tasks can be selected here, namely："funded","devign","reveal","vuldeepecker","concoction","LineVul","Linevd","ContraFlow","Liger","codebert","graphcodebert","regvd","Linevd"
 
+#### 2.4 *Ablation Study*
+we evaluate seven variants of Concoction on the CVE dataset.This demo corresponds to Figure 9 of the submitted manuscript.
+```shell
+(docker) $  python /homee/Evaluation/ablation/concoction_cmd.py --mode nonDynamic
+```
+--mode:This parameter defines 7 candidate variants of Concoction. Possible values are:"nonDynamic","nonStatic","nonCL","nonSel","concoction_MS","concoction_IT","concoction"
