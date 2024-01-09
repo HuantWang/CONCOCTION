@@ -59,7 +59,7 @@ $ docker exec -it Concoction /bin/bash
 After importing the docker container **and getting into bash** in the container, run the following command to select the conda environment, before using any of the AE scripts:
 
 `````` shell
-$ conda activate pytorch1.7.1
+$ conda activate base
 ``````
 
 Then, go to the root directory of our tool:
@@ -94,7 +94,7 @@ $ python /homee/Evaluation/demo1/concoction_1.py --dataset /homee/concoction/dat
 
 ```
 # Execute the script with a trained model to represent programs
-# program you can choose with test_a.c,test_b.c or test_c.c
+# [--program] program you can choose with test_a.c,test_b.c or test_c.c
 $ python /homee/Evaluation/demo1/concoction_2.py --program test_a.c
 ```
 
@@ -121,7 +121,7 @@ $ python /homee/Evaluation/demo1/concoction_3.py --dataset /homee/concoction/dat
 
 ```
 # Execute the script with a trained model to represent programs
-# program you can choose with test_a.c,test_b.c or test_c.c
+# [--program] program you can choose with test_a.c,test_b.c or test_c.c
 $ python /homee/Evaluation/demo1/concoction_4.py --program test_a.c
 ```
 
@@ -165,6 +165,8 @@ $ python /homee/Evaluation/demo1/concoction.py
 #### Vulnerability detection
 
 ```
+# Vulnerability detection
+# [--dataset] dataset path for testing [--model_to_load] model loaded to test
 $ python /homee/Evaluation/demo1/concoction_7.py  --dataset /homee/concoction/data/dataset0 --model_to_load /homee/Evaluation/ExperimentalEvaluation/Concoction/saved_models/github.h5
 ```
 
