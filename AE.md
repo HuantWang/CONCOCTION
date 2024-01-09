@@ -32,22 +32,25 @@ Install Docker by following the instructions [here](https://docs.docker.com/inst
 Fetch the docker image from docker hub.
 
 ```
-$ sudo docker pull nwu/concoction:v1
+$ sudo docker pull concoctionnwu/concoction:v1
 ```
 
 To check the list of images, run:
 
 ```
 $ sudo docker images
+#output
+#REPOSITORY                                                               TAG                                 IMAGE ID       CREATED         SIZE
+#concoctionnwu/concoction                                                 v1                                  cc84e8929fe1   15 hours ago    82.4GB
 
 ```
 
 Run the docker image.
 
 ```
-$ docker run -itd --gpus all  -p 10052:22 10051:8888 --name concoction nwu/concoction:v1 /bin/bash
-$ docker start concoction 
-$ docker exec -it concoction /bin/bash
+$ docker run -itd --gpus all  -p 10054:22 -p 10053:8888 --name Concoction concoctionnwu/concoction:v1 /bin/bash
+$ docker start Concoction 
+$ docker exec -it Concoction /bin/bash
 ```
 
 
