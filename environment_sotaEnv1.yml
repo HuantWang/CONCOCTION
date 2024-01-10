@@ -1,4 +1,4 @@
-name: sotaEnv2
+name: sotaEnv1
 channels:
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/linux-64/
