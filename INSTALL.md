@@ -11,22 +11,25 @@ Install docker engine by following the instructions [here](https://docs.docker.c
 Fetch the docker image from docker hub.
 
 ```
-$ sudo docker pull nwu/concoction:v1
+$ sudo docker pull concoctionnwu/concoction:v2
 ```
 
 To check the list of images, run:
 
 ```
 $ sudo docker images
+#output
+#REPOSITORY                                                               TAG                                 IMAGE ID       CREATED         SIZE
+#concoctionnwu/concoction                                                 v1                                  cc84e8929fe1   15 hours ago    82.4G
 
 ```
 
 Run the docker image.
 
 ```
-$ docker run -itd --gpus all  -p 10052:22 10051:8888 --name concoction nwu/concoction:v1 /bin/bash
-$ docker start concoction 
-$ docker exec -it concoction /bin/bash
+$ docker run -itd --gpus all  -p 10054:22 -p 10053:8888 --name Concoction concoctionnwu/concoction:v2 /bin/bash
+$ docker start Concoction 
+$ docker exec -it Concoction /bin/bash
 ```
 
 ## Building from Source
@@ -46,27 +49,27 @@ $ conda env create -f environment.yml
 
 |  Approaches   |  Conda name   |
 | :-----------: | :-----------: |
-|    LineVul    |    LineVul    |
-| VulDeepecker  | vuldeepecker1 |
-|    Devign     | vuldeepecker1 |
-| GraphCodeBERT | vuldeepecker1 |
-|    REVEAL     | vuldeepecker1 |
-|   CodeXGLUE   | vuldeepecker1 |
-|    Funded     |    funded     |
-|    LineVD     |    Linevul    |
-|     ReGVD     | vuldeepecker1 |
+|    LineVul    |   sotaEnv1    |
+| VulDeepecker  |   sotaEnv2    |
+|    Devign     | sotaEnv2 |
+| GraphCodeBERT | sotaEnv2 |
+|    REVEAL     | sotaEnv2 |
+|   CodeXGLUE   | sotaEnv2 |
+|    Funded     |    sotaEnv3     |
+|    LineVD     |    sotaEnv1    |
+|     ReGVD     | sotaEnv2 |
 |  ContraFlow   |  pytorch1.7.1 |
-|     LIGER     |     LIGER     |
+|     LIGER     |     sotaEnv4     |
 |  Concoction   |  pytorch1.7.1 |
 
 Using following command to control your anaconda version：
 
 ```shell
 # add different environments to evaluate other SOTA 
-$ conda env create -f environment_linevul.yml
-$ conda env create -f environment_funded.yml
-$ conda env create -f environment_liger.yml
-$ conda env create -f environment_vuldeepecker1.yml
+$ conda env create -f environment_sotaEnv1.yml
+$ conda env create -f environment_sotaEnv3.yml
+$ conda env create -f environment_sotaEnv4.yml
+$ conda env create -f environment_sotaEnv2.yml
 ```
 
 ## 1.2. KLEE
