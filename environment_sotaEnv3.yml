@@ -1,4 +1,4 @@
-name: funded
+name: sotaEnv3
 channels:
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/linux-64/
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
