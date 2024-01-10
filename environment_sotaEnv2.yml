@@ -1,4 +1,4 @@
-name: Linevul
+name: sotaEnv2
 channels:
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/linux-64/
