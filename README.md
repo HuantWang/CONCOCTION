@@ -46,6 +46,11 @@ Data are available at [here](./dataset/README.md).
 
 A full list of code vulnerabilities discovered by Concoction can be found [here](./vul_info/README.md).
 
+## Contributing
+
+We welcome contributions to Concoction. If you are interested in contributing please see
+[this document](./CONTRIBUTING.md).
+
 ## Citation
 
 If you use CONCOCTION in any of your work, please cite our paper:
@@ -58,8 +63,3 @@ If you use CONCOCTION in any of your work, please cite our paper:
       year={2024},
 }
 ~~~
-
-## Contributing
-
-We welcome contributions to Concoction. If you are interested in contributing please see
-[this document](./CONTRIBUTING.md).
