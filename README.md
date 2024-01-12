@@ -10,6 +10,7 @@
 </p>
 
 
+
 ## Introduction
 
 CONCOCTION is an automated machine learning based vulnerability detection 
@@ -45,9 +46,18 @@ Data are available at [here](./dataset/README.md).
 
 A full list of code vulnerabilities discovered by Concoction can be found [here](./vul_info/README.md).
 
-## Citation and Acknowledgements
+## Citation
 
-We present the state-of-the-art (SOTA) references used in this study in [this table](https://github.com/HuantWang/CONCOCTION/blob/main/AE.md#citation) and appreciate their contributions.
+If you use CONCOCTION in any of your work, please cite our paper:
+
+~~~
+@inproceedings{Concoction,
+      title={{Combining Structured Static Code Information and Dynamic Symbolic Traces for Software Vulnerability Prediction}},
+      author={Huanting Wang, Zhanyong Tang, Shin Hwei Tan, Jie Wang, Yuzhe Liu, Hejun Fang, Chunwei Xia, Zheng Wang},
+      booktitle={ICSE},
+      year={2024},
+}
+~~~
 
 ## Contributing
 
