@@ -52,9 +52,9 @@ If you use CONCOCTION in any of your work, please cite our paper:
 
 ~~~
 @inproceedings{Concoction,
-      title={{Combining Structured Static Code Information and Dynamic Symbolic Traces for Software Vulnerability Prediction}},
+      title={Combining Structured Static Code Information and Dynamic Symbolic Traces for Software Vulnerability Prediction},
       author={Huanting Wang, Zhanyong Tang, Shin Hwei Tan, Jie Wang, Yuzhe Liu, Hejun Fang, Chunwei Xia, Zheng Wang},
-      booktitle={ICSE},
+      booktitle={The IEEE/ACM 46th International Conference on Software Engineering (ICSE)},
       year={2024},
 }
 ~~~
