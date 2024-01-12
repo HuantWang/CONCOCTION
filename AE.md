@@ -67,6 +67,7 @@ Then, go to the root directory of our tool:
 ```
 (docker) $ cd /homee/
 ```
+
 # The Concoction Tutorial 
 
 ## Step 1. Program representation
@@ -76,12 +77,14 @@ The program representation component maps the input source code and dynamic symb
 ### *Static representation model*
 
 #### Extract static information
+
 ```
 # Execute the script to extract static information, 
 # passing the program path (path) and the script path (ScriptPath) as arguments
 # bash [ScriptPath]  [path]
 $ bash /homee/Evaluation/demo1/getStatic.sh /homee/Evaluation/exampleProject/test1
 ```
+
 #### Training
 
 ```
@@ -142,6 +145,7 @@ $ python /homee/Evaluation/demo1/concoction_5.py  --dataset /homee/Evaluation/Ex
 ```
 
 #### Testing
+
 ```
 # Execute the script  for testing the detection model
 # [--dataset] dataset path for testing [--model_to_load] model loaded to test 
@@ -156,12 +160,11 @@ This demo shows how to deploy our trained model on a real world project. Here we
 
 After training the end-to-end model, we develop a path selection component to automatically select a subset of important paths whose dynamic traces are likely to improve prediction accuracy during deployment.
 
-
-
 ```
 # Path collection and Active learning for path selection
 $ python /homee/Evaluation/demo1/concoction.py
 ```
+
 #### Vulnerability detection
 
 ```
@@ -202,9 +205,7 @@ You can change the following parameters:
 Note: Eight different public vulnerability datasets can be selected here, namely: CWE-416, CWE-789, CWE-78, CWE-124, CWE-122, CWE-190, CWE-191, CWE-126.
 
 ```--model``` Perform experiments with various comparative tasks.
-Note：12 different pcomparative tasks can be selected here：
-
-"funded","devign","reveal","vuldeepecker","concoction","LineVul","Linevd","ContraFlow","Liger","codebert","graphcodebert","regvd","Linevd".
+12 different pcomparative tasks can be selected here, "concoction" ,"funded"[1], "vuldeepecker"[2], "reveal"[3], "devign"[4], "ReGVD"[5], "LineVul"[6], "Linevd"[7], "codebert"[8], "graphCodebert"[9], "ContraFlow"[10],"Liger" [11] 
 
 
 ##### 2.2.2. **CVE dataset**
@@ -223,7 +224,7 @@ You can change the following parameters:
 ```--dataset ``` Perform comparative experiments using different types of datasets.
 
 ```--model``` Perform experiments with various comparative tasks.
-Note：Ten different pcomparative tasks can be selected here, namely："funded","devign","reveal","vuldeepecker","concoction","LineVul","Linevd","ContraFlow","Liger","codebert","graphcodebert","regvd","Linevd"
+12 different pcomparative tasks can be selected here, "concoction" ,"funded"[1], "vuldeepecker"[2], "reveal"[3], "devign"[4], "ReGVD"[5], "LineVul"[6], "Linevd"[7], "codebert"[8], "graphCodebert"[9], "ContraFlow"[10],"Liger" [11]
 
 
 #### 2.3. **Comparison on Known CVEs**
@@ -235,14 +236,43 @@ The results presented here correspond to Table 5 in the submitted manuscript. We
 ```shell
 (docker) $ python /homee/Evaluation/demo2/demo2CVE.py --model concoction
 ```
+
 You can change the following parameter:
 
 ```--model``` Perform experiments with various comparative tasks.
-Note：Ten different pcomparative tasks can be selected here, namely："funded","devign","reveal","vuldeepecker","concoction","LineVul","Linevd","ContraFlow","Liger","codebert","graphcodebert","regvd","Linevd"
+12 different pcomparative tasks can be selected here, "concoction" ,"funded"[1], "vuldeepecker"[2], "reveal"[3], "devign"[4], "ReGVD"[5], "LineVul"[6], "Linevd"[7], "codebert"[8], "graphCodebert"[9], "ContraFlow"[10],"Liger" [11]
 
 #### 2.4 *Ablation Study*
+
 we evaluate seven variants of Concoction on the CVE dataset.This demo corresponds to Figure 9 of the submitted manuscript.
+
 ```shell
 (docker) $  python /homee/Evaluation/ablation/concoction_cmd.py --mode nonDynamic
 ```
+
 --mode:This parameter defines 7 candidate variants of Concoction. Possible values are:"nonDynamic","nonStatic","nonCL","nonSel","concoction_MS","concoction_IT","concoction"
+
+
+
+# ***Citation***
+
+| Source code                                                  | Title                                                        | Authors                                                   |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :-------------------------------------------------------- |
+| [Funded](https://github.com/HuantWang/FUNDED_NISL)[1]        | Combining Graph-Based Learning With Automated Data Collection for Code Vulnerability Detection | H. Wang, G. Ye, Z. Tang, et al.                           |
+| [Vuldeepecker](https://github.com/CGCL-codes/VulDeePecker)[2] | VulDeePecker: A Deep Learning-Based System for Vulnerability Detection | Zhen Li, Deqing Zou, Shouhuai Xu, et al.                  |
+| [ReVeal](https://github.com/VulDetProject/ReVeal)[3]         | Deep learning based vulnerability detection: Are we there yet | Saikat Chakraborty, Rahul Krishna, Yangruibo Ding, et al. |
+| [Devign](https://github.com/epicosy/devign)[4]               | Devign: Effective vulnerability identification by learning comprehensive program semantics via graph neural networks | Yaqin Zhou, Shangqing Liu, Jingkai Siow, et al.           |
+| [ReGVD](https://github.com/daiquocnguyen/GNN-ReGVD)[5]       | ReGVD: Revisiting Graph Neural Networks for Vulnerability Detection | Van-Anh Nguyen, Dai Quoc Nguyen, Van Nguyen, et al.       |
+| [LineVul](https://github.com/awsm-research/LineVul)[6]       | Linevul: A transformer-based line-level vulnerability prediction | Michael Fu and Chakkrit Tantithamthavorn.                 |
+| [LineVD](https://github.com/davidhin/linevd)[7]              | LineVD: Statement-level vulnerability detection using graph neural networks | David Hin, Andrey Kan, Huaming Chen, et al.               |
+| [CodeXGLUE](https://github.com/microsoft/CodeXGLUE)[8]       | CodeXGLUE: A Machine Learning Benchmark Dataset for Code Understanding and Generation | Shuai Lu, Daya Guo, Shuo Ren, et al.                      |
+| [GraphcodeBERT](https://github.com/microsoft/CodeBERT/tree/master/GraphCodeBERT)[9] | GraphCodeBERT: Pre-training Code Representations with Data Flow | Daya Guo, Shuo Ren, Shuai Lu, et al.                      |
+| [Contraflow](https://dl.acm.org/doi/10.1145/3533767.3534371)[10] | Path-Sensitive Code Embedding via Contrastive Learning for Software Vulnerability Detection | Xiao Cheng, Guanqin Zhang, Haoyu Wang, et al.             |
+| [LIGER](https://github.com/keowang/dynamic-program-embedding)[11] | Blended, Precise Semantic Program Embeddings                 | Ke Wang and Zhendong Su.                                  |
+| [CodeQL](https://github.com/github/codeql)[12]               | CodeQL, discover vulnerabilities with semantic code analysis engine | /                                                         |
+| [Infer](https://github.com/facebook/infer)[13]               | Infer, a static program analyzer                             | /                                                         |
+| [KLEE](https://klee.github.io/)[14]                          | Klee: unassisted and automatic generation of high-coverage tests for complex systems programs | Cristian Cadar, Daniel Dunbar, Dawson R Engler, et al.    |
+| [MoKLEE](https://srg.doc.ic.ac.uk/projects/moklee/)[15]      | Running symbolic execution forever                           | Frank Busse, Martin Nowack, and Cristian Cadar.           |
+| [AFL++](https://github.com/AFLplusplus/AFLplusplus)[16]      | AFL++:Combining Incremental Steps of Fuzzing Research        | Andrea Fioraldi, Dominik Maier, Heiko Eißfeldt, et al.    |
+
+#### 
