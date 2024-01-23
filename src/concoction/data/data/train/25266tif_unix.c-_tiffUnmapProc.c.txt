@@ -1,0 +1,152 @@
+-----label-----
+0
+-----code-----
+static void
+_tiffUnmapProc(thandle_t fd, void* base, toff_t size)
+{
+	(void) fd; (void) base; (void) size;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+10,11
+10,12
+12,13
+12,14
+15,16
+15,17
+16,17
+18,19
+20,21
+20,22
+20,23
+21,22
+22,23
+22,24
+23,24
+23,25
+26,27
+28,29
+29,30
+29,31
+30,31
+30,32
+33,34
+35,36
+36,37
+36,38
+37,38
+37,39
+40,41
+-----nextToken-----
+2,4,7,9,11,13,14,17,19,24,25,27,31,32,34,38,39,41
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;CompoundStatement;ExpressionStatement;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;IdExpression;Name;ExpressionStatement;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;IdExpression;Name;ExpressionStatement;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;IdExpression;Name;
+-----ast_node-----
+static void_tiffUnmapProc(thandle_t fd, void* base, toff_t size){	(void) fd; (void) base; (void) size;}
+static void
+_tiffUnmapProc(thandle_t fd, void* base, toff_t size)
+_tiffUnmapProc
+thandle_t fd
+thandle_t
+thandle_t
+fd
+fd
+void* base
+void
+* base
+*
+base
+toff_t size
+toff_t
+toff_t
+size
+size
+{	(void) fd; (void) base; (void) size;}
+(void) fd;
+(void) fd
+void
+void
+
+fd
+fd
+(void) base;
+(void) base
+void
+void
+
+base
+base
+(void) size;
+(void) size
+void
+void
+
+size
+size
+-----joern-----
+(3,0,0)
+(7,8,0)
+(6,4,0)
+(0,11,0)
+(7,5,0)
+(0,2,0)
+(0,6,0)
+(1,0,0)
+(0,7,0)
+(10,6,0)
+(7,0,0)
+(9,7,0)
+(8,7,0)
+(0,7,1)
+(0,11,1)
+(10,6,1)
+(0,2,1)
+(9,1,1)
+(7,5,1)
+(7,9,1)
+(7,8,1)
+(6,0,1)
+(1,3,1)
+(7,5,2)
+(0,11,2)
+(0,7,2)
+(0,2,2)
+(7,8,2)
+(10,6,2)
+-----------------------------------
+(0,memcmp(p1, p2, (size_t)
+(1,p2)
+(2,const void* p2)
+(3,p1)
+(4,)
+(5,tmsize_t c)
+(6,return (memcmp(p1, p2, (size_t)
+(7,(size_t)
+(8,size_t)
+(9,c)
+(10,RET)
+(11,const void* p1)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000020000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffc7a1b56300000000ffffffffffffffff63a2b56300000000ffffffffffffffff63a2b56300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x4d4d3678ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+static void _tiffUnmapProc(thandle_t fd, void* base, toff_t size) {
+=======================

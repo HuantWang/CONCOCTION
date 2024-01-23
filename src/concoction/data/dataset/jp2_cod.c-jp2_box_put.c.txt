@@ -1,0 +1,1122 @@
+-----label-----
+0
+-----code-----
+int jp2_box_put(jp2_box_t *box, jas_stream_t *out)
+{
+	jas_stream_t *tmpstream;
+	bool extlen;
+	bool dataflag;
+
+	tmpstream = 0;
+
+	dataflag = !(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA));
+
+	if (dataflag) {
+		tmpstream = jas_stream_memopen(0, 0);
+		if (box->ops->putdata) {
+			if ((*box->ops->putdata)(box, tmpstream)) {
+				goto error;
+			}
+		}
+		box->len = jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false);
+		jas_stream_rewind(tmpstream);
+	}
+	extlen = (box->len >= (((uint_fast64_t)1) << 32)) != 0;
+	if (jp2_putuint32(out, extlen ? 1 : box->len)) {
+		goto error;
+	}
+	if (jp2_putuint32(out, box->type)) {
+		goto error;
+	}
+	if (extlen) {
+		if (jp2_putuint64(out, box->len)) {
+			goto error;
+		}
+	}
+
+	if (dataflag) {
+		if (jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false))) {
+			goto error;
+		}
+		jas_stream_close(tmpstream);
+	}
+
+	return 0;
+	abort();
+
+error:
+
+	if (tmpstream) {
+		jas_stream_close(tmpstream);
+	}
+	return -1;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+17,20
+17,21
+17,22
+17,23
+17,24
+17,25
+17,26
+17,27
+17,28
+17,29
+17,30
+17,31
+17,32
+18,19
+19,20
+19,21
+20,21
+22,23
+22,24
+25,26
+26,27
+26,28
+28,29
+30,31
+31,32
+31,33
+33,34
+35,36
+36,37
+36,38
+37,38
+40,41
+41,42
+41,43
+42,43
+44,45
+45,46
+46,47
+46,48
+47,48
+47,49
+48,49
+48,50
+49,50
+53,54
+54,55
+54,56
+55,56
+57,58
+59,60
+59,61
+60,61
+62,63
+62,64
+62,65
+62,66
+63,64
+64,65
+64,66
+65,66
+67,68
+67,69
+67,70
+68,69
+72,73
+72,74
+73,74
+73,75
+74,75
+74,76
+75,76
+79,80
+80,81
+80,82
+81,82
+81,83
+81,84
+82,83
+83,84
+84,85
+84,86
+85,86
+85,87
+86,87
+90,91
+92,93
+94,95
+95,96
+97,98
+98,99
+98,100
+99,100
+99,101
+100,101
+103,104
+103,105
+104,105
+104,106
+105,106
+107,108
+109,110
+109,111
+110,111
+113,114
+114,115
+114,116
+115,116
+117,118
+119,120
+120,121
+120,122
+121,122
+123,124
+123,125
+124,125
+125,126
+125,127
+126,127
+126,128
+127,128
+130,131
+131,132
+131,133
+132,133
+133,134
+133,135
+134,135
+134,136
+135,136
+141,142
+141,143
+142,143
+142,144
+142,145
+143,144
+145,146
+147,148
+147,149
+147,150
+148,149
+151,152
+151,153
+152,153
+155,156
+156,157
+158,159
+158,160
+159,160
+159,161
+159,162
+160,161
+162,163
+164,165
+164,166
+165,166
+168,169
+169,170
+171,172
+171,173
+172,173
+174,175
+175,176
+175,177
+176,177
+176,178
+176,179
+177,178
+179,180
+181,182
+181,183
+182,183
+185,186
+186,187
+188,189
+188,190
+189,190
+191,192
+191,193
+192,193
+192,194
+193,194
+193,195
+193,196
+193,197
+194,195
+196,197
+198,199
+200,201
+200,202
+201,202
+201,203
+202,203
+205,206
+205,207
+206,207
+209,210
+210,211
+212,213
+213,214
+213,215
+214,215
+216,217
+218,219
+220,221
+221,222
+222,223
+224,225
+224,226
+226,227
+226,228
+227,228
+229,230
+230,231
+231,232
+231,233
+232,233
+234,235
+236,237
+237,238
+-----nextToken-----
+2,4,7,9,10,13,15,16,21,23,24,27,29,32,34,38,39,43,50,51,52,56,58,61,66,69,70,71,76,77,78,87,88,89,91,93,96,101,102,106,108,111,112,116,118,122,128,129,136,137,138,139,140,144,146,149,150,153,154,157,161,163,166,167,170,173,178,180,183,184,187,190,195,197,199,203,204,207,208,211,215,217,219,223,225,228,233,235,238
+-----computeFrom-----
+36,37
+36,38
+41,42
+41,43
+46,47
+46,48
+54,55
+54,56
+64,65
+64,66
+98,99
+98,100
+103,104
+103,105
+120,121
+120,122
+123,124
+123,125
+125,126
+125,127
+131,132
+131,133
+200,201
+200,202
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;LiteralExpression;LiteralExpression;IfStatement;FieldReference;FieldReference;IdExpression;Name;Name;Name;CompoundStatement;IfStatement;FunctionCallExpression;UnaryExpression;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;GotoStatement;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;BinaryExpression;UnaryExpression;CastExpression;TypeId;NamedTypeSpecifier;Name;Declarator;LiteralExpression;LiteralExpression;LiteralExpression;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ConditionalExpression;IdExpression;Name;LiteralExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;GotoStatement;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;GotoStatement;Name;IfStatement;IdExpression;Name;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;GotoStatement;Name;IfStatement;IdExpression;Name;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;LiteralExpression;CompoundStatement;GotoStatement;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LabelStatement;Name;IfStatement;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;
+-----ast_node-----
+int jp2_box_put(jp2_box_t *box, jas_stream_t *out){	jas_stream_t *tmpstream;	bool extlen;	bool dataflag;	tmpstream = 0;	dataflag = !(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA));	if (dataflag) {		tmpstream = jas_stream_memopen(0, 0);		if (box->ops->putdata) {			if ((*box->ops->putdata)(box, tmpstream)) {				goto error;			}		}		box->len = jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false);		jas_stream_rewind(tmpstream);	}	extlen = (box->len >= (((uint_fast64_t)1) << 32)) != 0;	if (jp2_putuint32(out, extlen ? 1 : box->len)) {		goto error;	}	if (jp2_putuint32(out, box->type)) {		goto error;	}	if (extlen) {		if (jp2_putuint64(out, box->len)) {			goto error;		}	}	if (dataflag) {		if (jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false))) {			goto error;		}		jas_stream_close(tmpstream);	}	return 0;	abort();error:	if (tmpstream) {		jas_stream_close(tmpstream);	}	return -1;}
+int
+jp2_box_put(jp2_box_t *box, jas_stream_t *out)
+jp2_box_put
+jp2_box_t *box
+jp2_box_t
+jp2_box_t
+*box
+*
+box
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+{	jas_stream_t *tmpstream;	bool extlen;	bool dataflag;	tmpstream = 0;	dataflag = !(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA));	if (dataflag) {		tmpstream = jas_stream_memopen(0, 0);		if (box->ops->putdata) {			if ((*box->ops->putdata)(box, tmpstream)) {				goto error;			}		}		box->len = jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false);		jas_stream_rewind(tmpstream);	}	extlen = (box->len >= (((uint_fast64_t)1) << 32)) != 0;	if (jp2_putuint32(out, extlen ? 1 : box->len)) {		goto error;	}	if (jp2_putuint32(out, box->type)) {		goto error;	}	if (extlen) {		if (jp2_putuint64(out, box->len)) {			goto error;		}	}	if (dataflag) {		if (jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false))) {			goto error;		}		jas_stream_close(tmpstream);	}	return 0;	abort();error:	if (tmpstream) {		jas_stream_close(tmpstream);	}	return -1;}
+jas_stream_t *tmpstream;
+jas_stream_t *tmpstream;
+jas_stream_t
+jas_stream_t
+*tmpstream
+*
+tmpstream
+bool extlen;
+bool extlen;
+bool
+extlen
+extlen
+bool dataflag;
+bool dataflag;
+bool
+dataflag
+dataflag
+tmpstream = 0;
+tmpstream = 0
+tmpstream
+tmpstream
+0
+dataflag = !(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA));
+dataflag = !(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA))
+dataflag
+dataflag
+!(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA))
+(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA))
+box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA)
+box->info->flags
+box->info
+box
+box
+info
+flags
+(JP2_BOX_SUPER | JP2_BOX_NODATA)
+JP2_BOX_SUPER | JP2_BOX_NODATA
+JP2_BOX_SUPER
+JP2_BOX_SUPER
+JP2_BOX_NODATA
+JP2_BOX_NODATA
+if (dataflag) {		tmpstream = jas_stream_memopen(0, 0);		if (box->ops->putdata) {			if ((*box->ops->putdata)(box, tmpstream)) {				goto error;			}		}		box->len = jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false);		jas_stream_rewind(tmpstream);	}
+dataflag
+dataflag
+{		tmpstream = jas_stream_memopen(0, 0);		if (box->ops->putdata) {			if ((*box->ops->putdata)(box, tmpstream)) {				goto error;			}		}		box->len = jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false);		jas_stream_rewind(tmpstream);	}
+tmpstream = jas_stream_memopen(0, 0);
+tmpstream = jas_stream_memopen(0, 0)
+tmpstream
+tmpstream
+jas_stream_memopen(0, 0)
+jas_stream_memopen
+jas_stream_memopen
+0
+0
+if (box->ops->putdata) {			if ((*box->ops->putdata)(box, tmpstream)) {				goto error;			}		}
+box->ops->putdata
+box->ops
+box
+box
+ops
+putdata
+{			if ((*box->ops->putdata)(box, tmpstream)) {				goto error;			}		}
+if ((*box->ops->putdata)(box, tmpstream)) {				goto error;			}
+(*box->ops->putdata)(box, tmpstream)
+(*box->ops->putdata)
+*box->ops->putdata
+box->ops->putdata
+box->ops
+box
+box
+ops
+putdata
+box
+box
+tmpstream
+tmpstream
+{				goto error;			}
+goto error;
+error
+box->len = jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false);
+box->len = jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false)
+box->len
+box
+box
+len
+jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false)
+jas_stream_tell(tmpstream)
+jas_stream_tell
+jas_stream_tell
+tmpstream
+tmpstream
+JP2_BOX_HDRLEN(false)
+JP2_BOX_HDRLEN
+JP2_BOX_HDRLEN
+false
+jas_stream_rewind(tmpstream);
+jas_stream_rewind(tmpstream)
+jas_stream_rewind
+jas_stream_rewind
+tmpstream
+tmpstream
+extlen = (box->len >= (((uint_fast64_t)1) << 32)) != 0;
+extlen = (box->len >= (((uint_fast64_t)1) << 32)) != 0
+extlen
+extlen
+(box->len >= (((uint_fast64_t)1) << 32)) != 0
+(box->len >= (((uint_fast64_t)1) << 32))
+box->len >= (((uint_fast64_t)1) << 32)
+box->len
+box
+box
+len
+(((uint_fast64_t)1) << 32)
+((uint_fast64_t)1) << 32
+((uint_fast64_t)1)
+(uint_fast64_t)1
+uint_fast64_t
+uint_fast64_t
+uint_fast64_t
+
+1
+32
+0
+if (jp2_putuint32(out, extlen ? 1 : box->len)) {		goto error;	}
+jp2_putuint32(out, extlen ? 1 : box->len)
+jp2_putuint32
+jp2_putuint32
+out
+out
+extlen ? 1 : box->len
+extlen
+extlen
+1
+box->len
+box
+box
+len
+{		goto error;	}
+goto error;
+error
+if (jp2_putuint32(out, box->type)) {		goto error;	}
+jp2_putuint32(out, box->type)
+jp2_putuint32
+jp2_putuint32
+out
+out
+box->type
+box
+box
+type
+{		goto error;	}
+goto error;
+error
+if (extlen) {		if (jp2_putuint64(out, box->len)) {			goto error;		}	}
+extlen
+extlen
+{		if (jp2_putuint64(out, box->len)) {			goto error;		}	}
+if (jp2_putuint64(out, box->len)) {			goto error;		}
+jp2_putuint64(out, box->len)
+jp2_putuint64
+jp2_putuint64
+out
+out
+box->len
+box
+box
+len
+{			goto error;		}
+goto error;
+error
+if (dataflag) {		if (jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false))) {			goto error;		}		jas_stream_close(tmpstream);	}
+dataflag
+dataflag
+{		if (jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false))) {			goto error;		}		jas_stream_close(tmpstream);	}
+if (jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false))) {			goto error;		}
+jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false))
+jas_stream_copy
+jas_stream_copy
+out
+out
+tmpstream
+tmpstream
+box->len - JP2_BOX_HDRLEN(false)
+box->len
+box
+box
+len
+JP2_BOX_HDRLEN(false)
+JP2_BOX_HDRLEN
+JP2_BOX_HDRLEN
+false
+{			goto error;		}
+goto error;
+error
+jas_stream_close(tmpstream);
+jas_stream_close(tmpstream)
+jas_stream_close
+jas_stream_close
+tmpstream
+tmpstream
+return 0;
+0
+abort();
+abort()
+abort
+abort
+error:	if (tmpstream) {		jas_stream_close(tmpstream);	}
+error
+if (tmpstream) {		jas_stream_close(tmpstream);	}
+tmpstream
+tmpstream
+{		jas_stream_close(tmpstream);	}
+jas_stream_close(tmpstream);
+jas_stream_close(tmpstream)
+jas_stream_close
+jas_stream_close
+tmpstream
+tmpstream
+return -1;
+-1
+1
+-----joern-----
+(5,11,0)
+(18,14,0)
+(21,25,0)
+(0,7,0)
+(22,11,0)
+(1,15,0)
+(15,11,0)
+(11,0,0)
+(13,7,0)
+(11,8,0)
+(18,7,0)
+(25,24,0)
+(7,18,0)
+(3,25,0)
+(0,11,0)
+(24,2,0)
+(20,5,0)
+(7,0,0)
+(4,18,0)
+(9,15,0)
+(10,18,0)
+(16,8,0)
+(12,6,0)
+(5,6,0)
+(25,11,0)
+(24,25,0)
+(17,5,0)
+(19,8,0)
+(6,2,0)
+(0,7,1)
+(21,15,1)
+(9,11,1)
+(23,6,1)
+(10,22,1)
+(1,9,1)
+(11,0,1)
+(17,20,1)
+(13,18,1)
+(12,5,1)
+(18,4,1)
+(5,11,1)
+(24,25,1)
+(7,18,1)
+(23,15,1)
+(20,24,1)
+(15,11,1)
+(3,21,1)
+(6,12,1)
+(25,3,1)
+(18,14,1)
+(7,13,1)
+(15,1,1)
+(5,17,1)
+(4,10,1)
+(25,11,1)
+(12,15,2)
+(3,15,2)
+(11,0,2)
+(25,11,2)
+(25,15,2)
+(24,15,2)
+(24,25,2)
+(0,7,2)
+(15,11,2)
+(5,11,2)
+(21,15,2)
+(20,15,2)
+(17,15,2)
+(6,15,2)
+(5,15,2)
+(7,18,2)
+(18,14,2)
+-----------------------------------
+(0,&box->data.cdef)
+(1,ents)
+(2,)
+(3,ents)
+(4,data)
+(5,cdef->ents)
+(6,cdef->ents = 0)
+(7,box->data.cdef)
+(8,)
+(9,cdef)
+(10,box)
+(11,*cdef = &box->data.cdef)
+(12,0)
+(13,cdef)
+(14,jp2_box_t *box)
+(15,cdef->ents)
+(16,if (cdef->ents)
+(17,ents)
+(18,box->data)
+(19,cdef)
+(20,cdef)
+(21,cdef)
+(22,cdef)
+(23,RET)
+(24,jas_free(cdef->ents)
+(25,cdef->ents)
+-----cfg-----
+(129,134)
+(129,137)
+(134,137)
+(7,14)
+(136,139)
+(137,136)
+(14,24)
+(17,34)
+(17,73)
+(19,17)
+(20,19)
+(21,26)
+(22,25)
+(24,22)
+(25,21)
+(26,20)
+(32,41)
+(34,32)
+(38,50)
+(38,59)
+(39,42)
+(41,39)
+(42,38)
+(45,134)
+(45,137)
+(45,59)
+(46,45)
+(47,46)
+(48,51)
+(50,48)
+(51,47)
+(56,65)
+(57,61)
+(59,57)
+(60,56)
+(61,63)
+(63,60)
+(65,73)
+(67,83)
+(67,88)
+(69,67)
+(70,69)
+(71,76)
+(73,71)
+(74,70)
+(75,74)
+(76,75)
+(81,134)
+(81,137)
+(81,96)
+(83,81)
+(86,83)
+(88,86)
+(92,134)
+(92,137)
+(92,107)
+(92,120)
+(92,127)
+(94,92)
+(96,94)
+(103,134)
+(103,137)
+(103,120)
+(103,127)
+(105,103)
+(107,105)
+(114,134)
+(114,137)
+(114,125)
+(117,114)
+(118,121)
+(120,118)
+(121,117)
+(125,127)
+(127,139)
+-----path-----
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,120,118,121,117,114,134
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,120,118,121,117,114,137
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,120,118,121,117,114,125
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,120,118,121,117,114,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,120,118,121,117,114,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,120,118,121,117,114,125,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,120,118,121,117
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,120,118,121,117,114,134,137
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,120,118,121,117,114,137,136
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,120,118,121,117,114,125,127
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,50,48,51,47,46,45,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,120,118,121,117,114,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,120,118,121,117,114,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,120,118,121,117,114,125,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,120,118,121,117,114,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,120,118,121,117,114,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,120,118,121,117,114,125,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,83,81,96,94,92,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,120,118,121,117,114,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,120,118,121,117,114,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,120,118,121,117,114,125,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,120,118,121,117,114,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,120,118,121,117,114,137,136,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,120,118,121,117,114,125,127,139
+7,14,24,22,25,21,26,20,19,17,34,32,41,39,42,38,59,57,61,63,60,56,65,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,127,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,120,118,121,117,114,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,120,118,121,117,114,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,120,118,121,117,114,125,127,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,107,105,103,127,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,120,118,121,117,114,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,120,118,121,117,114,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,120,118,121,117,114,125,127,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,83,81,96,94,92,127,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,120,118,121,117,114,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,120,118,121,117,114,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,120,118,121,117,114,125,127,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,107,105,103,127,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,120,118,121,117,114,134,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,120,118,121,117,114,137,136,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,120,118,121,117,114,125,127,139
+7,14,24,22,25,21,26,20,19,17,73,71,76,75,74,70,69,67,88,86,83,81,96,94,92,127,139
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jp2_box_put (jp2_box_t *box,jas_stream_t *out)
+8,jp2_box_t *box
+9,jas_stream_t *out
+10,<empty>
+11,jas_stream_t* tmpstream
+12,bool extlen
+13,bool dataflag
+14,tmpstream = 0
+15,tmpstream
+16,0
+17,dataflag = !(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA))
+18,dataflag
+19,!(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA))
+20,box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA)
+21,box->info->flags
+22,box->info
+23,box
+24,info
+25,flags
+26,JP2_BOX_SUPER | JP2_BOX_NODATA
+27,JP2_BOX_SUPER
+28,JP2_BOX_NODATA
+29,if (dataflag)
+30,dataflag
+31,<empty>
+32,tmpstream = jas_stream_memopen(0, 0)
+33,tmpstream
+34,jas_stream_memopen(0, 0)
+35,0
+36,0
+37,if (box->ops->putdata)
+38,box->ops->putdata
+39,box->ops
+40,box
+41,ops
+42,putdata
+43,<empty>
+44,if ((*box->ops->putdata)(box, tmpstream))
+45,(*box->ops->putdata)(box, tmpstream)
+46,*box->ops->putdata
+47,box->ops->putdata
+48,box->ops
+49,box
+50,ops
+51,putdata
+52,box
+53,tmpstream
+54,<empty>
+55,goto error;
+56,box->len = jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false)
+57,box->len
+58,box
+59,len
+60,jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false)
+61,jas_stream_tell(tmpstream)
+62,tmpstream
+63,JP2_BOX_HDRLEN(false)
+64,false
+65,jas_stream_rewind(tmpstream)
+66,tmpstream
+67,extlen = (box->len >= (((uint_fast64_t)1) << 32)) != 0
+68,extlen
+69,(box->len >= (((uint_fast64_t)1) << 32)) != 0
+70,box->len >= (((uint_fast64_t)1) << 32)
+71,box->len
+72,box
+73,len
+74,((uint_fast64_t)1) << 32
+75,(uint_fast64_t)1
+76,uint_fast64_t
+77,1
+78,32
+79,0
+80,if (jp2_putuint32(out, extlen ? 1 : box->len))
+81,jp2_putuint32(out, extlen ? 1 : box->len)
+82,out
+83,extlen ? 1 : box->len
+84,extlen
+85,1
+86,box->len
+87,box
+88,len
+89,<empty>
+90,goto error;
+91,if (jp2_putuint32(out, box->type))
+92,jp2_putuint32(out, box->type)
+93,out
+94,box->type
+95,box
+96,type
+97,<empty>
+98,goto error;
+99,if (extlen)
+100,extlen
+101,<empty>
+102,if (jp2_putuint64(out, box->len))
+103,jp2_putuint64(out, box->len)
+104,out
+105,box->len
+106,box
+107,len
+108,<empty>
+109,goto error;
+110,if (dataflag)
+111,dataflag
+112,<empty>
+113,if (jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false)))
+114,jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false))
+115,out
+116,tmpstream
+117,box->len - JP2_BOX_HDRLEN(false)
+118,box->len
+119,box
+120,len
+121,JP2_BOX_HDRLEN(false)
+122,false
+123,<empty>
+124,goto error;
+125,jas_stream_close(tmpstream)
+126,tmpstream
+127,return 0;
+128,0
+129,abort()
+130,error:
+131,
+132,	if (tmpstream) {
+133,		jas_stream_close(tmpstream);
+134,	}
+135,if (tmpstream)
+136,tmpstream
+137,<empty>
+138,jas_stream_close(tmpstream)
+139,tmpstream
+140,return -1;
+141,-1
+142,1
+143,RET
+144,jp2_box_t *box
+145,jas_stream_t *out
+146,RET
+147,int jp2_box_put (jp2_box_t *box,jas_stream_t *out)
+148,jp2_box_t *box
+149,jas_stream_t *out
+150,<empty>
+151,jas_stream_t* tmpstream
+152,bool extlen
+153,bool dataflag
+154,tmpstream = 0
+155,tmpstream
+156,0
+157,dataflag = !(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA))
+158,dataflag
+159,!(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA))
+160,box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA)
+161,box->info->flags
+162,box->info
+163,box
+164,info
+165,flags
+166,JP2_BOX_SUPER | JP2_BOX_NODATA
+167,JP2_BOX_SUPER
+168,JP2_BOX_NODATA
+169,if (dataflag)
+170,dataflag
+171,<empty>
+172,tmpstream = jas_stream_memopen(0, 0)
+173,tmpstream
+174,jas_stream_memopen(0, 0)
+175,0
+176,0
+177,if (box->ops->putdata)
+178,box->ops->putdata
+179,box->ops
+180,box
+181,ops
+182,putdata
+183,<empty>
+184,if ((*box->ops->putdata)(box, tmpstream))
+185,(*box->ops->putdata)(box, tmpstream)
+186,*box->ops->putdata
+187,box->ops->putdata
+188,box->ops
+189,box
+190,ops
+191,putdata
+192,box
+193,tmpstream
+194,<empty>
+195,goto error;
+196,box->len = jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false)
+197,box->len
+198,box
+199,len
+200,jas_stream_tell(tmpstream) + JP2_BOX_HDRLEN(false)
+201,jas_stream_tell(tmpstream)
+202,tmpstream
+203,JP2_BOX_HDRLEN(false)
+204,false
+205,jas_stream_rewind(tmpstream)
+206,tmpstream
+207,extlen = (box->len >= (((uint_fast64_t)1) << 32)) != 0
+208,extlen
+209,(box->len >= (((uint_fast64_t)1) << 32)) != 0
+210,box->len >= (((uint_fast64_t)1) << 32)
+211,box->len
+212,box
+213,len
+214,((uint_fast64_t)1) << 32
+215,(uint_fast64_t)1
+216,uint_fast64_t
+217,1
+218,32
+219,0
+220,if (jp2_putuint32(out, extlen ? 1 : box->len))
+221,jp2_putuint32(out, extlen ? 1 : box->len)
+222,out
+223,extlen ? 1 : box->len
+224,extlen
+225,1
+226,box->len
+227,box
+228,len
+229,<empty>
+230,goto error;
+231,if (jp2_putuint32(out, box->type))
+232,jp2_putuint32(out, box->type)
+233,out
+234,box->type
+235,box
+236,type
+237,<empty>
+238,goto error;
+239,if (extlen)
+240,extlen
+241,<empty>
+242,if (jp2_putuint64(out, box->len))
+243,jp2_putuint64(out, box->len)
+244,out
+245,box->len
+246,box
+247,len
+248,<empty>
+249,goto error;
+250,if (dataflag)
+251,dataflag
+252,<empty>
+253,if (jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false)))
+254,jas_stream_copy(out, tmpstream, box->len - JP2_BOX_HDRLEN(false))
+255,out
+256,tmpstream
+257,box->len - JP2_BOX_HDRLEN(false)
+258,box->len
+259,box
+260,len
+261,JP2_BOX_HDRLEN(false)
+262,false
+263,<empty>
+264,goto error;
+265,jas_stream_close(tmpstream)
+266,tmpstream
+267,return 0;
+268,0
+269,abort()
+270,error:
+271,
+272,	if (tmpstream) {
+273,		jas_stream_close(tmpstream);
+274,	}
+275,if (tmpstream)
+276,tmpstream
+277,<empty>
+278,jas_stream_close(tmpstream)
+279,tmpstream
+280,return -1;
+281,-1
+282,1
+283,RET
+284,jp2_box_t *box
+285,jas_stream_t *out
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jp2_box_put(jp2_box_t *box, jas_stream_t *out) {
+jas_stream_t *tmpstream;
+bool extlen;
+bool dataflag;
+tmpstream = 0;
+dataflag = !(box->info->flags & (JP2_BOX_SUPER | JP2_BOX_NODATA));
+extlen = (box->len >= (((uint_fast64_t)1) << 32)) != 0;
+return 0;
+=======================

@@ -1,0 +1,842 @@
+-----label-----
+0
+-----code-----
+void jpc_tagtree_copy(jpc_tagtree_t *dsttree, jpc_tagtree_t *srctree)
+{
+	int n;
+	jpc_tagtreenode_t *srcnode;
+	jpc_tagtreenode_t *dstnode;
+
+	/* The two tag trees must have similar sizes. */
+	assert(srctree->numleafsh_ == dsttree->numleafsh_ &&
+	  srctree->numleafsv_ == dsttree->numleafsv_);
+
+	n = srctree->numnodes_;
+	srcnode = srctree->nodes_;
+	dstnode = dsttree->nodes_;
+	while (--n >= 0) {
+		dstnode->value_ = srcnode->value_;
+		dstnode->low_ = srcnode->low_;
+		dstnode->known_ = srcnode->known_;
+		++dstnode;
+		++srcnode;
+	}
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+17,20
+17,21
+17,22
+17,23
+17,24
+17,25
+18,19
+19,20
+19,21
+21,22
+23,24
+24,25
+24,26
+25,26
+27,28
+27,29
+30,31
+31,32
+31,33
+32,33
+34,35
+34,36
+37,38
+38,39
+38,40
+39,40
+41,42
+41,43
+42,43
+42,44
+43,44
+43,45
+44,45
+47,48
+47,49
+48,49
+51,52
+51,53
+52,53
+52,54
+53,54
+56,57
+56,58
+57,58
+60,61
+61,62
+61,63
+62,63
+64,65
+64,66
+65,66
+68,69
+69,70
+69,71
+70,71
+72,73
+72,74
+73,74
+76,77
+77,78
+77,79
+78,79
+80,81
+80,82
+81,82
+84,85
+84,86
+85,86
+85,87
+86,87
+87,88
+90,91
+90,92
+90,93
+90,94
+90,95
+91,92
+92,93
+92,94
+93,94
+93,95
+94,95
+97,98
+97,99
+98,99
+101,102
+102,103
+102,104
+103,104
+103,105
+104,105
+107,108
+107,109
+108,109
+111,112
+112,113
+112,114
+113,114
+113,115
+114,115
+117,118
+117,119
+118,119
+121,122
+122,123
+123,124
+125,126
+126,127
+127,128
+-----nextToken-----
+2,4,7,9,10,13,15,16,20,22,26,28,29,33,35,36,40,45,46,49,50,54,55,58,59,63,66,67,71,74,75,79,82,83,88,89,95,96,99,100,105,106,109,110,115,116,119,120,124,128
+-----computeFrom-----
+41,42
+41,43
+42,43
+42,44
+51,52
+51,53
+61,62
+61,63
+69,70
+69,71
+77,78
+77,79
+85,86
+85,87
+92,93
+92,94
+102,103
+102,104
+112,113
+112,114
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;WhileStatement;BinaryExpression;UnaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;
+-----ast_node-----
+void jpc_tagtree_copy(jpc_tagtree_t *dsttree, jpc_tagtree_t *srctree){	int n;	jpc_tagtreenode_t *srcnode;	jpc_tagtreenode_t *dstnode;	/* The two tag trees must have similar sizes. */	assert(srctree->numleafsh_ == dsttree->numleafsh_ &&	  srctree->numleafsv_ == dsttree->numleafsv_);	n = srctree->numnodes_;	srcnode = srctree->nodes_;	dstnode = dsttree->nodes_;	while (--n >= 0) {		dstnode->value_ = srcnode->value_;		dstnode->low_ = srcnode->low_;		dstnode->known_ = srcnode->known_;		++dstnode;		++srcnode;	}}
+void
+jpc_tagtree_copy(jpc_tagtree_t *dsttree, jpc_tagtree_t *srctree)
+jpc_tagtree_copy
+jpc_tagtree_t *dsttree
+jpc_tagtree_t
+jpc_tagtree_t
+*dsttree
+*
+dsttree
+jpc_tagtree_t *srctree
+jpc_tagtree_t
+jpc_tagtree_t
+*srctree
+*
+srctree
+{	int n;	jpc_tagtreenode_t *srcnode;	jpc_tagtreenode_t *dstnode;	/* The two tag trees must have similar sizes. */	assert(srctree->numleafsh_ == dsttree->numleafsh_ &&	  srctree->numleafsv_ == dsttree->numleafsv_);	n = srctree->numnodes_;	srcnode = srctree->nodes_;	dstnode = dsttree->nodes_;	while (--n >= 0) {		dstnode->value_ = srcnode->value_;		dstnode->low_ = srcnode->low_;		dstnode->known_ = srcnode->known_;		++dstnode;		++srcnode;	}}
+int n;
+int n;
+int
+n
+n
+jpc_tagtreenode_t *srcnode;
+jpc_tagtreenode_t *srcnode;
+jpc_tagtreenode_t
+jpc_tagtreenode_t
+*srcnode
+*
+srcnode
+jpc_tagtreenode_t *dstnode;
+jpc_tagtreenode_t *dstnode;
+jpc_tagtreenode_t
+jpc_tagtreenode_t
+*dstnode
+*
+dstnode
+assert(srctree->numleafsh_ == dsttree->numleafsh_ &&	  srctree->numleafsv_ == dsttree->numleafsv_);
+assert(srctree->numleafsh_ == dsttree->numleafsh_ &&	  srctree->numleafsv_ == dsttree->numleafsv_)
+assert
+assert
+srctree->numleafsh_ == dsttree->numleafsh_ &&	  srctree->numleafsv_ == dsttree->numleafsv_
+srctree->numleafsh_ == dsttree->numleafsh_
+srctree->numleafsh_
+srctree
+srctree
+numleafsh_
+dsttree->numleafsh_
+dsttree
+dsttree
+numleafsh_
+srctree->numleafsv_ == dsttree->numleafsv_
+srctree->numleafsv_
+srctree
+srctree
+numleafsv_
+dsttree->numleafsv_
+dsttree
+dsttree
+numleafsv_
+n = srctree->numnodes_;
+n = srctree->numnodes_
+n
+n
+srctree->numnodes_
+srctree
+srctree
+numnodes_
+srcnode = srctree->nodes_;
+srcnode = srctree->nodes_
+srcnode
+srcnode
+srctree->nodes_
+srctree
+srctree
+nodes_
+dstnode = dsttree->nodes_;
+dstnode = dsttree->nodes_
+dstnode
+dstnode
+dsttree->nodes_
+dsttree
+dsttree
+nodes_
+while (--n >= 0) {		dstnode->value_ = srcnode->value_;		dstnode->low_ = srcnode->low_;		dstnode->known_ = srcnode->known_;		++dstnode;		++srcnode;	}
+--n >= 0
+--n
+n
+n
+0
+{		dstnode->value_ = srcnode->value_;		dstnode->low_ = srcnode->low_;		dstnode->known_ = srcnode->known_;		++dstnode;		++srcnode;	}
+dstnode->value_ = srcnode->value_;
+dstnode->value_ = srcnode->value_
+dstnode->value_
+dstnode
+dstnode
+value_
+srcnode->value_
+srcnode
+srcnode
+value_
+dstnode->low_ = srcnode->low_;
+dstnode->low_ = srcnode->low_
+dstnode->low_
+dstnode
+dstnode
+low_
+srcnode->low_
+srcnode
+srcnode
+low_
+dstnode->known_ = srcnode->known_;
+dstnode->known_ = srcnode->known_
+dstnode->known_
+dstnode
+dstnode
+known_
+srcnode->known_
+srcnode
+srcnode
+known_
+++dstnode;
+++dstnode
+dstnode
+dstnode
+++srcnode;
+++srcnode
+srcnode
+srcnode
+-----joern-----
+(12,8,0)
+(27,0,0)
+(68,13,0)
+(6,67,0)
+(54,28,0)
+(56,43,0)
+(6,27,0)
+(5,21,0)
+(52,61,0)
+(8,32,0)
+(65,46,0)
+(44,17,0)
+(61,51,0)
+(62,42,0)
+(44,28,0)
+(66,42,0)
+(24,45,0)
+(10,27,0)
+(49,10,0)
+(28,51,0)
+(22,0,0)
+(39,61,0)
+(0,11,0)
+(32,61,0)
+(40,62,0)
+(2,28,0)
+(57,62,0)
+(36,23,0)
+(4,21,0)
+(8,64,0)
+(41,13,0)
+(18,6,0)
+(59,53,0)
+(15,46,0)
+(62,51,0)
+(26,6,0)
+(55,53,0)
+(23,24,0)
+(5,51,0)
+(29,43,0)
+(20,43,0)
+(24,23,0)
+(28,44,0)
+(13,21,0)
+(37,5,0)
+(30,32,0)
+(17,11,0)
+(53,42,0)
+(60,67,0)
+(32,43,0)
+(34,17,0)
+(21,5,0)
+(66,29,0)
+(17,44,0)
+(38,10,0)
+(21,43,0)
+(4,45,0)
+(48,0,0)
+(19,60,0)
+(42,62,0)
+(58,64,0)
+(9,43,0)
+(63,27,0)
+(47,23,0)
+(42,66,0)
+(27,43,0)
+(50,60,0)
+(14,21,0)
+(1,27,0)
+(46,27,0)
+(63,45,0)
+(0,27,0)
+(10,24,0)
+(46,41,0)
+(61,32,0)
+(41,45,0)
+(67,60,0)
+(23,21,0)
+(60,21,0)
+(7,4,0)
+(3,63,0)
+(13,41,0)
+(66,44,0)
+(53,11,0)
+(35,13,0)
+(44,66,0)
+(42,53,0)
+(16,5,0)
+(33,43,0)
+(25,17,0)
+(29,66,0)
+(64,8,0)
+(67,45,0)
+(37,14,1)
+(12,27,1)
+(67,60,1)
+(66,42,1)
+(36,10,1)
+(13,35,1)
+(60,50,1)
+(10,27,1)
+(31,64,1)
+(46,65,1)
+(24,23,1)
+(25,34,1)
+(14,32,1)
+(23,21,1)
+(58,8,1)
+(48,22,1)
+(62,51,1)
+(32,61,1)
+(22,1,1)
+(10,38,1)
+(42,53,1)
+(8,32,1)
+(53,59,1)
+(34,28,1)
+(66,44,1)
+(6,27,1)
+(39,30,1)
+(57,44,1)
+(30,29,1)
+(13,21,1)
+(49,41,1)
+(15,67,1)
+(17,25,1)
+(29,66,1)
+(23,47,1)
+(28,54,1)
+(61,51,1)
+(40,57,1)
+(21,5,1)
+(42,62,1)
+(41,13,1)
+(5,16,1)
+(65,15,1)
+(4,7,1)
+(53,11,1)
+(50,19,1)
+(68,46,1)
+(26,64,1)
+(0,11,1)
+(38,49,1)
+(0,48,1)
+(55,62,1)
+(8,12,1)
+(64,8,1)
+(47,36,1)
+(12,4,1)
+(60,21,1)
+(46,27,1)
+(64,58,1)
+(1,21,1)
+(52,39,1)
+(4,21,1)
+(35,68,1)
+(54,2,1)
+(62,40,1)
+(63,27,1)
+(5,51,1)
+(44,28,1)
+(19,6,1)
+(63,3,1)
+(59,55,1)
+(7,63,1)
+(17,11,1)
+(28,51,1)
+(6,18,1)
+(18,26,1)
+(16,37,1)
+(61,52,1)
+(3,24,1)
+(44,17,1)
+(27,0,1)
+(42,53,2)
+(53,44,2)
+(19,64,2)
+(36,64,2)
+(0,11,2)
+(10,27,2)
+(41,13,2)
+(15,64,2)
+(63,27,2)
+(55,44,2)
+(5,51,2)
+(44,17,2)
+(8,32,2)
+(6,64,2)
+(61,51,2)
+(59,44,2)
+(3,64,2)
+(38,64,2)
+(7,64,2)
+(12,64,2)
+(4,64,2)
+(53,11,2)
+(58,64,2)
+(49,64,2)
+(17,11,2)
+(64,64,2)
+(24,64,2)
+(46,64,2)
+(41,64,2)
+(13,21,2)
+(67,64,2)
+(57,44,2)
+(32,61,2)
+(35,64,2)
+(23,64,2)
+(40,44,2)
+(42,44,2)
+(46,27,2)
+(24,23,2)
+(66,44,2)
+(64,8,2)
+(28,51,2)
+(8,64,2)
+(42,62,2)
+(13,64,2)
+(63,64,2)
+(29,66,2)
+(68,64,2)
+(27,0,2)
+(21,5,2)
+(60,64,2)
+(65,64,2)
+(47,64,2)
+(18,64,2)
+(10,64,2)
+(60,21,2)
+(66,42,2)
+(6,27,2)
+(62,51,2)
+(50,64,2)
+(23,21,2)
+(44,28,2)
+(67,60,2)
+(4,21,2)
+(62,44,2)
+(26,64,2)
+-----------------------------------
+(0,dsttree->nodes_)
+(1,dstnode)
+(2,srctree)
+(3,dstnode)
+(4,++srcnode)
+(5,srctree->nodes_)
+(6,dstnode->value_)
+(7,srcnode)
+(8,--n)
+(9,n)
+(10,dstnode->known_)
+(11,jpc_tagtree_t *dsttree)
+(12,n)
+(13,srcnode->low_)
+(14,srcnode)
+(15,dstnode)
+(16,nodes_)
+(17,dsttree->numleafsh_)
+(18,value_)
+(19,srcnode)
+(20,while (--n >= 0)
+(21,srcnode = srctree->nodes_)
+(22,dsttree)
+(23,srcnode->known_)
+(24,dstnode->known_ = srcnode->known_)
+(25,numleafsh_)
+(26,dstnode)
+(27,dstnode = dsttree->nodes_)
+(28,srctree->numleafsh_)
+(29,assert(srctree->numleafsh_ == dsttree->numleafsh_ &&\\n\\t  srctree->numleafsv_ == dsttree->numleafsv_)
+(30,n)
+(31,RET)
+(32,n = srctree->numnodes_)
+(33,srcnode)
+(34,dsttree)
+(35,low_)
+(36,srcnode)
+(37,srctree)
+(38,known_)
+(39,srctree)
+(40,numleafsv_)
+(41,dstnode->low_ = srcnode->low_)
+(42,srctree->numleafsv_ == dsttree->numleafsv_)
+(43,)
+(44,srctree->numleafsh_ == dsttree->numleafsh_)
+(45,)
+(46,dstnode->low_)
+(47,known_)
+(48,nodes_)
+(49,dstnode)
+(50,value_)
+(51,jpc_tagtree_t *srctree)
+(52,numnodes_)
+(53,dsttree->numleafsv_)
+(54,numleafsh_)
+(55,dsttree)
+(56,dstnode)
+(57,srctree)
+(58,0)
+(59,numleafsv_)
+(60,srcnode->value_)
+(61,srctree->numnodes_)
+(62,srctree->numleafsv_)
+(63,++dstnode)
+(64,--n >= 0)
+(65,low_)
+(66,srctree->numleafsh_ == dsttree->numleafsh_ &&\\n\\t  srctree->numleafsv_ == dsttree->numleafsv_)
+(67,dstnode->value_ = srcnode->value_)
+(68,srcnode)
+-----cfg-----
+(64,62)
+(65,72)
+(66,71)
+(68,66)
+(69,65)
+(71,69)
+(7,19)
+(72,74)
+(74,47)
+(14,34)
+(15,14)
+(16,15)
+(16,26)
+(17,22)
+(19,17)
+(20,16)
+(22,20)
+(23,15)
+(24,29)
+(26,24)
+(27,23)
+(29,27)
+(30,39)
+(32,30)
+(34,32)
+(35,44)
+(37,35)
+(39,37)
+(40,47)
+(42,40)
+(44,42)
+(46,76)
+(46,54)
+(47,46)
+(51,61)
+(52,57)
+(54,52)
+(55,51)
+(57,55)
+(58,68)
+(59,64)
+(61,59)
+(62,58)
+-----path-----
+7,19,17,22,20,16,15,14,34,32,30,39,37,35,44,42,40,47,46,76
+7,19,17,22,20,16,26,24,29,27,23,15,14,34,32,30,39,37,35,44,42,40,47,46,76
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jpc_tagtree_copy (jpc_tagtree_t *dsttree,jpc_tagtree_t *srctree)
+8,jpc_tagtree_t *dsttree
+9,jpc_tagtree_t *srctree
+10,<empty>
+11,int n
+12,jpc_tagtreenode_t* srcnode
+13,jpc_tagtreenode_t* dstnode
+14,assert(srctree->numleafsh_ == dsttree->numleafsh_ &&
+15,	  srctree->numleafsv_ == dsttree->numleafsv_)
+16,srctree->numleafsh_ == dsttree->numleafsh_ &&
+17,	  srctree->numleafsv_ == dsttree->numleafsv_
+18,srctree->numleafsh_ == dsttree->numleafsh_
+19,srctree->numleafsh_
+20,srctree
+21,numleafsh_
+22,dsttree->numleafsh_
+23,dsttree
+24,numleafsh_
+25,srctree->numleafsv_ == dsttree->numleafsv_
+26,srctree->numleafsv_
+27,srctree
+28,numleafsv_
+29,dsttree->numleafsv_
+30,dsttree
+31,numleafsv_
+32,n = srctree->numnodes_
+33,n
+34,srctree->numnodes_
+35,srctree
+36,numnodes_
+37,srcnode = srctree->nodes_
+38,srcnode
+39,srctree->nodes_
+40,srctree
+41,nodes_
+42,dstnode = dsttree->nodes_
+43,dstnode
+44,dsttree->nodes_
+45,dsttree
+46,nodes_
+47,while (--n >= 0)
+48,--n >= 0
+49,--n
+50,n
+51,0
+52,<empty>
+53,dstnode->value_ = srcnode->value_
+54,dstnode->value_
+55,dstnode
+56,value_
+57,srcnode->value_
+58,srcnode
+59,value_
+60,dstnode->low_ = srcnode->low_
+61,dstnode->low_
+62,dstnode
+63,low_
+64,srcnode->low_
+65,srcnode
+66,low_
+67,dstnode->known_ = srcnode->known_
+68,dstnode->known_
+69,dstnode
+70,known_
+71,srcnode->known_
+72,srcnode
+73,known_
+74,++dstnode
+75,dstnode
+76,++srcnode
+77,srcnode
+78,RET
+79,jpc_tagtree_t *dsttree
+80,jpc_tagtree_t *srctree
+81,RET
+82,void jpc_tagtree_copy (jpc_tagtree_t *dsttree,jpc_tagtree_t *srctree)
+83,jpc_tagtree_t *dsttree
+84,jpc_tagtree_t *srctree
+85,<empty>
+86,int n
+87,jpc_tagtreenode_t* srcnode
+88,jpc_tagtreenode_t* dstnode
+89,assert(srctree->numleafsh_ == dsttree->numleafsh_ &&
+90,	  srctree->numleafsv_ == dsttree->numleafsv_)
+91,srctree->numleafsh_ == dsttree->numleafsh_ &&
+92,	  srctree->numleafsv_ == dsttree->numleafsv_
+93,srctree->numleafsh_ == dsttree->numleafsh_
+94,srctree->numleafsh_
+95,srctree
+96,numleafsh_
+97,dsttree->numleafsh_
+98,dsttree
+99,numleafsh_
+100,srctree->numleafsv_ == dsttree->numleafsv_
+101,srctree->numleafsv_
+102,srctree
+103,numleafsv_
+104,dsttree->numleafsv_
+105,dsttree
+106,numleafsv_
+107,n = srctree->numnodes_
+108,n
+109,srctree->numnodes_
+110,srctree
+111,numnodes_
+112,srcnode = srctree->nodes_
+113,srcnode
+114,srctree->nodes_
+115,srctree
+116,nodes_
+117,dstnode = dsttree->nodes_
+118,dstnode
+119,dsttree->nodes_
+120,dsttree
+121,nodes_
+122,while (--n >= 0)
+123,--n >= 0
+124,--n
+125,n
+126,0
+127,<empty>
+128,dstnode->value_ = srcnode->value_
+129,dstnode->value_
+130,dstnode
+131,value_
+132,srcnode->value_
+133,srcnode
+134,value_
+135,dstnode->low_ = srcnode->low_
+136,dstnode->low_
+137,dstnode
+138,low_
+139,srcnode->low_
+140,srcnode
+141,low_
+142,dstnode->known_ = srcnode->known_
+143,dstnode->known_
+144,dstnode
+145,known_
+146,srcnode->known_
+147,srcnode
+148,known_
+149,++dstnode
+150,dstnode
+151,++srcnode
+152,srcnode
+153,RET
+154,jpc_tagtree_t *dsttree
+155,jpc_tagtree_t *srctree
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+void jpc_tagtree_copy(jpc_tagtree_t *dsttree, jpc_tagtree_t *srctree) {
+int n;
+jpc_tagtreenode_t *srcnode;
+jpc_tagtreenode_t *dstnode;
+assert(srctree->numleafsh_ == dsttree->numleafsh_ && 	  srctree->numleafsv_ == dsttree->numleafsv_);
+n = srctree->numnodes_;
+srcnode = srctree->nodes_;
+dstnode = dsttree->nodes_;
+while(--n >= 0)
+dstnode->value_ = srcnode->value_;
+dstnode->low_ = srcnode->low_;
+dstnode->known_ = srcnode->known_;
+++dstnode;
+++srcnode;
+=======================

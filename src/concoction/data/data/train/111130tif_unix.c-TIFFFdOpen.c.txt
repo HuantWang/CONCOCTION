@@ -1,0 +1,266 @@
+-----label-----
+1
+-----code-----
+TIFF*
+TIFFFdOpen(int fd, const char* name, const char* mode)
+{
+	TIFF* tif;
+
+	fd_as_handle_union_t fdh;
+	fdh.fd = fd;
+	tif = TIFFClientOpen(name, mode,
+	    fdh.h,
+	    _tiffReadProc, _tiffWriteProc,
+	    _tiffSeekProc, _tiffCloseProc, _tiffSizeProc,
+	    _tiffMapProc, _tiffUnmapProc);
+	if (tif)
+		tif->tif_fd = fd;
+	return (tif);
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+4,9
+7,8
+7,9
+9,10
+11,12
+11,13
+13,14
+13,15
+16,17
+16,18
+18,19
+18,20
+21,22
+21,23
+21,24
+21,25
+21,26
+21,27
+22,23
+23,24
+23,25
+24,25
+26,27
+26,28
+29,30
+30,31
+30,32
+31,32
+33,34
+35,36
+36,37
+36,38
+37,38
+37,39
+38,39
+41,42
+43,44
+44,45
+44,46
+45,46
+47,48
+47,49
+47,50
+47,51
+47,52
+47,53
+47,54
+47,55
+47,56
+47,57
+47,58
+48,49
+50,51
+52,53
+54,55
+54,56
+55,56
+58,59
+60,61
+62,63
+64,65
+66,67
+68,69
+70,71
+72,73
+72,74
+73,74
+75,76
+76,77
+76,78
+77,78
+77,79
+78,79
+81,82
+83,84
+84,85
+85,86
+-----nextToken-----
+3,5,6,8,10,12,14,15,17,19,20,25,27,28,32,34,39,40,42,46,49,51,53,56,57,59,61,63,65,67,69,71,74,79,80,82,86
+-----computeFrom-----
+36,37
+36,38
+44,45
+44,46
+76,77
+76,78
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ReturnStatement;UnaryExpression;IdExpression;Name;
+-----ast_node-----
+TIFF*TIFFFdOpen(int fd, const char* name, const char* mode){	TIFF* tif;	fd_as_handle_union_t fdh;	fdh.fd = fd;	tif = TIFFClientOpen(name, mode,	    fdh.h,	    _tiffReadProc, _tiffWriteProc,	    _tiffSeekProc, _tiffCloseProc, _tiffSizeProc,	    _tiffMapProc, _tiffUnmapProc);	if (tif)		tif->tif_fd = fd;	return (tif);}
+TIFF
+TIFF
+*TIFFFdOpen(int fd, const char* name, const char* mode)
+*
+TIFFFdOpen
+int fd
+int
+fd
+fd
+const char* name
+const char
+* name
+*
+name
+const char* mode
+const char
+* mode
+*
+mode
+{	TIFF* tif;	fd_as_handle_union_t fdh;	fdh.fd = fd;	tif = TIFFClientOpen(name, mode,	    fdh.h,	    _tiffReadProc, _tiffWriteProc,	    _tiffSeekProc, _tiffCloseProc, _tiffSizeProc,	    _tiffMapProc, _tiffUnmapProc);	if (tif)		tif->tif_fd = fd;	return (tif);}
+TIFF* tif;
+TIFF* tif;
+TIFF
+TIFF
+* tif
+*
+tif
+fd_as_handle_union_t fdh;
+fd_as_handle_union_t fdh;
+fd_as_handle_union_t
+fd_as_handle_union_t
+fdh
+fdh
+fdh.fd = fd;
+fdh.fd = fd
+fdh.fd
+fdh
+fdh
+fd
+fd
+fd
+tif = TIFFClientOpen(name, mode,	    fdh.h,	    _tiffReadProc, _tiffWriteProc,	    _tiffSeekProc, _tiffCloseProc, _tiffSizeProc,	    _tiffMapProc, _tiffUnmapProc);
+tif = TIFFClientOpen(name, mode,	    fdh.h,	    _tiffReadProc, _tiffWriteProc,	    _tiffSeekProc, _tiffCloseProc, _tiffSizeProc,	    _tiffMapProc, _tiffUnmapProc)
+tif
+tif
+TIFFClientOpen(name, mode,	    fdh.h,	    _tiffReadProc, _tiffWriteProc,	    _tiffSeekProc, _tiffCloseProc, _tiffSizeProc,	    _tiffMapProc, _tiffUnmapProc)
+TIFFClientOpen
+TIFFClientOpen
+name
+name
+mode
+mode
+fdh.h
+fdh
+fdh
+h
+_tiffReadProc
+_tiffReadProc
+_tiffWriteProc
+_tiffWriteProc
+_tiffSeekProc
+_tiffSeekProc
+_tiffCloseProc
+_tiffCloseProc
+_tiffSizeProc
+_tiffSizeProc
+_tiffMapProc
+_tiffMapProc
+_tiffUnmapProc
+_tiffUnmapProc
+if (tif)		tif->tif_fd = fd;
+tif
+tif
+tif->tif_fd = fd;
+tif->tif_fd = fd
+tif->tif_fd
+tif
+tif
+tif_fd
+fd
+fd
+return (tif);
+(tif)
+tif
+tif
+-----joern-----
+(5,9,0)
+(0,6,0)
+(11,7,0)
+(7,3,0)
+(5,1,0)
+(3,7,0)
+(5,7,0)
+(7,5,0)
+(10,5,0)
+(5,0,0)
+(2,0,0)
+(8,5,0)
+(7,4,0)
+(8,10,1)
+(11,8,1)
+(5,1,1)
+(0,5,1)
+(7,4,1)
+(2,0,1)
+(5,9,1)
+(5,7,1)
+(7,11,1)
+(7,3,1)
+(7,4,2)
+(2,0,2)
+(5,1,2)
+(7,3,2)
+(5,7,2)
+(5,9,2)
+-----------------------------------
+(0,return (memcmp(p1, p2, (size_t)
+(1,const void* p1)
+(2,RET)
+(3,size_t)
+(4,tmsize_t c)
+(5,memcmp(p1, p2, (size_t)
+(6,)
+(7,(size_t)
+(8,p2)
+(9,const void* p2)
+(10,p1)
+(11,c)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000020000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff85f6b26300000000ffffffffffffffff7ff6b26300000000ffffffffffffffff7ff6b26300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x45502a0000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+TIFF* TIFFFdOpen(int fd, const char* name, const char* mode) {
+TIFF* tif;
+fd_as_handle_union_t fdh;
+fdh.fd = fd;
+tif = TIFFClientOpen(name, mode, 	    fdh.h, 	    _tiffReadProc, _tiffWriteProc, 	    _tiffSeekProc, _tiffCloseProc, _tiffSizeProc, 	    _tiffMapProc, _tiffUnmapProc);
+if(!tif)
+close(fd);
+return tif;
+=======================

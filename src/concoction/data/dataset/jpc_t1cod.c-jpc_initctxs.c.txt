@@ -1,0 +1,683 @@
+-----label-----
+0
+-----code-----
+void jpc_initctxs(jpc_mqctx_t *ctxs)
+{
+	jpc_mqctx_t *ctx;
+	int i;
+
+	ctx = ctxs;
+	for (i = 0; i < JPC_NUMCTXS; ++i) {
+		ctx->mps = 0;
+		switch (i) {
+		case JPC_UCTXNO:
+			ctx->ind = 46;
+			break;
+		case JPC_ZCCTXNO:
+			ctx->ind = 4;
+			break;
+		case JPC_AGGCTXNO:
+			ctx->ind = 3;
+			break;
+		default:
+			ctx->ind = 0;
+			break;
+		}
+		++ctx;
+	}
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+19,20
+20,21
+20,22
+22,23
+24,25
+25,26
+25,27
+26,27
+28,29
+30,31
+30,32
+30,33
+30,34
+31,32
+32,33
+32,34
+33,34
+36,37
+36,38
+37,38
+39,40
+41,42
+42,43
+44,45
+44,46
+44,47
+45,46
+46,47
+46,48
+47,48
+47,49
+48,49
+52,53
+52,54
+53,54
+55,56
+55,57
+55,58
+55,59
+55,60
+55,61
+55,62
+55,63
+55,64
+55,65
+55,66
+55,67
+56,57
+57,58
+59,60
+60,61
+60,62
+61,62
+61,63
+62,63
+67,68
+68,69
+70,71
+71,72
+71,73
+72,73
+72,74
+73,74
+78,79
+79,80
+81,82
+82,83
+82,84
+83,84
+83,85
+84,85
+90,91
+91,92
+91,93
+92,93
+92,94
+93,94
+98,99
+99,100
+100,101
+-----nextToken-----
+2,4,7,9,10,15,17,18,21,23,27,29,34,35,38,40,43,49,50,51,54,58,63,64,65,66,69,74,75,76,77,80,85,86,87,88,89,94,95,96,97,101
+-----computeFrom-----
+25,26
+25,27
+32,33
+32,34
+36,37
+36,38
+46,47
+46,48
+60,61
+60,62
+71,72
+71,73
+82,83
+82,84
+91,92
+91,93
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;SwitchStatement;IdExpression;Name;CompoundStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BreakStatement;DefaultStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BreakStatement;ExpressionStatement;UnaryExpression;IdExpression;Name;
+-----ast_node-----
+void jpc_initctxs(jpc_mqctx_t *ctxs){	jpc_mqctx_t *ctx;	int i;	ctx = ctxs;	for (i = 0; i < JPC_NUMCTXS; ++i) {		ctx->mps = 0;		switch (i) {		case JPC_UCTXNO:			ctx->ind = 46;			break;		case JPC_ZCCTXNO:			ctx->ind = 4;			break;		case JPC_AGGCTXNO:			ctx->ind = 3;			break;		default:			ctx->ind = 0;			break;		}		++ctx;	}}
+void
+jpc_initctxs(jpc_mqctx_t *ctxs)
+jpc_initctxs
+jpc_mqctx_t *ctxs
+jpc_mqctx_t
+jpc_mqctx_t
+*ctxs
+*
+ctxs
+{	jpc_mqctx_t *ctx;	int i;	ctx = ctxs;	for (i = 0; i < JPC_NUMCTXS; ++i) {		ctx->mps = 0;		switch (i) {		case JPC_UCTXNO:			ctx->ind = 46;			break;		case JPC_ZCCTXNO:			ctx->ind = 4;			break;		case JPC_AGGCTXNO:			ctx->ind = 3;			break;		default:			ctx->ind = 0;			break;		}		++ctx;	}}
+jpc_mqctx_t *ctx;
+jpc_mqctx_t *ctx;
+jpc_mqctx_t
+jpc_mqctx_t
+*ctx
+*
+ctx
+int i;
+int i;
+int
+i
+i
+ctx = ctxs;
+ctx = ctxs
+ctx
+ctx
+ctxs
+ctxs
+for (i = 0; i < JPC_NUMCTXS; ++i) {		ctx->mps = 0;		switch (i) {		case JPC_UCTXNO:			ctx->ind = 46;			break;		case JPC_ZCCTXNO:			ctx->ind = 4;			break;		case JPC_AGGCTXNO:			ctx->ind = 3;			break;		default:			ctx->ind = 0;			break;		}		++ctx;	}
+i = 0;
+i = 0
+i
+i
+0
+i < JPC_NUMCTXS
+i
+i
+JPC_NUMCTXS
+JPC_NUMCTXS
+++i
+i
+i
+{		ctx->mps = 0;		switch (i) {		case JPC_UCTXNO:			ctx->ind = 46;			break;		case JPC_ZCCTXNO:			ctx->ind = 4;			break;		case JPC_AGGCTXNO:			ctx->ind = 3;			break;		default:			ctx->ind = 0;			break;		}		++ctx;	}
+ctx->mps = 0;
+ctx->mps = 0
+ctx->mps
+ctx
+ctx
+mps
+0
+switch (i) {		case JPC_UCTXNO:			ctx->ind = 46;			break;		case JPC_ZCCTXNO:			ctx->ind = 4;			break;		case JPC_AGGCTXNO:			ctx->ind = 3;			break;		default:			ctx->ind = 0;			break;		}
+i
+i
+{		case JPC_UCTXNO:			ctx->ind = 46;			break;		case JPC_ZCCTXNO:			ctx->ind = 4;			break;		case JPC_AGGCTXNO:			ctx->ind = 3;			break;		default:			ctx->ind = 0;			break;		}
+case JPC_UCTXNO:
+JPC_UCTXNO
+JPC_UCTXNO
+ctx->ind = 46;
+ctx->ind = 46
+ctx->ind
+ctx
+ctx
+ind
+46
+break;
+case JPC_ZCCTXNO:
+JPC_ZCCTXNO
+JPC_ZCCTXNO
+ctx->ind = 4;
+ctx->ind = 4
+ctx->ind
+ctx
+ctx
+ind
+4
+break;
+case JPC_AGGCTXNO:
+JPC_AGGCTXNO
+JPC_AGGCTXNO
+ctx->ind = 3;
+ctx->ind = 3
+ctx->ind
+ctx
+ctx
+ind
+3
+break;
+default:
+ctx->ind = 0;
+ctx->ind = 0
+ctx->ind
+ctx
+ctx
+ind
+0
+break;
+++ctx;
+++ctx
+ctx
+ctx
+-----joern-----
+(10,9,0)
+(3,5,0)
+(14,9,0)
+(10,21,0)
+(2,33,0)
+(5,31,0)
+(8,9,0)
+(39,5,0)
+(38,24,0)
+(26,31,0)
+(32,31,0)
+(15,40,0)
+(16,37,0)
+(35,31,0)
+(27,23,0)
+(43,31,0)
+(29,10,0)
+(13,9,0)
+(19,16,0)
+(41,16,0)
+(22,31,0)
+(0,10,0)
+(1,2,0)
+(11,44,0)
+(12,40,0)
+(39,44,0)
+(16,33,0)
+(39,15,0)
+(24,12,0)
+(25,2,0)
+(39,28,0)
+(30,15,0)
+(37,9,0)
+(24,4,0)
+(28,31,0)
+(7,23,0)
+(12,24,0)
+(44,36,0)
+(6,17,0)
+(42,24,0)
+(18,28,0)
+(37,16,0)
+(23,20,0)
+(16,19,1)
+(39,8,1)
+(2,1,1)
+(23,7,1)
+(25,10,1)
+(24,4,1)
+(39,5,1)
+(8,32,1)
+(15,30,1)
+(16,33,1)
+(27,37,1)
+(24,42,1)
+(28,18,1)
+(39,28,1)
+(34,23,1)
+(10,0,1)
+(41,2,1)
+(38,23,1)
+(42,38,1)
+(23,20,1)
+(2,33,1)
+(11,2,1)
+(18,34,1)
+(12,24,1)
+(8,34,1)
+(30,12,1)
+(37,16,1)
+(8,35,1)
+(39,15,1)
+(7,27,1)
+(39,44,1)
+(19,41,1)
+(5,3,1)
+(0,29,1)
+(10,21,1)
+(44,11,1)
+(3,34,1)
+(1,25,1)
+(2,33,2)
+(34,23,2)
+(28,34,2)
+(23,20,2)
+(39,28,2)
+(39,15,2)
+(39,5,2)
+(42,23,2)
+(10,21,2)
+(30,23,2)
+(7,2,2)
+(41,2,2)
+(16,2,2)
+(8,34,2)
+(15,23,2)
+(18,34,2)
+(39,44,2)
+(3,34,2)
+(19,2,2)
+(11,2,2)
+(27,2,2)
+(23,2,2)
+(38,23,2)
+(37,16,2)
+(24,4,2)
+(12,24,2)
+(12,23,2)
+(44,2,2)
+(37,2,2)
+(16,33,2)
+(5,34,2)
+(24,23,2)
+-----------------------------------
+(0,0)
+(1,JPC_COX_INS)
+(2,qmfbid == JPC_COX_INS)
+(3,2)
+(4,int orient)
+(5,return 2;)
+(6,switch (orient)
+(7,0)
+(8,abort()
+(9,)
+(10,numlvls = 0)
+(11,0)
+(12,assert(orient == JPC_TSFB_LL)
+(13,if (qmfbid == JPC_COX_INS)
+(14,if (lvlno == 0)
+(15,return 0;)
+(16,qmfbid == JPC_COX_RFT)
+(17,)
+(18,1)
+(19,JPC_COX_RFT)
+(20,int lvlno)
+(21,int numlvls)
+(22,case JPC_TSFB_HH:)
+(23,lvlno == 0)
+(24,orient == JPC_TSFB_LL)
+(25,qmfbid)
+(26,case JPC_TSFB_LH:)
+(27,lvlno)
+(28,return 1;)
+(29,numlvls)
+(30,0)
+(31,)
+(32,break;)
+(33,int qmfbid)
+(34,orient)
+(35,break;)
+(36,)
+(37,assert(qmfbid == JPC_COX_RFT)
+(38,orient)
+(39,RET)
+(40,)
+(41,qmfbid)
+(42,JPC_TSFB_LL)
+(43,case JPC_TSFB_HL:)
+(44,return 0;)
+-----cfg-----
+(65,23)
+(36,65)
+(37,36)
+(39,37)
+(7,12)
+(12,17)
+(44,65)
+(45,44)
+(47,45)
+(17,20)
+(20,67)
+(20,29)
+(52,65)
+(53,52)
+(23,20)
+(55,53)
+(26,39)
+(26,47)
+(26,55)
+(26,62)
+(27,26)
+(59,65)
+(60,59)
+(29,27)
+(62,60)
+-----path-----
+7,12,17,20,67
+7,12,17,20,29,27,26,39,37,36,65,23,20,67
+7,12,17,20,29,27,26,47,45,44,65,23,20,67
+7,12,17,20,29,27,26,55,53,52,65,23,20,67
+7,12,17,20,29,27,26,62,60,59,65,23,20,67
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jpc_initctxs (jpc_mqctx_t *ctxs)
+8,jpc_mqctx_t *ctxs
+9,<empty>
+10,jpc_mqctx_t* ctx
+11,int i
+12,ctx = ctxs
+13,ctx
+14,ctxs
+15,for (i = 0;i < JPC_NUMCTXS;++i)
+16,<empty>
+17,i = 0
+18,i
+19,0
+20,i < JPC_NUMCTXS
+21,i
+22,JPC_NUMCTXS
+23,++i
+24,i
+25,<empty>
+26,ctx->mps = 0
+27,ctx->mps
+28,ctx
+29,mps
+30,0
+31,switch(i)
+32,i
+33,<empty>
+34,case JPC_UCTXNO:
+35,JPC_UCTXNO
+36,ctx->ind = 46
+37,ctx->ind
+38,ctx
+39,ind
+40,46
+41,break;
+42,case JPC_ZCCTXNO:
+43,JPC_ZCCTXNO
+44,ctx->ind = 4
+45,ctx->ind
+46,ctx
+47,ind
+48,4
+49,break;
+50,case JPC_AGGCTXNO:
+51,JPC_AGGCTXNO
+52,ctx->ind = 3
+53,ctx->ind
+54,ctx
+55,ind
+56,3
+57,break;
+58,default:
+59,ctx->ind = 0
+60,ctx->ind
+61,ctx
+62,ind
+63,0
+64,break;
+65,++ctx
+66,ctx
+67,RET
+68,jpc_mqctx_t *ctxs
+69,RET
+70,void jpc_initctxs (jpc_mqctx_t *ctxs)
+71,jpc_mqctx_t *ctxs
+72,<empty>
+73,jpc_mqctx_t* ctx
+74,int i
+75,ctx = ctxs
+76,ctx
+77,ctxs
+78,for (i = 0;i < JPC_NUMCTXS;++i)
+79,<empty>
+80,i = 0
+81,i
+82,0
+83,i < JPC_NUMCTXS
+84,i
+85,JPC_NUMCTXS
+86,++i
+87,i
+88,<empty>
+89,ctx->mps = 0
+90,ctx->mps
+91,ctx
+92,mps
+93,0
+94,switch(i)
+95,i
+96,<empty>
+97,case JPC_UCTXNO:
+98,JPC_UCTXNO
+99,ctx->ind = 46
+100,ctx->ind
+101,ctx
+102,ind
+103,46
+104,break;
+105,case JPC_ZCCTXNO:
+106,JPC_ZCCTXNO
+107,ctx->ind = 4
+108,ctx->ind
+109,ctx
+110,ind
+111,4
+112,break;
+113,case JPC_AGGCTXNO:
+114,JPC_AGGCTXNO
+115,ctx->ind = 3
+116,ctx->ind
+117,ctx
+118,ind
+119,3
+120,break;
+121,default:
+122,ctx->ind = 0
+123,ctx->ind
+124,ctx
+125,ind
+126,0
+127,break;
+128,++ctx
+129,ctx
+130,RET
+131,jpc_mqctx_t *ctxs
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+void jpc_initctxs(jpc_mqctx_t *ctxs) {
+jpc_mqctx_t *ctx;
+int i;
+ctx = ctxs;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 3;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 4;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 0;
+++ctx;
+for(i = 0;i < JPC_NUMCTXS;++i)
+ctx->mps = 0;
+switch(i)
+ctx->ind = 46;
+++ctx;
+=======================

@@ -1,0 +1,549 @@
+-----label-----
+0
+-----code-----
+jas_image_t *jas_image_decode(jas_stream_t *in, int fmt, const char *optstr)
+{
+	jas_image_fmtinfo_t *fmtinfo;
+	jas_image_t *image;
+
+	image = 0;
+
+	/* If possible, try to determine the format of the input data. */
+	if (fmt < 0) {
+		if ((fmt = jas_image_getfmt(in)) < 0)
+			goto error;
+	}
+
+	/* Is it possible to decode an image represented in this format? */
+	if (!(fmtinfo = jas_image_lookupfmtbyid(fmt)))
+		goto error;
+	if (!fmtinfo->ops.decode)
+		goto error;
+
+	/* Decode the image. */
+	if (!(image = (*fmtinfo->ops.decode)(in, optstr)))
+		goto error;
+
+	/* Create a color profile if needed. */
+	if (!jas_clrspc_isunknown(image->clrspc_) &&
+	  !jas_clrspc_isgeneric(image->clrspc_) && !image->cmprof_) {
+		if (!(image->cmprof_ =
+		  jas_cmprof_createfromclrspc(jas_image_clrspc(image))))
+			goto error;
+	}
+
+	return image;
+error:
+	if (image)
+		jas_image_destroy(image);
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+4,9
+7,8
+7,9
+8,9
+10,11
+10,12
+13,14
+13,15
+15,16
+17,18
+17,19
+19,20
+19,21
+22,23
+22,24
+22,25
+22,26
+22,27
+22,28
+22,29
+22,30
+22,31
+22,32
+22,33
+23,24
+24,25
+24,26
+25,26
+27,28
+27,29
+30,31
+31,32
+31,33
+32,33
+34,35
+34,36
+37,38
+38,39
+38,40
+39,40
+42,43
+42,44
+43,44
+43,45
+44,45
+47,48
+48,49
+48,50
+49,50
+49,51
+50,51
+51,52
+51,53
+52,53
+54,55
+54,56
+55,56
+57,58
+60,61
+62,63
+62,64
+63,64
+64,65
+65,66
+65,67
+66,67
+68,69
+68,70
+69,70
+71,72
+73,74
+75,76
+75,77
+76,77
+77,78
+77,79
+78,79
+78,80
+79,80
+83,84
+85,86
+85,87
+86,87
+87,88
+88,89
+88,90
+89,90
+91,92
+91,93
+91,94
+92,93
+93,94
+94,95
+94,96
+95,96
+95,97
+96,97
+100,101
+102,103
+104,105
+106,107
+106,108
+107,108
+107,109
+108,109
+108,110
+109,110
+110,111
+110,112
+111,112
+113,114
+113,115
+114,115
+117,118
+118,119
+118,120
+119,120
+121,122
+121,123
+122,123
+125,126
+126,127
+126,128
+127,128
+130,131
+131,132
+131,133
+132,133
+133,134
+134,135
+134,136
+135,136
+135,137
+136,137
+139,140
+139,141
+140,141
+142,143
+142,144
+143,144
+145,146
+147,148
+149,150
+150,151
+152,153
+152,154
+154,155
+154,156
+155,156
+157,158
+158,159
+158,160
+159,160
+161,162
+163,164
+-----nextToken-----
+3,5,6,9,11,12,14,16,18,20,21,26,28,29,33,35,36,40,41,45,46,53,56,58,59,61,67,70,72,74,80,81,82,84,90,97,98,99,101,103,105,112,115,116,120,123,124,128,129,137,138,141,144,146,148,151,153,156,160,162,164
+-----computeFrom-----
+38,39
+38,40
+43,44
+43,45
+49,50
+49,51
+51,52
+51,53
+65,66
+65,67
+88,89
+88,90
+107,108
+107,109
+108,109
+108,110
+134,135
+134,136
+-----guardedBy-----
+45,53
+128,146
+129,138
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;GotoStatement;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;GotoStatement;Name;IfStatement;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;GotoStatement;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;UnaryExpression;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;IdExpression;Name;IdExpression;Name;GotoStatement;Name;IfStatement;BinaryExpression;BinaryExpression;UnaryExpression;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;GotoStatement;Name;ReturnStatement;IdExpression;Name;LabelStatement;Name;IfStatement;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+jas_image_t *jas_image_decode(jas_stream_t *in, int fmt, const char *optstr){	jas_image_fmtinfo_t *fmtinfo;	jas_image_t *image;	image = 0;	/* If possible, try to determine the format of the input data. */	if (fmt < 0) {		if ((fmt = jas_image_getfmt(in)) < 0)			goto error;	}	/* Is it possible to decode an image represented in this format? */	if (!(fmtinfo = jas_image_lookupfmtbyid(fmt)))		goto error;	if (!fmtinfo->ops.decode)		goto error;	/* Decode the image. */	if (!(image = (*fmtinfo->ops.decode)(in, optstr)))		goto error;	/* Create a color profile if needed. */	if (!jas_clrspc_isunknown(image->clrspc_) &&	  !jas_clrspc_isgeneric(image->clrspc_) && !image->cmprof_) {		if (!(image->cmprof_ =		  jas_cmprof_createfromclrspc(jas_image_clrspc(image))))			goto error;	}	return image;error:	if (image)		jas_image_destroy(image);	return 0;}
+jas_image_t
+jas_image_t
+*jas_image_decode(jas_stream_t *in, int fmt, const char *optstr)
+*
+jas_image_decode
+jas_stream_t *in
+jas_stream_t
+jas_stream_t
+*in
+*
+in
+int fmt
+int
+fmt
+fmt
+const char *optstr
+const char
+*optstr
+*
+optstr
+{	jas_image_fmtinfo_t *fmtinfo;	jas_image_t *image;	image = 0;	/* If possible, try to determine the format of the input data. */	if (fmt < 0) {		if ((fmt = jas_image_getfmt(in)) < 0)			goto error;	}	/* Is it possible to decode an image represented in this format? */	if (!(fmtinfo = jas_image_lookupfmtbyid(fmt)))		goto error;	if (!fmtinfo->ops.decode)		goto error;	/* Decode the image. */	if (!(image = (*fmtinfo->ops.decode)(in, optstr)))		goto error;	/* Create a color profile if needed. */	if (!jas_clrspc_isunknown(image->clrspc_) &&	  !jas_clrspc_isgeneric(image->clrspc_) && !image->cmprof_) {		if (!(image->cmprof_ =		  jas_cmprof_createfromclrspc(jas_image_clrspc(image))))			goto error;	}	return image;error:	if (image)		jas_image_destroy(image);	return 0;}
+jas_image_fmtinfo_t *fmtinfo;
+jas_image_fmtinfo_t *fmtinfo;
+jas_image_fmtinfo_t
+jas_image_fmtinfo_t
+*fmtinfo
+*
+fmtinfo
+jas_image_t *image;
+jas_image_t *image;
+jas_image_t
+jas_image_t
+*image
+*
+image
+image = 0;
+image = 0
+image
+image
+0
+if (fmt < 0) {		if ((fmt = jas_image_getfmt(in)) < 0)			goto error;	}
+fmt < 0
+fmt
+fmt
+0
+{		if ((fmt = jas_image_getfmt(in)) < 0)			goto error;	}
+if ((fmt = jas_image_getfmt(in)) < 0)			goto error;
+(fmt = jas_image_getfmt(in)) < 0
+(fmt = jas_image_getfmt(in))
+fmt = jas_image_getfmt(in)
+fmt
+fmt
+jas_image_getfmt(in)
+jas_image_getfmt
+jas_image_getfmt
+in
+in
+0
+goto error;
+error
+if (!(fmtinfo = jas_image_lookupfmtbyid(fmt)))		goto error;
+!(fmtinfo = jas_image_lookupfmtbyid(fmt))
+(fmtinfo = jas_image_lookupfmtbyid(fmt))
+fmtinfo = jas_image_lookupfmtbyid(fmt)
+fmtinfo
+fmtinfo
+jas_image_lookupfmtbyid(fmt)
+jas_image_lookupfmtbyid
+jas_image_lookupfmtbyid
+fmt
+fmt
+goto error;
+error
+if (!fmtinfo->ops.decode)		goto error;
+!fmtinfo->ops.decode
+fmtinfo->ops.decode
+fmtinfo->ops
+fmtinfo
+fmtinfo
+ops
+decode
+goto error;
+error
+if (!(image = (*fmtinfo->ops.decode)(in, optstr)))		goto error;
+!(image = (*fmtinfo->ops.decode)(in, optstr))
+(image = (*fmtinfo->ops.decode)(in, optstr))
+image = (*fmtinfo->ops.decode)(in, optstr)
+image
+image
+(*fmtinfo->ops.decode)(in, optstr)
+(*fmtinfo->ops.decode)
+*fmtinfo->ops.decode
+fmtinfo->ops.decode
+fmtinfo->ops
+fmtinfo
+fmtinfo
+ops
+decode
+in
+in
+optstr
+optstr
+goto error;
+error
+if (!jas_clrspc_isunknown(image->clrspc_) &&	  !jas_clrspc_isgeneric(image->clrspc_) && !image->cmprof_) {		if (!(image->cmprof_ =		  jas_cmprof_createfromclrspc(jas_image_clrspc(image))))			goto error;	}
+!jas_clrspc_isunknown(image->clrspc_) &&	  !jas_clrspc_isgeneric(image->clrspc_) && !image->cmprof_
+!jas_clrspc_isunknown(image->clrspc_) &&	  !jas_clrspc_isgeneric(image->clrspc_)
+!jas_clrspc_isunknown(image->clrspc_)
+jas_clrspc_isunknown(image->clrspc_)
+jas_clrspc_isunknown
+jas_clrspc_isunknown
+image->clrspc_
+image
+image
+clrspc_
+!jas_clrspc_isgeneric(image->clrspc_)
+jas_clrspc_isgeneric(image->clrspc_)
+jas_clrspc_isgeneric
+jas_clrspc_isgeneric
+image->clrspc_
+image
+image
+clrspc_
+!image->cmprof_
+image->cmprof_
+image
+image
+cmprof_
+{		if (!(image->cmprof_ =		  jas_cmprof_createfromclrspc(jas_image_clrspc(image))))			goto error;	}
+if (!(image->cmprof_ =		  jas_cmprof_createfromclrspc(jas_image_clrspc(image))))			goto error;
+!(image->cmprof_ =		  jas_cmprof_createfromclrspc(jas_image_clrspc(image)))
+(image->cmprof_ =		  jas_cmprof_createfromclrspc(jas_image_clrspc(image)))
+image->cmprof_ =		  jas_cmprof_createfromclrspc(jas_image_clrspc(image))
+image->cmprof_
+image
+image
+cmprof_
+jas_cmprof_createfromclrspc(jas_image_clrspc(image))
+jas_cmprof_createfromclrspc
+jas_cmprof_createfromclrspc
+jas_image_clrspc(image)
+jas_image_clrspc
+jas_image_clrspc
+image
+image
+goto error;
+error
+return image;
+image
+image
+error:	if (image)		jas_image_destroy(image);
+error
+if (image)		jas_image_destroy(image);
+image
+image
+jas_image_destroy(image);
+jas_image_destroy(image)
+jas_image_destroy
+jas_image_destroy
+image
+image
+return 0;
+0
+-----joern-----
+(28,12,0)
+(22,23,0)
+(30,28,0)
+(18,33,0)
+(21,0,0)
+(10,17,0)
+(24,7,0)
+(31,17,0)
+(0,1,0)
+(13,1,0)
+(23,17,0)
+(16,14,0)
+(1,0,0)
+(20,26,0)
+(5,29,0)
+(1,25,0)
+(33,28,0)
+(2,1,0)
+(27,26,0)
+(27,4,0)
+(6,0,0)
+(26,17,0)
+(3,14,0)
+(5,28,0)
+(23,29,0)
+(17,12,0)
+(32,5,0)
+(1,13,0)
+(8,4,0)
+(4,14,0)
+(26,11,0)
+(15,14,0)
+(0,17,0)
+(19,33,0)
+(9,28,0)
+(5,28,1)
+(23,22,1)
+(33,28,1)
+(10,31,1)
+(6,21,1)
+(27,26,1)
+(33,19,1)
+(0,6,1)
+(18,17,1)
+(26,17,1)
+(27,4,1)
+(31,28,1)
+(1,25,1)
+(21,33,1)
+(1,2,1)
+(8,33,1)
+(17,10,1)
+(19,18,1)
+(13,1,1)
+(1,0,1)
+(0,17,1)
+(28,9,1)
+(9,30,1)
+(23,17,1)
+(2,0,1)
+(5,32,1)
+(20,13,1)
+(18,23,1)
+(32,13,1)
+(26,20,1)
+(22,5,1)
+(4,8,1)
+(8,33,2)
+(2,33,2)
+(0,17,2)
+(1,0,2)
+(32,13,2)
+(21,33,2)
+(19,13,2)
+(33,28,2)
+(22,13,2)
+(0,33,2)
+(13,33,2)
+(6,33,2)
+(18,13,2)
+(26,17,2)
+(33,13,2)
+(5,13,2)
+(26,13,2)
+(4,33,2)
+(1,33,2)
+(27,26,2)
+(5,28,2)
+(20,13,2)
+(27,4,2)
+(1,25,2)
+(13,1,2)
+(23,17,2)
+(23,13,2)
+-----------------------------------
+(0,fmtinfo->name)
+(1,strcmp(fmtinfo->name, name)
+(2,name)
+(3,for (i = 0, fmtinfo = jas_image_fmtinfos; i < jas_image_numfmts; ++i, ++fmtinfo)
+(4,return 0;)
+(5,++i)
+(6,name)
+(7,)
+(8,0)
+(9,0)
+(10,jas_image_fmtinfos)
+(11,)
+(12,)
+(13,!strcmp(fmtinfo->name, name)
+(14,)
+(15,fmtinfo)
+(16,i)
+(17,fmtinfo = jas_image_fmtinfos)
+(18,i)
+(19,jas_image_numfmts)
+(20,fmtinfo)
+(21,fmtinfo)
+(22,fmtinfo)
+(23,++fmtinfo)
+(24,if (!strcmp(fmtinfo->name, name)
+(25,const char *name)
+(26,return fmtinfo;)
+(27,RET)
+(28,i = 0)
+(29,)
+(30,i)
+(31,fmtinfo)
+(32,i)
+(33,i < jas_image_numfmts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffffb2a0ad6300000000ffffffffffffffffb2a0ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff4f00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+arg03:0x4100000000
+arg02:0x2d66ff
+arg01:0x2d64ff
+arg00:0x2d46ff
+=========trace=========
+jas_image_t *jas_image_decode(jas_stream_t *in, int fmt, const char *optstr) {
+jas_image_fmtinfo_t *fmtinfo;
+jas_image_t *image;
+image = 0;
+if(fmt < 0)
+if(!(image = (*fmtinfo->ops.decode)(in, optstr)))
+goto error;
+return 0;
+=======================

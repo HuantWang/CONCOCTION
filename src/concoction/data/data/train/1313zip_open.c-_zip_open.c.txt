@@ -1,0 +1,1308 @@
+-----label-----
+0
+-----code-----
+struct zip *
+_zip_open(const char *fn, FILE *fp, int flags, int aflags, int *zep)
+{
+    struct zip *za;
+    struct zip_cdir *cdir;
+    int i;
+    off_t len;
+
+    if (fseeko(fp, 0, SEEK_END) < 0) {
+	*zep = ZIP_ER_SEEK;
+	return NULL;
+    }
+    len = ftello(fp);
+
+    /* treat empty files as empty archives */
+    if (len == 0) {
+	if ((za=_zip_allocate_new(fn, zep)) == NULL)
+	    fclose(fp);
+	else
+	    za->zp = fp;
+	return za;
+    }
+
+    cdir = _zip_find_central_dir(fp, flags, zep, len);
+    if (cdir == NULL) {
+	fclose(fp);
+	return NULL;
+    }
+
+    if ((za=_zip_allocate_new(fn, zep)) == NULL) {
+	_zip_cdir_free(cdir);
+	fclose(fp);
+	return NULL;
+    }
+
+    za->cdir = cdir;
+    za->zp = fp;
+
+    if ((za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))
+					      * cdir->nentry)) == NULL) {
+	set_error(zep, NULL, ZIP_ER_MEMORY);
+	_zip_free(za);
+	return NULL;
+    }
+    for (i=0; i<cdir->nentry; i++)
+	_zip_entry_new(za);
+
+    _zip_check_torrentzip(za);
+    za->ch_flags = za->flags;
+
+    return za;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+4,9
+4,10
+4,11
+7,8
+7,9
+9,10
+9,11
+12,13
+12,14
+13,14
+15,16
+15,17
+18,19
+18,20
+20,21
+22,23
+22,24
+24,25
+26,27
+26,28
+28,29
+28,30
+31,32
+31,33
+31,34
+31,35
+31,36
+31,37
+31,38
+31,39
+31,40
+31,41
+31,42
+31,43
+31,44
+31,45
+31,46
+31,47
+31,48
+32,33
+33,34
+33,35
+34,35
+36,37
+36,38
+39,40
+40,41
+40,42
+41,42
+43,44
+43,45
+46,47
+47,48
+47,49
+49,50
+51,52
+52,53
+52,54
+53,54
+55,56
+57,58
+57,59
+58,59
+58,60
+59,60
+59,61
+59,62
+59,63
+60,61
+62,63
+65,66
+68,69
+68,70
+69,70
+70,71
+70,72
+71,72
+72,73
+74,75
+76,77
+77,78
+79,80
+80,81
+80,82
+81,82
+83,84
+83,85
+84,85
+86,87
+88,89
+88,90
+89,90
+89,91
+90,91
+93,94
+93,95
+94,95
+94,96
+94,97
+95,96
+95,97
+96,97
+97,98
+97,99
+98,99
+100,101
+100,102
+100,103
+101,102
+103,104
+105,106
+107,108
+109,110
+110,111
+110,112
+111,112
+113,114
+115,116
+116,117
+116,118
+117,118
+117,119
+118,119
+121,122
+123,124
+124,125
+126,127
+127,128
+127,129
+128,129
+130,131
+130,132
+130,133
+130,134
+130,135
+131,132
+133,134
+135,136
+137,138
+139,140
+141,142
+141,143
+142,143
+142,144
+143,144
+145,146
+147,148
+147,149
+148,149
+149,150
+149,151
+150,151
+152,153
+154,155
+155,156
+157,158
+157,159
+158,159
+158,160
+159,160
+160,161
+160,162
+161,162
+163,164
+163,165
+163,166
+164,165
+166,167
+168,169
+170,171
+172,173
+172,174
+172,175
+173,174
+174,175
+174,176
+175,176
+177,178
+179,180
+180,181
+180,182
+181,182
+183,184
+185,186
+186,187
+188,189
+189,190
+189,191
+190,191
+190,192
+191,192
+194,195
+196,197
+197,198
+197,199
+198,199
+198,200
+199,200
+202,203
+204,205
+204,206
+205,206
+205,207
+206,207
+207,208
+207,209
+208,209
+208,210
+209,210
+212,213
+212,214
+213,214
+213,215
+214,215
+216,217
+218,219
+218,220
+219,220
+221,222
+221,223
+222,223
+223,224
+224,225
+225,226
+226,227
+226,228
+227,228
+230,231
+230,232
+231,232
+234,235
+236,237
+236,238
+236,239
+237,238
+238,239
+238,240
+238,241
+238,242
+239,240
+241,242
+243,244
+245,246
+247,248
+248,249
+248,250
+249,250
+251,252
+253,254
+254,255
+256,257
+256,258
+256,259
+256,260
+257,258
+258,259
+258,260
+259,260
+262,263
+262,264
+263,264
+265,266
+265,267
+266,267
+269,270
+270,271
+272,273
+273,274
+273,275
+274,275
+276,277
+278,279
+279,280
+279,281
+280,281
+282,283
+284,285
+285,286
+285,287
+286,287
+286,288
+287,288
+290,291
+290,292
+291,292
+294,295
+295,296
+-----nextToken-----
+3,5,6,8,10,11,14,16,17,19,21,23,25,27,29,30,35,37,38,42,44,45,48,50,54,56,61,63,64,66,67,73,75,78,82,85,87,91,92,99,102,104,106,108,112,114,119,120,122,125,129,132,134,136,138,140,144,146,151,153,156,162,165,167,169,171,176,178,182,184,187,192,193,195,200,201,203,210,211,215,217,220,228,229,232,233,235,240,242,244,246,250,252,255,260,261,264,267,268,271,275,277,281,283,288,289,292,293,296
+-----computeFrom-----
+58,59
+58,60
+70,71
+70,72
+80,81
+80,82
+89,90
+89,91
+95,96
+95,97
+97,98
+97,99
+116,117
+116,118
+127,128
+127,129
+142,143
+142,144
+158,159
+158,160
+160,161
+160,162
+189,190
+189,191
+197,198
+197,199
+205,206
+205,207
+207,208
+207,209
+221,222
+221,223
+258,259
+258,260
+262,263
+262,264
+285,286
+285,287
+-----guardedBy-----
+146,156
+171,187
+235,255
+228,252
+-----guardedByNegation-----
+99,119
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;ElaboratedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;UnaryExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;CastExpression;TypeId;ElaboratedTypeSpecifier;Name;Declarator;Pointer;FunctionCallExpression;IdExpression;Name;BinaryExpression;UnaryExpression;UnaryExpression;UnaryExpression;UnaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+struct zip *_zip_open(const char *fn, FILE *fp, int flags, int aflags, int *zep){    struct zip *za;    struct zip_cdir *cdir;    int i;    off_t len;    if (fseeko(fp, 0, SEEK_END) < 0) {	*zep = ZIP_ER_SEEK;	return NULL;    }    len = ftello(fp);    /* treat empty files as empty archives */    if (len == 0) {	if ((za=_zip_allocate_new(fn, zep)) == NULL)	    fclose(fp);	else	    za->zp = fp;	return za;    }    cdir = _zip_find_central_dir(fp, flags, zep, len);    if (cdir == NULL) {	fclose(fp);	return NULL;    }    if ((za=_zip_allocate_new(fn, zep)) == NULL) {	_zip_cdir_free(cdir);	fclose(fp);	return NULL;    }    za->cdir = cdir;    za->zp = fp;    if ((za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))					      * cdir->nentry)) == NULL) {	set_error(zep, NULL, ZIP_ER_MEMORY);	_zip_free(za);	return NULL;    }    for (i=0; i<cdir->nentry; i++)	_zip_entry_new(za);    _zip_check_torrentzip(za);    za->ch_flags = za->flags;    return za;}
+struct zip
+zip
+*_zip_open(const char *fn, FILE *fp, int flags, int aflags, int *zep)
+*
+_zip_open
+const char *fn
+const char
+*fn
+*
+fn
+FILE *fp
+FILE
+FILE
+*fp
+*
+fp
+int flags
+int
+flags
+flags
+int aflags
+int
+aflags
+aflags
+int *zep
+int
+*zep
+*
+zep
+{    struct zip *za;    struct zip_cdir *cdir;    int i;    off_t len;    if (fseeko(fp, 0, SEEK_END) < 0) {	*zep = ZIP_ER_SEEK;	return NULL;    }    len = ftello(fp);    /* treat empty files as empty archives */    if (len == 0) {	if ((za=_zip_allocate_new(fn, zep)) == NULL)	    fclose(fp);	else	    za->zp = fp;	return za;    }    cdir = _zip_find_central_dir(fp, flags, zep, len);    if (cdir == NULL) {	fclose(fp);	return NULL;    }    if ((za=_zip_allocate_new(fn, zep)) == NULL) {	_zip_cdir_free(cdir);	fclose(fp);	return NULL;    }    za->cdir = cdir;    za->zp = fp;    if ((za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))					      * cdir->nentry)) == NULL) {	set_error(zep, NULL, ZIP_ER_MEMORY);	_zip_free(za);	return NULL;    }    for (i=0; i<cdir->nentry; i++)	_zip_entry_new(za);    _zip_check_torrentzip(za);    za->ch_flags = za->flags;    return za;}
+struct zip *za;
+struct zip *za;
+struct zip
+zip
+*za
+*
+za
+struct zip_cdir *cdir;
+struct zip_cdir *cdir;
+struct zip_cdir
+zip_cdir
+*cdir
+*
+cdir
+int i;
+int i;
+int
+i
+i
+off_t len;
+off_t len;
+off_t
+off_t
+len
+len
+if (fseeko(fp, 0, SEEK_END) < 0) {	*zep = ZIP_ER_SEEK;	return NULL;    }
+fseeko(fp, 0, SEEK_END) < 0
+fseeko(fp, 0, SEEK_END)
+fseeko
+fseeko
+fp
+fp
+0
+SEEK_END
+SEEK_END
+0
+{	*zep = ZIP_ER_SEEK;	return NULL;    }
+*zep = ZIP_ER_SEEK;
+*zep = ZIP_ER_SEEK
+*zep
+zep
+zep
+ZIP_ER_SEEK
+ZIP_ER_SEEK
+return NULL;
+NULL
+NULL
+len = ftello(fp);
+len = ftello(fp)
+len
+len
+ftello(fp)
+ftello
+ftello
+fp
+fp
+if (len == 0) {	if ((za=_zip_allocate_new(fn, zep)) == NULL)	    fclose(fp);	else	    za->zp = fp;	return za;    }
+len == 0
+len
+len
+0
+{	if ((za=_zip_allocate_new(fn, zep)) == NULL)	    fclose(fp);	else	    za->zp = fp;	return za;    }
+if ((za=_zip_allocate_new(fn, zep)) == NULL)	    fclose(fp);	else	    za->zp = fp;
+(za=_zip_allocate_new(fn, zep)) == NULL
+(za=_zip_allocate_new(fn, zep))
+za=_zip_allocate_new(fn, zep)
+za
+za
+_zip_allocate_new(fn, zep)
+_zip_allocate_new
+_zip_allocate_new
+fn
+fn
+zep
+zep
+NULL
+NULL
+fclose(fp);
+fclose(fp)
+fclose
+fclose
+fp
+fp
+za->zp = fp;
+za->zp = fp
+za->zp
+za
+za
+zp
+fp
+fp
+return za;
+za
+za
+cdir = _zip_find_central_dir(fp, flags, zep, len);
+cdir = _zip_find_central_dir(fp, flags, zep, len)
+cdir
+cdir
+_zip_find_central_dir(fp, flags, zep, len)
+_zip_find_central_dir
+_zip_find_central_dir
+fp
+fp
+flags
+flags
+zep
+zep
+len
+len
+if (cdir == NULL) {	fclose(fp);	return NULL;    }
+cdir == NULL
+cdir
+cdir
+NULL
+NULL
+{	fclose(fp);	return NULL;    }
+fclose(fp);
+fclose(fp)
+fclose
+fclose
+fp
+fp
+return NULL;
+NULL
+NULL
+if ((za=_zip_allocate_new(fn, zep)) == NULL) {	_zip_cdir_free(cdir);	fclose(fp);	return NULL;    }
+(za=_zip_allocate_new(fn, zep)) == NULL
+(za=_zip_allocate_new(fn, zep))
+za=_zip_allocate_new(fn, zep)
+za
+za
+_zip_allocate_new(fn, zep)
+_zip_allocate_new
+_zip_allocate_new
+fn
+fn
+zep
+zep
+NULL
+NULL
+{	_zip_cdir_free(cdir);	fclose(fp);	return NULL;    }
+_zip_cdir_free(cdir);
+_zip_cdir_free(cdir)
+_zip_cdir_free
+_zip_cdir_free
+cdir
+cdir
+fclose(fp);
+fclose(fp)
+fclose
+fclose
+fp
+fp
+return NULL;
+NULL
+NULL
+za->cdir = cdir;
+za->cdir = cdir
+za->cdir
+za
+za
+cdir
+cdir
+cdir
+za->zp = fp;
+za->zp = fp
+za->zp
+za
+za
+zp
+fp
+fp
+if ((za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))					      * cdir->nentry)) == NULL) {	set_error(zep, NULL, ZIP_ER_MEMORY);	_zip_free(za);	return NULL;    }
+(za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))					      * cdir->nentry)) == NULL
+(za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))					      * cdir->nentry))
+za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))					      * cdir->nentry)
+za->entry
+za
+za
+entry
+(struct zip_entry *)malloc(sizeof(*(za->entry))					      * cdir->nentry)
+struct zip_entry *
+struct zip_entry
+zip_entry
+*
+*
+malloc(sizeof(*(za->entry))					      * cdir->nentry)
+malloc
+malloc
+sizeof(*(za->entry))					      * cdir->nentry
+sizeof(*(za->entry))
+(*(za->entry))
+*(za->entry)
+(za->entry)
+za->entry
+za
+za
+entry
+cdir->nentry
+cdir
+cdir
+nentry
+NULL
+NULL
+{	set_error(zep, NULL, ZIP_ER_MEMORY);	_zip_free(za);	return NULL;    }
+set_error(zep, NULL, ZIP_ER_MEMORY);
+set_error(zep, NULL, ZIP_ER_MEMORY)
+set_error
+set_error
+zep
+zep
+NULL
+NULL
+ZIP_ER_MEMORY
+ZIP_ER_MEMORY
+_zip_free(za);
+_zip_free(za)
+_zip_free
+_zip_free
+za
+za
+return NULL;
+NULL
+NULL
+for (i=0; i<cdir->nentry; i++)	_zip_entry_new(za);
+i=0;
+i=0
+i
+i
+0
+i<cdir->nentry
+i
+i
+cdir->nentry
+cdir
+cdir
+nentry
+i++
+i
+i
+_zip_entry_new(za);
+_zip_entry_new(za)
+_zip_entry_new
+_zip_entry_new
+za
+za
+_zip_check_torrentzip(za);
+_zip_check_torrentzip(za)
+_zip_check_torrentzip
+_zip_check_torrentzip
+za
+za
+za->ch_flags = za->flags;
+za->ch_flags = za->flags
+za->ch_flags
+za
+za
+ch_flags
+za->flags
+za
+za
+flags
+return za;
+za
+za
+-----joern-----
+(9,29,0)
+(18,1,0)
+(17,0,0)
+(27,0,0)
+(31,1,0)
+(41,38,0)
+(6,28,0)
+(16,29,0)
+(25,18,0)
+(23,4,0)
+(39,43,0)
+(34,1,0)
+(14,29,0)
+(41,6,0)
+(3,35,0)
+(29,10,0)
+(42,8,0)
+(18,11,0)
+(29,20,0)
+(40,18,0)
+(15,35,0)
+(8,7,0)
+(41,43,0)
+(18,6,0)
+(24,38,0)
+(1,34,0)
+(32,34,0)
+(8,10,0)
+(19,28,0)
+(0,7,0)
+(5,18,0)
+(4,11,0)
+(26,28,0)
+(33,35,0)
+(18,7,0)
+(2,35,0)
+(43,35,0)
+(0,1,0)
+(30,8,0)
+(41,15,0)
+(4,10,0)
+(4,7,0)
+(22,4,0)
+(13,28,0)
+(37,18,0)
+(1,0,0)
+(18,10,0)
+(36,4,0)
+(21,35,0)
+(38,20,0)
+(8,15,0)
+(12,18,0)
+(5,12,1)
+(40,5,1)
+(9,16,1)
+(4,11,1)
+(4,7,1)
+(12,25,1)
+(8,10,1)
+(0,27,1)
+(4,10,1)
+(41,43,1)
+(17,31,1)
+(16,14,1)
+(34,32,1)
+(29,9,1)
+(30,42,1)
+(0,7,1)
+(41,6,1)
+(31,2,1)
+(18,10,1)
+(23,22,1)
+(1,0,1)
+(4,23,1)
+(25,34,1)
+(38,24,1)
+(22,36,1)
+(34,1,1)
+(18,11,1)
+(15,8,1)
+(32,1,1)
+(37,40,1)
+(24,29,1)
+(27,17,1)
+(2,4,1)
+(41,38,1)
+(8,30,1)
+(18,37,1)
+(29,10,1)
+(18,7,1)
+(14,34,1)
+(8,7,1)
+(6,18,1)
+(41,15,1)
+(42,4,1)
+(43,39,1)
+(18,1,1)
+(18,11,2)
+(12,34,2)
+(1,4,2)
+(8,10,2)
+(29,34,2)
+(6,34,2)
+(16,34,2)
+(37,34,2)
+(18,34,2)
+(40,34,2)
+(0,7,2)
+(18,10,2)
+(25,34,2)
+(4,11,2)
+(17,4,2)
+(18,7,2)
+(41,6,2)
+(2,4,2)
+(8,4,2)
+(0,4,2)
+(41,43,2)
+(14,34,2)
+(30,4,2)
+(29,10,2)
+(24,34,2)
+(34,1,2)
+(18,1,2)
+(4,7,2)
+(1,0,2)
+(4,10,2)
+(41,15,2)
+(31,4,2)
+(38,34,2)
+(15,4,2)
+(27,4,2)
+(8,7,2)
+(42,4,2)
+(32,4,2)
+(5,34,2)
+(41,38,2)
+(34,4,2)
+(9,34,2)
+-----------------------------------
+(0,fopen(fn, "rb")
+(1,fp=fopen(fn, "rb")
+(2,break;)
+(3,default:)
+(4,_zip_file_exists(fn, flags, zep)
+(5,flags)
+(6,return _zip_open(fn, fp, flags, 0, zep)
+(7,const char *fn)
+(8,_zip_allocate_new(fn, zep)
+(9,ZIP_ER_OPEN)
+(10,int *zep)
+(11,int flags)
+(12,fp)
+(13,switch (_zip_file_exists(fn, flags, zep)
+(14,zep)
+(15,return _zip_allocate_new(fn, zep)
+(16,NULL)
+(17,fn)
+(18,_zip_open(fn, fp, flags, 0, zep)
+(19,if ((fp=fopen(fn, "rb")
+(20,)
+(21,case 0:)
+(22,flags)
+(23,zep)
+(24,NULL)
+(25,fn)
+(26,fp)
+(27,"rb")
+(28,)
+(29,set_error(zep, NULL, ZIP_ER_OPEN)
+(30,zep)
+(31,fp)
+(32,NULL)
+(33,1:)
+(34,(fp=fopen(fn, "rb")
+(35,)
+(36,fn)
+(37,zep)
+(38,return NULL;)
+(39,NULL)
+(40,0)
+(41,RET)
+(42,fn)
+(43,return NULL;)
+-----cfg-----
+(128,155)
+(132,139)
+(135,142)
+(135,144)
+(7,20)
+(137,135)
+(139,137)
+(140,139)
+(142,140)
+(144,149)
+(146,153)
+(19,27)
+(19,34)
+(147,152)
+(20,19)
+(149,147)
+(150,146)
+(152,150)
+(153,155)
+(26,30)
+(27,26)
+(30,155)
+(32,37)
+(34,32)
+(37,45)
+(37,63)
+(42,50)
+(42,57)
+(43,42)
+(45,43)
+(50,59)
+(54,59)
+(55,54)
+(57,55)
+(59,155)
+(61,69)
+(63,61)
+(69,73)
+(69,81)
+(73,75)
+(75,155)
+(78,86)
+(78,95)
+(79,78)
+(81,79)
+(86,88)
+(88,90)
+(90,155)
+(92,100)
+(93,92)
+(95,93)
+(97,107)
+(98,97)
+(100,98)
+(103,122)
+(103,132)
+(104,103)
+(105,109)
+(107,105)
+(108,104)
+(109,116)
+(110,108)
+(111,110)
+(112,119)
+(113,112)
+(114,113)
+(116,114)
+(117,111)
+(119,117)
+(122,126)
+(126,128)
+-----path-----
+7,20,19,27,26,30,155
+7,20,19,34,32,37,45,43,42,50,59,155
+7,20,19,34,32,37,45,43,42,57,55,54,59,155
+7,20,19,34,32,37,63,61,69,73,75,155
+7,20,19,34,32,37,63,61,69,81,79,78,86,88,90,155
+7,20,19,34,32,37,63,61,69,81,79,78,95,93,92,100,98,97,107,105,109,116,114,113,112,119,117,111,110,108,104,103,122,126,128,155
+7,20,19,34,32,37,63,61,69,81,79,78,95,93,92,100,98,97,107,105,109,116,114,113,112,119,117,111,110,108,104,103,132,139,137,135,144,149,147,152,150,146,153,155
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,struct zip _zip_open (const char *fn,FILE *fp,int flags,int aflags,int *zep)
+8,const char *fn
+9,FILE *fp
+10,int flags
+11,int aflags
+12,int *zep
+13,<empty>
+14,struct zip* za
+15,struct zip_cdir* cdir
+16,int i
+17,off_t len
+18,if (fseeko(fp, 0, SEEK_END) < 0)
+19,fseeko(fp, 0, SEEK_END) < 0
+20,fseeko(fp, 0, SEEK_END)
+21,fp
+22,0
+23,SEEK_END
+24,0
+25,<empty>
+26,*zep = ZIP_ER_SEEK
+27,*zep
+28,zep
+29,ZIP_ER_SEEK
+30,return NULL;
+31,NULL
+32,len = ftello(fp)
+33,len
+34,ftello(fp)
+35,fp
+36,if (len == 0)
+37,len == 0
+38,len
+39,0
+40,<empty>
+41,if ((za=_zip_allocate_new(fn, zep)) == NULL)
+42,(za=_zip_allocate_new(fn, zep)) == NULL
+43,za=_zip_allocate_new(fn, zep)
+44,za
+45,_zip_allocate_new(fn, zep)
+46,fn
+47,zep
+48,NULL
+49,<empty>
+50,fclose(fp)
+51,fp
+52,else
+53,<empty>
+54,za->zp = fp
+55,za->zp
+56,za
+57,zp
+58,fp
+59,return za;
+60,za
+61,cdir = _zip_find_central_dir(fp, flags, zep, len)
+62,cdir
+63,_zip_find_central_dir(fp, flags, zep, len)
+64,fp
+65,flags
+66,zep
+67,len
+68,if (cdir == NULL)
+69,cdir == NULL
+70,cdir
+71,NULL
+72,<empty>
+73,fclose(fp)
+74,fp
+75,return NULL;
+76,NULL
+77,if ((za=_zip_allocate_new(fn, zep)) == NULL)
+78,(za=_zip_allocate_new(fn, zep)) == NULL
+79,za=_zip_allocate_new(fn, zep)
+80,za
+81,_zip_allocate_new(fn, zep)
+82,fn
+83,zep
+84,NULL
+85,<empty>
+86,_zip_cdir_free(cdir)
+87,cdir
+88,fclose(fp)
+89,fp
+90,return NULL;
+91,NULL
+92,za->cdir = cdir
+93,za->cdir
+94,za
+95,cdir
+96,cdir
+97,za->zp = fp
+98,za->zp
+99,za
+100,zp
+101,fp
+102,if ((za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))
+103,					      * cdir->nentry)) == NULL)
+104,(za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))
+105,					      * cdir->nentry)) == NULL
+106,za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))
+107,					      * cdir->nentry)
+108,za->entry
+109,za
+110,entry
+111,(struct zip_entry *)malloc(sizeof(*(za->entry))
+112,					      * cdir->nentry)
+113,struct zip_entry *
+114,malloc(sizeof(*(za->entry))
+115,					      * cdir->nentry)
+116,sizeof(*(za->entry))
+117,					      * cdir->nentry
+118,sizeof(*(za->entry))
+119,*(za->entry)
+120,za->entry
+121,za
+122,entry
+123,cdir->nentry
+124,cdir
+125,nentry
+126,NULL
+127,<empty>
+128,set_error(zep, NULL, ZIP_ER_MEMORY)
+129,zep
+130,NULL
+131,ZIP_ER_MEMORY
+132,_zip_free(za)
+133,za
+134,return NULL;
+135,NULL
+136,for (i=0;i<cdir->nentry;i++)
+137,<empty>
+138,i=0
+139,i
+140,0
+141,i<cdir->nentry
+142,i
+143,cdir->nentry
+144,cdir
+145,nentry
+146,i++
+147,i
+148,_zip_entry_new(za)
+149,za
+150,_zip_check_torrentzip(za)
+151,za
+152,za->ch_flags = za->flags
+153,za->ch_flags
+154,za
+155,ch_flags
+156,za->flags
+157,za
+158,flags
+159,return za;
+160,za
+161,RET
+162,const char *fn
+163,FILE *fp
+164,int flags
+165,int aflags
+166,int *zep
+167,RET
+168,struct zip _zip_open (const char *fn,FILE *fp,int flags,int aflags,int *zep)
+169,const char *fn
+170,FILE *fp
+171,int flags
+172,int aflags
+173,int *zep
+174,<empty>
+175,struct zip* za
+176,struct zip_cdir* cdir
+177,int i
+178,off_t len
+179,if (fseeko(fp, 0, SEEK_END) < 0)
+180,fseeko(fp, 0, SEEK_END) < 0
+181,fseeko(fp, 0, SEEK_END)
+182,fp
+183,0
+184,SEEK_END
+185,0
+186,<empty>
+187,*zep = ZIP_ER_SEEK
+188,*zep
+189,zep
+190,ZIP_ER_SEEK
+191,return NULL;
+192,NULL
+193,len = ftello(fp)
+194,len
+195,ftello(fp)
+196,fp
+197,if (len == 0)
+198,len == 0
+199,len
+200,0
+201,<empty>
+202,if ((za=_zip_allocate_new(fn, zep)) == NULL)
+203,(za=_zip_allocate_new(fn, zep)) == NULL
+204,za=_zip_allocate_new(fn, zep)
+205,za
+206,_zip_allocate_new(fn, zep)
+207,fn
+208,zep
+209,NULL
+210,<empty>
+211,fclose(fp)
+212,fp
+213,else
+214,<empty>
+215,za->zp = fp
+216,za->zp
+217,za
+218,zp
+219,fp
+220,return za;
+221,za
+222,cdir = _zip_find_central_dir(fp, flags, zep, len)
+223,cdir
+224,_zip_find_central_dir(fp, flags, zep, len)
+225,fp
+226,flags
+227,zep
+228,len
+229,if (cdir == NULL)
+230,cdir == NULL
+231,cdir
+232,NULL
+233,<empty>
+234,fclose(fp)
+235,fp
+236,return NULL;
+237,NULL
+238,if ((za=_zip_allocate_new(fn, zep)) == NULL)
+239,(za=_zip_allocate_new(fn, zep)) == NULL
+240,za=_zip_allocate_new(fn, zep)
+241,za
+242,_zip_allocate_new(fn, zep)
+243,fn
+244,zep
+245,NULL
+246,<empty>
+247,_zip_cdir_free(cdir)
+248,cdir
+249,fclose(fp)
+250,fp
+251,return NULL;
+252,NULL
+253,za->cdir = cdir
+254,za->cdir
+255,za
+256,cdir
+257,cdir
+258,za->zp = fp
+259,za->zp
+260,za
+261,zp
+262,fp
+263,if ((za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))
+264,					      * cdir->nentry)) == NULL)
+265,(za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))
+266,					      * cdir->nentry)) == NULL
+267,za->entry=(struct zip_entry *)malloc(sizeof(*(za->entry))
+268,					      * cdir->nentry)
+269,za->entry
+270,za
+271,entry
+272,(struct zip_entry *)malloc(sizeof(*(za->entry))
+273,					      * cdir->nentry)
+274,struct zip_entry *
+275,malloc(sizeof(*(za->entry))
+276,					      * cdir->nentry)
+277,sizeof(*(za->entry))
+278,					      * cdir->nentry
+279,sizeof(*(za->entry))
+280,*(za->entry)
+281,za->entry
+282,za
+283,entry
+284,cdir->nentry
+285,cdir
+286,nentry
+287,NULL
+288,<empty>
+289,set_error(zep, NULL, ZIP_ER_MEMORY)
+290,zep
+291,NULL
+292,ZIP_ER_MEMORY
+293,_zip_free(za)
+294,za
+295,return NULL;
+296,NULL
+297,for (i=0;i<cdir->nentry;i++)
+298,<empty>
+299,i=0
+300,i
+301,0
+302,i<cdir->nentry
+303,i
+304,cdir->nentry
+305,cdir
+306,nentry
+307,i++
+308,i
+309,_zip_entry_new(za)
+310,za
+311,_zip_check_torrentzip(za)
+312,za
+313,za->ch_flags = za->flags
+314,za->ch_flags
+315,za
+316,ch_flags
+317,za->flags
+318,za
+319,flags
+320,return za;
+321,za
+322,RET
+323,const char *fn
+324,FILE *fp
+325,int flags
+326,int aflags
+327,int *zep
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffb1fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000504b0506000001ffffffffffffffffffffffffffffffffffff
+arg00:0x2d53ff
+=========trace=========
+struct zip * _zip_open(const char *fn, FILE *fp, int flags, int aflags, int *zep) {
+struct zip *za;
+struct zip_cdir *cdir;
+int i;
+off_t len;
+len = ftello(fp);
+cdir = _zip_find_central_dir(fp, flags, zep, len);
+if(cdir == NULL)
+fclose(fp);
+return NULL;
+=======================

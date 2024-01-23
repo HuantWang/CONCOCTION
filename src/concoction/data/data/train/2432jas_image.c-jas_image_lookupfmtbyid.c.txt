@@ -1,0 +1,313 @@
+-----label-----
+0
+-----code-----
+jas_image_fmtinfo_t *jas_image_lookupfmtbyid(int id)
+{
+	int i;
+	jas_image_fmtinfo_t *fmtinfo;
+
+	for (i = 0, fmtinfo = jas_image_fmtinfos; i < jas_image_numfmts; ++i, ++fmtinfo) {
+		if (fmtinfo->id == id) {
+			return fmtinfo;
+		}
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+7,8
+7,9
+9,10
+11,12
+11,13
+11,14
+11,15
+12,13
+13,14
+13,15
+15,16
+17,18
+18,19
+18,20
+19,20
+21,22
+21,23
+24,25
+24,26
+24,27
+24,28
+25,26
+26,27
+26,28
+27,28
+27,29
+28,29
+31,32
+31,33
+32,33
+34,35
+36,37
+36,38
+37,38
+39,40
+41,42
+41,43
+42,43
+43,44
+45,46
+46,47
+48,49
+49,50
+49,51
+50,51
+50,52
+51,52
+51,53
+52,53
+55,56
+57,58
+58,59
+59,60
+61,62
+-----nextToken-----
+3,5,6,8,10,14,16,20,22,23,29,30,33,35,38,40,44,47,53,54,56,60,62
+-----computeFrom-----
+27,28
+27,29
+31,32
+31,33
+36,37
+36,38
+50,51
+50,52
+-----guardedBy-----
+53,60
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ReturnStatement;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+jas_image_fmtinfo_t *jas_image_lookupfmtbyid(int id){	int i;	jas_image_fmtinfo_t *fmtinfo;	for (i = 0, fmtinfo = jas_image_fmtinfos; i < jas_image_numfmts; ++i, ++fmtinfo) {		if (fmtinfo->id == id) {			return fmtinfo;		}	}	return 0;}
+jas_image_fmtinfo_t
+jas_image_fmtinfo_t
+*jas_image_lookupfmtbyid(int id)
+*
+jas_image_lookupfmtbyid
+int id
+int
+id
+id
+{	int i;	jas_image_fmtinfo_t *fmtinfo;	for (i = 0, fmtinfo = jas_image_fmtinfos; i < jas_image_numfmts; ++i, ++fmtinfo) {		if (fmtinfo->id == id) {			return fmtinfo;		}	}	return 0;}
+int i;
+int i;
+int
+i
+i
+jas_image_fmtinfo_t *fmtinfo;
+jas_image_fmtinfo_t *fmtinfo;
+jas_image_fmtinfo_t
+jas_image_fmtinfo_t
+*fmtinfo
+*
+fmtinfo
+for (i = 0, fmtinfo = jas_image_fmtinfos; i < jas_image_numfmts; ++i, ++fmtinfo) {		if (fmtinfo->id == id) {			return fmtinfo;		}	}
+i = 0, fmtinfo = jas_image_fmtinfos;
+i = 0, fmtinfo = jas_image_fmtinfos
+i = 0
+i
+i
+0
+fmtinfo = jas_image_fmtinfos
+fmtinfo
+fmtinfo
+jas_image_fmtinfos
+jas_image_fmtinfos
+i < jas_image_numfmts
+i
+i
+jas_image_numfmts
+jas_image_numfmts
+++i, ++fmtinfo
+++i
+i
+i
+++fmtinfo
+fmtinfo
+fmtinfo
+{		if (fmtinfo->id == id) {			return fmtinfo;		}	}
+if (fmtinfo->id == id) {			return fmtinfo;		}
+fmtinfo->id == id
+fmtinfo->id
+fmtinfo
+fmtinfo
+id
+id
+id
+{			return fmtinfo;		}
+return fmtinfo;
+fmtinfo
+fmtinfo
+return 0;
+0
+-----joern-----
+(28,12,0)
+(22,23,0)
+(30,28,0)
+(18,33,0)
+(21,0,0)
+(10,17,0)
+(24,7,0)
+(31,17,0)
+(0,1,0)
+(13,1,0)
+(23,17,0)
+(16,14,0)
+(1,0,0)
+(20,26,0)
+(5,29,0)
+(1,25,0)
+(33,28,0)
+(2,1,0)
+(27,26,0)
+(27,4,0)
+(6,0,0)
+(26,17,0)
+(3,14,0)
+(5,28,0)
+(23,29,0)
+(17,12,0)
+(32,5,0)
+(1,13,0)
+(8,4,0)
+(4,14,0)
+(26,11,0)
+(15,14,0)
+(0,17,0)
+(19,33,0)
+(9,28,0)
+(5,28,1)
+(23,22,1)
+(33,28,1)
+(10,31,1)
+(6,21,1)
+(27,26,1)
+(33,19,1)
+(0,6,1)
+(18,17,1)
+(26,17,1)
+(27,4,1)
+(31,28,1)
+(1,25,1)
+(21,33,1)
+(1,2,1)
+(8,33,1)
+(17,10,1)
+(19,18,1)
+(13,1,1)
+(1,0,1)
+(0,17,1)
+(28,9,1)
+(9,30,1)
+(23,17,1)
+(2,0,1)
+(5,32,1)
+(20,13,1)
+(18,23,1)
+(32,13,1)
+(26,20,1)
+(22,5,1)
+(4,8,1)
+(8,33,2)
+(2,33,2)
+(0,17,2)
+(1,0,2)
+(32,13,2)
+(21,33,2)
+(19,13,2)
+(33,28,2)
+(22,13,2)
+(0,33,2)
+(13,33,2)
+(6,33,2)
+(18,13,2)
+(26,17,2)
+(33,13,2)
+(5,13,2)
+(26,13,2)
+(4,33,2)
+(1,33,2)
+(27,26,2)
+(5,28,2)
+(20,13,2)
+(27,4,2)
+(1,25,2)
+(13,1,2)
+(23,17,2)
+(23,13,2)
+-----------------------------------
+(0,fmtinfo->name)
+(1,strcmp(fmtinfo->name, name)
+(2,name)
+(3,for (i = 0, fmtinfo = jas_image_fmtinfos; i < jas_image_numfmts; ++i, ++fmtinfo)
+(4,return 0;)
+(5,++i)
+(6,name)
+(7,)
+(8,0)
+(9,0)
+(10,jas_image_fmtinfos)
+(11,)
+(12,)
+(13,!strcmp(fmtinfo->name, name)
+(14,)
+(15,fmtinfo)
+(16,i)
+(17,fmtinfo = jas_image_fmtinfos)
+(18,i)
+(19,jas_image_numfmts)
+(20,fmtinfo)
+(21,fmtinfo)
+(22,fmtinfo)
+(23,++fmtinfo)
+(24,if (!strcmp(fmtinfo->name, name)
+(25,const char *name)
+(26,return fmtinfo;)
+(27,RET)
+(28,i = 0)
+(29,)
+(30,i)
+(31,fmtinfo)
+(32,i)
+(33,i < jas_image_numfmts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffffb2a0ad6300000000ffffffffffffffffb2a0ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff6400040000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+arg03:0x4100000000
+arg02:0x2d66ff
+arg01:0x2d64ff
+arg00:0x2d46ff
+=========trace=========
+jas_image_fmtinfo_t *jas_image_lookupfmtbyid(int id) {
+int i;
+jas_image_fmtinfo_t *fmtinfo;
+for(i = 0, fmtinfo = jas_image_fmtinfos;i < jas_image_numfmts;++i, ++fmtinfo)
+for(i = 0, fmtinfo = jas_image_fmtinfos;i < jas_image_numfmts;++i, ++fmtinfo)
+for(i = 0, fmtinfo = jas_image_fmtinfos;i < jas_image_numfmts;++i, ++fmtinfo)
+for(i = 0, fmtinfo = jas_image_fmtinfos;i < jas_image_numfmts;++i, ++fmtinfo)
+for(i = 0, fmtinfo = jas_image_fmtinfos;i < jas_image_numfmts;++i, ++fmtinfo)
+for(i = 0, fmtinfo = jas_image_fmtinfos;i < jas_image_numfmts;++i, ++fmtinfo)
+for(i = 0, fmtinfo = jas_image_fmtinfos;i < jas_image_numfmts;++i, ++fmtinfo)
+for(i = 0, fmtinfo = jas_image_fmtinfos;i < jas_image_numfmts;++i, ++fmtinfo)
+if(fmtinfo->id == id)
+return fmtinfo;
+=======================

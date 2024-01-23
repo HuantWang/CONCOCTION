@@ -1,0 +1,3712 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromiccprof.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof)
+{
+	jas_cmprof_t *prof;
+	jas_icchdr_t icchdr;
+	jas_cmpxformseq_t *fwdpxformseq;
+	jas_cmpxformseq_t *revpxformseq;
+
+	prof = 0;
+	fwdpxformseq = 0;
+	revpxformseq = 0;
+
+	if (!(prof = jas_cmprof_create()))
+		goto error;
+	jas_iccprof_gethdr(iccprof, &icchdr);
+	if (!(prof->iccprof = jas_iccprof_copy(iccprof)))
+		goto error;
+	prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+	prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+	prof->numchans = jas_clrspc_numchans(prof->clrspc);
+	prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+
+	if (prof->numchans == 1) {
+		if (mono(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (mono(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	} else if (prof->numchans == 3) {
+		if (triclr(prof->iccprof, 0, &fwdpxformseq))
+			goto error;
+		if (triclr(prof->iccprof, 1, &revpxformseq))
+			goto error;
+	}
+	prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+	prof->pxformseqs[SEQREV(0)] = revpxformseq;
+
+#if 0
+	if (prof->numchans > 1) {
+		lut(prof->iccprof, 0, PER, &pxformseq);
+		pxformseqs_set(prof, SEQFWD(PER), pxformseq);
+		lut(prof->iccprof, 1, PER, &pxformseq);
+		pxformseqs_set(prof, SEQREV(PER), pxformseq);
+		lut(prof->iccprof, 0, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 1, CLR, &pxformseq);
+		pxformseqs_set(prof, SEQREV(CLR), pxformseq);
+		lut(prof->iccprof, 0, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+		lut(prof->iccprof, 1, SAT, &pxformseq);
+		pxformseqs_set(prof, SEQREV(SAT), pxformseq);
+	}
+#endif
+
+	return prof;
+
+error:
+	if (fwdpxformseq) {
+		jas_cmpxformseq_destroy(fwdpxformseq);
+	}
+	if (revpxformseq) {
+		jas_cmpxformseq_destroy(revpxformseq);
+	}
+	if (prof) {
+		jas_cmprof_destroy(prof);
+	}
+
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+if (revpxformseq)
+if (prof)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+if (fwdpxformseq)
+<empty>
+prof
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromiccprof (jas_iccprof_t *iccprof)
+prof = 0
+fwdpxformseq = 0
+revpxformseq = 0
+jas_cmprof_create()
+prof = jas_cmprof_create()
+!(prof = jas_cmprof_create())
+&icchdr
+jas_iccprof_gethdr(iccprof &icchdr)
+iccprof
+prof->iccprof
+jas_iccprof_copy(iccprof)
+prof->iccprof = jas_iccprof_copy(iccprof)
+!(prof->iccprof = jas_iccprof_copy(iccprof))
+clrspc
+prof->clrspc
+colorspc
+icchdr.colorspc
+icctoclrspc(icchdr.colorspc 0)
+prof->clrspc = icctoclrspc(icchdr.colorspc 0)
+refclrspc
+prof->refclrspc
+refcolorspc
+icchdr.refcolorspc
+icctoclrspc(icchdr.refcolorspc 1)
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc 1)
+numchans
+prof->numchans
+clrspc
+prof->clrspc
+jas_clrspc_numchans(prof->clrspc)
+prof->numchans = jas_clrspc_numchans(prof->clrspc)
+numrefchans
+prof->numrefchans
+refclrspc
+prof->refclrspc
+jas_clrspc_numchans(prof->refclrspc)
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc)
+numchans
+prof->numchans
+prof->numchans == 1
+iccprof
+prof->iccprof
+&fwdpxformseq
+mono(prof->iccprof 0 &fwdpxformseq)
+iccprof
+prof->iccprof
+&revpxformseq
+mono(prof->iccprof 1 &revpxformseq)
+if (revpxformseq)
+<empty>
+--------------path over--------------

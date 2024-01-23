@@ -1,0 +1,1466 @@
+-----label-----
+0
+-----code-----
+static int jas_icctxtdesc_input(jas_iccattrval_t *attrval, jas_stream_t *in,
+  int cnt)
+{
+	int n;
+	int c;
+	jas_icctxtdesc_t *txtdesc = &attrval->data.txtdesc;
+	txtdesc->ascdata = 0;
+	txtdesc->ucdata = 0;
+	if (jas_iccgetuint32(in, &txtdesc->asclen))
+		goto error;
+	if (!(txtdesc->ascdata = jas_malloc(txtdesc->asclen)))
+		goto error;
+	if (jas_stream_read(in, txtdesc->ascdata, txtdesc->asclen) !=
+	  JAS_CAST(int, txtdesc->asclen))
+		goto error;
+	txtdesc->ascdata[txtdesc->asclen - 1] = '\0';
+	if (jas_iccgetuint32(in, &txtdesc->uclangcode) ||
+	  jas_iccgetuint32(in, &txtdesc->uclen))
+		goto error;
+	if (!(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2)))
+		goto error;
+	if (jas_stream_read(in, txtdesc->ucdata, txtdesc->uclen * 2) !=
+	  JAS_CAST(int, txtdesc->uclen * 2))
+		goto error;
+	if (jas_iccgetuint16(in, &txtdesc->sccode))
+		goto error;
+	if ((c = jas_stream_getc(in)) == EOF)
+		goto error;
+	txtdesc->maclen = c;
+	if (jas_stream_read(in, txtdesc->macdata, 67) != 67)
+		goto error;
+	txtdesc->asclen = strlen(txtdesc->ascdata) + 1;
+#define WORKAROUND_BAD_PROFILES
+#ifdef WORKAROUND_BAD_PROFILES
+	n = txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67;
+	if (n > cnt) {
+		return -1;
+	}
+	if (n < cnt) {
+		if (jas_stream_gobble(in, cnt - n) != cnt - n)
+			goto error;
+	}
+#else
+	if (txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67 != cnt)
+		return -1;
+#endif
+	return 0;
+error:
+	jas_icctxtdesc_destroy(attrval);
+	return -1;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+19,20
+21,22
+21,23
+21,24
+21,25
+21,26
+21,27
+21,28
+21,29
+21,30
+21,31
+21,32
+21,33
+21,34
+21,35
+21,36
+21,37
+21,38
+21,39
+21,40
+21,41
+21,42
+21,43
+21,44
+22,23
+23,24
+23,25
+25,26
+27,28
+28,29
+28,30
+30,31
+32,33
+33,34
+33,35
+34,35
+36,37
+36,38
+36,39
+39,40
+40,41
+41,42
+41,43
+42,43
+42,44
+43,44
+47,48
+48,49
+48,50
+49,50
+49,51
+50,51
+54,55
+55,56
+55,57
+56,57
+56,58
+57,58
+61,62
+61,63
+62,63
+62,64
+62,65
+63,64
+65,66
+67,68
+68,69
+68,70
+69,70
+72,73
+74,75
+74,76
+75,76
+76,77
+77,78
+77,79
+78,79
+78,80
+79,80
+82,83
+82,84
+83,84
+85,86
+85,87
+86,87
+89,90
+91,92
+91,93
+92,93
+93,94
+95,96
+96,97
+96,98
+97,98
+97,99
+98,99
+98,100
+99,100
+102,103
+102,104
+103,104
+103,105
+104,105
+109,110
+109,111
+110,111
+110,112
+111,112
+111,113
+111,114
+112,113
+114,115
+116,117
+117,118
+117,119
+118,119
+121,122
+121,123
+121,124
+122,123
+124,125
+126,127
+127,128
+127,129
+128,129
+131,132
+133,134
+133,135
+134,135
+135,136
+136,137
+136,138
+137,138
+137,139
+138,139
+141,142
+141,143
+142,143
+144,145
+144,146
+145,146
+145,147
+146,147
+150,151
+152,153
+152,154
+153,154
+154,155
+156,157
+156,158
+157,158
+157,159
+157,160
+158,159
+160,161
+162,163
+163,164
+163,165
+164,165
+167,168
+169,170
+169,171
+170,171
+170,172
+171,172
+172,173
+172,174
+173,174
+175,176
+175,177
+176,177
+178,179
+180,181
+182,183
+184,185
+185,186
+185,187
+186,187
+186,188
+187,188
+190,191
+192,193
+192,194
+193,194
+193,195
+194,195
+194,196
+194,197
+194,198
+195,196
+197,198
+199,200
+199,201
+200,201
+205,206
+207,208
+208,209
+208,210
+209,210
+209,211
+210,211
+213,214
+213,215
+214,215
+214,216
+215,216
+217,218
+217,219
+218,219
+222,223
+223,224
+223,225
+224,225
+226,227
+226,228
+227,228
+227,229
+228,229
+228,230
+229,230
+229,231
+230,231
+233,234
+233,235
+234,235
+234,236
+235,236
+241,242
+241,243
+242,243
+242,244
+243,244
+245,246
+247,248
+248,249
+249,250
+251,252
+251,253
+252,253
+252,254
+253,254
+255,256
+257,258
+258,259
+258,260
+259,260
+259,261
+260,261
+260,262
+260,263
+261,262
+263,264
+265,266
+265,267
+266,267
+268,269
+270,271
+270,272
+271,272
+273,274
+275,276
+277,278
+279,280
+279,281
+281,282
+282,283
+282,284
+283,284
+285,286
+287,288
+288,289
+-----nextToken-----
+2,4,7,9,10,13,15,16,18,20,24,26,29,31,35,37,38,44,45,46,51,52,53,58,59,60,64,66,70,71,73,80,81,84,87,88,90,94,100,101,105,106,107,108,113,115,119,120,123,125,129,130,132,139,140,143,147,148,149,151,155,159,161,165,166,168,174,177,179,181,183,188,189,191,196,198,201,202,203,204,206,211,212,216,219,220,221,225,231,232,236,237,238,239,240,244,246,250,254,256,262,264,267,269,272,274,276,278,280,284,286,289
+-----computeFrom-----
+48,49
+48,50
+55,56
+55,57
+77,78
+77,79
+96,97
+96,98
+102,103
+102,104
+110,111
+110,112
+136,137
+136,138
+144,145
+144,146
+170,171
+170,172
+172,173
+172,174
+185,186
+185,187
+193,194
+193,195
+208,209
+208,210
+213,214
+213,215
+223,224
+223,225
+226,227
+226,228
+227,228
+227,229
+228,229
+228,230
+233,234
+233,235
+242,243
+242,244
+252,253
+252,254
+259,260
+259,261
+265,266
+265,267
+270,271
+270,272
+-----guardedBy-----
+256,272
+254,274
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;GotoStatement;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;GotoStatement;Name;IfStatement;ProblemExpression;GotoStatement;Name;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;GotoStatement;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;GotoStatement;Name;IfStatement;ProblemExpression;GotoStatement;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;GotoStatement;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;GotoStatement;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;GotoStatement;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;GotoStatement;Name;ReturnStatement;LiteralExpression;LabelStatement;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;
+-----ast_node-----
+static int jas_icctxtdesc_input(jas_iccattrval_t *attrval, jas_stream_t *in,  int cnt){	int n;	int c;	jas_icctxtdesc_t *txtdesc = &attrval->data.txtdesc;	txtdesc->ascdata = 0;	txtdesc->ucdata = 0;	if (jas_iccgetuint32(in, &txtdesc->asclen))		goto error;	if (!(txtdesc->ascdata = jas_malloc(txtdesc->asclen)))		goto error;	if (jas_stream_read(in, txtdesc->ascdata, txtdesc->asclen) !=	  JAS_CAST(int, txtdesc->asclen))		goto error;	txtdesc->ascdata[txtdesc->asclen - 1] = '\0';	if (jas_iccgetuint32(in, &txtdesc->uclangcode) ||	  jas_iccgetuint32(in, &txtdesc->uclen))		goto error;	if (!(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2)))		goto error;	if (jas_stream_read(in, txtdesc->ucdata, txtdesc->uclen * 2) !=	  JAS_CAST(int, txtdesc->uclen * 2))		goto error;	if (jas_iccgetuint16(in, &txtdesc->sccode))		goto error;	if ((c = jas_stream_getc(in)) == EOF)		goto error;	txtdesc->maclen = c;	if (jas_stream_read(in, txtdesc->macdata, 67) != 67)		goto error;	txtdesc->asclen = strlen(txtdesc->ascdata) + 1;#define WORKAROUND_BAD_PROFILES#ifdef WORKAROUND_BAD_PROFILES	n = txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67;	if (n > cnt) {		return -1;	}	if (n < cnt) {		if (jas_stream_gobble(in, cnt - n) != cnt - n)			goto error;	}#else	if (txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67 != cnt)		return -1;#endif	return 0;error:	jas_icctxtdesc_destroy(attrval);	return -1;}
+static int
+jas_icctxtdesc_input(jas_iccattrval_t *attrval, jas_stream_t *in,  int cnt)
+jas_icctxtdesc_input
+jas_iccattrval_t *attrval
+jas_iccattrval_t
+jas_iccattrval_t
+*attrval
+*
+attrval
+jas_stream_t *in
+jas_stream_t
+jas_stream_t
+*in
+*
+in
+int cnt
+int
+cnt
+cnt
+{	int n;	int c;	jas_icctxtdesc_t *txtdesc = &attrval->data.txtdesc;	txtdesc->ascdata = 0;	txtdesc->ucdata = 0;	if (jas_iccgetuint32(in, &txtdesc->asclen))		goto error;	if (!(txtdesc->ascdata = jas_malloc(txtdesc->asclen)))		goto error;	if (jas_stream_read(in, txtdesc->ascdata, txtdesc->asclen) !=	  JAS_CAST(int, txtdesc->asclen))		goto error;	txtdesc->ascdata[txtdesc->asclen - 1] = '\0';	if (jas_iccgetuint32(in, &txtdesc->uclangcode) ||	  jas_iccgetuint32(in, &txtdesc->uclen))		goto error;	if (!(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2)))		goto error;	if (jas_stream_read(in, txtdesc->ucdata, txtdesc->uclen * 2) !=	  JAS_CAST(int, txtdesc->uclen * 2))		goto error;	if (jas_iccgetuint16(in, &txtdesc->sccode))		goto error;	if ((c = jas_stream_getc(in)) == EOF)		goto error;	txtdesc->maclen = c;	if (jas_stream_read(in, txtdesc->macdata, 67) != 67)		goto error;	txtdesc->asclen = strlen(txtdesc->ascdata) + 1;#define WORKAROUND_BAD_PROFILES#ifdef WORKAROUND_BAD_PROFILES	n = txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67;	if (n > cnt) {		return -1;	}	if (n < cnt) {		if (jas_stream_gobble(in, cnt - n) != cnt - n)			goto error;	}#else	if (txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67 != cnt)		return -1;#endif	return 0;error:	jas_icctxtdesc_destroy(attrval);	return -1;}
+int n;
+int n;
+int
+n
+n
+int c;
+int c;
+int
+c
+c
+jas_icctxtdesc_t *txtdesc = &attrval->data.txtdesc;
+jas_icctxtdesc_t *txtdesc = &attrval->data.txtdesc;
+jas_icctxtdesc_t
+jas_icctxtdesc_t
+*txtdesc = &attrval->data.txtdesc
+*
+txtdesc
+= &attrval->data.txtdesc
+&attrval->data.txtdesc
+attrval->data.txtdesc
+attrval->data
+attrval
+attrval
+data
+txtdesc
+txtdesc->ascdata = 0;
+txtdesc->ascdata = 0
+txtdesc->ascdata
+txtdesc
+txtdesc
+ascdata
+0
+txtdesc->ucdata = 0;
+txtdesc->ucdata = 0
+txtdesc->ucdata
+txtdesc
+txtdesc
+ucdata
+0
+if (jas_iccgetuint32(in, &txtdesc->asclen))		goto error;
+jas_iccgetuint32(in, &txtdesc->asclen)
+jas_iccgetuint32
+jas_iccgetuint32
+in
+in
+&txtdesc->asclen
+txtdesc->asclen
+txtdesc
+txtdesc
+asclen
+goto error;
+error
+if (!(txtdesc->ascdata = jas_malloc(txtdesc->asclen)))		goto error;
+!(txtdesc->ascdata = jas_malloc(txtdesc->asclen))
+(txtdesc->ascdata = jas_malloc(txtdesc->asclen))
+txtdesc->ascdata = jas_malloc(txtdesc->asclen)
+txtdesc->ascdata
+txtdesc
+txtdesc
+ascdata
+jas_malloc(txtdesc->asclen)
+jas_malloc
+jas_malloc
+txtdesc->asclen
+txtdesc
+txtdesc
+asclen
+goto error;
+error
+if (jas_stream_read(in, txtdesc->ascdata, txtdesc->asclen) !=	  JAS_CAST(int, txtdesc->asclen))		goto error;
+jas_stream_read(in, txtdesc->ascdata, txtdesc->asclen) !=	  JAS_CAST(int, txtdesc->asclen)
+goto error;
+error
+txtdesc->ascdata[txtdesc->asclen - 1] = '\0';
+txtdesc->ascdata[txtdesc->asclen - 1] = '\0'
+txtdesc->ascdata[txtdesc->asclen - 1]
+txtdesc->ascdata
+txtdesc
+txtdesc
+ascdata
+txtdesc->asclen - 1
+txtdesc->asclen
+txtdesc
+txtdesc
+asclen
+1
+'\0'
+if (jas_iccgetuint32(in, &txtdesc->uclangcode) ||	  jas_iccgetuint32(in, &txtdesc->uclen))		goto error;
+jas_iccgetuint32(in, &txtdesc->uclangcode) ||	  jas_iccgetuint32(in, &txtdesc->uclen)
+jas_iccgetuint32(in, &txtdesc->uclangcode)
+jas_iccgetuint32
+jas_iccgetuint32
+in
+in
+&txtdesc->uclangcode
+txtdesc->uclangcode
+txtdesc
+txtdesc
+uclangcode
+jas_iccgetuint32(in, &txtdesc->uclen)
+jas_iccgetuint32
+jas_iccgetuint32
+in
+in
+&txtdesc->uclen
+txtdesc->uclen
+txtdesc
+txtdesc
+uclen
+goto error;
+error
+if (!(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2)))		goto error;
+!(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2))
+(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2))
+txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2)
+txtdesc->ucdata
+txtdesc
+txtdesc
+ucdata
+jas_malloc(txtdesc->uclen * 2)
+jas_malloc
+jas_malloc
+txtdesc->uclen * 2
+txtdesc->uclen
+txtdesc
+txtdesc
+uclen
+2
+goto error;
+error
+if (jas_stream_read(in, txtdesc->ucdata, txtdesc->uclen * 2) !=	  JAS_CAST(int, txtdesc->uclen * 2))		goto error;
+jas_stream_read(in, txtdesc->ucdata, txtdesc->uclen * 2) !=	  JAS_CAST(int, txtdesc->uclen * 2)
+goto error;
+error
+if (jas_iccgetuint16(in, &txtdesc->sccode))		goto error;
+jas_iccgetuint16(in, &txtdesc->sccode)
+jas_iccgetuint16
+jas_iccgetuint16
+in
+in
+&txtdesc->sccode
+txtdesc->sccode
+txtdesc
+txtdesc
+sccode
+goto error;
+error
+if ((c = jas_stream_getc(in)) == EOF)		goto error;
+(c = jas_stream_getc(in)) == EOF
+(c = jas_stream_getc(in))
+c = jas_stream_getc(in)
+c
+c
+jas_stream_getc(in)
+jas_stream_getc
+jas_stream_getc
+in
+in
+EOF
+EOF
+goto error;
+error
+txtdesc->maclen = c;
+txtdesc->maclen = c
+txtdesc->maclen
+txtdesc
+txtdesc
+maclen
+c
+c
+if (jas_stream_read(in, txtdesc->macdata, 67) != 67)		goto error;
+jas_stream_read(in, txtdesc->macdata, 67) != 67
+jas_stream_read(in, txtdesc->macdata, 67)
+jas_stream_read
+jas_stream_read
+in
+in
+txtdesc->macdata
+txtdesc
+txtdesc
+macdata
+67
+67
+goto error;
+error
+txtdesc->asclen = strlen(txtdesc->ascdata) + 1;
+txtdesc->asclen = strlen(txtdesc->ascdata) + 1
+txtdesc->asclen
+txtdesc
+txtdesc
+asclen
+strlen(txtdesc->ascdata) + 1
+strlen(txtdesc->ascdata)
+strlen
+strlen
+txtdesc->ascdata
+txtdesc
+txtdesc
+ascdata
+1
+n = txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67;
+n = txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67
+n
+n
+txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67
+txtdesc->asclen + txtdesc->uclen * 2 + 15
+txtdesc->asclen + txtdesc->uclen * 2
+txtdesc->asclen
+txtdesc
+txtdesc
+asclen
+txtdesc->uclen * 2
+txtdesc->uclen
+txtdesc
+txtdesc
+uclen
+2
+15
+67
+if (n > cnt) {		return -1;	}
+n > cnt
+n
+n
+cnt
+cnt
+{		return -1;	}
+return -1;
+-1
+1
+if (n < cnt) {		if (jas_stream_gobble(in, cnt - n) != cnt - n)			goto error;	}
+n < cnt
+n
+n
+cnt
+cnt
+{		if (jas_stream_gobble(in, cnt - n) != cnt - n)			goto error;	}
+if (jas_stream_gobble(in, cnt - n) != cnt - n)			goto error;
+jas_stream_gobble(in, cnt - n) != cnt - n
+jas_stream_gobble(in, cnt - n)
+jas_stream_gobble
+jas_stream_gobble
+in
+in
+cnt - n
+cnt
+cnt
+n
+n
+cnt - n
+cnt
+cnt
+n
+n
+goto error;
+error
+return 0;
+0
+error:	jas_icctxtdesc_destroy(attrval);
+error
+jas_icctxtdesc_destroy(attrval);
+jas_icctxtdesc_destroy(attrval)
+jas_icctxtdesc_destroy
+jas_icctxtdesc_destroy
+attrval
+attrval
+return -1;
+-1
+1
+-----joern-----
+(4,40,0)
+(39,28,0)
+(47,3,0)
+(36,29,0)
+(17,47,0)
+(35,23,0)
+(26,28,0)
+(40,22,0)
+(43,40,0)
+(31,15,0)
+(19,28,0)
+(22,28,0)
+(46,29,0)
+(38,28,0)
+(33,21,0)
+(1,39,0)
+(23,38,0)
+(45,47,0)
+(42,47,0)
+(24,12,0)
+(1,17,0)
+(21,33,0)
+(47,45,0)
+(25,12,0)
+(9,42,0)
+(11,28,0)
+(16,23,0)
+(41,12,0)
+(42,31,0)
+(39,1,0)
+(14,39,0)
+(12,47,0)
+(10,19,0)
+(13,28,0)
+(6,19,0)
+(27,7,0)
+(36,38,0)
+(2,48,0)
+(29,21,0)
+(48,21,0)
+(17,1,0)
+(49,42,0)
+(5,28,0)
+(21,48,0)
+(22,40,0)
+(29,36,0)
+(40,47,0)
+(31,28,0)
+(20,21,0)
+(23,47,0)
+(12,25,0)
+(19,47,0)
+(37,17,0)
+(0,17,0)
+(8,28,0)
+(32,29,0)
+(38,36,0)
+(39,25,0)
+(18,31,0)
+(7,28,0)
+(48,15,0)
+(25,39,0)
+(30,47,0)
+(3,47,0)
+(6,7,0)
+(27,44,1)
+(47,45,1)
+(25,12,1)
+(16,35,1)
+(22,40,1)
+(33,21,1)
+(19,10,1)
+(6,7,1)
+(38,36,1)
+(6,19,1)
+(32,46,1)
+(12,47,1)
+(48,2,1)
+(7,27,1)
+(39,25,1)
+(14,1,1)
+(21,48,1)
+(31,15,1)
+(3,47,1)
+(23,16,1)
+(45,30,1)
+(40,47,1)
+(17,47,1)
+(35,3,1)
+(17,0,1)
+(18,42,1)
+(2,20,1)
+(40,43,1)
+(44,33,1)
+(23,47,1)
+(48,15,1)
+(42,9,1)
+(29,32,1)
+(37,22,1)
+(34,3,1)
+(24,41,1)
+(0,37,1)
+(1,17,1)
+(12,24,1)
+(4,31,1)
+(49,38,1)
+(9,49,1)
+(27,34,1)
+(30,33,1)
+(29,21,1)
+(39,1,1)
+(41,14,1)
+(43,4,1)
+(31,18,1)
+(36,29,1)
+(42,47,1)
+(46,23,1)
+(10,39,1)
+(19,47,1)
+(6,19,2)
+(41,3,2)
+(36,29,2)
+(18,3,2)
+(1,17,2)
+(27,3,2)
+(39,1,2)
+(31,15,2)
+(22,3,2)
+(47,33,2)
+(45,33,2)
+(3,47,2)
+(4,3,2)
+(22,40,2)
+(32,3,2)
+(25,12,2)
+(17,47,2)
+(47,45,2)
+(42,47,2)
+(23,3,2)
+(38,36,2)
+(27,33,2)
+(29,3,2)
+(40,47,2)
+(36,3,2)
+(23,47,2)
+(9,3,2)
+(39,25,2)
+(7,33,2)
+(21,48,2)
+(12,47,2)
+(38,3,2)
+(31,3,2)
+(48,15,2)
+(3,33,2)
+(30,33,2)
+(40,3,2)
+(37,3,2)
+(10,3,2)
+(24,3,2)
+(19,3,2)
+(0,3,2)
+(1,3,2)
+(33,21,2)
+(44,33,2)
+(49,3,2)
+(43,3,2)
+(35,3,2)
+(14,3,2)
+(42,3,2)
+(46,3,2)
+(12,3,2)
+(39,3,2)
+(6,7,2)
+(17,3,2)
+(34,3,2)
+(7,3,2)
+(29,21,2)
+(16,3,2)
+(25,3,2)
+(19,47,2)
+-----------------------------------
+(0,data)
+(1,&attrval->data)
+(2,type)
+(3,!(attrval = jas_iccattrval_create0()
+(4,attrval)
+(5,error:)
+(6,RET)
+(7,return 0;)
+(8,attrval)
+(9,type)
+(10,attrval)
+(11,if (!(attrval = jas_iccattrval_create0()
+(12,attrval->data)
+(13,info)
+(14,0)
+(15,jas_iccuint32_t type)
+(16,ops)
+(17,attrval->data)
+(18,type)
+(19,return attrval;)
+(20,info)
+(21,info = jas_iccattrvalinfo_lookup(type)
+(22,++attrval->refcnt)
+(23,attrval->ops)
+(24,data)
+(25,sizeof(attrval->data)
+(26,if (!(info = jas_iccattrvalinfo_lookup(type)
+(27,0)
+(28,)
+(29,info->ops)
+(30,attrval)
+(31,attrval->type = type)
+(32,ops)
+(33,!(info = jas_iccattrvalinfo_lookup(type)
+(34,goto error;)
+(35,attrval)
+(36,&info->ops)
+(37,attrval)
+(38,attrval->ops = &info->ops)
+(39,memset(&attrval->data, 0, sizeof(attrval->data)
+(40,attrval->refcnt)
+(41,attrval)
+(42,attrval->type)
+(43,refcnt)
+(44,goto error;)
+(45,jas_iccattrval_create0()
+(46,info)
+(47,attrval = jas_iccattrval_create0()
+(48,jas_iccattrvalinfo_lookup(type)
+(49,attrval)
+-----cfg-----
+(128,127)
+(130,128)
+(132,130)
+(7,21)
+(137,154)
+(138,145)
+(140,138)
+(141,137)
+(142,141)
+(15,26)
+(143,142)
+(17,15)
+(145,143)
+(18,17)
+(147,163)
+(19,22)
+(149,147)
+(21,19)
+(150,149)
+(22,18)
+(23,31)
+(151,150)
+(24,23)
+(152,158)
+(26,24)
+(154,152)
+(155,151)
+(28,39)
+(156,155)
+(29,28)
+(158,156)
+(31,29)
+(34,190)
+(34,47)
+(163,168)
+(163,171)
+(36,34)
+(37,36)
+(167,195)
+(39,37)
+(168,167)
+(43,55)
+(43,190)
+(171,179)
+(171,187)
+(44,43)
+(45,51)
+(47,45)
+(48,44)
+(176,190)
+(176,187)
+(49,48)
+(177,182)
+(51,49)
+(179,177)
+(182,176)
+(55,190)
+(55,62)
+(58,76)
+(187,195)
+(59,58)
+(60,66)
+(190,193)
+(62,60)
+(63,59)
+(192,195)
+(64,63)
+(193,192)
+(66,64)
+(70,190)
+(70,90)
+(71,70)
+(71,82)
+(73,71)
+(74,73)
+(76,74)
+(77,70)
+(79,77)
+(80,79)
+(82,80)
+(86,100)
+(86,190)
+(87,86)
+(88,95)
+(90,88)
+(91,87)
+(92,91)
+(93,92)
+(95,93)
+(100,190)
+(100,109)
+(104,190)
+(104,116)
+(106,104)
+(107,106)
+(109,107)
+(113,190)
+(113,124)
+(114,113)
+(116,114)
+(121,132)
+(122,121)
+(124,122)
+(127,190)
+(127,140)
+-----path-----
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,190,193,192,195
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,190,193,192,195
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,62,60,66,64,63,59,58,76,74,73,71,70,190,193,192,195
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,62,60,66,64,63,59,58,76,74,73,71,70,90,88,95,93,92,91,87,86,100,190,193,192,195
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,62,60,66,64,63,59,58,76,74,73,71,70,90,88,95,93,92,91,87,86,100,109,107,106,104,190
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,62,60,66,64,63,59,58,76,74,73,71,70,90,88,95,93,92,91,87,86,100,109,107,106,104,116
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,62,60,66,64,63,59,58,76,74,73,71,70,90,88,95,93,92,91,87,86,190,193,192,195
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,62,60,66,64,63,59,58,76,74,73,71,82,80,79,77,70,190,193,192,195
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,62,60,66,64,63,59,58,76,74,73,71,82,80,79,77,70,90,88,95,93,92,91,87,86,100,190
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,62,60,66,64,63,59,58,76,74,73,71,82,80,79,77,70,90,88,95,93,92,91,87,86,100,109
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,55,62,60,66,64,63,59,58,76,74,73,71,82,80,79,77,70,90,88,95,93,92,91,87,86,190,193
+7,21,19,22,18,17,15,26,24,23,31,29,28,39,37,36,34,47,45,51,49,48,44,43,190,193,192,195
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jas_icctxtdesc_input (jas_iccattrval_t *attrval,jas_stream_t *in,int cnt)
+8,jas_iccattrval_t *attrval
+9,jas_stream_t *in
+10,int cnt
+11,<empty>
+12,int n
+13,int c
+14,jas_icctxtdesc_t* txtdesc
+15,*txtdesc = &attrval->data.txtdesc
+16,txtdesc
+17,&attrval->data.txtdesc
+18,attrval->data.txtdesc
+19,attrval->data
+20,attrval
+21,data
+22,txtdesc
+23,txtdesc->ascdata = 0
+24,txtdesc->ascdata
+25,txtdesc
+26,ascdata
+27,0
+28,txtdesc->ucdata = 0
+29,txtdesc->ucdata
+30,txtdesc
+31,ucdata
+32,0
+33,if (jas_iccgetuint32(in, &txtdesc->asclen))
+34,jas_iccgetuint32(in, &txtdesc->asclen)
+35,in
+36,&txtdesc->asclen
+37,txtdesc->asclen
+38,txtdesc
+39,asclen
+40,<empty>
+41,goto error;
+42,if (!(txtdesc->ascdata = jas_malloc(txtdesc->asclen)))
+43,!(txtdesc->ascdata = jas_malloc(txtdesc->asclen))
+44,txtdesc->ascdata = jas_malloc(txtdesc->asclen)
+45,txtdesc->ascdata
+46,txtdesc
+47,ascdata
+48,jas_malloc(txtdesc->asclen)
+49,txtdesc->asclen
+50,txtdesc
+51,asclen
+52,<empty>
+53,goto error;
+54,if (jas_stream_read(in, txtdesc->ascdata, txtdesc->asclen) !=
+55,	  JAS_CAST(int, txtdesc->asclen))
+56,jas_stream_read(in, txtdesc->ascdata, txtdesc->asclen) !=
+57,	  JAS_CAST(int, txtdesc->asclen)
+58,<empty>
+59,goto error;
+60,txtdesc->ascdata[txtdesc->asclen - 1] = '\0'
+61,txtdesc->ascdata[txtdesc->asclen - 1]
+62,txtdesc->ascdata
+63,txtdesc
+64,ascdata
+65,txtdesc->asclen - 1
+66,txtdesc->asclen
+67,txtdesc
+68,asclen
+69,1
+70,'\0'
+71,if (jas_iccgetuint32(in, &txtdesc->uclangcode) ||
+72,	  jas_iccgetuint32(in, &txtdesc->uclen))
+73,jas_iccgetuint32(in, &txtdesc->uclangcode) ||
+74,	  jas_iccgetuint32(in, &txtdesc->uclen)
+75,jas_iccgetuint32(in, &txtdesc->uclangcode)
+76,in
+77,&txtdesc->uclangcode
+78,txtdesc->uclangcode
+79,txtdesc
+80,uclangcode
+81,jas_iccgetuint32(in, &txtdesc->uclen)
+82,in
+83,&txtdesc->uclen
+84,txtdesc->uclen
+85,txtdesc
+86,uclen
+87,<empty>
+88,goto error;
+89,if (!(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2)))
+90,!(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2))
+91,txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2)
+92,txtdesc->ucdata
+93,txtdesc
+94,ucdata
+95,jas_malloc(txtdesc->uclen * 2)
+96,txtdesc->uclen * 2
+97,txtdesc->uclen
+98,txtdesc
+99,uclen
+100,2
+101,<empty>
+102,goto error;
+103,if (jas_stream_read(in, txtdesc->ucdata, txtdesc->uclen * 2) !=
+104,	  JAS_CAST(int, txtdesc->uclen * 2))
+105,jas_stream_read(in, txtdesc->ucdata, txtdesc->uclen * 2) !=
+106,	  JAS_CAST(int, txtdesc->uclen * 2)
+107,<empty>
+108,goto error;
+109,if (jas_iccgetuint16(in, &txtdesc->sccode))
+110,jas_iccgetuint16(in, &txtdesc->sccode)
+111,in
+112,&txtdesc->sccode
+113,txtdesc->sccode
+114,txtdesc
+115,sccode
+116,<empty>
+117,goto error;
+118,if ((c = jas_stream_getc(in)) == EOF)
+119,(c = jas_stream_getc(in)) == EOF
+120,c = jas_stream_getc(in)
+121,c
+122,jas_stream_getc(in)
+123,in
+124,EOF
+125,<empty>
+126,goto error;
+127,txtdesc->maclen = c
+128,txtdesc->maclen
+129,txtdesc
+130,maclen
+131,c
+132,if (jas_stream_read(in, txtdesc->macdata, 67) != 67)
+133,jas_stream_read(in, txtdesc->macdata, 67) != 67
+134,jas_stream_read(in, txtdesc->macdata, 67)
+135,in
+136,txtdesc->macdata
+137,txtdesc
+138,macdata
+139,67
+140,67
+141,<empty>
+142,goto error;
+143,txtdesc->asclen = strlen(txtdesc->ascdata) + 1
+144,txtdesc->asclen
+145,txtdesc
+146,asclen
+147,strlen(txtdesc->ascdata) + 1
+148,strlen(txtdesc->ascdata)
+149,txtdesc->ascdata
+150,txtdesc
+151,ascdata
+152,1
+153,n = txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67
+154,n
+155,txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67
+156,txtdesc->asclen + txtdesc->uclen * 2 + 15
+157,txtdesc->asclen + txtdesc->uclen * 2
+158,txtdesc->asclen
+159,txtdesc
+160,asclen
+161,txtdesc->uclen * 2
+162,txtdesc->uclen
+163,txtdesc
+164,uclen
+165,2
+166,15
+167,67
+168,if (n > cnt)
+169,n > cnt
+170,n
+171,cnt
+172,<empty>
+173,return -1;
+174,-1
+175,1
+176,if (n < cnt)
+177,n < cnt
+178,n
+179,cnt
+180,<empty>
+181,if (jas_stream_gobble(in, cnt - n) != cnt - n)
+182,jas_stream_gobble(in, cnt - n) != cnt - n
+183,jas_stream_gobble(in, cnt - n)
+184,in
+185,cnt - n
+186,cnt
+187,n
+188,cnt - n
+189,cnt
+190,n
+191,<empty>
+192,goto error;
+193,return 0;
+194,0
+195,error:
+196,	jas_icctxtdesc_destroy(attrval);
+197,jas_icctxtdesc_destroy(attrval)
+198,attrval
+199,return -1;
+200,-1
+201,1
+202,RET
+203,jas_iccattrval_t *attrval
+204,jas_stream_t *in
+205,int cnt
+206,RET
+207,int jas_icctxtdesc_input (jas_iccattrval_t *attrval,jas_stream_t *in,int cnt)
+208,jas_iccattrval_t *attrval
+209,jas_stream_t *in
+210,int cnt
+211,<empty>
+212,int n
+213,int c
+214,jas_icctxtdesc_t* txtdesc
+215,*txtdesc = &attrval->data.txtdesc
+216,txtdesc
+217,&attrval->data.txtdesc
+218,attrval->data.txtdesc
+219,attrval->data
+220,attrval
+221,data
+222,txtdesc
+223,txtdesc->ascdata = 0
+224,txtdesc->ascdata
+225,txtdesc
+226,ascdata
+227,0
+228,txtdesc->ucdata = 0
+229,txtdesc->ucdata
+230,txtdesc
+231,ucdata
+232,0
+233,if (jas_iccgetuint32(in, &txtdesc->asclen))
+234,jas_iccgetuint32(in, &txtdesc->asclen)
+235,in
+236,&txtdesc->asclen
+237,txtdesc->asclen
+238,txtdesc
+239,asclen
+240,<empty>
+241,goto error;
+242,if (!(txtdesc->ascdata = jas_malloc(txtdesc->asclen)))
+243,!(txtdesc->ascdata = jas_malloc(txtdesc->asclen))
+244,txtdesc->ascdata = jas_malloc(txtdesc->asclen)
+245,txtdesc->ascdata
+246,txtdesc
+247,ascdata
+248,jas_malloc(txtdesc->asclen)
+249,txtdesc->asclen
+250,txtdesc
+251,asclen
+252,<empty>
+253,goto error;
+254,if (jas_stream_read(in, txtdesc->ascdata, txtdesc->asclen) !=
+255,	  JAS_CAST(int, txtdesc->asclen))
+256,jas_stream_read(in, txtdesc->ascdata, txtdesc->asclen) !=
+257,	  JAS_CAST(int, txtdesc->asclen)
+258,<empty>
+259,goto error;
+260,txtdesc->ascdata[txtdesc->asclen - 1] = '\0'
+261,txtdesc->ascdata[txtdesc->asclen - 1]
+262,txtdesc->ascdata
+263,txtdesc
+264,ascdata
+265,txtdesc->asclen - 1
+266,txtdesc->asclen
+267,txtdesc
+268,asclen
+269,1
+270,'\0'
+271,if (jas_iccgetuint32(in, &txtdesc->uclangcode) ||
+272,	  jas_iccgetuint32(in, &txtdesc->uclen))
+273,jas_iccgetuint32(in, &txtdesc->uclangcode) ||
+274,	  jas_iccgetuint32(in, &txtdesc->uclen)
+275,jas_iccgetuint32(in, &txtdesc->uclangcode)
+276,in
+277,&txtdesc->uclangcode
+278,txtdesc->uclangcode
+279,txtdesc
+280,uclangcode
+281,jas_iccgetuint32(in, &txtdesc->uclen)
+282,in
+283,&txtdesc->uclen
+284,txtdesc->uclen
+285,txtdesc
+286,uclen
+287,<empty>
+288,goto error;
+289,if (!(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2)))
+290,!(txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2))
+291,txtdesc->ucdata = jas_malloc(txtdesc->uclen * 2)
+292,txtdesc->ucdata
+293,txtdesc
+294,ucdata
+295,jas_malloc(txtdesc->uclen * 2)
+296,txtdesc->uclen * 2
+297,txtdesc->uclen
+298,txtdesc
+299,uclen
+300,2
+301,<empty>
+302,goto error;
+303,if (jas_stream_read(in, txtdesc->ucdata, txtdesc->uclen * 2) !=
+304,	  JAS_CAST(int, txtdesc->uclen * 2))
+305,jas_stream_read(in, txtdesc->ucdata, txtdesc->uclen * 2) !=
+306,	  JAS_CAST(int, txtdesc->uclen * 2)
+307,<empty>
+308,goto error;
+309,if (jas_iccgetuint16(in, &txtdesc->sccode))
+310,jas_iccgetuint16(in, &txtdesc->sccode)
+311,in
+312,&txtdesc->sccode
+313,txtdesc->sccode
+314,txtdesc
+315,sccode
+316,<empty>
+317,goto error;
+318,if ((c = jas_stream_getc(in)) == EOF)
+319,(c = jas_stream_getc(in)) == EOF
+320,c = jas_stream_getc(in)
+321,c
+322,jas_stream_getc(in)
+323,in
+324,EOF
+325,<empty>
+326,goto error;
+327,txtdesc->maclen = c
+328,txtdesc->maclen
+329,txtdesc
+330,maclen
+331,c
+332,if (jas_stream_read(in, txtdesc->macdata, 67) != 67)
+333,jas_stream_read(in, txtdesc->macdata, 67) != 67
+334,jas_stream_read(in, txtdesc->macdata, 67)
+335,in
+336,txtdesc->macdata
+337,txtdesc
+338,macdata
+339,67
+340,67
+341,<empty>
+342,goto error;
+343,txtdesc->asclen = strlen(txtdesc->ascdata) + 1
+344,txtdesc->asclen
+345,txtdesc
+346,asclen
+347,strlen(txtdesc->ascdata) + 1
+348,strlen(txtdesc->ascdata)
+349,txtdesc->ascdata
+350,txtdesc
+351,ascdata
+352,1
+353,n = txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67
+354,n
+355,txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67
+356,txtdesc->asclen + txtdesc->uclen * 2 + 15
+357,txtdesc->asclen + txtdesc->uclen * 2
+358,txtdesc->asclen
+359,txtdesc
+360,asclen
+361,txtdesc->uclen * 2
+362,txtdesc->uclen
+363,txtdesc
+364,uclen
+365,2
+366,15
+367,67
+368,if (n > cnt)
+369,n > cnt
+370,n
+371,cnt
+372,<empty>
+373,return -1;
+374,-1
+375,1
+376,if (n < cnt)
+377,n < cnt
+378,n
+379,cnt
+380,<empty>
+381,if (jas_stream_gobble(in, cnt - n) != cnt - n)
+382,jas_stream_gobble(in, cnt - n) != cnt - n
+383,jas_stream_gobble(in, cnt - n)
+384,in
+385,cnt - n
+386,cnt
+387,n
+388,cnt - n
+389,cnt
+390,n
+391,<empty>
+392,goto error;
+393,return 0;
+394,0
+395,error:
+396,	jas_icctxtdesc_destroy(attrval);
+397,jas_icctxtdesc_destroy(attrval)
+398,attrval
+399,return -1;
+400,-1
+401,1
+402,RET
+403,jas_iccattrval_t *attrval
+404,jas_stream_t *in
+405,int cnt
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int jas_icctxtdesc_input(jas_iccattrval_t *attrval, jas_stream_t *in,   int cnt) {
+int n;
+int c;
+jas_icctxtdesc_t *txtdesc = &attrval->data.txtdesc;
+txtdesc->ascdata = 0;
+txtdesc->ucdata = 0;
+txtdesc->ascdata[txtdesc->asclen - 1] = '
+txtdesc->maclen = c;
+txtdesc->asclen = strlen(txtdesc->ascdata) + 1;
+n = txtdesc->asclen + txtdesc->uclen * 2 + 15 + 67;
+return 0;
+=======================

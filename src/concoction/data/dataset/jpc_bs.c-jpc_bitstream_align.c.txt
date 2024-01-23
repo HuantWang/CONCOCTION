@@ -1,0 +1,371 @@
+-----label-----
+0
+-----code-----
+int jpc_bitstream_align(jpc_bitstream_t *bitstream)
+{
+	int ret;
+	if (bitstream->openmode_ & JPC_BITSTREAM_READ) {
+		ret = jpc_bitstream_inalign(bitstream, 0, 0);
+	} else if (bitstream->openmode_ & JPC_BITSTREAM_WRITE) {
+		ret = jpc_bitstream_outalign(bitstream, 0);
+	} else {
+		abort();
+	}
+	return ret;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+12,13
+13,14
+13,15
+15,16
+17,18
+17,19
+17,20
+18,19
+18,20
+19,20
+19,21
+20,21
+23,24
+25,26
+26,27
+27,28
+27,29
+28,29
+30,31
+30,32
+30,33
+30,34
+31,32
+33,34
+37,38
+37,39
+37,40
+38,39
+38,40
+39,40
+39,41
+40,41
+43,44
+45,46
+46,47
+47,48
+47,49
+48,49
+50,51
+50,52
+50,53
+51,52
+53,54
+56,57
+57,58
+58,59
+59,60
+61,62
+62,63
+-----nextToken-----
+2,4,7,9,10,14,16,21,22,24,29,32,34,35,36,41,42,44,49,52,54,55,60,63
+-----computeFrom-----
+18,19
+18,20
+27,28
+27,29
+38,39
+38,40
+47,48
+47,49
+-----guardedBy-----
+21,34
+41,54
+-----guardedByNegation-----
+21,54
+22,42
+-----lastLexicalUse-----
+21,54
+-----jump-----
+21,54
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+int jpc_bitstream_align(jpc_bitstream_t *bitstream){	int ret;	if (bitstream->openmode_ & JPC_BITSTREAM_READ) {		ret = jpc_bitstream_inalign(bitstream, 0, 0);	} else if (bitstream->openmode_ & JPC_BITSTREAM_WRITE) {		ret = jpc_bitstream_outalign(bitstream, 0);	} else {		abort();	}	return ret;}
+int
+jpc_bitstream_align(jpc_bitstream_t *bitstream)
+jpc_bitstream_align
+jpc_bitstream_t *bitstream
+jpc_bitstream_t
+jpc_bitstream_t
+*bitstream
+*
+bitstream
+{	int ret;	if (bitstream->openmode_ & JPC_BITSTREAM_READ) {		ret = jpc_bitstream_inalign(bitstream, 0, 0);	} else if (bitstream->openmode_ & JPC_BITSTREAM_WRITE) {		ret = jpc_bitstream_outalign(bitstream, 0);	} else {		abort();	}	return ret;}
+int ret;
+int ret;
+int
+ret
+ret
+if (bitstream->openmode_ & JPC_BITSTREAM_READ) {		ret = jpc_bitstream_inalign(bitstream, 0, 0);	} else if (bitstream->openmode_ & JPC_BITSTREAM_WRITE) {		ret = jpc_bitstream_outalign(bitstream, 0);	} else {		abort();	}
+bitstream->openmode_ & JPC_BITSTREAM_READ
+bitstream->openmode_
+bitstream
+bitstream
+openmode_
+JPC_BITSTREAM_READ
+JPC_BITSTREAM_READ
+{		ret = jpc_bitstream_inalign(bitstream, 0, 0);	}
+ret = jpc_bitstream_inalign(bitstream, 0, 0);
+ret = jpc_bitstream_inalign(bitstream, 0, 0)
+ret
+ret
+jpc_bitstream_inalign(bitstream, 0, 0)
+jpc_bitstream_inalign
+jpc_bitstream_inalign
+bitstream
+bitstream
+0
+0
+if (bitstream->openmode_ & JPC_BITSTREAM_WRITE) {		ret = jpc_bitstream_outalign(bitstream, 0);	} else {		abort();	}
+bitstream->openmode_ & JPC_BITSTREAM_WRITE
+bitstream->openmode_
+bitstream
+bitstream
+openmode_
+JPC_BITSTREAM_WRITE
+JPC_BITSTREAM_WRITE
+{		ret = jpc_bitstream_outalign(bitstream, 0);	}
+ret = jpc_bitstream_outalign(bitstream, 0);
+ret = jpc_bitstream_outalign(bitstream, 0)
+ret
+ret
+jpc_bitstream_outalign(bitstream, 0)
+jpc_bitstream_outalign
+jpc_bitstream_outalign
+bitstream
+bitstream
+0
+{		abort();	}
+abort();
+abort()
+abort
+abort
+return ret;
+ret
+ret
+-----joern-----
+(17,10,0)
+(13,0,0)
+(3,15,0)
+(1,19,0)
+(15,9,0)
+(22,21,0)
+(14,15,0)
+(24,0,0)
+(5,9,0)
+(0,19,0)
+(6,11,0)
+(9,15,0)
+(7,16,0)
+(8,10,0)
+(16,4,0)
+(20,7,0)
+(23,8,0)
+(24,16,0)
+(10,8,0)
+(24,22,0)
+(18,8,0)
+(15,2,0)
+(12,22,0)
+(8,2,0)
+(7,20,1)
+(15,2,1)
+(10,17,1)
+(5,15,1)
+(9,15,1)
+(23,9,1)
+(17,8,1)
+(12,10,1)
+(10,8,1)
+(24,22,1)
+(24,0,1)
+(22,12,1)
+(16,7,1)
+(8,2,1)
+(3,14,1)
+(8,18,1)
+(20,9,1)
+(18,23,1)
+(15,3,1)
+(13,10,1)
+(9,5,1)
+(24,16,1)
+(0,13,1)
+(22,10,2)
+(10,8,2)
+(8,9,2)
+(20,9,2)
+(23,9,2)
+(24,16,2)
+(17,9,2)
+(0,10,2)
+(13,10,2)
+(8,2,2)
+(7,9,2)
+(15,2,2)
+(10,9,2)
+(24,0,2)
+(12,10,2)
+(9,15,2)
+(24,22,2)
+(18,9,2)
+(16,9,2)
+-----------------------------------
+(0,return 0;)
+(1,if (bitstream->cnt_ < 8)
+(2,jpc_bitstream_t *bitstream)
+(3,openmode_)
+(4,)
+(5,JPC_BITSTREAM_WRITE)
+(6,if (bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(7,-1)
+(8,bitstream->cnt_)
+(9,bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(10,bitstream->cnt_ < 8)
+(11,)
+(12,1)
+(13,0)
+(14,bitstream)
+(15,bitstream->openmode_)
+(16,return -1;)
+(17,8)
+(18,cnt_)
+(19,)
+(20,1)
+(21,)
+(22,return 1;)
+(23,bitstream)
+(24,RET)
+-----cfg-----
+(33,41)
+(35,33)
+(7,15)
+(40,41)
+(41,43)
+(12,20)
+(12,30)
+(13,12)
+(15,13)
+(18,41)
+(20,18)
+(27,40)
+(27,35)
+(28,27)
+(30,28)
+-----path-----
+7,15,13,12,20,18,41,43
+7,15,13,12,30,28,27,40,41,43
+7,15,13,12,30,28,27,35,33,41,43
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_bitstream_align (jpc_bitstream_t *bitstream)
+8,jpc_bitstream_t *bitstream
+9,<empty>
+10,int ret
+11,if (bitstream->openmode_ & JPC_BITSTREAM_READ)
+12,bitstream->openmode_ & JPC_BITSTREAM_READ
+13,bitstream->openmode_
+14,bitstream
+15,openmode_
+16,JPC_BITSTREAM_READ
+17,<empty>
+18,ret = jpc_bitstream_inalign(bitstream, 0, 0)
+19,ret
+20,jpc_bitstream_inalign(bitstream, 0, 0)
+21,bitstream
+22,0
+23,0
+24,else
+25,<empty>
+26,if (bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+27,bitstream->openmode_ & JPC_BITSTREAM_WRITE
+28,bitstream->openmode_
+29,bitstream
+30,openmode_
+31,JPC_BITSTREAM_WRITE
+32,<empty>
+33,ret = jpc_bitstream_outalign(bitstream, 0)
+34,ret
+35,jpc_bitstream_outalign(bitstream, 0)
+36,bitstream
+37,0
+38,else
+39,<empty>
+40,abort()
+41,return ret;
+42,ret
+43,RET
+44,jpc_bitstream_t *bitstream
+45,RET
+46,int jpc_bitstream_align (jpc_bitstream_t *bitstream)
+47,jpc_bitstream_t *bitstream
+48,<empty>
+49,int ret
+50,if (bitstream->openmode_ & JPC_BITSTREAM_READ)
+51,bitstream->openmode_ & JPC_BITSTREAM_READ
+52,bitstream->openmode_
+53,bitstream
+54,openmode_
+55,JPC_BITSTREAM_READ
+56,<empty>
+57,ret = jpc_bitstream_inalign(bitstream, 0, 0)
+58,ret
+59,jpc_bitstream_inalign(bitstream, 0, 0)
+60,bitstream
+61,0
+62,0
+63,else
+64,<empty>
+65,if (bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+66,bitstream->openmode_ & JPC_BITSTREAM_WRITE
+67,bitstream->openmode_
+68,bitstream
+69,openmode_
+70,JPC_BITSTREAM_WRITE
+71,<empty>
+72,ret = jpc_bitstream_outalign(bitstream, 0)
+73,ret
+74,jpc_bitstream_outalign(bitstream, 0)
+75,bitstream
+76,0
+77,else
+78,<empty>
+79,abort()
+80,return ret;
+81,ret
+82,RET
+83,jpc_bitstream_t *bitstream
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_bitstream_align(jpc_bitstream_t *bitstream) {
+int ret;
+if(bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+ret = jpc_bitstream_outalign(bitstream, 0);
+return ret;
+=======================

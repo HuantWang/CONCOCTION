@@ -1,0 +1,1822 @@
+-----label-----
+0
+-----code-----
+static struct zip_cdir *
+_zip_find_central_dir(FILE *fp, int flags, int *zep, off_t len)
+{
+    struct zip_cdir *cdir, *cdirnew;
+    unsigned char *buf, *match;
+    off_t buf_offset;
+    int a, best, buflen, i;
+    struct zip_error zerr;
+
+    i = fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END);
+    if (i == -1 && errno != EFBIG) {
+	/* seek before start of file on my machine */
+	set_error(zep, NULL, ZIP_ER_SEEK);
+	return NULL;
+    }
+    buf_offset = ftello(fp);
+    
+    /* 64k is too much for stack */
+    if ((buf=(unsigned char *)malloc(CDBUFSIZE)) == NULL) {
+	set_error(zep, NULL, ZIP_ER_MEMORY);
+	return NULL;
+    }
+
+    clearerr(fp);
+    buflen = fread(buf, 1, CDBUFSIZE, fp);
+
+    if (ferror(fp)) {
+	set_error(zep, NULL, ZIP_ER_READ);
+	free(buf);
+	return NULL;
+    }
+    
+    best = -1;
+    cdir = NULL;
+    match = buf;
+    _zip_error_set(&zerr, ZIP_ER_NOZIP, 0);
+
+    while ((match=_zip_memmem(match, buflen-(match-buf)-18,
+			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL) {
+	/* found match -- check, if good */
+	/* to avoid finding the same match all over again */
+	match++;
+	if ((cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,
+				   &zerr)) == NULL)
+	    continue;
+
+	if (cdir) {
+	    if (best <= 0)
+		best = _zip_checkcons(fp, cdir, &zerr);
+	    a = _zip_checkcons(fp, cdirnew, &zerr);
+	    if (best < a) {
+		_zip_cdir_free(cdir);
+		cdir = cdirnew;
+		best = a;
+	    }
+	    else
+		_zip_cdir_free(cdirnew);
+	}
+	else {
+	    cdir = cdirnew;
+	    if (flags & ZIP_CHECKCONS)
+		best = _zip_checkcons(fp, cdir, &zerr);
+	    else
+		best = 0;
+	}
+	cdirnew = NULL;
+    }
+
+    free(buf);
+    
+    if (best < 0) {
+	set_error(zep, &zerr, 0);
+	_zip_cdir_free(cdir);
+	return NULL;
+    }
+
+    return cdir;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+4,9
+4,10
+7,8
+7,9
+8,9
+10,11
+10,12
+13,14
+13,15
+15,16
+17,18
+17,19
+19,20
+19,21
+22,23
+22,24
+23,24
+25,26
+27,28
+27,29
+27,30
+27,31
+27,32
+27,33
+27,34
+27,35
+27,36
+27,37
+27,38
+27,39
+27,40
+27,41
+27,42
+27,43
+27,44
+27,45
+27,46
+27,47
+28,29
+29,30
+29,31
+29,32
+30,31
+32,33
+32,34
+35,36
+35,37
+38,39
+39,40
+39,41
+39,42
+41,42
+41,43
+44,45
+44,46
+47,48
+48,49
+48,50
+49,50
+51,52
+53,54
+54,55
+54,56
+54,57
+54,58
+54,59
+56,57
+58,59
+60,61
+62,63
+64,65
+65,66
+65,67
+66,67
+68,69
+70,71
+71,72
+71,73
+72,73
+74,75
+74,76
+74,77
+74,78
+75,76
+77,78
+79,80
+80,81
+81,82
+81,83
+81,84
+82,83
+82,84
+83,84
+85,86
+87,88
+89,90
+91,92
+93,94
+93,95
+94,95
+94,96
+95,96
+95,97
+96,97
+98,99
+100,101
+100,102
+101,102
+103,104
+105,106
+105,107
+106,107
+107,108
+107,109
+107,110
+107,111
+108,109
+110,111
+112,113
+114,115
+116,117
+117,118
+119,120
+120,121
+120,122
+121,122
+123,124
+123,125
+124,125
+126,127
+128,129
+128,130
+129,130
+129,131
+130,131
+131,132
+131,133
+132,133
+134,135
+134,136
+135,136
+135,137
+137,138
+139,140
+139,141
+140,141
+142,143
+144,145
+146,147
+146,148
+147,148
+148,149
+148,150
+148,151
+148,152
+149,150
+151,152
+153,154
+155,156
+157,158
+158,159
+160,161
+161,162
+161,163
+162,163
+164,165
+166,167
+167,168
+167,169
+168,169
+170,171
+170,172
+170,173
+170,174
+170,175
+171,172
+173,174
+176,177
+178,179
+180,181
+180,182
+181,182
+181,183
+182,183
+184,185
+186,187
+186,188
+186,189
+187,188
+188,189
+188,190
+188,191
+188,192
+189,190
+191,192
+193,194
+195,196
+197,198
+198,199
+198,200
+199,200
+201,202
+203,204
+204,205
+206,207
+207,208
+207,209
+208,209
+210,211
+212,213
+213,214
+213,215
+214,215
+216,217
+218,219
+219,220
+219,221
+220,221
+222,223
+224,225
+225,226
+225,227
+225,228
+225,229
+226,227
+228,229
+229,230
+231,232
+234,235
+234,236
+235,236
+235,237
+236,237
+237,238
+237,239
+238,239
+240,241
+240,242
+240,243
+240,244
+240,245
+241,242
+243,244
+245,246
+245,247
+246,247
+246,248
+247,248
+249,250
+250,251
+250,252
+251,252
+253,254
+256,257
+256,258
+257,258
+257,259
+259,260
+261,262
+264,265
+266,267
+266,268
+266,269
+266,270
+267,268
+268,269
+269,270
+271,272
+271,273
+272,273
+272,274
+273,274
+274,275
+274,276
+275,276
+277,278
+277,279
+277,280
+277,281
+277,282
+277,283
+277,284
+277,285
+278,279
+280,281
+282,283
+284,285
+286,287
+286,288
+287,288
+290,291
+292,293
+294,295
+295,296
+297,298
+300,301
+300,302
+300,303
+301,302
+303,304
+303,305
+303,306
+304,305
+304,306
+305,306
+305,307
+306,307
+309,310
+310,311
+310,312
+311,312
+313,314
+313,315
+313,316
+313,317
+314,315
+316,317
+318,319
+320,321
+321,322
+323,324
+324,325
+324,326
+325,326
+327,328
+327,329
+327,330
+327,331
+328,329
+330,331
+332,333
+334,335
+335,336
+337,338
+337,339
+337,340
+338,339
+338,340
+339,340
+341,342
+343,344
+343,345
+343,346
+344,345
+345,346
+345,347
+346,347
+348,349
+350,351
+351,352
+351,353
+352,353
+354,355
+356,357
+357,358
+357,359
+358,359
+360,361
+362,363
+363,364
+363,365
+364,365
+366,367
+368,369
+368,370
+369,370
+370,371
+370,372
+371,372
+373,374
+375,376
+375,377
+375,378
+376,377
+376,378
+377,378
+379,380
+381,382
+382,383
+382,384
+383,384
+385,386
+385,387
+385,388
+385,389
+386,387
+388,389
+390,391
+392,393
+393,394
+395,396
+396,397
+396,398
+397,398
+400,401
+401,402
+401,403
+402,403
+404,405
+406,407
+407,408
+407,409
+408,409
+410,411
+412,413
+412,414
+413,414
+413,415
+414,415
+417,418
+417,419
+417,420
+418,419
+419,420
+419,421
+419,422
+419,423
+420,421
+422,423
+424,425
+425,426
+428,429
+429,430
+429,431
+430,431
+432,433
+434,435
+435,436
+437,438
+438,439
+-----nextToken-----
+3,5,6,9,11,12,14,16,18,20,21,24,26,31,33,34,36,37,40,42,43,45,46,50,52,55,57,59,61,63,67,69,73,76,78,84,86,88,90,92,97,99,102,104,109,111,113,115,118,122,125,127,133,136,138,141,143,145,150,152,154,156,159,163,165,169,172,174,175,177,179,183,185,190,192,194,196,200,202,205,209,211,215,217,221,223,227,230,232,233,239,242,244,248,252,254,255,258,260,262,263,265,270,276,279,281,283,285,288,289,291,293,296,298,299,302,307,308,312,315,317,319,322,326,329,331,333,336,340,342,347,349,353,355,359,361,365,367,372,374,378,380,384,387,389,391,394,398,399,403,405,409,411,415,416,421,423,426,427,431,433,436,439
+-----computeFrom-----
+71,72
+71,73
+82,83
+82,84
+94,95
+94,96
+95,96
+95,97
+100,101
+100,102
+120,121
+120,122
+129,130
+129,131
+131,132
+131,133
+167,168
+167,169
+207,208
+207,209
+213,214
+213,215
+219,220
+219,221
+235,236
+235,237
+237,238
+237,239
+245,246
+245,247
+246,247
+246,248
+250,251
+250,252
+272,273
+272,274
+274,275
+274,276
+286,287
+286,288
+305,306
+305,307
+310,311
+310,312
+324,325
+324,326
+338,339
+338,340
+351,352
+351,353
+357,358
+357,359
+370,371
+370,372
+376,377
+376,378
+382,383
+382,384
+396,397
+396,398
+401,402
+401,403
+413,414
+413,415
+-----guardedBy-----
+145,159
+307,312
+342,361
+340,359
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;ElaboratedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Pointer;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;Declarator;Name;Declarator;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;UnaryExpression;ConditionalExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;BinaryExpression;IdExpression;Name;UnaryExpression;LiteralExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;Pointer;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;IdExpression;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;WhileStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;BinaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;Pointer;IdExpression;Name;LiteralExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;UnaryExpression;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;IdExpression;Name;ContinueStatement;IfStatement;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+static struct zip_cdir *_zip_find_central_dir(FILE *fp, int flags, int *zep, off_t len){    struct zip_cdir *cdir, *cdirnew;    unsigned char *buf, *match;    off_t buf_offset;    int a, best, buflen, i;    struct zip_error zerr;    i = fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END);    if (i == -1 && errno != EFBIG) {	/* seek before start of file on my machine */	set_error(zep, NULL, ZIP_ER_SEEK);	return NULL;    }    buf_offset = ftello(fp);        /* 64k is too much for stack */    if ((buf=(unsigned char *)malloc(CDBUFSIZE)) == NULL) {	set_error(zep, NULL, ZIP_ER_MEMORY);	return NULL;    }    clearerr(fp);    buflen = fread(buf, 1, CDBUFSIZE, fp);    if (ferror(fp)) {	set_error(zep, NULL, ZIP_ER_READ);	free(buf);	return NULL;    }        best = -1;    cdir = NULL;    match = buf;    _zip_error_set(&zerr, ZIP_ER_NOZIP, 0);    while ((match=_zip_memmem(match, buflen-(match-buf)-18,			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL) {	/* found match -- check, if good */	/* to avoid finding the same match all over again */	match++;	if ((cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,				   &zerr)) == NULL)	    continue;	if (cdir) {	    if (best <= 0)		best = _zip_checkcons(fp, cdir, &zerr);	    a = _zip_checkcons(fp, cdirnew, &zerr);	    if (best < a) {		_zip_cdir_free(cdir);		cdir = cdirnew;		best = a;	    }	    else		_zip_cdir_free(cdirnew);	}	else {	    cdir = cdirnew;	    if (flags & ZIP_CHECKCONS)		best = _zip_checkcons(fp, cdir, &zerr);	    else		best = 0;	}	cdirnew = NULL;    }    free(buf);        if (best < 0) {	set_error(zep, &zerr, 0);	_zip_cdir_free(cdir);	return NULL;    }    return cdir;}
+static struct zip_cdir
+zip_cdir
+*_zip_find_central_dir(FILE *fp, int flags, int *zep, off_t len)
+*
+_zip_find_central_dir
+FILE *fp
+FILE
+FILE
+*fp
+*
+fp
+int flags
+int
+flags
+flags
+int *zep
+int
+*zep
+*
+zep
+off_t len
+off_t
+off_t
+len
+len
+{    struct zip_cdir *cdir, *cdirnew;    unsigned char *buf, *match;    off_t buf_offset;    int a, best, buflen, i;    struct zip_error zerr;    i = fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END);    if (i == -1 && errno != EFBIG) {	/* seek before start of file on my machine */	set_error(zep, NULL, ZIP_ER_SEEK);	return NULL;    }    buf_offset = ftello(fp);        /* 64k is too much for stack */    if ((buf=(unsigned char *)malloc(CDBUFSIZE)) == NULL) {	set_error(zep, NULL, ZIP_ER_MEMORY);	return NULL;    }    clearerr(fp);    buflen = fread(buf, 1, CDBUFSIZE, fp);    if (ferror(fp)) {	set_error(zep, NULL, ZIP_ER_READ);	free(buf);	return NULL;    }        best = -1;    cdir = NULL;    match = buf;    _zip_error_set(&zerr, ZIP_ER_NOZIP, 0);    while ((match=_zip_memmem(match, buflen-(match-buf)-18,			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL) {	/* found match -- check, if good */	/* to avoid finding the same match all over again */	match++;	if ((cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,				   &zerr)) == NULL)	    continue;	if (cdir) {	    if (best <= 0)		best = _zip_checkcons(fp, cdir, &zerr);	    a = _zip_checkcons(fp, cdirnew, &zerr);	    if (best < a) {		_zip_cdir_free(cdir);		cdir = cdirnew;		best = a;	    }	    else		_zip_cdir_free(cdirnew);	}	else {	    cdir = cdirnew;	    if (flags & ZIP_CHECKCONS)		best = _zip_checkcons(fp, cdir, &zerr);	    else		best = 0;	}	cdirnew = NULL;    }    free(buf);        if (best < 0) {	set_error(zep, &zerr, 0);	_zip_cdir_free(cdir);	return NULL;    }    return cdir;}
+struct zip_cdir *cdir, *cdirnew;
+struct zip_cdir *cdir, *cdirnew;
+struct zip_cdir
+zip_cdir
+*cdir
+*
+cdir
+*cdirnew
+*
+cdirnew
+unsigned char *buf, *match;
+unsigned char *buf, *match;
+unsigned char
+*buf
+*
+buf
+*match
+*
+match
+off_t buf_offset;
+off_t buf_offset;
+off_t
+off_t
+buf_offset
+buf_offset
+int a, best, buflen, i;
+int a, best, buflen, i;
+int
+a
+a
+best
+best
+buflen
+buflen
+i
+i
+struct zip_error zerr;
+struct zip_error zerr;
+struct zip_error
+zip_error
+zerr
+zerr
+i = fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END);
+i = fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END)
+i
+i
+fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END)
+fseeko
+fseeko
+fp
+fp
+-(len < CDBUFSIZE ? len : CDBUFSIZE)
+(len < CDBUFSIZE ? len : CDBUFSIZE)
+len < CDBUFSIZE ? len : CDBUFSIZE
+len < CDBUFSIZE
+len
+len
+CDBUFSIZE
+CDBUFSIZE
+len
+len
+CDBUFSIZE
+CDBUFSIZE
+SEEK_END
+SEEK_END
+if (i == -1 && errno != EFBIG) {	/* seek before start of file on my machine */	set_error(zep, NULL, ZIP_ER_SEEK);	return NULL;    }
+i == -1 && errno != EFBIG
+i == -1
+i
+i
+-1
+1
+errno != EFBIG
+errno
+errno
+EFBIG
+EFBIG
+{	/* seek before start of file on my machine */	set_error(zep, NULL, ZIP_ER_SEEK);	return NULL;    }
+set_error(zep, NULL, ZIP_ER_SEEK);
+set_error(zep, NULL, ZIP_ER_SEEK)
+set_error
+set_error
+zep
+zep
+NULL
+NULL
+ZIP_ER_SEEK
+ZIP_ER_SEEK
+return NULL;
+NULL
+NULL
+buf_offset = ftello(fp);
+buf_offset = ftello(fp)
+buf_offset
+buf_offset
+ftello(fp)
+ftello
+ftello
+fp
+fp
+if ((buf=(unsigned char *)malloc(CDBUFSIZE)) == NULL) {	set_error(zep, NULL, ZIP_ER_MEMORY);	return NULL;    }
+(buf=(unsigned char *)malloc(CDBUFSIZE)) == NULL
+(buf=(unsigned char *)malloc(CDBUFSIZE))
+buf=(unsigned char *)malloc(CDBUFSIZE)
+buf
+buf
+(unsigned char *)malloc(CDBUFSIZE)
+unsigned char *
+unsigned char
+*
+*
+malloc(CDBUFSIZE)
+malloc
+malloc
+CDBUFSIZE
+CDBUFSIZE
+NULL
+NULL
+{	set_error(zep, NULL, ZIP_ER_MEMORY);	return NULL;    }
+set_error(zep, NULL, ZIP_ER_MEMORY);
+set_error(zep, NULL, ZIP_ER_MEMORY)
+set_error
+set_error
+zep
+zep
+NULL
+NULL
+ZIP_ER_MEMORY
+ZIP_ER_MEMORY
+return NULL;
+NULL
+NULL
+clearerr(fp);
+clearerr(fp)
+clearerr
+clearerr
+fp
+fp
+buflen = fread(buf, 1, CDBUFSIZE, fp);
+buflen = fread(buf, 1, CDBUFSIZE, fp)
+buflen
+buflen
+fread(buf, 1, CDBUFSIZE, fp)
+fread
+fread
+buf
+buf
+1
+CDBUFSIZE
+CDBUFSIZE
+fp
+fp
+if (ferror(fp)) {	set_error(zep, NULL, ZIP_ER_READ);	free(buf);	return NULL;    }
+ferror(fp)
+ferror
+ferror
+fp
+fp
+{	set_error(zep, NULL, ZIP_ER_READ);	free(buf);	return NULL;    }
+set_error(zep, NULL, ZIP_ER_READ);
+set_error(zep, NULL, ZIP_ER_READ)
+set_error
+set_error
+zep
+zep
+NULL
+NULL
+ZIP_ER_READ
+ZIP_ER_READ
+free(buf);
+free(buf)
+free
+free
+buf
+buf
+return NULL;
+NULL
+NULL
+best = -1;
+best = -1
+best
+best
+-1
+1
+cdir = NULL;
+cdir = NULL
+cdir
+cdir
+NULL
+NULL
+match = buf;
+match = buf
+match
+match
+buf
+buf
+_zip_error_set(&zerr, ZIP_ER_NOZIP, 0);
+_zip_error_set(&zerr, ZIP_ER_NOZIP, 0)
+_zip_error_set
+_zip_error_set
+&zerr
+zerr
+zerr
+ZIP_ER_NOZIP
+ZIP_ER_NOZIP
+0
+while ((match=_zip_memmem(match, buflen-(match-buf)-18,			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL) {	/* found match -- check, if good */	/* to avoid finding the same match all over again */	match++;	if ((cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,				   &zerr)) == NULL)	    continue;	if (cdir) {	    if (best <= 0)		best = _zip_checkcons(fp, cdir, &zerr);	    a = _zip_checkcons(fp, cdirnew, &zerr);	    if (best < a) {		_zip_cdir_free(cdir);		cdir = cdirnew;		best = a;	    }	    else		_zip_cdir_free(cdirnew);	}	else {	    cdir = cdirnew;	    if (flags & ZIP_CHECKCONS)		best = _zip_checkcons(fp, cdir, &zerr);	    else		best = 0;	}	cdirnew = NULL;    }
+(match=_zip_memmem(match, buflen-(match-buf)-18,			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL
+(match=_zip_memmem(match, buflen-(match-buf)-18,			      (const unsigned char *)EOCD_MAGIC, 4))
+match=_zip_memmem(match, buflen-(match-buf)-18,			      (const unsigned char *)EOCD_MAGIC, 4)
+match
+match
+_zip_memmem(match, buflen-(match-buf)-18,			      (const unsigned char *)EOCD_MAGIC, 4)
+_zip_memmem
+_zip_memmem
+match
+match
+buflen-(match-buf)-18
+buflen-(match-buf)
+buflen
+buflen
+(match-buf)
+match-buf
+match
+match
+buf
+buf
+18
+(const unsigned char *)EOCD_MAGIC
+const unsigned char *
+const unsigned char
+*
+*
+EOCD_MAGIC
+EOCD_MAGIC
+4
+NULL
+NULL
+{	/* found match -- check, if good */	/* to avoid finding the same match all over again */	match++;	if ((cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,				   &zerr)) == NULL)	    continue;	if (cdir) {	    if (best <= 0)		best = _zip_checkcons(fp, cdir, &zerr);	    a = _zip_checkcons(fp, cdirnew, &zerr);	    if (best < a) {		_zip_cdir_free(cdir);		cdir = cdirnew;		best = a;	    }	    else		_zip_cdir_free(cdirnew);	}	else {	    cdir = cdirnew;	    if (flags & ZIP_CHECKCONS)		best = _zip_checkcons(fp, cdir, &zerr);	    else		best = 0;	}	cdirnew = NULL;    }
+match++;
+match++
+match
+match
+if ((cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,				   &zerr)) == NULL)	    continue;
+(cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,				   &zerr)) == NULL
+(cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,				   &zerr))
+cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,				   &zerr)
+cdirnew
+cdirnew
+_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,				   &zerr)
+_zip_readcdir
+_zip_readcdir
+fp
+fp
+buf_offset
+buf_offset
+buf
+buf
+match-1
+match
+match
+1
+buflen
+buflen
+flags
+flags
+&zerr
+zerr
+zerr
+NULL
+NULL
+continue;
+if (cdir) {	    if (best <= 0)		best = _zip_checkcons(fp, cdir, &zerr);	    a = _zip_checkcons(fp, cdirnew, &zerr);	    if (best < a) {		_zip_cdir_free(cdir);		cdir = cdirnew;		best = a;	    }	    else		_zip_cdir_free(cdirnew);	}	else {	    cdir = cdirnew;	    if (flags & ZIP_CHECKCONS)		best = _zip_checkcons(fp, cdir, &zerr);	    else		best = 0;	}
+cdir
+cdir
+{	    if (best <= 0)		best = _zip_checkcons(fp, cdir, &zerr);	    a = _zip_checkcons(fp, cdirnew, &zerr);	    if (best < a) {		_zip_cdir_free(cdir);		cdir = cdirnew;		best = a;	    }	    else		_zip_cdir_free(cdirnew);	}
+if (best <= 0)		best = _zip_checkcons(fp, cdir, &zerr);
+best <= 0
+best
+best
+0
+best = _zip_checkcons(fp, cdir, &zerr);
+best = _zip_checkcons(fp, cdir, &zerr)
+best
+best
+_zip_checkcons(fp, cdir, &zerr)
+_zip_checkcons
+_zip_checkcons
+fp
+fp
+cdir
+cdir
+&zerr
+zerr
+zerr
+a = _zip_checkcons(fp, cdirnew, &zerr);
+a = _zip_checkcons(fp, cdirnew, &zerr)
+a
+a
+_zip_checkcons(fp, cdirnew, &zerr)
+_zip_checkcons
+_zip_checkcons
+fp
+fp
+cdirnew
+cdirnew
+&zerr
+zerr
+zerr
+if (best < a) {		_zip_cdir_free(cdir);		cdir = cdirnew;		best = a;	    }	    else		_zip_cdir_free(cdirnew);
+best < a
+best
+best
+a
+a
+{		_zip_cdir_free(cdir);		cdir = cdirnew;		best = a;	    }
+_zip_cdir_free(cdir);
+_zip_cdir_free(cdir)
+_zip_cdir_free
+_zip_cdir_free
+cdir
+cdir
+cdir = cdirnew;
+cdir = cdirnew
+cdir
+cdir
+cdirnew
+cdirnew
+best = a;
+best = a
+best
+best
+a
+a
+_zip_cdir_free(cdirnew);
+_zip_cdir_free(cdirnew)
+_zip_cdir_free
+_zip_cdir_free
+cdirnew
+cdirnew
+{	    cdir = cdirnew;	    if (flags & ZIP_CHECKCONS)		best = _zip_checkcons(fp, cdir, &zerr);	    else		best = 0;	}
+cdir = cdirnew;
+cdir = cdirnew
+cdir
+cdir
+cdirnew
+cdirnew
+if (flags & ZIP_CHECKCONS)		best = _zip_checkcons(fp, cdir, &zerr);	    else		best = 0;
+flags & ZIP_CHECKCONS
+flags
+flags
+ZIP_CHECKCONS
+ZIP_CHECKCONS
+best = _zip_checkcons(fp, cdir, &zerr);
+best = _zip_checkcons(fp, cdir, &zerr)
+best
+best
+_zip_checkcons(fp, cdir, &zerr)
+_zip_checkcons
+_zip_checkcons
+fp
+fp
+cdir
+cdir
+&zerr
+zerr
+zerr
+best = 0;
+best = 0
+best
+best
+0
+cdirnew = NULL;
+cdirnew = NULL
+cdirnew
+cdirnew
+NULL
+NULL
+free(buf);
+free(buf)
+free
+free
+buf
+buf
+if (best < 0) {	set_error(zep, &zerr, 0);	_zip_cdir_free(cdir);	return NULL;    }
+best < 0
+best
+best
+0
+{	set_error(zep, &zerr, 0);	_zip_cdir_free(cdir);	return NULL;    }
+set_error(zep, &zerr, 0);
+set_error(zep, &zerr, 0)
+set_error
+set_error
+zep
+zep
+&zerr
+zerr
+zerr
+0
+_zip_cdir_free(cdir);
+_zip_cdir_free(cdir)
+_zip_cdir_free
+_zip_cdir_free
+cdir
+cdir
+return NULL;
+NULL
+NULL
+return cdir;
+cdir
+cdir
+-----joern-----
+(9,29,0)
+(18,1,0)
+(17,0,0)
+(27,0,0)
+(31,1,0)
+(41,38,0)
+(6,28,0)
+(16,29,0)
+(25,18,0)
+(23,4,0)
+(39,43,0)
+(34,1,0)
+(14,29,0)
+(41,6,0)
+(3,35,0)
+(29,10,0)
+(42,8,0)
+(18,11,0)
+(29,20,0)
+(40,18,0)
+(15,35,0)
+(8,7,0)
+(41,43,0)
+(18,6,0)
+(24,38,0)
+(1,34,0)
+(32,34,0)
+(8,10,0)
+(19,28,0)
+(0,7,0)
+(5,18,0)
+(4,11,0)
+(26,28,0)
+(33,35,0)
+(18,7,0)
+(2,35,0)
+(43,35,0)
+(0,1,0)
+(30,8,0)
+(41,15,0)
+(4,10,0)
+(4,7,0)
+(22,4,0)
+(13,28,0)
+(37,18,0)
+(1,0,0)
+(18,10,0)
+(36,4,0)
+(21,35,0)
+(38,20,0)
+(8,15,0)
+(12,18,0)
+(5,12,1)
+(40,5,1)
+(9,16,1)
+(4,11,1)
+(4,7,1)
+(12,25,1)
+(8,10,1)
+(0,27,1)
+(4,10,1)
+(41,43,1)
+(17,31,1)
+(16,14,1)
+(34,32,1)
+(29,9,1)
+(30,42,1)
+(0,7,1)
+(41,6,1)
+(31,2,1)
+(18,10,1)
+(23,22,1)
+(1,0,1)
+(4,23,1)
+(25,34,1)
+(38,24,1)
+(22,36,1)
+(34,1,1)
+(18,11,1)
+(15,8,1)
+(32,1,1)
+(37,40,1)
+(24,29,1)
+(27,17,1)
+(2,4,1)
+(41,38,1)
+(8,30,1)
+(18,37,1)
+(29,10,1)
+(18,7,1)
+(14,34,1)
+(8,7,1)
+(6,18,1)
+(41,15,1)
+(42,4,1)
+(43,39,1)
+(18,1,1)
+(18,11,2)
+(12,34,2)
+(1,4,2)
+(8,10,2)
+(29,34,2)
+(6,34,2)
+(16,34,2)
+(37,34,2)
+(18,34,2)
+(40,34,2)
+(0,7,2)
+(18,10,2)
+(25,34,2)
+(4,11,2)
+(17,4,2)
+(18,7,2)
+(41,6,2)
+(2,4,2)
+(8,4,2)
+(0,4,2)
+(41,43,2)
+(14,34,2)
+(30,4,2)
+(29,10,2)
+(24,34,2)
+(34,1,2)
+(18,1,2)
+(4,7,2)
+(1,0,2)
+(4,10,2)
+(41,15,2)
+(31,4,2)
+(38,34,2)
+(15,4,2)
+(27,4,2)
+(8,7,2)
+(42,4,2)
+(32,4,2)
+(5,34,2)
+(41,38,2)
+(34,4,2)
+(9,34,2)
+-----------------------------------
+(0,fopen(fn, "rb")
+(1,fp=fopen(fn, "rb")
+(2,break;)
+(3,default:)
+(4,_zip_file_exists(fn, flags, zep)
+(5,flags)
+(6,return _zip_open(fn, fp, flags, 0, zep)
+(7,const char *fn)
+(8,_zip_allocate_new(fn, zep)
+(9,ZIP_ER_OPEN)
+(10,int *zep)
+(11,int flags)
+(12,fp)
+(13,switch (_zip_file_exists(fn, flags, zep)
+(14,zep)
+(15,return _zip_allocate_new(fn, zep)
+(16,NULL)
+(17,fn)
+(18,_zip_open(fn, fp, flags, 0, zep)
+(19,if ((fp=fopen(fn, "rb")
+(20,)
+(21,case 0:)
+(22,flags)
+(23,zep)
+(24,NULL)
+(25,fn)
+(26,fp)
+(27,"rb")
+(28,)
+(29,set_error(zep, NULL, ZIP_ER_OPEN)
+(30,zep)
+(31,fp)
+(32,NULL)
+(33,1:)
+(34,(fp=fopen(fn, "rb")
+(35,)
+(36,fn)
+(37,zep)
+(38,return NULL;)
+(39,NULL)
+(40,0)
+(41,RET)
+(42,fn)
+(43,return NULL;)
+-----cfg-----
+(129,116)
+(129,150)
+(129,187)
+(130,129)
+(132,130)
+(7,29)
+(136,141)
+(141,132)
+(150,159)
+(150,166)
+(23,39)
+(25,23)
+(154,166)
+(27,25)
+(28,27)
+(156,154)
+(29,28)
+(159,156)
+(161,169)
+(163,161)
+(36,45)
+(36,53)
+(37,36)
+(37,41)
+(166,163)
+(39,37)
+(41,36)
+(169,173)
+(169,183)
+(45,49)
+(173,175)
+(175,178)
+(49,228)
+(178,207)
+(51,60)
+(53,51)
+(183,207)
+(56,65)
+(56,71)
+(57,56)
+(59,57)
+(187,191)
+(60,61)
+(61,59)
+(191,200)
+(191,204)
+(65,69)
+(195,207)
+(69,228)
+(197,195)
+(71,75)
+(200,197)
+(73,81)
+(75,73)
+(204,207)
+(207,116)
+(81,84)
+(81,94)
+(210,213)
+(84,88)
+(213,219)
+(213,226)
+(88,90)
+(217,222)
+(90,228)
+(219,217)
+(92,96)
+(94,92)
+(222,224)
+(96,99)
+(224,228)
+(226,228)
+(99,103)
+(102,116)
+(103,102)
+(108,126)
+(108,210)
+(109,108)
+(111,109)
+(113,121)
+(114,113)
+(116,114)
+(120,111)
+(121,120)
+(126,136)
+-----path-----
+7,29,28,27,25,23,39,37,36,45,49,228
+7,29,28,27,25,23,39,37,36,53,51,60,61,59,57,56,65,69,228
+7,29,28,27,25,23,39,37,36,53,51,60,61,59,57,56,71,75,73,81,84,88,90,228
+7,29,28,27,25,23,39,37,36,53,51,60,61,59,57,56,71,75,73,81,94,92,96,99,103,102,116,114,113,121,120,111,109,108,210,213,219,217,222,224,228
+7,29,28,27,25,23,39,37,36,53,51,60,61,59,57,56,71,75,73,81,94,92,96,99,103,102,116,114,113,121,120,111,109,108,210,213,226,228
+7,29,28,27,25,23,39,37,41,36,45,49,228
+7,29,28,27,25,23,39,37,41,36,53,51,60,61,59,57,56,65,69,228
+7,29,28,27,25,23,39,37,41,36,53,51,60,61,59,57,56,71,75,73,81,84,88,90,228
+7,29,28,27,25,23,39,37,41,36,53,51,60,61,59,57,56,71,75,73,81,94,92,96,99,103,102,116,114,113,121,120,111,109,108,210,213,219,217,222,224,228
+7,29,28,27,25,23,39,37,41,36,53,51,60,61,59,57,56,71,75,73,81,94,92,96,99,103,102,116,114,113,121,120,111,109,108,210,213,226,228
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,struct zip_cdir _zip_find_central_dir (FILE *fp,int flags,int *zep,off_t len)
+8,FILE *fp
+9,int flags
+10,int *zep
+11,off_t len
+12,<empty>
+13,struct zip_cdir* cdir
+14,struct zip_cdir* cdirnew
+15,unsigned char* buf
+16,unsigned char* match
+17,off_t buf_offset
+18,int a
+19,int best
+20,int buflen
+21,int i
+22,struct zip_error zerr
+23,i = fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END)
+24,i
+25,fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END)
+26,fp
+27,-(len < CDBUFSIZE ? len : CDBUFSIZE)
+28,len < CDBUFSIZE ? len : CDBUFSIZE
+29,len < CDBUFSIZE
+30,len
+31,CDBUFSIZE
+32,len
+33,CDBUFSIZE
+34,SEEK_END
+35,if (i == -1 && errno != EFBIG)
+36,i == -1 && errno != EFBIG
+37,i == -1
+38,i
+39,-1
+40,1
+41,errno != EFBIG
+42,errno
+43,EFBIG
+44,<empty>
+45,set_error(zep, NULL, ZIP_ER_SEEK)
+46,zep
+47,NULL
+48,ZIP_ER_SEEK
+49,return NULL;
+50,NULL
+51,buf_offset = ftello(fp)
+52,buf_offset
+53,ftello(fp)
+54,fp
+55,if ((buf=(unsigned char *)malloc(CDBUFSIZE)) == NULL)
+56,(buf=(unsigned char *)malloc(CDBUFSIZE)) == NULL
+57,buf=(unsigned char *)malloc(CDBUFSIZE)
+58,buf
+59,(unsigned char *)malloc(CDBUFSIZE)
+60,unsigned char *
+61,malloc(CDBUFSIZE)
+62,CDBUFSIZE
+63,NULL
+64,<empty>
+65,set_error(zep, NULL, ZIP_ER_MEMORY)
+66,zep
+67,NULL
+68,ZIP_ER_MEMORY
+69,return NULL;
+70,NULL
+71,clearerr(fp)
+72,fp
+73,buflen = fread(buf, 1, CDBUFSIZE, fp)
+74,buflen
+75,fread(buf, 1, CDBUFSIZE, fp)
+76,buf
+77,1
+78,CDBUFSIZE
+79,fp
+80,if (ferror(fp))
+81,ferror(fp)
+82,fp
+83,<empty>
+84,set_error(zep, NULL, ZIP_ER_READ)
+85,zep
+86,NULL
+87,ZIP_ER_READ
+88,free(buf)
+89,buf
+90,return NULL;
+91,NULL
+92,best = -1
+93,best
+94,-1
+95,1
+96,cdir = NULL
+97,cdir
+98,NULL
+99,match = buf
+100,match
+101,buf
+102,_zip_error_set(&zerr, ZIP_ER_NOZIP, 0)
+103,&zerr
+104,zerr
+105,ZIP_ER_NOZIP
+106,0
+107,while ((match=_zip_memmem(match, buflen-(match-buf)-18,
+108,			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL)
+109,(match=_zip_memmem(match, buflen-(match-buf)-18,
+110,			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL
+111,match=_zip_memmem(match, buflen-(match-buf)-18,
+112,			      (const unsigned char *)EOCD_MAGIC, 4)
+113,match
+114,_zip_memmem(match, buflen-(match-buf)-18,
+115,			      (const unsigned char *)EOCD_MAGIC, 4)
+116,match
+117,buflen-(match-buf)-18
+118,buflen-(match-buf)
+119,buflen
+120,match-buf
+121,match
+122,buf
+123,18
+124,(const unsigned char *)EOCD_MAGIC
+125,const unsigned char *
+126,EOCD_MAGIC
+127,4
+128,NULL
+129,<empty>
+130,match++
+131,match
+132,if ((cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,
+133,				   &zerr)) == NULL)
+134,(cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,
+135,				   &zerr)) == NULL
+136,cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,
+137,				   &zerr)
+138,cdirnew
+139,_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,
+140,				   &zerr)
+141,fp
+142,buf_offset
+143,buf
+144,match-1
+145,match
+146,1
+147,buflen
+148,flags
+149,&zerr
+150,zerr
+151,NULL
+152,<empty>
+153,continue;
+154,if (cdir)
+155,cdir
+156,<empty>
+157,if (best <= 0)
+158,best <= 0
+159,best
+160,0
+161,<empty>
+162,best = _zip_checkcons(fp, cdir, &zerr)
+163,best
+164,_zip_checkcons(fp, cdir, &zerr)
+165,fp
+166,cdir
+167,&zerr
+168,zerr
+169,a = _zip_checkcons(fp, cdirnew, &zerr)
+170,a
+171,_zip_checkcons(fp, cdirnew, &zerr)
+172,fp
+173,cdirnew
+174,&zerr
+175,zerr
+176,if (best < a)
+177,best < a
+178,best
+179,a
+180,<empty>
+181,_zip_cdir_free(cdir)
+182,cdir
+183,cdir = cdirnew
+184,cdir
+185,cdirnew
+186,best = a
+187,best
+188,a
+189,else
+190,<empty>
+191,_zip_cdir_free(cdirnew)
+192,cdirnew
+193,else
+194,<empty>
+195,cdir = cdirnew
+196,cdir
+197,cdirnew
+198,if (flags & ZIP_CHECKCONS)
+199,flags & ZIP_CHECKCONS
+200,flags
+201,ZIP_CHECKCONS
+202,<empty>
+203,best = _zip_checkcons(fp, cdir, &zerr)
+204,best
+205,_zip_checkcons(fp, cdir, &zerr)
+206,fp
+207,cdir
+208,&zerr
+209,zerr
+210,else
+211,<empty>
+212,best = 0
+213,best
+214,0
+215,cdirnew = NULL
+216,cdirnew
+217,NULL
+218,free(buf)
+219,buf
+220,if (best < 0)
+221,best < 0
+222,best
+223,0
+224,<empty>
+225,set_error(zep, &zerr, 0)
+226,zep
+227,&zerr
+228,zerr
+229,0
+230,_zip_cdir_free(cdir)
+231,cdir
+232,return NULL;
+233,NULL
+234,return cdir;
+235,cdir
+236,RET
+237,FILE *fp
+238,int flags
+239,int *zep
+240,off_t len
+241,RET
+242,struct zip_cdir _zip_find_central_dir (FILE *fp,int flags,int *zep,off_t len)
+243,FILE *fp
+244,int flags
+245,int *zep
+246,off_t len
+247,<empty>
+248,struct zip_cdir* cdir
+249,struct zip_cdir* cdirnew
+250,unsigned char* buf
+251,unsigned char* match
+252,off_t buf_offset
+253,int a
+254,int best
+255,int buflen
+256,int i
+257,struct zip_error zerr
+258,i = fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END)
+259,i
+260,fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END)
+261,fp
+262,-(len < CDBUFSIZE ? len : CDBUFSIZE)
+263,len < CDBUFSIZE ? len : CDBUFSIZE
+264,len < CDBUFSIZE
+265,len
+266,CDBUFSIZE
+267,len
+268,CDBUFSIZE
+269,SEEK_END
+270,if (i == -1 && errno != EFBIG)
+271,i == -1 && errno != EFBIG
+272,i == -1
+273,i
+274,-1
+275,1
+276,errno != EFBIG
+277,errno
+278,EFBIG
+279,<empty>
+280,set_error(zep, NULL, ZIP_ER_SEEK)
+281,zep
+282,NULL
+283,ZIP_ER_SEEK
+284,return NULL;
+285,NULL
+286,buf_offset = ftello(fp)
+287,buf_offset
+288,ftello(fp)
+289,fp
+290,if ((buf=(unsigned char *)malloc(CDBUFSIZE)) == NULL)
+291,(buf=(unsigned char *)malloc(CDBUFSIZE)) == NULL
+292,buf=(unsigned char *)malloc(CDBUFSIZE)
+293,buf
+294,(unsigned char *)malloc(CDBUFSIZE)
+295,unsigned char *
+296,malloc(CDBUFSIZE)
+297,CDBUFSIZE
+298,NULL
+299,<empty>
+300,set_error(zep, NULL, ZIP_ER_MEMORY)
+301,zep
+302,NULL
+303,ZIP_ER_MEMORY
+304,return NULL;
+305,NULL
+306,clearerr(fp)
+307,fp
+308,buflen = fread(buf, 1, CDBUFSIZE, fp)
+309,buflen
+310,fread(buf, 1, CDBUFSIZE, fp)
+311,buf
+312,1
+313,CDBUFSIZE
+314,fp
+315,if (ferror(fp))
+316,ferror(fp)
+317,fp
+318,<empty>
+319,set_error(zep, NULL, ZIP_ER_READ)
+320,zep
+321,NULL
+322,ZIP_ER_READ
+323,free(buf)
+324,buf
+325,return NULL;
+326,NULL
+327,best = -1
+328,best
+329,-1
+330,1
+331,cdir = NULL
+332,cdir
+333,NULL
+334,match = buf
+335,match
+336,buf
+337,_zip_error_set(&zerr, ZIP_ER_NOZIP, 0)
+338,&zerr
+339,zerr
+340,ZIP_ER_NOZIP
+341,0
+342,while ((match=_zip_memmem(match, buflen-(match-buf)-18,
+343,			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL)
+344,(match=_zip_memmem(match, buflen-(match-buf)-18,
+345,			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL
+346,match=_zip_memmem(match, buflen-(match-buf)-18,
+347,			      (const unsigned char *)EOCD_MAGIC, 4)
+348,match
+349,_zip_memmem(match, buflen-(match-buf)-18,
+350,			      (const unsigned char *)EOCD_MAGIC, 4)
+351,match
+352,buflen-(match-buf)-18
+353,buflen-(match-buf)
+354,buflen
+355,match-buf
+356,match
+357,buf
+358,18
+359,(const unsigned char *)EOCD_MAGIC
+360,const unsigned char *
+361,EOCD_MAGIC
+362,4
+363,NULL
+364,<empty>
+365,match++
+366,match
+367,if ((cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,
+368,				   &zerr)) == NULL)
+369,(cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,
+370,				   &zerr)) == NULL
+371,cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,
+372,				   &zerr)
+373,cdirnew
+374,_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags,
+375,				   &zerr)
+376,fp
+377,buf_offset
+378,buf
+379,match-1
+380,match
+381,1
+382,buflen
+383,flags
+384,&zerr
+385,zerr
+386,NULL
+387,<empty>
+388,continue;
+389,if (cdir)
+390,cdir
+391,<empty>
+392,if (best <= 0)
+393,best <= 0
+394,best
+395,0
+396,<empty>
+397,best = _zip_checkcons(fp, cdir, &zerr)
+398,best
+399,_zip_checkcons(fp, cdir, &zerr)
+400,fp
+401,cdir
+402,&zerr
+403,zerr
+404,a = _zip_checkcons(fp, cdirnew, &zerr)
+405,a
+406,_zip_checkcons(fp, cdirnew, &zerr)
+407,fp
+408,cdirnew
+409,&zerr
+410,zerr
+411,if (best < a)
+412,best < a
+413,best
+414,a
+415,<empty>
+416,_zip_cdir_free(cdir)
+417,cdir
+418,cdir = cdirnew
+419,cdir
+420,cdirnew
+421,best = a
+422,best
+423,a
+424,else
+425,<empty>
+426,_zip_cdir_free(cdirnew)
+427,cdirnew
+428,else
+429,<empty>
+430,cdir = cdirnew
+431,cdir
+432,cdirnew
+433,if (flags & ZIP_CHECKCONS)
+434,flags & ZIP_CHECKCONS
+435,flags
+436,ZIP_CHECKCONS
+437,<empty>
+438,best = _zip_checkcons(fp, cdir, &zerr)
+439,best
+440,_zip_checkcons(fp, cdir, &zerr)
+441,fp
+442,cdir
+443,&zerr
+444,zerr
+445,else
+446,<empty>
+447,best = 0
+448,best
+449,0
+450,cdirnew = NULL
+451,cdirnew
+452,NULL
+453,free(buf)
+454,buf
+455,if (best < 0)
+456,best < 0
+457,best
+458,0
+459,<empty>
+460,set_error(zep, &zerr, 0)
+461,zep
+462,&zerr
+463,zerr
+464,0
+465,_zip_cdir_free(cdir)
+466,cdir
+467,return NULL;
+468,NULL
+469,return cdir;
+470,cdir
+471,RET
+472,FILE *fp
+473,int flags
+474,int *zep
+475,off_t len
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffb1fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000504b0506000000000000ffff00000000000000000000
+arg00:0x2d53ff
+=========trace=========
+static struct zip_cdir * _zip_find_central_dir(FILE *fp, int flags, int *zep, off_t len) {
+struct zip_cdir *cdir, *cdirnew;
+unsigned char *buf, *match;
+off_t buf_offset;
+int a, best, buflen, i;
+struct zip_error zerr;
+i = fseeko(fp, -(len < CDBUFSIZE ? len : CDBUFSIZE), SEEK_END);
+buf_offset = ftello(fp);
+clearerr(fp);
+buflen = fread(buf, 1, CDBUFSIZE, fp);
+best = -1;
+cdir = NULL;
+match = buf;
+_zip_error_set(&zerr, ZIP_ER_NOZIP, 0);
+while((match=_zip_memmem(match, buflen-(match-buf)-18, 			      (const unsigned char *)EOCD_MAGIC, 4))!=NULL)
+match++;
+if((cdirnew=_zip_readcdir(fp, buf_offset, buf, match-1, buflen, flags, 				   &zerr)) == NULL)
+free(buf);
+if(best < 0)
+set_error(zep, &zerr, 0);
+_zip_cdir_free(cdir);
+return NULL;
+=======================

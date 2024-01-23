@@ -1,0 +1,3652 @@
+-----label-----
+0
+-----code-----
+void jpc_tsfb_getbands2(jpc_tsfb_t *tsfb, int locxstart, int locystart,
+  int xstart, int ystart, int xend, int yend, jpc_tsfb_band_t **bands,
+  int numlvls)
+{
+	int newxstart;
+	int newystart;
+	int newxend;
+	int newyend;
+	jpc_tsfb_band_t *band;
+
+	newxstart = JPC_CEILDIVPOW2(xstart, 1);
+	newystart = JPC_CEILDIVPOW2(ystart, 1);
+	newxend = JPC_CEILDIVPOW2(xend, 1);
+	newyend = JPC_CEILDIVPOW2(yend, 1);
+
+	if (numlvls > 0) {
+
+		jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart,
+		  newxend, newyend, bands, numlvls - 1);
+
+		band = *bands;
+		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);
+		band->ystart = newystart;
+		band->xend = JPC_FLOORDIVPOW2(xend, 1);
+		band->yend = newyend;
+		band->locxstart = locxstart + newxend - newxstart;
+		band->locystart = locystart;
+		band->locxend = band->locxstart + band->xend - band->xstart;
+		band->locyend = band->locystart + band->yend - band->ystart;
+		band->orient = JPC_TSFB_HL;
+		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[
+		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[
+		  tsfb->numlvls - numlvls]);
+		++(*bands);
+
+		band = *bands;
+		band->xstart = newxstart;
+		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);
+		band->xend = newxend;
+		band->yend = JPC_FLOORDIVPOW2(yend, 1);
+		band->locxstart = locxstart;
+		band->locystart = locystart + newyend - newystart;
+		band->locxend = band->locxstart + band->xend - band->xstart;
+		band->locyend = band->locystart + band->yend - band->ystart;
+		band->orient = JPC_TSFB_LH;
+		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[
+		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+		  tsfb->numlvls - numlvls]);
+		++(*bands);
+
+		band = *bands;
+		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);
+		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);
+		band->xend = JPC_FLOORDIVPOW2(xend, 1);
+		band->yend = JPC_FLOORDIVPOW2(yend, 1);
+		band->locxstart = locxstart + newxend - newxstart;
+		band->locystart = locystart + newyend - newystart;
+		band->locxend = band->locxstart + band->xend - band->xstart;
+		band->locyend = band->locystart + band->yend - band->ystart;
+		band->orient = JPC_TSFB_HH;
+		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[
+		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+		  tsfb->numlvls - numlvls]);
+		++(*bands);
+
+	} else {
+
+		band = *bands;
+		band->xstart = xstart;
+		band->ystart = ystart;
+		band->xend = xend;
+		band->yend = yend;
+		band->locxstart = locxstart;
+		band->locystart = locystart;
+		band->locxend = band->locxstart + band->xend - band->xstart;
+		band->locyend = band->locystart + band->yend - band->ystart;
+		band->orient = JPC_TSFB_LL;
+		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[
+		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[
+		  tsfb->numlvls - numlvls - 1]);
+		++(*bands);
+
+	}
+
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+3,8
+3,9
+3,10
+3,11
+3,12
+3,13
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+15,16
+15,17
+17,18
+19,20
+19,21
+21,22
+23,24
+23,25
+25,26
+27,28
+27,29
+29,30
+31,32
+31,33
+33,34
+35,36
+35,37
+36,37
+38,39
+38,40
+38,41
+42,43
+42,44
+44,45
+46,47
+46,48
+46,49
+46,50
+46,51
+46,52
+46,53
+46,54
+46,55
+46,56
+47,48
+48,49
+48,50
+50,51
+52,53
+53,54
+53,55
+55,56
+57,58
+58,59
+58,60
+60,61
+62,63
+63,64
+63,65
+65,66
+67,68
+68,69
+68,70
+69,70
+71,72
+71,73
+74,75
+75,76
+75,77
+76,77
+78,79
+78,80
+78,81
+79,80
+81,82
+84,85
+85,86
+85,87
+86,87
+88,89
+88,90
+88,91
+89,90
+91,92
+94,95
+95,96
+95,97
+96,97
+98,99
+98,100
+98,101
+99,100
+101,102
+104,105
+105,106
+105,107
+106,107
+108,109
+108,110
+108,111
+109,110
+111,112
+114,115
+114,116
+114,117
+115,116
+115,117
+116,117
+119,120
+119,121
+119,122
+119,123
+119,124
+119,125
+119,126
+119,127
+119,128
+119,129
+119,130
+119,131
+119,132
+119,133
+119,134
+119,135
+119,136
+119,137
+119,138
+119,139
+119,140
+119,141
+119,142
+119,143
+119,144
+119,145
+119,146
+119,147
+119,148
+119,149
+119,150
+119,151
+119,152
+119,153
+119,154
+119,155
+119,156
+120,121
+121,122
+121,123
+121,124
+121,125
+121,126
+121,127
+121,128
+121,129
+121,130
+121,131
+122,123
+124,125
+126,127
+128,129
+130,131
+132,133
+134,135
+136,137
+138,139
+140,141
+140,142
+141,142
+144,145
+145,146
+145,147
+146,147
+148,149
+149,150
+151,152
+152,153
+152,154
+153,154
+153,155
+154,155
+157,158
+157,159
+157,160
+158,159
+160,161
+163,164
+164,165
+164,166
+165,166
+165,167
+166,167
+169,170
+171,172
+172,173
+172,174
+173,174
+173,175
+174,175
+177,178
+177,179
+177,180
+178,179
+180,181
+183,184
+184,185
+184,186
+185,186
+185,187
+186,187
+189,190
+191,192
+192,193
+192,194
+193,194
+193,195
+194,195
+197,198
+197,199
+198,199
+198,200
+199,200
+201,202
+203,204
+205,206
+206,207
+206,208
+207,208
+207,209
+208,209
+211,212
+213,214
+214,215
+214,216
+215,216
+215,217
+216,217
+219,220
+219,221
+220,221
+220,222
+221,222
+221,223
+222,223
+225,226
+225,227
+226,227
+229,230
+229,231
+230,231
+233,234
+234,235
+234,236
+235,236
+235,237
+236,237
+239,240
+239,241
+240,241
+240,242
+241,242
+241,243
+242,243
+245,246
+245,247
+246,247
+249,250
+249,251
+250,251
+253,254
+254,255
+254,256
+255,256
+255,257
+256,257
+259,260
+261,262
+262,263
+262,264
+263,264
+263,265
+264,265
+267,268
+267,269
+268,269
+270,271
+270,272
+271,272
+271,273
+272,273
+272,274
+273,274
+273,275
+274,275
+278,279
+278,280
+279,280
+279,281
+280,281
+283,284
+285,286
+285,287
+286,287
+286,288
+287,288
+287,289
+288,289
+292,293
+292,294
+293,294
+293,295
+294,295
+297,298
+299,300
+300,301
+301,302
+302,303
+303,304
+305,306
+306,307
+306,308
+307,308
+309,310
+310,311
+312,313
+313,314
+313,315
+314,315
+314,316
+315,316
+318,319
+320,321
+321,322
+321,323
+322,323
+322,324
+323,324
+326,327
+326,328
+326,329
+327,328
+329,330
+332,333
+333,334
+333,335
+334,335
+334,336
+335,336
+338,339
+340,341
+341,342
+341,343
+342,343
+342,344
+343,344
+346,347
+346,348
+346,349
+347,348
+349,350
+352,353
+353,354
+353,355
+354,355
+354,356
+355,356
+358,359
+360,361
+361,362
+361,363
+362,363
+362,364
+363,364
+366,367
+366,368
+367,368
+367,369
+368,369
+370,371
+372,373
+374,375
+375,376
+375,377
+376,377
+376,378
+377,378
+380,381
+380,382
+381,382
+381,383
+382,383
+382,384
+383,384
+386,387
+386,388
+387,388
+390,391
+390,392
+391,392
+394,395
+395,396
+395,397
+396,397
+396,398
+397,398
+400,401
+400,402
+401,402
+401,403
+402,403
+402,404
+403,404
+406,407
+406,408
+407,408
+410,411
+410,412
+411,412
+414,415
+415,416
+415,417
+416,417
+416,418
+417,418
+420,421
+422,423
+423,424
+423,425
+424,425
+424,426
+425,426
+428,429
+428,430
+429,430
+431,432
+431,433
+432,433
+432,434
+433,434
+433,435
+434,435
+434,436
+435,436
+439,440
+439,441
+440,441
+440,442
+441,442
+444,445
+446,447
+446,448
+447,448
+447,449
+448,449
+448,450
+449,450
+453,454
+453,455
+454,455
+454,456
+455,456
+458,459
+460,461
+461,462
+462,463
+463,464
+464,465
+466,467
+467,468
+467,469
+468,469
+470,471
+471,472
+473,474
+474,475
+474,476
+475,476
+475,477
+476,477
+479,480
+479,481
+479,482
+480,481
+482,483
+485,486
+486,487
+486,488
+487,488
+487,489
+488,489
+491,492
+491,493
+491,494
+492,493
+494,495
+497,498
+498,499
+498,500
+499,500
+499,501
+500,501
+503,504
+503,505
+503,506
+504,505
+506,507
+509,510
+510,511
+510,512
+511,512
+511,513
+512,513
+515,516
+515,517
+515,518
+516,517
+518,519
+521,522
+522,523
+522,524
+523,524
+523,525
+524,525
+527,528
+527,529
+528,529
+528,530
+529,530
+531,532
+533,534
+535,536
+536,537
+536,538
+537,538
+537,539
+538,539
+541,542
+541,543
+542,543
+542,544
+543,544
+545,546
+547,548
+549,550
+550,551
+550,552
+551,552
+551,553
+552,553
+555,556
+555,557
+556,557
+556,558
+557,558
+557,559
+558,559
+561,562
+561,563
+562,563
+565,566
+565,567
+566,567
+569,570
+570,571
+570,572
+571,572
+571,573
+572,573
+575,576
+575,577
+576,577
+576,578
+577,578
+577,579
+578,579
+581,582
+581,583
+582,583
+585,586
+585,587
+586,587
+589,590
+590,591
+590,592
+591,592
+591,593
+592,593
+595,596
+597,598
+598,599
+598,600
+599,600
+599,601
+600,601
+603,604
+603,605
+604,605
+606,607
+606,608
+607,608
+607,609
+608,609
+608,610
+609,610
+609,611
+610,611
+614,615
+614,616
+615,616
+615,617
+616,617
+619,620
+621,622
+621,623
+622,623
+622,624
+623,624
+623,625
+624,625
+628,629
+628,630
+629,630
+629,631
+630,631
+633,634
+635,636
+636,637
+637,638
+638,639
+639,640
+641,642
+641,643
+641,644
+641,645
+641,646
+641,647
+641,648
+641,649
+641,650
+641,651
+641,652
+641,653
+642,643
+643,644
+643,645
+644,645
+646,647
+647,648
+649,650
+650,651
+650,652
+651,652
+651,653
+652,653
+655,656
+657,658
+658,659
+658,660
+659,660
+659,661
+660,661
+663,664
+665,666
+666,667
+666,668
+667,668
+667,669
+668,669
+671,672
+673,674
+674,675
+674,676
+675,676
+675,677
+676,677
+679,680
+681,682
+682,683
+682,684
+683,684
+683,685
+684,685
+687,688
+689,690
+690,691
+690,692
+691,692
+691,693
+692,693
+695,696
+697,698
+698,699
+698,700
+699,700
+699,701
+700,701
+703,704
+703,705
+704,705
+704,706
+705,706
+705,707
+706,707
+709,710
+709,711
+710,711
+713,714
+713,715
+714,715
+717,718
+718,719
+718,720
+719,720
+719,721
+720,721
+723,724
+723,725
+724,725
+724,726
+725,726
+725,727
+726,727
+729,730
+729,731
+730,731
+733,734
+733,735
+734,735
+737,738
+738,739
+738,740
+739,740
+739,741
+740,741
+743,744
+745,746
+746,747
+746,748
+747,748
+747,749
+748,749
+751,752
+751,753
+752,753
+754,755
+754,756
+755,756
+755,757
+756,757
+756,758
+757,758
+757,759
+758,759
+762,763
+762,764
+763,764
+763,765
+764,765
+764,766
+765,766
+768,769
+771,772
+771,773
+772,773
+772,774
+773,774
+773,775
+774,775
+778,779
+778,780
+779,780
+779,781
+780,781
+780,782
+781,782
+784,785
+787,788
+788,789
+789,790
+790,791
+791,792
+-----nextToken-----
+2,4,7,9,10,12,14,16,18,20,22,24,26,28,30,32,34,37,39,40,41,43,45,49,51,54,56,59,61,64,66,70,72,73,77,80,82,83,87,90,92,93,97,100,102,103,107,110,112,113,117,118,123,125,127,129,131,133,135,137,139,142,143,147,150,155,156,159,161,162,167,168,170,175,176,179,181,182,187,188,190,195,196,200,202,204,209,210,212,217,218,223,224,227,228,231,232,237,238,243,244,247,248,251,252,257,258,260,265,266,269,275,276,277,281,282,284,289,290,291,295,296,298,304,308,311,316,317,319,324,325,328,330,331,336,337,339,344,345,348,350,351,356,357,359,364,365,369,371,373,378,379,384,385,388,389,392,393,398,399,404,405,408,409,412,413,418,419,421,426,427,430,436,437,438,442,443,445,450,451,452,456,457,459,465,469,472,477,478,481,483,484,489,490,493,495,496,501,502,505,507,508,513,514,517,519,520,525,526,530,532,534,539,540,544,546,548,553,554,559,560,563,564,567,568,573,574,579,580,583,584,587,588,593,594,596,601,602,605,611,612,613,617,618,620,625,626,627,631,632,634,640,645,648,653,654,656,661,662,664,669,670,672,677,678,680,685,686,688,693,694,696,701,702,707,708,711,712,715,716,721,722,727,728,731,732,735,736,741,742,744,749,750,753,759,760,761,766,767,769,770,775,776,777,782,783,785,786,792
+-----computeFrom-----
+75,76
+75,77
+85,86
+85,87
+95,96
+95,97
+105,106
+105,107
+115,116
+115,117
+140,141
+140,142
+145,146
+145,147
+152,153
+152,154
+164,165
+164,166
+172,173
+172,174
+184,185
+184,186
+192,193
+192,194
+197,198
+197,199
+198,199
+198,200
+206,207
+206,208
+214,215
+214,216
+219,220
+219,221
+220,221
+220,222
+234,235
+234,236
+239,240
+239,241
+240,241
+240,242
+254,255
+254,256
+262,263
+262,264
+270,271
+270,272
+278,279
+278,280
+292,293
+292,294
+306,307
+306,308
+313,314
+313,315
+321,322
+321,323
+333,334
+333,335
+341,342
+341,343
+353,354
+353,355
+361,362
+361,363
+366,367
+366,368
+367,368
+367,369
+375,376
+375,377
+380,381
+380,382
+381,382
+381,383
+395,396
+395,397
+400,401
+400,402
+401,402
+401,403
+415,416
+415,417
+423,424
+423,425
+431,432
+431,433
+439,440
+439,441
+453,454
+453,455
+467,468
+467,469
+474,475
+474,476
+486,487
+486,488
+498,499
+498,500
+510,511
+510,512
+522,523
+522,524
+527,528
+527,529
+528,529
+528,530
+536,537
+536,538
+541,542
+541,543
+542,543
+542,544
+550,551
+550,552
+555,556
+555,557
+556,557
+556,558
+570,571
+570,572
+575,576
+575,577
+576,577
+576,578
+590,591
+590,592
+598,599
+598,600
+606,607
+606,608
+614,615
+614,616
+628,629
+628,630
+643,644
+643,645
+650,651
+650,652
+658,659
+658,660
+666,667
+666,668
+674,675
+674,676
+682,683
+682,684
+690,691
+690,692
+698,699
+698,700
+703,704
+703,705
+704,705
+704,706
+718,719
+718,720
+723,724
+723,725
+724,725
+724,726
+738,739
+738,740
+746,747
+746,748
+754,755
+754,756
+762,763
+762,764
+763,764
+763,765
+778,779
+778,780
+779,780
+779,781
+-----guardedBy-----
+117,634
+-----guardedByNegation-----
+117,785
+-----lastLexicalUse-----
+117,785
+-----jump-----
+117,785
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;ArraySubscriptExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ArraySubscriptExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;UnaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;ArraySubscriptExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ArraySubscriptExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;UnaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;ArraySubscriptExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ArraySubscriptExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;UnaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;ArraySubscriptExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;LiteralExpression;ArraySubscriptExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;UnaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;
+-----ast_node-----
+void jpc_tsfb_getbands2(jpc_tsfb_t *tsfb, int locxstart, int locystart,  int xstart, int ystart, int xend, int yend, jpc_tsfb_band_t **bands,  int numlvls){	int newxstart;	int newystart;	int newxend;	int newyend;	jpc_tsfb_band_t *band;	newxstart = JPC_CEILDIVPOW2(xstart, 1);	newystart = JPC_CEILDIVPOW2(ystart, 1);	newxend = JPC_CEILDIVPOW2(xend, 1);	newyend = JPC_CEILDIVPOW2(yend, 1);	if (numlvls > 0) {		jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart,		  newxend, newyend, bands, numlvls - 1);		band = *bands;		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);		band->ystart = newystart;		band->xend = JPC_FLOORDIVPOW2(xend, 1);		band->yend = newyend;		band->locxstart = locxstart + newxend - newxstart;		band->locystart = locystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_HL;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);		band = *bands;		band->xstart = newxstart;		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);		band->xend = newxend;		band->yend = JPC_FLOORDIVPOW2(yend, 1);		band->locxstart = locxstart;		band->locystart = locystart + newyend - newystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LH;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);		band = *bands;		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);		band->xend = JPC_FLOORDIVPOW2(xend, 1);		band->yend = JPC_FLOORDIVPOW2(yend, 1);		band->locxstart = locxstart + newxend - newxstart;		band->locystart = locystart + newyend - newystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_HH;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);	} else {		band = *bands;		band->xstart = xstart;		band->ystart = ystart;		band->xend = xend;		band->yend = yend;		band->locxstart = locxstart;		band->locystart = locystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LL;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1]);		++(*bands);	}}
+void
+jpc_tsfb_getbands2(jpc_tsfb_t *tsfb, int locxstart, int locystart,  int xstart, int ystart, int xend, int yend, jpc_tsfb_band_t **bands,  int numlvls)
+jpc_tsfb_getbands2
+jpc_tsfb_t *tsfb
+jpc_tsfb_t
+jpc_tsfb_t
+*tsfb
+*
+tsfb
+int locxstart
+int
+locxstart
+locxstart
+int locystart
+int
+locystart
+locystart
+int xstart
+int
+xstart
+xstart
+int ystart
+int
+ystart
+ystart
+int xend
+int
+xend
+xend
+int yend
+int
+yend
+yend
+jpc_tsfb_band_t **bands
+jpc_tsfb_band_t
+jpc_tsfb_band_t
+**bands
+*
+*
+bands
+int numlvls
+int
+numlvls
+numlvls
+{	int newxstart;	int newystart;	int newxend;	int newyend;	jpc_tsfb_band_t *band;	newxstart = JPC_CEILDIVPOW2(xstart, 1);	newystart = JPC_CEILDIVPOW2(ystart, 1);	newxend = JPC_CEILDIVPOW2(xend, 1);	newyend = JPC_CEILDIVPOW2(yend, 1);	if (numlvls > 0) {		jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart,		  newxend, newyend, bands, numlvls - 1);		band = *bands;		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);		band->ystart = newystart;		band->xend = JPC_FLOORDIVPOW2(xend, 1);		band->yend = newyend;		band->locxstart = locxstart + newxend - newxstart;		band->locystart = locystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_HL;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);		band = *bands;		band->xstart = newxstart;		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);		band->xend = newxend;		band->yend = JPC_FLOORDIVPOW2(yend, 1);		band->locxstart = locxstart;		band->locystart = locystart + newyend - newystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LH;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);		band = *bands;		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);		band->xend = JPC_FLOORDIVPOW2(xend, 1);		band->yend = JPC_FLOORDIVPOW2(yend, 1);		band->locxstart = locxstart + newxend - newxstart;		band->locystart = locystart + newyend - newystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_HH;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);	} else {		band = *bands;		band->xstart = xstart;		band->ystart = ystart;		band->xend = xend;		band->yend = yend;		band->locxstart = locxstart;		band->locystart = locystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LL;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1]);		++(*bands);	}}
+int newxstart;
+int newxstart;
+int
+newxstart
+newxstart
+int newystart;
+int newystart;
+int
+newystart
+newystart
+int newxend;
+int newxend;
+int
+newxend
+newxend
+int newyend;
+int newyend;
+int
+newyend
+newyend
+jpc_tsfb_band_t *band;
+jpc_tsfb_band_t *band;
+jpc_tsfb_band_t
+jpc_tsfb_band_t
+*band
+*
+band
+newxstart = JPC_CEILDIVPOW2(xstart, 1);
+newxstart = JPC_CEILDIVPOW2(xstart, 1)
+newxstart
+newxstart
+JPC_CEILDIVPOW2(xstart, 1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+xstart
+xstart
+1
+newystart = JPC_CEILDIVPOW2(ystart, 1);
+newystart = JPC_CEILDIVPOW2(ystart, 1)
+newystart
+newystart
+JPC_CEILDIVPOW2(ystart, 1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+ystart
+ystart
+1
+newxend = JPC_CEILDIVPOW2(xend, 1);
+newxend = JPC_CEILDIVPOW2(xend, 1)
+newxend
+newxend
+JPC_CEILDIVPOW2(xend, 1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+xend
+xend
+1
+newyend = JPC_CEILDIVPOW2(yend, 1);
+newyend = JPC_CEILDIVPOW2(yend, 1)
+newyend
+newyend
+JPC_CEILDIVPOW2(yend, 1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+yend
+yend
+1
+if (numlvls > 0) {		jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart,		  newxend, newyend, bands, numlvls - 1);		band = *bands;		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);		band->ystart = newystart;		band->xend = JPC_FLOORDIVPOW2(xend, 1);		band->yend = newyend;		band->locxstart = locxstart + newxend - newxstart;		band->locystart = locystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_HL;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);		band = *bands;		band->xstart = newxstart;		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);		band->xend = newxend;		band->yend = JPC_FLOORDIVPOW2(yend, 1);		band->locxstart = locxstart;		band->locystart = locystart + newyend - newystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LH;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);		band = *bands;		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);		band->xend = JPC_FLOORDIVPOW2(xend, 1);		band->yend = JPC_FLOORDIVPOW2(yend, 1);		band->locxstart = locxstart + newxend - newxstart;		band->locystart = locystart + newyend - newystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_HH;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);	} else {		band = *bands;		band->xstart = xstart;		band->ystart = ystart;		band->xend = xend;		band->yend = yend;		band->locxstart = locxstart;		band->locystart = locystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LL;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1]);		++(*bands);	}
+numlvls > 0
+numlvls
+numlvls
+0
+{		jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart,		  newxend, newyend, bands, numlvls - 1);		band = *bands;		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);		band->ystart = newystart;		band->xend = JPC_FLOORDIVPOW2(xend, 1);		band->yend = newyend;		band->locxstart = locxstart + newxend - newxstart;		band->locystart = locystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_HL;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);		band = *bands;		band->xstart = newxstart;		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);		band->xend = newxend;		band->yend = JPC_FLOORDIVPOW2(yend, 1);		band->locxstart = locxstart;		band->locystart = locystart + newyend - newystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LH;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);		band = *bands;		band->xstart = JPC_FLOORDIVPOW2(xstart, 1);		band->ystart = JPC_FLOORDIVPOW2(ystart, 1);		band->xend = JPC_FLOORDIVPOW2(xend, 1);		band->yend = JPC_FLOORDIVPOW2(yend, 1);		band->locxstart = locxstart + newxend - newxstart;		band->locystart = locystart + newyend - newystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_HH;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);		++(*bands);	}
+jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart,		  newxend, newyend, bands, numlvls - 1);
+jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart,		  newxend, newyend, bands, numlvls - 1)
+jpc_tsfb_getbands2
+jpc_tsfb_getbands2
+tsfb
+tsfb
+locxstart
+locxstart
+locystart
+locystart
+newxstart
+newxstart
+newystart
+newystart
+newxend
+newxend
+newyend
+newyend
+bands
+bands
+numlvls - 1
+numlvls
+numlvls
+1
+band = *bands;
+band = *bands
+band
+band
+*bands
+bands
+bands
+band->xstart = JPC_FLOORDIVPOW2(xstart, 1);
+band->xstart = JPC_FLOORDIVPOW2(xstart, 1)
+band->xstart
+band
+band
+xstart
+JPC_FLOORDIVPOW2(xstart, 1)
+JPC_FLOORDIVPOW2
+JPC_FLOORDIVPOW2
+xstart
+xstart
+1
+band->ystart = newystart;
+band->ystart = newystart
+band->ystart
+band
+band
+ystart
+newystart
+newystart
+band->xend = JPC_FLOORDIVPOW2(xend, 1);
+band->xend = JPC_FLOORDIVPOW2(xend, 1)
+band->xend
+band
+band
+xend
+JPC_FLOORDIVPOW2(xend, 1)
+JPC_FLOORDIVPOW2
+JPC_FLOORDIVPOW2
+xend
+xend
+1
+band->yend = newyend;
+band->yend = newyend
+band->yend
+band
+band
+yend
+newyend
+newyend
+band->locxstart = locxstart + newxend - newxstart;
+band->locxstart = locxstart + newxend - newxstart
+band->locxstart
+band
+band
+locxstart
+locxstart + newxend - newxstart
+locxstart + newxend
+locxstart
+locxstart
+newxend
+newxend
+newxstart
+newxstart
+band->locystart = locystart;
+band->locystart = locystart
+band->locystart
+band
+band
+locystart
+locystart
+locystart
+band->locxend = band->locxstart + band->xend - band->xstart;
+band->locxend = band->locxstart + band->xend - band->xstart
+band->locxend
+band
+band
+locxend
+band->locxstart + band->xend - band->xstart
+band->locxstart + band->xend
+band->locxstart
+band
+band
+locxstart
+band->xend
+band
+band
+xend
+band->xstart
+band
+band
+xstart
+band->locyend = band->locystart + band->yend - band->ystart;
+band->locyend = band->locystart + band->yend - band->ystart
+band->locyend
+band
+band
+locyend
+band->locystart + band->yend - band->ystart
+band->locystart + band->yend
+band->locystart
+band
+band
+locystart
+band->yend
+band
+band
+yend
+band->ystart
+band
+band
+ystart
+band->orient = JPC_TSFB_HL;
+band->orient = JPC_TSFB_HL
+band->orient
+band
+band
+orient
+JPC_TSFB_HL
+JPC_TSFB_HL
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls]);
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls])
+band->synenergywt
+band
+band
+synenergywt
+jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls])
+jpc_dbltofix
+jpc_dbltofix
+tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls]
+tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]
+tsfb->qmfb->hpenergywts
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+hpenergywts
+tsfb->numlvls - numlvls
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+numlvls
+numlvls
+tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls]
+tsfb->qmfb->lpenergywts
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+lpenergywts
+tsfb->numlvls - numlvls
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+numlvls
+numlvls
+++(*bands);
+++(*bands)
+(*bands)
+*bands
+bands
+bands
+band = *bands;
+band = *bands
+band
+band
+*bands
+bands
+bands
+band->xstart = newxstart;
+band->xstart = newxstart
+band->xstart
+band
+band
+xstart
+newxstart
+newxstart
+band->ystart = JPC_FLOORDIVPOW2(ystart, 1);
+band->ystart = JPC_FLOORDIVPOW2(ystart, 1)
+band->ystart
+band
+band
+ystart
+JPC_FLOORDIVPOW2(ystart, 1)
+JPC_FLOORDIVPOW2
+JPC_FLOORDIVPOW2
+ystart
+ystart
+1
+band->xend = newxend;
+band->xend = newxend
+band->xend
+band
+band
+xend
+newxend
+newxend
+band->yend = JPC_FLOORDIVPOW2(yend, 1);
+band->yend = JPC_FLOORDIVPOW2(yend, 1)
+band->yend
+band
+band
+yend
+JPC_FLOORDIVPOW2(yend, 1)
+JPC_FLOORDIVPOW2
+JPC_FLOORDIVPOW2
+yend
+yend
+1
+band->locxstart = locxstart;
+band->locxstart = locxstart
+band->locxstart
+band
+band
+locxstart
+locxstart
+locxstart
+band->locystart = locystart + newyend - newystart;
+band->locystart = locystart + newyend - newystart
+band->locystart
+band
+band
+locystart
+locystart + newyend - newystart
+locystart + newyend
+locystart
+locystart
+newyend
+newyend
+newystart
+newystart
+band->locxend = band->locxstart + band->xend - band->xstart;
+band->locxend = band->locxstart + band->xend - band->xstart
+band->locxend
+band
+band
+locxend
+band->locxstart + band->xend - band->xstart
+band->locxstart + band->xend
+band->locxstart
+band
+band
+locxstart
+band->xend
+band
+band
+xend
+band->xstart
+band
+band
+xstart
+band->locyend = band->locystart + band->yend - band->ystart;
+band->locyend = band->locystart + band->yend - band->ystart
+band->locyend
+band
+band
+locyend
+band->locystart + band->yend - band->ystart
+band->locystart + band->yend
+band->locystart
+band
+band
+locystart
+band->yend
+band
+band
+yend
+band->ystart
+band
+band
+ystart
+band->orient = JPC_TSFB_LH;
+band->orient = JPC_TSFB_LH
+band->orient
+band
+band
+orient
+JPC_TSFB_LH
+JPC_TSFB_LH
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls])
+band->synenergywt
+band
+band
+synenergywt
+jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls])
+jpc_dbltofix
+jpc_dbltofix
+tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]
+tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls]
+tsfb->qmfb->lpenergywts
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+lpenergywts
+tsfb->numlvls - numlvls
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+numlvls
+numlvls
+tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]
+tsfb->qmfb->hpenergywts
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+hpenergywts
+tsfb->numlvls - numlvls
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+numlvls
+numlvls
+++(*bands);
+++(*bands)
+(*bands)
+*bands
+bands
+bands
+band = *bands;
+band = *bands
+band
+band
+*bands
+bands
+bands
+band->xstart = JPC_FLOORDIVPOW2(xstart, 1);
+band->xstart = JPC_FLOORDIVPOW2(xstart, 1)
+band->xstart
+band
+band
+xstart
+JPC_FLOORDIVPOW2(xstart, 1)
+JPC_FLOORDIVPOW2
+JPC_FLOORDIVPOW2
+xstart
+xstart
+1
+band->ystart = JPC_FLOORDIVPOW2(ystart, 1);
+band->ystart = JPC_FLOORDIVPOW2(ystart, 1)
+band->ystart
+band
+band
+ystart
+JPC_FLOORDIVPOW2(ystart, 1)
+JPC_FLOORDIVPOW2
+JPC_FLOORDIVPOW2
+ystart
+ystart
+1
+band->xend = JPC_FLOORDIVPOW2(xend, 1);
+band->xend = JPC_FLOORDIVPOW2(xend, 1)
+band->xend
+band
+band
+xend
+JPC_FLOORDIVPOW2(xend, 1)
+JPC_FLOORDIVPOW2
+JPC_FLOORDIVPOW2
+xend
+xend
+1
+band->yend = JPC_FLOORDIVPOW2(yend, 1);
+band->yend = JPC_FLOORDIVPOW2(yend, 1)
+band->yend
+band
+band
+yend
+JPC_FLOORDIVPOW2(yend, 1)
+JPC_FLOORDIVPOW2
+JPC_FLOORDIVPOW2
+yend
+yend
+1
+band->locxstart = locxstart + newxend - newxstart;
+band->locxstart = locxstart + newxend - newxstart
+band->locxstart
+band
+band
+locxstart
+locxstart + newxend - newxstart
+locxstart + newxend
+locxstart
+locxstart
+newxend
+newxend
+newxstart
+newxstart
+band->locystart = locystart + newyend - newystart;
+band->locystart = locystart + newyend - newystart
+band->locystart
+band
+band
+locystart
+locystart + newyend - newystart
+locystart + newyend
+locystart
+locystart
+newyend
+newyend
+newystart
+newystart
+band->locxend = band->locxstart + band->xend - band->xstart;
+band->locxend = band->locxstart + band->xend - band->xstart
+band->locxend
+band
+band
+locxend
+band->locxstart + band->xend - band->xstart
+band->locxstart + band->xend
+band->locxstart
+band
+band
+locxstart
+band->xend
+band
+band
+xend
+band->xstart
+band
+band
+xstart
+band->locyend = band->locystart + band->yend - band->ystart;
+band->locyend = band->locystart + band->yend - band->ystart
+band->locyend
+band
+band
+locyend
+band->locystart + band->yend - band->ystart
+band->locystart + band->yend
+band->locystart
+band
+band
+locystart
+band->yend
+band
+band
+yend
+band->ystart
+band
+band
+ystart
+band->orient = JPC_TSFB_HH;
+band->orient = JPC_TSFB_HH
+band->orient
+band
+band
+orient
+JPC_TSFB_HH
+JPC_TSFB_HH
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]);
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls])
+band->synenergywt
+band
+band
+synenergywt
+jpc_dbltofix(tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls])
+jpc_dbltofix
+jpc_dbltofix
+tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]
+tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]
+tsfb->qmfb->hpenergywts
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+hpenergywts
+tsfb->numlvls - numlvls
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+numlvls
+numlvls
+tsfb->qmfb->hpenergywts[		  tsfb->numlvls - numlvls]
+tsfb->qmfb->hpenergywts
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+hpenergywts
+tsfb->numlvls - numlvls
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+numlvls
+numlvls
+++(*bands);
+++(*bands)
+(*bands)
+*bands
+bands
+bands
+{		band = *bands;		band->xstart = xstart;		band->ystart = ystart;		band->xend = xend;		band->yend = yend;		band->locxstart = locxstart;		band->locystart = locystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LL;		band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1]);		++(*bands);	}
+band = *bands;
+band = *bands
+band
+band
+*bands
+bands
+bands
+band->xstart = xstart;
+band->xstart = xstart
+band->xstart
+band
+band
+xstart
+xstart
+xstart
+band->ystart = ystart;
+band->ystart = ystart
+band->ystart
+band
+band
+ystart
+ystart
+ystart
+band->xend = xend;
+band->xend = xend
+band->xend
+band
+band
+xend
+xend
+xend
+band->yend = yend;
+band->yend = yend
+band->yend
+band
+band
+yend
+yend
+yend
+band->locxstart = locxstart;
+band->locxstart = locxstart
+band->locxstart
+band
+band
+locxstart
+locxstart
+locxstart
+band->locystart = locystart;
+band->locystart = locystart
+band->locystart
+band
+band
+locystart
+locystart
+locystart
+band->locxend = band->locxstart + band->xend - band->xstart;
+band->locxend = band->locxstart + band->xend - band->xstart
+band->locxend
+band
+band
+locxend
+band->locxstart + band->xend - band->xstart
+band->locxstart + band->xend
+band->locxstart
+band
+band
+locxstart
+band->xend
+band
+band
+xend
+band->xstart
+band
+band
+xstart
+band->locyend = band->locystart + band->yend - band->ystart;
+band->locyend = band->locystart + band->yend - band->ystart
+band->locyend
+band
+band
+locyend
+band->locystart + band->yend - band->ystart
+band->locystart + band->yend
+band->locystart
+band
+band
+locystart
+band->yend
+band
+band
+yend
+band->ystart
+band
+band
+ystart
+band->orient = JPC_TSFB_LL;
+band->orient = JPC_TSFB_LL
+band->orient
+band
+band
+orient
+JPC_TSFB_LL
+JPC_TSFB_LL
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1]);
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1])
+band->synenergywt
+band
+band
+synenergywt
+jpc_dbltofix(tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1])
+jpc_dbltofix
+jpc_dbltofix
+tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1]
+tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1]
+tsfb->qmfb->lpenergywts
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+lpenergywts
+tsfb->numlvls - numlvls - 1
+tsfb->numlvls - numlvls
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+numlvls
+numlvls
+1
+tsfb->qmfb->lpenergywts[		  tsfb->numlvls - numlvls - 1]
+tsfb->qmfb->lpenergywts
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+lpenergywts
+tsfb->numlvls - numlvls - 1
+tsfb->numlvls - numlvls
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+numlvls
+numlvls
+1
+++(*bands);
+++(*bands)
+(*bands)
+*bands
+bands
+bands
+-----joern-----
+(30,21,0)
+(59,60,0)
+(61,60,0)
+(6,37,0)
+(2,35,0)
+(56,59,0)
+(9,38,0)
+(59,68,0)
+(37,27,0)
+(59,10,0)
+(70,31,0)
+(59,21,0)
+(35,27,0)
+(21,22,0)
+(18,9,0)
+(73,48,0)
+(49,37,0)
+(59,72,0)
+(22,32,0)
+(25,59,0)
+(27,35,0)
+(31,63,0)
+(52,67,0)
+(10,59,0)
+(58,72,0)
+(53,48,0)
+(20,15,0)
+(29,5,0)
+(16,69,0)
+(64,24,0)
+(54,69,0)
+(3,36,0)
+(72,59,0)
+(0,59,0)
+(48,68,0)
+(44,16,0)
+(50,22,0)
+(41,3,0)
+(5,0,0)
+(43,22,0)
+(48,51,0)
+(72,11,0)
+(60,59,0)
+(42,36,0)
+(48,13,0)
+(18,3,0)
+(7,59,0)
+(33,46,0)
+(21,59,0)
+(28,35,0)
+(21,30,0)
+(23,31,0)
+(31,32,0)
+(55,11,0)
+(65,48,0)
+(17,10,0)
+(10,13,0)
+(0,69,0)
+(18,33,0)
+(24,33,0)
+(60,32,0)
+(39,30,0)
+(31,30,0)
+(4,55,0)
+(22,21,0)
+(14,34,0)
+(66,55,0)
+(48,32,0)
+(0,5,0)
+(48,63,0)
+(12,48,0)
+(47,36,0)
+(30,31,0)
+(16,13,0)
+(62,72,0)
+(16,51,0)
+(71,10,0)
+(35,63,0)
+(69,0,0)
+(67,9,0)
+(5,13,0)
+(37,51,0)
+(45,16,0)
+(59,57,0)
+(59,8,0)
+(26,48,0)
+(59,0,0)
+(48,8,0)
+(27,37,0)
+(1,48,0)
+(69,16,0)
+(40,60,0)
+(19,5,0)
+(41,48,1)
+(35,2,1)
+(53,73,1)
+(1,27,1)
+(59,68,1)
+(5,29,1)
+(48,63,1)
+(55,11,1)
+(48,68,1)
+(72,58,1)
+(22,32,1)
+(49,55,1)
+(70,23,1)
+(18,9,1)
+(69,16,1)
+(62,56,1)
+(65,12,1)
+(58,62,1)
+(2,28,1)
+(71,17,1)
+(27,35,1)
+(30,31,1)
+(48,13,1)
+(59,10,1)
+(28,37,1)
+(10,71,1)
+(16,13,1)
+(72,11,1)
+(26,65,1)
+(37,51,1)
+(64,59,1)
+(67,52,1)
+(0,69,1)
+(12,1,1)
+(21,22,1)
+(16,51,1)
+(30,39,1)
+(48,53,1)
+(49,59,1)
+(16,45,1)
+(41,27,1)
+(18,33,1)
+(35,63,1)
+(0,5,1)
+(37,6,1)
+(17,25,1)
+(7,55,1)
+(59,60,1)
+(59,72,1)
+(61,40,1)
+(31,70,1)
+(60,32,1)
+(23,0,1)
+(69,54,1)
+(18,3,1)
+(59,57,1)
+(52,48,1)
+(3,41,1)
+(24,64,1)
+(25,7,1)
+(19,69,1)
+(55,4,1)
+(29,19,1)
+(21,30,1)
+(59,0,1)
+(43,30,1)
+(54,16,1)
+(73,26,1)
+(45,44,1)
+(22,50,1)
+(27,37,1)
+(6,49,1)
+(59,8,1)
+(33,24,1)
+(10,13,1)
+(50,43,1)
+(5,13,1)
+(40,10,1)
+(59,21,1)
+(4,66,1)
+(9,67,1)
+(44,60,1)
+(60,61,1)
+(48,8,1)
+(56,21,1)
+(48,51,1)
+(31,63,1)
+(48,32,1)
+(31,32,1)
+(39,31,1)
+(59,72,2)
+(37,55,2)
+(48,27,2)
+(27,35,2)
+(33,59,2)
+(49,55,2)
+(23,55,2)
+(70,55,2)
+(48,32,2)
+(29,55,2)
+(72,11,2)
+(9,48,2)
+(48,51,2)
+(65,27,2)
+(10,55,2)
+(27,37,2)
+(5,55,2)
+(41,48,2)
+(59,0,2)
+(54,55,2)
+(3,48,2)
+(37,59,2)
+(0,69,2)
+(69,55,2)
+(69,16,2)
+(52,48,2)
+(6,55,2)
+(18,33,2)
+(21,22,2)
+(16,51,2)
+(40,55,2)
+(17,55,2)
+(59,10,2)
+(25,55,2)
+(59,57,2)
+(48,68,2)
+(30,31,2)
+(44,55,2)
+(62,55,2)
+(35,37,2)
+(59,21,2)
+(67,48,2)
+(50,55,2)
+(24,59,2)
+(0,55,2)
+(59,60,2)
+(41,27,2)
+(18,3,2)
+(72,55,2)
+(27,55,2)
+(27,59,2)
+(2,37,2)
+(16,13,2)
+(39,55,2)
+(1,27,2)
+(3,27,2)
+(59,55,2)
+(61,55,2)
+(60,55,2)
+(53,27,2)
+(31,32,2)
+(22,55,2)
+(12,27,2)
+(73,27,2)
+(49,59,2)
+(71,55,2)
+(48,8,2)
+(31,55,2)
+(35,63,2)
+(5,13,2)
+(43,55,2)
+(7,55,2)
+(18,9,2)
+(19,55,2)
+(45,55,2)
+(59,68,2)
+(22,32,2)
+(16,55,2)
+(28,37,2)
+(60,32,2)
+(21,55,2)
+(59,8,2)
+(37,51,2)
+(21,30,2)
+(48,63,2)
+(55,11,2)
+(48,13,2)
+(31,63,2)
+(64,59,2)
+(30,55,2)
+(6,59,2)
+(0,5,2)
+(58,55,2)
+(26,27,2)
+(10,13,2)
+(56,55,2)
+-----------------------------------
+(0,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(1,a)
+(2,0)
+(3,return 0;)
+(4,0)
+(5,JPC_CEILDIVPOW2(xstart, 1)
+(6,0)
+(7,tsfb)
+(8,int *a)
+(9,return -1;)
+(10,JPC_CEILDIVPOW2(xstart, 1)
+(11,int numlvls)
+(12,xstart)
+(13,int xstart)
+(14,if ((*tsfb->qmfb->synthesize)
+(15,)
+(16,xstart + width)
+(17,xstart)
+(18,RET)
+(19,xstart)
+(20,if (jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(21,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(22,JPC_CEILDIVPOW2(ystart, 1)
+(23,ystart)
+(24,-1)
+(25,a)
+(26,width)
+(27,width > 0 && height > 0)
+(28,height)
+(29,1)
+(30,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(31,ystart +\\n\\t\\t  height)
+(32,int ystart)
+(33,return -1;)
+(34,)
+(35,height > 0)
+(36,)
+(37,width > 0)
+(38,)
+(39,1)
+(40,ystart)
+(41,0)
+(42,if (width > 0 && height > 0)
+(43,ystart)
+(44,xstart)
+(45,width)
+(46,)
+(47,if (numlvls > 0)
+(48,(*tsfb->qmfb->synthesize)
+(49,width)
+(50,1)
+(51,int width)
+(52,1)
+(53,stride)
+(54,1)
+(55,numlvls > 0)
+(56,stride)
+(57,jpc_tsfb_t *tsfb)
+(58,1)
+(59,jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(60,JPC_CEILDIVPOW2(ystart, 1)
+(61,1)
+(62,numlvls)
+(63,int height)
+(64,1)
+(65,ystart)
+(66,numlvls)
+(67,-1)
+(68,int stride)
+(69,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(70,height)
+(71,1)
+(72,numlvls -\\n\\t\\t  1)
+(73,height)
+-----cfg-----
+(7,25)
+(23,30)
+(25,23)
+(28,35)
+(30,28)
+(33,40)
+(35,33)
+(38,44)
+(40,38)
+(44,57)
+(44,396)
+(48,62)
+(57,48)
+(60,67)
+(62,60)
+(64,74)
+(65,68)
+(67,65)
+(68,64)
+(71,79)
+(72,71)
+(74,72)
+(76,86)
+(77,80)
+(79,77)
+(80,76)
+(83,91)
+(84,83)
+(86,84)
+(88,100)
+(89,93)
+(91,89)
+(92,88)
+(93,92)
+(97,105)
+(98,97)
+(100,98)
+(102,120)
+(103,110)
+(105,103)
+(106,102)
+(107,116)
+(108,113)
+(110,108)
+(111,107)
+(113,111)
+(114,106)
+(116,114)
+(117,135)
+(118,125)
+(120,118)
+(121,117)
+(122,131)
+(123,128)
+(125,123)
+(126,122)
+(128,126)
+(129,121)
+(131,129)
+(132,140)
+(133,132)
+(135,133)
+(137,166)
+(138,147)
+(140,138)
+(141,137)
+(142,141)
+(143,158)
+(144,152)
+(145,148)
+(147,145)
+(148,144)
+(149,143)
+(150,149)
+(152,150)
+(154,142)
+(155,163)
+(156,159)
+(158,156)
+(159,155)
+(160,154)
+(161,160)
+(163,161)
+(165,170)
+(166,165)
+(168,175)
+(170,168)
+(172,180)
+(173,172)
+(175,173)
+(177,187)
+(178,181)
+(180,178)
+(181,177)
+(184,192)
+(185,184)
+(187,185)
+(189,199)
+(190,193)
+(192,190)
+(193,189)
+(196,204)
+(197,196)
+(199,197)
+(201,213)
+(202,206)
+(204,202)
+(205,201)
+(206,205)
+(210,228)
+(211,218)
+(213,211)
+(214,210)
+(215,224)
+(216,221)
+(218,216)
+(219,215)
+(221,219)
+(222,214)
+(224,222)
+(225,243)
+(226,233)
+(228,226)
+(229,225)
+(230,239)
+(231,236)
+(233,231)
+(234,230)
+(236,234)
+(237,229)
+(239,237)
+(240,248)
+(241,240)
+(243,241)
+(245,274)
+(246,255)
+(248,246)
+(249,245)
+(250,249)
+(251,266)
+(252,260)
+(253,256)
+(255,253)
+(256,252)
+(257,251)
+(258,257)
+(260,258)
+(262,250)
+(263,271)
+(264,267)
+(266,264)
+(267,263)
+(268,262)
+(269,268)
+(271,269)
+(273,278)
+(274,273)
+(276,283)
+(278,276)
+(280,290)
+(281,284)
+(283,281)
+(284,280)
+(287,297)
+(288,291)
+(290,288)
+(291,287)
+(294,304)
+(295,298)
+(297,295)
+(298,294)
+(301,311)
+(302,305)
+(304,302)
+(305,301)
+(308,320)
+(309,313)
+(311,309)
+(312,308)
+(313,312)
+(317,329)
+(318,322)
+(320,318)
+(321,317)
+(322,321)
+(326,344)
+(327,334)
+(329,327)
+(330,326)
+(331,340)
+(332,337)
+(334,332)
+(335,331)
+(337,335)
+(338,330)
+(340,338)
+(341,359)
+(342,349)
+(344,342)
+(345,341)
+(346,355)
+(347,352)
+(349,347)
+(350,346)
+(352,350)
+(353,345)
+(355,353)
+(356,364)
+(357,356)
+(359,357)
+(361,390)
+(362,371)
+(364,362)
+(365,361)
+(366,365)
+(367,382)
+(368,376)
+(369,372)
+(371,369)
+(372,368)
+(373,367)
+(374,373)
+(376,374)
+(378,366)
+(379,387)
+(380,383)
+(382,380)
+(383,379)
+(384,378)
+(385,384)
+(387,385)
+(389,498)
+(390,389)
+(394,401)
+(396,394)
+(398,406)
+(399,398)
+(401,399)
+(403,411)
+(404,403)
+(406,404)
+(408,416)
+(409,408)
+(411,409)
+(413,421)
+(414,413)
+(416,414)
+(418,426)
+(419,418)
+(421,419)
+(423,431)
+(424,423)
+(426,424)
+(428,446)
+(429,436)
+(431,429)
+(432,428)
+(433,442)
+(434,439)
+(436,434)
+(437,433)
+(439,437)
+(440,432)
+(442,440)
+(443,461)
+(444,451)
+(446,444)
+(447,443)
+(448,457)
+(449,454)
+(451,449)
+(452,448)
+(454,452)
+(455,447)
+(457,455)
+(458,466)
+(459,458)
+(461,459)
+(463,496)
+(464,473)
+(466,464)
+(467,463)
+(468,467)
+(469,486)
+(470,479)
+(471,474)
+(473,471)
+(474,470)
+(475,469)
+(476,475)
+(477,476)
+(479,477)
+(482,468)
+(483,492)
+(484,487)
+(486,484)
+(487,483)
+(488,482)
+(489,488)
+(490,489)
+(492,490)
+(495,498)
+(496,495)
+-----path-----
+7,25,23,30,28,35,33,40,38,44,57,48,62,60,67,65,68,64,74,72,71,79,77,80,76,86,84,83,91,89,93,92,88,100,98,97,105,103,110,108,113,111,107,116,114,106,102,120,118,125,123
+7,25,23,30,28,35,33,40,38,44,396,394,401,399,398,406,404,403,411,409,408,416,414,413,421,419,418,426,424,423,431,429,436,434,439,437,433,442,440,432,428,446,444,451,449,454,452,448,457,455,447
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jpc_tsfb_getbands2 (jpc_tsfb_t *tsfb,int locxstart,int locystart,int xstart,int ystart,int xend,int yend,jpc_tsfb_band_t **bands,int numlvls)
+8,jpc_tsfb_t *tsfb
+9,int locxstart
+10,int locystart
+11,int xstart
+12,int ystart
+13,int xend
+14,int yend
+15,jpc_tsfb_band_t **bands
+16,int numlvls
+17,<empty>
+18,int newxstart
+19,int newystart
+20,int newxend
+21,int newyend
+22,jpc_tsfb_band_t* band
+23,newxstart = JPC_CEILDIVPOW2(xstart, 1)
+24,newxstart
+25,JPC_CEILDIVPOW2(xstart, 1)
+26,xstart
+27,1
+28,newystart = JPC_CEILDIVPOW2(ystart, 1)
+29,newystart
+30,JPC_CEILDIVPOW2(ystart, 1)
+31,ystart
+32,1
+33,newxend = JPC_CEILDIVPOW2(xend, 1)
+34,newxend
+35,JPC_CEILDIVPOW2(xend, 1)
+36,xend
+37,1
+38,newyend = JPC_CEILDIVPOW2(yend, 1)
+39,newyend
+40,JPC_CEILDIVPOW2(yend, 1)
+41,yend
+42,1
+43,if (numlvls > 0)
+44,numlvls > 0
+45,numlvls
+46,0
+47,<empty>
+48,jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart,
+49,		  newxend, newyend, bands, numlvls - 1)
+50,tsfb
+51,locxstart
+52,locystart
+53,newxstart
+54,newystart
+55,newxend
+56,newyend
+57,bands
+58,numlvls - 1
+59,numlvls
+60,1
+61,band = *bands
+62,band
+63,*bands
+64,bands
+65,band->xstart = JPC_FLOORDIVPOW2(xstart, 1)
+66,band->xstart
+67,band
+68,xstart
+69,JPC_FLOORDIVPOW2(xstart, 1)
+70,xstart
+71,1
+72,band->ystart = newystart
+73,band->ystart
+74,band
+75,ystart
+76,newystart
+77,band->xend = JPC_FLOORDIVPOW2(xend, 1)
+78,band->xend
+79,band
+80,xend
+81,JPC_FLOORDIVPOW2(xend, 1)
+82,xend
+83,1
+84,band->yend = newyend
+85,band->yend
+86,band
+87,yend
+88,newyend
+89,band->locxstart = locxstart + newxend - newxstart
+90,band->locxstart
+91,band
+92,locxstart
+93,locxstart + newxend - newxstart
+94,locxstart + newxend
+95,locxstart
+96,newxend
+97,newxstart
+98,band->locystart = locystart
+99,band->locystart
+100,band
+101,locystart
+102,locystart
+103,band->locxend = band->locxstart + band->xend - band->xstart
+104,band->locxend
+105,band
+106,locxend
+107,band->locxstart + band->xend - band->xstart
+108,band->locxstart + band->xend
+109,band->locxstart
+110,band
+111,locxstart
+112,band->xend
+113,band
+114,xend
+115,band->xstart
+116,band
+117,xstart
+118,band->locyend = band->locystart + band->yend - band->ystart
+119,band->locyend
+120,band
+121,locyend
+122,band->locystart + band->yend - band->ystart
+123,band->locystart + band->yend
+124,band->locystart
+125,band
+126,locystart
+127,band->yend
+128,band
+129,yend
+130,band->ystart
+131,band
+132,ystart
+133,band->orient = JPC_TSFB_HL
+134,band->orient
+135,band
+136,orient
+137,JPC_TSFB_HL
+138,band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[
+139,		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[
+140,		  tsfb->numlvls - numlvls])
+141,band->synenergywt
+142,band
+143,synenergywt
+144,jpc_dbltofix(tsfb->qmfb->hpenergywts[
+145,		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[
+146,		  tsfb->numlvls - numlvls])
+147,tsfb->qmfb->hpenergywts[
+148,		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[
+149,		  tsfb->numlvls - numlvls]
+150,tsfb->qmfb->hpenergywts[
+151,		  tsfb->numlvls - numlvls]
+152,tsfb->qmfb->hpenergywts
+153,tsfb->qmfb
+154,tsfb
+155,qmfb
+156,hpenergywts
+157,tsfb->numlvls - numlvls
+158,tsfb->numlvls
+159,tsfb
+160,numlvls
+161,numlvls
+162,tsfb->qmfb->lpenergywts[
+163,		  tsfb->numlvls - numlvls]
+164,tsfb->qmfb->lpenergywts
+165,tsfb->qmfb
+166,tsfb
+167,qmfb
+168,lpenergywts
+169,tsfb->numlvls - numlvls
+170,tsfb->numlvls
+171,tsfb
+172,numlvls
+173,numlvls
+174,++(*bands)
+175,*bands
+176,bands
+177,band = *bands
+178,band
+179,*bands
+180,bands
+181,band->xstart = newxstart
+182,band->xstart
+183,band
+184,xstart
+185,newxstart
+186,band->ystart = JPC_FLOORDIVPOW2(ystart, 1)
+187,band->ystart
+188,band
+189,ystart
+190,JPC_FLOORDIVPOW2(ystart, 1)
+191,ystart
+192,1
+193,band->xend = newxend
+194,band->xend
+195,band
+196,xend
+197,newxend
+198,band->yend = JPC_FLOORDIVPOW2(yend, 1)
+199,band->yend
+200,band
+201,yend
+202,JPC_FLOORDIVPOW2(yend, 1)
+203,yend
+204,1
+205,band->locxstart = locxstart
+206,band->locxstart
+207,band
+208,locxstart
+209,locxstart
+210,band->locystart = locystart + newyend - newystart
+211,band->locystart
+212,band
+213,locystart
+214,locystart + newyend - newystart
+215,locystart + newyend
+216,locystart
+217,newyend
+218,newystart
+219,band->locxend = band->locxstart + band->xend - band->xstart
+220,band->locxend
+221,band
+222,locxend
+223,band->locxstart + band->xend - band->xstart
+224,band->locxstart + band->xend
+225,band->locxstart
+226,band
+227,locxstart
+228,band->xend
+229,band
+230,xend
+231,band->xstart
+232,band
+233,xstart
+234,band->locyend = band->locystart + band->yend - band->ystart
+235,band->locyend
+236,band
+237,locyend
+238,band->locystart + band->yend - band->ystart
+239,band->locystart + band->yend
+240,band->locystart
+241,band
+242,locystart
+243,band->yend
+244,band
+245,yend
+246,band->ystart
+247,band
+248,ystart
+249,band->orient = JPC_TSFB_LH
+250,band->orient
+251,band
+252,orient
+253,JPC_TSFB_LH
+254,band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[
+255,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+256,		  tsfb->numlvls - numlvls])
+257,band->synenergywt
+258,band
+259,synenergywt
+260,jpc_dbltofix(tsfb->qmfb->lpenergywts[
+261,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+262,		  tsfb->numlvls - numlvls])
+263,tsfb->qmfb->lpenergywts[
+264,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+265,		  tsfb->numlvls - numlvls]
+266,tsfb->qmfb->lpenergywts[
+267,		  tsfb->numlvls - numlvls]
+268,tsfb->qmfb->lpenergywts
+269,tsfb->qmfb
+270,tsfb
+271,qmfb
+272,lpenergywts
+273,tsfb->numlvls - numlvls
+274,tsfb->numlvls
+275,tsfb
+276,numlvls
+277,numlvls
+278,tsfb->qmfb->hpenergywts[
+279,		  tsfb->numlvls - numlvls]
+280,tsfb->qmfb->hpenergywts
+281,tsfb->qmfb
+282,tsfb
+283,qmfb
+284,hpenergywts
+285,tsfb->numlvls - numlvls
+286,tsfb->numlvls
+287,tsfb
+288,numlvls
+289,numlvls
+290,++(*bands)
+291,*bands
+292,bands
+293,band = *bands
+294,band
+295,*bands
+296,bands
+297,band->xstart = JPC_FLOORDIVPOW2(xstart, 1)
+298,band->xstart
+299,band
+300,xstart
+301,JPC_FLOORDIVPOW2(xstart, 1)
+302,xstart
+303,1
+304,band->ystart = JPC_FLOORDIVPOW2(ystart, 1)
+305,band->ystart
+306,band
+307,ystart
+308,JPC_FLOORDIVPOW2(ystart, 1)
+309,ystart
+310,1
+311,band->xend = JPC_FLOORDIVPOW2(xend, 1)
+312,band->xend
+313,band
+314,xend
+315,JPC_FLOORDIVPOW2(xend, 1)
+316,xend
+317,1
+318,band->yend = JPC_FLOORDIVPOW2(yend, 1)
+319,band->yend
+320,band
+321,yend
+322,JPC_FLOORDIVPOW2(yend, 1)
+323,yend
+324,1
+325,band->locxstart = locxstart + newxend - newxstart
+326,band->locxstart
+327,band
+328,locxstart
+329,locxstart + newxend - newxstart
+330,locxstart + newxend
+331,locxstart
+332,newxend
+333,newxstart
+334,band->locystart = locystart + newyend - newystart
+335,band->locystart
+336,band
+337,locystart
+338,locystart + newyend - newystart
+339,locystart + newyend
+340,locystart
+341,newyend
+342,newystart
+343,band->locxend = band->locxstart + band->xend - band->xstart
+344,band->locxend
+345,band
+346,locxend
+347,band->locxstart + band->xend - band->xstart
+348,band->locxstart + band->xend
+349,band->locxstart
+350,band
+351,locxstart
+352,band->xend
+353,band
+354,xend
+355,band->xstart
+356,band
+357,xstart
+358,band->locyend = band->locystart + band->yend - band->ystart
+359,band->locyend
+360,band
+361,locyend
+362,band->locystart + band->yend - band->ystart
+363,band->locystart + band->yend
+364,band->locystart
+365,band
+366,locystart
+367,band->yend
+368,band
+369,yend
+370,band->ystart
+371,band
+372,ystart
+373,band->orient = JPC_TSFB_HH
+374,band->orient
+375,band
+376,orient
+377,JPC_TSFB_HH
+378,band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[
+379,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+380,		  tsfb->numlvls - numlvls])
+381,band->synenergywt
+382,band
+383,synenergywt
+384,jpc_dbltofix(tsfb->qmfb->hpenergywts[
+385,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+386,		  tsfb->numlvls - numlvls])
+387,tsfb->qmfb->hpenergywts[
+388,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+389,		  tsfb->numlvls - numlvls]
+390,tsfb->qmfb->hpenergywts[
+391,		  tsfb->numlvls - numlvls]
+392,tsfb->qmfb->hpenergywts
+393,tsfb->qmfb
+394,tsfb
+395,qmfb
+396,hpenergywts
+397,tsfb->numlvls - numlvls
+398,tsfb->numlvls
+399,tsfb
+400,numlvls
+401,numlvls
+402,tsfb->qmfb->hpenergywts[
+403,		  tsfb->numlvls - numlvls]
+404,tsfb->qmfb->hpenergywts
+405,tsfb->qmfb
+406,tsfb
+407,qmfb
+408,hpenergywts
+409,tsfb->numlvls - numlvls
+410,tsfb->numlvls
+411,tsfb
+412,numlvls
+413,numlvls
+414,++(*bands)
+415,*bands
+416,bands
+417,else
+418,<empty>
+419,band = *bands
+420,band
+421,*bands
+422,bands
+423,band->xstart = xstart
+424,band->xstart
+425,band
+426,xstart
+427,xstart
+428,band->ystart = ystart
+429,band->ystart
+430,band
+431,ystart
+432,ystart
+433,band->xend = xend
+434,band->xend
+435,band
+436,xend
+437,xend
+438,band->yend = yend
+439,band->yend
+440,band
+441,yend
+442,yend
+443,band->locxstart = locxstart
+444,band->locxstart
+445,band
+446,locxstart
+447,locxstart
+448,band->locystart = locystart
+449,band->locystart
+450,band
+451,locystart
+452,locystart
+453,band->locxend = band->locxstart + band->xend - band->xstart
+454,band->locxend
+455,band
+456,locxend
+457,band->locxstart + band->xend - band->xstart
+458,band->locxstart + band->xend
+459,band->locxstart
+460,band
+461,locxstart
+462,band->xend
+463,band
+464,xend
+465,band->xstart
+466,band
+467,xstart
+468,band->locyend = band->locystart + band->yend - band->ystart
+469,band->locyend
+470,band
+471,locyend
+472,band->locystart + band->yend - band->ystart
+473,band->locystart + band->yend
+474,band->locystart
+475,band
+476,locystart
+477,band->yend
+478,band
+479,yend
+480,band->ystart
+481,band
+482,ystart
+483,band->orient = JPC_TSFB_LL
+484,band->orient
+485,band
+486,orient
+487,JPC_TSFB_LL
+488,band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[
+489,		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[
+490,		  tsfb->numlvls - numlvls - 1])
+491,band->synenergywt
+492,band
+493,synenergywt
+494,jpc_dbltofix(tsfb->qmfb->lpenergywts[
+495,		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[
+496,		  tsfb->numlvls - numlvls - 1])
+497,tsfb->qmfb->lpenergywts[
+498,		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[
+499,		  tsfb->numlvls - numlvls - 1]
+500,tsfb->qmfb->lpenergywts[
+501,		  tsfb->numlvls - numlvls - 1]
+502,tsfb->qmfb->lpenergywts
+503,tsfb->qmfb
+504,tsfb
+505,qmfb
+506,lpenergywts
+507,tsfb->numlvls - numlvls - 1
+508,tsfb->numlvls - numlvls
+509,tsfb->numlvls
+510,tsfb
+511,numlvls
+512,numlvls
+513,1
+514,tsfb->qmfb->lpenergywts[
+515,		  tsfb->numlvls - numlvls - 1]
+516,tsfb->qmfb->lpenergywts
+517,tsfb->qmfb
+518,tsfb
+519,qmfb
+520,lpenergywts
+521,tsfb->numlvls - numlvls - 1
+522,tsfb->numlvls - numlvls
+523,tsfb->numlvls
+524,tsfb
+525,numlvls
+526,numlvls
+527,1
+528,++(*bands)
+529,*bands
+530,bands
+531,RET
+532,jpc_tsfb_t *tsfb
+533,int locxstart
+534,int locystart
+535,int xstart
+536,int ystart
+537,int xend
+538,int yend
+539,jpc_tsfb_band_t **bands
+540,int numlvls
+541,RET
+542,void jpc_tsfb_getbands2 (jpc_tsfb_t *tsfb,int locxstart,int locystart,int xstart,int ystart,int xend,int yend,jpc_tsfb_band_t **bands,int numlvls)
+543,jpc_tsfb_t *tsfb
+544,int locxstart
+545,int locystart
+546,int xstart
+547,int ystart
+548,int xend
+549,int yend
+550,jpc_tsfb_band_t **bands
+551,int numlvls
+552,<empty>
+553,int newxstart
+554,int newystart
+555,int newxend
+556,int newyend
+557,jpc_tsfb_band_t* band
+558,newxstart = JPC_CEILDIVPOW2(xstart, 1)
+559,newxstart
+560,JPC_CEILDIVPOW2(xstart, 1)
+561,xstart
+562,1
+563,newystart = JPC_CEILDIVPOW2(ystart, 1)
+564,newystart
+565,JPC_CEILDIVPOW2(ystart, 1)
+566,ystart
+567,1
+568,newxend = JPC_CEILDIVPOW2(xend, 1)
+569,newxend
+570,JPC_CEILDIVPOW2(xend, 1)
+571,xend
+572,1
+573,newyend = JPC_CEILDIVPOW2(yend, 1)
+574,newyend
+575,JPC_CEILDIVPOW2(yend, 1)
+576,yend
+577,1
+578,if (numlvls > 0)
+579,numlvls > 0
+580,numlvls
+581,0
+582,<empty>
+583,jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart,
+584,		  newxend, newyend, bands, numlvls - 1)
+585,tsfb
+586,locxstart
+587,locystart
+588,newxstart
+589,newystart
+590,newxend
+591,newyend
+592,bands
+593,numlvls - 1
+594,numlvls
+595,1
+596,band = *bands
+597,band
+598,*bands
+599,bands
+600,band->xstart = JPC_FLOORDIVPOW2(xstart, 1)
+601,band->xstart
+602,band
+603,xstart
+604,JPC_FLOORDIVPOW2(xstart, 1)
+605,xstart
+606,1
+607,band->ystart = newystart
+608,band->ystart
+609,band
+610,ystart
+611,newystart
+612,band->xend = JPC_FLOORDIVPOW2(xend, 1)
+613,band->xend
+614,band
+615,xend
+616,JPC_FLOORDIVPOW2(xend, 1)
+617,xend
+618,1
+619,band->yend = newyend
+620,band->yend
+621,band
+622,yend
+623,newyend
+624,band->locxstart = locxstart + newxend - newxstart
+625,band->locxstart
+626,band
+627,locxstart
+628,locxstart + newxend - newxstart
+629,locxstart + newxend
+630,locxstart
+631,newxend
+632,newxstart
+633,band->locystart = locystart
+634,band->locystart
+635,band
+636,locystart
+637,locystart
+638,band->locxend = band->locxstart + band->xend - band->xstart
+639,band->locxend
+640,band
+641,locxend
+642,band->locxstart + band->xend - band->xstart
+643,band->locxstart + band->xend
+644,band->locxstart
+645,band
+646,locxstart
+647,band->xend
+648,band
+649,xend
+650,band->xstart
+651,band
+652,xstart
+653,band->locyend = band->locystart + band->yend - band->ystart
+654,band->locyend
+655,band
+656,locyend
+657,band->locystart + band->yend - band->ystart
+658,band->locystart + band->yend
+659,band->locystart
+660,band
+661,locystart
+662,band->yend
+663,band
+664,yend
+665,band->ystart
+666,band
+667,ystart
+668,band->orient = JPC_TSFB_HL
+669,band->orient
+670,band
+671,orient
+672,JPC_TSFB_HL
+673,band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[
+674,		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[
+675,		  tsfb->numlvls - numlvls])
+676,band->synenergywt
+677,band
+678,synenergywt
+679,jpc_dbltofix(tsfb->qmfb->hpenergywts[
+680,		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[
+681,		  tsfb->numlvls - numlvls])
+682,tsfb->qmfb->hpenergywts[
+683,		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[
+684,		  tsfb->numlvls - numlvls]
+685,tsfb->qmfb->hpenergywts[
+686,		  tsfb->numlvls - numlvls]
+687,tsfb->qmfb->hpenergywts
+688,tsfb->qmfb
+689,tsfb
+690,qmfb
+691,hpenergywts
+692,tsfb->numlvls - numlvls
+693,tsfb->numlvls
+694,tsfb
+695,numlvls
+696,numlvls
+697,tsfb->qmfb->lpenergywts[
+698,		  tsfb->numlvls - numlvls]
+699,tsfb->qmfb->lpenergywts
+700,tsfb->qmfb
+701,tsfb
+702,qmfb
+703,lpenergywts
+704,tsfb->numlvls - numlvls
+705,tsfb->numlvls
+706,tsfb
+707,numlvls
+708,numlvls
+709,++(*bands)
+710,*bands
+711,bands
+712,band = *bands
+713,band
+714,*bands
+715,bands
+716,band->xstart = newxstart
+717,band->xstart
+718,band
+719,xstart
+720,newxstart
+721,band->ystart = JPC_FLOORDIVPOW2(ystart, 1)
+722,band->ystart
+723,band
+724,ystart
+725,JPC_FLOORDIVPOW2(ystart, 1)
+726,ystart
+727,1
+728,band->xend = newxend
+729,band->xend
+730,band
+731,xend
+732,newxend
+733,band->yend = JPC_FLOORDIVPOW2(yend, 1)
+734,band->yend
+735,band
+736,yend
+737,JPC_FLOORDIVPOW2(yend, 1)
+738,yend
+739,1
+740,band->locxstart = locxstart
+741,band->locxstart
+742,band
+743,locxstart
+744,locxstart
+745,band->locystart = locystart + newyend - newystart
+746,band->locystart
+747,band
+748,locystart
+749,locystart + newyend - newystart
+750,locystart + newyend
+751,locystart
+752,newyend
+753,newystart
+754,band->locxend = band->locxstart + band->xend - band->xstart
+755,band->locxend
+756,band
+757,locxend
+758,band->locxstart + band->xend - band->xstart
+759,band->locxstart + band->xend
+760,band->locxstart
+761,band
+762,locxstart
+763,band->xend
+764,band
+765,xend
+766,band->xstart
+767,band
+768,xstart
+769,band->locyend = band->locystart + band->yend - band->ystart
+770,band->locyend
+771,band
+772,locyend
+773,band->locystart + band->yend - band->ystart
+774,band->locystart + band->yend
+775,band->locystart
+776,band
+777,locystart
+778,band->yend
+779,band
+780,yend
+781,band->ystart
+782,band
+783,ystart
+784,band->orient = JPC_TSFB_LH
+785,band->orient
+786,band
+787,orient
+788,JPC_TSFB_LH
+789,band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[
+790,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+791,		  tsfb->numlvls - numlvls])
+792,band->synenergywt
+793,band
+794,synenergywt
+795,jpc_dbltofix(tsfb->qmfb->lpenergywts[
+796,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+797,		  tsfb->numlvls - numlvls])
+798,tsfb->qmfb->lpenergywts[
+799,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+800,		  tsfb->numlvls - numlvls]
+801,tsfb->qmfb->lpenergywts[
+802,		  tsfb->numlvls - numlvls]
+803,tsfb->qmfb->lpenergywts
+804,tsfb->qmfb
+805,tsfb
+806,qmfb
+807,lpenergywts
+808,tsfb->numlvls - numlvls
+809,tsfb->numlvls
+810,tsfb
+811,numlvls
+812,numlvls
+813,tsfb->qmfb->hpenergywts[
+814,		  tsfb->numlvls - numlvls]
+815,tsfb->qmfb->hpenergywts
+816,tsfb->qmfb
+817,tsfb
+818,qmfb
+819,hpenergywts
+820,tsfb->numlvls - numlvls
+821,tsfb->numlvls
+822,tsfb
+823,numlvls
+824,numlvls
+825,++(*bands)
+826,*bands
+827,bands
+828,band = *bands
+829,band
+830,*bands
+831,bands
+832,band->xstart = JPC_FLOORDIVPOW2(xstart, 1)
+833,band->xstart
+834,band
+835,xstart
+836,JPC_FLOORDIVPOW2(xstart, 1)
+837,xstart
+838,1
+839,band->ystart = JPC_FLOORDIVPOW2(ystart, 1)
+840,band->ystart
+841,band
+842,ystart
+843,JPC_FLOORDIVPOW2(ystart, 1)
+844,ystart
+845,1
+846,band->xend = JPC_FLOORDIVPOW2(xend, 1)
+847,band->xend
+848,band
+849,xend
+850,JPC_FLOORDIVPOW2(xend, 1)
+851,xend
+852,1
+853,band->yend = JPC_FLOORDIVPOW2(yend, 1)
+854,band->yend
+855,band
+856,yend
+857,JPC_FLOORDIVPOW2(yend, 1)
+858,yend
+859,1
+860,band->locxstart = locxstart + newxend - newxstart
+861,band->locxstart
+862,band
+863,locxstart
+864,locxstart + newxend - newxstart
+865,locxstart + newxend
+866,locxstart
+867,newxend
+868,newxstart
+869,band->locystart = locystart + newyend - newystart
+870,band->locystart
+871,band
+872,locystart
+873,locystart + newyend - newystart
+874,locystart + newyend
+875,locystart
+876,newyend
+877,newystart
+878,band->locxend = band->locxstart + band->xend - band->xstart
+879,band->locxend
+880,band
+881,locxend
+882,band->locxstart + band->xend - band->xstart
+883,band->locxstart + band->xend
+884,band->locxstart
+885,band
+886,locxstart
+887,band->xend
+888,band
+889,xend
+890,band->xstart
+891,band
+892,xstart
+893,band->locyend = band->locystart + band->yend - band->ystart
+894,band->locyend
+895,band
+896,locyend
+897,band->locystart + band->yend - band->ystart
+898,band->locystart + band->yend
+899,band->locystart
+900,band
+901,locystart
+902,band->yend
+903,band
+904,yend
+905,band->ystart
+906,band
+907,ystart
+908,band->orient = JPC_TSFB_HH
+909,band->orient
+910,band
+911,orient
+912,JPC_TSFB_HH
+913,band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[
+914,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+915,		  tsfb->numlvls - numlvls])
+916,band->synenergywt
+917,band
+918,synenergywt
+919,jpc_dbltofix(tsfb->qmfb->hpenergywts[
+920,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+921,		  tsfb->numlvls - numlvls])
+922,tsfb->qmfb->hpenergywts[
+923,		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[
+924,		  tsfb->numlvls - numlvls]
+925,tsfb->qmfb->hpenergywts[
+926,		  tsfb->numlvls - numlvls]
+927,tsfb->qmfb->hpenergywts
+928,tsfb->qmfb
+929,tsfb
+930,qmfb
+931,hpenergywts
+932,tsfb->numlvls - numlvls
+933,tsfb->numlvls
+934,tsfb
+935,numlvls
+936,numlvls
+937,tsfb->qmfb->hpenergywts[
+938,		  tsfb->numlvls - numlvls]
+939,tsfb->qmfb->hpenergywts
+940,tsfb->qmfb
+941,tsfb
+942,qmfb
+943,hpenergywts
+944,tsfb->numlvls - numlvls
+945,tsfb->numlvls
+946,tsfb
+947,numlvls
+948,numlvls
+949,++(*bands)
+950,*bands
+951,bands
+952,else
+953,<empty>
+954,band = *bands
+955,band
+956,*bands
+957,bands
+958,band->xstart = xstart
+959,band->xstart
+960,band
+961,xstart
+962,xstart
+963,band->ystart = ystart
+964,band->ystart
+965,band
+966,ystart
+967,ystart
+968,band->xend = xend
+969,band->xend
+970,band
+971,xend
+972,xend
+973,band->yend = yend
+974,band->yend
+975,band
+976,yend
+977,yend
+978,band->locxstart = locxstart
+979,band->locxstart
+980,band
+981,locxstart
+982,locxstart
+983,band->locystart = locystart
+984,band->locystart
+985,band
+986,locystart
+987,locystart
+988,band->locxend = band->locxstart + band->xend - band->xstart
+989,band->locxend
+990,band
+991,locxend
+992,band->locxstart + band->xend - band->xstart
+993,band->locxstart + band->xend
+994,band->locxstart
+995,band
+996,locxstart
+997,band->xend
+998,band
+999,xend
+1000,band->xstart
+1001,band
+1002,xstart
+1003,band->locyend = band->locystart + band->yend - band->ystart
+1004,band->locyend
+1005,band
+1006,locyend
+1007,band->locystart + band->yend - band->ystart
+1008,band->locystart + band->yend
+1009,band->locystart
+1010,band
+1011,locystart
+1012,band->yend
+1013,band
+1014,yend
+1015,band->ystart
+1016,band
+1017,ystart
+1018,band->orient = JPC_TSFB_LL
+1019,band->orient
+1020,band
+1021,orient
+1022,JPC_TSFB_LL
+1023,band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[
+1024,		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[
+1025,		  tsfb->numlvls - numlvls - 1])
+1026,band->synenergywt
+1027,band
+1028,synenergywt
+1029,jpc_dbltofix(tsfb->qmfb->lpenergywts[
+1030,		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[
+1031,		  tsfb->numlvls - numlvls - 1])
+1032,tsfb->qmfb->lpenergywts[
+1033,		  tsfb->numlvls - numlvls - 1] * tsfb->qmfb->lpenergywts[
+1034,		  tsfb->numlvls - numlvls - 1]
+1035,tsfb->qmfb->lpenergywts[
+1036,		  tsfb->numlvls - numlvls - 1]
+1037,tsfb->qmfb->lpenergywts
+1038,tsfb->qmfb
+1039,tsfb
+1040,qmfb
+1041,lpenergywts
+1042,tsfb->numlvls - numlvls - 1
+1043,tsfb->numlvls - numlvls
+1044,tsfb->numlvls
+1045,tsfb
+1046,numlvls
+1047,numlvls
+1048,1
+1049,tsfb->qmfb->lpenergywts[
+1050,		  tsfb->numlvls - numlvls - 1]
+1051,tsfb->qmfb->lpenergywts
+1052,tsfb->qmfb
+1053,tsfb
+1054,qmfb
+1055,lpenergywts
+1056,tsfb->numlvls - numlvls - 1
+1057,tsfb->numlvls - numlvls
+1058,tsfb->numlvls
+1059,tsfb
+1060,numlvls
+1061,numlvls
+1062,1
+1063,++(*bands)
+1064,*bands
+1065,bands
+1066,RET
+1067,jpc_tsfb_t *tsfb
+1068,int locxstart
+1069,int locystart
+1070,int xstart
+1071,int ystart
+1072,int xend
+1073,int yend
+1074,jpc_tsfb_band_t **bands
+1075,int numlvls
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+void jpc_tsfb_getbands2(jpc_tsfb_t *tsfb, int locxstart, int locystart,   int xstart, int ystart, int xend, int yend, jpc_tsfb_band_t **bands,   int numlvls) {
+int newxstart;
+int newystart;
+int newxend;
+int newyend;
+jpc_tsfb_band_t *band;
+newxstart = JPC_CEILDIVPOW2(xstart, 1);
+newystart = JPC_CEILDIVPOW2(ystart, 1);
+newxend = JPC_CEILDIVPOW2(xend, 1);
+newyend = JPC_CEILDIVPOW2(yend, 1);
+if(numlvls > 0)
+jpc_tsfb_getbands2(tsfb, locxstart, locystart, newxstart, newystart, 		  newxend, newyend, bands, numlvls - 1);
+band = *bands;
+band->xstart = JPC_FLOORDIVPOW2(xstart, 1);
+band->ystart = newystart;
+band->xend = JPC_FLOORDIVPOW2(xend, 1);
+band->yend = newyend;
+band->locxstart = locxstart + newxend - newxstart;
+band->locystart = locystart;
+band->locxend = band->locxstart + band->xend - band->xstart;
+band->locyend = band->locystart + band->yend - band->ystart;
+band->orient = JPC_TSFB_HL;
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[ 		  tsfb->numlvls - numlvls] * tsfb->qmfb->lpenergywts[ 		  tsfb->numlvls - numlvls]);
+++(*bands);
+band = *bands;
+band->xstart = newxstart;
+band->ystart = JPC_FLOORDIVPOW2(ystart, 1);
+band->xend = newxend;
+band->yend = JPC_FLOORDIVPOW2(yend, 1);
+band->locxstart = locxstart;
+band->locystart = locystart + newyend - newystart;
+band->locxend = band->locxstart + band->xend - band->xstart;
+band->locyend = band->locystart + band->yend - band->ystart;
+band->orient = JPC_TSFB_LH;
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->lpenergywts[ 		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[ 		  tsfb->numlvls - numlvls]);
+++(*bands);
+band = *bands;
+band->xstart = JPC_FLOORDIVPOW2(xstart, 1);
+band->ystart = JPC_FLOORDIVPOW2(ystart, 1);
+band->xend = JPC_FLOORDIVPOW2(xend, 1);
+band->yend = JPC_FLOORDIVPOW2(yend, 1);
+band->locxstart = locxstart + newxend - newxstart;
+band->locystart = locystart + newyend - newystart;
+band->locxend = band->locxstart + band->xend - band->xstart;
+band->locyend = band->locystart + band->yend - band->ystart;
+band->orient = JPC_TSFB_HH;
+band->synenergywt = jpc_dbltofix(tsfb->qmfb->hpenergywts[ 		  tsfb->numlvls - numlvls] * tsfb->qmfb->hpenergywts[ 		  tsfb->numlvls - numlvls]);
+++(*bands);
+=======================

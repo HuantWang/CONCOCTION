@@ -1,0 +1,288 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_init.c.txt
+--------------code--------------
+static void jas_cmshapmatlut_init(jas_cmshapmatlut_t *lut)
+{
+	lut->data = 0;
+	lut->size = 0;
+}
+--------------path--------------
+void jas_cmshapmatlut_init (jas_cmshapmatlut_t *lut)
+data
+lut->data
+lut->data = 0
+size
+lut->size
+lut->size = 0
+RET
+--------------path over--------------

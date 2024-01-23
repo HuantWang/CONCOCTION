@@ -1,0 +1,1143 @@
+-----label-----
+0
+-----code-----
+int jpc_tsfb_getbands(jpc_tsfb_t *tsfb, uint_fast32_t xstart,
+  uint_fast32_t ystart, uint_fast32_t xend, uint_fast32_t yend,
+  jpc_tsfb_band_t *bands)
+{
+	jpc_tsfb_band_t *band;
+
+	band = bands;
+	if (tsfb->numlvls > 0) {
+		jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend,
+		  &band, tsfb->numlvls);
+	} else {
+
+		band->xstart = xstart;
+		band->ystart = ystart;
+		band->xend = xend;
+		band->yend = yend;
+		band->locxstart = xstart;
+		band->locystart = ystart;
+		band->locxend = band->locxstart + band->xend - band->xstart;
+		band->locyend = band->locystart + band->yend - band->ystart;
+		band->orient = JPC_TSFB_LL;
+		band->synenergywt = JPC_FIX_ONE;
+		++band;
+	}
+	return band - bands;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+3,8
+3,9
+3,10
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+16,17
+16,18
+17,18
+19,20
+21,22
+21,23
+22,23
+24,25
+26,27
+26,28
+27,28
+29,30
+31,32
+31,33
+32,33
+34,35
+34,36
+37,38
+37,39
+37,40
+37,41
+38,39
+39,40
+39,41
+40,41
+42,43
+42,44
+45,46
+46,47
+46,48
+47,48
+49,50
+51,52
+51,53
+51,54
+52,53
+52,54
+53,54
+53,55
+54,55
+58,59
+59,60
+60,61
+60,62
+60,63
+60,64
+60,65
+60,66
+60,67
+60,68
+60,69
+60,70
+61,62
+63,64
+65,66
+67,68
+69,70
+71,72
+73,74
+75,76
+77,78
+78,79
+80,81
+80,82
+81,82
+84,85
+84,86
+84,87
+84,88
+84,89
+84,90
+84,91
+84,92
+84,93
+84,94
+84,95
+85,86
+86,87
+86,88
+87,88
+87,89
+88,89
+91,92
+93,94
+94,95
+94,96
+95,96
+95,97
+96,97
+99,100
+101,102
+102,103
+102,104
+103,104
+103,105
+104,105
+107,108
+109,110
+110,111
+110,112
+111,112
+111,113
+112,113
+115,116
+117,118
+118,119
+118,120
+119,120
+119,121
+120,121
+123,124
+125,126
+126,127
+126,128
+127,128
+127,129
+128,129
+131,132
+133,134
+134,135
+134,136
+135,136
+135,137
+136,137
+139,140
+139,141
+140,141
+140,142
+141,142
+141,143
+142,143
+145,146
+145,147
+146,147
+149,150
+149,151
+150,151
+153,154
+154,155
+154,156
+155,156
+155,157
+156,157
+159,160
+159,161
+160,161
+160,162
+161,162
+161,163
+162,163
+165,166
+165,167
+166,167
+169,170
+169,171
+170,171
+173,174
+174,175
+174,176
+175,176
+175,177
+176,177
+179,180
+181,182
+182,183
+182,184
+183,184
+183,185
+184,185
+187,188
+189,190
+190,191
+191,192
+193,194
+194,195
+194,196
+195,196
+197,198
+-----nextToken-----
+2,4,7,9,10,13,15,18,20,23,25,28,30,33,35,36,41,43,44,48,50,55,56,57,62,64,66,68,70,72,74,76,79,82,83,89,90,92,97,98,100,105,106,108,113,114,116,121,122,124,129,130,132,137,138,143,144,147,148,151,152,157,158,163,164,167,168,171,172,177,178,180,185,186,188,192,196,198
+-----computeFrom-----
+46,47
+46,48
+52,53
+52,54
+86,87
+86,88
+94,95
+94,96
+102,103
+102,104
+110,111
+110,112
+118,119
+118,120
+126,127
+126,128
+134,135
+134,136
+139,140
+139,141
+140,141
+140,142
+154,155
+154,156
+159,160
+159,161
+160,161
+160,162
+174,175
+174,176
+182,183
+182,184
+194,195
+194,196
+-----guardedBy-----
+56,83
+55,82
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ReturnStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+int jpc_tsfb_getbands(jpc_tsfb_t *tsfb, uint_fast32_t xstart,  uint_fast32_t ystart, uint_fast32_t xend, uint_fast32_t yend,  jpc_tsfb_band_t *bands){	jpc_tsfb_band_t *band;	band = bands;	if (tsfb->numlvls > 0) {		jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend,		  &band, tsfb->numlvls);	} else {		band->xstart = xstart;		band->ystart = ystart;		band->xend = xend;		band->yend = yend;		band->locxstart = xstart;		band->locystart = ystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LL;		band->synenergywt = JPC_FIX_ONE;		++band;	}	return band - bands;}
+int
+jpc_tsfb_getbands(jpc_tsfb_t *tsfb, uint_fast32_t xstart,  uint_fast32_t ystart, uint_fast32_t xend, uint_fast32_t yend,  jpc_tsfb_band_t *bands)
+jpc_tsfb_getbands
+jpc_tsfb_t *tsfb
+jpc_tsfb_t
+jpc_tsfb_t
+*tsfb
+*
+tsfb
+uint_fast32_t xstart
+uint_fast32_t
+uint_fast32_t
+xstart
+xstart
+uint_fast32_t ystart
+uint_fast32_t
+uint_fast32_t
+ystart
+ystart
+uint_fast32_t xend
+uint_fast32_t
+uint_fast32_t
+xend
+xend
+uint_fast32_t yend
+uint_fast32_t
+uint_fast32_t
+yend
+yend
+jpc_tsfb_band_t *bands
+jpc_tsfb_band_t
+jpc_tsfb_band_t
+*bands
+*
+bands
+{	jpc_tsfb_band_t *band;	band = bands;	if (tsfb->numlvls > 0) {		jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend,		  &band, tsfb->numlvls);	} else {		band->xstart = xstart;		band->ystart = ystart;		band->xend = xend;		band->yend = yend;		band->locxstart = xstart;		band->locystart = ystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LL;		band->synenergywt = JPC_FIX_ONE;		++band;	}	return band - bands;}
+jpc_tsfb_band_t *band;
+jpc_tsfb_band_t *band;
+jpc_tsfb_band_t
+jpc_tsfb_band_t
+*band
+*
+band
+band = bands;
+band = bands
+band
+band
+bands
+bands
+if (tsfb->numlvls > 0) {		jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend,		  &band, tsfb->numlvls);	} else {		band->xstart = xstart;		band->ystart = ystart;		band->xend = xend;		band->yend = yend;		band->locxstart = xstart;		band->locystart = ystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LL;		band->synenergywt = JPC_FIX_ONE;		++band;	}
+tsfb->numlvls > 0
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+0
+{		jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend,		  &band, tsfb->numlvls);	}
+jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend,		  &band, tsfb->numlvls);
+jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend,		  &band, tsfb->numlvls)
+jpc_tsfb_getbands2
+jpc_tsfb_getbands2
+tsfb
+tsfb
+xstart
+xstart
+ystart
+ystart
+xstart
+xstart
+ystart
+ystart
+xend
+xend
+yend
+yend
+&band
+band
+band
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+{		band->xstart = xstart;		band->ystart = ystart;		band->xend = xend;		band->yend = yend;		band->locxstart = xstart;		band->locystart = ystart;		band->locxend = band->locxstart + band->xend - band->xstart;		band->locyend = band->locystart + band->yend - band->ystart;		band->orient = JPC_TSFB_LL;		band->synenergywt = JPC_FIX_ONE;		++band;	}
+band->xstart = xstart;
+band->xstart = xstart
+band->xstart
+band
+band
+xstart
+xstart
+xstart
+band->ystart = ystart;
+band->ystart = ystart
+band->ystart
+band
+band
+ystart
+ystart
+ystart
+band->xend = xend;
+band->xend = xend
+band->xend
+band
+band
+xend
+xend
+xend
+band->yend = yend;
+band->yend = yend
+band->yend
+band
+band
+yend
+yend
+yend
+band->locxstart = xstart;
+band->locxstart = xstart
+band->locxstart
+band
+band
+locxstart
+xstart
+xstart
+band->locystart = ystart;
+band->locystart = ystart
+band->locystart
+band
+band
+locystart
+ystart
+ystart
+band->locxend = band->locxstart + band->xend - band->xstart;
+band->locxend = band->locxstart + band->xend - band->xstart
+band->locxend
+band
+band
+locxend
+band->locxstart + band->xend - band->xstart
+band->locxstart + band->xend
+band->locxstart
+band
+band
+locxstart
+band->xend
+band
+band
+xend
+band->xstart
+band
+band
+xstart
+band->locyend = band->locystart + band->yend - band->ystart;
+band->locyend = band->locystart + band->yend - band->ystart
+band->locyend
+band
+band
+locyend
+band->locystart + band->yend - band->ystart
+band->locystart + band->yend
+band->locystart
+band
+band
+locystart
+band->yend
+band
+band
+yend
+band->ystart
+band
+band
+ystart
+band->orient = JPC_TSFB_LL;
+band->orient = JPC_TSFB_LL
+band->orient
+band
+band
+orient
+JPC_TSFB_LL
+JPC_TSFB_LL
+band->synenergywt = JPC_FIX_ONE;
+band->synenergywt = JPC_FIX_ONE
+band->synenergywt
+band
+band
+synenergywt
+JPC_FIX_ONE
+JPC_FIX_ONE
+++band;
+++band
+band
+band
+return band - bands;
+band - bands
+band
+band
+bands
+bands
+-----joern-----
+(30,21,0)
+(59,60,0)
+(61,60,0)
+(6,37,0)
+(2,35,0)
+(56,59,0)
+(9,38,0)
+(59,68,0)
+(37,27,0)
+(59,10,0)
+(70,31,0)
+(59,21,0)
+(35,27,0)
+(21,22,0)
+(18,9,0)
+(73,48,0)
+(49,37,0)
+(59,72,0)
+(22,32,0)
+(25,59,0)
+(27,35,0)
+(31,63,0)
+(52,67,0)
+(10,59,0)
+(58,72,0)
+(53,48,0)
+(20,15,0)
+(29,5,0)
+(16,69,0)
+(64,24,0)
+(54,69,0)
+(3,36,0)
+(72,59,0)
+(0,59,0)
+(48,68,0)
+(44,16,0)
+(50,22,0)
+(41,3,0)
+(5,0,0)
+(43,22,0)
+(48,51,0)
+(72,11,0)
+(60,59,0)
+(42,36,0)
+(48,13,0)
+(18,3,0)
+(7,59,0)
+(33,46,0)
+(21,59,0)
+(28,35,0)
+(21,30,0)
+(23,31,0)
+(31,32,0)
+(55,11,0)
+(65,48,0)
+(17,10,0)
+(10,13,0)
+(0,69,0)
+(18,33,0)
+(24,33,0)
+(60,32,0)
+(39,30,0)
+(31,30,0)
+(4,55,0)
+(22,21,0)
+(14,34,0)
+(66,55,0)
+(48,32,0)
+(0,5,0)
+(48,63,0)
+(12,48,0)
+(47,36,0)
+(30,31,0)
+(16,13,0)
+(62,72,0)
+(16,51,0)
+(71,10,0)
+(35,63,0)
+(69,0,0)
+(67,9,0)
+(5,13,0)
+(37,51,0)
+(45,16,0)
+(59,57,0)
+(59,8,0)
+(26,48,0)
+(59,0,0)
+(48,8,0)
+(27,37,0)
+(1,48,0)
+(69,16,0)
+(40,60,0)
+(19,5,0)
+(41,48,1)
+(35,2,1)
+(53,73,1)
+(1,27,1)
+(59,68,1)
+(5,29,1)
+(48,63,1)
+(55,11,1)
+(48,68,1)
+(72,58,1)
+(22,32,1)
+(49,55,1)
+(70,23,1)
+(18,9,1)
+(69,16,1)
+(62,56,1)
+(65,12,1)
+(58,62,1)
+(2,28,1)
+(71,17,1)
+(27,35,1)
+(30,31,1)
+(48,13,1)
+(59,10,1)
+(28,37,1)
+(10,71,1)
+(16,13,1)
+(72,11,1)
+(26,65,1)
+(37,51,1)
+(64,59,1)
+(67,52,1)
+(0,69,1)
+(12,1,1)
+(21,22,1)
+(16,51,1)
+(30,39,1)
+(48,53,1)
+(49,59,1)
+(16,45,1)
+(41,27,1)
+(18,33,1)
+(35,63,1)
+(0,5,1)
+(37,6,1)
+(17,25,1)
+(7,55,1)
+(59,60,1)
+(59,72,1)
+(61,40,1)
+(31,70,1)
+(60,32,1)
+(23,0,1)
+(69,54,1)
+(18,3,1)
+(59,57,1)
+(52,48,1)
+(3,41,1)
+(24,64,1)
+(25,7,1)
+(19,69,1)
+(55,4,1)
+(29,19,1)
+(21,30,1)
+(59,0,1)
+(43,30,1)
+(54,16,1)
+(73,26,1)
+(45,44,1)
+(22,50,1)
+(27,37,1)
+(6,49,1)
+(59,8,1)
+(33,24,1)
+(10,13,1)
+(50,43,1)
+(5,13,1)
+(40,10,1)
+(59,21,1)
+(4,66,1)
+(9,67,1)
+(44,60,1)
+(60,61,1)
+(48,8,1)
+(56,21,1)
+(48,51,1)
+(31,63,1)
+(48,32,1)
+(31,32,1)
+(39,31,1)
+(59,72,2)
+(37,55,2)
+(48,27,2)
+(27,35,2)
+(33,59,2)
+(49,55,2)
+(23,55,2)
+(70,55,2)
+(48,32,2)
+(29,55,2)
+(72,11,2)
+(9,48,2)
+(48,51,2)
+(65,27,2)
+(10,55,2)
+(27,37,2)
+(5,55,2)
+(41,48,2)
+(59,0,2)
+(54,55,2)
+(3,48,2)
+(37,59,2)
+(0,69,2)
+(69,55,2)
+(69,16,2)
+(52,48,2)
+(6,55,2)
+(18,33,2)
+(21,22,2)
+(16,51,2)
+(40,55,2)
+(17,55,2)
+(59,10,2)
+(25,55,2)
+(59,57,2)
+(48,68,2)
+(30,31,2)
+(44,55,2)
+(62,55,2)
+(35,37,2)
+(59,21,2)
+(67,48,2)
+(50,55,2)
+(24,59,2)
+(0,55,2)
+(59,60,2)
+(41,27,2)
+(18,3,2)
+(72,55,2)
+(27,55,2)
+(27,59,2)
+(2,37,2)
+(16,13,2)
+(39,55,2)
+(1,27,2)
+(3,27,2)
+(59,55,2)
+(61,55,2)
+(60,55,2)
+(53,27,2)
+(31,32,2)
+(22,55,2)
+(12,27,2)
+(73,27,2)
+(49,59,2)
+(71,55,2)
+(48,8,2)
+(31,55,2)
+(35,63,2)
+(5,13,2)
+(43,55,2)
+(7,55,2)
+(18,9,2)
+(19,55,2)
+(45,55,2)
+(59,68,2)
+(22,32,2)
+(16,55,2)
+(28,37,2)
+(60,32,2)
+(21,55,2)
+(59,8,2)
+(37,51,2)
+(21,30,2)
+(48,63,2)
+(55,11,2)
+(48,13,2)
+(31,63,2)
+(64,59,2)
+(30,55,2)
+(6,59,2)
+(0,5,2)
+(58,55,2)
+(26,27,2)
+(10,13,2)
+(56,55,2)
+-----------------------------------
+(0,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(1,a)
+(2,0)
+(3,return 0;)
+(4,0)
+(5,JPC_CEILDIVPOW2(xstart, 1)
+(6,0)
+(7,tsfb)
+(8,int *a)
+(9,return -1;)
+(10,JPC_CEILDIVPOW2(xstart, 1)
+(11,int numlvls)
+(12,xstart)
+(13,int xstart)
+(14,if ((*tsfb->qmfb->synthesize)
+(15,)
+(16,xstart + width)
+(17,xstart)
+(18,RET)
+(19,xstart)
+(20,if (jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(21,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(22,JPC_CEILDIVPOW2(ystart, 1)
+(23,ystart)
+(24,-1)
+(25,a)
+(26,width)
+(27,width > 0 && height > 0)
+(28,height)
+(29,1)
+(30,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(31,ystart +\\n\\t\\t  height)
+(32,int ystart)
+(33,return -1;)
+(34,)
+(35,height > 0)
+(36,)
+(37,width > 0)
+(38,)
+(39,1)
+(40,ystart)
+(41,0)
+(42,if (width > 0 && height > 0)
+(43,ystart)
+(44,xstart)
+(45,width)
+(46,)
+(47,if (numlvls > 0)
+(48,(*tsfb->qmfb->synthesize)
+(49,width)
+(50,1)
+(51,int width)
+(52,1)
+(53,stride)
+(54,1)
+(55,numlvls > 0)
+(56,stride)
+(57,jpc_tsfb_t *tsfb)
+(58,1)
+(59,jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(60,JPC_CEILDIVPOW2(ystart, 1)
+(61,1)
+(62,numlvls)
+(63,int height)
+(64,1)
+(65,ystart)
+(66,numlvls)
+(67,-1)
+(68,int stride)
+(69,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(70,height)
+(71,1)
+(72,numlvls -\\n\\t\\t  1)
+(73,height)
+-----cfg-----
+(7,16)
+(16,23)
+(20,34)
+(20,44)
+(21,20)
+(23,21)
+(26,114)
+(34,38)
+(36,26)
+(38,36)
+(41,49)
+(42,41)
+(44,42)
+(46,54)
+(47,46)
+(49,47)
+(51,59)
+(52,51)
+(54,52)
+(56,64)
+(57,56)
+(59,57)
+(61,69)
+(62,61)
+(64,62)
+(66,74)
+(67,66)
+(69,67)
+(71,89)
+(72,79)
+(74,72)
+(75,71)
+(76,85)
+(77,82)
+(79,77)
+(80,76)
+(82,80)
+(83,75)
+(85,83)
+(86,104)
+(87,94)
+(89,87)
+(90,86)
+(91,100)
+(92,97)
+(94,92)
+(95,91)
+(97,95)
+(98,90)
+(100,98)
+(101,109)
+(102,101)
+(104,102)
+(106,111)
+(107,106)
+(109,107)
+(111,114)
+(113,117)
+(114,113)
+-----path-----
+7,16,23,21,20,34,38,36,26,114,113,117
+7,16,23,21,20,44,42,41,49,47,46,54,52,51,59,57,56,64,62,61,69,67,66,74,72,79,77,82,80,76,85,83,75,71,89,87,94,92,97,95,91,100,98,90,86,104,102,101,109,107,106
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_tsfb_getbands (jpc_tsfb_t *tsfb,uint_fast32_t xstart,uint_fast32_t ystart,uint_fast32_t xend,uint_fast32_t yend,jpc_tsfb_band_t *bands)
+8,jpc_tsfb_t *tsfb
+9,uint_fast32_t xstart
+10,uint_fast32_t ystart
+11,uint_fast32_t xend
+12,uint_fast32_t yend
+13,jpc_tsfb_band_t *bands
+14,<empty>
+15,jpc_tsfb_band_t* band
+16,band = bands
+17,band
+18,bands
+19,if (tsfb->numlvls > 0)
+20,tsfb->numlvls > 0
+21,tsfb->numlvls
+22,tsfb
+23,numlvls
+24,0
+25,<empty>
+26,jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend,
+27,		  &band, tsfb->numlvls)
+28,tsfb
+29,xstart
+30,ystart
+31,xstart
+32,ystart
+33,xend
+34,yend
+35,&band
+36,band
+37,tsfb->numlvls
+38,tsfb
+39,numlvls
+40,else
+41,<empty>
+42,band->xstart = xstart
+43,band->xstart
+44,band
+45,xstart
+46,xstart
+47,band->ystart = ystart
+48,band->ystart
+49,band
+50,ystart
+51,ystart
+52,band->xend = xend
+53,band->xend
+54,band
+55,xend
+56,xend
+57,band->yend = yend
+58,band->yend
+59,band
+60,yend
+61,yend
+62,band->locxstart = xstart
+63,band->locxstart
+64,band
+65,locxstart
+66,xstart
+67,band->locystart = ystart
+68,band->locystart
+69,band
+70,locystart
+71,ystart
+72,band->locxend = band->locxstart + band->xend - band->xstart
+73,band->locxend
+74,band
+75,locxend
+76,band->locxstart + band->xend - band->xstart
+77,band->locxstart + band->xend
+78,band->locxstart
+79,band
+80,locxstart
+81,band->xend
+82,band
+83,xend
+84,band->xstart
+85,band
+86,xstart
+87,band->locyend = band->locystart + band->yend - band->ystart
+88,band->locyend
+89,band
+90,locyend
+91,band->locystart + band->yend - band->ystart
+92,band->locystart + band->yend
+93,band->locystart
+94,band
+95,locystart
+96,band->yend
+97,band
+98,yend
+99,band->ystart
+100,band
+101,ystart
+102,band->orient = JPC_TSFB_LL
+103,band->orient
+104,band
+105,orient
+106,JPC_TSFB_LL
+107,band->synenergywt = JPC_FIX_ONE
+108,band->synenergywt
+109,band
+110,synenergywt
+111,JPC_FIX_ONE
+112,++band
+113,band
+114,return band - bands;
+115,band - bands
+116,band
+117,bands
+118,RET
+119,jpc_tsfb_t *tsfb
+120,uint_fast32_t xstart
+121,uint_fast32_t ystart
+122,uint_fast32_t xend
+123,uint_fast32_t yend
+124,jpc_tsfb_band_t *bands
+125,RET
+126,int jpc_tsfb_getbands (jpc_tsfb_t *tsfb,uint_fast32_t xstart,uint_fast32_t ystart,uint_fast32_t xend,uint_fast32_t yend,jpc_tsfb_band_t *bands)
+127,jpc_tsfb_t *tsfb
+128,uint_fast32_t xstart
+129,uint_fast32_t ystart
+130,uint_fast32_t xend
+131,uint_fast32_t yend
+132,jpc_tsfb_band_t *bands
+133,<empty>
+134,jpc_tsfb_band_t* band
+135,band = bands
+136,band
+137,bands
+138,if (tsfb->numlvls > 0)
+139,tsfb->numlvls > 0
+140,tsfb->numlvls
+141,tsfb
+142,numlvls
+143,0
+144,<empty>
+145,jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend,
+146,		  &band, tsfb->numlvls)
+147,tsfb
+148,xstart
+149,ystart
+150,xstart
+151,ystart
+152,xend
+153,yend
+154,&band
+155,band
+156,tsfb->numlvls
+157,tsfb
+158,numlvls
+159,else
+160,<empty>
+161,band->xstart = xstart
+162,band->xstart
+163,band
+164,xstart
+165,xstart
+166,band->ystart = ystart
+167,band->ystart
+168,band
+169,ystart
+170,ystart
+171,band->xend = xend
+172,band->xend
+173,band
+174,xend
+175,xend
+176,band->yend = yend
+177,band->yend
+178,band
+179,yend
+180,yend
+181,band->locxstart = xstart
+182,band->locxstart
+183,band
+184,locxstart
+185,xstart
+186,band->locystart = ystart
+187,band->locystart
+188,band
+189,locystart
+190,ystart
+191,band->locxend = band->locxstart + band->xend - band->xstart
+192,band->locxend
+193,band
+194,locxend
+195,band->locxstart + band->xend - band->xstart
+196,band->locxstart + band->xend
+197,band->locxstart
+198,band
+199,locxstart
+200,band->xend
+201,band
+202,xend
+203,band->xstart
+204,band
+205,xstart
+206,band->locyend = band->locystart + band->yend - band->ystart
+207,band->locyend
+208,band
+209,locyend
+210,band->locystart + band->yend - band->ystart
+211,band->locystart + band->yend
+212,band->locystart
+213,band
+214,locystart
+215,band->yend
+216,band
+217,yend
+218,band->ystart
+219,band
+220,ystart
+221,band->orient = JPC_TSFB_LL
+222,band->orient
+223,band
+224,orient
+225,JPC_TSFB_LL
+226,band->synenergywt = JPC_FIX_ONE
+227,band->synenergywt
+228,band
+229,synenergywt
+230,JPC_FIX_ONE
+231,++band
+232,band
+233,return band - bands;
+234,band - bands
+235,band
+236,bands
+237,RET
+238,jpc_tsfb_t *tsfb
+239,uint_fast32_t xstart
+240,uint_fast32_t ystart
+241,uint_fast32_t xend
+242,uint_fast32_t yend
+243,jpc_tsfb_band_t *bands
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_tsfb_getbands(jpc_tsfb_t *tsfb, uint_fast32_t xstart,   uint_fast32_t ystart, uint_fast32_t xend, uint_fast32_t yend,   jpc_tsfb_band_t *bands) {
+jpc_tsfb_band_t *band;
+band = bands;
+if(tsfb->numlvls > 0)
+jpc_tsfb_getbands2(tsfb, xstart, ystart, xstart, ystart, xend, yend, 		  &band, tsfb->numlvls);
+return band - bands;
+=======================

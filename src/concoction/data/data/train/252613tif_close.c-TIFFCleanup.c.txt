@@ -1,0 +1,815 @@
+-----label-----
+0
+-----code-----
+void
+TIFFCleanup(TIFF* tif)
+{
+	/*
+         * Flush buffered data and directory (if dirty).
+         */
+	if (tif->tif_mode != O_RDONLY)
+		TIFFFlush(tif);
+	(*tif->tif_cleanup)(tif);
+	TIFFFreeDirectory(tif);
+
+	if (tif->tif_dirlist)
+		_TIFFfree(tif->tif_dirlist);
+
+	/*
+         * Clean up client info links.
+         */
+	while( tif->tif_clientinfo )
+	{
+		TIFFClientInfoLink *link = tif->tif_clientinfo;
+
+		tif->tif_clientinfo = link->next;
+		_TIFFfree( link->name );
+		_TIFFfree( link );
+	}
+
+	if (tif->tif_rawdata && (tif->tif_flags&TIFF_MYBUFFER))
+		_TIFFfree(tif->tif_rawdata);
+	if (isMapped(tif))
+		TIFFUnmapFileContents(tif, tif->tif_base, (toff_t)tif->tif_size);
+
+	/*
+         * Clean up custom fields.
+         */
+	if (tif->tif_fields && tif->tif_nfields > 0) {
+		uint32 i;
+
+		for (i = 0; i < tif->tif_nfields; i++) {
+			TIFFField *fld = tif->tif_fields[i];
+			if (fld->field_bit == FIELD_CUSTOM &&
+			    strncmp("Tag ", fld->field_name, 4) == 0) {
+				_TIFFfree(fld->field_name);
+				_TIFFfree(fld);
+			}
+		}
+
+		_TIFFfree(tif->tif_fields);
+	}
+
+        if (tif->tif_nfieldscompat > 0) {
+                uint32 i;
+
+                for (i = 0; i < tif->tif_nfieldscompat; i++) {
+                        if (tif->tif_fieldscompat[i].allocated_size)
+                                _TIFFfree(tif->tif_fieldscompat[i].fields);
+                }
+                _TIFFfree(tif->tif_fieldscompat);
+        }
+
+	_TIFFfree(tif);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+11,16
+11,17
+11,18
+11,19
+11,20
+11,21
+12,13
+12,14
+13,14
+13,15
+14,15
+14,16
+15,16
+18,19
+20,21
+21,22
+21,23
+22,23
+24,25
+26,27
+27,28
+27,29
+28,29
+29,30
+30,31
+30,32
+31,32
+34,35
+36,37
+37,38
+37,39
+38,39
+40,41
+42,43
+42,44
+43,44
+43,45
+44,45
+47,48
+48,49
+48,50
+49,50
+51,52
+51,53
+52,53
+55,56
+55,57
+56,57
+56,58
+57,58
+60,61
+60,62
+60,63
+60,64
+61,62
+62,63
+62,64
+63,64
+65,66
+65,67
+65,68
+68,69
+69,70
+69,71
+70,71
+73,74
+74,75
+74,76
+75,76
+75,77
+76,77
+79,80
+79,81
+80,81
+83,84
+84,85
+84,86
+85,86
+87,88
+87,89
+88,89
+91,92
+92,93
+92,94
+93,94
+95,96
+97,98
+97,99
+98,99
+98,100
+99,100
+99,101
+100,101
+103,104
+104,105
+104,106
+105,106
+105,107
+106,107
+109,110
+111,112
+112,113
+112,114
+113,114
+115,116
+115,117
+116,117
+119,120
+119,121
+120,121
+120,122
+121,122
+123,124
+125,126
+126,127
+126,128
+126,129
+126,130
+127,128
+129,130
+131,132
+131,133
+132,133
+135,136
+135,137
+136,137
+136,138
+137,138
+140,141
+140,142
+141,142
+144,145
+144,146
+145,146
+145,147
+146,147
+146,148
+147,148
+150,151
+150,152
+151,152
+151,153
+152,153
+156,157
+156,158
+156,159
+157,158
+158,159
+158,160
+159,160
+161,162
+163,164
+163,165
+163,166
+163,167
+164,165
+165,166
+165,167
+166,167
+169,170
+169,171
+170,171
+172,173
+172,174
+173,174
+176,177
+177,178
+179,180
+179,181
+180,181
+181,182
+181,183
+182,183
+184,185
+184,186
+184,187
+187,188
+188,189
+188,190
+189,190
+189,191
+190,191
+193,194
+195,196
+195,197
+196,197
+196,198
+197,198
+197,199
+198,199
+198,200
+199,200
+202,203
+204,205
+204,206
+205,206
+205,207
+205,208
+205,209
+206,207
+209,210
+209,211
+210,211
+215,216
+215,217
+216,217
+217,218
+217,219
+218,219
+220,221
+220,222
+221,222
+224,225
+225,226
+225,227
+226,227
+228,229
+230,231
+231,232
+231,233
+232,233
+234,235
+234,236
+235,236
+238,239
+238,240
+239,240
+239,241
+240,241
+240,242
+241,242
+245,246
+245,247
+245,248
+246,247
+247,248
+247,249
+248,249
+250,251
+252,253
+252,254
+252,255
+252,256
+253,254
+254,255
+254,256
+255,256
+258,259
+258,260
+259,260
+261,262
+261,263
+262,263
+265,266
+266,267
+268,269
+269,270
+269,271
+270,271
+270,272
+271,272
+271,273
+272,273
+272,274
+273,274
+276,277
+279,280
+280,281
+280,282
+281,282
+283,284
+283,285
+284,285
+284,286
+285,286
+285,287
+286,287
+289,290
+292,293
+293,294
+293,295
+294,295
+296,297
+296,298
+297,298
+300,301
+301,302
+301,303
+302,303
+304,305
+-----nextToken-----
+2,4,7,9,10,16,17,19,23,25,32,33,35,39,41,45,46,50,53,54,58,59,64,66,67,71,72,77,78,81,82,86,89,90,94,96,101,102,107,108,110,114,117,118,122,124,128,130,133,134,138,139,142,143,148,149,153,154,155,160,162,167,168,171,174,175,178,183,185,186,191,192,194,200,201,203,207,208,211,212,213,214,219,222,223,227,229,233,236,237,242,243,244,249,251,256,257,260,263,264,267,274,275,277,278,282,287,288,290,291,295,298,299,303,305
+-----computeFrom-----
+13,14
+13,15
+74,75
+74,76
+98,99
+98,100
+104,105
+104,106
+145,146
+145,147
+150,151
+150,152
+165,166
+165,167
+169,170
+169,171
+196,197
+196,198
+197,198
+197,199
+204,205
+204,206
+239,240
+239,241
+254,255
+254,256
+258,259
+258,260
+-----guardedBy-----
+16,25
+107,117
+102,118
+153,236
+149,237
+154,175
+211,229
+212,223
+242,298
+243,264
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;UnaryExpression;UnaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;WhileStatement;FieldReference;IdExpression;Name;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CastExpression;TypeId;NamedTypeSpecifier;Name;Declarator;FieldReference;IdExpression;Name;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;LiteralExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;FieldReference;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+voidTIFFCleanup(TIFF* tif){	/*         * Flush buffered data and directory (if dirty).         */	if (tif->tif_mode != O_RDONLY)		TIFFFlush(tif);	(*tif->tif_cleanup)(tif);	TIFFFreeDirectory(tif);	if (tif->tif_dirlist)		_TIFFfree(tif->tif_dirlist);	/*         * Clean up client info links.         */	while( tif->tif_clientinfo )	{		TIFFClientInfoLink *link = tif->tif_clientinfo;		tif->tif_clientinfo = link->next;		_TIFFfree( link->name );		_TIFFfree( link );	}	if (tif->tif_rawdata && (tif->tif_flags&TIFF_MYBUFFER))		_TIFFfree(tif->tif_rawdata);	if (isMapped(tif))		TIFFUnmapFileContents(tif, tif->tif_base, (toff_t)tif->tif_size);	/*         * Clean up custom fields.         */	if (tif->tif_fields && tif->tif_nfields > 0) {		uint32 i;		for (i = 0; i < tif->tif_nfields; i++) {			TIFFField *fld = tif->tif_fields[i];			if (fld->field_bit == FIELD_CUSTOM &&			    strncmp("Tag ", fld->field_name, 4) == 0) {				_TIFFfree(fld->field_name);				_TIFFfree(fld);			}		}		_TIFFfree(tif->tif_fields);	}        if (tif->tif_nfieldscompat > 0) {                uint32 i;                for (i = 0; i < tif->tif_nfieldscompat; i++) {                        if (tif->tif_fieldscompat[i].allocated_size)                                _TIFFfree(tif->tif_fieldscompat[i].fields);                }                _TIFFfree(tif->tif_fieldscompat);        }	_TIFFfree(tif);}
+void
+TIFFCleanup(TIFF* tif)
+TIFFCleanup
+TIFF* tif
+TIFF
+TIFF
+* tif
+*
+tif
+{	/*         * Flush buffered data and directory (if dirty).         */	if (tif->tif_mode != O_RDONLY)		TIFFFlush(tif);	(*tif->tif_cleanup)(tif);	TIFFFreeDirectory(tif);	if (tif->tif_dirlist)		_TIFFfree(tif->tif_dirlist);	/*         * Clean up client info links.         */	while( tif->tif_clientinfo )	{		TIFFClientInfoLink *link = tif->tif_clientinfo;		tif->tif_clientinfo = link->next;		_TIFFfree( link->name );		_TIFFfree( link );	}	if (tif->tif_rawdata && (tif->tif_flags&TIFF_MYBUFFER))		_TIFFfree(tif->tif_rawdata);	if (isMapped(tif))		TIFFUnmapFileContents(tif, tif->tif_base, (toff_t)tif->tif_size);	/*         * Clean up custom fields.         */	if (tif->tif_fields && tif->tif_nfields > 0) {		uint32 i;		for (i = 0; i < tif->tif_nfields; i++) {			TIFFField *fld = tif->tif_fields[i];			if (fld->field_bit == FIELD_CUSTOM &&			    strncmp("Tag ", fld->field_name, 4) == 0) {				_TIFFfree(fld->field_name);				_TIFFfree(fld);			}		}		_TIFFfree(tif->tif_fields);	}        if (tif->tif_nfieldscompat > 0) {                uint32 i;                for (i = 0; i < tif->tif_nfieldscompat; i++) {                        if (tif->tif_fieldscompat[i].allocated_size)                                _TIFFfree(tif->tif_fieldscompat[i].fields);                }                _TIFFfree(tif->tif_fieldscompat);        }	_TIFFfree(tif);}
+if (tif->tif_mode != O_RDONLY)		TIFFFlush(tif);
+tif->tif_mode != O_RDONLY
+tif->tif_mode
+tif
+tif
+tif_mode
+O_RDONLY
+O_RDONLY
+TIFFFlush(tif);
+TIFFFlush(tif)
+TIFFFlush
+TIFFFlush
+tif
+tif
+(*tif->tif_cleanup)(tif);
+(*tif->tif_cleanup)(tif)
+(*tif->tif_cleanup)
+*tif->tif_cleanup
+tif->tif_cleanup
+tif
+tif
+tif_cleanup
+tif
+tif
+TIFFFreeDirectory(tif);
+TIFFFreeDirectory(tif)
+TIFFFreeDirectory
+TIFFFreeDirectory
+tif
+tif
+if (tif->tif_dirlist)		_TIFFfree(tif->tif_dirlist);
+tif->tif_dirlist
+tif
+tif
+tif_dirlist
+_TIFFfree(tif->tif_dirlist);
+_TIFFfree(tif->tif_dirlist)
+_TIFFfree
+_TIFFfree
+tif->tif_dirlist
+tif
+tif
+tif_dirlist
+while( tif->tif_clientinfo )	{		TIFFClientInfoLink *link = tif->tif_clientinfo;		tif->tif_clientinfo = link->next;		_TIFFfree( link->name );		_TIFFfree( link );	}
+tif->tif_clientinfo
+tif
+tif
+tif_clientinfo
+{		TIFFClientInfoLink *link = tif->tif_clientinfo;		tif->tif_clientinfo = link->next;		_TIFFfree( link->name );		_TIFFfree( link );	}
+TIFFClientInfoLink *link = tif->tif_clientinfo;
+TIFFClientInfoLink *link = tif->tif_clientinfo;
+TIFFClientInfoLink
+TIFFClientInfoLink
+*link = tif->tif_clientinfo
+*
+link
+= tif->tif_clientinfo
+tif->tif_clientinfo
+tif
+tif
+tif_clientinfo
+tif->tif_clientinfo = link->next;
+tif->tif_clientinfo = link->next
+tif->tif_clientinfo
+tif
+tif
+tif_clientinfo
+link->next
+link
+link
+next
+_TIFFfree( link->name );
+_TIFFfree( link->name )
+_TIFFfree
+_TIFFfree
+link->name
+link
+link
+name
+_TIFFfree( link );
+_TIFFfree( link )
+_TIFFfree
+_TIFFfree
+link
+link
+if (tif->tif_rawdata && (tif->tif_flags&TIFF_MYBUFFER))		_TIFFfree(tif->tif_rawdata);
+tif->tif_rawdata && (tif->tif_flags&TIFF_MYBUFFER)
+tif->tif_rawdata
+tif
+tif
+tif_rawdata
+(tif->tif_flags&TIFF_MYBUFFER)
+tif->tif_flags&TIFF_MYBUFFER
+tif->tif_flags
+tif
+tif
+tif_flags
+TIFF_MYBUFFER
+TIFF_MYBUFFER
+_TIFFfree(tif->tif_rawdata);
+_TIFFfree(tif->tif_rawdata)
+_TIFFfree
+_TIFFfree
+tif->tif_rawdata
+tif
+tif
+tif_rawdata
+if (isMapped(tif))		TIFFUnmapFileContents(tif, tif->tif_base, (toff_t)tif->tif_size);
+isMapped(tif)
+isMapped
+isMapped
+tif
+tif
+TIFFUnmapFileContents(tif, tif->tif_base, (toff_t)tif->tif_size);
+TIFFUnmapFileContents(tif, tif->tif_base, (toff_t)tif->tif_size)
+TIFFUnmapFileContents
+TIFFUnmapFileContents
+tif
+tif
+tif->tif_base
+tif
+tif
+tif_base
+(toff_t)tif->tif_size
+toff_t
+toff_t
+toff_t
+
+tif->tif_size
+tif
+tif
+tif_size
+if (tif->tif_fields && tif->tif_nfields > 0) {		uint32 i;		for (i = 0; i < tif->tif_nfields; i++) {			TIFFField *fld = tif->tif_fields[i];			if (fld->field_bit == FIELD_CUSTOM &&			    strncmp("Tag ", fld->field_name, 4) == 0) {				_TIFFfree(fld->field_name);				_TIFFfree(fld);			}		}		_TIFFfree(tif->tif_fields);	}
+tif->tif_fields && tif->tif_nfields > 0
+tif->tif_fields
+tif
+tif
+tif_fields
+tif->tif_nfields > 0
+tif->tif_nfields
+tif
+tif
+tif_nfields
+0
+{		uint32 i;		for (i = 0; i < tif->tif_nfields; i++) {			TIFFField *fld = tif->tif_fields[i];			if (fld->field_bit == FIELD_CUSTOM &&			    strncmp("Tag ", fld->field_name, 4) == 0) {				_TIFFfree(fld->field_name);				_TIFFfree(fld);			}		}		_TIFFfree(tif->tif_fields);	}
+uint32 i;
+uint32 i;
+uint32
+uint32
+i
+i
+for (i = 0; i < tif->tif_nfields; i++) {			TIFFField *fld = tif->tif_fields[i];			if (fld->field_bit == FIELD_CUSTOM &&			    strncmp("Tag ", fld->field_name, 4) == 0) {				_TIFFfree(fld->field_name);				_TIFFfree(fld);			}		}
+i = 0;
+i = 0
+i
+i
+0
+i < tif->tif_nfields
+i
+i
+tif->tif_nfields
+tif
+tif
+tif_nfields
+i++
+i
+i
+{			TIFFField *fld = tif->tif_fields[i];			if (fld->field_bit == FIELD_CUSTOM &&			    strncmp("Tag ", fld->field_name, 4) == 0) {				_TIFFfree(fld->field_name);				_TIFFfree(fld);			}		}
+TIFFField *fld = tif->tif_fields[i];
+TIFFField *fld = tif->tif_fields[i];
+TIFFField
+TIFFField
+*fld = tif->tif_fields[i]
+*
+fld
+= tif->tif_fields[i]
+tif->tif_fields[i]
+tif->tif_fields
+tif
+tif
+tif_fields
+i
+i
+if (fld->field_bit == FIELD_CUSTOM &&			    strncmp("Tag ", fld->field_name, 4) == 0) {				_TIFFfree(fld->field_name);				_TIFFfree(fld);			}
+fld->field_bit == FIELD_CUSTOM &&			    strncmp("Tag ", fld->field_name, 4) == 0
+fld->field_bit == FIELD_CUSTOM
+fld->field_bit
+fld
+fld
+field_bit
+FIELD_CUSTOM
+FIELD_CUSTOM
+strncmp("Tag ", fld->field_name, 4) == 0
+strncmp("Tag ", fld->field_name, 4)
+strncmp
+strncmp
+"Tag "
+fld->field_name
+fld
+fld
+field_name
+4
+0
+{				_TIFFfree(fld->field_name);				_TIFFfree(fld);			}
+_TIFFfree(fld->field_name);
+_TIFFfree(fld->field_name)
+_TIFFfree
+_TIFFfree
+fld->field_name
+fld
+fld
+field_name
+_TIFFfree(fld);
+_TIFFfree(fld)
+_TIFFfree
+_TIFFfree
+fld
+fld
+_TIFFfree(tif->tif_fields);
+_TIFFfree(tif->tif_fields)
+_TIFFfree
+_TIFFfree
+tif->tif_fields
+tif
+tif
+tif_fields
+if (tif->tif_nfieldscompat > 0) {                uint32 i;                for (i = 0; i < tif->tif_nfieldscompat; i++) {                        if (tif->tif_fieldscompat[i].allocated_size)                                _TIFFfree(tif->tif_fieldscompat[i].fields);                }                _TIFFfree(tif->tif_fieldscompat);        }
+tif->tif_nfieldscompat > 0
+tif->tif_nfieldscompat
+tif
+tif
+tif_nfieldscompat
+0
+{                uint32 i;                for (i = 0; i < tif->tif_nfieldscompat; i++) {                        if (tif->tif_fieldscompat[i].allocated_size)                                _TIFFfree(tif->tif_fieldscompat[i].fields);                }                _TIFFfree(tif->tif_fieldscompat);        }
+uint32 i;
+uint32 i;
+uint32
+uint32
+i
+i
+for (i = 0; i < tif->tif_nfieldscompat; i++) {                        if (tif->tif_fieldscompat[i].allocated_size)                                _TIFFfree(tif->tif_fieldscompat[i].fields);                }
+i = 0;
+i = 0
+i
+i
+0
+i < tif->tif_nfieldscompat
+i
+i
+tif->tif_nfieldscompat
+tif
+tif
+tif_nfieldscompat
+i++
+i
+i
+{                        if (tif->tif_fieldscompat[i].allocated_size)                                _TIFFfree(tif->tif_fieldscompat[i].fields);                }
+if (tif->tif_fieldscompat[i].allocated_size)                                _TIFFfree(tif->tif_fieldscompat[i].fields);
+tif->tif_fieldscompat[i].allocated_size
+tif->tif_fieldscompat[i]
+tif->tif_fieldscompat
+tif
+tif
+tif_fieldscompat
+i
+i
+allocated_size
+_TIFFfree(tif->tif_fieldscompat[i].fields);
+_TIFFfree(tif->tif_fieldscompat[i].fields)
+_TIFFfree
+_TIFFfree
+tif->tif_fieldscompat[i].fields
+tif->tif_fieldscompat[i]
+tif->tif_fieldscompat
+tif
+tif
+tif_fieldscompat
+i
+i
+fields
+_TIFFfree(tif->tif_fieldscompat);
+_TIFFfree(tif->tif_fieldscompat)
+_TIFFfree
+_TIFFfree
+tif->tif_fieldscompat
+tif
+tif
+tif_fieldscompat
+_TIFFfree(tif);
+_TIFFfree(tif)
+_TIFFfree
+_TIFFfree
+tif
+tif
+-----joern-----
+(1,6,0)
+(18,6,0)
+(15,14,0)
+(11,2,0)
+(10,6,0)
+(2,6,0)
+(3,14,0)
+(14,1,0)
+(11,20,0)
+(5,2,0)
+(12,20,0)
+(4,5,0)
+(13,10,0)
+(1,14,0)
+(8,5,0)
+(5,7,0)
+(14,7,0)
+(20,6,0)
+(10,7,0)
+(0,1,0)
+(16,2,0)
+(2,5,0)
+(20,12,0)
+(20,11,0)
+(19,11,0)
+(9,6,0)
+(15,3,1)
+(16,1,1)
+(1,14,1)
+(19,10,1)
+(10,7,1)
+(3,0,1)
+(14,15,1)
+(13,2,1)
+(14,7,1)
+(11,2,1)
+(11,19,1)
+(5,8,1)
+(20,12,1)
+(10,13,1)
+(5,7,1)
+(4,16,1)
+(17,20,1)
+(8,4,1)
+(2,5,1)
+(20,11,1)
+(20,12,2)
+(20,11,2)
+(5,7,2)
+(10,7,2)
+(2,5,2)
+(11,2,2)
+(14,7,2)
+(1,14,2)
+-----------------------------------
+(0,closeproc)
+(1,closeproc = tif->tif_closeproc)
+(2,fd = tif->tif_clientdata)
+(3,tif)
+(4,tif)
+(5,tif->tif_clientdata)
+(6,)
+(7,TIFF* tif)
+(8,tif_clientdata)
+(9,closeproc)
+(10,TIFFCleanup(tif)
+(11,(*closeproc)
+(12,void)
+(13,tif)
+(14,tif->tif_closeproc)
+(15,tif_closeproc)
+(16,fd)
+(17,RET)
+(18,fd)
+(19,fd)
+(20,(void)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffc7a1b56300000000ffffffffffffffff63a2b56300000000ffffffffffffffff63a2b56300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x4d4d002b0008000000000000000000100000000000000100ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+void TIFFCleanup(TIFF* tif) {
+(*tif->tif_cleanup)(tif);
+TIFFFreeDirectory(tif);
+if(tif->tif_dirlist)
+_TIFFfree(tif->tif_dirlist);
+if(isMapped(tif))
+TIFFUnmapFileContents(tif, tif->tif_base, (toff_t)tif->tif_size);
+_TIFFfree(tif);
+=======================

@@ -1,0 +1,608 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_clrspc_numchans.c.txt
+--------------code--------------
+int jas_clrspc_numchans(int clrspc)
+{
+	switch (jas_clrspc_fam(clrspc)) {
+	case JAS_CLRSPC_FAM_XYZ:
+	case JAS_CLRSPC_FAM_LAB:
+	case JAS_CLRSPC_FAM_RGB:
+	case JAS_CLRSPC_FAM_YCBCR:
+		return 3;
+		break;
+	case JAS_CLRSPC_FAM_GRAY:
+		return 1;
+		break;
+	default:
+		abort();
+		break;
+	}
+}
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 3;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+return 1;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_clrspc_numchans (int clrspc)
+jas_clrspc_fam(clrspc)
+abort()
+RET
+--------------path over--------------

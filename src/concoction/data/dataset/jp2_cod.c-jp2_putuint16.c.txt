@@ -1,0 +1,335 @@
+-----label-----
+0
+-----code-----
+static int jp2_putuint16(jas_stream_t *out, uint_fast16_t val)
+{
+	if (jas_stream_putc(out, (val >> 8) & 0xff) == EOF ||
+	  jas_stream_putc(out, val & 0xff) == EOF) {
+		return -1;
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+16,17
+16,18
+17,18
+17,19
+18,19
+18,20
+19,20
+19,21
+20,21
+20,22
+20,23
+21,22
+23,24
+25,26
+25,27
+26,27
+27,28
+27,29
+28,29
+32,33
+34,35
+34,36
+35,36
+35,37
+35,38
+36,37
+38,39
+40,41
+40,42
+41,42
+44,45
+46,47
+47,48
+48,49
+50,51
+-----nextToken-----
+2,4,7,9,10,13,15,22,24,29,30,31,33,37,39,42,43,45,49,51
+-----computeFrom-----
+18,19
+18,20
+19,20
+19,21
+25,26
+25,27
+27,28
+27,29
+34,35
+34,36
+40,41
+40,42
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;CompoundStatement;IfStatement;BinaryExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;LiteralExpression;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int jp2_putuint16(jas_stream_t *out, uint_fast16_t val){	if (jas_stream_putc(out, (val >> 8) & 0xff) == EOF ||	  jas_stream_putc(out, val & 0xff) == EOF) {		return -1;	}	return 0;}
+static int
+jp2_putuint16(jas_stream_t *out, uint_fast16_t val)
+jp2_putuint16
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+uint_fast16_t val
+uint_fast16_t
+uint_fast16_t
+val
+val
+{	if (jas_stream_putc(out, (val >> 8) & 0xff) == EOF ||	  jas_stream_putc(out, val & 0xff) == EOF) {		return -1;	}	return 0;}
+if (jas_stream_putc(out, (val >> 8) & 0xff) == EOF ||	  jas_stream_putc(out, val & 0xff) == EOF) {		return -1;	}
+jas_stream_putc(out, (val >> 8) & 0xff) == EOF ||	  jas_stream_putc(out, val & 0xff) == EOF
+jas_stream_putc(out, (val >> 8) & 0xff) == EOF
+jas_stream_putc(out, (val >> 8) & 0xff)
+jas_stream_putc
+jas_stream_putc
+out
+out
+(val >> 8) & 0xff
+(val >> 8)
+val >> 8
+val
+val
+8
+0xff
+EOF
+EOF
+jas_stream_putc(out, val & 0xff) == EOF
+jas_stream_putc(out, val & 0xff)
+jas_stream_putc
+jas_stream_putc
+out
+out
+val & 0xff
+val
+val
+0xff
+EOF
+EOF
+{		return -1;	}
+return -1;
+-1
+1
+return 0;
+0
+-----joern-----
+(5,11,0)
+(18,14,0)
+(21,25,0)
+(0,7,0)
+(22,11,0)
+(1,15,0)
+(15,11,0)
+(11,0,0)
+(13,7,0)
+(11,8,0)
+(18,7,0)
+(25,24,0)
+(7,18,0)
+(3,25,0)
+(0,11,0)
+(24,2,0)
+(20,5,0)
+(7,0,0)
+(4,18,0)
+(9,15,0)
+(10,18,0)
+(16,8,0)
+(12,6,0)
+(5,6,0)
+(25,11,0)
+(24,25,0)
+(17,5,0)
+(19,8,0)
+(6,2,0)
+(0,7,1)
+(21,15,1)
+(9,11,1)
+(23,6,1)
+(10,22,1)
+(1,9,1)
+(11,0,1)
+(17,20,1)
+(13,18,1)
+(12,5,1)
+(18,4,1)
+(5,11,1)
+(24,25,1)
+(7,18,1)
+(23,15,1)
+(20,24,1)
+(15,11,1)
+(3,21,1)
+(6,12,1)
+(25,3,1)
+(18,14,1)
+(7,13,1)
+(15,1,1)
+(5,17,1)
+(4,10,1)
+(25,11,1)
+(12,15,2)
+(3,15,2)
+(11,0,2)
+(25,11,2)
+(25,15,2)
+(24,15,2)
+(24,25,2)
+(0,7,2)
+(15,11,2)
+(5,11,2)
+(21,15,2)
+(20,15,2)
+(17,15,2)
+(6,15,2)
+(5,15,2)
+(7,18,2)
+(18,14,2)
+-----------------------------------
+(0,&box->data.cdef)
+(1,ents)
+(2,)
+(3,ents)
+(4,data)
+(5,cdef->ents)
+(6,cdef->ents = 0)
+(7,box->data.cdef)
+(8,)
+(9,cdef)
+(10,box)
+(11,*cdef = &box->data.cdef)
+(12,0)
+(13,cdef)
+(14,jp2_box_t *box)
+(15,cdef->ents)
+(16,if (cdef->ents)
+(17,ents)
+(18,box->data)
+(19,cdef)
+(20,cdef)
+(21,cdef)
+(22,cdef)
+(23,RET)
+(24,jas_free(cdef->ents)
+(25,cdef->ents)
+-----cfg-----
+(33,35)
+(7,17)
+(12,31)
+(12,33)
+(13,12)
+(13,25)
+(14,13)
+(16,14)
+(17,16)
+(22,12)
+(23,22)
+(25,23)
+(30,35)
+(31,30)
+-----path-----
+7,17,16,14,13,12,31,30,35
+7,17,16,14,13,12,33,35
+7,17,16,14,13,25,23,22,12,31,30,35
+7,17,16,14,13,25,23,22,12,33,35
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jp2_putuint16 (jas_stream_t *out,uint_fast16_t val)
+8,jas_stream_t *out
+9,uint_fast16_t val
+10,<empty>
+11,if (jas_stream_putc(out, (val >> 8) & 0xff) == EOF ||
+12,	  jas_stream_putc(out, val & 0xff) == EOF)
+13,jas_stream_putc(out, (val >> 8) & 0xff) == EOF ||
+14,	  jas_stream_putc(out, val & 0xff) == EOF
+15,jas_stream_putc(out, (val >> 8) & 0xff) == EOF
+16,jas_stream_putc(out, (val >> 8) & 0xff)
+17,out
+18,(val >> 8) & 0xff
+19,val >> 8
+20,val
+21,8
+22,0xff
+23,EOF
+24,jas_stream_putc(out, val & 0xff) == EOF
+25,jas_stream_putc(out, val & 0xff)
+26,out
+27,val & 0xff
+28,val
+29,0xff
+30,EOF
+31,<empty>
+32,return -1;
+33,-1
+34,1
+35,return 0;
+36,0
+37,RET
+38,jas_stream_t *out
+39,uint_fast16_t val
+40,RET
+41,int jp2_putuint16 (jas_stream_t *out,uint_fast16_t val)
+42,jas_stream_t *out
+43,uint_fast16_t val
+44,<empty>
+45,if (jas_stream_putc(out, (val >> 8) & 0xff) == EOF ||
+46,	  jas_stream_putc(out, val & 0xff) == EOF)
+47,jas_stream_putc(out, (val >> 8) & 0xff) == EOF ||
+48,	  jas_stream_putc(out, val & 0xff) == EOF
+49,jas_stream_putc(out, (val >> 8) & 0xff) == EOF
+50,jas_stream_putc(out, (val >> 8) & 0xff)
+51,out
+52,(val >> 8) & 0xff
+53,val >> 8
+54,val
+55,8
+56,0xff
+57,EOF
+58,jas_stream_putc(out, val & 0xff) == EOF
+59,jas_stream_putc(out, val & 0xff)
+60,out
+61,val & 0xff
+62,val
+63,0xff
+64,EOF
+65,<empty>
+66,return -1;
+67,-1
+68,1
+69,return 0;
+70,0
+71,RET
+72,jas_stream_t *out
+73,uint_fast16_t val
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int jp2_putuint16(jas_stream_t *out, uint_fast16_t val) {
+return 0;
+=======================

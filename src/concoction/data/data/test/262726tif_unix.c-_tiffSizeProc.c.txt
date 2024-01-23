@@ -1,0 +1,171 @@
+-----label-----
+0
+-----code-----
+static uint64
+_tiffSizeProc(thandle_t fd)
+{
+	struct stat sb;
+	if (fstat((int)fd,&sb)<0)
+		return(0);
+	else
+		return((uint64)sb.st_size);
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+6,7
+6,8
+7,8
+9,10
+11,12
+11,13
+12,13
+13,14
+13,15
+14,15
+16,17
+18,19
+18,20
+18,21
+19,20
+19,21
+20,21
+20,22
+20,23
+21,22
+23,24
+23,25
+24,25
+24,26
+27,28
+29,30
+30,31
+33,34
+34,35
+36,37
+37,38
+38,39
+38,40
+39,40
+39,41
+40,41
+43,44
+43,45
+44,45
+-----nextToken-----
+3,5,8,10,15,17,22,25,26,28,31,32,35,41,42,45,46
+-----computeFrom-----
+19,20
+19,21
+-----guardedBy-----
+-----guardedByNegation-----
+31,45
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;IdExpression;Name;UnaryExpression;IdExpression;Name;LiteralExpression;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;UnaryExpression;CastExpression;TypeId;NamedTypeSpecifier;Name;Declarator;FieldReference;IdExpression;Name;Name;
+-----ast_node-----
+static uint64_tiffSizeProc(thandle_t fd){	struct stat sb;	if (fstat((int)fd,&sb)<0)		return(0);	else		return((uint64)sb.st_size);}
+static uint64
+uint64
+_tiffSizeProc(thandle_t fd)
+_tiffSizeProc
+thandle_t fd
+thandle_t
+thandle_t
+fd
+fd
+{	struct stat sb;	if (fstat((int)fd,&sb)<0)		return(0);	else		return((uint64)sb.st_size);}
+struct stat sb;
+struct stat sb;
+struct stat
+stat
+sb
+sb
+if (fstat((int)fd,&sb)<0)		return(0);	else		return((uint64)sb.st_size);
+fstat((int)fd,&sb)<0
+fstat((int)fd,&sb)
+fstat
+fstat
+(int)fd
+int
+int
+
+fd
+fd
+&sb
+sb
+sb
+0
+return(0);
+(0)
+0
+return((uint64)sb.st_size);
+((uint64)sb.st_size)
+(uint64)sb.st_size
+uint64
+uint64
+uint64
+
+sb.st_size
+sb
+sb
+st_size
+-----joern-----
+(3,0,0)
+(7,8,0)
+(6,4,0)
+(0,11,0)
+(7,5,0)
+(0,2,0)
+(0,6,0)
+(1,0,0)
+(0,7,0)
+(10,6,0)
+(7,0,0)
+(9,7,0)
+(8,7,0)
+(0,7,1)
+(0,11,1)
+(10,6,1)
+(0,2,1)
+(9,1,1)
+(7,5,1)
+(7,9,1)
+(7,8,1)
+(6,0,1)
+(1,3,1)
+(7,5,2)
+(0,11,2)
+(0,7,2)
+(0,2,2)
+(7,8,2)
+(10,6,2)
+-----------------------------------
+(0,memcmp(p1, p2, (size_t)
+(1,p2)
+(2,const void* p2)
+(3,p1)
+(4,)
+(5,tmsize_t c)
+(6,return (memcmp(p1, p2, (size_t)
+(7,(size_t)
+(8,size_t)
+(9,c)
+(10,RET)
+(11,const void* p1)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000020000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffc7a1b56300000000ffffffffffffffff56a2b56300000000ffffffffffffffff56a2b56300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x49492b00080000001e00000000000000ffffffffffffffffffffffffffff0000000100000000ffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+static uint64 _tiffSizeProc(thandle_t fd) {
+struct stat sb;
+return((uint64)sb.st_size);
+=======================

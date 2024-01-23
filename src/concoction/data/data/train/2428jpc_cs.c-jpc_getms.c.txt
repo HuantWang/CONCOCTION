@@ -1,0 +1,1244 @@
+-----label-----
+0
+-----code-----
+jpc_ms_t *jpc_getms(jas_stream_t *in, jpc_cstate_t *cstate)
+{
+	jpc_ms_t *ms;
+	jpc_mstabent_t *mstabent;
+	jas_stream_t *tmpstream;
+
+	if (!(ms = jpc_ms_create(0))) {
+		return 0;
+	}
+
+	/* Get the marker type. */
+	if (jpc_getuint16(in, &ms->id) || ms->id < JPC_MS_MIN ||
+	  ms->id > JPC_MS_MAX) {
+		jpc_ms_destroy(ms);
+		return 0;
+	}
+
+	mstabent = jpc_mstab_lookup(ms->id);
+	ms->ops = &mstabent->ops;
+
+	/* Get the marker segment length and parameters if present. */
+	/* Note: It is tacitly assumed that a marker segment cannot have
+	  parameters unless it has a length field.  That is, there cannot
+	  be a parameters field without a length field and vice versa. */
+	if (JPC_MS_HASPARMS(ms->id)) {
+		/* Get the length of the marker segment. */
+		if (jpc_getuint16(in, &ms->len) || ms->len < 3) {
+			jpc_ms_destroy(ms);
+			return 0;
+		}
+		/* Calculate the length of the marker segment parameters. */
+		ms->len -= 2;
+		/* Create and prepare a temporary memory stream from which to
+		  read the marker segment parameters. */
+		/* Note: This approach provides a simple way of ensuring that
+		  we never read beyond the end of the marker segment (even if
+		  the marker segment length is errantly set too small). */
+		if (!(tmpstream = jas_stream_memopen(0, 0))) {
+			jpc_ms_destroy(ms);
+			return 0;
+		}
+		if (jas_stream_copy(tmpstream, in, ms->len) ||
+		  jas_stream_seek(tmpstream, 0, SEEK_SET) < 0) {
+			jas_stream_close(tmpstream);
+			jpc_ms_destroy(ms);
+			return 0;
+		}
+		/* Get the marker segment parameters. */
+		if ((*ms->ops->getparms)(ms, cstate, tmpstream)) {
+			ms->ops = 0;
+			jpc_ms_destroy(ms);
+			jas_stream_close(tmpstream);
+			return 0;
+		}
+
+		if (jas_getdbglevel() > 0) {
+			jpc_ms_dump(ms, stderr);
+		}
+
+		if (JAS_CAST(jas_ulong, jas_stream_tell(tmpstream)) != ms->len) {
+			jas_eprintf(
+			  "warning: trailing garbage in marker segment (%ld bytes)\n",
+			  ms->len - jas_stream_tell(tmpstream));
+		}
+
+		/* Close the temporary stream. */
+		jas_stream_close(tmpstream);
+
+	} else {
+		/* There are no marker segment parameters. */
+		ms->len = 0;
+
+		if (jas_getdbglevel() > 0) {
+			jpc_ms_dump(ms, stderr);
+		}
+	}
+
+	/* Update the code stream state information based on the type of
+	  marker segment read. */
+	/* Note: This is a bit of a hack, but I'm not going to define another
+	  type of virtual function for this one special case. */
+	if (ms->id == JPC_MS_SIZ) {
+		cstate->numcomps = ms->parms.siz.numcomps;
+	}
+
+	return ms;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+8,9
+10,11
+10,12
+13,14
+13,15
+14,15
+16,17
+16,18
+19,20
+19,21
+19,22
+19,23
+19,24
+19,25
+19,26
+19,27
+19,28
+19,29
+20,21
+21,22
+21,23
+22,23
+24,25
+24,26
+27,28
+28,29
+28,30
+29,30
+31,32
+31,33
+34,35
+35,36
+35,37
+36,37
+38,39
+38,40
+41,42
+41,43
+42,43
+43,44
+44,45
+44,46
+45,46
+47,48
+47,49
+48,49
+51,52
+52,53
+54,55
+54,56
+55,56
+55,57
+56,57
+56,58
+57,58
+57,59
+57,60
+58,59
+60,61
+62,63
+63,64
+63,65
+64,65
+67,68
+67,69
+68,69
+68,70
+69,70
+72,73
+74,75
+74,76
+75,76
+75,77
+76,77
+79,80
+81,82
+81,83
+82,83
+83,84
+83,85
+84,85
+86,87
+88,89
+90,91
+91,92
+91,93
+92,93
+94,95
+94,96
+95,96
+97,98
+97,99
+98,99
+101,102
+102,103
+102,104
+103,104
+103,105
+104,105
+107,108
+108,109
+108,110
+109,110
+112,113
+112,114
+112,115
+113,114
+113,115
+114,115
+116,117
+116,118
+117,118
+120,121
+120,122
+120,123
+120,124
+120,125
+120,126
+120,127
+120,128
+121,122
+121,123
+122,123
+122,124
+123,124
+123,125
+123,126
+124,125
+126,127
+128,129
+129,130
+129,131
+130,131
+133,134
+133,135
+134,135
+134,136
+135,136
+139,140
+139,141
+140,141
+141,142
+141,143
+142,143
+144,145
+146,147
+148,149
+149,150
+149,151
+150,151
+150,152
+151,152
+155,156
+155,157
+156,157
+157,158
+158,159
+158,160
+159,160
+161,162
+161,163
+161,164
+162,163
+166,167
+166,168
+167,168
+168,169
+168,170
+169,170
+171,172
+173,174
+175,176
+175,177
+176,177
+176,178
+177,178
+177,179
+177,180
+177,181
+178,179
+180,181
+182,183
+184,185
+184,186
+185,186
+188,189
+188,190
+189,190
+189,191
+189,192
+189,193
+190,191
+192,193
+195,196
+198,199
+198,200
+198,201
+199,200
+200,201
+200,202
+201,202
+203,204
+205,206
+206,207
+206,208
+207,208
+209,210
+211,212
+213,214
+213,215
+214,215
+214,216
+214,217
+214,218
+215,216
+216,217
+217,218
+217,219
+218,219
+218,220
+219,220
+223,224
+225,226
+227,228
+229,230
+229,231
+229,232
+229,233
+230,231
+231,232
+231,233
+232,233
+232,234
+233,234
+237,238
+238,239
+238,240
+239,240
+241,242
+243,244
+244,245
+244,246
+245,246
+247,248
+249,250
+251,252
+251,253
+252,253
+252,254
+253,254
+254,255
+257,258
+258,259
+259,260
+259,261
+259,262
+260,261
+262,263
+264,265
+266,267
+266,268
+267,268
+267,269
+268,269
+268,270
+268,271
+269,270
+271,272
+273,274
+273,275
+274,275
+276,277
+278,279
+278,280
+279,280
+282,283
+283,284
+284,285
+284,286
+284,287
+285,286
+288,289
+288,290
+289,290
+289,291
+290,291
+293,294
+293,295
+294,295
+296,297
+298,299
+299,300
+299,301
+300,301
+302,303
+304,305
+304,306
+305,306
+306,307
+306,308
+307,308
+307,309
+308,309
+312,313
+312,314
+313,314
+313,315
+314,315
+315,316
+318,319
+319,320
+320,321
+320,322
+320,323
+321,322
+323,324
+325,326
+327,328
+327,329
+328,329
+328,330
+329,330
+329,331
+330,331
+333,334
+335,336
+336,337
+337,338
+337,339
+338,339
+338,340
+339,340
+342,343
+342,344
+343,344
+343,345
+344,345
+344,346
+345,346
+350,351
+351,352
+-----nextToken-----
+3,5,6,9,11,12,15,17,18,23,25,26,30,32,33,37,39,40,46,49,50,53,59,61,65,66,70,71,73,77,78,80,85,87,89,93,96,99,100,105,106,110,111,115,118,119,125,127,131,132,136,137,138,143,145,147,152,153,154,160,163,164,165,170,172,174,179,181,183,186,187,191,193,194,196,197,202,204,208,210,212,220,221,222,224,226,228,234,235,236,240,242,246,248,250,255,256,261,263,265,270,272,275,277,280,281,286,287,291,292,295,297,301,303,309,310,311,316,317,322,324,326,331,332,334,340,341,346,347,348,349,352
+-----computeFrom-----
+44,45
+44,46
+55,56
+55,57
+56,57
+56,58
+67,68
+67,69
+74,75
+74,76
+91,92
+91,93
+102,103
+102,104
+122,123
+122,124
+133,134
+133,135
+149,150
+149,151
+158,159
+158,160
+176,177
+176,178
+188,189
+188,190
+231,232
+231,233
+252,253
+252,254
+267,268
+267,269
+288,289
+288,290
+306,307
+306,308
+313,314
+313,315
+328,329
+328,330
+337,338
+337,339
+-----guardedBy-----
+77,87
+136,145
+193,204
+186,210
+275,295
+281,292
+277,297
+280,291
+331,346
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ReturnStatement;LiteralExpression;IfStatement;BinaryExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;IfStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;LiteralExpression;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;IfStatement;FunctionCallExpression;UnaryExpression;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LiteralExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;FieldReference;FieldReference;IdExpression;Name;Name;Name;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+jpc_ms_t *jpc_getms(jas_stream_t *in, jpc_cstate_t *cstate){	jpc_ms_t *ms;	jpc_mstabent_t *mstabent;	jas_stream_t *tmpstream;	if (!(ms = jpc_ms_create(0))) {		return 0;	}	/* Get the marker type. */	if (jpc_getuint16(in, &ms->id) || ms->id < JPC_MS_MIN ||	  ms->id > JPC_MS_MAX) {		jpc_ms_destroy(ms);		return 0;	}	mstabent = jpc_mstab_lookup(ms->id);	ms->ops = &mstabent->ops;	/* Get the marker segment length and parameters if present. */	/* Note: It is tacitly assumed that a marker segment cannot have	  parameters unless it has a length field.  That is, there cannot	  be a parameters field without a length field and vice versa. */	if (JPC_MS_HASPARMS(ms->id)) {		/* Get the length of the marker segment. */		if (jpc_getuint16(in, &ms->len) || ms->len < 3) {			jpc_ms_destroy(ms);			return 0;		}		/* Calculate the length of the marker segment parameters. */		ms->len -= 2;		/* Create and prepare a temporary memory stream from which to		  read the marker segment parameters. */		/* Note: This approach provides a simple way of ensuring that		  we never read beyond the end of the marker segment (even if		  the marker segment length is errantly set too small). */		if (!(tmpstream = jas_stream_memopen(0, 0))) {			jpc_ms_destroy(ms);			return 0;		}		if (jas_stream_copy(tmpstream, in, ms->len) ||		  jas_stream_seek(tmpstream, 0, SEEK_SET) < 0) {			jas_stream_close(tmpstream);			jpc_ms_destroy(ms);			return 0;		}		/* Get the marker segment parameters. */		if ((*ms->ops->getparms)(ms, cstate, tmpstream)) {			ms->ops = 0;			jpc_ms_destroy(ms);			jas_stream_close(tmpstream);			return 0;		}		if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}		if (JAS_CAST(jas_ulong, jas_stream_tell(tmpstream)) != ms->len) {			jas_eprintf(			  "warning: trailing garbage in marker segment (%ld bytes)\n",			  ms->len - jas_stream_tell(tmpstream));		}		/* Close the temporary stream. */		jas_stream_close(tmpstream);	} else {		/* There are no marker segment parameters. */		ms->len = 0;		if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}	}	/* Update the code stream state information based on the type of	  marker segment read. */	/* Note: This is a bit of a hack, but I'm not going to define another	  type of virtual function for this one special case. */	if (ms->id == JPC_MS_SIZ) {		cstate->numcomps = ms->parms.siz.numcomps;	}	return ms;}
+jpc_ms_t
+jpc_ms_t
+*jpc_getms(jas_stream_t *in, jpc_cstate_t *cstate)
+*
+jpc_getms
+jas_stream_t *in
+jas_stream_t
+jas_stream_t
+*in
+*
+in
+jpc_cstate_t *cstate
+jpc_cstate_t
+jpc_cstate_t
+*cstate
+*
+cstate
+{	jpc_ms_t *ms;	jpc_mstabent_t *mstabent;	jas_stream_t *tmpstream;	if (!(ms = jpc_ms_create(0))) {		return 0;	}	/* Get the marker type. */	if (jpc_getuint16(in, &ms->id) || ms->id < JPC_MS_MIN ||	  ms->id > JPC_MS_MAX) {		jpc_ms_destroy(ms);		return 0;	}	mstabent = jpc_mstab_lookup(ms->id);	ms->ops = &mstabent->ops;	/* Get the marker segment length and parameters if present. */	/* Note: It is tacitly assumed that a marker segment cannot have	  parameters unless it has a length field.  That is, there cannot	  be a parameters field without a length field and vice versa. */	if (JPC_MS_HASPARMS(ms->id)) {		/* Get the length of the marker segment. */		if (jpc_getuint16(in, &ms->len) || ms->len < 3) {			jpc_ms_destroy(ms);			return 0;		}		/* Calculate the length of the marker segment parameters. */		ms->len -= 2;		/* Create and prepare a temporary memory stream from which to		  read the marker segment parameters. */		/* Note: This approach provides a simple way of ensuring that		  we never read beyond the end of the marker segment (even if		  the marker segment length is errantly set too small). */		if (!(tmpstream = jas_stream_memopen(0, 0))) {			jpc_ms_destroy(ms);			return 0;		}		if (jas_stream_copy(tmpstream, in, ms->len) ||		  jas_stream_seek(tmpstream, 0, SEEK_SET) < 0) {			jas_stream_close(tmpstream);			jpc_ms_destroy(ms);			return 0;		}		/* Get the marker segment parameters. */		if ((*ms->ops->getparms)(ms, cstate, tmpstream)) {			ms->ops = 0;			jpc_ms_destroy(ms);			jas_stream_close(tmpstream);			return 0;		}		if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}		if (JAS_CAST(jas_ulong, jas_stream_tell(tmpstream)) != ms->len) {			jas_eprintf(			  "warning: trailing garbage in marker segment (%ld bytes)\n",			  ms->len - jas_stream_tell(tmpstream));		}		/* Close the temporary stream. */		jas_stream_close(tmpstream);	} else {		/* There are no marker segment parameters. */		ms->len = 0;		if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}	}	/* Update the code stream state information based on the type of	  marker segment read. */	/* Note: This is a bit of a hack, but I'm not going to define another	  type of virtual function for this one special case. */	if (ms->id == JPC_MS_SIZ) {		cstate->numcomps = ms->parms.siz.numcomps;	}	return ms;}
+jpc_ms_t *ms;
+jpc_ms_t *ms;
+jpc_ms_t
+jpc_ms_t
+*ms
+*
+ms
+jpc_mstabent_t *mstabent;
+jpc_mstabent_t *mstabent;
+jpc_mstabent_t
+jpc_mstabent_t
+*mstabent
+*
+mstabent
+jas_stream_t *tmpstream;
+jas_stream_t *tmpstream;
+jas_stream_t
+jas_stream_t
+*tmpstream
+*
+tmpstream
+if (!(ms = jpc_ms_create(0))) {		return 0;	}
+!(ms = jpc_ms_create(0))
+(ms = jpc_ms_create(0))
+ms = jpc_ms_create(0)
+ms
+ms
+jpc_ms_create(0)
+jpc_ms_create
+jpc_ms_create
+0
+{		return 0;	}
+return 0;
+0
+if (jpc_getuint16(in, &ms->id) || ms->id < JPC_MS_MIN ||	  ms->id > JPC_MS_MAX) {		jpc_ms_destroy(ms);		return 0;	}
+jpc_getuint16(in, &ms->id) || ms->id < JPC_MS_MIN ||	  ms->id > JPC_MS_MAX
+jpc_getuint16(in, &ms->id) || ms->id < JPC_MS_MIN
+jpc_getuint16(in, &ms->id)
+jpc_getuint16
+jpc_getuint16
+in
+in
+&ms->id
+ms->id
+ms
+ms
+id
+ms->id < JPC_MS_MIN
+ms->id
+ms
+ms
+id
+JPC_MS_MIN
+JPC_MS_MIN
+ms->id > JPC_MS_MAX
+ms->id
+ms
+ms
+id
+JPC_MS_MAX
+JPC_MS_MAX
+{		jpc_ms_destroy(ms);		return 0;	}
+jpc_ms_destroy(ms);
+jpc_ms_destroy(ms)
+jpc_ms_destroy
+jpc_ms_destroy
+ms
+ms
+return 0;
+0
+mstabent = jpc_mstab_lookup(ms->id);
+mstabent = jpc_mstab_lookup(ms->id)
+mstabent
+mstabent
+jpc_mstab_lookup(ms->id)
+jpc_mstab_lookup
+jpc_mstab_lookup
+ms->id
+ms
+ms
+id
+ms->ops = &mstabent->ops;
+ms->ops = &mstabent->ops
+ms->ops
+ms
+ms
+ops
+&mstabent->ops
+mstabent->ops
+mstabent
+mstabent
+ops
+if (JPC_MS_HASPARMS(ms->id)) {		/* Get the length of the marker segment. */		if (jpc_getuint16(in, &ms->len) || ms->len < 3) {			jpc_ms_destroy(ms);			return 0;		}		/* Calculate the length of the marker segment parameters. */		ms->len -= 2;		/* Create and prepare a temporary memory stream from which to		  read the marker segment parameters. */		/* Note: This approach provides a simple way of ensuring that		  we never read beyond the end of the marker segment (even if		  the marker segment length is errantly set too small). */		if (!(tmpstream = jas_stream_memopen(0, 0))) {			jpc_ms_destroy(ms);			return 0;		}		if (jas_stream_copy(tmpstream, in, ms->len) ||		  jas_stream_seek(tmpstream, 0, SEEK_SET) < 0) {			jas_stream_close(tmpstream);			jpc_ms_destroy(ms);			return 0;		}		/* Get the marker segment parameters. */		if ((*ms->ops->getparms)(ms, cstate, tmpstream)) {			ms->ops = 0;			jpc_ms_destroy(ms);			jas_stream_close(tmpstream);			return 0;		}		if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}		if (JAS_CAST(jas_ulong, jas_stream_tell(tmpstream)) != ms->len) {			jas_eprintf(			  "warning: trailing garbage in marker segment (%ld bytes)\n",			  ms->len - jas_stream_tell(tmpstream));		}		/* Close the temporary stream. */		jas_stream_close(tmpstream);	} else {		/* There are no marker segment parameters. */		ms->len = 0;		if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}	}
+JPC_MS_HASPARMS(ms->id)
+JPC_MS_HASPARMS
+JPC_MS_HASPARMS
+ms->id
+ms
+ms
+id
+{		/* Get the length of the marker segment. */		if (jpc_getuint16(in, &ms->len) || ms->len < 3) {			jpc_ms_destroy(ms);			return 0;		}		/* Calculate the length of the marker segment parameters. */		ms->len -= 2;		/* Create and prepare a temporary memory stream from which to		  read the marker segment parameters. */		/* Note: This approach provides a simple way of ensuring that		  we never read beyond the end of the marker segment (even if		  the marker segment length is errantly set too small). */		if (!(tmpstream = jas_stream_memopen(0, 0))) {			jpc_ms_destroy(ms);			return 0;		}		if (jas_stream_copy(tmpstream, in, ms->len) ||		  jas_stream_seek(tmpstream, 0, SEEK_SET) < 0) {			jas_stream_close(tmpstream);			jpc_ms_destroy(ms);			return 0;		}		/* Get the marker segment parameters. */		if ((*ms->ops->getparms)(ms, cstate, tmpstream)) {			ms->ops = 0;			jpc_ms_destroy(ms);			jas_stream_close(tmpstream);			return 0;		}		if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}		if (JAS_CAST(jas_ulong, jas_stream_tell(tmpstream)) != ms->len) {			jas_eprintf(			  "warning: trailing garbage in marker segment (%ld bytes)\n",			  ms->len - jas_stream_tell(tmpstream));		}		/* Close the temporary stream. */		jas_stream_close(tmpstream);	}
+if (jpc_getuint16(in, &ms->len) || ms->len < 3) {			jpc_ms_destroy(ms);			return 0;		}
+jpc_getuint16(in, &ms->len) || ms->len < 3
+jpc_getuint16(in, &ms->len)
+jpc_getuint16
+jpc_getuint16
+in
+in
+&ms->len
+ms->len
+ms
+ms
+len
+ms->len < 3
+ms->len
+ms
+ms
+len
+3
+{			jpc_ms_destroy(ms);			return 0;		}
+jpc_ms_destroy(ms);
+jpc_ms_destroy(ms)
+jpc_ms_destroy
+jpc_ms_destroy
+ms
+ms
+return 0;
+0
+ms->len -= 2;
+ms->len -= 2
+ms->len
+ms
+ms
+len
+2
+if (!(tmpstream = jas_stream_memopen(0, 0))) {			jpc_ms_destroy(ms);			return 0;		}
+!(tmpstream = jas_stream_memopen(0, 0))
+(tmpstream = jas_stream_memopen(0, 0))
+tmpstream = jas_stream_memopen(0, 0)
+tmpstream
+tmpstream
+jas_stream_memopen(0, 0)
+jas_stream_memopen
+jas_stream_memopen
+0
+0
+{			jpc_ms_destroy(ms);			return 0;		}
+jpc_ms_destroy(ms);
+jpc_ms_destroy(ms)
+jpc_ms_destroy
+jpc_ms_destroy
+ms
+ms
+return 0;
+0
+if (jas_stream_copy(tmpstream, in, ms->len) ||		  jas_stream_seek(tmpstream, 0, SEEK_SET) < 0) {			jas_stream_close(tmpstream);			jpc_ms_destroy(ms);			return 0;		}
+jas_stream_copy(tmpstream, in, ms->len) ||		  jas_stream_seek(tmpstream, 0, SEEK_SET) < 0
+jas_stream_copy(tmpstream, in, ms->len)
+jas_stream_copy
+jas_stream_copy
+tmpstream
+tmpstream
+in
+in
+ms->len
+ms
+ms
+len
+jas_stream_seek(tmpstream, 0, SEEK_SET) < 0
+jas_stream_seek(tmpstream, 0, SEEK_SET)
+jas_stream_seek
+jas_stream_seek
+tmpstream
+tmpstream
+0
+SEEK_SET
+SEEK_SET
+0
+{			jas_stream_close(tmpstream);			jpc_ms_destroy(ms);			return 0;		}
+jas_stream_close(tmpstream);
+jas_stream_close(tmpstream)
+jas_stream_close
+jas_stream_close
+tmpstream
+tmpstream
+jpc_ms_destroy(ms);
+jpc_ms_destroy(ms)
+jpc_ms_destroy
+jpc_ms_destroy
+ms
+ms
+return 0;
+0
+if ((*ms->ops->getparms)(ms, cstate, tmpstream)) {			ms->ops = 0;			jpc_ms_destroy(ms);			jas_stream_close(tmpstream);			return 0;		}
+(*ms->ops->getparms)(ms, cstate, tmpstream)
+(*ms->ops->getparms)
+*ms->ops->getparms
+ms->ops->getparms
+ms->ops
+ms
+ms
+ops
+getparms
+ms
+ms
+cstate
+cstate
+tmpstream
+tmpstream
+{			ms->ops = 0;			jpc_ms_destroy(ms);			jas_stream_close(tmpstream);			return 0;		}
+ms->ops = 0;
+ms->ops = 0
+ms->ops
+ms
+ms
+ops
+0
+jpc_ms_destroy(ms);
+jpc_ms_destroy(ms)
+jpc_ms_destroy
+jpc_ms_destroy
+ms
+ms
+jas_stream_close(tmpstream);
+jas_stream_close(tmpstream)
+jas_stream_close
+jas_stream_close
+tmpstream
+tmpstream
+return 0;
+0
+if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}
+jas_getdbglevel() > 0
+jas_getdbglevel()
+jas_getdbglevel
+jas_getdbglevel
+0
+{			jpc_ms_dump(ms, stderr);		}
+jpc_ms_dump(ms, stderr);
+jpc_ms_dump(ms, stderr)
+jpc_ms_dump
+jpc_ms_dump
+ms
+ms
+stderr
+stderr
+if (JAS_CAST(jas_ulong, jas_stream_tell(tmpstream)) != ms->len) {			jas_eprintf(			  "warning: trailing garbage in marker segment (%ld bytes)\n",			  ms->len - jas_stream_tell(tmpstream));		}
+JAS_CAST(jas_ulong, jas_stream_tell(tmpstream)) != ms->len
+JAS_CAST(jas_ulong, jas_stream_tell(tmpstream))
+JAS_CAST
+JAS_CAST
+jas_ulong
+jas_ulong
+jas_stream_tell(tmpstream)
+jas_stream_tell
+jas_stream_tell
+tmpstream
+tmpstream
+ms->len
+ms
+ms
+len
+{			jas_eprintf(			  "warning: trailing garbage in marker segment (%ld bytes)\n",			  ms->len - jas_stream_tell(tmpstream));		}
+jas_eprintf(			  "warning: trailing garbage in marker segment (%ld bytes)\n",			  ms->len - jas_stream_tell(tmpstream));
+jas_eprintf(			  "warning: trailing garbage in marker segment (%ld bytes)\n",			  ms->len - jas_stream_tell(tmpstream))
+jas_eprintf
+jas_eprintf
+"warning: trailing garbage in marker segment (%ld bytes)\n"
+ms->len - jas_stream_tell(tmpstream)
+ms->len
+ms
+ms
+len
+jas_stream_tell(tmpstream)
+jas_stream_tell
+jas_stream_tell
+tmpstream
+tmpstream
+jas_stream_close(tmpstream);
+jas_stream_close(tmpstream)
+jas_stream_close
+jas_stream_close
+tmpstream
+tmpstream
+{		/* There are no marker segment parameters. */		ms->len = 0;		if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}	}
+ms->len = 0;
+ms->len = 0
+ms->len
+ms
+ms
+len
+0
+if (jas_getdbglevel() > 0) {			jpc_ms_dump(ms, stderr);		}
+jas_getdbglevel() > 0
+jas_getdbglevel()
+jas_getdbglevel
+jas_getdbglevel
+0
+{			jpc_ms_dump(ms, stderr);		}
+jpc_ms_dump(ms, stderr);
+jpc_ms_dump(ms, stderr)
+jpc_ms_dump
+jpc_ms_dump
+ms
+ms
+stderr
+stderr
+if (ms->id == JPC_MS_SIZ) {		cstate->numcomps = ms->parms.siz.numcomps;	}
+ms->id == JPC_MS_SIZ
+ms->id
+ms
+ms
+id
+JPC_MS_SIZ
+JPC_MS_SIZ
+{		cstate->numcomps = ms->parms.siz.numcomps;	}
+cstate->numcomps = ms->parms.siz.numcomps;
+cstate->numcomps = ms->parms.siz.numcomps
+cstate->numcomps
+cstate
+cstate
+numcomps
+ms->parms.siz.numcomps
+ms->parms.siz
+ms->parms
+ms
+ms
+parms
+siz
+numcomps
+return ms;
+ms
+ms
+-----joern-----
+(36,60,0)
+(35,30,0)
+(15,18,0)
+(50,75,0)
+(32,4,0)
+(13,27,0)
+(28,4,0)
+(75,76,0)
+(33,18,0)
+(69,71,0)
+(22,18,0)
+(79,73,0)
+(45,81,0)
+(68,46,0)
+(64,63,0)
+(30,54,0)
+(45,12,0)
+(28,10,0)
+(34,18,0)
+(16,25,0)
+(40,3,0)
+(57,63,0)
+(1,39,0)
+(53,29,0)
+(14,45,0)
+(58,42,0)
+(56,28,0)
+(64,1,0)
+(48,31,0)
+(52,57,0)
+(73,72,0)
+(66,13,0)
+(74,31,0)
+(80,28,0)
+(8,64,0)
+(8,9,0)
+(42,72,0)
+(37,63,0)
+(49,81,0)
+(75,2,0)
+(67,30,0)
+(60,27,0)
+(26,63,0)
+(62,1,0)
+(17,2,0)
+(52,42,0)
+(71,29,0)
+(71,64,0)
+(4,63,0)
+(12,45,0)
+(77,63,0)
+(38,55,0)
+(52,41,0)
+(23,60,0)
+(30,19,0)
+(1,64,0)
+(18,34,0)
+(81,39,0)
+(41,47,0)
+(82,58,0)
+(60,4,0)
+(0,68,0)
+(78,9,0)
+(18,54,0)
+(51,63,0)
+(18,8,0)
+(34,31,0)
+(27,60,0)
+(4,12,0)
+(19,30,0)
+(13,76,0)
+(21,1,0)
+(59,8,0)
+(81,45,0)
+(10,29,0)
+(7,63,0)
+(5,19,0)
+(70,57,0)
+(31,4,0)
+(3,44,0)
+(65,40,0)
+(73,39,0)
+(24,8,0)
+(2,75,0)
+(20,10,0)
+(25,76,0)
+(52,3,0)
+(18,64,0)
+(52,46,0)
+(46,28,0)
+(11,63,0)
+(61,81,0)
+(6,64,0)
+(31,34,0)
+(18,76,0)
+(12,4,0)
+(42,28,0)
+(46,43,0)
+(27,13,0)
+(55,41,0)
+(57,28,0)
+(18,8,1)
+(31,48,1)
+(59,13,1)
+(2,17,1)
+(22,33,1)
+(30,54,1)
+(66,19,1)
+(17,50,1)
+(1,39,1)
+(52,46,1)
+(57,28,1)
+(25,16,1)
+(8,64,1)
+(71,64,1)
+(56,80,1)
+(12,45,1)
+(6,4,1)
+(48,74,1)
+(42,58,1)
+(73,39,1)
+(25,76,1)
+(50,19,1)
+(21,62,1)
+(18,34,1)
+(67,35,1)
+(36,66,1)
+(58,82,1)
+(79,25,1)
+(64,1,1)
+(18,54,1)
+(57,70,1)
+(0,18,1)
+(45,14,1)
+(41,55,1)
+(52,57,1)
+(3,40,1)
+(4,12,1)
+(40,65,1)
+(28,4,1)
+(14,81,1)
+(62,6,1)
+(23,36,1)
+(70,25,1)
+(24,59,1)
+(34,31,1)
+(52,3,1)
+(61,32,1)
+(33,15,1)
+(74,8,1)
+(38,13,1)
+(28,56,1)
+(31,4,1)
+(35,64,1)
+(73,79,1)
+(68,0,1)
+(18,64,1)
+(5,30,1)
+(71,69,1)
+(60,4,1)
+(74,71,1)
+(49,61,1)
+(52,41,1)
+(19,30,1)
+(16,18,1)
+(18,22,1)
+(52,42,1)
+(8,24,1)
+(27,60,1)
+(13,76,1)
+(75,76,1)
+(75,2,1)
+(69,10,1)
+(1,21,1)
+(45,81,1)
+(60,23,1)
+(80,75,1)
+(65,75,1)
+(81,49,1)
+(55,38,1)
+(15,34,1)
+(13,27,1)
+(46,68,1)
+(20,28,1)
+(42,28,1)
+(81,39,1)
+(19,5,1)
+(46,28,1)
+(10,20,1)
+(18,76,1)
+(82,73,1)
+(30,67,1)
+(20,75,2)
+(34,31,2)
+(28,4,2)
+(33,13,2)
+(46,28,2)
+(82,25,2)
+(27,60,2)
+(8,13,2)
+(52,3,2)
+(58,25,2)
+(34,75,2)
+(23,19,2)
+(2,19,2)
+(18,34,2)
+(75,2,2)
+(12,45,2)
+(25,76,2)
+(8,64,2)
+(22,13,2)
+(66,19,2)
+(57,25,2)
+(30,54,2)
+(27,19,2)
+(28,75,2)
+(40,75,2)
+(41,13,2)
+(57,28,2)
+(18,76,2)
+(52,57,2)
+(45,81,2)
+(17,19,2)
+(55,13,2)
+(52,41,2)
+(33,75,2)
+(13,76,2)
+(25,18,2)
+(24,13,2)
+(74,13,2)
+(13,27,2)
+(3,75,2)
+(18,54,2)
+(42,28,2)
+(65,75,2)
+(31,13,2)
+(75,19,2)
+(73,25,2)
+(31,4,2)
+(68,18,2)
+(18,13,2)
+(34,13,2)
+(52,42,2)
+(19,30,2)
+(71,75,2)
+(42,25,2)
+(15,13,2)
+(46,18,2)
+(81,39,2)
+(38,13,2)
+(18,8,2)
+(31,75,2)
+(48,13,2)
+(60,19,2)
+(16,18,2)
+(80,75,2)
+(64,1,2)
+(36,19,2)
+(59,13,2)
+(22,75,2)
+(71,64,2)
+(4,12,2)
+(48,75,2)
+(60,4,2)
+(13,19,2)
+(75,76,2)
+(70,25,2)
+(18,64,2)
+(1,39,2)
+(74,75,2)
+(18,75,2)
+(69,75,2)
+(52,46,2)
+(15,75,2)
+(73,39,2)
+(50,19,2)
+(10,75,2)
+(79,25,2)
+(56,75,2)
+(0,18,2)
+-----------------------------------
+(0,1)
+(1,ms->len)
+(2,&tmp)
+(3,return -1;)
+(4,*qcc = &ms->parms.qcc)
+(5,256)
+(6,len)
+(7,qcc)
+(8,len -= 2)
+(9,)
+(10,qcc->compno = tmp)
+(11,if (jpc_qcx_getcompparms(&qcc->compparms, cstate, in, len)
+(12,&ms->parms.qcc)
+(13,jpc_getuint16(in, &qcc->compno)
+(14,qcc)
+(15,cstate)
+(16,in)
+(17,tmp)
+(18,jpc_qcx_getcompparms(&qcc->compparms, cstate, in, len)
+(19,cstate->numcomps <= 256)
+(20,tmp)
+(21,len)
+(22,len)
+(23,compno)
+(24,2)
+(25,jas_stream_eof(in)
+(26,tmp)
+(27,&qcc->compno)
+(28,qcc->compno)
+(29,)
+(30,cstate->numcomps)
+(31,qcc->compparms)
+(32,qcc)
+(33,in)
+(34,&qcc->compparms)
+(35,cstate)
+(36,qcc)
+(37,len)
+(38,1)
+(39,jpc_ms_t *ms)
+(40,-1)
+(41,return -1;)
+(42,return -1;)
+(43,)
+(44,)
+(45,ms->parms.qcc)
+(46,return -1;)
+(47,)
+(48,compparms)
+(49,parms)
+(50,in)
+(51,if (jas_stream_eof(in)
+(52,RET)
+(53,if (jpc_getuint8(in, &tmp)
+(54,jpc_cstate_t *cstate)
+(55,-1)
+(56,compno)
+(57,return 0;)
+(58,-1)
+(59,len)
+(60,qcc->compno)
+(61,ms)
+(62,ms)
+(63,)
+(64,len = ms->len)
+(65,1)
+(66,in)
+(67,numcomps)
+(68,-1)
+(69,len)
+(70,0)
+(71,--len)
+(72,)
+(73,jpc_qcc_destroyparms(ms)
+(74,qcc)
+(75,jpc_getuint8(in, &tmp)
+(76,jas_stream_t *in)
+(77,if (cstate->numcomps <= 256)
+(78,if (jpc_getuint16(in, &qcc->compno)
+(79,ms)
+(80,qcc)
+(81,ms->parms)
+(82,1)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000010000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffffb2a0ad6300000000ffffffffffffffffb2a0ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff08007a0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+arg03:0x4100000000
+arg02:0x2d66ff
+arg01:0x2d64ff
+arg00:0x2d46ff
+=========trace=========
+jpc_ms_t *jpc_getms(jas_stream_t *in, jpc_cstate_t *cstate) {
+jpc_ms_t *ms;
+jpc_mstabent_t *mstabent;
+jas_stream_t *tmpstream;
+mstabent = jpc_mstab_lookup(ms->id);
+ms->ops = &mstabent->ops;
+if(JPC_MS_HASPARMS(ms->id))
+ms->len -= 2;
+if(jas_stream_copy(tmpstream, in, ms->len) || 		  jas_stream_seek(tmpstream, 0, SEEK_SET) < 0)
+jas_stream_close(tmpstream);
+jpc_ms_destroy(ms);
+return 0;
+=======================

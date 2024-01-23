@@ -1,0 +1,1940 @@
+-----label-----
+0
+-----code-----
+static int mem_write(jas_stream_obj_t *obj, char *buf, int cnt)
+{
+	int n;
+	int ret;
+	jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;
+	long newbufsize;
+	long newpos;
+
+	newpos = m->pos_ + cnt;
+	if (newpos > m->bufsize_ && m->growable_) {
+		newbufsize = m->bufsize_;
+		while (newbufsize < newpos) {
+			newbufsize <<= 1;
+			assert(newbufsize >= 0);
+		}
+		if (mem_resize(m, newbufsize)) {
+			return -1;
+		}
+	}
+	if (m->pos_ > m->len_) {
+		/* The current position is beyond the end of the file, so
+		  pad the file to the current position with zeros. */
+		n = JAS_MIN(m->pos_, m->bufsize_) - m->len_;
+		if (n > 0) {
+			memset(&m->buf_[m->len_], 0, n);
+			m->len_ += n;
+		}
+		if (m->pos_ != m->len_) {
+			/* The buffer is not big enough. */
+			return 0;
+		}
+	}
+	n = m->bufsize_ - m->pos_;
+	ret = JAS_MIN(n, cnt);
+	if (ret > 0) {
+		memcpy(&m->buf_[m->pos_], buf, ret);
+		m->pos_ += ret;
+	}
+	if (m->pos_ > m->len_) {
+		m->len_ = m->pos_;
+	}
+assert(ret == cnt);
+	return ret;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+13,15
+16,17
+16,18
+18,19
+20,21
+20,22
+20,23
+20,24
+20,25
+20,26
+20,27
+20,28
+20,29
+20,30
+20,31
+20,32
+20,33
+20,34
+21,22
+22,23
+22,24
+24,25
+26,27
+27,28
+27,29
+29,30
+31,32
+32,33
+32,34
+33,34
+35,36
+35,37
+35,38
+38,39
+39,40
+39,41
+40,41
+40,42
+41,42
+43,44
+45,46
+47,48
+48,49
+48,50
+50,51
+52,53
+53,54
+53,55
+55,56
+57,58
+58,59
+58,60
+59,60
+61,62
+61,63
+62,63
+62,64
+63,64
+66,67
+68,69
+68,70
+69,70
+69,71
+70,71
+70,72
+71,72
+73,74
+73,75
+74,75
+77,78
+77,79
+78,79
+81,82
+81,83
+81,84
+82,83
+83,84
+83,85
+84,85
+86,87
+86,88
+87,88
+90,91
+90,92
+91,92
+91,93
+92,93
+94,95
+96,97
+96,98
+97,98
+98,99
+98,100
+99,100
+102,103
+103,104
+103,105
+104,105
+106,107
+106,108
+107,108
+110,111
+110,112
+111,112
+111,113
+111,114
+112,113
+114,115
+116,117
+118,119
+119,120
+120,121
+122,123
+122,124
+123,124
+123,125
+124,125
+124,126
+125,126
+128,129
+128,130
+129,130
+132,133
+132,134
+132,135
+133,134
+134,135
+134,136
+135,136
+137,138
+137,139
+138,139
+138,140
+138,141
+139,140
+141,142
+141,143
+142,143
+145,146
+145,147
+146,147
+149,150
+149,151
+150,151
+153,154
+153,155
+154,155
+154,156
+155,156
+158,159
+158,160
+159,160
+160,161
+160,162
+160,163
+160,164
+161,162
+163,164
+164,165
+164,166
+165,166
+165,167
+166,167
+169,170
+169,171
+170,171
+174,175
+176,177
+177,178
+177,179
+178,179
+178,180
+179,180
+182,183
+184,185
+184,186
+185,186
+185,187
+186,187
+186,188
+187,188
+190,191
+190,192
+191,192
+194,195
+195,196
+197,198
+198,199
+198,200
+199,200
+201,202
+201,203
+202,203
+202,204
+203,204
+206,207
+206,208
+207,208
+210,211
+211,212
+211,213
+212,213
+214,215
+214,216
+214,217
+215,216
+217,218
+219,220
+221,222
+221,223
+222,223
+222,224
+223,224
+226,227
+226,228
+227,228
+228,229
+228,230
+228,231
+228,232
+229,230
+231,232
+232,233
+232,234
+233,234
+233,235
+234,235
+237,238
+237,239
+238,239
+241,242
+243,244
+245,246
+246,247
+246,248
+247,248
+247,249
+248,249
+251,252
+253,254
+253,255
+254,255
+254,256
+255,256
+255,257
+256,257
+259,260
+259,261
+260,261
+263,264
+264,265
+265,266
+265,267
+266,267
+266,268
+267,268
+270,271
+270,272
+271,272
+274,275
+275,276
+275,277
+276,277
+278,279
+278,280
+279,280
+281,282
+283,284
+284,285
+-----nextToken-----
+2,4,7,9,10,12,14,15,17,19,23,25,28,30,34,36,37,42,44,46,49,51,54,56,60,64,65,67,72,75,76,79,80,85,88,89,93,95,100,101,105,108,109,113,115,117,121,126,127,130,131,136,140,143,144,147,148,151,152,156,157,162,167,168,171,172,173,175,180,181,183,188,189,192,193,196,200,204,205,208,209,213,216,218,220,224,225,230,235,236,239,240,242,244,249,250,252,257,258,261,262,268,269,272,273,277,280,282,285
+-----computeFrom-----
+58,59
+58,60
+61,62
+61,63
+69,70
+69,71
+70,71
+70,72
+83,84
+83,85
+91,92
+91,93
+98,99
+98,100
+106,107
+106,108
+123,124
+123,125
+134,135
+134,136
+137,138
+137,139
+154,155
+154,156
+177,178
+177,179
+185,186
+185,187
+198,199
+198,200
+201,202
+201,203
+211,212
+211,213
+222,223
+222,224
+246,247
+246,248
+254,255
+254,256
+265,266
+265,267
+278,279
+278,280
+-----guardedBy-----
+72,95
+76,89
+79,115
+131,193
+130,192
+127,189
+156,183
+224,252
+262,269
+261,272
+258,273
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;CastExpression;TypeId;NamedTypeSpecifier;Name;Declarator;Pointer;IdExpression;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;WhileStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;LiteralExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+static int mem_write(jas_stream_obj_t *obj, char *buf, int cnt){	int n;	int ret;	jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;	long newbufsize;	long newpos;	newpos = m->pos_ + cnt;	if (newpos > m->bufsize_ && m->growable_) {		newbufsize = m->bufsize_;		while (newbufsize < newpos) {			newbufsize <<= 1;			assert(newbufsize >= 0);		}		if (mem_resize(m, newbufsize)) {			return -1;		}	}	if (m->pos_ > m->len_) {		/* The current position is beyond the end of the file, so		  pad the file to the current position with zeros. */		n = JAS_MIN(m->pos_, m->bufsize_) - m->len_;		if (n > 0) {			memset(&m->buf_[m->len_], 0, n);			m->len_ += n;		}		if (m->pos_ != m->len_) {			/* The buffer is not big enough. */			return 0;		}	}	n = m->bufsize_ - m->pos_;	ret = JAS_MIN(n, cnt);	if (ret > 0) {		memcpy(&m->buf_[m->pos_], buf, ret);		m->pos_ += ret;	}	if (m->pos_ > m->len_) {		m->len_ = m->pos_;	}assert(ret == cnt);	return ret;}
+static int
+mem_write(jas_stream_obj_t *obj, char *buf, int cnt)
+mem_write
+jas_stream_obj_t *obj
+jas_stream_obj_t
+jas_stream_obj_t
+*obj
+*
+obj
+char *buf
+char
+*buf
+*
+buf
+int cnt
+int
+cnt
+cnt
+{	int n;	int ret;	jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;	long newbufsize;	long newpos;	newpos = m->pos_ + cnt;	if (newpos > m->bufsize_ && m->growable_) {		newbufsize = m->bufsize_;		while (newbufsize < newpos) {			newbufsize <<= 1;			assert(newbufsize >= 0);		}		if (mem_resize(m, newbufsize)) {			return -1;		}	}	if (m->pos_ > m->len_) {		/* The current position is beyond the end of the file, so		  pad the file to the current position with zeros. */		n = JAS_MIN(m->pos_, m->bufsize_) - m->len_;		if (n > 0) {			memset(&m->buf_[m->len_], 0, n);			m->len_ += n;		}		if (m->pos_ != m->len_) {			/* The buffer is not big enough. */			return 0;		}	}	n = m->bufsize_ - m->pos_;	ret = JAS_MIN(n, cnt);	if (ret > 0) {		memcpy(&m->buf_[m->pos_], buf, ret);		m->pos_ += ret;	}	if (m->pos_ > m->len_) {		m->len_ = m->pos_;	}assert(ret == cnt);	return ret;}
+int n;
+int n;
+int
+n
+n
+int ret;
+int ret;
+int
+ret
+ret
+jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;
+jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;
+jas_stream_memobj_t
+jas_stream_memobj_t
+*m = (jas_stream_memobj_t *)obj
+*
+m
+= (jas_stream_memobj_t *)obj
+(jas_stream_memobj_t *)obj
+jas_stream_memobj_t *
+jas_stream_memobj_t
+jas_stream_memobj_t
+*
+*
+obj
+obj
+long newbufsize;
+long newbufsize;
+long
+newbufsize
+newbufsize
+long newpos;
+long newpos;
+long
+newpos
+newpos
+newpos = m->pos_ + cnt;
+newpos = m->pos_ + cnt
+newpos
+newpos
+m->pos_ + cnt
+m->pos_
+m
+m
+pos_
+cnt
+cnt
+if (newpos > m->bufsize_ && m->growable_) {		newbufsize = m->bufsize_;		while (newbufsize < newpos) {			newbufsize <<= 1;			assert(newbufsize >= 0);		}		if (mem_resize(m, newbufsize)) {			return -1;		}	}
+newpos > m->bufsize_ && m->growable_
+newpos > m->bufsize_
+newpos
+newpos
+m->bufsize_
+m
+m
+bufsize_
+m->growable_
+m
+m
+growable_
+{		newbufsize = m->bufsize_;		while (newbufsize < newpos) {			newbufsize <<= 1;			assert(newbufsize >= 0);		}		if (mem_resize(m, newbufsize)) {			return -1;		}	}
+newbufsize = m->bufsize_;
+newbufsize = m->bufsize_
+newbufsize
+newbufsize
+m->bufsize_
+m
+m
+bufsize_
+while (newbufsize < newpos) {			newbufsize <<= 1;			assert(newbufsize >= 0);		}
+newbufsize < newpos
+newbufsize
+newbufsize
+newpos
+newpos
+{			newbufsize <<= 1;			assert(newbufsize >= 0);		}
+newbufsize <<= 1;
+newbufsize <<= 1
+newbufsize
+newbufsize
+1
+assert(newbufsize >= 0);
+assert(newbufsize >= 0)
+assert
+assert
+newbufsize >= 0
+newbufsize
+newbufsize
+0
+if (mem_resize(m, newbufsize)) {			return -1;		}
+mem_resize(m, newbufsize)
+mem_resize
+mem_resize
+m
+m
+newbufsize
+newbufsize
+{			return -1;		}
+return -1;
+-1
+1
+if (m->pos_ > m->len_) {		/* The current position is beyond the end of the file, so		  pad the file to the current position with zeros. */		n = JAS_MIN(m->pos_, m->bufsize_) - m->len_;		if (n > 0) {			memset(&m->buf_[m->len_], 0, n);			m->len_ += n;		}		if (m->pos_ != m->len_) {			/* The buffer is not big enough. */			return 0;		}	}
+m->pos_ > m->len_
+m->pos_
+m
+m
+pos_
+m->len_
+m
+m
+len_
+{		/* The current position is beyond the end of the file, so		  pad the file to the current position with zeros. */		n = JAS_MIN(m->pos_, m->bufsize_) - m->len_;		if (n > 0) {			memset(&m->buf_[m->len_], 0, n);			m->len_ += n;		}		if (m->pos_ != m->len_) {			/* The buffer is not big enough. */			return 0;		}	}
+n = JAS_MIN(m->pos_, m->bufsize_) - m->len_;
+n = JAS_MIN(m->pos_, m->bufsize_) - m->len_
+n
+n
+JAS_MIN(m->pos_, m->bufsize_) - m->len_
+JAS_MIN(m->pos_, m->bufsize_)
+JAS_MIN
+JAS_MIN
+m->pos_
+m
+m
+pos_
+m->bufsize_
+m
+m
+bufsize_
+m->len_
+m
+m
+len_
+if (n > 0) {			memset(&m->buf_[m->len_], 0, n);			m->len_ += n;		}
+n > 0
+n
+n
+0
+{			memset(&m->buf_[m->len_], 0, n);			m->len_ += n;		}
+memset(&m->buf_[m->len_], 0, n);
+memset(&m->buf_[m->len_], 0, n)
+memset
+memset
+&m->buf_[m->len_]
+m->buf_[m->len_]
+m->buf_
+m
+m
+buf_
+m->len_
+m
+m
+len_
+0
+n
+n
+m->len_ += n;
+m->len_ += n
+m->len_
+m
+m
+len_
+n
+n
+if (m->pos_ != m->len_) {			/* The buffer is not big enough. */			return 0;		}
+m->pos_ != m->len_
+m->pos_
+m
+m
+pos_
+m->len_
+m
+m
+len_
+{			/* The buffer is not big enough. */			return 0;		}
+return 0;
+0
+n = m->bufsize_ - m->pos_;
+n = m->bufsize_ - m->pos_
+n
+n
+m->bufsize_ - m->pos_
+m->bufsize_
+m
+m
+bufsize_
+m->pos_
+m
+m
+pos_
+ret = JAS_MIN(n, cnt);
+ret = JAS_MIN(n, cnt)
+ret
+ret
+JAS_MIN(n, cnt)
+JAS_MIN
+JAS_MIN
+n
+n
+cnt
+cnt
+if (ret > 0) {		memcpy(&m->buf_[m->pos_], buf, ret);		m->pos_ += ret;	}
+ret > 0
+ret
+ret
+0
+{		memcpy(&m->buf_[m->pos_], buf, ret);		m->pos_ += ret;	}
+memcpy(&m->buf_[m->pos_], buf, ret);
+memcpy(&m->buf_[m->pos_], buf, ret)
+memcpy
+memcpy
+&m->buf_[m->pos_]
+m->buf_[m->pos_]
+m->buf_
+m
+m
+buf_
+m->pos_
+m
+m
+pos_
+buf
+buf
+ret
+ret
+m->pos_ += ret;
+m->pos_ += ret
+m->pos_
+m
+m
+pos_
+ret
+ret
+if (m->pos_ > m->len_) {		m->len_ = m->pos_;	}
+m->pos_ > m->len_
+m->pos_
+m
+m
+pos_
+m->len_
+m
+m
+len_
+{		m->len_ = m->pos_;	}
+m->len_ = m->pos_;
+m->len_ = m->pos_
+m->len_
+m
+m
+len_
+m->pos_
+m
+m
+pos_
+assert(ret == cnt);
+assert(ret == cnt)
+assert
+assert
+ret == cnt
+ret
+ret
+cnt
+cnt
+return ret;
+ret
+ret
+-----joern-----
+(10,94,0)
+(3,40,0)
+(13,130,0)
+(120,60,0)
+(72,144,0)
+(125,103,0)
+(5,73,0)
+(71,65,0)
+(6,0,0)
+(111,104,0)
+(83,52,0)
+(32,42,0)
+(30,103,0)
+(145,18,0)
+(68,29,0)
+(21,30,0)
+(134,41,0)
+(11,144,0)
+(68,104,0)
+(114,18,0)
+(98,91,0)
+(93,129,0)
+(18,109,0)
+(38,85,0)
+(8,130,0)
+(131,25,0)
+(96,101,0)
+(25,103,0)
+(105,146,0)
+(2,145,0)
+(121,108,0)
+(23,48,0)
+(5,102,0)
+(81,103,0)
+(76,93,0)
+(31,63,0)
+(121,24,0)
+(123,68,0)
+(14,73,0)
+(135,94,0)
+(69,4,0)
+(15,63,0)
+(150,12,0)
+(119,66,0)
+(40,101,0)
+(33,85,0)
+(18,140,0)
+(136,23,0)
+(58,60,0)
+(86,87,0)
+(97,47,0)
+(121,11,0)
+(63,109,0)
+(98,33,0)
+(69,142,0)
+(104,109,0)
+(49,60,0)
+(116,101,0)
+(145,103,0)
+(104,68,0)
+(34,11,0)
+(114,0,0)
+(35,5,0)
+(121,38,0)
+(42,130,0)
+(98,114,0)
+(4,113,0)
+(118,81,0)
+(0,78,0)
+(54,5,0)
+(55,87,0)
+(105,103,0)
+(60,101,0)
+(59,103,0)
+(73,88,0)
+(12,130,0)
+(105,4,0)
+(61,48,0)
+(108,22,0)
+(52,78,0)
+(92,38,0)
+(1,129,0)
+(16,45,0)
+(56,104,0)
+(60,130,0)
+(149,101,0)
+(137,110,0)
+(85,33,0)
+(121,145,0)
+(81,57,0)
+(110,103,0)
+(121,25,0)
+(9,145,0)
+(148,91,0)
+(48,80,0)
+(110,4,0)
+(73,130,0)
+(103,59,0)
+(41,52,0)
+(143,97,0)
+(50,30,0)
+(35,97,0)
+(20,130,0)
+(122,107,0)
+(27,25,0)
+(33,98,0)
+(94,135,0)
+(45,65,0)
+(121,110,0)
+(69,29,0)
+(149,30,0)
+(5,12,0)
+(85,36,0)
+(66,130,0)
+(127,101,0)
+(8,149,0)
+(17,81,0)
+(35,66,0)
+(121,41,0)
+(124,69,0)
+(19,65,0)
+(105,85,0)
+(66,101,0)
+(84,125,0)
+(112,101,0)
+(121,93,0)
+(77,23,0)
+(53,125,0)
+(135,103,0)
+(114,103,0)
+(57,74,0)
+(7,108,0)
+(142,69,0)
+(95,114,0)
+(147,114,0)
+(107,130,0)
+(132,103,0)
+(39,11,0)
+(91,98,0)
+(89,57,0)
+(108,103,0)
+(28,41,0)
+(139,60,0)
+(121,73,0)
+(90,105,0)
+(30,149,0)
+(45,116,0)
+(107,102,0)
+(51,101,0)
+(105,144,0)
+(144,101,0)
+(114,98,0)
+(126,127,0)
+(130,20,0)
+(146,105,0)
+(38,103,0)
+(99,8,0)
+(121,87,0)
+(87,103,0)
+(125,127,0)
+(44,105,0)
+(64,22,0)
+(82,121,0)
+(130,13,0)
+(79,101,0)
+(65,45,0)
+(115,88,0)
+(35,121,0)
+(117,101,0)
+(23,103,0)
+(62,130,0)
+(4,69,0)
+(133,93,0)
+(67,101,0)
+(141,18,0)
+(70,115,0)
+(93,103,0)
+(37,101,0)
+(11,103,0)
+(22,140,0)
+(88,101,0)
+(100,38,0)
+(87,40,0)
+(41,103,0)
+(26,12,0)
+(138,8,0)
+(30,21,0)
+(25,0,0)
+(116,45,0)
+(43,101,0)
+(129,36,0)
+(12,116,0)
+(48,109,0)
+(121,8,0)
+(42,24,0)
+(103,135,0)
+(106,110,0)
+(121,12,0)
+(128,108,0)
+(88,115,0)
+(46,73,0)
+(17,68,1)
+(149,30,1)
+(131,63,1)
+(28,0,1)
+(52,83,1)
+(18,109,1)
+(108,103,1)
+(99,138,1)
+(89,81,1)
+(54,107,1)
+(125,103,1)
+(115,70,1)
+(53,57,1)
+(121,87,1)
+(68,29,1)
+(83,41,1)
+(35,121,1)
+(88,115,1)
+(10,132,1)
+(132,88,1)
+(111,56,1)
+(147,95,1)
+(76,85,1)
+(31,15,1)
+(30,21,1)
+(25,27,1)
+(121,108,1)
+(41,103,1)
+(121,93,1)
+(86,55,1)
+(118,17,1)
+(12,26,1)
+(27,131,1)
+(123,104,1)
+(93,103,1)
+(20,62,1)
+(35,66,1)
+(14,46,1)
+(30,50,1)
+(38,100,1)
+(121,11,1)
+(108,7,1)
+(91,148,1)
+(82,42,1)
+(18,141,1)
+(49,116,1)
+(116,45,1)
+(145,103,1)
+(144,72,1)
+(48,109,1)
+(34,39,1)
+(136,68,1)
+(72,11,1)
+(69,124,1)
+(41,134,1)
+(138,59,1)
+(8,130,1)
+(121,12,1)
+(124,110,1)
+(94,10,1)
+(30,103,1)
+(105,85,1)
+(66,119,1)
+(11,34,1)
+(35,5,1)
+(46,60,1)
+(13,130,1)
+(48,61,1)
+(106,75,1)
+(103,135,1)
+(143,13,1)
+(114,147,1)
+(90,4,1)
+(58,49,1)
+(97,143,1)
+(95,38,1)
+(3,87,1)
+(81,103,1)
+(104,111,1)
+(110,103,1)
+(77,136,1)
+(60,120,1)
+(135,94,1)
+(84,53,1)
+(68,123,1)
+(45,65,1)
+(25,103,1)
+(126,125,1)
+(35,97,1)
+(114,18,1)
+(63,109,1)
+(134,28,1)
+(4,69,1)
+(22,64,1)
+(105,144,1)
+(60,130,1)
+(85,33,1)
+(120,139,1)
+(110,137,1)
+(59,103,1)
+(1,93,1)
+(121,41,1)
+(90,129,1)
+(137,106,1)
+(133,76,1)
+(75,22,1)
+(55,149,1)
+(38,103,1)
+(128,18,1)
+(63,31,1)
+(105,103,1)
+(56,146,1)
+(130,20,1)
+(148,114,1)
+(121,110,1)
+(33,98,1)
+(50,8,1)
+(127,126,1)
+(7,128,1)
+(69,29,1)
+(42,130,1)
+(119,127,1)
+(81,118,1)
+(57,89,1)
+(150,13,1)
+(105,4,1)
+(87,86,1)
+(121,25,1)
+(141,145,1)
+(121,145,1)
+(23,103,1)
+(100,92,1)
+(32,146,1)
+(8,99,1)
+(121,82,1)
+(104,109,1)
+(73,14,1)
+(98,114,1)
+(65,71,1)
+(0,6,1)
+(93,133,1)
+(129,1,1)
+(12,130,1)
+(92,75,1)
+(66,130,1)
+(114,0,1)
+(69,142,1)
+(75,52,1)
+(71,19,1)
+(40,3,1)
+(39,40,1)
+(105,44,1)
+(139,58,1)
+(146,105,1)
+(9,2,1)
+(122,59,1)
+(53,48,1)
+(107,130,1)
+(61,23,1)
+(5,12,1)
+(5,73,1)
+(64,108,1)
+(70,73,1)
+(114,103,1)
+(87,103,1)
+(19,16,1)
+(145,9,1)
+(15,144,1)
+(26,150,1)
+(125,84,1)
+(121,38,1)
+(68,104,1)
+(121,8,1)
+(107,122,1)
+(98,91,1)
+(16,12,1)
+(23,77,1)
+(121,73,1)
+(6,25,1)
+(73,130,1)
+(5,54,1)
+(42,32,1)
+(44,90,1)
+(2,63,1)
+(11,103,1)
+(60,13,2)
+(3,59,2)
+(116,45,2)
+(28,63,2)
+(15,59,2)
+(33,75,2)
+(108,103,2)
+(26,13,2)
+(70,13,2)
+(130,20,2)
+(40,59,2)
+(35,97,2)
+(45,13,2)
+(56,146,2)
+(42,146,2)
+(5,12,2)
+(5,59,2)
+(30,103,2)
+(105,144,2)
+(81,103,2)
+(12,130,2)
+(53,146,2)
+(150,13,2)
+(123,104,2)
+(87,59,2)
+(76,75,2)
+(69,142,2)
+(12,13,2)
+(121,87,2)
+(63,59,2)
+(87,103,2)
+(133,75,2)
+(114,18,2)
+(59,103,2)
+(41,103,2)
+(124,75,2)
+(146,59,2)
+(104,146,2)
+(35,121,2)
+(8,59,2)
+(121,25,2)
+(99,59,2)
+(81,68,2)
+(55,59,2)
+(5,73,2)
+(38,75,2)
+(135,13,2)
+(61,68,2)
+(63,109,2)
+(13,130,2)
+(145,103,2)
+(41,63,2)
+(23,103,2)
+(66,146,2)
+(120,13,2)
+(147,75,2)
+(121,41,2)
+(149,30,2)
+(97,13,2)
+(77,68,2)
+(148,75,2)
+(106,75,2)
+(85,33,2)
+(68,146,2)
+(125,103,2)
+(135,94,2)
+(46,13,2)
+(110,103,2)
+(38,103,2)
+(68,29,2)
+(54,59,2)
+(121,8,2)
+(0,63,2)
+(105,4,2)
+(121,146,2)
+(57,68,2)
+(66,130,2)
+(93,103,2)
+(103,135,2)
+(48,68,2)
+(59,13,2)
+(14,13,2)
+(105,59,2)
+(19,13,2)
+(105,85,2)
+(90,59,2)
+(91,75,2)
+(107,130,2)
+(89,68,2)
+(25,63,2)
+(115,13,2)
+(8,130,2)
+(18,63,2)
+(84,146,2)
+(30,21,2)
+(127,146,2)
+(9,63,2)
+(88,13,2)
+(104,109,2)
+(49,13,2)
+(98,75,2)
+(17,68,2)
+(132,13,2)
+(4,69,2)
+(143,13,2)
+(18,109,2)
+(136,68,2)
+(103,13,2)
+(25,103,2)
+(4,75,2)
+(128,63,2)
+(11,103,2)
+(129,75,2)
+(114,103,2)
+(58,13,2)
+(92,75,2)
+(149,59,2)
+(98,114,2)
+(23,68,2)
+(137,75,2)
+(111,146,2)
+(72,59,2)
+(65,13,2)
+(119,146,2)
+(139,13,2)
+(105,103,2)
+(114,0,2)
+(31,59,2)
+(114,75,2)
+(116,13,2)
+(86,59,2)
+(95,75,2)
+(68,104,2)
+(145,63,2)
+(42,130,2)
+(82,146,2)
+(83,63,2)
+(118,68,2)
+(141,63,2)
+(27,63,2)
+(35,66,2)
+(122,59,2)
+(88,115,2)
+(125,146,2)
+(134,63,2)
+(32,146,2)
+(64,63,2)
+(93,75,2)
+(131,63,2)
+(121,11,2)
+(16,13,2)
+(121,145,2)
+(22,63,2)
+(34,59,2)
+(121,110,2)
+(1,75,2)
+(11,59,2)
+(44,59,2)
+(100,75,2)
+(30,59,2)
+(33,98,2)
+(144,59,2)
+(121,73,2)
+(73,130,2)
+(138,59,2)
+(69,75,2)
+(121,12,2)
+(126,146,2)
+(71,13,2)
+(75,59,2)
+(50,59,2)
+(52,63,2)
+(108,63,2)
+(121,93,2)
+(10,13,2)
+(48,109,2)
+(94,13,2)
+(45,65,2)
+(98,91,2)
+(85,75,2)
+(60,130,2)
+(121,108,2)
+(7,63,2)
+(39,59,2)
+(110,75,2)
+(69,29,2)
+(107,59,2)
+(146,105,2)
+(2,63,2)
+(6,63,2)
+(73,13,2)
+(35,5,2)
+(121,38,2)
+-----------------------------------
+(0,obj->bufsize_ = 1024)
+(1,1)
+(2,obj)
+(3,0)
+(4,obj->buf_ = (unsigned char *)
+(5,return 0;)
+(6,1024)
+(7,growable_)
+(8,stream->obj_)
+(9,bufsize_)
+(10,jas_stream_memobj_t)
+(11,obj->buf_)
+(12,stream->openmode_)
+(13,!(stream = jas_stream_create()
+(14,ops_)
+(15,bufsize)
+(16,JAS_STREAM_READ)
+(17,obj)
+(18,obj->bufsize_ = bufsize)
+(19,JAS_STREAM_WRITE)
+(20,jas_stream_create()
+(21,void *)
+(22,obj->growable_ = 0)
+(23,obj->len_)
+(24,)
+(25,obj->bufsize_)
+(26,openmode_)
+(27,bufsize_)
+(28,obj)
+(29,char *buf)
+(30,(void *)
+(31,0)
+(32,stream)
+(33,jas_malloc(obj->bufsize_ * sizeof(char)
+(34,buf_)
+(35,RET)
+(36,)
+(37,if (bufsize <= 0)
+(38,obj->buf_)
+(39,obj)
+(40,obj->myalloc_ = 0)
+(41,obj->growable_)
+(42,jas_stream_close(stream)
+(43,if (!(stream = jas_stream_create()
+(44,buf_)
+(45,JAS_STREAM_READ | JAS_STREAM_WRITE | JAS_STREAM_BINARY)
+(46,stream)
+(47,)
+(48,obj->len_ = bufsize)
+(49,stream)
+(50,obj)
+(51,obj)
+(52,obj->growable_ = 1)
+(53,obj)
+(54,0)
+(55,obj)
+(56,bufsize)
+(57,obj->len_ = 0)
+(58,JAS_STREAM_FULLBUF)
+(59,!(obj = jas_malloc(sizeof(jas_stream_memobj_t)
+(60,jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0)
+(61,bufsize)
+(62,stream)
+(63,bufsize <= 0)
+(64,0)
+(65,JAS_STREAM_WRITE | JAS_STREAM_BINARY)
+(66,return stream;)
+(67,stream)
+(68,bufsize > 0 && buf)
+(69,(unsigned char *)
+(70,jas_stream_memops)
+(71,JAS_STREAM_BINARY)
+(72,0)
+(73,stream->ops_)
+(74,)
+(75,buf)
+(76,obj)
+(77,len_)
+(78,)
+(79,if (bufsize > 0 && buf)
+(80,)
+(81,obj->len_)
+(82,0)
+(83,1)
+(84,pos_)
+(85,obj->buf_ = jas_malloc(obj->bufsize_ * sizeof(char)
+(86,myalloc_)
+(87,obj->myalloc_)
+(88,stream->ops_ = &jas_stream_memops)
+(89,0)
+(90,obj)
+(91,sizeof(char)
+(92,obj)
+(93,obj->myalloc_)
+(94,sizeof(jas_stream_memobj_t)
+(95,obj)
+(96,if (!(obj = jas_malloc(sizeof(jas_stream_memobj_t)
+(97,return 0;)
+(98,obj->bufsize_ * sizeof(char)
+(99,obj_)
+(100,buf_)
+(101,)
+(102,)
+(103,obj = jas_malloc(sizeof(jas_stream_memobj_t)
+(104,bufsize > 0)
+(105,obj->buf_)
+(106,obj)
+(107,jas_stream_destroy(stream)
+(108,obj->growable_)
+(109,int bufsize)
+(110,obj->buf_)
+(111,0)
+(112,if (buf)
+(113,)
+(114,obj->bufsize_)
+(115,&jas_stream_memops)
+(116,stream->openmode_ = JAS_STREAM_READ | JAS_STREAM_WRITE | JAS_STREAM_BINARY)
+(117,if (!obj->buf_)
+(118,len_)
+(119,stream)
+(120,0)
+(121,return 0;)
+(122,stream)
+(123,buf)
+(124,buf)
+(125,obj->pos_)
+(126,0)
+(127,obj->pos_ = 0)
+(128,obj)
+(129,obj->myalloc_ = 1)
+(130,stream = jas_stream_create()
+(131,obj)
+(132,obj)
+(133,myalloc_)
+(134,growable_)
+(135,jas_malloc(sizeof(jas_stream_memobj_t)
+(136,obj)
+(137,buf_)
+(138,stream)
+(139,0)
+(140,)
+(141,bufsize)
+(142,unsigned char *)
+(143,0)
+(144,obj->buf_ = 0)
+(145,obj->bufsize_)
+(146,!obj->buf_)
+(147,bufsize_)
+(148,char)
+(149,stream->obj_ = (void *)
+(150,stream)
+-----cfg-----
+(128,134)
+(130,128)
+(134,143)
+(134,158)
+(7,18)
+(138,152)
+(139,138)
+(140,139)
+(141,146)
+(15,27)
+(143,141)
+(144,140)
+(17,15)
+(18,17)
+(146,144)
+(149,158)
+(22,35)
+(150,149)
+(24,22)
+(152,150)
+(25,24)
+(155,166)
+(155,171)
+(27,25)
+(156,161)
+(30,44)
+(30,69)
+(158,156)
+(31,30)
+(31,38)
+(159,155)
+(33,31)
+(161,159)
+(163,171)
+(35,33)
+(36,30)
+(164,169)
+(38,36)
+(166,164)
+(167,163)
+(40,46)
+(169,167)
+(170,174)
+(42,40)
+(171,170)
+(44,42)
+(174,176)
+(46,50)
+(46,58)
+(50,54)
+(53,46)
+(54,53)
+(58,63)
+(58,69)
+(62,176)
+(63,62)
+(66,80)
+(66,124)
+(67,72)
+(69,67)
+(70,66)
+(72,70)
+(74,88)
+(76,74)
+(77,86)
+(78,83)
+(80,78)
+(81,77)
+(83,81)
+(84,76)
+(86,84)
+(88,97)
+(88,112)
+(92,106)
+(93,92)
+(94,93)
+(95,100)
+(97,95)
+(98,94)
+(100,98)
+(103,112)
+(104,103)
+(106,104)
+(109,117)
+(109,124)
+(110,115)
+(112,110)
+(113,109)
+(115,113)
+(117,176)
+(119,130)
+(121,119)
+(122,127)
+(124,122)
+(125,121)
+(127,125)
+-----path-----
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,50,54,53,46,58,63,62,176
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115,113,109
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,143
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,158
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,166
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,171
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,166,164,169,167,163,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,63,62,176
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115,113,109,124,122,127,125
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,143,141,146,144,140
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,158,156,161,159,155
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,166,164,169,167,163
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,166,164,169,167,163,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,30,44,42,40,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115,113,109,124,122,127,125,121,119,130,128,134
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,158,156,161,159,155,166,164,169,167,163
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,158,156,161,159,155,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,166,164,169,167,163,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,166,164,169,167,163,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,30,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,50,54,53,46,58,63,62,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,166,164,169,167,163,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,50,54,53,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,63,62,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115,113,109,124,122
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,143,141,146
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,158,156,161
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,166,164,169
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,171,170,174
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,166,164,169,167,163,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,44,42,40,46,58,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,97,95,100,98,94,93,92,106,104,103,112,110,115,113,109,124,122,127,125,121,119,130
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,117,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,158,156,161,159,155,166,164,169
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,80,78,83,81,77,86,84,76,74,88,112,110,115,113,109,124,122,127,125,121,119,130,128,134,158,156,161,159,155,171,170,174
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,166,164,169,167,163,171,170,174
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,124,122,127,125,121,119,130,128,134,143,141,146,144,140,139,138,152,150,149,158,156,161,159,155,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,166,164,169,167,163,171,170,174,176
+7,18,17,15,27,25,24,22,35,33,31,38,36,30,69,67,72,70,66,124,122,127,125,121,119,130,128,134,158,156,161,159,155,171,170,174,176
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int mem_write (jas_stream_obj_t *obj,char *buf,int cnt)
+8,jas_stream_obj_t *obj
+9,char *buf
+10,int cnt
+11,<empty>
+12,int n
+13,int ret
+14,jas_stream_memobj_t* m
+15,*m = (jas_stream_memobj_t *)obj
+16,m
+17,(jas_stream_memobj_t *)obj
+18,jas_stream_memobj_t *
+19,obj
+20,long newbufsize
+21,long newpos
+22,newpos = m->pos_ + cnt
+23,newpos
+24,m->pos_ + cnt
+25,m->pos_
+26,m
+27,pos_
+28,cnt
+29,if (newpos > m->bufsize_ && m->growable_)
+30,newpos > m->bufsize_ && m->growable_
+31,newpos > m->bufsize_
+32,newpos
+33,m->bufsize_
+34,m
+35,bufsize_
+36,m->growable_
+37,m
+38,growable_
+39,<empty>
+40,newbufsize = m->bufsize_
+41,newbufsize
+42,m->bufsize_
+43,m
+44,bufsize_
+45,while (newbufsize < newpos)
+46,newbufsize < newpos
+47,newbufsize
+48,newpos
+49,<empty>
+50,newbufsize <<= 1
+51,newbufsize
+52,1
+53,assert(newbufsize >= 0)
+54,newbufsize >= 0
+55,newbufsize
+56,0
+57,if (mem_resize(m, newbufsize))
+58,mem_resize(m, newbufsize)
+59,m
+60,newbufsize
+61,<empty>
+62,return -1;
+63,-1
+64,1
+65,if (m->pos_ > m->len_)
+66,m->pos_ > m->len_
+67,m->pos_
+68,m
+69,pos_
+70,m->len_
+71,m
+72,len_
+73,<empty>
+74,n = JAS_MIN(m->pos_, m->bufsize_) - m->len_
+75,n
+76,JAS_MIN(m->pos_, m->bufsize_) - m->len_
+77,JAS_MIN(m->pos_, m->bufsize_)
+78,m->pos_
+79,m
+80,pos_
+81,m->bufsize_
+82,m
+83,bufsize_
+84,m->len_
+85,m
+86,len_
+87,if (n > 0)
+88,n > 0
+89,n
+90,0
+91,<empty>
+92,memset(&m->buf_[m->len_], 0, n)
+93,&m->buf_[m->len_]
+94,m->buf_[m->len_]
+95,m->buf_
+96,m
+97,buf_
+98,m->len_
+99,m
+100,len_
+101,0
+102,n
+103,m->len_ += n
+104,m->len_
+105,m
+106,len_
+107,n
+108,if (m->pos_ != m->len_)
+109,m->pos_ != m->len_
+110,m->pos_
+111,m
+112,pos_
+113,m->len_
+114,m
+115,len_
+116,<empty>
+117,return 0;
+118,0
+119,n = m->bufsize_ - m->pos_
+120,n
+121,m->bufsize_ - m->pos_
+122,m->bufsize_
+123,m
+124,bufsize_
+125,m->pos_
+126,m
+127,pos_
+128,ret = JAS_MIN(n, cnt)
+129,ret
+130,JAS_MIN(n, cnt)
+131,n
+132,cnt
+133,if (ret > 0)
+134,ret > 0
+135,ret
+136,0
+137,<empty>
+138,memcpy(&m->buf_[m->pos_], buf, ret)
+139,&m->buf_[m->pos_]
+140,m->buf_[m->pos_]
+141,m->buf_
+142,m
+143,buf_
+144,m->pos_
+145,m
+146,pos_
+147,buf
+148,ret
+149,m->pos_ += ret
+150,m->pos_
+151,m
+152,pos_
+153,ret
+154,if (m->pos_ > m->len_)
+155,m->pos_ > m->len_
+156,m->pos_
+157,m
+158,pos_
+159,m->len_
+160,m
+161,len_
+162,<empty>
+163,m->len_ = m->pos_
+164,m->len_
+165,m
+166,len_
+167,m->pos_
+168,m
+169,pos_
+170,assert(ret == cnt)
+171,ret == cnt
+172,ret
+173,cnt
+174,return ret;
+175,ret
+176,RET
+177,jas_stream_obj_t *obj
+178,char *buf
+179,int cnt
+180,RET
+181,int mem_write (jas_stream_obj_t *obj,char *buf,int cnt)
+182,jas_stream_obj_t *obj
+183,char *buf
+184,int cnt
+185,<empty>
+186,int n
+187,int ret
+188,jas_stream_memobj_t* m
+189,*m = (jas_stream_memobj_t *)obj
+190,m
+191,(jas_stream_memobj_t *)obj
+192,jas_stream_memobj_t *
+193,obj
+194,long newbufsize
+195,long newpos
+196,newpos = m->pos_ + cnt
+197,newpos
+198,m->pos_ + cnt
+199,m->pos_
+200,m
+201,pos_
+202,cnt
+203,if (newpos > m->bufsize_ && m->growable_)
+204,newpos > m->bufsize_ && m->growable_
+205,newpos > m->bufsize_
+206,newpos
+207,m->bufsize_
+208,m
+209,bufsize_
+210,m->growable_
+211,m
+212,growable_
+213,<empty>
+214,newbufsize = m->bufsize_
+215,newbufsize
+216,m->bufsize_
+217,m
+218,bufsize_
+219,while (newbufsize < newpos)
+220,newbufsize < newpos
+221,newbufsize
+222,newpos
+223,<empty>
+224,newbufsize <<= 1
+225,newbufsize
+226,1
+227,assert(newbufsize >= 0)
+228,newbufsize >= 0
+229,newbufsize
+230,0
+231,if (mem_resize(m, newbufsize))
+232,mem_resize(m, newbufsize)
+233,m
+234,newbufsize
+235,<empty>
+236,return -1;
+237,-1
+238,1
+239,if (m->pos_ > m->len_)
+240,m->pos_ > m->len_
+241,m->pos_
+242,m
+243,pos_
+244,m->len_
+245,m
+246,len_
+247,<empty>
+248,n = JAS_MIN(m->pos_, m->bufsize_) - m->len_
+249,n
+250,JAS_MIN(m->pos_, m->bufsize_) - m->len_
+251,JAS_MIN(m->pos_, m->bufsize_)
+252,m->pos_
+253,m
+254,pos_
+255,m->bufsize_
+256,m
+257,bufsize_
+258,m->len_
+259,m
+260,len_
+261,if (n > 0)
+262,n > 0
+263,n
+264,0
+265,<empty>
+266,memset(&m->buf_[m->len_], 0, n)
+267,&m->buf_[m->len_]
+268,m->buf_[m->len_]
+269,m->buf_
+270,m
+271,buf_
+272,m->len_
+273,m
+274,len_
+275,0
+276,n
+277,m->len_ += n
+278,m->len_
+279,m
+280,len_
+281,n
+282,if (m->pos_ != m->len_)
+283,m->pos_ != m->len_
+284,m->pos_
+285,m
+286,pos_
+287,m->len_
+288,m
+289,len_
+290,<empty>
+291,return 0;
+292,0
+293,n = m->bufsize_ - m->pos_
+294,n
+295,m->bufsize_ - m->pos_
+296,m->bufsize_
+297,m
+298,bufsize_
+299,m->pos_
+300,m
+301,pos_
+302,ret = JAS_MIN(n, cnt)
+303,ret
+304,JAS_MIN(n, cnt)
+305,n
+306,cnt
+307,if (ret > 0)
+308,ret > 0
+309,ret
+310,0
+311,<empty>
+312,memcpy(&m->buf_[m->pos_], buf, ret)
+313,&m->buf_[m->pos_]
+314,m->buf_[m->pos_]
+315,m->buf_
+316,m
+317,buf_
+318,m->pos_
+319,m
+320,pos_
+321,buf
+322,ret
+323,m->pos_ += ret
+324,m->pos_
+325,m
+326,pos_
+327,ret
+328,if (m->pos_ > m->len_)
+329,m->pos_ > m->len_
+330,m->pos_
+331,m
+332,pos_
+333,m->len_
+334,m
+335,len_
+336,<empty>
+337,m->len_ = m->pos_
+338,m->len_
+339,m
+340,len_
+341,m->pos_
+342,m
+343,pos_
+344,assert(ret == cnt)
+345,ret == cnt
+346,ret
+347,cnt
+348,return ret;
+349,ret
+350,RET
+351,jas_stream_obj_t *obj
+352,char *buf
+353,int cnt
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int mem_write(jas_stream_obj_t *obj, char *buf, int cnt) {
+int n;
+int ret;
+jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;
+long newbufsize;
+long newpos;
+newpos = m->pos_ + cnt;
+n = m->bufsize_ - m->pos_;
+ret = JAS_MIN(n, cnt);
+if(ret > 0)
+memcpy(&m->buf_[m->pos_], buf, ret);
+m->pos_ += ret;
+assert(ret == cnt);
+return ret;
+=======================

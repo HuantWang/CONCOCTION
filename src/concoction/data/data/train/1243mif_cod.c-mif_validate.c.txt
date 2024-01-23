@@ -1,0 +1,636 @@
+-----label-----
+0
+-----code-----
+int mif_validate(jas_stream_t *in)
+{
+	uchar buf[MIF_MAGICLEN];
+	uint_fast32_t magic;
+	int i;
+	int n;
+
+	assert(JAS_STREAM_MAXPUTBACK >= MIF_MAGICLEN);
+
+	/* Read the validation data (i.e., the data used for detecting
+	  the format). */
+	if ((n = jas_stream_read(in, buf, MIF_MAGICLEN)) < 0) {
+		return -1;
+	}
+
+	/* Put the validation data back onto the stream, so that the
+	  stream position will not be changed. */
+	for (i = n - 1; i >= 0; --i) {
+		if (jas_stream_ungetc(in, buf[i]) == EOF) {
+			return -1;
+		}
+	}
+
+	/* Was enough data read? */
+	if (n < MIF_MAGICLEN) {
+		return -1;
+	}
+
+	/* Compute the signature value. */
+	magic = (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];
+
+	/* Ensure that the signature is correct for this format. */
+	if (magic != MIF_MAGIC) {
+		return -1;
+	}
+
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+11,16
+11,17
+11,18
+11,19
+11,20
+11,21
+11,22
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+18,19
+19,20
+21,22
+22,23
+22,24
+23,24
+25,26
+27,28
+28,29
+28,30
+30,31
+32,33
+33,34
+33,35
+35,36
+37,38
+38,39
+38,40
+39,40
+41,42
+41,43
+42,43
+44,45
+46,47
+46,48
+47,48
+47,49
+48,49
+49,50
+49,51
+50,51
+52,53
+52,54
+52,55
+52,56
+53,54
+55,56
+57,58
+59,60
+62,63
+63,64
+64,65
+66,67
+66,68
+66,69
+66,70
+67,68
+68,69
+68,70
+69,70
+71,72
+71,73
+72,73
+75,76
+75,77
+76,77
+79,80
+80,81
+82,83
+83,84
+83,85
+84,85
+84,86
+85,86
+85,87
+85,88
+86,87
+88,89
+90,91
+90,92
+91,92
+93,94
+95,96
+97,98
+98,99
+99,100
+101,102
+101,103
+102,103
+102,104
+103,104
+105,106
+107,108
+108,109
+109,110
+111,112
+112,113
+112,114
+113,114
+115,116
+115,117
+116,117
+116,118
+117,118
+117,119
+118,119
+119,120
+119,121
+120,121
+120,122
+121,122
+125,126
+126,127
+126,128
+127,128
+127,129
+128,129
+132,133
+133,134
+133,135
+134,135
+134,136
+135,136
+139,140
+139,141
+140,141
+143,144
+143,145
+144,145
+144,146
+145,146
+147,148
+149,150
+150,151
+151,152
+153,154
+-----nextToken-----
+2,4,7,9,10,15,17,20,24,26,29,31,34,36,40,43,45,51,54,56,58,60,61,65,70,73,74,77,78,81,87,89,92,94,96,100,104,106,110,114,122,123,124,129,130,131,136,137,138,141,142,146,148,152,154
+-----computeFrom-----
+41,42
+41,43
+47,48
+47,49
+49,50
+49,51
+68,69
+68,70
+71,72
+71,73
+75,76
+75,77
+84,85
+84,86
+102,103
+102,104
+112,113
+112,114
+115,116
+115,117
+116,117
+116,118
+117,118
+117,119
+119,120
+119,121
+126,127
+126,128
+133,134
+133,135
+144,145
+144,146
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;ArrayDeclarator;Name;ArrayModifier;IdExpression;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;LiteralExpression;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ArraySubscriptExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;BinaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;LiteralExpression;UnaryExpression;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;LiteralExpression;UnaryExpression;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;LiteralExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int mif_validate(jas_stream_t *in){	uchar buf[MIF_MAGICLEN];	uint_fast32_t magic;	int i;	int n;	assert(JAS_STREAM_MAXPUTBACK >= MIF_MAGICLEN);	/* Read the validation data (i.e., the data used for detecting	  the format). */	if ((n = jas_stream_read(in, buf, MIF_MAGICLEN)) < 0) {		return -1;	}	/* Put the validation data back onto the stream, so that the	  stream position will not be changed. */	for (i = n - 1; i >= 0; --i) {		if (jas_stream_ungetc(in, buf[i]) == EOF) {			return -1;		}	}	/* Was enough data read? */	if (n < MIF_MAGICLEN) {		return -1;	}	/* Compute the signature value. */	magic = (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];	/* Ensure that the signature is correct for this format. */	if (magic != MIF_MAGIC) {		return -1;	}	return 0;}
+int
+mif_validate(jas_stream_t *in)
+mif_validate
+jas_stream_t *in
+jas_stream_t
+jas_stream_t
+*in
+*
+in
+{	uchar buf[MIF_MAGICLEN];	uint_fast32_t magic;	int i;	int n;	assert(JAS_STREAM_MAXPUTBACK >= MIF_MAGICLEN);	/* Read the validation data (i.e., the data used for detecting	  the format). */	if ((n = jas_stream_read(in, buf, MIF_MAGICLEN)) < 0) {		return -1;	}	/* Put the validation data back onto the stream, so that the	  stream position will not be changed. */	for (i = n - 1; i >= 0; --i) {		if (jas_stream_ungetc(in, buf[i]) == EOF) {			return -1;		}	}	/* Was enough data read? */	if (n < MIF_MAGICLEN) {		return -1;	}	/* Compute the signature value. */	magic = (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];	/* Ensure that the signature is correct for this format. */	if (magic != MIF_MAGIC) {		return -1;	}	return 0;}
+uchar buf[MIF_MAGICLEN];
+uchar buf[MIF_MAGICLEN];
+uchar
+uchar
+buf[MIF_MAGICLEN]
+buf
+[MIF_MAGICLEN]
+MIF_MAGICLEN
+MIF_MAGICLEN
+uint_fast32_t magic;
+uint_fast32_t magic;
+uint_fast32_t
+uint_fast32_t
+magic
+magic
+int i;
+int i;
+int
+i
+i
+int n;
+int n;
+int
+n
+n
+assert(JAS_STREAM_MAXPUTBACK >= MIF_MAGICLEN);
+assert(JAS_STREAM_MAXPUTBACK >= MIF_MAGICLEN)
+assert
+assert
+JAS_STREAM_MAXPUTBACK >= MIF_MAGICLEN
+JAS_STREAM_MAXPUTBACK
+JAS_STREAM_MAXPUTBACK
+MIF_MAGICLEN
+MIF_MAGICLEN
+if ((n = jas_stream_read(in, buf, MIF_MAGICLEN)) < 0) {		return -1;	}
+(n = jas_stream_read(in, buf, MIF_MAGICLEN)) < 0
+(n = jas_stream_read(in, buf, MIF_MAGICLEN))
+n = jas_stream_read(in, buf, MIF_MAGICLEN)
+n
+n
+jas_stream_read(in, buf, MIF_MAGICLEN)
+jas_stream_read
+jas_stream_read
+in
+in
+buf
+buf
+MIF_MAGICLEN
+MIF_MAGICLEN
+0
+{		return -1;	}
+return -1;
+-1
+1
+for (i = n - 1; i >= 0; --i) {		if (jas_stream_ungetc(in, buf[i]) == EOF) {			return -1;		}	}
+i = n - 1;
+i = n - 1
+i
+i
+n - 1
+n
+n
+1
+i >= 0
+i
+i
+0
+--i
+i
+i
+{		if (jas_stream_ungetc(in, buf[i]) == EOF) {			return -1;		}	}
+if (jas_stream_ungetc(in, buf[i]) == EOF) {			return -1;		}
+jas_stream_ungetc(in, buf[i]) == EOF
+jas_stream_ungetc(in, buf[i])
+jas_stream_ungetc
+jas_stream_ungetc
+in
+in
+buf[i]
+buf
+buf
+i
+i
+EOF
+EOF
+{			return -1;		}
+return -1;
+-1
+1
+if (n < MIF_MAGICLEN) {		return -1;	}
+n < MIF_MAGICLEN
+n
+n
+MIF_MAGICLEN
+MIF_MAGICLEN
+{		return -1;	}
+return -1;
+-1
+1
+magic = (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];
+magic = (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3]
+magic
+magic
+(buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3]
+(buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8)
+(buf[0] << 24) | (buf[1] << 16)
+(buf[0] << 24)
+buf[0] << 24
+buf[0]
+buf
+buf
+0
+24
+(buf[1] << 16)
+buf[1] << 16
+buf[1]
+buf
+buf
+1
+16
+(buf[2] << 8)
+buf[2] << 8
+buf[2]
+buf
+buf
+2
+8
+buf[3]
+buf
+buf
+3
+if (magic != MIF_MAGIC) {		return -1;	}
+magic != MIF_MAGIC
+magic
+magic
+MIF_MAGIC
+MIF_MAGIC
+{		return -1;	}
+return -1;
+-1
+1
+return 0;
+0
+-----joern-----
+(3,7,0)
+(4,26,0)
+(21,34,0)
+(46,41,0)
+(25,22,0)
+(18,21,0)
+(19,22,0)
+(7,17,0)
+(24,44,0)
+(33,45,0)
+(35,17,0)
+(36,23,0)
+(23,29,0)
+(30,17,0)
+(12,36,0)
+(0,2,0)
+(43,16,0)
+(37,26,0)
+(42,7,0)
+(23,36,0)
+(29,14,0)
+(29,23,0)
+(8,29,0)
+(11,21,0)
+(43,2,0)
+(40,6,0)
+(26,23,0)
+(37,33,0)
+(38,22,0)
+(26,2,0)
+(20,16,0)
+(46,2,0)
+(7,42,0)
+(7,27,0)
+(34,44,0)
+(32,38,0)
+(36,14,0)
+(13,14,0)
+(42,2,0)
+(5,44,0)
+(44,14,0)
+(23,46,0)
+(34,21,0)
+(16,14,0)
+(1,16,0)
+(17,14,0)
+(13,38,0)
+(10,13,0)
+(17,7,0)
+(21,14,0)
+(39,29,0)
+(16,43,0)
+(15,31,0)
+(31,33,0)
+(22,38,0)
+(38,13,0)
+(22,14,0)
+(9,36,0)
+(28,46,0)
+(44,34,0)
+(16,14,1)
+(10,34,1)
+(19,10,1)
+(28,23,1)
+(23,29,1)
+(5,24,1)
+(11,42,1)
+(30,35,1)
+(23,36,1)
+(17,30,1)
+(16,1,1)
+(46,41,1)
+(36,12,1)
+(42,7,1)
+(43,16,1)
+(33,31,1)
+(44,5,1)
+(29,8,1)
+(37,33,1)
+(7,17,1)
+(12,9,1)
+(22,25,1)
+(25,19,1)
+(8,39,1)
+(7,27,1)
+(34,21,1)
+(22,14,1)
+(1,20,1)
+(15,13,1)
+(36,14,1)
+(24,21,1)
+(21,14,1)
+(34,44,1)
+(38,22,1)
+(26,4,1)
+(17,14,1)
+(9,29,1)
+(37,26,1)
+(18,11,1)
+(13,14,1)
+(44,14,1)
+(38,32,1)
+(35,3,1)
+(39,34,1)
+(29,14,1)
+(20,46,1)
+(32,22,1)
+(21,18,1)
+(39,13,1)
+(13,38,1)
+(4,43,1)
+(31,15,1)
+(46,28,1)
+(26,23,1)
+(46,13,2)
+(43,34,2)
+(16,34,2)
+(17,14,2)
+(38,22,2)
+(12,13,2)
+(46,41,2)
+(36,34,2)
+(33,13,2)
+(29,13,2)
+(26,34,2)
+(4,13,2)
+(22,34,2)
+(15,13,2)
+(21,14,2)
+(43,13,2)
+(34,44,2)
+(34,21,2)
+(31,13,2)
+(19,34,2)
+(28,34,2)
+(36,13,2)
+(29,14,2)
+(28,13,2)
+(46,34,2)
+(9,13,2)
+(16,13,2)
+(25,34,2)
+(26,13,2)
+(23,29,2)
+(23,13,2)
+(7,27,2)
+(12,34,2)
+(37,33,2)
+(8,13,2)
+(43,16,2)
+(13,34,2)
+(1,34,2)
+(29,34,2)
+(26,23,2)
+(4,34,2)
+(20,34,2)
+(8,34,2)
+(37,26,2)
+(39,34,2)
+(38,34,2)
+(23,36,2)
+(20,13,2)
+(39,13,2)
+(44,14,2)
+(36,14,2)
+(9,34,2)
+(13,38,2)
+(1,13,2)
+(16,14,2)
+(10,34,2)
+(13,14,2)
+(22,14,2)
+(7,17,2)
+(42,7,2)
+(23,34,2)
+(32,34,2)
+-----------------------------------
+(0,if (hdr->numcmpts >= hdr->maxcmpts)
+(1,numcmpts)
+(2,)
+(3,cmptno)
+(4,0)
+(5,maxcmpts)
+(6,)
+(7,cmptno >= hdr->numcmpts)
+(8,cmpts)
+(9,hdr)
+(10,hdr)
+(11,hdr)
+(12,numcmpts)
+(13,mif_hdr_growcmpts(hdr, hdr->numcmpts + 128)
+(14,mif_hdr_t *hdr)
+(15,1)
+(16,hdr->numcmpts)
+(17,hdr->numcmpts)
+(18,numcmpts)
+(19,hdr)
+(20,hdr)
+(21,hdr->numcmpts)
+(22,hdr->numcmpts)
+(23,hdr->cmpts[hdr->numcmpts])
+(24,hdr)
+(25,numcmpts)
+(26,return 0;)
+(27,int cmptno)
+(28,cmpt)
+(29,hdr->cmpts)
+(30,numcmpts)
+(31,-1)
+(32,128)
+(33,return -1;)
+(34,hdr->numcmpts >= hdr->maxcmpts)
+(35,hdr)
+(36,hdr->numcmpts)
+(37,RET)
+(38,hdr->numcmpts + 128)
+(39,hdr)
+(40,if (mif_hdr_growcmpts(hdr, hdr->numcmpts + 128)
+(41,mif_cmpt_t *cmpt)
+(42,assert(cmptno >= hdr->numcmpts)
+(43,++hdr->numcmpts)
+(44,hdr->maxcmpts)
+(45,)
+(46,hdr->cmpts[hdr->numcmpts] = cmpt)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff9cf9a66300000000ffffffffffffffff32faa66300000000ffffffffffffffff32faa66300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff9000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+int mif_validate(jas_stream_t *in) {
+uint_fast32_t magic;
+int i;
+int n;
+assert(JAS_STREAM_MAXPUTBACK >= MIF_MAGICLEN);
+for(i = n - 1;i >= 0;--i)
+for(i = n - 1;i >= 0;--i)
+for(i = n - 1;i >= 0;--i)
+for(i = n - 1;i >= 0;--i)
+magic = (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];
+if(magic != MIF_MAGIC)
+return -1;
+=======================

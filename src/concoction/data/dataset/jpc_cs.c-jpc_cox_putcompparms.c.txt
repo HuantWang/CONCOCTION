@@ -1,0 +1,1022 @@
+-----label-----
+0
+-----code-----
+static int jpc_cox_putcompparms(jpc_ms_t *ms, jpc_cstate_t *cstate,
+  jas_stream_t *out, int prtflag, jpc_coxcp_t *compparms)
+{
+	int i;
+	assert(compparms->numdlvls <= 32);
+
+	/* Eliminate compiler warning about unused variables. */
+	ms = 0;
+	cstate = 0;
+
+	if (jpc_putuint8(out, compparms->numdlvls) ||
+	  jpc_putuint8(out, compparms->cblkwidthval) ||
+	  jpc_putuint8(out, compparms->cblkheightval) ||
+	  jpc_putuint8(out, compparms->cblksty) ||
+	  jpc_putuint8(out, compparms->qmfbid)) {
+		return -1;
+	}
+	if (prtflag) {
+		for (i = 0; i < compparms->numrlvls; ++i) {
+			if (jpc_putuint8(out,
+			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |
+			  (compparms->rlvls[i].parwidthval & 0xf))) {
+				return -1;
+			}
+		}
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+3,8
+3,9
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+23,25
+25,26
+27,28
+27,29
+28,29
+30,31
+30,32
+33,34
+33,35
+33,36
+33,37
+33,38
+33,39
+33,40
+34,35
+35,36
+35,37
+37,38
+39,40
+40,41
+40,42
+41,42
+43,44
+43,45
+44,45
+44,46
+45,46
+49,50
+50,51
+50,52
+51,52
+54,55
+55,56
+55,57
+56,57
+59,60
+59,61
+60,61
+60,62
+61,62
+61,63
+62,63
+62,64
+63,64
+63,65
+64,65
+64,66
+64,67
+65,66
+67,68
+69,70
+69,71
+70,71
+73,74
+73,75
+73,76
+74,75
+76,77
+78,79
+78,80
+79,80
+82,83
+82,84
+82,85
+83,84
+85,86
+87,88
+87,89
+88,89
+91,92
+91,93
+91,94
+92,93
+94,95
+96,97
+96,98
+97,98
+100,101
+100,102
+100,103
+101,102
+103,104
+105,106
+105,107
+106,107
+109,110
+110,111
+111,112
+113,114
+113,115
+114,115
+116,117
+117,118
+117,119
+117,120
+117,121
+118,119
+119,120
+119,121
+120,121
+123,124
+123,125
+124,125
+126,127
+126,128
+127,128
+130,131
+131,132
+133,134
+134,135
+134,136
+135,136
+135,137
+135,138
+136,137
+138,139
+140,141
+140,142
+141,142
+142,143
+142,144
+143,144
+144,145
+144,146
+145,146
+145,147
+146,147
+146,148
+147,148
+147,149
+148,149
+151,152
+156,157
+157,158
+157,159
+158,159
+158,160
+159,160
+159,161
+160,161
+160,162
+161,162
+164,165
+168,169
+169,170
+170,171
+172,173
+-----nextToken-----
+2,4,7,9,10,13,15,16,19,21,22,24,26,29,31,32,36,38,42,46,47,48,52,53,57,58,66,68,71,72,75,77,80,81,84,86,89,90,93,95,98,99,102,104,107,108,112,115,121,122,125,128,129,132,137,139,149,150,152,153,154,155,162,163,165,166,167,171,173
+-----computeFrom-----
+43,44
+43,45
+50,51
+50,52
+55,56
+55,57
+60,61
+60,62
+61,62
+61,63
+62,63
+62,64
+63,64
+63,65
+119,120
+119,121
+123,124
+123,125
+140,141
+140,142
+142,143
+142,144
+144,145
+144,146
+157,158
+157,159
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;BinaryExpression;BinaryExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;IdExpression;Name;CompoundStatement;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;Name;LiteralExpression;LiteralExpression;UnaryExpression;BinaryExpression;FieldReference;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int jpc_cox_putcompparms(jpc_ms_t *ms, jpc_cstate_t *cstate,  jas_stream_t *out, int prtflag, jpc_coxcp_t *compparms){	int i;	assert(compparms->numdlvls <= 32);	/* Eliminate compiler warning about unused variables. */	ms = 0;	cstate = 0;	if (jpc_putuint8(out, compparms->numdlvls) ||	  jpc_putuint8(out, compparms->cblkwidthval) ||	  jpc_putuint8(out, compparms->cblkheightval) ||	  jpc_putuint8(out, compparms->cblksty) ||	  jpc_putuint8(out, compparms->qmfbid)) {		return -1;	}	if (prtflag) {		for (i = 0; i < compparms->numrlvls; ++i) {			if (jpc_putuint8(out,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |			  (compparms->rlvls[i].parwidthval & 0xf))) {				return -1;			}		}	}	return 0;}
+static int
+jpc_cox_putcompparms(jpc_ms_t *ms, jpc_cstate_t *cstate,  jas_stream_t *out, int prtflag, jpc_coxcp_t *compparms)
+jpc_cox_putcompparms
+jpc_ms_t *ms
+jpc_ms_t
+jpc_ms_t
+*ms
+*
+ms
+jpc_cstate_t *cstate
+jpc_cstate_t
+jpc_cstate_t
+*cstate
+*
+cstate
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+int prtflag
+int
+prtflag
+prtflag
+jpc_coxcp_t *compparms
+jpc_coxcp_t
+jpc_coxcp_t
+*compparms
+*
+compparms
+{	int i;	assert(compparms->numdlvls <= 32);	/* Eliminate compiler warning about unused variables. */	ms = 0;	cstate = 0;	if (jpc_putuint8(out, compparms->numdlvls) ||	  jpc_putuint8(out, compparms->cblkwidthval) ||	  jpc_putuint8(out, compparms->cblkheightval) ||	  jpc_putuint8(out, compparms->cblksty) ||	  jpc_putuint8(out, compparms->qmfbid)) {		return -1;	}	if (prtflag) {		for (i = 0; i < compparms->numrlvls; ++i) {			if (jpc_putuint8(out,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |			  (compparms->rlvls[i].parwidthval & 0xf))) {				return -1;			}		}	}	return 0;}
+int i;
+int i;
+int
+i
+i
+assert(compparms->numdlvls <= 32);
+assert(compparms->numdlvls <= 32)
+assert
+assert
+compparms->numdlvls <= 32
+compparms->numdlvls
+compparms
+compparms
+numdlvls
+32
+ms = 0;
+ms = 0
+ms
+ms
+0
+cstate = 0;
+cstate = 0
+cstate
+cstate
+0
+if (jpc_putuint8(out, compparms->numdlvls) ||	  jpc_putuint8(out, compparms->cblkwidthval) ||	  jpc_putuint8(out, compparms->cblkheightval) ||	  jpc_putuint8(out, compparms->cblksty) ||	  jpc_putuint8(out, compparms->qmfbid)) {		return -1;	}
+jpc_putuint8(out, compparms->numdlvls) ||	  jpc_putuint8(out, compparms->cblkwidthval) ||	  jpc_putuint8(out, compparms->cblkheightval) ||	  jpc_putuint8(out, compparms->cblksty) ||	  jpc_putuint8(out, compparms->qmfbid)
+jpc_putuint8(out, compparms->numdlvls) ||	  jpc_putuint8(out, compparms->cblkwidthval) ||	  jpc_putuint8(out, compparms->cblkheightval) ||	  jpc_putuint8(out, compparms->cblksty)
+jpc_putuint8(out, compparms->numdlvls) ||	  jpc_putuint8(out, compparms->cblkwidthval) ||	  jpc_putuint8(out, compparms->cblkheightval)
+jpc_putuint8(out, compparms->numdlvls) ||	  jpc_putuint8(out, compparms->cblkwidthval)
+jpc_putuint8(out, compparms->numdlvls)
+jpc_putuint8
+jpc_putuint8
+out
+out
+compparms->numdlvls
+compparms
+compparms
+numdlvls
+jpc_putuint8(out, compparms->cblkwidthval)
+jpc_putuint8
+jpc_putuint8
+out
+out
+compparms->cblkwidthval
+compparms
+compparms
+cblkwidthval
+jpc_putuint8(out, compparms->cblkheightval)
+jpc_putuint8
+jpc_putuint8
+out
+out
+compparms->cblkheightval
+compparms
+compparms
+cblkheightval
+jpc_putuint8(out, compparms->cblksty)
+jpc_putuint8
+jpc_putuint8
+out
+out
+compparms->cblksty
+compparms
+compparms
+cblksty
+jpc_putuint8(out, compparms->qmfbid)
+jpc_putuint8
+jpc_putuint8
+out
+out
+compparms->qmfbid
+compparms
+compparms
+qmfbid
+{		return -1;	}
+return -1;
+-1
+1
+if (prtflag) {		for (i = 0; i < compparms->numrlvls; ++i) {			if (jpc_putuint8(out,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |			  (compparms->rlvls[i].parwidthval & 0xf))) {				return -1;			}		}	}
+prtflag
+prtflag
+{		for (i = 0; i < compparms->numrlvls; ++i) {			if (jpc_putuint8(out,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |			  (compparms->rlvls[i].parwidthval & 0xf))) {				return -1;			}		}	}
+for (i = 0; i < compparms->numrlvls; ++i) {			if (jpc_putuint8(out,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |			  (compparms->rlvls[i].parwidthval & 0xf))) {				return -1;			}		}
+i = 0;
+i = 0
+i
+i
+0
+i < compparms->numrlvls
+i
+i
+compparms->numrlvls
+compparms
+compparms
+numrlvls
+++i
+i
+i
+{			if (jpc_putuint8(out,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |			  (compparms->rlvls[i].parwidthval & 0xf))) {				return -1;			}		}
+if (jpc_putuint8(out,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |			  (compparms->rlvls[i].parwidthval & 0xf))) {				return -1;			}
+jpc_putuint8(out,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |			  (compparms->rlvls[i].parwidthval & 0xf))
+jpc_putuint8
+jpc_putuint8
+out
+out
+((compparms->rlvls[i].parheightval & 0xf) << 4) |			  (compparms->rlvls[i].parwidthval & 0xf)
+((compparms->rlvls[i].parheightval & 0xf) << 4)
+(compparms->rlvls[i].parheightval & 0xf) << 4
+(compparms->rlvls[i].parheightval & 0xf)
+compparms->rlvls[i].parheightval & 0xf
+compparms->rlvls[i].parheightval
+compparms->rlvls[i]
+compparms->rlvls
+compparms
+compparms
+rlvls
+i
+i
+parheightval
+0xf
+4
+(compparms->rlvls[i].parwidthval & 0xf)
+compparms->rlvls[i].parwidthval & 0xf
+compparms->rlvls[i].parwidthval
+compparms->rlvls[i]
+compparms->rlvls
+compparms
+compparms
+rlvls
+i
+i
+parwidthval
+0xf
+{				return -1;			}
+return -1;
+-1
+1
+return 0;
+0
+-----joern-----
+(24,32,0)
+(21,17,0)
+(20,43,0)
+(3,43,0)
+(45,23,0)
+(6,27,0)
+(9,14,0)
+(15,40,0)
+(19,28,0)
+(0,15,0)
+(29,23,0)
+(28,10,0)
+(15,7,0)
+(17,27,0)
+(49,36,0)
+(30,38,0)
+(43,7,0)
+(36,27,0)
+(23,27,0)
+(23,48,0)
+(28,38,0)
+(10,26,0)
+(51,39,0)
+(6,41,0)
+(10,41,0)
+(14,18,0)
+(50,11,0)
+(48,23,0)
+(46,11,0)
+(36,38,0)
+(32,11,0)
+(38,36,0)
+(1,51,0)
+(38,28,0)
+(31,51,0)
+(16,28,0)
+(51,27,0)
+(44,36,0)
+(11,32,0)
+(13,26,0)
+(2,14,0)
+(43,4,0)
+(32,43,0)
+(34,6,0)
+(38,7,0)
+(17,7,0)
+(17,33,0)
+(41,10,0)
+(43,32,0)
+(25,4,0)
+(38,26,0)
+(5,39,0)
+(42,15,0)
+(22,6,0)
+(35,26,0)
+(14,7,0)
+(11,27,0)
+(37,38,0)
+(41,6,0)
+(39,51,0)
+(47,17,0)
+(8,10,0)
+(48,23,1)
+(38,7,1)
+(42,39,1)
+(11,46,1)
+(39,5,1)
+(32,24,1)
+(21,39,1)
+(17,27,1)
+(23,27,1)
+(14,9,1)
+(38,36,1)
+(43,32,1)
+(51,27,1)
+(45,38,1)
+(44,49,1)
+(47,21,1)
+(2,48,1)
+(37,30,1)
+(20,48,1)
+(6,27,1)
+(28,16,1)
+(10,41,1)
+(19,36,1)
+(12,15,1)
+(39,51,1)
+(6,34,1)
+(32,11,1)
+(29,45,1)
+(15,0,1)
+(23,29,1)
+(3,20,1)
+(38,28,1)
+(5,51,1)
+(0,42,1)
+(11,27,1)
+(12,17,1)
+(15,7,1)
+(43,7,1)
+(22,8,1)
+(49,37,1)
+(41,6,1)
+(12,14,1)
+(1,43,1)
+(14,7,1)
+(17,47,1)
+(9,2,1)
+(50,3,1)
+(36,44,1)
+(24,11,1)
+(46,50,1)
+(36,27,1)
+(28,10,1)
+(31,1,1)
+(51,31,1)
+(17,7,1)
+(16,19,1)
+(30,10,1)
+(34,22,1)
+(51,27,2)
+(11,48,2)
+(32,11,2)
+(28,10,2)
+(15,7,2)
+(42,39,2)
+(38,7,2)
+(20,48,2)
+(38,36,2)
+(51,48,2)
+(17,39,2)
+(3,48,2)
+(14,7,2)
+(5,48,2)
+(9,48,2)
+(14,48,2)
+(24,48,2)
+(43,48,2)
+(17,27,2)
+(6,27,2)
+(41,6,2)
+(39,48,2)
+(39,51,2)
+(11,27,2)
+(38,28,2)
+(50,48,2)
+(2,48,2)
+(31,48,2)
+(47,39,2)
+(10,41,2)
+(21,39,2)
+(32,48,2)
+(46,48,2)
+(15,39,2)
+(23,27,2)
+(48,23,2)
+(0,39,2)
+(17,7,2)
+(36,27,2)
+(43,7,2)
+(1,48,2)
+(43,32,2)
+-----------------------------------
+(0,"\\n")
+(1,ms)
+(2,out)
+(3," len = %d;")
+(4,)
+(5,dumpparms)
+(6,ms->id)
+(7,FILE *out)
+(8,mstabent)
+(9,"\\n")
+(10,mstabent = jpc_mstab_lookup(ms->id)
+(11,ms->len)
+(12,RET)
+(13,mstabent)
+(14,fprintf(out, "\\n")
+(15,fprintf(out, "\\n")
+(16,name)
+(17,(*ms->ops->dumpparms)
+(18,)
+(19,mstabent)
+(20,out)
+(21,ms)
+(22,ms)
+(23,ms->id)
+(24,2)
+(25,if (ms->ops->dumpparms)
+(26,)
+(27,jpc_ms_t *ms)
+(28,mstabent->name)
+(29,id)
+(30,out)
+(31,ops)
+(32,ms->len + 2)
+(33,)
+(34,id)
+(35,if (JPC_MS_HASPARMS(ms->id)
+(36,ms->id)
+(37,"type = 0x%04x (%s)
+(38,fprintf(out, "type = 0x%04x (%s)
+(39,ms->ops->dumpparms)
+(40,)
+(41,jpc_mstab_lookup(ms->id)
+(42,out)
+(43,fprintf(out, " len = %d;", ms->len + 2)
+(44,id)
+(45,ms)
+(46,len)
+(47,out)
+(48,JPC_MS_HASPARMS(ms->id)
+(49,ms)
+(50,ms)
+(51,ms->ops)
+-----cfg-----
+(7,19)
+(15,21)
+(16,15)
+(17,16)
+(19,17)
+(21,24)
+(24,36)
+(28,59)
+(28,66)
+(28,105)
+(29,28)
+(29,56)
+(30,29)
+(30,51)
+(31,30)
+(31,46)
+(32,31)
+(32,41)
+(34,32)
+(36,34)
+(37,31)
+(39,37)
+(41,39)
+(42,30)
+(44,42)
+(46,44)
+(47,29)
+(49,47)
+(51,49)
+(52,28)
+(54,52)
+(56,54)
+(58,107)
+(59,58)
+(66,73)
+(69,87)
+(69,105)
+(71,69)
+(73,71)
+(74,73)
+(78,103)
+(78,74)
+(80,78)
+(81,97)
+(82,81)
+(83,82)
+(84,89)
+(85,84)
+(87,85)
+(89,83)
+(92,80)
+(93,92)
+(94,99)
+(95,94)
+(97,95)
+(99,93)
+(102,107)
+(103,102)
+(105,107)
+-----path-----
+7,19,17,16,15,21,24,36,34,32,31,30,29,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,31,30,29,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,31,30,29,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,31,30,29,28,105,107
+7,19,17,16,15,21,24,36,34,32,31,30,29,56,54,52,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,31,30,29,56,54,52,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,31,30,29,56,54,52,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,31,30,29,56,54,52,28,105,107
+7,19,17,16,15,21,24,36,34,32,31,30,51,49,47,29,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,31,30,51,49,47,29,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,31,30,51,49,47,29,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,31,30,51,49,47,29,28,105,107
+7,19,17,16,15,21,24,36,34,32,31,30,51,49,47,29,56,54,52,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,31,30,51,49,47,29,56,54,52,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,31,30,51,49,47,29,56,54,52,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,31,30,51,49,47,29,56,54,52,28,105,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,29,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,29,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,29,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,29,28,105,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,29,56,54,52,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,29,56,54,52,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,29,56,54,52,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,29,56,54,52,28,105,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,51,49,47,29,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,51,49,47,29,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,51,49,47,29,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,51,49,47,29,28,105,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,51,49,47,29,56,54,52,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,51,49,47,29,56,54,52,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,51,49,47,29,56,54,52,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,31,46,44,42,30,51,49,47,29,56,54,52,28,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,29,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,29,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,29,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,29,28,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,29,56,54,52,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,29,56,54,52,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,29,56,54,52,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,29,56,54,52,28,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,51,49,47,29,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,51,49,47,29,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,51,49,47,29,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,51,49,47,29,28,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,51,49,47,29,56,54,52,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,51,49,47,29,56,54,52,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,51,49,47,29,56,54,52,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,30,51,49,47,29,56,54,52,28,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,29,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,29,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,29,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,29,28,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,29,56,54,52,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,29,56,54,52,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,29,56,54,52,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,29,56,54,52,28,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,51,49,47,29,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,51,49,47,29,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,51,49,47,29,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,51,49,47,29,28,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,51,49,47,29,56,54,52,28,59,58,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,51,49,47,29,56,54,52,28,66,73,71,69,87,85,84,89,83,82,81,97,95,94,99,93,92,80,78,103,102,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,51,49,47,29,56,54,52,28,66,73,71,69,105,107
+7,19,17,16,15,21,24,36,34,32,41,39,37,31,46,44,42,30,51,49,47,29,56,54,52,28,105,107
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_cox_putcompparms (jpc_ms_t *ms,jpc_cstate_t *cstate,jas_stream_t *out,int prtflag,jpc_coxcp_t *compparms)
+8,jpc_ms_t *ms
+9,jpc_cstate_t *cstate
+10,jas_stream_t *out
+11,int prtflag
+12,jpc_coxcp_t *compparms
+13,<empty>
+14,int i
+15,assert(compparms->numdlvls <= 32)
+16,compparms->numdlvls <= 32
+17,compparms->numdlvls
+18,compparms
+19,numdlvls
+20,32
+21,ms = 0
+22,ms
+23,0
+24,cstate = 0
+25,cstate
+26,0
+27,if (jpc_putuint8(out, compparms->numdlvls) ||
+28,	  jpc_putuint8(out, compparms->cblkwidthval) ||
+29,	  jpc_putuint8(out, compparms->cblkheightval) ||
+30,	  jpc_putuint8(out, compparms->cblksty) ||
+31,	  jpc_putuint8(out, compparms->qmfbid))
+32,jpc_putuint8(out, compparms->numdlvls) ||
+33,	  jpc_putuint8(out, compparms->cblkwidthval) ||
+34,	  jpc_putuint8(out, compparms->cblkheightval) ||
+35,	  jpc_putuint8(out, compparms->cblksty) ||
+36,	  jpc_putuint8(out, compparms->qmfbid)
+37,jpc_putuint8(out, compparms->numdlvls) ||
+38,	  jpc_putuint8(out, compparms->cblkwidthval) ||
+39,	  jpc_putuint8(out, compparms->cblkheightval) ||
+40,	  jpc_putuint8(out, compparms->cblksty)
+41,jpc_putuint8(out, compparms->numdlvls) ||
+42,	  jpc_putuint8(out, compparms->cblkwidthval) ||
+43,	  jpc_putuint8(out, compparms->cblkheightval)
+44,jpc_putuint8(out, compparms->numdlvls) ||
+45,	  jpc_putuint8(out, compparms->cblkwidthval)
+46,jpc_putuint8(out, compparms->numdlvls)
+47,out
+48,compparms->numdlvls
+49,compparms
+50,numdlvls
+51,jpc_putuint8(out, compparms->cblkwidthval)
+52,out
+53,compparms->cblkwidthval
+54,compparms
+55,cblkwidthval
+56,jpc_putuint8(out, compparms->cblkheightval)
+57,out
+58,compparms->cblkheightval
+59,compparms
+60,cblkheightval
+61,jpc_putuint8(out, compparms->cblksty)
+62,out
+63,compparms->cblksty
+64,compparms
+65,cblksty
+66,jpc_putuint8(out, compparms->qmfbid)
+67,out
+68,compparms->qmfbid
+69,compparms
+70,qmfbid
+71,<empty>
+72,return -1;
+73,-1
+74,1
+75,if (prtflag)
+76,prtflag
+77,<empty>
+78,for (i = 0;i < compparms->numrlvls;++i)
+79,<empty>
+80,i = 0
+81,i
+82,0
+83,i < compparms->numrlvls
+84,i
+85,compparms->numrlvls
+86,compparms
+87,numrlvls
+88,++i
+89,i
+90,<empty>
+91,if (jpc_putuint8(out,
+92,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |
+93,			  (compparms->rlvls[i].parwidthval & 0xf)))
+94,jpc_putuint8(out,
+95,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |
+96,			  (compparms->rlvls[i].parwidthval & 0xf))
+97,out
+98,((compparms->rlvls[i].parheightval & 0xf) << 4) |
+99,			  (compparms->rlvls[i].parwidthval & 0xf)
+100,(compparms->rlvls[i].parheightval & 0xf) << 4
+101,compparms->rlvls[i].parheightval & 0xf
+102,compparms->rlvls[i].parheightval
+103,compparms->rlvls[i]
+104,compparms->rlvls
+105,compparms
+106,rlvls
+107,i
+108,parheightval
+109,0xf
+110,4
+111,compparms->rlvls[i].parwidthval & 0xf
+112,compparms->rlvls[i].parwidthval
+113,compparms->rlvls[i]
+114,compparms->rlvls
+115,compparms
+116,rlvls
+117,i
+118,parwidthval
+119,0xf
+120,<empty>
+121,return -1;
+122,-1
+123,1
+124,return 0;
+125,0
+126,RET
+127,jpc_ms_t *ms
+128,jpc_cstate_t *cstate
+129,jas_stream_t *out
+130,int prtflag
+131,jpc_coxcp_t *compparms
+132,RET
+133,int jpc_cox_putcompparms (jpc_ms_t *ms,jpc_cstate_t *cstate,jas_stream_t *out,int prtflag,jpc_coxcp_t *compparms)
+134,jpc_ms_t *ms
+135,jpc_cstate_t *cstate
+136,jas_stream_t *out
+137,int prtflag
+138,jpc_coxcp_t *compparms
+139,<empty>
+140,int i
+141,assert(compparms->numdlvls <= 32)
+142,compparms->numdlvls <= 32
+143,compparms->numdlvls
+144,compparms
+145,numdlvls
+146,32
+147,ms = 0
+148,ms
+149,0
+150,cstate = 0
+151,cstate
+152,0
+153,if (jpc_putuint8(out, compparms->numdlvls) ||
+154,	  jpc_putuint8(out, compparms->cblkwidthval) ||
+155,	  jpc_putuint8(out, compparms->cblkheightval) ||
+156,	  jpc_putuint8(out, compparms->cblksty) ||
+157,	  jpc_putuint8(out, compparms->qmfbid))
+158,jpc_putuint8(out, compparms->numdlvls) ||
+159,	  jpc_putuint8(out, compparms->cblkwidthval) ||
+160,	  jpc_putuint8(out, compparms->cblkheightval) ||
+161,	  jpc_putuint8(out, compparms->cblksty) ||
+162,	  jpc_putuint8(out, compparms->qmfbid)
+163,jpc_putuint8(out, compparms->numdlvls) ||
+164,	  jpc_putuint8(out, compparms->cblkwidthval) ||
+165,	  jpc_putuint8(out, compparms->cblkheightval) ||
+166,	  jpc_putuint8(out, compparms->cblksty)
+167,jpc_putuint8(out, compparms->numdlvls) ||
+168,	  jpc_putuint8(out, compparms->cblkwidthval) ||
+169,	  jpc_putuint8(out, compparms->cblkheightval)
+170,jpc_putuint8(out, compparms->numdlvls) ||
+171,	  jpc_putuint8(out, compparms->cblkwidthval)
+172,jpc_putuint8(out, compparms->numdlvls)
+173,out
+174,compparms->numdlvls
+175,compparms
+176,numdlvls
+177,jpc_putuint8(out, compparms->cblkwidthval)
+178,out
+179,compparms->cblkwidthval
+180,compparms
+181,cblkwidthval
+182,jpc_putuint8(out, compparms->cblkheightval)
+183,out
+184,compparms->cblkheightval
+185,compparms
+186,cblkheightval
+187,jpc_putuint8(out, compparms->cblksty)
+188,out
+189,compparms->cblksty
+190,compparms
+191,cblksty
+192,jpc_putuint8(out, compparms->qmfbid)
+193,out
+194,compparms->qmfbid
+195,compparms
+196,qmfbid
+197,<empty>
+198,return -1;
+199,-1
+200,1
+201,if (prtflag)
+202,prtflag
+203,<empty>
+204,for (i = 0;i < compparms->numrlvls;++i)
+205,<empty>
+206,i = 0
+207,i
+208,0
+209,i < compparms->numrlvls
+210,i
+211,compparms->numrlvls
+212,compparms
+213,numrlvls
+214,++i
+215,i
+216,<empty>
+217,if (jpc_putuint8(out,
+218,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |
+219,			  (compparms->rlvls[i].parwidthval & 0xf)))
+220,jpc_putuint8(out,
+221,			  ((compparms->rlvls[i].parheightval & 0xf) << 4) |
+222,			  (compparms->rlvls[i].parwidthval & 0xf))
+223,out
+224,((compparms->rlvls[i].parheightval & 0xf) << 4) |
+225,			  (compparms->rlvls[i].parwidthval & 0xf)
+226,(compparms->rlvls[i].parheightval & 0xf) << 4
+227,compparms->rlvls[i].parheightval & 0xf
+228,compparms->rlvls[i].parheightval
+229,compparms->rlvls[i]
+230,compparms->rlvls
+231,compparms
+232,rlvls
+233,i
+234,parheightval
+235,0xf
+236,4
+237,compparms->rlvls[i].parwidthval & 0xf
+238,compparms->rlvls[i].parwidthval
+239,compparms->rlvls[i]
+240,compparms->rlvls
+241,compparms
+242,rlvls
+243,i
+244,parwidthval
+245,0xf
+246,<empty>
+247,return -1;
+248,-1
+249,1
+250,return 0;
+251,0
+252,RET
+253,jpc_ms_t *ms
+254,jpc_cstate_t *cstate
+255,jas_stream_t *out
+256,int prtflag
+257,jpc_coxcp_t *compparms
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int jpc_cox_putcompparms(jpc_ms_t *ms, jpc_cstate_t *cstate,   jas_stream_t *out, int prtflag, jpc_coxcp_t *compparms) {
+int i;
+assert(compparms->numdlvls <= 32);
+ms = 0;
+cstate = 0;
+return 0;
+=======================

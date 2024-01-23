@@ -1,0 +1,301 @@
+-----label-----
+0
+-----code-----
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+12,13
+12,14
+13,14
+13,15
+14,15
+14,16
+15,16
+19,20
+20,21
+20,22
+20,23
+21,22
+23,24
+25,26
+25,27
+26,27
+26,28
+27,28
+31,32
+31,33
+32,33
+32,34
+33,34
+36,37
+37,38
+37,39
+38,39
+40,41
+40,42
+41,42
+44,45
+45,46
+45,47
+46,47
+48,49
+-----nextToken-----
+2,4,7,9,10,16,17,18,22,24,28,29,30,34,35,39,42,43,47,49
+-----computeFrom-----
+13,14
+13,15
+25,26
+25,27
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;WhileStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;IfStatement;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq){	while (pxformseq->numpxforms > 0)		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);	if (pxformseq->pxforms)		jas_free(pxformseq->pxforms);	jas_free(pxformseq);}
+static void
+jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+jas_cmpxformseq_destroy
+jas_cmpxformseq_t *pxformseq
+jas_cmpxformseq_t
+jas_cmpxformseq_t
+*pxformseq
+*
+pxformseq
+{	while (pxformseq->numpxforms > 0)		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);	if (pxformseq->pxforms)		jas_free(pxformseq->pxforms);	jas_free(pxformseq);}
+while (pxformseq->numpxforms > 0)		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+pxformseq->numpxforms > 0
+pxformseq->numpxforms
+pxformseq
+pxformseq
+numpxforms
+0
+jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1)
+jas_cmpxformseq_delete
+jas_cmpxformseq_delete
+pxformseq
+pxformseq
+pxformseq->numpxforms - 1
+pxformseq->numpxforms
+pxformseq
+pxformseq
+numpxforms
+1
+if (pxformseq->pxforms)		jas_free(pxformseq->pxforms);
+pxformseq->pxforms
+pxformseq
+pxformseq
+pxforms
+jas_free(pxformseq->pxforms);
+jas_free(pxformseq->pxforms)
+jas_free
+jas_free
+pxformseq->pxforms
+pxformseq
+pxformseq
+pxforms
+jas_free(pxformseq);
+jas_free(pxformseq)
+jas_free
+jas_free
+pxformseq
+pxformseq
+-----joern-----
+(13,1,0)
+(2,1,0)
+(4,15,0)
+(11,0,0)
+(14,2,0)
+(12,3,0)
+(9,16,0)
+(19,13,0)
+(6,15,0)
+(2,12,0)
+(15,16,0)
+(8,0,0)
+(12,2,0)
+(17,8,0)
+(0,3,0)
+(8,1,0)
+(21,6,0)
+(20,13,0)
+(5,6,0)
+(7,8,0)
+(10,2,0)
+(6,1,0)
+(20,19,1)
+(8,7,1)
+(0,11,1)
+(8,1,1)
+(4,6,1)
+(12,2,1)
+(17,12,1)
+(18,15,1)
+(6,1,1)
+(11,8,1)
+(13,1,1)
+(7,17,1)
+(21,5,1)
+(6,21,1)
+(13,20,1)
+(14,13,1)
+(15,4,1)
+(10,14,1)
+(2,1,1)
+(2,10,1)
+(5,0,1)
+(5,13,1)
+(2,13,2)
+(11,13,2)
+(8,1,2)
+(13,1,2)
+(12,2,2)
+(8,13,2)
+(0,13,2)
+(14,13,2)
+(10,13,2)
+(12,13,2)
+(17,13,2)
+(2,1,2)
+(7,13,2)
+(6,1,2)
+-----------------------------------
+(0,lut->data = 0)
+(1,jas_cmshapmatlut_t *lut)
+(2,lut->data)
+(3,)
+(4,0)
+(5,lut)
+(6,lut->size)
+(7,data)
+(8,lut->data)
+(9,if (lut->data)
+(10,data)
+(11,0)
+(12,jas_free(lut->data)
+(13,lut->data)
+(14,lut)
+(15,lut->size = 0)
+(16,)
+(17,lut)
+(18,RET)
+(19,lut)
+(20,data)
+(21,size)
+-----cfg-----
+(32,34)
+(7,14)
+(11,21)
+(11,26)
+(12,11)
+(14,12)
+(16,14)
+(18,16)
+(19,18)
+(21,19)
+(24,31)
+(24,32)
+(26,24)
+(28,32)
+(29,28)
+(31,29)
+-----path-----
+7,14,12,11,26,24,31,29,28,32,34
+7,14,12,11,26,24,32,34
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+8,jas_cmpxformseq_t *pxformseq
+9,<empty>
+10,while (pxformseq->numpxforms > 0)
+11,pxformseq->numpxforms > 0
+12,pxformseq->numpxforms
+13,pxformseq
+14,numpxforms
+15,0
+16,jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1)
+17,pxformseq
+18,pxformseq->numpxforms - 1
+19,pxformseq->numpxforms
+20,pxformseq
+21,numpxforms
+22,1
+23,if (pxformseq->pxforms)
+24,pxformseq->pxforms
+25,pxformseq
+26,pxforms
+27,<empty>
+28,jas_free(pxformseq->pxforms)
+29,pxformseq->pxforms
+30,pxformseq
+31,pxforms
+32,jas_free(pxformseq)
+33,pxformseq
+34,RET
+35,jas_cmpxformseq_t *pxformseq
+36,RET
+37,void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+38,jas_cmpxformseq_t *pxformseq
+39,<empty>
+40,while (pxformseq->numpxforms > 0)
+41,pxformseq->numpxforms > 0
+42,pxformseq->numpxforms
+43,pxformseq
+44,numpxforms
+45,0
+46,jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1)
+47,pxformseq
+48,pxformseq->numpxforms - 1
+49,pxformseq->numpxforms
+50,pxformseq
+51,numpxforms
+52,1
+53,if (pxformseq->pxforms)
+54,pxformseq->pxforms
+55,pxformseq
+56,pxforms
+57,<empty>
+58,jas_free(pxformseq->pxforms)
+59,pxformseq->pxforms
+60,pxformseq
+61,pxforms
+62,jas_free(pxformseq)
+63,pxformseq
+64,RET
+65,jas_cmpxformseq_t *pxformseq
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq) {
+while(pxformseq->numpxforms > 0)
+jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+if(pxformseq->pxforms)
+jas_free(pxformseq->pxforms);
+jas_free(pxformseq);
+=======================

@@ -1,0 +1,334 @@
+-----label-----
+0
+-----code-----
+void
+TIFFErrorExt(thandle_t fd, const char* module, const char* fmt, ...)
+{
+	va_list ap;
+	if (_TIFFerrorHandler) {
+		va_start(ap, fmt);
+		(*_TIFFerrorHandler)(module, fmt, ap);
+		va_end(ap);
+	}
+	if (_TIFFerrorHandlerExt) {
+		va_start(ap, fmt);
+		(*_TIFFerrorHandlerExt)(fd, module, fmt, ap);
+		va_end(ap);
+	}
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+10,11
+10,12
+12,13
+12,14
+15,16
+15,17
+17,18
+17,19
+20,21
+20,22
+20,23
+21,22
+22,23
+22,24
+23,24
+25,26
+27,28
+27,29
+28,29
+30,31
+30,32
+30,33
+31,32
+32,33
+32,34
+32,35
+33,34
+35,36
+37,38
+39,40
+40,41
+40,42
+40,43
+40,44
+41,42
+42,43
+43,44
+45,46
+47,48
+49,50
+51,52
+52,53
+52,54
+53,54
+55,56
+57,58
+57,59
+58,59
+60,61
+60,62
+60,63
+61,62
+62,63
+62,64
+62,65
+63,64
+65,66
+67,68
+69,70
+70,71
+70,72
+70,73
+70,74
+70,75
+71,72
+72,73
+73,74
+75,76
+77,78
+79,80
+81,82
+83,84
+84,85
+84,86
+85,86
+87,88
+-----nextToken-----
+2,4,7,9,11,13,14,16,18,19,24,26,29,34,36,38,44,46,48,50,54,56,59,64,66,68,74,76,78,80,82,86,88
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;IfStatement;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;UnaryExpression;UnaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;UnaryExpression;UnaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+voidTIFFErrorExt(thandle_t fd, const char* module, const char* fmt, ...){	va_list ap;	if (_TIFFerrorHandler) {		va_start(ap, fmt);		(*_TIFFerrorHandler)(module, fmt, ap);		va_end(ap);	}	if (_TIFFerrorHandlerExt) {		va_start(ap, fmt);		(*_TIFFerrorHandlerExt)(fd, module, fmt, ap);		va_end(ap);	}}
+void
+TIFFErrorExt(thandle_t fd, const char* module, const char* fmt, ...)
+TIFFErrorExt
+thandle_t fd
+thandle_t
+thandle_t
+fd
+fd
+const char* module
+const char
+* module
+*
+module
+const char* fmt
+const char
+* fmt
+*
+fmt
+{	va_list ap;	if (_TIFFerrorHandler) {		va_start(ap, fmt);		(*_TIFFerrorHandler)(module, fmt, ap);		va_end(ap);	}	if (_TIFFerrorHandlerExt) {		va_start(ap, fmt);		(*_TIFFerrorHandlerExt)(fd, module, fmt, ap);		va_end(ap);	}}
+va_list ap;
+va_list ap;
+va_list
+va_list
+ap
+ap
+if (_TIFFerrorHandler) {		va_start(ap, fmt);		(*_TIFFerrorHandler)(module, fmt, ap);		va_end(ap);	}
+_TIFFerrorHandler
+_TIFFerrorHandler
+{		va_start(ap, fmt);		(*_TIFFerrorHandler)(module, fmt, ap);		va_end(ap);	}
+va_start(ap, fmt);
+va_start(ap, fmt)
+va_start
+va_start
+ap
+ap
+fmt
+fmt
+(*_TIFFerrorHandler)(module, fmt, ap);
+(*_TIFFerrorHandler)(module, fmt, ap)
+(*_TIFFerrorHandler)
+*_TIFFerrorHandler
+_TIFFerrorHandler
+_TIFFerrorHandler
+module
+module
+fmt
+fmt
+ap
+ap
+va_end(ap);
+va_end(ap)
+va_end
+va_end
+ap
+ap
+if (_TIFFerrorHandlerExt) {		va_start(ap, fmt);		(*_TIFFerrorHandlerExt)(fd, module, fmt, ap);		va_end(ap);	}
+_TIFFerrorHandlerExt
+_TIFFerrorHandlerExt
+{		va_start(ap, fmt);		(*_TIFFerrorHandlerExt)(fd, module, fmt, ap);		va_end(ap);	}
+va_start(ap, fmt);
+va_start(ap, fmt)
+va_start
+va_start
+ap
+ap
+fmt
+fmt
+(*_TIFFerrorHandlerExt)(fd, module, fmt, ap);
+(*_TIFFerrorHandlerExt)(fd, module, fmt, ap)
+(*_TIFFerrorHandlerExt)
+*_TIFFerrorHandlerExt
+_TIFFerrorHandlerExt
+_TIFFerrorHandlerExt
+fd
+fd
+module
+module
+fmt
+fmt
+ap
+ap
+va_end(ap);
+va_end(ap)
+va_end
+va_end
+ap
+ap
+-----joern-----
+(10,9,0)
+(18,12,0)
+(25,3,0)
+(3,27,0)
+(14,21,0)
+(7,12,0)
+(12,2,0)
+(30,16,0)
+(20,29,0)
+(16,27,0)
+(6,29,0)
+(4,15,0)
+(12,27,0)
+(23,16,0)
+(10,27,0)
+(3,2,0)
+(21,2,0)
+(22,3,0)
+(1,10,0)
+(16,9,0)
+(24,10,0)
+(15,9,0)
+(11,29,0)
+(3,13,0)
+(10,13,0)
+(10,17,0)
+(26,10,0)
+(19,3,0)
+(28,10,0)
+(19,25,1)
+(24,1,1)
+(28,26,1)
+(25,12,1)
+(16,30,1)
+(30,23,1)
+(18,7,1)
+(10,27,1)
+(26,16,1)
+(4,10,1)
+(0,21,1)
+(23,0,1)
+(15,4,1)
+(10,24,1)
+(16,27,1)
+(5,15,1)
+(3,13,1)
+(1,28,1)
+(10,17,1)
+(22,19,1)
+(5,0,1)
+(12,18,1)
+(3,27,1)
+(12,27,1)
+(14,3,1)
+(3,22,1)
+(0,8,1)
+(10,13,1)
+(21,14,1)
+(7,8,1)
+(30,0,2)
+(3,13,2)
+(18,8,2)
+(3,27,2)
+(1,0,2)
+(26,0,2)
+(12,8,2)
+(28,0,2)
+(24,0,2)
+(25,8,2)
+(4,0,2)
+(10,27,2)
+(10,0,2)
+(10,13,2)
+(15,0,2)
+(21,8,2)
+(23,0,2)
+(16,0,2)
+(12,27,2)
+(22,8,2)
+(19,8,2)
+(14,8,2)
+(16,27,2)
+(3,8,2)
+(7,8,2)
+(10,17,2)
+-----------------------------------
+(0,_TIFFerrorHandlerExt)
+(1,fmt)
+(2,)
+(3,(*_TIFFerrorHandler)
+(4,ap)
+(5,RET)
+(6,ap)
+(7,ap)
+(8,_TIFFerrorHandler)
+(9,)
+(10,(*_TIFFerrorHandlerExt)
+(11,if (_TIFFerrorHandlerExt)
+(12,va_start(ap, fmt)
+(13,const char* module)
+(14,ap)
+(15,va_end(ap)
+(16,va_start(ap, fmt)
+(17,thandle_t fd)
+(18,fmt)
+(19,fmt)
+(20,if (_TIFFerrorHandler)
+(21,va_end(ap)
+(22,ap)
+(23,ap)
+(24,ap)
+(25,module)
+(26,fd)
+(27,const char* fmt)
+(28,module)
+(29,)
+(30,fmt)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000020000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff85f6b26300000000ffffffffffffffff7ff6b26300000000ffffffffffffffff7ff6b26300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x4d4d002b00080100ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+void TIFFErrorExt(thandle_t fd, const char* module, const char* fmt, ...) {
+va_list ap;
+if(_TIFFerrorHandler)
+(*_TIFFerrorHandler)(module, fmt, ap);
+=======================

@@ -1,0 +1,86 @@
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+stdin-stat:0x000800000000000001000000ffffffff0100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff2ff9366400000000ffffffffffffffff9ff8366400000000ffffffffffffffff9ff8366400000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+stdin:0x4700000000000000000000000000000000000000
+=========trace=========
+void sqlite3VXPrintf(   StrAccum *pAccum,                  /* Accumulate results here */   int useExtended,                   /* Allow extended _-conversions */   const char *fmt,                   /* Format string */   va_list ap                         /* arguments */ ){
+int c;
+char *bufpt;
+int precision;
+int length;
+int idx;
+int width;
+etByte flag_leftjustify;
+etByte flag_plussign;
+etByte flag_blanksign;
+etByte flag_alternateform;
+etByte flag_altform2;
+etByte flag_zeropad;
+etByte flag_long;
+etByte flag_longlong;
+etByte done;
+etByte xtype = 0;
+char prefix;
+LONGDOUBLE_TYPE realvalue;
+const et_info *infop;
+char *zOut;
+int nOut;
+char *zExtra;
+int  exp, e2;
+int nsd;
+double rounder;
+etByte flag_dp;
+etByte flag_rtz;
+char buf[etBUFSIZE];
+bufpt = 0;
+flag_leftjustify = flag_plussign = flag_blanksign =       flag_alternateform = flag_altform2 = flag_zeropad = 0;
+done = 0;
+switch(c)
+done = 1;
+width = 0;
+precision = -1;
+flag_long = flag_longlong = 0;
+infop = &fmtinfo[0];
+xtype = etINVALID;
+for(idx=0;idx<ArraySize(fmtinfo);idx++)
+for(idx=0;idx<ArraySize(fmtinfo);idx++)
+if(c==fmtinfo[idx].fmttype)
+infop = &fmtinfo[idx];
+if(useExtended || (infop->flags & FLAG_INTERN)==0)
+xtype = infop->type;
+zExtra = 0;
+switch(xtype)
+bufpt = va_arg(ap,char*);
+length = sqlite3Strlen30(bufpt);
+if(!flag_leftjustify)
+register int nspace;
+nspace = width-length;
+if(length>0)
+sqlite3StrAccumAppend(pAccum, bufpt, length);
+sqlite3_free(zExtra);
+if(c!='_')
+int amt;
+bufpt = (char *)fmt;
+amt = 1;
+while((c=(*++fmt))!='_' && c!=0)
+amt++;
+while((c=(*++fmt))!='_' && c!=0)
+amt++;
+while((c=(*++fmt))!='_' && c!=0)
+amt++;
+while((c=(*++fmt))!='_' && c!=0)
+amt++;
+while((c=(*++fmt))!='_' && c!=0)
+amt++;
+while((c=(*++fmt))!='_' && c!=0)
+amt++;
+while((c=(*++fmt))!='_' && c!=0)
+amt++;
+while((c=(*++fmt))!='_' && c!=0)
+amt++;
+while((c=(*++fmt))!='_' && c!=0)
+amt++;
+sqlite3StrAccumAppend(pAccum, bufpt, amt);
+if(c==0)
+=======================

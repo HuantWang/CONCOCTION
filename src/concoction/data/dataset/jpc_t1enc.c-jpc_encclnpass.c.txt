@@ -1,0 +1,3979 @@
+-----label-----
+0
+-----code-----
+static int jpc_encclnpass(jpc_mqenc_t *mqenc, int bitpos, int orient, int vcausalflag, int segsymflag, jas_matrix_t *flags,
+  jas_matrix_t *data, int term, long *nmsedec)
+{
+	int i;
+	int j;
+	int k;
+	int vscanlen;
+	int v;
+	int runlen;
+	jpc_fix_t *fp;
+	int width;
+	int height;
+	jpc_fix_t *dp;
+	int one;
+	int frowstep;
+	int drowstep;
+	int fstripestep;
+	int dstripestep;
+	jpc_fix_t *fstripestart;
+	jpc_fix_t *dstripestart;
+	jpc_fix_t *fvscanstart;
+	jpc_fix_t *dvscanstart;
+
+	*nmsedec = 0;
+	width = jas_matrix_numcols(data);
+	height = jas_matrix_numrows(data);
+	frowstep = jas_matrix_rowstep(flags);
+	drowstep = jas_matrix_rowstep(data);
+	fstripestep = frowstep << 2;
+	dstripestep = drowstep << 2;
+
+	one = 1 << (bitpos + JPC_NUMEXTRABITS);
+
+	fstripestart = jas_matrix_getref(flags, 1, 1);
+	dstripestart = jas_matrix_getref(data, 0, 0);
+	for (i = height; i > 0; i -= 4, fstripestart += fstripestep,
+	  dstripestart += dstripestep) {
+		fvscanstart = fstripestart;
+		dvscanstart = dstripestart;
+		vscanlen = JAS_MIN(i, 4);
+		for (j = width; j > 0; --j, ++fvscanstart, ++dvscanstart) {
+
+			fp = fvscanstart;
+			if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |
+			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &
+			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,
+			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))) {
+				dp = dvscanstart;
+				for (k = 0; k < vscanlen; ++k) {
+					v = (abs(*dp) & one) ? 1 : 0;
+					if (v) {
+						break;
+					}
+					dp += drowstep;
+				}
+				runlen = k;
+				if (runlen >= 4) {
+					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);
+					jpc_mqenc_putbit(mqenc, 0);
+					continue;
+				}
+				jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);
+				jpc_mqenc_putbit(mqenc, 1);
+				jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);
+				jpc_mqenc_putbit(mqenc, runlen >> 1);
+				jpc_mqenc_putbit(mqenc, runlen & 1);
+				fp = fvscanstart + frowstep * runlen;
+				dp = dvscanstart + drowstep * runlen;
+				k = vscanlen - runlen;
+				switch (runlen) {
+				case 0:
+					goto clnpass_partial0;
+					break;
+				case 1:
+					goto clnpass_partial1;
+					break;
+				case 2:
+					goto clnpass_partial2;
+					break;
+				case 3:
+					goto clnpass_partial3;
+					break;
+				}
+			} else {
+				runlen = 0;
+				fp = fvscanstart;
+				dp = dvscanstart;
+				k = vscanlen;
+				goto clnpass_full0;
+			}
+			clnpass_step(fp, frowstep, dp, bitpos, one,
+			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);
+			if (--k <= 0) {
+				continue;
+			}
+			fp += frowstep;
+			dp += drowstep;
+			clnpass_step(fp, frowstep, dp, bitpos, one,
+				orient, nmsedec, mqenc, ;, clnpass_partial1:, 0);
+			if (--k <= 0) {
+				continue;
+			}
+			fp += frowstep;
+			dp += drowstep;
+			clnpass_step(fp, frowstep, dp, bitpos, one,
+				orient, nmsedec, mqenc, ;, clnpass_partial2:, 0);
+			if (--k <= 0) {
+				continue;
+			}
+			fp += frowstep;
+			dp += drowstep;
+			clnpass_step(fp, frowstep, dp, bitpos, one,
+				orient, nmsedec, mqenc, ;, clnpass_partial3:, 0);
+		}
+	}
+
+	if (segsymflag) {
+		jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);
+		jpc_mqenc_putbit(mqenc, 1);
+		jpc_mqenc_putbit(mqenc, 0);
+		jpc_mqenc_putbit(mqenc, 1);
+		jpc_mqenc_putbit(mqenc, 0);
+	}
+
+	if (term) {
+		jpc_mqenc_flush(mqenc, term - 1);
+	}
+
+	return jpc_mqenc_error(mqenc) ? (-1) : 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+3,8
+3,9
+3,10
+3,11
+3,12
+3,13
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+15,16
+15,17
+17,18
+19,20
+19,21
+21,22
+23,24
+23,25
+25,26
+27,28
+27,29
+28,29
+30,31
+30,32
+33,34
+33,35
+34,35
+36,37
+36,38
+39,40
+39,41
+41,42
+43,44
+43,45
+45,46
+45,47
+48,49
+48,50
+48,51
+48,52
+48,53
+48,54
+48,55
+48,56
+48,57
+48,58
+48,59
+48,60
+48,61
+48,62
+48,63
+48,64
+48,65
+48,66
+48,67
+48,68
+48,69
+48,70
+48,71
+48,72
+48,73
+48,74
+48,75
+48,76
+48,77
+48,78
+48,79
+48,80
+48,81
+49,50
+50,51
+50,52
+52,53
+54,55
+55,56
+55,57
+57,58
+59,60
+60,61
+60,62
+62,63
+64,65
+65,66
+65,67
+67,68
+69,70
+70,71
+70,72
+72,73
+74,75
+75,76
+75,77
+77,78
+79,80
+80,81
+80,82
+81,82
+83,84
+83,85
+86,87
+87,88
+87,89
+89,90
+91,92
+92,93
+92,94
+94,95
+96,97
+97,98
+97,99
+98,99
+100,101
+100,102
+103,104
+104,105
+104,106
+106,107
+108,109
+109,110
+109,111
+111,112
+113,114
+114,115
+114,116
+116,117
+118,119
+119,120
+119,121
+121,122
+123,124
+124,125
+124,126
+126,127
+128,129
+129,130
+129,131
+130,131
+132,133
+132,134
+135,136
+136,137
+136,138
+137,138
+139,140
+139,141
+142,143
+143,144
+143,145
+144,145
+146,147
+146,148
+149,150
+150,151
+150,152
+151,152
+153,154
+153,155
+156,157
+157,158
+157,159
+158,159
+159,160
+162,163
+163,164
+163,165
+164,165
+166,167
+166,168
+167,168
+169,170
+171,172
+172,173
+172,174
+173,174
+175,176
+175,177
+176,177
+178,179
+180,181
+181,182
+181,183
+182,183
+184,185
+184,186
+185,186
+187,188
+189,190
+190,191
+190,192
+191,192
+193,194
+193,195
+194,195
+196,197
+198,199
+199,200
+199,201
+200,201
+202,203
+202,204
+203,204
+206,207
+207,208
+207,209
+208,209
+210,211
+210,212
+211,212
+214,215
+215,216
+215,217
+216,217
+218,219
+218,220
+220,221
+221,222
+221,223
+222,223
+224,225
+226,227
+227,228
+227,229
+228,229
+230,231
+230,232
+230,233
+230,234
+231,232
+233,234
+237,238
+238,239
+238,240
+239,240
+241,242
+241,243
+241,244
+241,245
+242,243
+244,245
+248,249
+248,250
+248,251
+248,252
+249,250
+250,251
+250,252
+251,252
+253,254
+255,256
+255,257
+256,257
+259,260
+259,261
+259,262
+260,261
+260,262
+261,262
+264,265
+264,266
+265,266
+267,268
+269,270
+269,271
+270,271
+272,273
+274,275
+274,276
+274,277
+274,278
+275,276
+276,277
+276,278
+277,278
+279,280
+281,282
+282,283
+282,284
+283,284
+285,286
+287,288
+288,289
+288,290
+289,290
+291,292
+291,293
+291,294
+292,293
+294,295
+297,298
+297,299
+297,300
+297,301
+298,299
+299,300
+299,301
+300,301
+302,303
+304,305
+304,306
+305,306
+308,309
+308,310
+308,311
+309,310
+310,311
+312,313
+313,314
+315,316
+316,317
+318,319
+318,320
+318,321
+318,322
+318,323
+318,324
+318,325
+318,326
+318,327
+318,328
+318,329
+318,330
+318,331
+318,332
+318,333
+318,334
+318,335
+318,336
+319,320
+320,321
+320,322
+321,322
+323,324
+325,326
+325,327
+325,328
+326,327
+326,328
+327,328
+327,329
+328,329
+328,330
+329,330
+329,331
+330,331
+330,332
+331,332
+334,335
+335,336
+336,337
+336,338
+337,338
+338,339
+339,340
+341,342
+342,343
+342,344
+343,344
+343,345
+344,345
+346,347
+348,349
+350,351
+351,352
+351,353
+352,353
+352,354
+353,354
+355,356
+357,358
+358,359
+359,360
+359,361
+360,361
+361,362
+362,363
+364,365
+365,366
+365,367
+366,367
+366,368
+367,368
+369,370
+371,372
+373,374
+374,375
+374,376
+375,376
+375,377
+376,377
+378,379
+380,381
+381,382
+382,383
+382,384
+383,384
+384,385
+385,386
+387,388
+388,389
+388,390
+389,390
+389,391
+390,391
+392,393
+394,395
+396,397
+397,398
+397,399
+398,399
+398,400
+399,400
+401,402
+403,404
+404,405
+405,406
+405,407
+406,407
+407,408
+408,409
+410,411
+411,412
+411,413
+412,413
+412,414
+413,414
+415,416
+417,418
+419,420
+419,421
+419,422
+419,423
+419,424
+419,425
+419,426
+419,427
+419,428
+419,429
+419,430
+419,431
+419,432
+420,421
+421,422
+421,423
+422,423
+424,425
+426,427
+426,428
+426,429
+426,430
+427,428
+428,429
+428,430
+429,430
+432,433
+432,434
+433,434
+435,436
+437,438
+438,439
+440,441
+440,442
+440,443
+441,442
+442,443
+442,444
+443,444
+445,446
+445,447
+445,448
+446,447
+447,448
+447,449
+448,449
+448,450
+449,450
+451,452
+452,453
+454,455
+458,459
+458,460
+459,460
+461,462
+463,464
+464,465
+464,466
+465,466
+467,468
+469,470
+470,471
+470,472
+471,472
+473,474
+475,476
+475,477
+476,477
+476,478
+477,478
+480,481
+480,482
+480,483
+481,482
+482,483
+482,484
+482,485
+483,484
+485,486
+487,488
+489,490
+490,491
+490,492
+490,493
+491,492
+493,494
+497,498
+498,499
+498,500
+498,501
+499,500
+501,502
+503,504
+505,506
+506,507
+506,508
+506,509
+507,508
+509,510
+512,513
+513,514
+513,515
+513,516
+514,515
+516,517
+518,519
+520,521
+521,522
+521,523
+521,524
+522,523
+524,525
+526,527
+526,528
+527,528
+530,531
+531,532
+531,533
+531,534
+532,533
+534,535
+536,537
+536,538
+537,538
+540,541
+541,542
+541,543
+542,543
+544,545
+544,546
+545,546
+547,548
+547,549
+548,549
+550,551
+552,553
+553,554
+553,555
+554,555
+556,557
+556,558
+557,558
+559,560
+559,561
+560,561
+562,563
+564,565
+565,566
+565,567
+566,567
+568,569
+568,570
+569,570
+571,572
+573,574
+573,575
+574,575
+576,577
+576,578
+576,579
+576,580
+576,581
+576,582
+576,583
+576,584
+576,585
+576,586
+576,587
+576,588
+577,578
+579,580
+582,583
+584,585
+587,588
+589,590
+592,593
+594,595
+597,598
+597,599
+597,600
+597,601
+597,602
+598,599
+599,600
+599,601
+600,601
+603,604
+604,605
+604,606
+605,606
+607,608
+609,610
+610,611
+610,612
+611,612
+613,614
+615,616
+616,617
+616,618
+617,618
+619,620
+621,622
+623,624
+624,625
+624,626
+625,626
+625,627
+626,627
+627,628
+630,631
+632,633
+633,634
+633,635
+634,635
+636,637
+638,639
+639,640
+639,641
+640,641
+642,643
+644,645
+645,646
+646,647
+646,648
+647,648
+647,649
+648,649
+649,650
+652,653
+654,655
+655,656
+655,657
+656,657
+658,659
+660,661
+661,662
+661,663
+662,663
+664,665
+666,667
+667,668
+668,669
+668,670
+669,670
+669,671
+670,671
+671,672
+674,675
+676,677
+677,678
+677,679
+678,679
+680,681
+682,683
+683,684
+683,685
+684,685
+686,687
+688,689
+689,690
+690,691
+690,692
+691,692
+693,694
+693,695
+693,696
+693,697
+693,698
+694,695
+695,696
+695,697
+695,698
+696,697
+698,699
+700,701
+702,703
+703,704
+703,705
+703,706
+704,705
+706,707
+709,710
+710,711
+710,712
+710,713
+711,712
+713,714
+716,717
+717,718
+717,719
+717,720
+718,719
+720,721
+723,724
+724,725
+724,726
+724,727
+725,726
+727,728
+730,731
+730,732
+731,732
+733,734
+734,735
+735,736
+735,737
+735,738
+736,737
+738,739
+740,741
+740,742
+741,742
+744,745
+745,746
+745,747
+745,748
+746,747
+746,748
+747,748
+749,750
+751,752
+752,753
+-----nextToken-----
+2,4,7,9,10,12,14,16,18,20,22,24,26,29,31,32,35,37,38,40,42,44,46,47,51,53,56,58,61,63,66,68,71,73,76,78,82,84,85,88,90,93,95,99,101,102,105,107,110,112,115,117,120,122,125,127,131,133,134,138,140,141,145,147,148,152,154,155,160,161,165,168,170,174,177,179,183,186,188,192,195,197,201,204,205,209,212,213,217,219,223,225,229,232,234,235,236,240,243,245,246,247,252,254,257,258,262,263,266,268,271,273,278,280,284,286,290,293,295,296,301,303,306,307,311,314,317,322,324,332,333,340,345,347,349,354,356,363,368,370,372,377,379,386,391,393,395,400,402,409,414,416,418,423,425,430,431,434,436,439,444,450,453,455,456,457,460,462,466,468,472,474,478,479,484,486,488,492,494,495,496,500,502,504,508,510,511,515,517,519,523,525,528,529,533,535,538,539,543,546,549,551,555,558,561,563,567,570,572,575,578,580,581,583,585,586,588,590,591,593,595,596,601,602,606,608,612,614,618,620,622,628,629,631,635,637,641,643,650,651,653,657,659,663,665,672,673,675,679,681,685,687,692,697,699,701,705,707,708,712,714,715,719,721,722,726,728,729,732,737,739,742,743,748,750,753,754
+-----computeFrom-----
+157,158
+157,159
+163,164
+163,165
+172,173
+172,174
+181,182
+181,183
+190,191
+190,192
+199,200
+199,201
+202,203
+202,204
+207,208
+207,209
+210,211
+210,212
+215,216
+215,217
+218,219
+218,220
+221,222
+221,223
+227,228
+227,229
+238,239
+238,240
+250,251
+250,252
+255,256
+255,257
+260,261
+260,262
+264,265
+264,266
+269,270
+269,271
+276,277
+276,278
+282,283
+282,284
+288,289
+288,290
+299,300
+299,301
+304,305
+304,306
+320,321
+320,322
+326,327
+326,328
+327,328
+327,329
+328,329
+328,330
+329,330
+329,331
+330,331
+330,332
+336,337
+336,338
+342,343
+342,344
+343,344
+343,345
+352,353
+352,354
+359,360
+359,361
+365,366
+365,367
+366,367
+366,368
+375,376
+375,377
+382,383
+382,384
+388,389
+388,390
+389,390
+389,391
+398,399
+398,400
+405,406
+405,407
+411,412
+411,413
+412,413
+412,414
+421,422
+421,423
+428,429
+428,430
+432,433
+432,434
+442,443
+442,444
+447,448
+447,449
+464,465
+464,466
+470,471
+470,472
+476,477
+476,478
+526,527
+526,528
+536,537
+536,538
+541,542
+541,543
+544,545
+544,546
+547,548
+547,549
+553,554
+553,555
+556,557
+556,558
+559,560
+559,561
+565,566
+565,567
+568,569
+568,570
+599,600
+599,601
+604,605
+604,606
+610,611
+610,612
+616,617
+616,618
+625,626
+625,627
+633,634
+633,635
+639,640
+639,641
+647,648
+647,649
+655,656
+655,657
+661,662
+661,663
+669,670
+669,671
+677,678
+677,679
+683,684
+683,685
+740,741
+740,742
+-----guardedBy-----
+332,570
+409,543
+402,549
+-----guardedByNegation-----
+332,620
+409,606
+-----lastLexicalUse-----
+409,606
+332,620
+-----jump-----
+409,606
+332,620
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;UnaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;LiteralExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;BinaryExpression;BinaryExpression;BinaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;UnaryExpression;UnaryExpression;BinaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;ExpressionList;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;UnaryExpression;BinaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;ExpressionList;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;UnaryExpression;BinaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;ExpressionList;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;UnaryExpression;BinaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;ConditionalExpression;UnaryExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;IfStatement;IdExpression;Name;CompoundStatement;BreakStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ContinueStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;SwitchStatement;IdExpression;Name;CompoundStatement;CaseStatement;LiteralExpression;GotoStatement;Name;BreakStatement;CaseStatement;LiteralExpression;GotoStatement;Name;BreakStatement;CaseStatement;LiteralExpression;GotoStatement;Name;BreakStatement;CaseStatement;LiteralExpression;GotoStatement;Name;BreakStatement;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;GotoStatement;Name;ProblemStatement;IfStatement;BinaryExpression;UnaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ProblemStatement;ProblemStatement;IfStatement;BinaryExpression;UnaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ProblemStatement;ProblemStatement;IfStatement;BinaryExpression;UnaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ProblemStatement;ProblemStatement;IfStatement;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IfStatement;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ReturnStatement;ConditionalExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;UnaryExpression;LiteralExpression;LiteralExpression;
+-----ast_node-----
+static int jpc_encclnpass(jpc_mqenc_t *mqenc, int bitpos, int orient, int vcausalflag, int segsymflag, jas_matrix_t *flags,  jas_matrix_t *data, int term, long *nmsedec){	int i;	int j;	int k;	int vscanlen;	int v;	int runlen;	jpc_fix_t *fp;	int width;	int height;	jpc_fix_t *dp;	int one;	int frowstep;	int drowstep;	int fstripestep;	int dstripestep;	jpc_fix_t *fstripestart;	jpc_fix_t *dstripestart;	jpc_fix_t *fvscanstart;	jpc_fix_t *dvscanstart;	*nmsedec = 0;	width = jas_matrix_numcols(data);	height = jas_matrix_numrows(data);	frowstep = jas_matrix_rowstep(flags);	drowstep = jas_matrix_rowstep(data);	fstripestep = frowstep << 2;	dstripestep = drowstep << 2;	one = 1 << (bitpos + JPC_NUMEXTRABITS);	fstripestart = jas_matrix_getref(flags, 1, 1);	dstripestart = jas_matrix_getref(data, 0, 0);	for (i = height; i > 0; i -= 4, fstripestart += fstripestep,	  dstripestart += dstripestep) {		fvscanstart = fstripestart;		dvscanstart = dstripestart;		vscanlen = JAS_MIN(i, 4);		for (j = width; j > 0; --j, ++fvscanstart, ++dvscanstart) {			fp = fvscanstart;			if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))) {				dp = dvscanstart;				for (k = 0; k < vscanlen; ++k) {					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}				runlen = k;				if (runlen >= 4) {					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}				jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);				jpc_mqenc_putbit(mqenc, 1);				jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);				jpc_mqenc_putbit(mqenc, runlen >> 1);				jpc_mqenc_putbit(mqenc, runlen & 1);				fp = fvscanstart + frowstep * runlen;				dp = dvscanstart + drowstep * runlen;				k = vscanlen - runlen;				switch (runlen) {				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}			} else {				runlen = 0;				fp = fvscanstart;				dp = dvscanstart;				k = vscanlen;				goto clnpass_full0;			}			clnpass_step(fp, frowstep, dp, bitpos, one,			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial1:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial2:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial3:, 0);		}	}	if (segsymflag) {		jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);		jpc_mqenc_putbit(mqenc, 1);		jpc_mqenc_putbit(mqenc, 0);		jpc_mqenc_putbit(mqenc, 1);		jpc_mqenc_putbit(mqenc, 0);	}	if (term) {		jpc_mqenc_flush(mqenc, term - 1);	}	return jpc_mqenc_error(mqenc) ? (-1) : 0;}
+static int
+jpc_encclnpass(jpc_mqenc_t *mqenc, int bitpos, int orient, int vcausalflag, int segsymflag, jas_matrix_t *flags,  jas_matrix_t *data, int term, long *nmsedec)
+jpc_encclnpass
+jpc_mqenc_t *mqenc
+jpc_mqenc_t
+jpc_mqenc_t
+*mqenc
+*
+mqenc
+int bitpos
+int
+bitpos
+bitpos
+int orient
+int
+orient
+orient
+int vcausalflag
+int
+vcausalflag
+vcausalflag
+int segsymflag
+int
+segsymflag
+segsymflag
+jas_matrix_t *flags
+jas_matrix_t
+jas_matrix_t
+*flags
+*
+flags
+jas_matrix_t *data
+jas_matrix_t
+jas_matrix_t
+*data
+*
+data
+int term
+int
+term
+term
+long *nmsedec
+long
+*nmsedec
+*
+nmsedec
+{	int i;	int j;	int k;	int vscanlen;	int v;	int runlen;	jpc_fix_t *fp;	int width;	int height;	jpc_fix_t *dp;	int one;	int frowstep;	int drowstep;	int fstripestep;	int dstripestep;	jpc_fix_t *fstripestart;	jpc_fix_t *dstripestart;	jpc_fix_t *fvscanstart;	jpc_fix_t *dvscanstart;	*nmsedec = 0;	width = jas_matrix_numcols(data);	height = jas_matrix_numrows(data);	frowstep = jas_matrix_rowstep(flags);	drowstep = jas_matrix_rowstep(data);	fstripestep = frowstep << 2;	dstripestep = drowstep << 2;	one = 1 << (bitpos + JPC_NUMEXTRABITS);	fstripestart = jas_matrix_getref(flags, 1, 1);	dstripestart = jas_matrix_getref(data, 0, 0);	for (i = height; i > 0; i -= 4, fstripestart += fstripestep,	  dstripestart += dstripestep) {		fvscanstart = fstripestart;		dvscanstart = dstripestart;		vscanlen = JAS_MIN(i, 4);		for (j = width; j > 0; --j, ++fvscanstart, ++dvscanstart) {			fp = fvscanstart;			if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))) {				dp = dvscanstart;				for (k = 0; k < vscanlen; ++k) {					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}				runlen = k;				if (runlen >= 4) {					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}				jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);				jpc_mqenc_putbit(mqenc, 1);				jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);				jpc_mqenc_putbit(mqenc, runlen >> 1);				jpc_mqenc_putbit(mqenc, runlen & 1);				fp = fvscanstart + frowstep * runlen;				dp = dvscanstart + drowstep * runlen;				k = vscanlen - runlen;				switch (runlen) {				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}			} else {				runlen = 0;				fp = fvscanstart;				dp = dvscanstart;				k = vscanlen;				goto clnpass_full0;			}			clnpass_step(fp, frowstep, dp, bitpos, one,			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial1:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial2:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial3:, 0);		}	}	if (segsymflag) {		jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);		jpc_mqenc_putbit(mqenc, 1);		jpc_mqenc_putbit(mqenc, 0);		jpc_mqenc_putbit(mqenc, 1);		jpc_mqenc_putbit(mqenc, 0);	}	if (term) {		jpc_mqenc_flush(mqenc, term - 1);	}	return jpc_mqenc_error(mqenc) ? (-1) : 0;}
+int i;
+int i;
+int
+i
+i
+int j;
+int j;
+int
+j
+j
+int k;
+int k;
+int
+k
+k
+int vscanlen;
+int vscanlen;
+int
+vscanlen
+vscanlen
+int v;
+int v;
+int
+v
+v
+int runlen;
+int runlen;
+int
+runlen
+runlen
+jpc_fix_t *fp;
+jpc_fix_t *fp;
+jpc_fix_t
+jpc_fix_t
+*fp
+*
+fp
+int width;
+int width;
+int
+width
+width
+int height;
+int height;
+int
+height
+height
+jpc_fix_t *dp;
+jpc_fix_t *dp;
+jpc_fix_t
+jpc_fix_t
+*dp
+*
+dp
+int one;
+int one;
+int
+one
+one
+int frowstep;
+int frowstep;
+int
+frowstep
+frowstep
+int drowstep;
+int drowstep;
+int
+drowstep
+drowstep
+int fstripestep;
+int fstripestep;
+int
+fstripestep
+fstripestep
+int dstripestep;
+int dstripestep;
+int
+dstripestep
+dstripestep
+jpc_fix_t *fstripestart;
+jpc_fix_t *fstripestart;
+jpc_fix_t
+jpc_fix_t
+*fstripestart
+*
+fstripestart
+jpc_fix_t *dstripestart;
+jpc_fix_t *dstripestart;
+jpc_fix_t
+jpc_fix_t
+*dstripestart
+*
+dstripestart
+jpc_fix_t *fvscanstart;
+jpc_fix_t *fvscanstart;
+jpc_fix_t
+jpc_fix_t
+*fvscanstart
+*
+fvscanstart
+jpc_fix_t *dvscanstart;
+jpc_fix_t *dvscanstart;
+jpc_fix_t
+jpc_fix_t
+*dvscanstart
+*
+dvscanstart
+*nmsedec = 0;
+*nmsedec = 0
+*nmsedec
+nmsedec
+nmsedec
+0
+width = jas_matrix_numcols(data);
+width = jas_matrix_numcols(data)
+width
+width
+jas_matrix_numcols(data)
+jas_matrix_numcols
+jas_matrix_numcols
+data
+data
+height = jas_matrix_numrows(data);
+height = jas_matrix_numrows(data)
+height
+height
+jas_matrix_numrows(data)
+jas_matrix_numrows
+jas_matrix_numrows
+data
+data
+frowstep = jas_matrix_rowstep(flags);
+frowstep = jas_matrix_rowstep(flags)
+frowstep
+frowstep
+jas_matrix_rowstep(flags)
+jas_matrix_rowstep
+jas_matrix_rowstep
+flags
+flags
+drowstep = jas_matrix_rowstep(data);
+drowstep = jas_matrix_rowstep(data)
+drowstep
+drowstep
+jas_matrix_rowstep(data)
+jas_matrix_rowstep
+jas_matrix_rowstep
+data
+data
+fstripestep = frowstep << 2;
+fstripestep = frowstep << 2
+fstripestep
+fstripestep
+frowstep << 2
+frowstep
+frowstep
+2
+dstripestep = drowstep << 2;
+dstripestep = drowstep << 2
+dstripestep
+dstripestep
+drowstep << 2
+drowstep
+drowstep
+2
+one = 1 << (bitpos + JPC_NUMEXTRABITS);
+one = 1 << (bitpos + JPC_NUMEXTRABITS)
+one
+one
+1 << (bitpos + JPC_NUMEXTRABITS)
+1
+(bitpos + JPC_NUMEXTRABITS)
+bitpos + JPC_NUMEXTRABITS
+bitpos
+bitpos
+JPC_NUMEXTRABITS
+JPC_NUMEXTRABITS
+fstripestart = jas_matrix_getref(flags, 1, 1);
+fstripestart = jas_matrix_getref(flags, 1, 1)
+fstripestart
+fstripestart
+jas_matrix_getref(flags, 1, 1)
+jas_matrix_getref
+jas_matrix_getref
+flags
+flags
+1
+1
+dstripestart = jas_matrix_getref(data, 0, 0);
+dstripestart = jas_matrix_getref(data, 0, 0)
+dstripestart
+dstripestart
+jas_matrix_getref(data, 0, 0)
+jas_matrix_getref
+jas_matrix_getref
+data
+data
+0
+0
+for (i = height; i > 0; i -= 4, fstripestart += fstripestep,	  dstripestart += dstripestep) {		fvscanstart = fstripestart;		dvscanstart = dstripestart;		vscanlen = JAS_MIN(i, 4);		for (j = width; j > 0; --j, ++fvscanstart, ++dvscanstart) {			fp = fvscanstart;			if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))) {				dp = dvscanstart;				for (k = 0; k < vscanlen; ++k) {					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}				runlen = k;				if (runlen >= 4) {					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}				jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);				jpc_mqenc_putbit(mqenc, 1);				jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);				jpc_mqenc_putbit(mqenc, runlen >> 1);				jpc_mqenc_putbit(mqenc, runlen & 1);				fp = fvscanstart + frowstep * runlen;				dp = dvscanstart + drowstep * runlen;				k = vscanlen - runlen;				switch (runlen) {				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}			} else {				runlen = 0;				fp = fvscanstart;				dp = dvscanstart;				k = vscanlen;				goto clnpass_full0;			}			clnpass_step(fp, frowstep, dp, bitpos, one,			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial1:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial2:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial3:, 0);		}	}
+i = height;
+i = height
+i
+i
+height
+height
+i > 0
+i
+i
+0
+i -= 4, fstripestart += fstripestep,	  dstripestart += dstripestep
+i -= 4
+i
+i
+4
+fstripestart += fstripestep
+fstripestart
+fstripestart
+fstripestep
+fstripestep
+dstripestart += dstripestep
+dstripestart
+dstripestart
+dstripestep
+dstripestep
+{		fvscanstart = fstripestart;		dvscanstart = dstripestart;		vscanlen = JAS_MIN(i, 4);		for (j = width; j > 0; --j, ++fvscanstart, ++dvscanstart) {			fp = fvscanstart;			if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))) {				dp = dvscanstart;				for (k = 0; k < vscanlen; ++k) {					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}				runlen = k;				if (runlen >= 4) {					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}				jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);				jpc_mqenc_putbit(mqenc, 1);				jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);				jpc_mqenc_putbit(mqenc, runlen >> 1);				jpc_mqenc_putbit(mqenc, runlen & 1);				fp = fvscanstart + frowstep * runlen;				dp = dvscanstart + drowstep * runlen;				k = vscanlen - runlen;				switch (runlen) {				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}			} else {				runlen = 0;				fp = fvscanstart;				dp = dvscanstart;				k = vscanlen;				goto clnpass_full0;			}			clnpass_step(fp, frowstep, dp, bitpos, one,			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial1:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial2:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial3:, 0);		}	}
+fvscanstart = fstripestart;
+fvscanstart = fstripestart
+fvscanstart
+fvscanstart
+fstripestart
+fstripestart
+dvscanstart = dstripestart;
+dvscanstart = dstripestart
+dvscanstart
+dvscanstart
+dstripestart
+dstripestart
+vscanlen = JAS_MIN(i, 4);
+vscanlen = JAS_MIN(i, 4)
+vscanlen
+vscanlen
+JAS_MIN(i, 4)
+JAS_MIN
+JAS_MIN
+i
+i
+4
+for (j = width; j > 0; --j, ++fvscanstart, ++dvscanstart) {			fp = fvscanstart;			if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))) {				dp = dvscanstart;				for (k = 0; k < vscanlen; ++k) {					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}				runlen = k;				if (runlen >= 4) {					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}				jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);				jpc_mqenc_putbit(mqenc, 1);				jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);				jpc_mqenc_putbit(mqenc, runlen >> 1);				jpc_mqenc_putbit(mqenc, runlen & 1);				fp = fvscanstart + frowstep * runlen;				dp = dvscanstart + drowstep * runlen;				k = vscanlen - runlen;				switch (runlen) {				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}			} else {				runlen = 0;				fp = fvscanstart;				dp = dvscanstart;				k = vscanlen;				goto clnpass_full0;			}			clnpass_step(fp, frowstep, dp, bitpos, one,			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial1:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial2:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial3:, 0);		}
+j = width;
+j = width
+j
+j
+width
+width
+j > 0
+j
+j
+0
+--j, ++fvscanstart, ++dvscanstart
+--j
+j
+j
+++fvscanstart
+fvscanstart
+fvscanstart
+++dvscanstart
+dvscanstart
+dvscanstart
+{			fp = fvscanstart;			if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))) {				dp = dvscanstart;				for (k = 0; k < vscanlen; ++k) {					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}				runlen = k;				if (runlen >= 4) {					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}				jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);				jpc_mqenc_putbit(mqenc, 1);				jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);				jpc_mqenc_putbit(mqenc, runlen >> 1);				jpc_mqenc_putbit(mqenc, runlen & 1);				fp = fvscanstart + frowstep * runlen;				dp = dvscanstart + drowstep * runlen;				k = vscanlen - runlen;				switch (runlen) {				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}			} else {				runlen = 0;				fp = fvscanstart;				dp = dvscanstart;				k = vscanlen;				goto clnpass_full0;			}			clnpass_step(fp, frowstep, dp, bitpos, one,			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial1:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial2:, 0);			if (--k <= 0) {				continue;			}			fp += frowstep;			dp += drowstep;			clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;, clnpass_partial3:, 0);		}
+fp = fvscanstart;
+fp = fvscanstart
+fp
+fp
+fvscanstart
+fvscanstart
+if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))) {				dp = dvscanstart;				for (k = 0; k < vscanlen; ++k) {					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}				runlen = k;				if (runlen >= 4) {					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}				jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);				jpc_mqenc_putbit(mqenc, 1);				jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);				jpc_mqenc_putbit(mqenc, runlen >> 1);				jpc_mqenc_putbit(mqenc, runlen & 1);				fp = fvscanstart + frowstep * runlen;				dp = dvscanstart + drowstep * runlen;				k = vscanlen - runlen;				switch (runlen) {				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}			} else {				runlen = 0;				fp = fvscanstart;				dp = dvscanstart;				k = vscanlen;				goto clnpass_full0;			}
+vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK)))
+vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK))
+vscanlen >= 4
+vscanlen
+vscanlen
+4
+!((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK))
+((*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK))
+(*fp) & (JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)
+(*fp)
+*fp
+fp
+fp
+(JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK)
+JPC_SIG | JPC_VISIT |			  JPC_OTHSIGMSK
+JPC_SIG | JPC_VISIT
+JPC_SIG
+JPC_SIG
+JPC_VISIT
+JPC_VISIT
+JPC_OTHSIGMSK
+JPC_OTHSIGMSK
+(fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK)))
+fp += frowstep, !((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))
+fp += frowstep
+fp
+fp
+frowstep
+frowstep
+!((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))
+((*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK))
+(*fp) & (JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK)
+(*fp)
+*fp
+fp
+fp
+(JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK)
+JPC_SIG |			  JPC_VISIT | JPC_OTHSIGMSK
+JPC_SIG |			  JPC_VISIT
+JPC_SIG
+JPC_SIG
+JPC_VISIT
+JPC_VISIT
+JPC_OTHSIGMSK
+JPC_OTHSIGMSK
+(fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+fp += frowstep, !((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+fp += frowstep
+fp
+fp
+frowstep
+frowstep
+!((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+((*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+(*fp) &			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)
+(*fp)
+*fp
+fp
+fp
+(JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)
+JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK
+JPC_SIG | JPC_VISIT
+JPC_SIG
+JPC_SIG
+JPC_VISIT
+JPC_VISIT
+JPC_OTHSIGMSK
+JPC_OTHSIGMSK
+(fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+fp += frowstep,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+fp += frowstep
+fp
+fp
+frowstep
+frowstep
+!((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+(*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)
+(*fp)
+*fp
+fp
+fp
+(JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)
+JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK
+JPC_SIG | JPC_VISIT
+JPC_SIG
+JPC_SIG
+JPC_VISIT
+JPC_VISIT
+JPC_OTHSIGMSK
+JPC_OTHSIGMSK
+{				dp = dvscanstart;				for (k = 0; k < vscanlen; ++k) {					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}				runlen = k;				if (runlen >= 4) {					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}				jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);				jpc_mqenc_putbit(mqenc, 1);				jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);				jpc_mqenc_putbit(mqenc, runlen >> 1);				jpc_mqenc_putbit(mqenc, runlen & 1);				fp = fvscanstart + frowstep * runlen;				dp = dvscanstart + drowstep * runlen;				k = vscanlen - runlen;				switch (runlen) {				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}			}
+dp = dvscanstart;
+dp = dvscanstart
+dp
+dp
+dvscanstart
+dvscanstart
+for (k = 0; k < vscanlen; ++k) {					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}
+k = 0;
+k = 0
+k
+k
+0
+k < vscanlen
+k
+k
+vscanlen
+vscanlen
+++k
+k
+k
+{					v = (abs(*dp) & one) ? 1 : 0;					if (v) {						break;					}					dp += drowstep;				}
+v = (abs(*dp) & one) ? 1 : 0;
+v = (abs(*dp) & one) ? 1 : 0
+v
+v
+(abs(*dp) & one) ? 1 : 0
+(abs(*dp) & one)
+abs(*dp) & one
+abs(*dp)
+abs
+abs
+*dp
+dp
+dp
+one
+one
+1
+0
+if (v) {						break;					}
+v
+v
+{						break;					}
+break;
+dp += drowstep;
+dp += drowstep
+dp
+dp
+drowstep
+drowstep
+runlen = k;
+runlen = k
+runlen
+runlen
+k
+k
+if (runlen >= 4) {					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}
+runlen >= 4
+runlen
+runlen
+4
+{					jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);					jpc_mqenc_putbit(mqenc, 0);					continue;				}
+jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);
+jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO)
+jpc_mqenc_setcurctx
+jpc_mqenc_setcurctx
+mqenc
+mqenc
+JPC_AGGCTXNO
+JPC_AGGCTXNO
+jpc_mqenc_putbit(mqenc, 0);
+jpc_mqenc_putbit(mqenc, 0)
+jpc_mqenc_putbit
+jpc_mqenc_putbit
+mqenc
+mqenc
+0
+continue;
+jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO);
+jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO)
+jpc_mqenc_setcurctx
+jpc_mqenc_setcurctx
+mqenc
+mqenc
+JPC_AGGCTXNO
+JPC_AGGCTXNO
+jpc_mqenc_putbit(mqenc, 1);
+jpc_mqenc_putbit(mqenc, 1)
+jpc_mqenc_putbit
+jpc_mqenc_putbit
+mqenc
+mqenc
+1
+jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);
+jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO)
+jpc_mqenc_setcurctx
+jpc_mqenc_setcurctx
+mqenc
+mqenc
+JPC_UCTXNO
+JPC_UCTXNO
+jpc_mqenc_putbit(mqenc, runlen >> 1);
+jpc_mqenc_putbit(mqenc, runlen >> 1)
+jpc_mqenc_putbit
+jpc_mqenc_putbit
+mqenc
+mqenc
+runlen >> 1
+runlen
+runlen
+1
+jpc_mqenc_putbit(mqenc, runlen & 1);
+jpc_mqenc_putbit(mqenc, runlen & 1)
+jpc_mqenc_putbit
+jpc_mqenc_putbit
+mqenc
+mqenc
+runlen & 1
+runlen
+runlen
+1
+fp = fvscanstart + frowstep * runlen;
+fp = fvscanstart + frowstep * runlen
+fp
+fp
+fvscanstart + frowstep * runlen
+fvscanstart
+fvscanstart
+frowstep * runlen
+frowstep
+frowstep
+runlen
+runlen
+dp = dvscanstart + drowstep * runlen;
+dp = dvscanstart + drowstep * runlen
+dp
+dp
+dvscanstart + drowstep * runlen
+dvscanstart
+dvscanstart
+drowstep * runlen
+drowstep
+drowstep
+runlen
+runlen
+k = vscanlen - runlen;
+k = vscanlen - runlen
+k
+k
+vscanlen - runlen
+vscanlen
+vscanlen
+runlen
+runlen
+switch (runlen) {				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}
+runlen
+runlen
+{				case 0:					goto clnpass_partial0;					break;				case 1:					goto clnpass_partial1;					break;				case 2:					goto clnpass_partial2;					break;				case 3:					goto clnpass_partial3;					break;				}
+case 0:
+0
+goto clnpass_partial0;
+clnpass_partial0
+break;
+case 1:
+1
+goto clnpass_partial1;
+clnpass_partial1
+break;
+case 2:
+2
+goto clnpass_partial2;
+clnpass_partial2
+break;
+case 3:
+3
+goto clnpass_partial3;
+clnpass_partial3
+break;
+{				runlen = 0;				fp = fvscanstart;				dp = dvscanstart;				k = vscanlen;				goto clnpass_full0;			}
+runlen = 0;
+runlen = 0
+runlen
+runlen
+0
+fp = fvscanstart;
+fp = fvscanstart
+fp
+fp
+fvscanstart
+fvscanstart
+dp = dvscanstart;
+dp = dvscanstart
+dp
+dp
+dvscanstart
+dvscanstart
+k = vscanlen;
+k = vscanlen
+k
+k
+vscanlen
+vscanlen
+goto clnpass_full0;
+clnpass_full0
+clnpass_step(fp, frowstep, dp, bitpos, one,			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);
+if (--k <= 0) {				continue;			}
+--k <= 0
+--k
+k
+k
+0
+{				continue;			}
+continue;
+fp += frowstep;
+fp += frowstep
+fp
+fp
+frowstep
+frowstep
+dp += drowstep;
+dp += drowstep
+dp
+dp
+drowstep
+drowstep
+clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;
+, clnpass_partial1:, 0);
+if (--k <= 0) {				continue;			}
+--k <= 0
+--k
+k
+k
+0
+{				continue;			}
+continue;
+fp += frowstep;
+fp += frowstep
+fp
+fp
+frowstep
+frowstep
+dp += drowstep;
+dp += drowstep
+dp
+dp
+drowstep
+drowstep
+clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;
+, clnpass_partial2:, 0);
+if (--k <= 0) {				continue;			}
+--k <= 0
+--k
+k
+k
+0
+{				continue;			}
+continue;
+fp += frowstep;
+fp += frowstep
+fp
+fp
+frowstep
+frowstep
+dp += drowstep;
+dp += drowstep
+dp
+dp
+drowstep
+drowstep
+clnpass_step(fp, frowstep, dp, bitpos, one,				orient, nmsedec, mqenc, ;
+, clnpass_partial3:, 0);
+if (segsymflag) {		jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);		jpc_mqenc_putbit(mqenc, 1);		jpc_mqenc_putbit(mqenc, 0);		jpc_mqenc_putbit(mqenc, 1);		jpc_mqenc_putbit(mqenc, 0);	}
+segsymflag
+segsymflag
+{		jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);		jpc_mqenc_putbit(mqenc, 1);		jpc_mqenc_putbit(mqenc, 0);		jpc_mqenc_putbit(mqenc, 1);		jpc_mqenc_putbit(mqenc, 0);	}
+jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO);
+jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO)
+jpc_mqenc_setcurctx
+jpc_mqenc_setcurctx
+mqenc
+mqenc
+JPC_UCTXNO
+JPC_UCTXNO
+jpc_mqenc_putbit(mqenc, 1);
+jpc_mqenc_putbit(mqenc, 1)
+jpc_mqenc_putbit
+jpc_mqenc_putbit
+mqenc
+mqenc
+1
+jpc_mqenc_putbit(mqenc, 0);
+jpc_mqenc_putbit(mqenc, 0)
+jpc_mqenc_putbit
+jpc_mqenc_putbit
+mqenc
+mqenc
+0
+jpc_mqenc_putbit(mqenc, 1);
+jpc_mqenc_putbit(mqenc, 1)
+jpc_mqenc_putbit
+jpc_mqenc_putbit
+mqenc
+mqenc
+1
+jpc_mqenc_putbit(mqenc, 0);
+jpc_mqenc_putbit(mqenc, 0)
+jpc_mqenc_putbit
+jpc_mqenc_putbit
+mqenc
+mqenc
+0
+if (term) {		jpc_mqenc_flush(mqenc, term - 1);	}
+term
+term
+{		jpc_mqenc_flush(mqenc, term - 1);	}
+jpc_mqenc_flush(mqenc, term - 1);
+jpc_mqenc_flush(mqenc, term - 1)
+jpc_mqenc_flush
+jpc_mqenc_flush
+mqenc
+mqenc
+term - 1
+term
+term
+1
+return jpc_mqenc_error(mqenc) ? (-1) : 0;
+jpc_mqenc_error(mqenc) ? (-1) : 0
+jpc_mqenc_error(mqenc)
+jpc_mqenc_error
+jpc_mqenc_error
+mqenc
+mqenc
+(-1)
+-1
+1
+0
+-----joern-----
+(46,136,0)
+(191,9,0)
+(176,171,0)
+(182,224,0)
+(97,184,0)
+(18,87,0)
+(41,92,0)
+(8,65,0)
+(32,99,0)
+(76,90,0)
+(55,131,0)
+(149,97,0)
+(163,90,0)
+(0,65,0)
+(19,143,0)
+(221,121,0)
+(120,160,0)
+(132,21,0)
+(107,168,0)
+(121,10,0)
+(131,118,0)
+(93,65,0)
+(118,109,0)
+(180,199,0)
+(148,134,0)
+(6,145,0)
+(154,79,0)
+(133,176,0)
+(21,76,0)
+(173,92,0)
+(112,171,0)
+(9,193,0)
+(48,121,0)
+(30,106,0)
+(147,65,0)
+(102,65,0)
+(59,118,0)
+(47,40,0)
+(61,76,0)
+(103,96,0)
+(200,145,0)
+(184,118,0)
+(75,79,0)
+(196,191,0)
+(36,69,0)
+(145,10,0)
+(80,224,0)
+(222,85,0)
+(51,90,0)
+(166,145,0)
+(73,102,0)
+(49,79,0)
+(92,90,0)
+(98,102,0)
+(28,103,0)
+(187,24,0)
+(36,16,0)
+(25,217,0)
+(126,131,0)
+(117,154,0)
+(223,144,0)
+(1,24,0)
+(159,215,0)
+(85,118,0)
+(124,10,0)
+(91,172,0)
+(205,124,0)
+(72,99,0)
+(42,65,0)
+(61,181,0)
+(124,63,0)
+(144,90,0)
+(204,87,0)
+(24,224,0)
+(84,199,0)
+(145,90,0)
+(190,3,0)
+(171,212,0)
+(121,184,0)
+(106,31,0)
+(161,90,0)
+(131,90,0)
+(17,46,0)
+(119,98,0)
+(194,154,0)
+(99,63,0)
+(124,85,0)
+(189,21,0)
+(216,121,0)
+(69,36,0)
+(171,87,0)
+(213,14,0)
+(59,90,0)
+(43,74,0)
+(96,65,0)
+(103,134,0)
+(131,16,0)
+(207,80,0)
+(85,90,0)
+(76,18,0)
+(12,59,0)
+(140,65,0)
+(191,191,0)
+(97,90,0)
+(52,65,0)
+(214,18,0)
+(95,206,0)
+(141,84,0)
+(152,208,0)
+(68,141,0)
+(80,143,0)
+(146,124,0)
+(131,160,0)
+(208,224,0)
+(110,76,0)
+(115,208,0)
+(85,97,0)
+(218,46,0)
+(69,169,0)
+(74,102,0)
+(113,3,0)
+(143,80,0)
+(88,61,0)
+(134,90,0)
+(152,65,0)
+(131,10,0)
+(101,144,0)
+(70,208,0)
+(99,105,0)
+(206,65,0)
+(100,76,0)
+(143,65,0)
+(22,145,0)
+(185,87,0)
+(20,189,0)
+(171,74,0)
+(83,185,0)
+(141,185,0)
+(118,65,0)
+(127,65,0)
+(165,145,0)
+(33,197,0)
+(125,152,0)
+(169,65,0)
+(14,154,0)
+(89,46,0)
+(131,169,0)
+(53,121,0)
+(108,124,0)
+(86,185,0)
+(128,121,0)
+(210,145,0)
+(164,209,0)
+(59,85,0)
+(129,33,0)
+(182,96,0)
+(29,124,0)
+(26,36,0)
+(124,118,0)
+(184,90,0)
+(158,5,0)
+(201,90,0)
+(37,169,0)
+(50,124,0)
+(167,145,0)
+(114,59,0)
+(71,74,0)
+(31,76,0)
+(35,160,0)
+(130,85,0)
+(21,189,0)
+(92,171,0)
+(39,98,0)
+(124,16,0)
+(82,31,0)
+(121,63,0)
+(145,16,0)
+(124,169,0)
+(137,134,0)
+(79,143,0)
+(181,61,0)
+(212,65,0)
+(138,65,0)
+(121,103,0)
+(175,145,0)
+(5,154,0)
+(197,33,0)
+(77,97,0)
+(45,121,0)
+(23,127,0)
+(1,65,0)
+(192,181,0)
+(98,118,0)
+(156,171,0)
+(56,96,0)
+(121,90,0)
+(111,124,0)
+(74,9,0)
+(135,96,0)
+(31,106,0)
+(145,92,0)
+(178,65,0)
+(116,69,0)
+(78,109,0)
+(154,154,0)
+(188,121,0)
+(198,65,0)
+(155,131,0)
+(174,65,0)
+(160,96,0)
+(177,65,0)
+(172,144,0)
+(160,103,0)
+(3,1,0)
+(64,191,0)
+(131,97,0)
+(121,16,0)
+(220,131,0)
+(172,90,0)
+(145,134,0)
+(209,206,0)
+(169,69,0)
+(74,212,0)
+(145,118,0)
+(134,185,0)
+(184,92,0)
+(24,1,0)
+(124,90,0)
+(176,84,0)
+(127,209,0)
+(74,74,0)
+(109,118,0)
+(208,152,0)
+(217,65,0)
+(102,98,0)
+(67,13,0)
+(135,217,0)
+(209,10,0)
+(142,208,0)
+(18,5,0)
+(183,118,0)
+(2,103,0)
+(103,90,0)
+(62,65,0)
+(44,121,0)
+(27,36,0)
+(104,131,0)
+(144,160,0)
+(58,14,0)
+(180,3,0)
+(145,186,0)
+(219,124,0)
+(145,169,0)
+(34,197,0)
+(97,118,0)
+(94,1,0)
+(4,131,0)
+(5,79,0)
+(162,172,0)
+(33,76,0)
+(122,139,0)
+(170,65,0)
+(131,63,0)
+(191,217,0)
+(153,135,0)
+(215,3,0)
+(203,124,0)
+(57,65,0)
+(212,46,0)
+(160,90,0)
+(81,65,0)
+(96,182,0)
+(145,63,0)
+(66,5,0)
+(123,127,0)
+(217,135,0)
+(15,215,0)
+(5,18,0)
+(151,184,0)
+(109,136,0)
+(54,135,0)
+(121,118,0)
+(185,191,0)
+(124,144,0)
+(150,65,0)
+(191,152,0)
+(11,212,0)
+(60,180,0)
+(202,131,0)
+(46,212,0)
+(195,131,0)
+(38,65,0)
+(157,65,0)
+(7,182,0)
+(14,79,0)
+(154,193,0)
+(185,152,0)
+(172,96,0)
+(121,169,0)
+(211,184,0)
+(144,96,0)
+(4,104,1)
+(151,189,1)
+(80,224,1)
+(60,47,1)
+(217,135,1)
+(208,224,1)
+(127,23,1)
+(131,10,1)
+(53,48,1)
+(182,7,1)
+(107,189,1)
+(158,66,1)
+(145,175,1)
+(144,223,1)
+(41,173,1)
+(160,96,1)
+(155,160,1)
+(115,125,1)
+(210,166,1)
+(172,144,1)
+(1,24,1)
+(126,55,1)
+(60,107,1)
+(22,200,1)
+(121,221,1)
+(79,143,1)
+(176,171,1)
+(23,179,1)
+(124,85,1)
+(3,190,1)
+(141,185,1)
+(48,45,1)
+(55,220,1)
+(203,108,1)
+(20,21,1)
+(184,211,1)
+(85,97,1)
+(31,76,1)
+(124,10,1)
+(135,96,1)
+(122,197,1)
+(183,143,1)
+(43,154,1)
+(121,10,1)
+(108,29,1)
+(97,118,1)
+(131,63,1)
+(15,141,1)
+(189,20,1)
+(83,171,1)
+(50,203,1)
+(132,145,1)
+(152,208,1)
+(66,214,1)
+(121,103,1)
+(194,215,1)
+(72,32,1)
+(121,184,1)
+(131,4,1)
+(103,134,1)
+(124,205,1)
+(114,106,1)
+(5,154,1)
+(171,212,1)
+(180,60,1)
+(100,110,1)
+(212,46,1)
+(14,79,1)
+(24,187,1)
+(19,1,1)
+(14,58,1)
+(207,19,1)
+(111,219,1)
+(179,14,1)
+(165,22,1)
+(197,34,1)
+(15,3,1)
+(135,153,1)
+(176,133,1)
+(74,102,1)
+(69,36,1)
+(124,169,1)
+(30,31,1)
+(61,88,1)
+(28,2,1)
+(124,118,1)
+(59,85,1)
+(103,96,1)
+(222,130,1)
+(25,102,1)
+(123,127,1)
+(6,167,1)
+(129,121,1)
+(192,61,1)
+(98,118,1)
+(47,106,1)
+(159,15,1)
+(202,155,1)
+(166,76,1)
+(59,118,1)
+(154,154,1)
+(218,89,1)
+(91,162,1)
+(77,197,1)
+(213,191,1)
+(11,169,1)
+(49,75,1)
+(131,16,1)
+(145,16,1)
+(153,54,1)
+(131,169,1)
+(184,92,1)
+(73,96,1)
+(134,185,1)
+(214,185,1)
+(121,63,1)
+(96,182,1)
+(103,28,1)
+(121,169,1)
+(142,115,1)
+(220,195,1)
+(80,207,1)
+(181,192,1)
+(21,76,1)
+(180,3,1)
+(92,41,1)
+(125,212,1)
+(131,160,1)
+(188,128,1)
+(101,85,1)
+(94,206,1)
+(97,184,1)
+(109,78,1)
+(75,152,1)
+(32,179,1)
+(59,12,1)
+(31,82,1)
+(171,74,1)
+(191,191,1)
+(102,98,1)
+(33,76,1)
+(127,209,1)
+(145,63,1)
+(5,158,1)
+(189,21,1)
+(131,97,1)
+(124,144,1)
+(121,118,1)
+(182,224,1)
+(197,33,1)
+(148,137,1)
+(223,101,1)
+(106,31,1)
+(130,181,1)
+(21,132,1)
+(45,216,1)
+(171,156,1)
+(5,79,1)
+(208,70,1)
+(29,144,1)
+(17,11,1)
+(79,49,1)
+(175,6,1)
+(23,99,1)
+(124,16,1)
+(221,188,1)
+(124,63,1)
+(86,83,1)
+(181,61,1)
+(160,35,1)
+(119,73,1)
+(74,71,1)
+(213,79,1)
+(27,26,1)
+(60,67,1)
+(58,213,1)
+(121,16,1)
+(211,151,1)
+(46,136,1)
+(7,56,1)
+(162,59,1)
+(70,142,1)
+(216,44,1)
+(209,164,1)
+(60,172,1)
+(143,80,1)
+(60,122,1)
+(116,37,1)
+(36,16,1)
+(205,111,1)
+(76,100,1)
+(195,202,1)
+(144,96,1)
+(104,126,1)
+(215,159,1)
+(85,222,1)
+(215,3,1)
+(74,212,1)
+(2,184,1)
+(144,160,1)
+(190,113,1)
+(97,149,1)
+(110,134,1)
+(74,74,1)
+(26,116,1)
+(172,91,1)
+(196,74,1)
+(76,18,1)
+(185,86,1)
+(146,50,1)
+(156,112,1)
+(191,64,1)
+(99,72,1)
+(68,176,1)
+(169,69,1)
+(185,152,1)
+(149,77,1)
+(167,165,1)
+(112,14,1)
+(61,76,1)
+(145,169,1)
+(85,118,1)
+(145,10,1)
+(33,129,1)
+(99,63,1)
+(78,183,1)
+(88,131,1)
+(145,186,1)
+(44,103,1)
+(141,68,1)
+(117,194,1)
+(92,171,1)
+(134,148,1)
+(14,154,1)
+(54,25,1)
+(95,209,1)
+(64,196,1)
+(191,217,1)
+(82,124,1)
+(200,210,1)
+(128,53,1)
+(37,217,1)
+(39,119,1)
+(109,136,1)
+(154,79,1)
+(145,118,1)
+(12,114,1)
+(187,94,1)
+(98,39,1)
+(145,134,1)
+(106,30,1)
+(137,92,1)
+(133,180,1)
+(120,97,1)
+(219,146,1)
+(36,27,1)
+(191,152,1)
+(184,118,1)
+(71,43,1)
+(185,191,1)
+(24,224,1)
+(131,118,1)
+(67,181,1)
+(46,218,1)
+(34,33,1)
+(3,1,1)
+(113,18,1)
+(35,120,1)
+(18,5,1)
+(118,109,1)
+(145,92,1)
+(154,117,1)
+(89,17,1)
+(172,96,1)
+(160,103,1)
+(173,215,1)
+(209,10,1)
+(206,95,1)
+(56,118,1)
+(97,184,2)
+(118,109,2)
+(165,215,2)
+(149,197,2)
+(121,169,2)
+(220,197,2)
+(110,215,2)
+(216,189,2)
+(182,224,2)
+(102,98,2)
+(99,63,2)
+(96,182,2)
+(185,14,2)
+(68,215,2)
+(190,14,2)
+(208,224,2)
+(99,179,2)
+(104,197,2)
+(123,127,2)
+(33,189,2)
+(97,118,2)
+(12,106,2)
+(59,85,2)
+(83,14,2)
+(223,181,2)
+(103,134,2)
+(162,106,2)
+(86,14,2)
+(74,14,2)
+(184,189,2)
+(132,215,2)
+(109,136,2)
+(197,33,2)
+(181,61,2)
+(121,118,2)
+(100,215,2)
+(222,181,2)
+(58,14,2)
+(131,63,2)
+(158,14,2)
+(143,80,2)
+(107,189,2)
+(171,212,2)
+(124,169,2)
+(173,215,2)
+(80,224,2)
+(172,96,2)
+(146,181,2)
+(21,76,2)
+(154,154,2)
+(21,215,2)
+(127,209,2)
+(141,215,2)
+(47,106,2)
+(106,181,2)
+(85,97,2)
+(221,189,2)
+(77,197,2)
+(213,14,2)
+(44,189,2)
+(3,14,2)
+(131,16,2)
+(166,215,2)
+(205,181,2)
+(172,106,2)
+(15,14,2)
+(154,79,2)
+(76,215,2)
+(33,76,2)
+(92,171,2)
+(160,197,2)
+(154,14,2)
+(124,144,2)
+(121,184,2)
+(14,79,2)
+(215,215,2)
+(53,189,2)
+(124,118,2)
+(121,103,2)
+(145,186,2)
+(133,215,2)
+(124,63,2)
+(46,136,2)
+(111,181,2)
+(67,181,2)
+(145,215,2)
+(195,197,2)
+(121,189,2)
+(214,14,2)
+(172,144,2)
+(59,106,2)
+(3,1,2)
+(200,215,2)
+(175,215,2)
+(219,181,2)
+(181,197,2)
+(184,92,2)
+(28,189,2)
+(71,14,2)
+(196,14,2)
+(192,197,2)
+(6,215,2)
+(34,189,2)
+(5,14,2)
+(184,118,2)
+(156,14,2)
+(180,215,2)
+(145,118,2)
+(185,191,2)
+(55,197,2)
+(32,179,2)
+(130,181,2)
+(41,215,2)
+(14,14,2)
+(176,215,2)
+(97,197,2)
+(76,18,2)
+(72,179,2)
+(131,169,2)
+(124,85,2)
+(215,14,2)
+(5,154,2)
+(36,16,2)
+(191,217,2)
+(103,96,2)
+(92,215,2)
+(194,14,2)
+(131,97,2)
+(124,181,2)
+(160,103,2)
+(98,118,2)
+(22,215,2)
+(74,212,2)
+(145,169,2)
+(43,14,2)
+(128,189,2)
+(210,215,2)
+(126,197,2)
+(155,197,2)
+(74,102,2)
+(45,189,2)
+(18,5,2)
+(191,152,2)
+(85,118,2)
+(176,171,2)
+(59,118,2)
+(141,185,2)
+(145,134,2)
+(151,189,2)
+(188,189,2)
+(112,14,2)
+(108,181,2)
+(202,197,2)
+(101,181,2)
+(103,189,2)
+(31,76,2)
+(79,143,2)
+(60,215,2)
+(129,189,2)
+(191,14,2)
+(106,31,2)
+(191,191,2)
+(135,96,2)
+(121,63,2)
+(121,16,2)
+(159,215,2)
+(61,197,2)
+(85,181,2)
+(148,215,2)
+(117,14,2)
+(48,189,2)
+(211,189,2)
+(180,3,2)
+(30,181,2)
+(145,63,2)
+(29,181,2)
+(160,96,2)
+(189,21,2)
+(144,96,2)
+(14,154,2)
+(35,197,2)
+(171,74,2)
+(15,215,2)
+(5,79,2)
+(209,10,2)
+(144,160,2)
+(131,118,2)
+(20,215,2)
+(144,181,2)
+(145,16,2)
+(113,14,2)
+(152,208,2)
+(185,152,2)
+(74,74,2)
+(212,46,2)
+(131,197,2)
+(137,215,2)
+(169,69,2)
+(82,181,2)
+(122,197,2)
+(189,215,2)
+(88,197,2)
+(61,76,2)
+(134,215,2)
+(24,224,2)
+(131,10,2)
+(134,185,2)
+(114,106,2)
+(203,181,2)
+(197,189,2)
+(145,10,2)
+(31,181,2)
+(159,14,2)
+(131,160,2)
+(50,181,2)
+(217,135,2)
+(124,16,2)
+(4,197,2)
+(121,10,2)
+(124,10,2)
+(69,36,2)
+(66,14,2)
+(120,197,2)
+(91,106,2)
+(171,14,2)
+(64,14,2)
+(145,92,2)
+(2,189,2)
+(18,14,2)
+(167,215,2)
+(215,3,2)
+(1,24,2)
+-----------------------------------
+(0,fstripestep)
+(1,width = jas_matrix_numcols(data)
+(2,dp)
+(3,j = width)
+(4,0)
+(5,JAS_MIN(i, 4)
+(6,out)
+(7,data)
+(8,i)
+(9,)
+(10,long *nmsedec)
+(11,fstripestart)
+(12,frowstep)
+(13,)
+(14,i > 0)
+(15,j)
+(16,int bitpos)
+(17,flags)
+(18,vscanlen = JAS_MIN(i, 4)
+(19,height)
+(20,0)
+(21,--k)
+(22,bitpos)
+(23,0)
+(24,jas_matrix_numcols(data)
+(25,dstripestep)
+(26,bitpos)
+(27,JPC_NUMEXTRABITS)
+(28,drowstep)
+(29,fp)
+(30,0)
+(31,--k)
+(32,out)
+(33,--k)
+(34,0)
+(35,drowstep)
+(36,bitpos + JPC_NUMEXTRABITS)
+(37,one)
+(38,fp)
+(39,2)
+(40,)
+(41,fvscanstart)
+(42,one)
+(43,fstripestart)
+(44,fp)
+(45,dp)
+(46,jas_matrix_getref(flags, 1, 1)
+(47,continue;)
+(48,bitpos)
+(49,height)
+(50,bitpos)
+(51,if (--k <= 0)
+(52,if (term)
+(53,one)
+(54,drowstep)
+(55,one)
+(56,drowstep)
+(57,dvscanstart)
+(58,0)
+(59,fp += frowstep)
+(60,j)
+(61,--k)
+(62,fvscanstart)
+(63,jpc_bitstream_t *out)
+(64,dstripestep)
+(65,)
+(66,i)
+(67,continue;)
+(68,dvscanstart)
+(69,1 << (bitpos + JPC_NUMEXTRABITS)
+(70,0)
+(71,fstripestep)
+(72,0x2a)
+(73,fstripestep)
+(74,fstripestart += fstripestep)
+(75,i)
+(76,k = vscanlen)
+(77,fp)
+(78,flags)
+(79,i = height)
+(80,jas_matrix_numrows(data)
+(81,frowstep)
+(82,k)
+(83,dvscanstart)
+(84,)
+(85,fp += frowstep)
+(86,dstripestart)
+(87,)
+(88,k)
+(89,1)
+(90,)
+(91,drowstep)
+(92,fp = fvscanstart)
+(93,width)
+(94,width)
+(95,0)
+(96,drowstep = jas_matrix_rowstep(data)
+(97,fp += frowstep)
+(98,frowstep << 2)
+(99,jpc_bitstream_outalign(out, 0x2a)
+(100,vscanlen)
+(101,dp)
+(102,fstripestep = frowstep << 2)
+(103,dp += drowstep)
+(104,out)
+(105,)
+(106,--k <= 0)
+(107,continue;)
+(108,frowstep)
+(109,jas_matrix_rowstep(flags)
+(110,k)
+(111,out)
+(112,fvscanstart)
+(113,j)
+(114,fp)
+(115,data)
+(116,1)
+(117,4)
+(118,frowstep = jas_matrix_rowstep(flags)
+(119,frowstep)
+(120,dp)
+(121,rawsigpass_step(fp, frowstep, dp, bitpos, one,\\n\\t\\t\\t  nmsedec, out, 0)
+(122,continue;)
+(123,RET)
+(124,rawsigpass_step(fp, frowstep, dp, bitpos, one,\\n\\t\\t\\t  nmsedec, out, 0)
+(125,dstripestart)
+(126,nmsedec)
+(127,return 0;)
+(128,nmsedec)
+(129,k)
+(130,fp)
+(131,rawsigpass_step(fp, frowstep, dp, bitpos, one,\\n\\t\\t\\t  nmsedec, out, 0)
+(132,k)
+(133,fvscanstart)
+(134,dp = dvscanstart)
+(135,drowstep << 2)
+(136,jas_matrix_t *flags)
+(137,dp)
+(138,height)
+(139,)
+(140,j)
+(141,++dvscanstart)
+(142,0)
+(143,height = jas_matrix_numrows(data)
+(144,dp += drowstep)
+(145,rawsigpass_step(fp, frowstep, dp, bitpos, one,\\n\\t\\t\\t  nmsedec, out, vcausalflag)
+(146,one)
+(147,drowstep)
+(148,dvscanstart)
+(149,frowstep)
+(150,dstripestart)
+(151,fp)
+(152,dstripestart = jas_matrix_getref(data, 0, 0)
+(153,2)
+(154,i -= 4)
+(155,fp)
+(156,fstripestart)
+(157,for (i = height; i > 0; i -= 4, fstripestart += fstripestep,\\n\\t  dstripestart += dstripestep)
+(158,4)
+(159,0)
+(160,dp += drowstep)
+(161,if (--k <= 0)
+(162,dp)
+(163,if (--k <= 0)
+(164,nmsedec)
+(165,one)
+(166,fp)
+(167,nmsedec)
+(168,)
+(169,one = 1 << (bitpos + JPC_NUMEXTRABITS)
+(170,dp)
+(171,fvscanstart = fstripestart)
+(172,dp += drowstep)
+(173,fp)
+(174,vscanlen)
+(175,vcausalflag)
+(176,++fvscanstart)
+(177,fstripestart)
+(178,dstripestep)
+(179,term)
+(180,--j)
+(181,--k <= 0)
+(182,jas_matrix_rowstep(data)
+(183,frowstep)
+(184,fp += frowstep)
+(185,dvscanstart = dstripestart)
+(186,int vcausalflag)
+(187,data)
+(188,out)
+(189,--k <= 0)
+(190,width)
+(191,dstripestart += dstripestep)
+(192,0)
+(193,)
+(194,i)
+(195,dp)
+(196,dstripestart)
+(197,--k <= 0)
+(198,k)
+(199,)
+(200,dp)
+(201,if (--k <= 0)
+(202,frowstep)
+(203,dp)
+(204,for (j = width; j > 0; --j, ++fvscanstart, ++dvscanstart)
+(205,0)
+(206,*nmsedec = 0)
+(207,data)
+(208,jas_matrix_getref(data, 0, 0)
+(209,*nmsedec)
+(210,frowstep)
+(211,frowstep)
+(212,fstripestart = jas_matrix_getref(flags, 1, 1)
+(213,i)
+(214,vscanlen)
+(215,j > 0)
+(216,frowstep)
+(217,dstripestep = drowstep << 2)
+(218,1)
+(219,nmsedec)
+(220,bitpos)
+(221,0)
+(222,frowstep)
+(223,drowstep)
+(224,jas_matrix_t *data)
+-----cfg-----
+(257,255)
+(260,271)
+(262,260)
+(7,38)
+(264,262)
+(267,276)
+(269,267)
+(271,269)
+(274,313)
+(276,274)
+(37,43)
+(38,37)
+(41,47)
+(43,41)
+(300,303)
+(45,51)
+(47,45)
+(303,306)
+(49,55)
+(306,309)
+(51,49)
+(53,59)
+(55,53)
+(57,64)
+(313,316)
+(59,57)
+(315,125)
+(315,321)
+(316,315)
+(62,71)
+(64,62)
+(321,324)
+(67,76)
+(324,327)
+(69,67)
+(71,69)
+(327,328)
+(328,331)
+(74,82)
+(330,125)
+(330,336)
+(331,330)
+(76,74)
+(80,88)
+(336,339)
+(82,80)
+(339,342)
+(342,343)
+(343,346)
+(88,91)
+(345,125)
+(345,351)
+(346,345)
+(91,105)
+(91,362)
+(91,382)
+(91,387)
+(94,91)
+(95,98)
+(351,354)
+(98,101)
+(354,357)
+(101,94)
+(357,358)
+(358,125)
+(105,108)
+(362,365)
+(108,113)
+(365,368)
+(111,118)
+(368,371)
+(113,111)
+(371,374)
+(374,382)
+(374,387)
+(118,121)
+(121,132)
+(121,95)
+(380,387)
+(124,121)
+(125,127)
+(382,380)
+(127,129)
+(385,392)
+(129,124)
+(386,385)
+(387,389)
+(387,386)
+(132,140)
+(389,386)
+(136,195)
+(136,300)
+(137,136)
+(137,182)
+(138,137)
+(138,168)
+(139,138)
+(139,154)
+(140,139)
+(140,145)
+(143,139)
+(144,143)
+(145,148)
+(147,144)
+(148,147)
+(152,138)
+(153,152)
+(154,159)
+(157,153)
+(158,157)
+(159,162)
+(161,158)
+(162,161)
+(166,137)
+(167,166)
+(168,173)
+(171,167)
+(172,171)
+(173,176)
+(175,172)
+(176,175)
+(180,136)
+(181,180)
+(182,187)
+(185,181)
+(186,185)
+(187,190)
+(189,186)
+(190,189)
+(195,200)
+(200,203)
+(203,214)
+(203,226)
+(206,203)
+(209,226)
+(209,223)
+(211,209)
+(212,211)
+(213,212)
+(214,213)
+(223,206)
+(226,230)
+(230,234)
+(230,241)
+(234,237)
+(237,125)
+(241,244)
+(244,247)
+(247,252)
+(250,257)
+(252,250)
+(255,264)
+-----path-----
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,137,136,195,200,203,214,213,212,211,209,226,230,234,237,125,127,129
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,137,136,195,200,203,214,213,212,211,209,226,230,241,244,247,252,250
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,137,136,195,200,203,214,213,212,211,209,223,206,203,226,230,234,237
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,137,136,195,200,203,214,213,212,211,209,223,206,203,226,230,241,244
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,137,136,195,200,203,226,230,234,237,125,127,129,124,121,95,98,101
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,137,136,195,200,203,226,230,241,244,247,252,250,257,255,264,262,260
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,137,182,187,190,189,186,185,181,180,136,195,200,203,214,213,212,211
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,137,182,187,190,189,186,185,181,180,136,195,200,203,226,230,234,237
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,137,182,187,190,189,186,185,181,180,136,195,200,203,226,230,241,244
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,168,173,176,175,172,171,167,166,137,136,195,200,203,214,213,212,211
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,168,173,176,175,172,171,167,166,137,136,195,200,203,226,230,234,237
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,168,173,176,175,172,171,167,166,137,136,195,200,203,226,230,241,244
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,138,168,173,176,175,172,171,167,166,137,182,187,190,189,186,185,181,180
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,154,159,162,161,158,157,153,152,138,137,136,195,200,203,214,213,212,211
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,154,159,162,161,158,157,153,152,138,137,136,195,200,203,226,230,234,237
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,154,159,162,161,158,157,153,152,138,137,136,195,200,203,226,230,241,244
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,154,159,162,161,158,157,153,152,138,137,182,187,190,189,186,185,181,180
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,139,154,159,162,161,158,157,153,152,138,168,173,176,175,172,171,167,166,137
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,138,137,136,195,200,203,214,213,212,211,209,226,230
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,138,137,136,195,200,203,214,213,212,211,209,223,206
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,138,137,136,195,200,203,226,230,234,237,125,127,129
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,138,137,136,195,200,203,226,230,241,244,247,252,250
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,138,137,182,187,190,189,186,185,181,180,136,195,200
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,138,137,182,187,190,189,186,185,181,180,136,300,303
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,138,168,173,176,175,172,171,167,166,137,136,195,200
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,138,168,173,176,175,172,171,167,166,137,136,300,303
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,138,168,173,176,175,172,171,167,166,137,182,187,190
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,154,159,162,161,158,157,153,152,138,137,136,195,200
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,154,159,162,161,158,157,153,152,138,137,136,300,303
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,154,159,162,161,158,157,153,152,138,137,182,187,190
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,132,140,145,148,147,144,143,139,154,159,162,161,158,157,153,152,138,168,173,176,175
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,95,98,101,94,91,362,365,368,371,374,382,380,387,389,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,95,98,101,94,91,362,365,368,371,374,382,380,387,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,95,98,101,94,91,362,365,368,371,374,387,389,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,95,98,101,94,91,362,365,368,371,374,387,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,95,98,101,94,91,382,380,387,389,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,95,98,101,94,91,382,380,387,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,95,98,101,94,91,387,389,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,105,108,113,111,118,121,95,98,101,94,91,387,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,362,365,368,371,374,382,380,387,389,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,362,365,368,371,374,382,380,387,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,362,365,368,371,374,387,389,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,362,365,368,371,374,387,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,382,380,387,389,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,382,380,387,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,387,389,386,385,392
+7,38,37,43,41,47,45,51,49,55,53,59,57,64,62,71,69,67,76,74,82,80,88,91,387,386,385,392
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_encclnpass (jpc_mqenc_t *mqenc,int bitpos,int orient,int vcausalflag,int segsymflag,jas_matrix_t *flags,jas_matrix_t *data,int term,long *nmsedec)
+8,jpc_mqenc_t *mqenc
+9,int bitpos
+10,int orient
+11,int vcausalflag
+12,int segsymflag
+13,jas_matrix_t *flags
+14,jas_matrix_t *data
+15,int term
+16,long *nmsedec
+17,<empty>
+18,int i
+19,int j
+20,int k
+21,int vscanlen
+22,int v
+23,int runlen
+24,jpc_fix_t* fp
+25,int width
+26,int height
+27,jpc_fix_t* dp
+28,int one
+29,int frowstep
+30,int drowstep
+31,int fstripestep
+32,int dstripestep
+33,jpc_fix_t* fstripestart
+34,jpc_fix_t* dstripestart
+35,jpc_fix_t* fvscanstart
+36,jpc_fix_t* dvscanstart
+37,*nmsedec = 0
+38,*nmsedec
+39,nmsedec
+40,0
+41,width = jas_matrix_numcols(data)
+42,width
+43,jas_matrix_numcols(data)
+44,data
+45,height = jas_matrix_numrows(data)
+46,height
+47,jas_matrix_numrows(data)
+48,data
+49,frowstep = jas_matrix_rowstep(flags)
+50,frowstep
+51,jas_matrix_rowstep(flags)
+52,flags
+53,drowstep = jas_matrix_rowstep(data)
+54,drowstep
+55,jas_matrix_rowstep(data)
+56,data
+57,fstripestep = frowstep << 2
+58,fstripestep
+59,frowstep << 2
+60,frowstep
+61,2
+62,dstripestep = drowstep << 2
+63,dstripestep
+64,drowstep << 2
+65,drowstep
+66,2
+67,one = 1 << (bitpos + JPC_NUMEXTRABITS)
+68,one
+69,1 << (bitpos + JPC_NUMEXTRABITS)
+70,1
+71,bitpos + JPC_NUMEXTRABITS
+72,bitpos
+73,JPC_NUMEXTRABITS
+74,fstripestart = jas_matrix_getref(flags, 1, 1)
+75,fstripestart
+76,jas_matrix_getref(flags, 1, 1)
+77,flags
+78,1
+79,1
+80,dstripestart = jas_matrix_getref(data, 0, 0)
+81,dstripestart
+82,jas_matrix_getref(data, 0, 0)
+83,data
+84,0
+85,0
+86,for (i = height;i > 0;i -= 4, fstripestart += fstripestep,
+87,	  dstripestart += dstripestep)
+88,<empty>
+89,i = height
+90,i
+91,height
+92,i > 0
+93,i
+94,0
+95,i -= 4, fstripestart += fstripestep,
+96,	  dstripestart += dstripestep
+97,i -= 4
+98,i
+99,4
+100,fstripestart += fstripestep
+101,fstripestart
+102,fstripestep
+103,dstripestart += dstripestep
+104,dstripestart
+105,dstripestep
+106,<empty>
+107,fvscanstart = fstripestart
+108,fvscanstart
+109,fstripestart
+110,dvscanstart = dstripestart
+111,dvscanstart
+112,dstripestart
+113,vscanlen = JAS_MIN(i, 4)
+114,vscanlen
+115,JAS_MIN(i, 4)
+116,i
+117,4
+118,for (j = width;j > 0;--j, ++fvscanstart, ++dvscanstart)
+119,<empty>
+120,j = width
+121,j
+122,width
+123,j > 0
+124,j
+125,0
+126,--j, ++fvscanstart, ++dvscanstart
+127,--j
+128,j
+129,++fvscanstart
+130,fvscanstart
+131,++dvscanstart
+132,dvscanstart
+133,<empty>
+134,fp = fvscanstart
+135,fp
+136,fvscanstart
+137,if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+138,			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |
+139,			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &
+140,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,
+141,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))))
+142,vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+143,			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |
+144,			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &
+145,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,
+146,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+147,vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+148,			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |
+149,			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &
+150,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+151,vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+152,			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |
+153,			  JPC_VISIT | JPC_OTHSIGMSK)))
+154,vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+155,			  JPC_OTHSIGMSK))
+156,vscanlen >= 4
+157,vscanlen
+158,4
+159,!((*fp) & (JPC_SIG | JPC_VISIT |
+160,			  JPC_OTHSIGMSK))
+161,(*fp) & (JPC_SIG | JPC_VISIT |
+162,			  JPC_OTHSIGMSK)
+163,*fp
+164,fp
+165,JPC_SIG | JPC_VISIT |
+166,			  JPC_OTHSIGMSK
+167,JPC_SIG | JPC_VISIT
+168,JPC_SIG
+169,JPC_VISIT
+170,JPC_OTHSIGMSK
+171,(fp += frowstep, !((*fp) & (JPC_SIG |
+172,			  JPC_VISIT | JPC_OTHSIGMSK)))
+173,fp += frowstep, !((*fp) & (JPC_SIG |
+174,			  JPC_VISIT | JPC_OTHSIGMSK))
+175,fp += frowstep
+176,fp
+177,frowstep
+178,!((*fp) & (JPC_SIG |
+179,			  JPC_VISIT | JPC_OTHSIGMSK))
+180,(*fp) & (JPC_SIG |
+181,			  JPC_VISIT | JPC_OTHSIGMSK)
+182,*fp
+183,fp
+184,JPC_SIG |
+185,			  JPC_VISIT | JPC_OTHSIGMSK
+186,JPC_SIG |
+187,			  JPC_VISIT
+188,JPC_SIG
+189,JPC_VISIT
+190,JPC_OTHSIGMSK
+191,(fp += frowstep, !((*fp) &
+192,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+193,fp += frowstep, !((*fp) &
+194,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+195,fp += frowstep
+196,fp
+197,frowstep
+198,!((*fp) &
+199,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+200,(*fp) &
+201,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)
+202,*fp
+203,fp
+204,JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK
+205,JPC_SIG | JPC_VISIT
+206,JPC_SIG
+207,JPC_VISIT
+208,JPC_OTHSIGMSK
+209,(fp += frowstep,
+210,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+211,fp += frowstep,
+212,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+213,fp += frowstep
+214,fp
+215,frowstep
+216,!((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+217,(*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)
+218,*fp
+219,fp
+220,JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK
+221,JPC_SIG | JPC_VISIT
+222,JPC_SIG
+223,JPC_VISIT
+224,JPC_OTHSIGMSK
+225,<empty>
+226,dp = dvscanstart
+227,dp
+228,dvscanstart
+229,for (k = 0;k < vscanlen;++k)
+230,<empty>
+231,k = 0
+232,k
+233,0
+234,k < vscanlen
+235,k
+236,vscanlen
+237,++k
+238,k
+239,<empty>
+240,v = (abs(*dp) & one) ? 1 : 0
+241,v
+242,(abs(*dp) & one) ? 1 : 0
+243,abs(*dp) & one
+244,abs(*dp)
+245,*dp
+246,dp
+247,one
+248,1
+249,0
+250,if (v)
+251,v
+252,<empty>
+253,break;
+254,dp += drowstep
+255,dp
+256,drowstep
+257,runlen = k
+258,runlen
+259,k
+260,if (runlen >= 4)
+261,runlen >= 4
+262,runlen
+263,4
+264,<empty>
+265,jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO)
+266,mqenc
+267,JPC_AGGCTXNO
+268,jpc_mqenc_putbit(mqenc, 0)
+269,mqenc
+270,0
+271,continue;
+272,jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO)
+273,mqenc
+274,JPC_AGGCTXNO
+275,jpc_mqenc_putbit(mqenc, 1)
+276,mqenc
+277,1
+278,jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO)
+279,mqenc
+280,JPC_UCTXNO
+281,jpc_mqenc_putbit(mqenc, runlen >> 1)
+282,mqenc
+283,runlen >> 1
+284,runlen
+285,1
+286,jpc_mqenc_putbit(mqenc, runlen & 1)
+287,mqenc
+288,runlen & 1
+289,runlen
+290,1
+291,fp = fvscanstart + frowstep * runlen
+292,fp
+293,fvscanstart + frowstep * runlen
+294,fvscanstart
+295,frowstep * runlen
+296,frowstep
+297,runlen
+298,dp = dvscanstart + drowstep * runlen
+299,dp
+300,dvscanstart + drowstep * runlen
+301,dvscanstart
+302,drowstep * runlen
+303,drowstep
+304,runlen
+305,k = vscanlen - runlen
+306,k
+307,vscanlen - runlen
+308,vscanlen
+309,runlen
+310,switch(runlen)
+311,runlen
+312,<empty>
+313,case 0:
+314,0
+315,goto clnpass_partial0;
+316,break;
+317,case 1:
+318,1
+319,goto clnpass_partial1;
+320,break;
+321,case 2:
+322,2
+323,goto clnpass_partial2;
+324,break;
+325,case 3:
+326,3
+327,goto clnpass_partial3;
+328,break;
+329,else
+330,<empty>
+331,runlen = 0
+332,runlen
+333,0
+334,fp = fvscanstart
+335,fp
+336,fvscanstart
+337,dp = dvscanstart
+338,dp
+339,dvscanstart
+340,k = vscanlen
+341,k
+342,vscanlen
+343,goto clnpass_full0;
+344,clnpass_step(fp, frowstep, dp, bitpos, one,
+345,			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);
+346,if (--k <= 0)
+347,--k <= 0
+348,--k
+349,k
+350,0
+351,<empty>
+352,continue;
+353,fp += frowstep
+354,fp
+355,frowstep
+356,dp += drowstep
+357,dp
+358,drowstep
+359,clnpass_step(fp, frowstep, dp, bitpos, one,
+360,				orient, nmsedec, mqenc, ;
+361,, clnpass_partial1:, 0);
+362,if (--k <= 0)
+363,--k <= 0
+364,--k
+365,k
+366,0
+367,<empty>
+368,continue;
+369,fp += frowstep
+370,fp
+371,frowstep
+372,dp += drowstep
+373,dp
+374,drowstep
+375,clnpass_step(fp, frowstep, dp, bitpos, one,
+376,				orient, nmsedec, mqenc, ;
+377,, clnpass_partial2:, 0);
+378,if (--k <= 0)
+379,--k <= 0
+380,--k
+381,k
+382,0
+383,<empty>
+384,continue;
+385,fp += frowstep
+386,fp
+387,frowstep
+388,dp += drowstep
+389,dp
+390,drowstep
+391,clnpass_step(fp, frowstep, dp, bitpos, one,
+392,				orient, nmsedec, mqenc, ;
+393,, clnpass_partial3:, 0);
+394,if (segsymflag)
+395,segsymflag
+396,<empty>
+397,jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO)
+398,mqenc
+399,JPC_UCTXNO
+400,jpc_mqenc_putbit(mqenc, 1)
+401,mqenc
+402,1
+403,jpc_mqenc_putbit(mqenc, 0)
+404,mqenc
+405,0
+406,jpc_mqenc_putbit(mqenc, 1)
+407,mqenc
+408,1
+409,jpc_mqenc_putbit(mqenc, 0)
+410,mqenc
+411,0
+412,if (term)
+413,term
+414,<empty>
+415,jpc_mqenc_flush(mqenc, term - 1)
+416,mqenc
+417,term - 1
+418,term
+419,1
+420,return jpc_mqenc_error(mqenc) ? (-1) : 0;
+421,jpc_mqenc_error(mqenc) ? (-1) : 0
+422,jpc_mqenc_error(mqenc)
+423,mqenc
+424,-1
+425,1
+426,0
+427,RET
+428,jpc_mqenc_t *mqenc
+429,int bitpos
+430,int orient
+431,int vcausalflag
+432,int segsymflag
+433,jas_matrix_t *flags
+434,jas_matrix_t *data
+435,int term
+436,long *nmsedec
+437,RET
+438,int jpc_encclnpass (jpc_mqenc_t *mqenc,int bitpos,int orient,int vcausalflag,int segsymflag,jas_matrix_t *flags,jas_matrix_t *data,int term,long *nmsedec)
+439,jpc_mqenc_t *mqenc
+440,int bitpos
+441,int orient
+442,int vcausalflag
+443,int segsymflag
+444,jas_matrix_t *flags
+445,jas_matrix_t *data
+446,int term
+447,long *nmsedec
+448,<empty>
+449,int i
+450,int j
+451,int k
+452,int vscanlen
+453,int v
+454,int runlen
+455,jpc_fix_t* fp
+456,int width
+457,int height
+458,jpc_fix_t* dp
+459,int one
+460,int frowstep
+461,int drowstep
+462,int fstripestep
+463,int dstripestep
+464,jpc_fix_t* fstripestart
+465,jpc_fix_t* dstripestart
+466,jpc_fix_t* fvscanstart
+467,jpc_fix_t* dvscanstart
+468,*nmsedec = 0
+469,*nmsedec
+470,nmsedec
+471,0
+472,width = jas_matrix_numcols(data)
+473,width
+474,jas_matrix_numcols(data)
+475,data
+476,height = jas_matrix_numrows(data)
+477,height
+478,jas_matrix_numrows(data)
+479,data
+480,frowstep = jas_matrix_rowstep(flags)
+481,frowstep
+482,jas_matrix_rowstep(flags)
+483,flags
+484,drowstep = jas_matrix_rowstep(data)
+485,drowstep
+486,jas_matrix_rowstep(data)
+487,data
+488,fstripestep = frowstep << 2
+489,fstripestep
+490,frowstep << 2
+491,frowstep
+492,2
+493,dstripestep = drowstep << 2
+494,dstripestep
+495,drowstep << 2
+496,drowstep
+497,2
+498,one = 1 << (bitpos + JPC_NUMEXTRABITS)
+499,one
+500,1 << (bitpos + JPC_NUMEXTRABITS)
+501,1
+502,bitpos + JPC_NUMEXTRABITS
+503,bitpos
+504,JPC_NUMEXTRABITS
+505,fstripestart = jas_matrix_getref(flags, 1, 1)
+506,fstripestart
+507,jas_matrix_getref(flags, 1, 1)
+508,flags
+509,1
+510,1
+511,dstripestart = jas_matrix_getref(data, 0, 0)
+512,dstripestart
+513,jas_matrix_getref(data, 0, 0)
+514,data
+515,0
+516,0
+517,for (i = height;i > 0;i -= 4, fstripestart += fstripestep,
+518,	  dstripestart += dstripestep)
+519,<empty>
+520,i = height
+521,i
+522,height
+523,i > 0
+524,i
+525,0
+526,i -= 4, fstripestart += fstripestep,
+527,	  dstripestart += dstripestep
+528,i -= 4
+529,i
+530,4
+531,fstripestart += fstripestep
+532,fstripestart
+533,fstripestep
+534,dstripestart += dstripestep
+535,dstripestart
+536,dstripestep
+537,<empty>
+538,fvscanstart = fstripestart
+539,fvscanstart
+540,fstripestart
+541,dvscanstart = dstripestart
+542,dvscanstart
+543,dstripestart
+544,vscanlen = JAS_MIN(i, 4)
+545,vscanlen
+546,JAS_MIN(i, 4)
+547,i
+548,4
+549,for (j = width;j > 0;--j, ++fvscanstart, ++dvscanstart)
+550,<empty>
+551,j = width
+552,j
+553,width
+554,j > 0
+555,j
+556,0
+557,--j, ++fvscanstart, ++dvscanstart
+558,--j
+559,j
+560,++fvscanstart
+561,fvscanstart
+562,++dvscanstart
+563,dvscanstart
+564,<empty>
+565,fp = fvscanstart
+566,fp
+567,fvscanstart
+568,if (vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+569,			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |
+570,			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &
+571,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,
+572,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))))
+573,vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+574,			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |
+575,			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &
+576,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep,
+577,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+578,vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+579,			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |
+580,			  JPC_VISIT | JPC_OTHSIGMSK))) && (fp += frowstep, !((*fp) &
+581,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+582,vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+583,			  JPC_OTHSIGMSK)) && (fp += frowstep, !((*fp) & (JPC_SIG |
+584,			  JPC_VISIT | JPC_OTHSIGMSK)))
+585,vscanlen >= 4 && !((*fp) & (JPC_SIG | JPC_VISIT |
+586,			  JPC_OTHSIGMSK))
+587,vscanlen >= 4
+588,vscanlen
+589,4
+590,!((*fp) & (JPC_SIG | JPC_VISIT |
+591,			  JPC_OTHSIGMSK))
+592,(*fp) & (JPC_SIG | JPC_VISIT |
+593,			  JPC_OTHSIGMSK)
+594,*fp
+595,fp
+596,JPC_SIG | JPC_VISIT |
+597,			  JPC_OTHSIGMSK
+598,JPC_SIG | JPC_VISIT
+599,JPC_SIG
+600,JPC_VISIT
+601,JPC_OTHSIGMSK
+602,(fp += frowstep, !((*fp) & (JPC_SIG |
+603,			  JPC_VISIT | JPC_OTHSIGMSK)))
+604,fp += frowstep, !((*fp) & (JPC_SIG |
+605,			  JPC_VISIT | JPC_OTHSIGMSK))
+606,fp += frowstep
+607,fp
+608,frowstep
+609,!((*fp) & (JPC_SIG |
+610,			  JPC_VISIT | JPC_OTHSIGMSK))
+611,(*fp) & (JPC_SIG |
+612,			  JPC_VISIT | JPC_OTHSIGMSK)
+613,*fp
+614,fp
+615,JPC_SIG |
+616,			  JPC_VISIT | JPC_OTHSIGMSK
+617,JPC_SIG |
+618,			  JPC_VISIT
+619,JPC_SIG
+620,JPC_VISIT
+621,JPC_OTHSIGMSK
+622,(fp += frowstep, !((*fp) &
+623,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+624,fp += frowstep, !((*fp) &
+625,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+626,fp += frowstep
+627,fp
+628,frowstep
+629,!((*fp) &
+630,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+631,(*fp) &
+632,			  (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)
+633,*fp
+634,fp
+635,JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK
+636,JPC_SIG | JPC_VISIT
+637,JPC_SIG
+638,JPC_VISIT
+639,JPC_OTHSIGMSK
+640,(fp += frowstep,
+641,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)))
+642,fp += frowstep,
+643,			  !((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+644,fp += frowstep
+645,fp
+646,frowstep
+647,!((*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK))
+648,(*fp) & (JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK)
+649,*fp
+650,fp
+651,JPC_SIG | JPC_VISIT | JPC_OTHSIGMSK
+652,JPC_SIG | JPC_VISIT
+653,JPC_SIG
+654,JPC_VISIT
+655,JPC_OTHSIGMSK
+656,<empty>
+657,dp = dvscanstart
+658,dp
+659,dvscanstart
+660,for (k = 0;k < vscanlen;++k)
+661,<empty>
+662,k = 0
+663,k
+664,0
+665,k < vscanlen
+666,k
+667,vscanlen
+668,++k
+669,k
+670,<empty>
+671,v = (abs(*dp) & one) ? 1 : 0
+672,v
+673,(abs(*dp) & one) ? 1 : 0
+674,abs(*dp) & one
+675,abs(*dp)
+676,*dp
+677,dp
+678,one
+679,1
+680,0
+681,if (v)
+682,v
+683,<empty>
+684,break;
+685,dp += drowstep
+686,dp
+687,drowstep
+688,runlen = k
+689,runlen
+690,k
+691,if (runlen >= 4)
+692,runlen >= 4
+693,runlen
+694,4
+695,<empty>
+696,jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO)
+697,mqenc
+698,JPC_AGGCTXNO
+699,jpc_mqenc_putbit(mqenc, 0)
+700,mqenc
+701,0
+702,continue;
+703,jpc_mqenc_setcurctx(mqenc, JPC_AGGCTXNO)
+704,mqenc
+705,JPC_AGGCTXNO
+706,jpc_mqenc_putbit(mqenc, 1)
+707,mqenc
+708,1
+709,jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO)
+710,mqenc
+711,JPC_UCTXNO
+712,jpc_mqenc_putbit(mqenc, runlen >> 1)
+713,mqenc
+714,runlen >> 1
+715,runlen
+716,1
+717,jpc_mqenc_putbit(mqenc, runlen & 1)
+718,mqenc
+719,runlen & 1
+720,runlen
+721,1
+722,fp = fvscanstart + frowstep * runlen
+723,fp
+724,fvscanstart + frowstep * runlen
+725,fvscanstart
+726,frowstep * runlen
+727,frowstep
+728,runlen
+729,dp = dvscanstart + drowstep * runlen
+730,dp
+731,dvscanstart + drowstep * runlen
+732,dvscanstart
+733,drowstep * runlen
+734,drowstep
+735,runlen
+736,k = vscanlen - runlen
+737,k
+738,vscanlen - runlen
+739,vscanlen
+740,runlen
+741,switch(runlen)
+742,runlen
+743,<empty>
+744,case 0:
+745,0
+746,goto clnpass_partial0;
+747,break;
+748,case 1:
+749,1
+750,goto clnpass_partial1;
+751,break;
+752,case 2:
+753,2
+754,goto clnpass_partial2;
+755,break;
+756,case 3:
+757,3
+758,goto clnpass_partial3;
+759,break;
+760,else
+761,<empty>
+762,runlen = 0
+763,runlen
+764,0
+765,fp = fvscanstart
+766,fp
+767,fvscanstart
+768,dp = dvscanstart
+769,dp
+770,dvscanstart
+771,k = vscanlen
+772,k
+773,vscanlen
+774,goto clnpass_full0;
+775,clnpass_step(fp, frowstep, dp, bitpos, one,
+776,			  orient, nmsedec, mqenc, clnpass_full0:, clnpass_partial0:, vcausalflag);
+777,if (--k <= 0)
+778,--k <= 0
+779,--k
+780,k
+781,0
+782,<empty>
+783,continue;
+784,fp += frowstep
+785,fp
+786,frowstep
+787,dp += drowstep
+788,dp
+789,drowstep
+790,clnpass_step(fp, frowstep, dp, bitpos, one,
+791,				orient, nmsedec, mqenc, ;
+792,, clnpass_partial1:, 0);
+793,if (--k <= 0)
+794,--k <= 0
+795,--k
+796,k
+797,0
+798,<empty>
+799,continue;
+800,fp += frowstep
+801,fp
+802,frowstep
+803,dp += drowstep
+804,dp
+805,drowstep
+806,clnpass_step(fp, frowstep, dp, bitpos, one,
+807,				orient, nmsedec, mqenc, ;
+808,, clnpass_partial2:, 0);
+809,if (--k <= 0)
+810,--k <= 0
+811,--k
+812,k
+813,0
+814,<empty>
+815,continue;
+816,fp += frowstep
+817,fp
+818,frowstep
+819,dp += drowstep
+820,dp
+821,drowstep
+822,clnpass_step(fp, frowstep, dp, bitpos, one,
+823,				orient, nmsedec, mqenc, ;
+824,, clnpass_partial3:, 0);
+825,if (segsymflag)
+826,segsymflag
+827,<empty>
+828,jpc_mqenc_setcurctx(mqenc, JPC_UCTXNO)
+829,mqenc
+830,JPC_UCTXNO
+831,jpc_mqenc_putbit(mqenc, 1)
+832,mqenc
+833,1
+834,jpc_mqenc_putbit(mqenc, 0)
+835,mqenc
+836,0
+837,jpc_mqenc_putbit(mqenc, 1)
+838,mqenc
+839,1
+840,jpc_mqenc_putbit(mqenc, 0)
+841,mqenc
+842,0
+843,if (term)
+844,term
+845,<empty>
+846,jpc_mqenc_flush(mqenc, term - 1)
+847,mqenc
+848,term - 1
+849,term
+850,1
+851,return jpc_mqenc_error(mqenc) ? (-1) : 0;
+852,jpc_mqenc_error(mqenc) ? (-1) : 0
+853,jpc_mqenc_error(mqenc)
+854,mqenc
+855,-1
+856,1
+857,0
+858,RET
+859,jpc_mqenc_t *mqenc
+860,int bitpos
+861,int orient
+862,int vcausalflag
+863,int segsymflag
+864,jas_matrix_t *flags
+865,jas_matrix_t *data
+866,int term
+867,long *nmsedec
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int jpc_encclnpass(jpc_mqenc_t *mqenc, int bitpos, int orient, int vcausalflag, int segsymflag, jas_matrix_t *flags,   jas_matrix_t *data, int term, long *nmsedec) {
+int i;
+int j;
+int k;
+int vscanlen;
+int v;
+int runlen;
+jpc_fix_t *fp;
+int width;
+int height;
+jpc_fix_t *dp;
+int one;
+int frowstep;
+int drowstep;
+int fstripestep;
+int dstripestep;
+jpc_fix_t *fstripestart;
+jpc_fix_t *dstripestart;
+jpc_fix_t *fvscanstart;
+jpc_fix_t *dvscanstart;
+*nmsedec = 0;
+width = jas_matrix_numcols(data);
+height = jas_matrix_numrows(data);
+frowstep = jas_matrix_rowstep(flags);
+drowstep = jas_matrix_rowstep(data);
+fstripestep = frowstep << 2;
+dstripestep = drowstep << 2;
+one = 1 << (bitpos + JPC_NUMEXTRABITS);
+fstripestart = jas_matrix_getref(flags, 1, 1);
+dstripestart = jas_matrix_getref(data, 0, 0);
+for(i = height;i > 0;i -= 4, fstripestart += fstripestep, 	  dstripestart += dstripestep)
+fvscanstart = fstripestart;
+dvscanstart = dstripestart;
+vscanlen = JAS_MIN(i, 4);
+for(j = width;j > 0;--j, ++fvscanstart, ++dvscanstart)
+fp = fvscanstart;
+runlen = 0;
+fp = fvscanstart;
+dp = dvscanstart;
+k = vscanlen;
+goto clnpass_full0;
+if(--k <= 0)
+if(term)
+jpc_mqenc_flush(mqenc, term - 1);
+return jpc_mqenc_error(mqenc) ? (-1) : 0;
+=======================

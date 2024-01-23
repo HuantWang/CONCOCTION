@@ -1,0 +1,155 @@
+-----label-----
+0
+-----code-----
+void jas_free(void *ptr)
+{
+	JAS_DBGLOG(100, ("jas_free(%p)\n", ptr));
+	free(ptr);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+7,8
+7,9
+10,11
+10,12
+11,12
+12,13
+12,14
+12,15
+13,14
+16,17
+17,18
+17,19
+19,20
+21,22
+22,23
+22,24
+23,24
+25,26
+-----nextToken-----
+2,4,6,8,9,14,15,18,20,24,26
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LiteralExpression;UnaryExpression;ExpressionList;LiteralExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+void jas_free(void *ptr){	JAS_DBGLOG(100, ("jas_free(%p)\n", ptr));	free(ptr);}
+void
+jas_free(void *ptr)
+jas_free
+void *ptr
+void
+*ptr
+*
+ptr
+{	JAS_DBGLOG(100, ("jas_free(%p)\n", ptr));	free(ptr);}
+JAS_DBGLOG(100, ("jas_free(%p)\n", ptr));
+JAS_DBGLOG(100, ("jas_free(%p)\n", ptr))
+JAS_DBGLOG
+JAS_DBGLOG
+100
+("jas_free(%p)\n", ptr)
+"jas_free(%p)\n", ptr
+"jas_free(%p)\n"
+ptr
+ptr
+free(ptr);
+free(ptr)
+free
+free
+ptr
+ptr
+-----joern-----
+(12,8,0)
+(1,13,0)
+(0,8,0)
+(0,13,0)
+(10,12,0)
+(11,18,0)
+(5,8,0)
+(20,9,0)
+(3,4,0)
+(6,15,0)
+(4,12,0)
+(18,15,0)
+(12,20,0)
+(14,5,0)
+(16,0,0)
+(17,4,0)
+(15,5,0)
+(2,13,0)
+(4,8,0)
+(13,0,0)
+(5,15,0)
+(19,18,0)
+(20,12,0)
+(7,20,0)
+(21,8,0)
+(12,20,1)
+(5,15,1)
+(0,13,1)
+(14,12,1)
+(3,5,1)
+(20,7,1)
+(6,14,1)
+(4,12,1)
+(1,2,1)
+(2,16,1)
+(19,6,1)
+(5,11,1)
+(0,1,1)
+(10,0,1)
+(17,4,1)
+(20,9,1)
+(7,10,1)
+(4,3,1)
+(11,19,1)
+(17,4,2)
+(0,13,2)
+(20,9,2)
+(5,15,2)
+(4,12,2)
+(12,20,2)
+-----------------------------------
+(0,JAS_DBGLOG(101, ("jas_malloc(%zu)
+(1,size)
+(2,"jas_malloc(%zu)
+(3,result)
+(4,return result;)
+(5,JAS_DBGLOG(100, ("jas_malloc(%zu)
+(6,"jas_malloc(%zu)
+(7,size)
+(8,)
+(9,size_t size)
+(10,result)
+(11,result)
+(12,result = malloc(size)
+(13,)
+(14,100)
+(15,)
+(16,101)
+(17,RET)
+(18,)
+(19,size)
+(20,malloc(size)
+(21,result)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffffbea0ad6300000000ffffffffffffffffbea0ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff5c00030000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+void jas_free(void *ptr) {
+JAS_DBGLOG(100, ('jas_free(_p) ', ptr));
+free(ptr);
+=======================

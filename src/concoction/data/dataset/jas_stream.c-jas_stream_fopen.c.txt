@@ -1,0 +1,1998 @@
+-----label-----
+0
+-----code-----
+jas_stream_t *jas_stream_fopen(const char *filename, const char *mode)
+{
+	jas_stream_t *stream;
+	jas_stream_fileobj_t *obj;
+	int openflags;
+
+	/* Allocate a stream object. */
+	if (!(stream = jas_stream_create())) {
+		return 0;
+	}
+
+	/* Parse the mode string. */
+	stream->openmode_ = jas_strtoopenmode(mode);
+
+	/* Determine the correct flags to use for opening the file. */
+	if ((stream->openmode_ & JAS_STREAM_READ) &&
+	  (stream->openmode_ & JAS_STREAM_WRITE)) {
+		openflags = O_RDWR;
+	} else if (stream->openmode_ & JAS_STREAM_READ) {
+		openflags = O_RDONLY;
+	} else if (stream->openmode_ & JAS_STREAM_WRITE) {
+		openflags = O_WRONLY;
+	} else {
+		openflags = 0;
+	}
+	if (stream->openmode_ & JAS_STREAM_APPEND) {
+		openflags |= O_APPEND;
+	}
+	if (stream->openmode_ & JAS_STREAM_BINARY) {
+		openflags |= O_BINARY;
+	}
+	if (stream->openmode_ & JAS_STREAM_CREATE) {
+		openflags |= O_CREAT | O_TRUNC;
+	}
+
+	/* Allocate space for the underlying file stream object. */
+	if (!(obj = jas_malloc(sizeof(jas_stream_fileobj_t)))) {
+		jas_stream_destroy(stream);
+		return 0;
+	}
+	obj->fd = -1;
+	obj->flags = 0;
+	obj->pathname[0] = '\0';
+	stream->obj_ = (void *) obj;
+
+	/* Select the operations for a file stream object. */
+	stream->ops_ = &jas_stream_fileops;
+
+	/* Open the underlying file. */
+	if ((obj->fd = open(filename, openflags, JAS_STREAM_PERMS)) < 0) {
+		jas_stream_destroy(stream);
+		return 0;
+	}
+
+	/* By default, use full buffering for this type of stream. */
+	jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0);
+
+	return stream;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+9,10
+9,11
+12,13
+12,14
+14,15
+14,16
+17,18
+17,19
+17,20
+17,21
+17,22
+17,23
+17,24
+17,25
+17,26
+17,27
+17,28
+17,29
+17,30
+17,31
+17,32
+17,33
+17,34
+17,35
+18,19
+19,20
+19,21
+20,21
+22,23
+22,24
+25,26
+26,27
+26,28
+27,28
+29,30
+29,31
+32,33
+33,34
+33,35
+35,36
+37,38
+37,39
+38,39
+39,40
+40,41
+40,42
+41,42
+43,44
+44,45
+46,47
+47,48
+49,50
+50,51
+50,52
+51,52
+51,53
+52,53
+55,56
+55,57
+56,57
+58,59
+60,61
+60,62
+60,63
+61,62
+61,63
+62,63
+63,64
+63,65
+64,65
+64,66
+65,66
+68,69
+70,71
+71,72
+71,73
+72,73
+72,74
+73,74
+76,77
+78,79
+79,80
+80,81
+80,82
+81,82
+83,84
+85,86
+85,87
+85,88
+86,87
+86,88
+87,88
+87,89
+88,89
+91,92
+93,94
+94,95
+95,96
+95,97
+96,97
+98,99
+100,101
+100,102
+100,103
+101,102
+101,103
+102,103
+102,104
+103,104
+106,107
+108,109
+109,110
+110,111
+110,112
+111,112
+113,114
+115,116
+116,117
+117,118
+117,119
+118,119
+121,122
+121,123
+122,123
+122,124
+123,124
+123,125
+124,125
+127,128
+129,130
+130,131
+131,132
+131,133
+132,133
+134,135
+136,137
+136,138
+137,138
+137,139
+138,139
+138,140
+139,140
+142,143
+144,145
+145,146
+146,147
+146,148
+147,148
+149,150
+151,152
+151,153
+152,153
+152,154
+153,154
+153,155
+154,155
+157,158
+159,160
+160,161
+161,162
+161,163
+162,163
+164,165
+164,166
+165,166
+167,168
+169,170
+169,171
+170,171
+171,172
+172,173
+172,174
+173,174
+175,176
+175,177
+176,177
+178,179
+179,180
+179,181
+180,181
+183,184
+183,185
+184,185
+185,186
+185,187
+186,187
+188,189
+190,191
+192,193
+193,194
+193,195
+194,195
+194,196
+195,196
+198,199
+200,201
+201,202
+201,203
+202,203
+202,204
+203,204
+207,208
+208,209
+208,210
+209,210
+209,211
+210,211
+210,212
+211,212
+216,217
+217,218
+217,219
+218,219
+218,220
+219,220
+222,223
+222,224
+223,224
+223,225
+225,226
+227,228
+229,230
+230,231
+230,232
+231,232
+231,233
+232,233
+235,236
+236,237
+238,239
+238,240
+239,240
+239,241
+240,241
+241,242
+241,243
+242,243
+242,244
+243,244
+246,247
+246,248
+246,249
+246,250
+247,248
+249,250
+251,252
+253,254
+256,257
+256,258
+257,258
+258,259
+258,260
+259,260
+261,262
+263,264
+265,266
+266,267
+266,268
+266,269
+266,270
+266,271
+267,268
+269,270
+271,272
+275,276
+276,277
+-----nextToken-----
+3,5,6,8,10,11,13,15,16,21,23,24,28,30,31,34,36,42,45,48,53,54,57,59,66,67,69,74,75,77,82,84,89,90,92,97,99,104,105,107,112,114,119,120,125,126,128,133,135,140,141,143,148,150,155,156,158,163,166,168,174,177,181,182,187,189,191,196,197,199,204,205,206,212,213,214,215,220,221,224,226,228,233,234,237,244,245,248,250,252,254,255,260,262,264,268,270,272,273,274,277
+-----computeFrom-----
+40,41
+40,42
+50,51
+50,52
+61,62
+61,63
+63,64
+63,65
+71,72
+71,73
+80,81
+80,82
+86,87
+86,88
+95,96
+95,97
+101,102
+101,103
+110,111
+110,112
+117,118
+117,119
+122,123
+122,124
+131,132
+131,133
+137,138
+137,139
+146,147
+146,148
+152,153
+152,154
+161,162
+161,163
+164,165
+164,166
+172,173
+172,174
+193,194
+193,195
+201,202
+201,203
+208,209
+208,210
+217,218
+217,219
+230,231
+230,232
+239,240
+239,241
+241,242
+241,243
+-----guardedBy-----
+-----guardedByNegation-----
+74,104
+69,92
+75,105
+77,107
+89,104
+90,105
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;Pointer;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+jas_stream_t *jas_stream_fopen(const char *filename, const char *mode){	jas_stream_t *stream;	jas_stream_fileobj_t *obj;	int openflags;	/* Allocate a stream object. */	if (!(stream = jas_stream_create())) {		return 0;	}	/* Parse the mode string. */	stream->openmode_ = jas_strtoopenmode(mode);	/* Determine the correct flags to use for opening the file. */	if ((stream->openmode_ & JAS_STREAM_READ) &&	  (stream->openmode_ & JAS_STREAM_WRITE)) {		openflags = O_RDWR;	} else if (stream->openmode_ & JAS_STREAM_READ) {		openflags = O_RDONLY;	} else if (stream->openmode_ & JAS_STREAM_WRITE) {		openflags = O_WRONLY;	} else {		openflags = 0;	}	if (stream->openmode_ & JAS_STREAM_APPEND) {		openflags |= O_APPEND;	}	if (stream->openmode_ & JAS_STREAM_BINARY) {		openflags |= O_BINARY;	}	if (stream->openmode_ & JAS_STREAM_CREATE) {		openflags |= O_CREAT | O_TRUNC;	}	/* Allocate space for the underlying file stream object. */	if (!(obj = jas_malloc(sizeof(jas_stream_fileobj_t)))) {		jas_stream_destroy(stream);		return 0;	}	obj->fd = -1;	obj->flags = 0;	obj->pathname[0] = '\0';	stream->obj_ = (void *) obj;	/* Select the operations for a file stream object. */	stream->ops_ = &jas_stream_fileops;	/* Open the underlying file. */	if ((obj->fd = open(filename, openflags, JAS_STREAM_PERMS)) < 0) {		jas_stream_destroy(stream);		return 0;	}	/* By default, use full buffering for this type of stream. */	jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0);	return stream;}
+jas_stream_t
+jas_stream_t
+*jas_stream_fopen(const char *filename, const char *mode)
+*
+jas_stream_fopen
+const char *filename
+const char
+*filename
+*
+filename
+const char *mode
+const char
+*mode
+*
+mode
+{	jas_stream_t *stream;	jas_stream_fileobj_t *obj;	int openflags;	/* Allocate a stream object. */	if (!(stream = jas_stream_create())) {		return 0;	}	/* Parse the mode string. */	stream->openmode_ = jas_strtoopenmode(mode);	/* Determine the correct flags to use for opening the file. */	if ((stream->openmode_ & JAS_STREAM_READ) &&	  (stream->openmode_ & JAS_STREAM_WRITE)) {		openflags = O_RDWR;	} else if (stream->openmode_ & JAS_STREAM_READ) {		openflags = O_RDONLY;	} else if (stream->openmode_ & JAS_STREAM_WRITE) {		openflags = O_WRONLY;	} else {		openflags = 0;	}	if (stream->openmode_ & JAS_STREAM_APPEND) {		openflags |= O_APPEND;	}	if (stream->openmode_ & JAS_STREAM_BINARY) {		openflags |= O_BINARY;	}	if (stream->openmode_ & JAS_STREAM_CREATE) {		openflags |= O_CREAT | O_TRUNC;	}	/* Allocate space for the underlying file stream object. */	if (!(obj = jas_malloc(sizeof(jas_stream_fileobj_t)))) {		jas_stream_destroy(stream);		return 0;	}	obj->fd = -1;	obj->flags = 0;	obj->pathname[0] = '\0';	stream->obj_ = (void *) obj;	/* Select the operations for a file stream object. */	stream->ops_ = &jas_stream_fileops;	/* Open the underlying file. */	if ((obj->fd = open(filename, openflags, JAS_STREAM_PERMS)) < 0) {		jas_stream_destroy(stream);		return 0;	}	/* By default, use full buffering for this type of stream. */	jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0);	return stream;}
+jas_stream_t *stream;
+jas_stream_t *stream;
+jas_stream_t
+jas_stream_t
+*stream
+*
+stream
+jas_stream_fileobj_t *obj;
+jas_stream_fileobj_t *obj;
+jas_stream_fileobj_t
+jas_stream_fileobj_t
+*obj
+*
+obj
+int openflags;
+int openflags;
+int
+openflags
+openflags
+if (!(stream = jas_stream_create())) {		return 0;	}
+!(stream = jas_stream_create())
+(stream = jas_stream_create())
+stream = jas_stream_create()
+stream
+stream
+jas_stream_create()
+jas_stream_create
+jas_stream_create
+{		return 0;	}
+return 0;
+0
+stream->openmode_ = jas_strtoopenmode(mode);
+stream->openmode_ = jas_strtoopenmode(mode)
+stream->openmode_
+stream
+stream
+openmode_
+jas_strtoopenmode(mode)
+jas_strtoopenmode
+jas_strtoopenmode
+mode
+mode
+if ((stream->openmode_ & JAS_STREAM_READ) &&	  (stream->openmode_ & JAS_STREAM_WRITE)) {		openflags = O_RDWR;	} else if (stream->openmode_ & JAS_STREAM_READ) {		openflags = O_RDONLY;	} else if (stream->openmode_ & JAS_STREAM_WRITE) {		openflags = O_WRONLY;	} else {		openflags = 0;	}
+(stream->openmode_ & JAS_STREAM_READ) &&	  (stream->openmode_ & JAS_STREAM_WRITE)
+(stream->openmode_ & JAS_STREAM_READ)
+stream->openmode_ & JAS_STREAM_READ
+stream->openmode_
+stream
+stream
+openmode_
+JAS_STREAM_READ
+JAS_STREAM_READ
+(stream->openmode_ & JAS_STREAM_WRITE)
+stream->openmode_ & JAS_STREAM_WRITE
+stream->openmode_
+stream
+stream
+openmode_
+JAS_STREAM_WRITE
+JAS_STREAM_WRITE
+{		openflags = O_RDWR;	}
+openflags = O_RDWR;
+openflags = O_RDWR
+openflags
+openflags
+O_RDWR
+O_RDWR
+if (stream->openmode_ & JAS_STREAM_READ) {		openflags = O_RDONLY;	} else if (stream->openmode_ & JAS_STREAM_WRITE) {		openflags = O_WRONLY;	} else {		openflags = 0;	}
+stream->openmode_ & JAS_STREAM_READ
+stream->openmode_
+stream
+stream
+openmode_
+JAS_STREAM_READ
+JAS_STREAM_READ
+{		openflags = O_RDONLY;	}
+openflags = O_RDONLY;
+openflags = O_RDONLY
+openflags
+openflags
+O_RDONLY
+O_RDONLY
+if (stream->openmode_ & JAS_STREAM_WRITE) {		openflags = O_WRONLY;	} else {		openflags = 0;	}
+stream->openmode_ & JAS_STREAM_WRITE
+stream->openmode_
+stream
+stream
+openmode_
+JAS_STREAM_WRITE
+JAS_STREAM_WRITE
+{		openflags = O_WRONLY;	}
+openflags = O_WRONLY;
+openflags = O_WRONLY
+openflags
+openflags
+O_WRONLY
+O_WRONLY
+{		openflags = 0;	}
+openflags = 0;
+openflags = 0
+openflags
+openflags
+0
+if (stream->openmode_ & JAS_STREAM_APPEND) {		openflags |= O_APPEND;	}
+stream->openmode_ & JAS_STREAM_APPEND
+stream->openmode_
+stream
+stream
+openmode_
+JAS_STREAM_APPEND
+JAS_STREAM_APPEND
+{		openflags |= O_APPEND;	}
+openflags |= O_APPEND;
+openflags |= O_APPEND
+openflags
+openflags
+O_APPEND
+O_APPEND
+if (stream->openmode_ & JAS_STREAM_BINARY) {		openflags |= O_BINARY;	}
+stream->openmode_ & JAS_STREAM_BINARY
+stream->openmode_
+stream
+stream
+openmode_
+JAS_STREAM_BINARY
+JAS_STREAM_BINARY
+{		openflags |= O_BINARY;	}
+openflags |= O_BINARY;
+openflags |= O_BINARY
+openflags
+openflags
+O_BINARY
+O_BINARY
+if (stream->openmode_ & JAS_STREAM_CREATE) {		openflags |= O_CREAT | O_TRUNC;	}
+stream->openmode_ & JAS_STREAM_CREATE
+stream->openmode_
+stream
+stream
+openmode_
+JAS_STREAM_CREATE
+JAS_STREAM_CREATE
+{		openflags |= O_CREAT | O_TRUNC;	}
+openflags |= O_CREAT | O_TRUNC;
+openflags |= O_CREAT | O_TRUNC
+openflags
+openflags
+O_CREAT | O_TRUNC
+O_CREAT
+O_CREAT
+O_TRUNC
+O_TRUNC
+if (!(obj = jas_malloc(sizeof(jas_stream_fileobj_t)))) {		jas_stream_destroy(stream);		return 0;	}
+!(obj = jas_malloc(sizeof(jas_stream_fileobj_t)))
+(obj = jas_malloc(sizeof(jas_stream_fileobj_t)))
+obj = jas_malloc(sizeof(jas_stream_fileobj_t))
+obj
+obj
+jas_malloc(sizeof(jas_stream_fileobj_t))
+jas_malloc
+jas_malloc
+sizeof(jas_stream_fileobj_t)
+jas_stream_fileobj_t
+jas_stream_fileobj_t
+jas_stream_fileobj_t
+
+{		jas_stream_destroy(stream);		return 0;	}
+jas_stream_destroy(stream);
+jas_stream_destroy(stream)
+jas_stream_destroy
+jas_stream_destroy
+stream
+stream
+return 0;
+0
+obj->fd = -1;
+obj->fd = -1
+obj->fd
+obj
+obj
+fd
+-1
+1
+obj->flags = 0;
+obj->flags = 0
+obj->flags
+obj
+obj
+flags
+0
+obj->pathname[0] = '\0';
+obj->pathname[0] = '\0'
+obj->pathname[0]
+obj->pathname
+obj
+obj
+pathname
+0
+'\0'
+stream->obj_ = (void *) obj;
+stream->obj_ = (void *) obj
+stream->obj_
+stream
+stream
+obj_
+(void *) obj
+void *
+void
+*
+*
+obj
+obj
+stream->ops_ = &jas_stream_fileops;
+stream->ops_ = &jas_stream_fileops
+stream->ops_
+stream
+stream
+ops_
+&jas_stream_fileops
+jas_stream_fileops
+jas_stream_fileops
+if ((obj->fd = open(filename, openflags, JAS_STREAM_PERMS)) < 0) {		jas_stream_destroy(stream);		return 0;	}
+(obj->fd = open(filename, openflags, JAS_STREAM_PERMS)) < 0
+(obj->fd = open(filename, openflags, JAS_STREAM_PERMS))
+obj->fd = open(filename, openflags, JAS_STREAM_PERMS)
+obj->fd
+obj
+obj
+fd
+open(filename, openflags, JAS_STREAM_PERMS)
+open
+open
+filename
+filename
+openflags
+openflags
+JAS_STREAM_PERMS
+JAS_STREAM_PERMS
+0
+{		jas_stream_destroy(stream);		return 0;	}
+jas_stream_destroy(stream);
+jas_stream_destroy(stream)
+jas_stream_destroy
+jas_stream_destroy
+stream
+stream
+return 0;
+0
+jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0);
+jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0)
+jas_stream_initbuf
+jas_stream_initbuf
+stream
+stream
+JAS_STREAM_FULLBUF
+JAS_STREAM_FULLBUF
+0
+0
+return stream;
+stream
+stream
+-----joern-----
+(10,94,0)
+(3,40,0)
+(13,130,0)
+(120,60,0)
+(72,144,0)
+(125,103,0)
+(5,73,0)
+(71,65,0)
+(6,0,0)
+(111,104,0)
+(83,52,0)
+(32,42,0)
+(30,103,0)
+(145,18,0)
+(68,29,0)
+(21,30,0)
+(134,41,0)
+(11,144,0)
+(68,104,0)
+(114,18,0)
+(98,91,0)
+(93,129,0)
+(18,109,0)
+(38,85,0)
+(8,130,0)
+(131,25,0)
+(96,101,0)
+(25,103,0)
+(105,146,0)
+(2,145,0)
+(121,108,0)
+(23,48,0)
+(5,102,0)
+(81,103,0)
+(76,93,0)
+(31,63,0)
+(121,24,0)
+(123,68,0)
+(14,73,0)
+(135,94,0)
+(69,4,0)
+(15,63,0)
+(150,12,0)
+(119,66,0)
+(40,101,0)
+(33,85,0)
+(18,140,0)
+(136,23,0)
+(58,60,0)
+(86,87,0)
+(97,47,0)
+(121,11,0)
+(63,109,0)
+(98,33,0)
+(69,142,0)
+(104,109,0)
+(49,60,0)
+(116,101,0)
+(145,103,0)
+(104,68,0)
+(34,11,0)
+(114,0,0)
+(35,5,0)
+(121,38,0)
+(42,130,0)
+(98,114,0)
+(4,113,0)
+(118,81,0)
+(0,78,0)
+(54,5,0)
+(55,87,0)
+(105,103,0)
+(60,101,0)
+(59,103,0)
+(73,88,0)
+(12,130,0)
+(105,4,0)
+(61,48,0)
+(108,22,0)
+(52,78,0)
+(92,38,0)
+(1,129,0)
+(16,45,0)
+(56,104,0)
+(60,130,0)
+(149,101,0)
+(137,110,0)
+(85,33,0)
+(121,145,0)
+(81,57,0)
+(110,103,0)
+(121,25,0)
+(9,145,0)
+(148,91,0)
+(48,80,0)
+(110,4,0)
+(73,130,0)
+(103,59,0)
+(41,52,0)
+(143,97,0)
+(50,30,0)
+(35,97,0)
+(20,130,0)
+(122,107,0)
+(27,25,0)
+(33,98,0)
+(94,135,0)
+(45,65,0)
+(121,110,0)
+(69,29,0)
+(149,30,0)
+(5,12,0)
+(85,36,0)
+(66,130,0)
+(127,101,0)
+(8,149,0)
+(17,81,0)
+(35,66,0)
+(121,41,0)
+(124,69,0)
+(19,65,0)
+(105,85,0)
+(66,101,0)
+(84,125,0)
+(112,101,0)
+(121,93,0)
+(77,23,0)
+(53,125,0)
+(135,103,0)
+(114,103,0)
+(57,74,0)
+(7,108,0)
+(142,69,0)
+(95,114,0)
+(147,114,0)
+(107,130,0)
+(132,103,0)
+(39,11,0)
+(91,98,0)
+(89,57,0)
+(108,103,0)
+(28,41,0)
+(139,60,0)
+(121,73,0)
+(90,105,0)
+(30,149,0)
+(45,116,0)
+(107,102,0)
+(51,101,0)
+(105,144,0)
+(144,101,0)
+(114,98,0)
+(126,127,0)
+(130,20,0)
+(146,105,0)
+(38,103,0)
+(99,8,0)
+(121,87,0)
+(87,103,0)
+(125,127,0)
+(44,105,0)
+(64,22,0)
+(82,121,0)
+(130,13,0)
+(79,101,0)
+(65,45,0)
+(115,88,0)
+(35,121,0)
+(117,101,0)
+(23,103,0)
+(62,130,0)
+(4,69,0)
+(133,93,0)
+(67,101,0)
+(141,18,0)
+(70,115,0)
+(93,103,0)
+(37,101,0)
+(11,103,0)
+(22,140,0)
+(88,101,0)
+(100,38,0)
+(87,40,0)
+(41,103,0)
+(26,12,0)
+(138,8,0)
+(30,21,0)
+(25,0,0)
+(116,45,0)
+(43,101,0)
+(129,36,0)
+(12,116,0)
+(48,109,0)
+(121,8,0)
+(42,24,0)
+(103,135,0)
+(106,110,0)
+(121,12,0)
+(128,108,0)
+(88,115,0)
+(46,73,0)
+(17,68,1)
+(149,30,1)
+(131,63,1)
+(28,0,1)
+(52,83,1)
+(18,109,1)
+(108,103,1)
+(99,138,1)
+(89,81,1)
+(54,107,1)
+(125,103,1)
+(115,70,1)
+(53,57,1)
+(121,87,1)
+(68,29,1)
+(83,41,1)
+(35,121,1)
+(88,115,1)
+(10,132,1)
+(132,88,1)
+(111,56,1)
+(147,95,1)
+(76,85,1)
+(31,15,1)
+(30,21,1)
+(25,27,1)
+(121,108,1)
+(41,103,1)
+(121,93,1)
+(86,55,1)
+(118,17,1)
+(12,26,1)
+(27,131,1)
+(123,104,1)
+(93,103,1)
+(20,62,1)
+(35,66,1)
+(14,46,1)
+(30,50,1)
+(38,100,1)
+(121,11,1)
+(108,7,1)
+(91,148,1)
+(82,42,1)
+(18,141,1)
+(49,116,1)
+(116,45,1)
+(145,103,1)
+(144,72,1)
+(48,109,1)
+(34,39,1)
+(136,68,1)
+(72,11,1)
+(69,124,1)
+(41,134,1)
+(138,59,1)
+(8,130,1)
+(121,12,1)
+(124,110,1)
+(94,10,1)
+(30,103,1)
+(105,85,1)
+(66,119,1)
+(11,34,1)
+(35,5,1)
+(46,60,1)
+(13,130,1)
+(48,61,1)
+(106,75,1)
+(103,135,1)
+(143,13,1)
+(114,147,1)
+(90,4,1)
+(58,49,1)
+(97,143,1)
+(95,38,1)
+(3,87,1)
+(81,103,1)
+(104,111,1)
+(110,103,1)
+(77,136,1)
+(60,120,1)
+(135,94,1)
+(84,53,1)
+(68,123,1)
+(45,65,1)
+(25,103,1)
+(126,125,1)
+(35,97,1)
+(114,18,1)
+(63,109,1)
+(134,28,1)
+(4,69,1)
+(22,64,1)
+(105,144,1)
+(60,130,1)
+(85,33,1)
+(120,139,1)
+(110,137,1)
+(59,103,1)
+(1,93,1)
+(121,41,1)
+(90,129,1)
+(137,106,1)
+(133,76,1)
+(75,22,1)
+(55,149,1)
+(38,103,1)
+(128,18,1)
+(63,31,1)
+(105,103,1)
+(56,146,1)
+(130,20,1)
+(148,114,1)
+(121,110,1)
+(33,98,1)
+(50,8,1)
+(127,126,1)
+(7,128,1)
+(69,29,1)
+(42,130,1)
+(119,127,1)
+(81,118,1)
+(57,89,1)
+(150,13,1)
+(105,4,1)
+(87,86,1)
+(121,25,1)
+(141,145,1)
+(121,145,1)
+(23,103,1)
+(100,92,1)
+(32,146,1)
+(8,99,1)
+(121,82,1)
+(104,109,1)
+(73,14,1)
+(98,114,1)
+(65,71,1)
+(0,6,1)
+(93,133,1)
+(129,1,1)
+(12,130,1)
+(92,75,1)
+(66,130,1)
+(114,0,1)
+(69,142,1)
+(75,52,1)
+(71,19,1)
+(40,3,1)
+(39,40,1)
+(105,44,1)
+(139,58,1)
+(146,105,1)
+(9,2,1)
+(122,59,1)
+(53,48,1)
+(107,130,1)
+(61,23,1)
+(5,12,1)
+(5,73,1)
+(64,108,1)
+(70,73,1)
+(114,103,1)
+(87,103,1)
+(19,16,1)
+(145,9,1)
+(15,144,1)
+(26,150,1)
+(125,84,1)
+(121,38,1)
+(68,104,1)
+(121,8,1)
+(107,122,1)
+(98,91,1)
+(16,12,1)
+(23,77,1)
+(121,73,1)
+(6,25,1)
+(73,130,1)
+(5,54,1)
+(42,32,1)
+(44,90,1)
+(2,63,1)
+(11,103,1)
+(60,13,2)
+(3,59,2)
+(116,45,2)
+(28,63,2)
+(15,59,2)
+(33,75,2)
+(108,103,2)
+(26,13,2)
+(70,13,2)
+(130,20,2)
+(40,59,2)
+(35,97,2)
+(45,13,2)
+(56,146,2)
+(42,146,2)
+(5,12,2)
+(5,59,2)
+(30,103,2)
+(105,144,2)
+(81,103,2)
+(12,130,2)
+(53,146,2)
+(150,13,2)
+(123,104,2)
+(87,59,2)
+(76,75,2)
+(69,142,2)
+(12,13,2)
+(121,87,2)
+(63,59,2)
+(87,103,2)
+(133,75,2)
+(114,18,2)
+(59,103,2)
+(41,103,2)
+(124,75,2)
+(146,59,2)
+(104,146,2)
+(35,121,2)
+(8,59,2)
+(121,25,2)
+(99,59,2)
+(81,68,2)
+(55,59,2)
+(5,73,2)
+(38,75,2)
+(135,13,2)
+(61,68,2)
+(63,109,2)
+(13,130,2)
+(145,103,2)
+(41,63,2)
+(23,103,2)
+(66,146,2)
+(120,13,2)
+(147,75,2)
+(121,41,2)
+(149,30,2)
+(97,13,2)
+(77,68,2)
+(148,75,2)
+(106,75,2)
+(85,33,2)
+(68,146,2)
+(125,103,2)
+(135,94,2)
+(46,13,2)
+(110,103,2)
+(38,103,2)
+(68,29,2)
+(54,59,2)
+(121,8,2)
+(0,63,2)
+(105,4,2)
+(121,146,2)
+(57,68,2)
+(66,130,2)
+(93,103,2)
+(103,135,2)
+(48,68,2)
+(59,13,2)
+(14,13,2)
+(105,59,2)
+(19,13,2)
+(105,85,2)
+(90,59,2)
+(91,75,2)
+(107,130,2)
+(89,68,2)
+(25,63,2)
+(115,13,2)
+(8,130,2)
+(18,63,2)
+(84,146,2)
+(30,21,2)
+(127,146,2)
+(9,63,2)
+(88,13,2)
+(104,109,2)
+(49,13,2)
+(98,75,2)
+(17,68,2)
+(132,13,2)
+(4,69,2)
+(143,13,2)
+(18,109,2)
+(136,68,2)
+(103,13,2)
+(25,103,2)
+(4,75,2)
+(128,63,2)
+(11,103,2)
+(129,75,2)
+(114,103,2)
+(58,13,2)
+(92,75,2)
+(149,59,2)
+(98,114,2)
+(23,68,2)
+(137,75,2)
+(111,146,2)
+(72,59,2)
+(65,13,2)
+(119,146,2)
+(139,13,2)
+(105,103,2)
+(114,0,2)
+(31,59,2)
+(114,75,2)
+(116,13,2)
+(86,59,2)
+(95,75,2)
+(68,104,2)
+(145,63,2)
+(42,130,2)
+(82,146,2)
+(83,63,2)
+(118,68,2)
+(141,63,2)
+(27,63,2)
+(35,66,2)
+(122,59,2)
+(88,115,2)
+(125,146,2)
+(134,63,2)
+(32,146,2)
+(64,63,2)
+(93,75,2)
+(131,63,2)
+(121,11,2)
+(16,13,2)
+(121,145,2)
+(22,63,2)
+(34,59,2)
+(121,110,2)
+(1,75,2)
+(11,59,2)
+(44,59,2)
+(100,75,2)
+(30,59,2)
+(33,98,2)
+(144,59,2)
+(121,73,2)
+(73,130,2)
+(138,59,2)
+(69,75,2)
+(121,12,2)
+(126,146,2)
+(71,13,2)
+(75,59,2)
+(50,59,2)
+(52,63,2)
+(108,63,2)
+(121,93,2)
+(10,13,2)
+(48,109,2)
+(94,13,2)
+(45,65,2)
+(98,91,2)
+(85,75,2)
+(60,130,2)
+(121,108,2)
+(7,63,2)
+(39,59,2)
+(110,75,2)
+(69,29,2)
+(107,59,2)
+(146,105,2)
+(2,63,2)
+(6,63,2)
+(73,13,2)
+(35,5,2)
+(121,38,2)
+-----------------------------------
+(0,obj->bufsize_ = 1024)
+(1,1)
+(2,obj)
+(3,0)
+(4,obj->buf_ = (unsigned char *)
+(5,return 0;)
+(6,1024)
+(7,growable_)
+(8,stream->obj_)
+(9,bufsize_)
+(10,jas_stream_memobj_t)
+(11,obj->buf_)
+(12,stream->openmode_)
+(13,!(stream = jas_stream_create()
+(14,ops_)
+(15,bufsize)
+(16,JAS_STREAM_READ)
+(17,obj)
+(18,obj->bufsize_ = bufsize)
+(19,JAS_STREAM_WRITE)
+(20,jas_stream_create()
+(21,void *)
+(22,obj->growable_ = 0)
+(23,obj->len_)
+(24,)
+(25,obj->bufsize_)
+(26,openmode_)
+(27,bufsize_)
+(28,obj)
+(29,char *buf)
+(30,(void *)
+(31,0)
+(32,stream)
+(33,jas_malloc(obj->bufsize_ * sizeof(char)
+(34,buf_)
+(35,RET)
+(36,)
+(37,if (bufsize <= 0)
+(38,obj->buf_)
+(39,obj)
+(40,obj->myalloc_ = 0)
+(41,obj->growable_)
+(42,jas_stream_close(stream)
+(43,if (!(stream = jas_stream_create()
+(44,buf_)
+(45,JAS_STREAM_READ | JAS_STREAM_WRITE | JAS_STREAM_BINARY)
+(46,stream)
+(47,)
+(48,obj->len_ = bufsize)
+(49,stream)
+(50,obj)
+(51,obj)
+(52,obj->growable_ = 1)
+(53,obj)
+(54,0)
+(55,obj)
+(56,bufsize)
+(57,obj->len_ = 0)
+(58,JAS_STREAM_FULLBUF)
+(59,!(obj = jas_malloc(sizeof(jas_stream_memobj_t)
+(60,jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0)
+(61,bufsize)
+(62,stream)
+(63,bufsize <= 0)
+(64,0)
+(65,JAS_STREAM_WRITE | JAS_STREAM_BINARY)
+(66,return stream;)
+(67,stream)
+(68,bufsize > 0 && buf)
+(69,(unsigned char *)
+(70,jas_stream_memops)
+(71,JAS_STREAM_BINARY)
+(72,0)
+(73,stream->ops_)
+(74,)
+(75,buf)
+(76,obj)
+(77,len_)
+(78,)
+(79,if (bufsize > 0 && buf)
+(80,)
+(81,obj->len_)
+(82,0)
+(83,1)
+(84,pos_)
+(85,obj->buf_ = jas_malloc(obj->bufsize_ * sizeof(char)
+(86,myalloc_)
+(87,obj->myalloc_)
+(88,stream->ops_ = &jas_stream_memops)
+(89,0)
+(90,obj)
+(91,sizeof(char)
+(92,obj)
+(93,obj->myalloc_)
+(94,sizeof(jas_stream_memobj_t)
+(95,obj)
+(96,if (!(obj = jas_malloc(sizeof(jas_stream_memobj_t)
+(97,return 0;)
+(98,obj->bufsize_ * sizeof(char)
+(99,obj_)
+(100,buf_)
+(101,)
+(102,)
+(103,obj = jas_malloc(sizeof(jas_stream_memobj_t)
+(104,bufsize > 0)
+(105,obj->buf_)
+(106,obj)
+(107,jas_stream_destroy(stream)
+(108,obj->growable_)
+(109,int bufsize)
+(110,obj->buf_)
+(111,0)
+(112,if (buf)
+(113,)
+(114,obj->bufsize_)
+(115,&jas_stream_memops)
+(116,stream->openmode_ = JAS_STREAM_READ | JAS_STREAM_WRITE | JAS_STREAM_BINARY)
+(117,if (!obj->buf_)
+(118,len_)
+(119,stream)
+(120,0)
+(121,return 0;)
+(122,stream)
+(123,buf)
+(124,buf)
+(125,obj->pos_)
+(126,0)
+(127,obj->pos_ = 0)
+(128,obj)
+(129,obj->myalloc_ = 1)
+(130,stream = jas_stream_create()
+(131,obj)
+(132,obj)
+(133,myalloc_)
+(134,growable_)
+(135,jas_malloc(sizeof(jas_stream_memobj_t)
+(136,obj)
+(137,buf_)
+(138,stream)
+(139,0)
+(140,)
+(141,bufsize)
+(142,unsigned char *)
+(143,0)
+(144,obj->buf_ = 0)
+(145,obj->bufsize_)
+(146,!obj->buf_)
+(147,bufsize_)
+(148,char)
+(149,stream->obj_ = (void *)
+(150,stream)
+-----cfg-----
+(128,138)
+(129,128)
+(130,129)
+(132,130)
+(135,145)
+(7,18)
+(136,140)
+(138,136)
+(139,135)
+(140,139)
+(142,153)
+(15,20)
+(15,25)
+(143,146)
+(16,15)
+(145,143)
+(146,142)
+(18,16)
+(20,171)
+(149,160)
+(149,164)
+(22,33)
+(150,149)
+(23,26)
+(151,154)
+(25,23)
+(153,151)
+(26,22)
+(154,150)
+(29,41)
+(29,50)
+(30,29)
+(30,38)
+(31,30)
+(160,162)
+(33,31)
+(162,171)
+(35,29)
+(164,169)
+(36,35)
+(38,36)
+(169,171)
+(41,77)
+(47,53)
+(47,62)
+(48,47)
+(50,48)
+(53,77)
+(59,65)
+(59,70)
+(60,59)
+(62,60)
+(65,77)
+(70,77)
+(74,80)
+(74,87)
+(75,74)
+(77,75)
+(80,87)
+(84,90)
+(84,97)
+(85,84)
+(87,85)
+(90,97)
+(94,102)
+(94,110)
+(95,94)
+(97,95)
+(100,110)
+(102,100)
+(106,113)
+(106,120)
+(107,106)
+(109,107)
+(110,109)
+(113,115)
+(115,171)
+(117,126)
+(118,121)
+(120,118)
+(121,117)
+(123,132)
+(124,123)
+(126,124)
+-----path-----
+7,18,16,15,20,171
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153,151,154
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153,151
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,80,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,80,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153,151,154,150
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153,151
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153,151,154,150
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153,151,154
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,41,77,75,74,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153,151,154,150,149
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,80,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,80,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,53,77,75,74,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153,151
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,65,77,75,74,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,29,50,48,47,62,60,59,70,77,75,74,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,80,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,80,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,41,77,75,74,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146,142,153,151
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,80,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,80,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,53,77,75,74,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135,145,143,146
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,80,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,65,77,75,74,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,80,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,87,85,84,90,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,87,85,84,90,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,87,85,84,90,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,87,85,84,97,95,94,102,100,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,87,85,84,97,95,94,110,109,107,106,113,115,171
+7,18,16,15,25,23,26,22,33,31,30,38,36,35,29,50,48,47,62,60,59,70,77,75,74,87,85,84,97,95,94,110,109,107,106,120,118,121,117,126,124,123,132,130,129,128,138,136,140,139,135
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jas_stream_t jas_stream_fopen (const char *filename,const char *mode)
+8,const char *filename
+9,const char *mode
+10,<empty>
+11,jas_stream_t* stream
+12,jas_stream_fileobj_t* obj
+13,int openflags
+14,if (!(stream = jas_stream_create()))
+15,!(stream = jas_stream_create())
+16,stream = jas_stream_create()
+17,stream
+18,jas_stream_create()
+19,<empty>
+20,return 0;
+21,0
+22,stream->openmode_ = jas_strtoopenmode(mode)
+23,stream->openmode_
+24,stream
+25,openmode_
+26,jas_strtoopenmode(mode)
+27,mode
+28,if ((stream->openmode_ & JAS_STREAM_READ) &&
+29,	  (stream->openmode_ & JAS_STREAM_WRITE))
+30,(stream->openmode_ & JAS_STREAM_READ) &&
+31,	  (stream->openmode_ & JAS_STREAM_WRITE)
+32,stream->openmode_ & JAS_STREAM_READ
+33,stream->openmode_
+34,stream
+35,openmode_
+36,JAS_STREAM_READ
+37,stream->openmode_ & JAS_STREAM_WRITE
+38,stream->openmode_
+39,stream
+40,openmode_
+41,JAS_STREAM_WRITE
+42,<empty>
+43,openflags = O_RDWR
+44,openflags
+45,O_RDWR
+46,else
+47,<empty>
+48,if (stream->openmode_ & JAS_STREAM_READ)
+49,stream->openmode_ & JAS_STREAM_READ
+50,stream->openmode_
+51,stream
+52,openmode_
+53,JAS_STREAM_READ
+54,<empty>
+55,openflags = O_RDONLY
+56,openflags
+57,O_RDONLY
+58,else
+59,<empty>
+60,if (stream->openmode_ & JAS_STREAM_WRITE)
+61,stream->openmode_ & JAS_STREAM_WRITE
+62,stream->openmode_
+63,stream
+64,openmode_
+65,JAS_STREAM_WRITE
+66,<empty>
+67,openflags = O_WRONLY
+68,openflags
+69,O_WRONLY
+70,else
+71,<empty>
+72,openflags = 0
+73,openflags
+74,0
+75,if (stream->openmode_ & JAS_STREAM_APPEND)
+76,stream->openmode_ & JAS_STREAM_APPEND
+77,stream->openmode_
+78,stream
+79,openmode_
+80,JAS_STREAM_APPEND
+81,<empty>
+82,openflags |= O_APPEND
+83,openflags
+84,O_APPEND
+85,if (stream->openmode_ & JAS_STREAM_BINARY)
+86,stream->openmode_ & JAS_STREAM_BINARY
+87,stream->openmode_
+88,stream
+89,openmode_
+90,JAS_STREAM_BINARY
+91,<empty>
+92,openflags |= O_BINARY
+93,openflags
+94,O_BINARY
+95,if (stream->openmode_ & JAS_STREAM_CREATE)
+96,stream->openmode_ & JAS_STREAM_CREATE
+97,stream->openmode_
+98,stream
+99,openmode_
+100,JAS_STREAM_CREATE
+101,<empty>
+102,openflags |= O_CREAT | O_TRUNC
+103,openflags
+104,O_CREAT | O_TRUNC
+105,O_CREAT
+106,O_TRUNC
+107,if (!(obj = jas_malloc(sizeof(jas_stream_fileobj_t))))
+108,!(obj = jas_malloc(sizeof(jas_stream_fileobj_t)))
+109,obj = jas_malloc(sizeof(jas_stream_fileobj_t))
+110,obj
+111,jas_malloc(sizeof(jas_stream_fileobj_t))
+112,sizeof(jas_stream_fileobj_t)
+113,jas_stream_fileobj_t
+114,<empty>
+115,jas_stream_destroy(stream)
+116,stream
+117,return 0;
+118,0
+119,obj->fd = -1
+120,obj->fd
+121,obj
+122,fd
+123,-1
+124,1
+125,obj->flags = 0
+126,obj->flags
+127,obj
+128,flags
+129,0
+130,obj->pathname[0] = '\0'
+131,obj->pathname[0]
+132,obj->pathname
+133,obj
+134,pathname
+135,0
+136,'\0'
+137,stream->obj_ = (void *) obj
+138,stream->obj_
+139,stream
+140,obj_
+141,(void *) obj
+142,void *
+143,obj
+144,stream->ops_ = &jas_stream_fileops
+145,stream->ops_
+146,stream
+147,ops_
+148,&jas_stream_fileops
+149,jas_stream_fileops
+150,if ((obj->fd = open(filename, openflags, JAS_STREAM_PERMS)) < 0)
+151,(obj->fd = open(filename, openflags, JAS_STREAM_PERMS)) < 0
+152,obj->fd = open(filename, openflags, JAS_STREAM_PERMS)
+153,obj->fd
+154,obj
+155,fd
+156,open(filename, openflags, JAS_STREAM_PERMS)
+157,filename
+158,openflags
+159,JAS_STREAM_PERMS
+160,0
+161,<empty>
+162,jas_stream_destroy(stream)
+163,stream
+164,return 0;
+165,0
+166,jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0)
+167,stream
+168,JAS_STREAM_FULLBUF
+169,0
+170,0
+171,return stream;
+172,stream
+173,RET
+174,const char *filename
+175,const char *mode
+176,RET
+177,jas_stream_t jas_stream_fopen (const char *filename,const char *mode)
+178,const char *filename
+179,const char *mode
+180,<empty>
+181,jas_stream_t* stream
+182,jas_stream_fileobj_t* obj
+183,int openflags
+184,if (!(stream = jas_stream_create()))
+185,!(stream = jas_stream_create())
+186,stream = jas_stream_create()
+187,stream
+188,jas_stream_create()
+189,<empty>
+190,return 0;
+191,0
+192,stream->openmode_ = jas_strtoopenmode(mode)
+193,stream->openmode_
+194,stream
+195,openmode_
+196,jas_strtoopenmode(mode)
+197,mode
+198,if ((stream->openmode_ & JAS_STREAM_READ) &&
+199,	  (stream->openmode_ & JAS_STREAM_WRITE))
+200,(stream->openmode_ & JAS_STREAM_READ) &&
+201,	  (stream->openmode_ & JAS_STREAM_WRITE)
+202,stream->openmode_ & JAS_STREAM_READ
+203,stream->openmode_
+204,stream
+205,openmode_
+206,JAS_STREAM_READ
+207,stream->openmode_ & JAS_STREAM_WRITE
+208,stream->openmode_
+209,stream
+210,openmode_
+211,JAS_STREAM_WRITE
+212,<empty>
+213,openflags = O_RDWR
+214,openflags
+215,O_RDWR
+216,else
+217,<empty>
+218,if (stream->openmode_ & JAS_STREAM_READ)
+219,stream->openmode_ & JAS_STREAM_READ
+220,stream->openmode_
+221,stream
+222,openmode_
+223,JAS_STREAM_READ
+224,<empty>
+225,openflags = O_RDONLY
+226,openflags
+227,O_RDONLY
+228,else
+229,<empty>
+230,if (stream->openmode_ & JAS_STREAM_WRITE)
+231,stream->openmode_ & JAS_STREAM_WRITE
+232,stream->openmode_
+233,stream
+234,openmode_
+235,JAS_STREAM_WRITE
+236,<empty>
+237,openflags = O_WRONLY
+238,openflags
+239,O_WRONLY
+240,else
+241,<empty>
+242,openflags = 0
+243,openflags
+244,0
+245,if (stream->openmode_ & JAS_STREAM_APPEND)
+246,stream->openmode_ & JAS_STREAM_APPEND
+247,stream->openmode_
+248,stream
+249,openmode_
+250,JAS_STREAM_APPEND
+251,<empty>
+252,openflags |= O_APPEND
+253,openflags
+254,O_APPEND
+255,if (stream->openmode_ & JAS_STREAM_BINARY)
+256,stream->openmode_ & JAS_STREAM_BINARY
+257,stream->openmode_
+258,stream
+259,openmode_
+260,JAS_STREAM_BINARY
+261,<empty>
+262,openflags |= O_BINARY
+263,openflags
+264,O_BINARY
+265,if (stream->openmode_ & JAS_STREAM_CREATE)
+266,stream->openmode_ & JAS_STREAM_CREATE
+267,stream->openmode_
+268,stream
+269,openmode_
+270,JAS_STREAM_CREATE
+271,<empty>
+272,openflags |= O_CREAT | O_TRUNC
+273,openflags
+274,O_CREAT | O_TRUNC
+275,O_CREAT
+276,O_TRUNC
+277,if (!(obj = jas_malloc(sizeof(jas_stream_fileobj_t))))
+278,!(obj = jas_malloc(sizeof(jas_stream_fileobj_t)))
+279,obj = jas_malloc(sizeof(jas_stream_fileobj_t))
+280,obj
+281,jas_malloc(sizeof(jas_stream_fileobj_t))
+282,sizeof(jas_stream_fileobj_t)
+283,jas_stream_fileobj_t
+284,<empty>
+285,jas_stream_destroy(stream)
+286,stream
+287,return 0;
+288,0
+289,obj->fd = -1
+290,obj->fd
+291,obj
+292,fd
+293,-1
+294,1
+295,obj->flags = 0
+296,obj->flags
+297,obj
+298,flags
+299,0
+300,obj->pathname[0] = '\0'
+301,obj->pathname[0]
+302,obj->pathname
+303,obj
+304,pathname
+305,0
+306,'\0'
+307,stream->obj_ = (void *) obj
+308,stream->obj_
+309,stream
+310,obj_
+311,(void *) obj
+312,void *
+313,obj
+314,stream->ops_ = &jas_stream_fileops
+315,stream->ops_
+316,stream
+317,ops_
+318,&jas_stream_fileops
+319,jas_stream_fileops
+320,if ((obj->fd = open(filename, openflags, JAS_STREAM_PERMS)) < 0)
+321,(obj->fd = open(filename, openflags, JAS_STREAM_PERMS)) < 0
+322,obj->fd = open(filename, openflags, JAS_STREAM_PERMS)
+323,obj->fd
+324,obj
+325,fd
+326,open(filename, openflags, JAS_STREAM_PERMS)
+327,filename
+328,openflags
+329,JAS_STREAM_PERMS
+330,0
+331,<empty>
+332,jas_stream_destroy(stream)
+333,stream
+334,return 0;
+335,0
+336,jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0)
+337,stream
+338,JAS_STREAM_FULLBUF
+339,0
+340,0
+341,return stream;
+342,stream
+343,RET
+344,const char *filename
+345,const char *mode
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jas_stream_t *jas_stream_fopen(const char *filename, const char *mode) {
+jas_stream_t *stream;
+jas_stream_fileobj_t *obj;
+int openflags;
+stream->openmode_ = jas_strtoopenmode(mode);
+if((stream->openmode_ & JAS_STREAM_READ) && 	  (stream->openmode_ & JAS_STREAM_WRITE))
+openflags = O_RDWR;
+if(stream->openmode_ & JAS_STREAM_BINARY)
+openflags |= O_BINARY;
+if(stream->openmode_ & JAS_STREAM_CREATE)
+openflags |= O_CREAT | O_TRUNC;
+obj->fd = -1;
+obj->flags = 0;
+obj->pathname[0] = 'stream->obj_ = (void *) obj;
+stream->ops_ = &jas_stream_fileops;
+jas_stream_initbuf(stream, JAS_STREAM_FULLBUF, 0, 0);
+return stream;
+=======================

@@ -1,0 +1,325 @@
+-----label-----
+0
+-----code-----
+static jas_opt_t *jas_optlookup(jas_opt_t *opts, char *name)
+{
+	jas_opt_t *opt;
+
+	for (opt = opts; opt->id >= 0 && opt->name; ++opt) {
+		if (!strcmp(opt->name, name)) {
+			return opt;
+		}
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+8,9
+10,11
+10,12
+13,14
+13,15
+15,16
+15,17
+18,19
+18,20
+18,21
+19,20
+20,21
+20,22
+21,22
+23,24
+23,25
+26,27
+26,28
+26,29
+26,30
+27,28
+28,29
+28,30
+29,30
+31,32
+33,34
+33,35
+34,35
+34,36
+35,36
+35,37
+36,37
+40,41
+40,42
+41,42
+44,45
+45,46
+47,48
+48,49
+48,50
+49,50
+50,51
+50,52
+50,53
+51,52
+53,54
+53,55
+54,55
+57,58
+59,60
+60,61
+61,62
+63,64
+-----nextToken-----
+3,5,6,9,11,12,14,16,17,22,24,25,30,32,37,38,39,42,43,46,52,55,56,58,62,64
+-----computeFrom-----
+28,29
+28,30
+33,34
+33,35
+34,35
+34,36
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ReturnStatement;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static jas_opt_t *jas_optlookup(jas_opt_t *opts, char *name){	jas_opt_t *opt;	for (opt = opts; opt->id >= 0 && opt->name; ++opt) {		if (!strcmp(opt->name, name)) {			return opt;		}	}	return 0;}
+static jas_opt_t
+jas_opt_t
+*jas_optlookup(jas_opt_t *opts, char *name)
+*
+jas_optlookup
+jas_opt_t *opts
+jas_opt_t
+jas_opt_t
+*opts
+*
+opts
+char *name
+char
+*name
+*
+name
+{	jas_opt_t *opt;	for (opt = opts; opt->id >= 0 && opt->name; ++opt) {		if (!strcmp(opt->name, name)) {			return opt;		}	}	return 0;}
+jas_opt_t *opt;
+jas_opt_t *opt;
+jas_opt_t
+jas_opt_t
+*opt
+*
+opt
+for (opt = opts; opt->id >= 0 && opt->name; ++opt) {		if (!strcmp(opt->name, name)) {			return opt;		}	}
+opt = opts;
+opt = opts
+opt
+opt
+opts
+opts
+opt->id >= 0 && opt->name
+opt->id >= 0
+opt->id
+opt
+opt
+id
+0
+opt->name
+opt
+opt
+name
+++opt
+opt
+opt
+{		if (!strcmp(opt->name, name)) {			return opt;		}	}
+if (!strcmp(opt->name, name)) {			return opt;		}
+!strcmp(opt->name, name)
+strcmp(opt->name, name)
+strcmp
+strcmp
+opt->name
+opt
+opt
+name
+name
+name
+{			return opt;		}
+return opt;
+opt
+opt
+return 0;
+0
+-----joern-----
+(21,26,0)
+(12,32,0)
+(13,14,0)
+(25,3,0)
+(20,28,0)
+(30,26,0)
+(7,26,0)
+(11,24,0)
+(14,6,0)
+(4,12,0)
+(2,21,0)
+(24,21,0)
+(21,24,0)
+(26,18,0)
+(17,5,0)
+(1,24,0)
+(3,5,0)
+(15,14,0)
+(6,32,0)
+(16,32,0)
+(28,26,0)
+(31,5,0)
+(24,11,0)
+(32,12,0)
+(10,7,0)
+(12,26,0)
+(0,26,0)
+(22,3,0)
+(24,29,0)
+(32,6,0)
+(23,12,0)
+(25,7,0)
+(9,19,0)
+(7,27,0)
+(14,26,0)
+(8,21,0)
+(6,14,0)
+(24,21,1)
+(22,6,1)
+(23,28,1)
+(16,12,1)
+(14,15,1)
+(20,11,1)
+(26,18,1)
+(24,1,1)
+(12,26,1)
+(32,12,1)
+(28,26,1)
+(21,26,1)
+(15,13,1)
+(25,3,1)
+(10,11,1)
+(7,26,1)
+(23,26,1)
+(6,14,1)
+(26,30,1)
+(11,24,1)
+(32,16,1)
+(6,32,1)
+(13,32,1)
+(28,20,1)
+(8,6,1)
+(7,10,1)
+(2,8,1)
+(4,23,1)
+(1,21,1)
+(14,26,1)
+(24,29,1)
+(25,7,1)
+(21,2,1)
+(30,0,1)
+(12,4,1)
+(3,22,1)
+(28,11,2)
+(10,11,2)
+(14,32,2)
+(2,6,2)
+(24,21,2)
+(26,18,2)
+(12,11,2)
+(8,6,2)
+(4,11,2)
+(24,6,2)
+(23,11,2)
+(21,26,2)
+(12,26,2)
+(1,6,2)
+(13,32,2)
+(32,11,2)
+(11,6,2)
+(3,6,2)
+(7,26,2)
+(20,11,2)
+(28,26,2)
+(14,26,2)
+(7,11,2)
+(32,12,2)
+(21,6,2)
+(22,6,2)
+(25,3,2)
+(15,32,2)
+(6,14,2)
+(6,32,2)
+(24,29,2)
+(11,24,2)
+(25,7,2)
+(16,11,2)
+(6,11,2)
+-----------------------------------
+(0,opt)
+(1,name)
+(2,name)
+(3,return 0;)
+(4,id)
+(5,)
+(6,opt->id >= 0 && opt->name)
+(7,return opt;)
+(8,opt)
+(9,if (!strcmp(opt->name, name)
+(10,opt)
+(11,!strcmp(opt->name, name)
+(12,opt->id)
+(13,opt)
+(14,opt->name)
+(15,name)
+(16,0)
+(17,for (opt = opts; opt->id >= 0 && opt->name; ++opt)
+(18,jas_opt_t *opts)
+(19,)
+(20,opt)
+(21,opt->name)
+(22,0)
+(23,opt)
+(24,strcmp(opt->name, name)
+(25,RET)
+(26,opt = opts)
+(27,)
+(28,++opt)
+(29,char *name)
+(30,opts)
+(31,opt)
+(32,opt->id >= 0)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffff4095ad6300000000ffffffffffffffff4095ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff5d00030000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+static jas_opt_t *jas_optlookup(jas_opt_t *opts, char *name) {
+jas_opt_t *opt;
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+for(opt = opts;opt->id >= 0 && opt->name;++opt)
+if(!strcmp(opt->name, name))
+return opt;
+=======================

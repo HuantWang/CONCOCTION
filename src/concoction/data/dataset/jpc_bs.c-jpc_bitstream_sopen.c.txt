@@ -1,0 +1,668 @@
+-----label-----
+0
+-----code-----
+jpc_bitstream_t *jpc_bitstream_sopen(jas_stream_t *stream, char *mode)
+{
+	jpc_bitstream_t *bitstream;
+
+	/* Ensure that the open mode is valid. */
+#if 1
+/* This causes a string literal too long error (with c99 pedantic mode). */
+	assert(!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")
+	  || !strcmp(mode, "w+"));
+#endif
+
+	if (!(bitstream = jpc_bitstream_alloc())) {
+		return 0;
+	}
+
+	/* By default, do not close the underlying (character) stream, upon
+	  the close of the bit stream. */
+	bitstream->flags_ = JPC_BITSTREAM_NOCLOSE;
+
+	bitstream->stream_ = stream;
+	bitstream->openmode_ = (mode[0] == 'w') ? JPC_BITSTREAM_WRITE :
+	  JPC_BITSTREAM_READ;
+
+	/* Mark the data buffer as empty. */
+	bitstream->cnt_ = (bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8;
+	bitstream->buf_ = 0;
+
+	return bitstream;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+8,9
+10,11
+10,12
+13,14
+13,15
+15,16
+15,17
+18,19
+18,20
+18,21
+18,22
+18,23
+18,24
+18,25
+18,26
+18,27
+19,20
+20,21
+20,22
+21,22
+23,24
+23,25
+26,27
+27,28
+27,29
+28,29
+30,31
+30,32
+31,32
+31,33
+32,33
+32,34
+33,34
+34,35
+34,36
+34,37
+35,36
+37,38
+40,41
+41,42
+41,43
+41,44
+42,43
+44,45
+47,48
+48,49
+48,50
+48,51
+49,50
+51,52
+54,55
+55,56
+55,57
+55,58
+56,57
+58,59
+61,62
+61,63
+62,63
+63,64
+64,65
+64,66
+65,66
+67,68
+68,69
+70,71
+71,72
+73,74
+74,75
+74,76
+75,76
+75,77
+76,77
+79,80
+81,82
+82,83
+82,84
+83,84
+83,85
+84,85
+87,88
+89,90
+90,91
+90,92
+91,92
+91,93
+92,93
+95,96
+95,97
+95,98
+96,97
+97,98
+97,99
+98,99
+98,100
+99,100
+103,104
+105,106
+107,108
+108,109
+108,110
+109,110
+109,111
+110,111
+113,114
+113,115
+113,116
+114,115
+115,116
+115,117
+116,117
+116,118
+117,118
+120,121
+124,125
+125,126
+125,127
+126,127
+126,128
+127,128
+131,132
+132,133
+-----nextToken-----
+3,5,6,9,11,12,14,16,17,22,24,25,29,36,38,39,43,45,46,50,52,53,57,59,60,66,69,72,77,78,80,85,86,88,93,94,100,101,102,104,106,111,112,118,119,121,122,123,128,129,130,133
+-----computeFrom-----
+30,31
+30,32
+31,32
+31,33
+32,33
+32,34
+64,65
+64,66
+74,75
+74,76
+82,83
+82,84
+90,91
+90,92
+97,98
+97,99
+108,109
+108,110
+115,116
+115,117
+125,126
+125,127
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;BinaryExpression;BinaryExpression;UnaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;UnaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;UnaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;UnaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;ConditionalExpression;UnaryExpression;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;LiteralExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;ConditionalExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;LiteralExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+jpc_bitstream_t *jpc_bitstream_sopen(jas_stream_t *stream, char *mode){	jpc_bitstream_t *bitstream;	/* Ensure that the open mode is valid. */#if 1/* This causes a string literal too long error (with c99 pedantic mode). */	assert(!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")	  || !strcmp(mode, "w+"));#endif	if (!(bitstream = jpc_bitstream_alloc())) {		return 0;	}	/* By default, do not close the underlying (character) stream, upon	  the close of the bit stream. */	bitstream->flags_ = JPC_BITSTREAM_NOCLOSE;	bitstream->stream_ = stream;	bitstream->openmode_ = (mode[0] == 'w') ? JPC_BITSTREAM_WRITE :	  JPC_BITSTREAM_READ;	/* Mark the data buffer as empty. */	bitstream->cnt_ = (bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8;	bitstream->buf_ = 0;	return bitstream;}
+jpc_bitstream_t
+jpc_bitstream_t
+*jpc_bitstream_sopen(jas_stream_t *stream, char *mode)
+*
+jpc_bitstream_sopen
+jas_stream_t *stream
+jas_stream_t
+jas_stream_t
+*stream
+*
+stream
+char *mode
+char
+*mode
+*
+mode
+{	jpc_bitstream_t *bitstream;	/* Ensure that the open mode is valid. */#if 1/* This causes a string literal too long error (with c99 pedantic mode). */	assert(!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")	  || !strcmp(mode, "w+"));#endif	if (!(bitstream = jpc_bitstream_alloc())) {		return 0;	}	/* By default, do not close the underlying (character) stream, upon	  the close of the bit stream. */	bitstream->flags_ = JPC_BITSTREAM_NOCLOSE;	bitstream->stream_ = stream;	bitstream->openmode_ = (mode[0] == 'w') ? JPC_BITSTREAM_WRITE :	  JPC_BITSTREAM_READ;	/* Mark the data buffer as empty. */	bitstream->cnt_ = (bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8;	bitstream->buf_ = 0;	return bitstream;}
+jpc_bitstream_t *bitstream;
+jpc_bitstream_t *bitstream;
+jpc_bitstream_t
+jpc_bitstream_t
+*bitstream
+*
+bitstream
+assert(!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")	  || !strcmp(mode, "w+"));
+assert(!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")	  || !strcmp(mode, "w+"))
+assert
+assert
+!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")	  || !strcmp(mode, "w+")
+!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")
+!strcmp(mode, "r") || !strcmp(mode, "w")
+!strcmp(mode, "r")
+strcmp(mode, "r")
+strcmp
+strcmp
+mode
+mode
+"r"
+!strcmp(mode, "w")
+strcmp(mode, "w")
+strcmp
+strcmp
+mode
+mode
+"w"
+!strcmp(mode, "r+")
+strcmp(mode, "r+")
+strcmp
+strcmp
+mode
+mode
+"r+"
+!strcmp(mode, "w+")
+strcmp(mode, "w+")
+strcmp
+strcmp
+mode
+mode
+"w+"
+if (!(bitstream = jpc_bitstream_alloc())) {		return 0;	}
+!(bitstream = jpc_bitstream_alloc())
+(bitstream = jpc_bitstream_alloc())
+bitstream = jpc_bitstream_alloc()
+bitstream
+bitstream
+jpc_bitstream_alloc()
+jpc_bitstream_alloc
+jpc_bitstream_alloc
+{		return 0;	}
+return 0;
+0
+bitstream->flags_ = JPC_BITSTREAM_NOCLOSE;
+bitstream->flags_ = JPC_BITSTREAM_NOCLOSE
+bitstream->flags_
+bitstream
+bitstream
+flags_
+JPC_BITSTREAM_NOCLOSE
+JPC_BITSTREAM_NOCLOSE
+bitstream->stream_ = stream;
+bitstream->stream_ = stream
+bitstream->stream_
+bitstream
+bitstream
+stream_
+stream
+stream
+bitstream->openmode_ = (mode[0] == 'w') ? JPC_BITSTREAM_WRITE :	  JPC_BITSTREAM_READ;
+bitstream->openmode_ = (mode[0] == 'w') ? JPC_BITSTREAM_WRITE :	  JPC_BITSTREAM_READ
+bitstream->openmode_
+bitstream
+bitstream
+openmode_
+(mode[0] == 'w') ? JPC_BITSTREAM_WRITE :	  JPC_BITSTREAM_READ
+(mode[0] == 'w')
+mode[0] == 'w'
+mode[0]
+mode
+mode
+0
+'w'
+JPC_BITSTREAM_WRITE
+JPC_BITSTREAM_WRITE
+JPC_BITSTREAM_READ
+JPC_BITSTREAM_READ
+bitstream->cnt_ = (bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8;
+bitstream->cnt_ = (bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+(bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8
+(bitstream->openmode_ == JPC_BITSTREAM_READ)
+bitstream->openmode_ == JPC_BITSTREAM_READ
+bitstream->openmode_
+bitstream
+bitstream
+openmode_
+JPC_BITSTREAM_READ
+JPC_BITSTREAM_READ
+0
+8
+bitstream->buf_ = 0;
+bitstream->buf_ = 0
+bitstream->buf_
+bitstream
+bitstream
+buf_
+0
+return bitstream;
+bitstream
+bitstream
+-----joern-----
+(17,10,0)
+(13,0,0)
+(3,15,0)
+(1,19,0)
+(15,9,0)
+(22,21,0)
+(14,15,0)
+(24,0,0)
+(5,9,0)
+(0,19,0)
+(6,11,0)
+(9,15,0)
+(7,16,0)
+(8,10,0)
+(16,4,0)
+(20,7,0)
+(23,8,0)
+(24,16,0)
+(10,8,0)
+(24,22,0)
+(18,8,0)
+(15,2,0)
+(12,22,0)
+(8,2,0)
+(7,20,1)
+(15,2,1)
+(10,17,1)
+(5,15,1)
+(9,15,1)
+(23,9,1)
+(17,8,1)
+(12,10,1)
+(10,8,1)
+(24,22,1)
+(24,0,1)
+(22,12,1)
+(16,7,1)
+(8,2,1)
+(3,14,1)
+(8,18,1)
+(20,9,1)
+(18,23,1)
+(15,3,1)
+(13,10,1)
+(9,5,1)
+(24,16,1)
+(0,13,1)
+(22,10,2)
+(10,8,2)
+(8,9,2)
+(20,9,2)
+(23,9,2)
+(24,16,2)
+(17,9,2)
+(0,10,2)
+(13,10,2)
+(8,2,2)
+(7,9,2)
+(15,2,2)
+(10,9,2)
+(24,0,2)
+(12,10,2)
+(9,15,2)
+(24,22,2)
+(18,9,2)
+(16,9,2)
+-----------------------------------
+(0,return 0;)
+(1,if (bitstream->cnt_ < 8)
+(2,jpc_bitstream_t *bitstream)
+(3,openmode_)
+(4,)
+(5,JPC_BITSTREAM_WRITE)
+(6,if (bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(7,-1)
+(8,bitstream->cnt_)
+(9,bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(10,bitstream->cnt_ < 8)
+(11,)
+(12,1)
+(13,0)
+(14,bitstream)
+(15,bitstream->openmode_)
+(16,return -1;)
+(17,8)
+(18,cnt_)
+(19,)
+(20,1)
+(21,)
+(22,return 1;)
+(23,bitstream)
+(24,RET)
+-----cfg-----
+(65,63)
+(66,62)
+(67,66)
+(68,67)
+(70,68)
+(7,17)
+(74,79)
+(75,74)
+(12,36)
+(13,12)
+(77,75)
+(14,13)
+(14,29)
+(79,81)
+(15,14)
+(15,25)
+(16,15)
+(16,21)
+(17,16)
+(20,15)
+(21,20)
+(24,14)
+(25,24)
+(28,13)
+(29,28)
+(33,38)
+(33,43)
+(34,33)
+(36,34)
+(38,81)
+(40,48)
+(41,40)
+(43,41)
+(45,53)
+(46,45)
+(48,46)
+(50,65)
+(51,56)
+(53,51)
+(54,50)
+(55,54)
+(56,55)
+(62,77)
+(63,70)
+-----path-----
+7,17,16,15,14,13,12,36,34,33,38,81
+7,17,16,15,14,13,12,36,34,33,43,41,40,48,46,45,53,51,56,55,54,50,65,63,70,68,67,66,62,77,75,74,79,81
+7,17,16,15,14,29,28,13,12,36,34,33,38,81
+7,17,16,15,14,29,28,13,12,36,34,33,43,41,40,48,46,45,53,51,56,55,54,50,65,63,70,68,67,66,62,77,75,74,79,81
+7,17,16,15,25,24,14,13,12,36,34,33,38,81
+7,17,16,15,25,24,14,13,12,36,34,33,43,41,40,48,46,45,53,51,56,55,54,50,65,63,70,68,67,66,62,77,75,74,79,81
+7,17,16,15,25,24,14,29,28,13,12,36,34,33,38,81
+7,17,16,15,25,24,14,29,28,13,12,36,34,33,43,41,40,48,46,45,53,51,56,55,54,50,65,63,70,68,67,66,62,77,75,74,79,81
+7,17,16,21,20,15,14,13,12,36,34,33,38,81
+7,17,16,21,20,15,14,13,12,36,34,33,43,41,40,48,46,45,53,51,56,55,54,50,65,63,70,68,67,66,62,77,75,74,79,81
+7,17,16,21,20,15,14,29,28,13,12,36,34,33,38,81
+7,17,16,21,20,15,14,29,28,13,12,36,34,33,43,41,40,48,46,45,53,51,56,55,54,50,65,63,70,68,67,66,62,77,75,74,79,81
+7,17,16,21,20,15,25,24,14,13,12,36,34,33,38,81
+7,17,16,21,20,15,25,24,14,13,12,36,34,33,43,41,40,48,46,45,53,51,56,55,54,50,65,63,70,68,67,66,62,77,75,74,79,81
+7,17,16,21,20,15,25,24,14,29,28,13,12,36,34,33,38,81
+7,17,16,21,20,15,25,24,14,29,28,13,12,36,34,33,43,41,40,48,46,45,53,51,56,55,54,50,65,63,70,68,67,66,62,77,75,74,79,81
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jpc_bitstream_t jpc_bitstream_sopen (jas_stream_t *stream,char *mode)
+8,jas_stream_t *stream
+9,char *mode
+10,<empty>
+11,jpc_bitstream_t* bitstream
+12,assert(!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")
+13,	  || !strcmp(mode, "w+"))
+14,!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")
+15,	  || !strcmp(mode, "w+")
+16,!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")
+17,!strcmp(mode, "r") || !strcmp(mode, "w")
+18,!strcmp(mode, "r")
+19,strcmp(mode, "r")
+20,mode
+21,"r"
+22,!strcmp(mode, "w")
+23,strcmp(mode, "w")
+24,mode
+25,"w"
+26,!strcmp(mode, "r+")
+27,strcmp(mode, "r+")
+28,mode
+29,"r+"
+30,!strcmp(mode, "w+")
+31,strcmp(mode, "w+")
+32,mode
+33,"w+"
+34,if (!(bitstream = jpc_bitstream_alloc()))
+35,!(bitstream = jpc_bitstream_alloc())
+36,bitstream = jpc_bitstream_alloc()
+37,bitstream
+38,jpc_bitstream_alloc()
+39,<empty>
+40,return 0;
+41,0
+42,bitstream->flags_ = JPC_BITSTREAM_NOCLOSE
+43,bitstream->flags_
+44,bitstream
+45,flags_
+46,JPC_BITSTREAM_NOCLOSE
+47,bitstream->stream_ = stream
+48,bitstream->stream_
+49,bitstream
+50,stream_
+51,stream
+52,bitstream->openmode_ = (mode[0] == 'w') ? JPC_BITSTREAM_WRITE :
+53,	  JPC_BITSTREAM_READ
+54,bitstream->openmode_
+55,bitstream
+56,openmode_
+57,(mode[0] == 'w') ? JPC_BITSTREAM_WRITE :
+58,	  JPC_BITSTREAM_READ
+59,mode[0] == 'w'
+60,mode[0]
+61,mode
+62,0
+63,'w'
+64,JPC_BITSTREAM_WRITE
+65,JPC_BITSTREAM_READ
+66,bitstream->cnt_ = (bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8
+67,bitstream->cnt_
+68,bitstream
+69,cnt_
+70,(bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8
+71,bitstream->openmode_ == JPC_BITSTREAM_READ
+72,bitstream->openmode_
+73,bitstream
+74,openmode_
+75,JPC_BITSTREAM_READ
+76,0
+77,8
+78,bitstream->buf_ = 0
+79,bitstream->buf_
+80,bitstream
+81,buf_
+82,0
+83,return bitstream;
+84,bitstream
+85,RET
+86,jas_stream_t *stream
+87,char *mode
+88,RET
+89,jpc_bitstream_t jpc_bitstream_sopen (jas_stream_t *stream,char *mode)
+90,jas_stream_t *stream
+91,char *mode
+92,<empty>
+93,jpc_bitstream_t* bitstream
+94,assert(!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")
+95,	  || !strcmp(mode, "w+"))
+96,!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")
+97,	  || !strcmp(mode, "w+")
+98,!strcmp(mode, "r") || !strcmp(mode, "w") || !strcmp(mode, "r+")
+99,!strcmp(mode, "r") || !strcmp(mode, "w")
+100,!strcmp(mode, "r")
+101,strcmp(mode, "r")
+102,mode
+103,"r"
+104,!strcmp(mode, "w")
+105,strcmp(mode, "w")
+106,mode
+107,"w"
+108,!strcmp(mode, "r+")
+109,strcmp(mode, "r+")
+110,mode
+111,"r+"
+112,!strcmp(mode, "w+")
+113,strcmp(mode, "w+")
+114,mode
+115,"w+"
+116,if (!(bitstream = jpc_bitstream_alloc()))
+117,!(bitstream = jpc_bitstream_alloc())
+118,bitstream = jpc_bitstream_alloc()
+119,bitstream
+120,jpc_bitstream_alloc()
+121,<empty>
+122,return 0;
+123,0
+124,bitstream->flags_ = JPC_BITSTREAM_NOCLOSE
+125,bitstream->flags_
+126,bitstream
+127,flags_
+128,JPC_BITSTREAM_NOCLOSE
+129,bitstream->stream_ = stream
+130,bitstream->stream_
+131,bitstream
+132,stream_
+133,stream
+134,bitstream->openmode_ = (mode[0] == 'w') ? JPC_BITSTREAM_WRITE :
+135,	  JPC_BITSTREAM_READ
+136,bitstream->openmode_
+137,bitstream
+138,openmode_
+139,(mode[0] == 'w') ? JPC_BITSTREAM_WRITE :
+140,	  JPC_BITSTREAM_READ
+141,mode[0] == 'w'
+142,mode[0]
+143,mode
+144,0
+145,'w'
+146,JPC_BITSTREAM_WRITE
+147,JPC_BITSTREAM_READ
+148,bitstream->cnt_ = (bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8
+149,bitstream->cnt_
+150,bitstream
+151,cnt_
+152,(bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8
+153,bitstream->openmode_ == JPC_BITSTREAM_READ
+154,bitstream->openmode_
+155,bitstream
+156,openmode_
+157,JPC_BITSTREAM_READ
+158,0
+159,8
+160,bitstream->buf_ = 0
+161,bitstream->buf_
+162,bitstream
+163,buf_
+164,0
+165,return bitstream;
+166,bitstream
+167,RET
+168,jas_stream_t *stream
+169,char *mode
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jpc_bitstream_t *jpc_bitstream_sopen(jas_stream_t *stream, char *mode) {
+jpc_bitstream_t *bitstream;
+assert(!strcmp(mode, 'r') || !strcmp(mode, 'w') || !strcmp(mode, 'r+') 	  || !strcmp(mode, 'w+'));
+bitstream->flags_ = JPC_BITSTREAM_NOCLOSE;
+bitstream->stream_ = stream;
+bitstream->openmode_ = (mode[0] == 'w') ? JPC_BITSTREAM_WRITE : 	  JPC_BITSTREAM_READ;
+bitstream->cnt_ = (bitstream->openmode_ == JPC_BITSTREAM_READ) ? 0 : 8;
+bitstream->buf_ = 0;
+return bitstream;
+=======================

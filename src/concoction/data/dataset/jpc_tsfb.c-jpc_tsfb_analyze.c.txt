@@ -1,0 +1,668 @@
+-----label-----
+0
+-----code-----
+int jpc_tsfb_analyze(jpc_tsfb_t *tsfb, jas_seq2d_t *a)
+{
+	return (tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,
+	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),
+	  jas_seq2d_ystart(a), jas_seq2d_width(a),
+	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+18,19
+19,20
+19,21
+19,22
+20,21
+21,22
+21,23
+22,23
+22,24
+23,24
+27,28
+27,29
+27,30
+27,31
+27,32
+27,33
+27,34
+27,35
+27,36
+28,29
+30,31
+32,33
+32,34
+32,35
+32,36
+33,34
+35,36
+37,38
+37,39
+38,39
+40,41
+42,43
+42,44
+43,44
+45,46
+47,48
+47,49
+48,49
+50,51
+52,53
+52,54
+53,54
+55,56
+57,58
+57,59
+58,59
+60,61
+62,63
+62,64
+63,64
+65,66
+67,68
+67,69
+68,69
+70,71
+72,73
+72,74
+73,74
+73,75
+74,75
+-----nextToken-----
+2,4,7,9,10,13,15,16,24,25,26,29,31,34,36,39,41,44,46,49,51,54,56,59,61,64,66,69,71,75,76,77,78
+-----computeFrom-----
+21,22
+21,23
+72,73
+72,74
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;ReturnStatement;ConditionalExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;
+-----ast_node-----
+int jpc_tsfb_analyze(jpc_tsfb_t *tsfb, jas_seq2d_t *a){	return (tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),	  jas_seq2d_ystart(a), jas_seq2d_width(a),	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0;}
+int
+jpc_tsfb_analyze(jpc_tsfb_t *tsfb, jas_seq2d_t *a)
+jpc_tsfb_analyze
+jpc_tsfb_t *tsfb
+jpc_tsfb_t
+jpc_tsfb_t
+*tsfb
+*
+tsfb
+jas_seq2d_t *a
+jas_seq2d_t
+jas_seq2d_t
+*a
+*
+a
+{	return (tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),	  jas_seq2d_ystart(a), jas_seq2d_width(a),	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0;}
+return (tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),	  jas_seq2d_ystart(a), jas_seq2d_width(a),	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0;
+(tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),	  jas_seq2d_ystart(a), jas_seq2d_width(a),	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0
+(tsfb->numlvls > 0)
+tsfb->numlvls > 0
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+0
+jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),	  jas_seq2d_ystart(a), jas_seq2d_width(a),	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1)
+jpc_tsfb_analyze2
+jpc_tsfb_analyze2
+tsfb
+tsfb
+jas_seq2d_getref(a,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a))
+jas_seq2d_getref
+jas_seq2d_getref
+a
+a
+jas_seq2d_xstart(a)
+jas_seq2d_xstart
+jas_seq2d_xstart
+a
+a
+jas_seq2d_ystart(a)
+jas_seq2d_ystart
+jas_seq2d_ystart
+a
+a
+jas_seq2d_xstart(a)
+jas_seq2d_xstart
+jas_seq2d_xstart
+a
+a
+jas_seq2d_ystart(a)
+jas_seq2d_ystart
+jas_seq2d_ystart
+a
+a
+jas_seq2d_width(a)
+jas_seq2d_width
+jas_seq2d_width
+a
+a
+jas_seq2d_height(a)
+jas_seq2d_height
+jas_seq2d_height
+a
+a
+jas_seq2d_rowstep(a)
+jas_seq2d_rowstep
+jas_seq2d_rowstep
+a
+a
+tsfb->numlvls - 1
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+1
+0
+-----joern-----
+(30,21,0)
+(59,60,0)
+(61,60,0)
+(6,37,0)
+(2,35,0)
+(56,59,0)
+(9,38,0)
+(59,68,0)
+(37,27,0)
+(59,10,0)
+(70,31,0)
+(59,21,0)
+(35,27,0)
+(21,22,0)
+(18,9,0)
+(73,48,0)
+(49,37,0)
+(59,72,0)
+(22,32,0)
+(25,59,0)
+(27,35,0)
+(31,63,0)
+(52,67,0)
+(10,59,0)
+(58,72,0)
+(53,48,0)
+(20,15,0)
+(29,5,0)
+(16,69,0)
+(64,24,0)
+(54,69,0)
+(3,36,0)
+(72,59,0)
+(0,59,0)
+(48,68,0)
+(44,16,0)
+(50,22,0)
+(41,3,0)
+(5,0,0)
+(43,22,0)
+(48,51,0)
+(72,11,0)
+(60,59,0)
+(42,36,0)
+(48,13,0)
+(18,3,0)
+(7,59,0)
+(33,46,0)
+(21,59,0)
+(28,35,0)
+(21,30,0)
+(23,31,0)
+(31,32,0)
+(55,11,0)
+(65,48,0)
+(17,10,0)
+(10,13,0)
+(0,69,0)
+(18,33,0)
+(24,33,0)
+(60,32,0)
+(39,30,0)
+(31,30,0)
+(4,55,0)
+(22,21,0)
+(14,34,0)
+(66,55,0)
+(48,32,0)
+(0,5,0)
+(48,63,0)
+(12,48,0)
+(47,36,0)
+(30,31,0)
+(16,13,0)
+(62,72,0)
+(16,51,0)
+(71,10,0)
+(35,63,0)
+(69,0,0)
+(67,9,0)
+(5,13,0)
+(37,51,0)
+(45,16,0)
+(59,57,0)
+(59,8,0)
+(26,48,0)
+(59,0,0)
+(48,8,0)
+(27,37,0)
+(1,48,0)
+(69,16,0)
+(40,60,0)
+(19,5,0)
+(41,48,1)
+(35,2,1)
+(53,73,1)
+(1,27,1)
+(59,68,1)
+(5,29,1)
+(48,63,1)
+(55,11,1)
+(48,68,1)
+(72,58,1)
+(22,32,1)
+(49,55,1)
+(70,23,1)
+(18,9,1)
+(69,16,1)
+(62,56,1)
+(65,12,1)
+(58,62,1)
+(2,28,1)
+(71,17,1)
+(27,35,1)
+(30,31,1)
+(48,13,1)
+(59,10,1)
+(28,37,1)
+(10,71,1)
+(16,13,1)
+(72,11,1)
+(26,65,1)
+(37,51,1)
+(64,59,1)
+(67,52,1)
+(0,69,1)
+(12,1,1)
+(21,22,1)
+(16,51,1)
+(30,39,1)
+(48,53,1)
+(49,59,1)
+(16,45,1)
+(41,27,1)
+(18,33,1)
+(35,63,1)
+(0,5,1)
+(37,6,1)
+(17,25,1)
+(7,55,1)
+(59,60,1)
+(59,72,1)
+(61,40,1)
+(31,70,1)
+(60,32,1)
+(23,0,1)
+(69,54,1)
+(18,3,1)
+(59,57,1)
+(52,48,1)
+(3,41,1)
+(24,64,1)
+(25,7,1)
+(19,69,1)
+(55,4,1)
+(29,19,1)
+(21,30,1)
+(59,0,1)
+(43,30,1)
+(54,16,1)
+(73,26,1)
+(45,44,1)
+(22,50,1)
+(27,37,1)
+(6,49,1)
+(59,8,1)
+(33,24,1)
+(10,13,1)
+(50,43,1)
+(5,13,1)
+(40,10,1)
+(59,21,1)
+(4,66,1)
+(9,67,1)
+(44,60,1)
+(60,61,1)
+(48,8,1)
+(56,21,1)
+(48,51,1)
+(31,63,1)
+(48,32,1)
+(31,32,1)
+(39,31,1)
+(59,72,2)
+(37,55,2)
+(48,27,2)
+(27,35,2)
+(33,59,2)
+(49,55,2)
+(23,55,2)
+(70,55,2)
+(48,32,2)
+(29,55,2)
+(72,11,2)
+(9,48,2)
+(48,51,2)
+(65,27,2)
+(10,55,2)
+(27,37,2)
+(5,55,2)
+(41,48,2)
+(59,0,2)
+(54,55,2)
+(3,48,2)
+(37,59,2)
+(0,69,2)
+(69,55,2)
+(69,16,2)
+(52,48,2)
+(6,55,2)
+(18,33,2)
+(21,22,2)
+(16,51,2)
+(40,55,2)
+(17,55,2)
+(59,10,2)
+(25,55,2)
+(59,57,2)
+(48,68,2)
+(30,31,2)
+(44,55,2)
+(62,55,2)
+(35,37,2)
+(59,21,2)
+(67,48,2)
+(50,55,2)
+(24,59,2)
+(0,55,2)
+(59,60,2)
+(41,27,2)
+(18,3,2)
+(72,55,2)
+(27,55,2)
+(27,59,2)
+(2,37,2)
+(16,13,2)
+(39,55,2)
+(1,27,2)
+(3,27,2)
+(59,55,2)
+(61,55,2)
+(60,55,2)
+(53,27,2)
+(31,32,2)
+(22,55,2)
+(12,27,2)
+(73,27,2)
+(49,59,2)
+(71,55,2)
+(48,8,2)
+(31,55,2)
+(35,63,2)
+(5,13,2)
+(43,55,2)
+(7,55,2)
+(18,9,2)
+(19,55,2)
+(45,55,2)
+(59,68,2)
+(22,32,2)
+(16,55,2)
+(28,37,2)
+(60,32,2)
+(21,55,2)
+(59,8,2)
+(37,51,2)
+(21,30,2)
+(48,63,2)
+(55,11,2)
+(48,13,2)
+(31,63,2)
+(64,59,2)
+(30,55,2)
+(6,59,2)
+(0,5,2)
+(58,55,2)
+(26,27,2)
+(10,13,2)
+(56,55,2)
+-----------------------------------
+(0,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(1,a)
+(2,0)
+(3,return 0;)
+(4,0)
+(5,JPC_CEILDIVPOW2(xstart, 1)
+(6,0)
+(7,tsfb)
+(8,int *a)
+(9,return -1;)
+(10,JPC_CEILDIVPOW2(xstart, 1)
+(11,int numlvls)
+(12,xstart)
+(13,int xstart)
+(14,if ((*tsfb->qmfb->synthesize)
+(15,)
+(16,xstart + width)
+(17,xstart)
+(18,RET)
+(19,xstart)
+(20,if (jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(21,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(22,JPC_CEILDIVPOW2(ystart, 1)
+(23,ystart)
+(24,-1)
+(25,a)
+(26,width)
+(27,width > 0 && height > 0)
+(28,height)
+(29,1)
+(30,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(31,ystart +\\n\\t\\t  height)
+(32,int ystart)
+(33,return -1;)
+(34,)
+(35,height > 0)
+(36,)
+(37,width > 0)
+(38,)
+(39,1)
+(40,ystart)
+(41,0)
+(42,if (width > 0 && height > 0)
+(43,ystart)
+(44,xstart)
+(45,width)
+(46,)
+(47,if (numlvls > 0)
+(48,(*tsfb->qmfb->synthesize)
+(49,width)
+(50,1)
+(51,int width)
+(52,1)
+(53,stride)
+(54,1)
+(55,numlvls > 0)
+(56,stride)
+(57,jpc_tsfb_t *tsfb)
+(58,1)
+(59,jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(60,JPC_CEILDIVPOW2(ystart, 1)
+(61,1)
+(62,numlvls)
+(63,int height)
+(64,1)
+(65,ystart)
+(66,numlvls)
+(67,-1)
+(68,int stride)
+(69,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(70,height)
+(71,1)
+(72,numlvls -\\n\\t\\t  1)
+(73,height)
+-----cfg-----
+(32,34)
+(34,39)
+(36,18)
+(37,36)
+(39,37)
+(7,16)
+(11,42)
+(12,11)
+(13,22)
+(13,12)
+(14,13)
+(16,14)
+(18,12)
+(20,26)
+(22,24)
+(24,20)
+(26,28)
+(28,30)
+(30,32)
+-----path-----
+7,16,14,13,22,24,20,26,28,30,32,34,39,37,36,18,12,11,42
+7,16,14,13,12,11,42
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_tsfb_analyze (jpc_tsfb_t *tsfb,jas_seq2d_t *a)
+8,jpc_tsfb_t *tsfb
+9,jas_seq2d_t *a
+10,<empty>
+11,return (tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,
+12,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),
+13,	  jas_seq2d_ystart(a), jas_seq2d_width(a),
+14,	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0;
+15,(tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,
+16,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),
+17,	  jas_seq2d_ystart(a), jas_seq2d_width(a),
+18,	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0
+19,tsfb->numlvls > 0
+20,tsfb->numlvls
+21,tsfb
+22,numlvls
+23,0
+24,jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,
+25,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),
+26,	  jas_seq2d_ystart(a), jas_seq2d_width(a),
+27,	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1)
+28,tsfb
+29,jas_seq2d_getref(a,
+30,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a))
+31,a
+32,jas_seq2d_xstart(a)
+33,a
+34,jas_seq2d_ystart(a)
+35,a
+36,jas_seq2d_xstart(a)
+37,a
+38,jas_seq2d_ystart(a)
+39,a
+40,jas_seq2d_width(a)
+41,a
+42,jas_seq2d_height(a)
+43,a
+44,jas_seq2d_rowstep(a)
+45,a
+46,tsfb->numlvls - 1
+47,tsfb->numlvls
+48,tsfb
+49,numlvls
+50,1
+51,0
+52,RET
+53,jpc_tsfb_t *tsfb
+54,jas_seq2d_t *a
+55,RET
+56,int jpc_tsfb_analyze (jpc_tsfb_t *tsfb,jas_seq2d_t *a)
+57,jpc_tsfb_t *tsfb
+58,jas_seq2d_t *a
+59,<empty>
+60,return (tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,
+61,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),
+62,	  jas_seq2d_ystart(a), jas_seq2d_width(a),
+63,	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0;
+64,(tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,
+65,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),
+66,	  jas_seq2d_ystart(a), jas_seq2d_width(a),
+67,	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0
+68,tsfb->numlvls > 0
+69,tsfb->numlvls
+70,tsfb
+71,numlvls
+72,0
+73,jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a,
+74,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a),
+75,	  jas_seq2d_ystart(a), jas_seq2d_width(a),
+76,	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1)
+77,tsfb
+78,jas_seq2d_getref(a,
+79,	  jas_seq2d_xstart(a), jas_seq2d_ystart(a))
+80,a
+81,jas_seq2d_xstart(a)
+82,a
+83,jas_seq2d_ystart(a)
+84,a
+85,jas_seq2d_xstart(a)
+86,a
+87,jas_seq2d_ystart(a)
+88,a
+89,jas_seq2d_width(a)
+90,a
+91,jas_seq2d_height(a)
+92,a
+93,jas_seq2d_rowstep(a)
+94,a
+95,tsfb->numlvls - 1
+96,tsfb->numlvls
+97,tsfb
+98,numlvls
+99,1
+100,0
+101,RET
+102,jpc_tsfb_t *tsfb
+103,jas_seq2d_t *a
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_tsfb_analyze(jpc_tsfb_t *tsfb, jas_seq2d_t *a) {
+return (tsfb->numlvls > 0) ? jpc_tsfb_analyze2(tsfb, jas_seq2d_getref(a, 	  jas_seq2d_xstart(a), jas_seq2d_ystart(a)), jas_seq2d_xstart(a), 	  jas_seq2d_ystart(a), jas_seq2d_width(a), 	  jas_seq2d_height(a), jas_seq2d_rowstep(a), tsfb->numlvls - 1) : 0;
+=======================

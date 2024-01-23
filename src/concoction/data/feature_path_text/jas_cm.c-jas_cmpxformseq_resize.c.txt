@@ -1,0 +1,1696 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_resize.c.txt
+--------------code--------------
+static int jas_cmpxformseq_resize(jas_cmpxformseq_t *pxformseq, int n)
+{
+	jas_cmpxform_t **p;
+	assert(n >= pxformseq->numpxforms);
+	p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+	  jas_realloc(pxformseq->pxforms, n * sizeof(jas_cmpxform_t *));
+	if (!p) {
+		return -1;
+	}
+	pxformseq->pxforms = p;
+	pxformseq->maxpxforms = n;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+n * sizeof(jas_cmpxform_t *)
+pxforms
+pxformseq
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+<empty>
+p
+return 0;
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_resize (jas_cmpxformseq_t *pxformseqint n)
+numpxforms
+pxformseq->numpxforms
+n >= pxformseq->numpxforms
+assert(n >= pxformseq->numpxforms)
+pxformseq->pxforms
+jas_realloc(pxformseq->pxforms n * sizeof(jas_cmpxform_t *))
+(!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+pxformseq->pxforms
+jas_cmpxform_t
+n * sizeof(jas_cmpxform_t *)
+pxformseq
+sizeof(jas_cmpxform_t *)
+p
+p = (!pxformseq->pxforms) ? jas_malloc(n * sizeof(jas_cmpxform_t *)) :
+jas_cmpxform_t
+pxformseq->pxforms
+1
+-1
+pxformseq->maxpxforms
+p
+pxforms
+maxpxforms
+return 0;
+--------------path over--------------

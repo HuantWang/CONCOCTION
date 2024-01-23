@@ -1,0 +1,461 @@
+-----label-----
+0
+-----code-----
+static void
+set_error(int *zep, struct zip_error *err, int ze)
+{
+    int se;
+
+    if (err) {
+	_zip_error_get(err, &ze, &se);
+	if (zip_error_get_sys_type(ze) == ZIP_ET_SYS)
+	    errno = se;
+    }
+
+    if (zep)
+	*zep = ze;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+7,8
+7,9
+10,11
+10,12
+11,12
+13,14
+13,15
+16,17
+16,18
+18,19
+20,21
+20,22
+20,23
+21,22
+22,23
+22,24
+24,25
+26,27
+26,28
+27,28
+29,30
+29,31
+30,31
+31,32
+31,33
+31,34
+31,35
+32,33
+34,35
+36,37
+37,38
+39,40
+40,41
+42,43
+42,44
+43,44
+43,45
+44,45
+44,46
+45,46
+47,48
+49,50
+51,52
+52,53
+52,54
+53,54
+55,56
+57,58
+57,59
+58,59
+60,61
+61,62
+61,63
+62,63
+63,64
+65,66
+-----nextToken-----
+2,4,6,8,9,12,14,15,17,19,23,25,28,33,35,38,41,46,48,50,54,56,59,64,66
+-----computeFrom-----
+43,44
+43,45
+52,53
+52,54
+61,62
+61,63
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;UnaryExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+static voidset_error(int *zep, struct zip_error *err, int ze){    int se;    if (err) {	_zip_error_get(err, &ze, &se);	if (zip_error_get_sys_type(ze) == ZIP_ET_SYS)	    errno = se;    }    if (zep)	*zep = ze;}
+static void
+set_error(int *zep, struct zip_error *err, int ze)
+set_error
+int *zep
+int
+*zep
+*
+zep
+struct zip_error *err
+struct zip_error
+zip_error
+*err
+*
+err
+int ze
+int
+ze
+ze
+{    int se;    if (err) {	_zip_error_get(err, &ze, &se);	if (zip_error_get_sys_type(ze) == ZIP_ET_SYS)	    errno = se;    }    if (zep)	*zep = ze;}
+int se;
+int se;
+int
+se
+se
+if (err) {	_zip_error_get(err, &ze, &se);	if (zip_error_get_sys_type(ze) == ZIP_ET_SYS)	    errno = se;    }
+err
+err
+{	_zip_error_get(err, &ze, &se);	if (zip_error_get_sys_type(ze) == ZIP_ET_SYS)	    errno = se;    }
+_zip_error_get(err, &ze, &se);
+_zip_error_get(err, &ze, &se)
+_zip_error_get
+_zip_error_get
+err
+err
+&ze
+ze
+ze
+&se
+se
+se
+if (zip_error_get_sys_type(ze) == ZIP_ET_SYS)	    errno = se;
+zip_error_get_sys_type(ze) == ZIP_ET_SYS
+zip_error_get_sys_type(ze)
+zip_error_get_sys_type
+zip_error_get_sys_type
+ze
+ze
+ZIP_ET_SYS
+ZIP_ET_SYS
+errno = se;
+errno = se
+errno
+errno
+se
+se
+if (zep)	*zep = ze;
+zep
+zep
+*zep = ze;
+*zep = ze
+*zep
+zep
+zep
+ze
+ze
+-----joern-----
+(9,29,0)
+(18,1,0)
+(17,0,0)
+(27,0,0)
+(31,1,0)
+(41,38,0)
+(6,28,0)
+(16,29,0)
+(25,18,0)
+(23,4,0)
+(39,43,0)
+(34,1,0)
+(14,29,0)
+(41,6,0)
+(3,35,0)
+(29,10,0)
+(42,8,0)
+(18,11,0)
+(29,20,0)
+(40,18,0)
+(15,35,0)
+(8,7,0)
+(41,43,0)
+(18,6,0)
+(24,38,0)
+(1,34,0)
+(32,34,0)
+(8,10,0)
+(19,28,0)
+(0,7,0)
+(5,18,0)
+(4,11,0)
+(26,28,0)
+(33,35,0)
+(18,7,0)
+(2,35,0)
+(43,35,0)
+(0,1,0)
+(30,8,0)
+(41,15,0)
+(4,10,0)
+(4,7,0)
+(22,4,0)
+(13,28,0)
+(37,18,0)
+(1,0,0)
+(18,10,0)
+(36,4,0)
+(21,35,0)
+(38,20,0)
+(8,15,0)
+(12,18,0)
+(5,12,1)
+(40,5,1)
+(9,16,1)
+(4,11,1)
+(4,7,1)
+(12,25,1)
+(8,10,1)
+(0,27,1)
+(4,10,1)
+(41,43,1)
+(17,31,1)
+(16,14,1)
+(34,32,1)
+(29,9,1)
+(30,42,1)
+(0,7,1)
+(41,6,1)
+(31,2,1)
+(18,10,1)
+(23,22,1)
+(1,0,1)
+(4,23,1)
+(25,34,1)
+(38,24,1)
+(22,36,1)
+(34,1,1)
+(18,11,1)
+(15,8,1)
+(32,1,1)
+(37,40,1)
+(24,29,1)
+(27,17,1)
+(2,4,1)
+(41,38,1)
+(8,30,1)
+(18,37,1)
+(29,10,1)
+(18,7,1)
+(14,34,1)
+(8,7,1)
+(6,18,1)
+(41,15,1)
+(42,4,1)
+(43,39,1)
+(18,1,1)
+(18,11,2)
+(12,34,2)
+(1,4,2)
+(8,10,2)
+(29,34,2)
+(6,34,2)
+(16,34,2)
+(37,34,2)
+(18,34,2)
+(40,34,2)
+(0,7,2)
+(18,10,2)
+(25,34,2)
+(4,11,2)
+(17,4,2)
+(18,7,2)
+(41,6,2)
+(2,4,2)
+(8,4,2)
+(0,4,2)
+(41,43,2)
+(14,34,2)
+(30,4,2)
+(29,10,2)
+(24,34,2)
+(34,1,2)
+(18,1,2)
+(4,7,2)
+(1,0,2)
+(4,10,2)
+(41,15,2)
+(31,4,2)
+(38,34,2)
+(15,4,2)
+(27,4,2)
+(8,7,2)
+(42,4,2)
+(32,4,2)
+(5,34,2)
+(41,38,2)
+(34,4,2)
+(9,34,2)
+-----------------------------------
+(0,fopen(fn, "rb")
+(1,fp=fopen(fn, "rb")
+(2,break;)
+(3,default:)
+(4,_zip_file_exists(fn, flags, zep)
+(5,flags)
+(6,return _zip_open(fn, fp, flags, 0, zep)
+(7,const char *fn)
+(8,_zip_allocate_new(fn, zep)
+(9,ZIP_ER_OPEN)
+(10,int *zep)
+(11,int flags)
+(12,fp)
+(13,switch (_zip_file_exists(fn, flags, zep)
+(14,zep)
+(15,return _zip_allocate_new(fn, zep)
+(16,NULL)
+(17,fn)
+(18,_zip_open(fn, fp, flags, 0, zep)
+(19,if ((fp=fopen(fn, "rb")
+(20,)
+(21,case 0:)
+(22,flags)
+(23,zep)
+(24,NULL)
+(25,fn)
+(26,fp)
+(27,"rb")
+(28,)
+(29,set_error(zep, NULL, ZIP_ER_OPEN)
+(30,zep)
+(31,fp)
+(32,NULL)
+(33,1:)
+(34,(fp=fopen(fn, "rb")
+(35,)
+(36,fn)
+(37,zep)
+(38,return NULL;)
+(39,NULL)
+(40,0)
+(41,RET)
+(42,fn)
+(43,return NULL;)
+-----cfg-----
+(16,24)
+(34,38)
+(18,20)
+(35,34)
+(20,16)
+(23,28)
+(23,38)
+(23,35)
+(7,18)
+(7,38)
+(7,35)
+(24,23)
+(28,38)
+(28,35)
+-----path-----
+7,18,20,16,24,23,28,38
+7,18,20,16,24,23,28,35,34,38
+7,18,20,16,24,23,38
+7,18,20,16,24,23,35,34,38
+7,38
+7,35,34,38
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void set_error (int *zep,struct zip_error *err,int ze)
+8,int *zep
+9,struct zip_error *err
+10,int ze
+11,<empty>
+12,int se
+13,if (err)
+14,err
+15,<empty>
+16,_zip_error_get(err, &ze, &se)
+17,err
+18,&ze
+19,ze
+20,&se
+21,se
+22,if (zip_error_get_sys_type(ze) == ZIP_ET_SYS)
+23,zip_error_get_sys_type(ze) == ZIP_ET_SYS
+24,zip_error_get_sys_type(ze)
+25,ze
+26,ZIP_ET_SYS
+27,<empty>
+28,errno = se
+29,errno
+30,se
+31,if (zep)
+32,zep
+33,<empty>
+34,*zep = ze
+35,*zep
+36,zep
+37,ze
+38,RET
+39,int *zep
+40,struct zip_error *err
+41,int ze
+42,RET
+43,void set_error (int *zep,struct zip_error *err,int ze)
+44,int *zep
+45,struct zip_error *err
+46,int ze
+47,<empty>
+48,int se
+49,if (err)
+50,err
+51,<empty>
+52,_zip_error_get(err, &ze, &se)
+53,err
+54,&ze
+55,ze
+56,&se
+57,se
+58,if (zip_error_get_sys_type(ze) == ZIP_ET_SYS)
+59,zip_error_get_sys_type(ze) == ZIP_ET_SYS
+60,zip_error_get_sys_type(ze)
+61,ze
+62,ZIP_ET_SYS
+63,<empty>
+64,errno = se
+65,errno
+66,se
+67,if (zep)
+68,zep
+69,<empty>
+70,*zep = ze
+71,*zep
+72,zep
+73,ze
+74,RET
+75,int *zep
+76,struct zip_error *err
+77,int ze
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffb1fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000504b0506000000000000ffff00000000000000000000
+arg00:0x2d53ff
+=========trace=========
+static void set_error(int *zep, struct zip_error *err, int ze) {
+int se;
+if(err)
+_zip_error_get(err, &ze, &se);
+if(zep)
+*zep = ze;
+=======================

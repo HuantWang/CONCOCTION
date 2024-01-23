@@ -1,0 +1,566 @@
+-----label-----
+0
+-----code-----
+static int jpc_qcc_putparms(jpc_ms_t *ms, jpc_cstate_t *cstate, jas_stream_t *out)
+{
+	jpc_qcc_t *qcc = &ms->parms.qcc;
+	if (cstate->numcomps <= 256) {
+		jpc_putuint8(out, qcc->compno);
+	} else {
+		jpc_putuint16(out, qcc->compno);
+	}
+	if (jpc_qcx_putcompparms(&qcc->compparms, cstate, out)) {
+		return -1;
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+23,25
+23,26
+23,27
+24,25
+25,26
+25,27
+26,27
+28,29
+28,30
+28,31
+31,32
+32,33
+33,34
+33,35
+34,35
+34,36
+35,36
+39,40
+39,41
+39,42
+40,41
+40,42
+41,42
+41,43
+42,43
+46,47
+47,48
+48,49
+48,50
+48,51
+49,50
+51,52
+53,54
+53,55
+54,55
+57,58
+58,59
+59,60
+59,61
+59,62
+60,61
+62,63
+64,65
+64,66
+65,66
+68,69
+68,70
+69,70
+69,71
+69,72
+69,73
+70,71
+72,73
+73,74
+73,75
+74,75
+77,78
+79,80
+81,82
+82,83
+83,84
+85,86
+-----nextToken-----
+2,4,7,9,10,13,15,16,19,21,22,27,29,30,36,37,38,43,44,45,50,52,55,56,61,63,66,67,71,75,76,78,80,84,86
+-----computeFrom-----
+40,41
+40,42
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;IfStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int jpc_qcc_putparms(jpc_ms_t *ms, jpc_cstate_t *cstate, jas_stream_t *out){	jpc_qcc_t *qcc = &ms->parms.qcc;	if (cstate->numcomps <= 256) {		jpc_putuint8(out, qcc->compno);	} else {		jpc_putuint16(out, qcc->compno);	}	if (jpc_qcx_putcompparms(&qcc->compparms, cstate, out)) {		return -1;	}	return 0;}
+static int
+jpc_qcc_putparms(jpc_ms_t *ms, jpc_cstate_t *cstate, jas_stream_t *out)
+jpc_qcc_putparms
+jpc_ms_t *ms
+jpc_ms_t
+jpc_ms_t
+*ms
+*
+ms
+jpc_cstate_t *cstate
+jpc_cstate_t
+jpc_cstate_t
+*cstate
+*
+cstate
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+{	jpc_qcc_t *qcc = &ms->parms.qcc;	if (cstate->numcomps <= 256) {		jpc_putuint8(out, qcc->compno);	} else {		jpc_putuint16(out, qcc->compno);	}	if (jpc_qcx_putcompparms(&qcc->compparms, cstate, out)) {		return -1;	}	return 0;}
+jpc_qcc_t *qcc = &ms->parms.qcc;
+jpc_qcc_t *qcc = &ms->parms.qcc;
+jpc_qcc_t
+jpc_qcc_t
+*qcc = &ms->parms.qcc
+*
+qcc
+= &ms->parms.qcc
+&ms->parms.qcc
+ms->parms.qcc
+ms->parms
+ms
+ms
+parms
+qcc
+if (cstate->numcomps <= 256) {		jpc_putuint8(out, qcc->compno);	} else {		jpc_putuint16(out, qcc->compno);	}
+cstate->numcomps <= 256
+cstate->numcomps
+cstate
+cstate
+numcomps
+256
+{		jpc_putuint8(out, qcc->compno);	}
+jpc_putuint8(out, qcc->compno);
+jpc_putuint8(out, qcc->compno)
+jpc_putuint8
+jpc_putuint8
+out
+out
+qcc->compno
+qcc
+qcc
+compno
+{		jpc_putuint16(out, qcc->compno);	}
+jpc_putuint16(out, qcc->compno);
+jpc_putuint16(out, qcc->compno)
+jpc_putuint16
+jpc_putuint16
+out
+out
+qcc->compno
+qcc
+qcc
+compno
+if (jpc_qcx_putcompparms(&qcc->compparms, cstate, out)) {		return -1;	}
+jpc_qcx_putcompparms(&qcc->compparms, cstate, out)
+jpc_qcx_putcompparms
+jpc_qcx_putcompparms
+&qcc->compparms
+qcc->compparms
+qcc
+qcc
+compparms
+cstate
+cstate
+out
+out
+{		return -1;	}
+return -1;
+-1
+1
+return 0;
+0
+-----joern-----
+(24,32,0)
+(21,17,0)
+(20,43,0)
+(3,43,0)
+(45,23,0)
+(6,27,0)
+(9,14,0)
+(15,40,0)
+(19,28,0)
+(0,15,0)
+(29,23,0)
+(28,10,0)
+(15,7,0)
+(17,27,0)
+(49,36,0)
+(30,38,0)
+(43,7,0)
+(36,27,0)
+(23,27,0)
+(23,48,0)
+(28,38,0)
+(10,26,0)
+(51,39,0)
+(6,41,0)
+(10,41,0)
+(14,18,0)
+(50,11,0)
+(48,23,0)
+(46,11,0)
+(36,38,0)
+(32,11,0)
+(38,36,0)
+(1,51,0)
+(38,28,0)
+(31,51,0)
+(16,28,0)
+(51,27,0)
+(44,36,0)
+(11,32,0)
+(13,26,0)
+(2,14,0)
+(43,4,0)
+(32,43,0)
+(34,6,0)
+(38,7,0)
+(17,7,0)
+(17,33,0)
+(41,10,0)
+(43,32,0)
+(25,4,0)
+(38,26,0)
+(5,39,0)
+(42,15,0)
+(22,6,0)
+(35,26,0)
+(14,7,0)
+(11,27,0)
+(37,38,0)
+(41,6,0)
+(39,51,0)
+(47,17,0)
+(8,10,0)
+(48,23,1)
+(38,7,1)
+(42,39,1)
+(11,46,1)
+(39,5,1)
+(32,24,1)
+(21,39,1)
+(17,27,1)
+(23,27,1)
+(14,9,1)
+(38,36,1)
+(43,32,1)
+(51,27,1)
+(45,38,1)
+(44,49,1)
+(47,21,1)
+(2,48,1)
+(37,30,1)
+(20,48,1)
+(6,27,1)
+(28,16,1)
+(10,41,1)
+(19,36,1)
+(12,15,1)
+(39,51,1)
+(6,34,1)
+(32,11,1)
+(29,45,1)
+(15,0,1)
+(23,29,1)
+(3,20,1)
+(38,28,1)
+(5,51,1)
+(0,42,1)
+(11,27,1)
+(12,17,1)
+(15,7,1)
+(43,7,1)
+(22,8,1)
+(49,37,1)
+(41,6,1)
+(12,14,1)
+(1,43,1)
+(14,7,1)
+(17,47,1)
+(9,2,1)
+(50,3,1)
+(36,44,1)
+(24,11,1)
+(46,50,1)
+(36,27,1)
+(28,10,1)
+(31,1,1)
+(51,31,1)
+(17,7,1)
+(16,19,1)
+(30,10,1)
+(34,22,1)
+(51,27,2)
+(11,48,2)
+(32,11,2)
+(28,10,2)
+(15,7,2)
+(42,39,2)
+(38,7,2)
+(20,48,2)
+(38,36,2)
+(51,48,2)
+(17,39,2)
+(3,48,2)
+(14,7,2)
+(5,48,2)
+(9,48,2)
+(14,48,2)
+(24,48,2)
+(43,48,2)
+(17,27,2)
+(6,27,2)
+(41,6,2)
+(39,48,2)
+(39,51,2)
+(11,27,2)
+(38,28,2)
+(50,48,2)
+(2,48,2)
+(31,48,2)
+(47,39,2)
+(10,41,2)
+(21,39,2)
+(32,48,2)
+(46,48,2)
+(15,39,2)
+(23,27,2)
+(48,23,2)
+(0,39,2)
+(17,7,2)
+(36,27,2)
+(43,7,2)
+(1,48,2)
+(43,32,2)
+-----------------------------------
+(0,"\\n")
+(1,ms)
+(2,out)
+(3," len = %d;")
+(4,)
+(5,dumpparms)
+(6,ms->id)
+(7,FILE *out)
+(8,mstabent)
+(9,"\\n")
+(10,mstabent = jpc_mstab_lookup(ms->id)
+(11,ms->len)
+(12,RET)
+(13,mstabent)
+(14,fprintf(out, "\\n")
+(15,fprintf(out, "\\n")
+(16,name)
+(17,(*ms->ops->dumpparms)
+(18,)
+(19,mstabent)
+(20,out)
+(21,ms)
+(22,ms)
+(23,ms->id)
+(24,2)
+(25,if (ms->ops->dumpparms)
+(26,)
+(27,jpc_ms_t *ms)
+(28,mstabent->name)
+(29,id)
+(30,out)
+(31,ops)
+(32,ms->len + 2)
+(33,)
+(34,id)
+(35,if (JPC_MS_HASPARMS(ms->id)
+(36,ms->id)
+(37,"type = 0x%04x (%s)
+(38,fprintf(out, "type = 0x%04x (%s)
+(39,ms->ops->dumpparms)
+(40,)
+(41,jpc_mstab_lookup(ms->id)
+(42,out)
+(43,fprintf(out, " len = %d;", ms->len + 2)
+(44,id)
+(45,ms)
+(46,len)
+(47,out)
+(48,JPC_MS_HASPARMS(ms->id)
+(49,ms)
+(50,ms)
+(51,ms->ops)
+-----cfg-----
+(32,30)
+(35,45)
+(37,35)
+(39,37)
+(7,19)
+(41,50)
+(41,52)
+(42,41)
+(43,42)
+(13,25)
+(45,43)
+(15,13)
+(16,15)
+(49,54)
+(17,20)
+(50,49)
+(19,17)
+(52,54)
+(20,16)
+(22,32)
+(22,39)
+(23,22)
+(25,23)
+(28,45)
+(30,28)
+-----path-----
+7,19,17,20,16,15,13,25,23,22,32,30,28,45,43,42,41,50,49,54
+7,19,17,20,16,15,13,25,23,22,32,30,28,45,43,42,41,52,54
+7,19,17,20,16,15,13,25,23,22,39,37,35,45,43,42,41,50,49,54
+7,19,17,20,16,15,13,25,23,22,39,37,35,45,43,42,41,52,54
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_qcc_putparms (jpc_ms_t *ms,jpc_cstate_t *cstate,jas_stream_t *out)
+8,jpc_ms_t *ms
+9,jpc_cstate_t *cstate
+10,jas_stream_t *out
+11,<empty>
+12,jpc_qcc_t* qcc
+13,*qcc = &ms->parms.qcc
+14,qcc
+15,&ms->parms.qcc
+16,ms->parms.qcc
+17,ms->parms
+18,ms
+19,parms
+20,qcc
+21,if (cstate->numcomps <= 256)
+22,cstate->numcomps <= 256
+23,cstate->numcomps
+24,cstate
+25,numcomps
+26,256
+27,<empty>
+28,jpc_putuint8(out, qcc->compno)
+29,out
+30,qcc->compno
+31,qcc
+32,compno
+33,else
+34,<empty>
+35,jpc_putuint16(out, qcc->compno)
+36,out
+37,qcc->compno
+38,qcc
+39,compno
+40,if (jpc_qcx_putcompparms(&qcc->compparms, cstate, out))
+41,jpc_qcx_putcompparms(&qcc->compparms, cstate, out)
+42,&qcc->compparms
+43,qcc->compparms
+44,qcc
+45,compparms
+46,cstate
+47,out
+48,<empty>
+49,return -1;
+50,-1
+51,1
+52,return 0;
+53,0
+54,RET
+55,jpc_ms_t *ms
+56,jpc_cstate_t *cstate
+57,jas_stream_t *out
+58,RET
+59,int jpc_qcc_putparms (jpc_ms_t *ms,jpc_cstate_t *cstate,jas_stream_t *out)
+60,jpc_ms_t *ms
+61,jpc_cstate_t *cstate
+62,jas_stream_t *out
+63,<empty>
+64,jpc_qcc_t* qcc
+65,*qcc = &ms->parms.qcc
+66,qcc
+67,&ms->parms.qcc
+68,ms->parms.qcc
+69,ms->parms
+70,ms
+71,parms
+72,qcc
+73,if (cstate->numcomps <= 256)
+74,cstate->numcomps <= 256
+75,cstate->numcomps
+76,cstate
+77,numcomps
+78,256
+79,<empty>
+80,jpc_putuint8(out, qcc->compno)
+81,out
+82,qcc->compno
+83,qcc
+84,compno
+85,else
+86,<empty>
+87,jpc_putuint16(out, qcc->compno)
+88,out
+89,qcc->compno
+90,qcc
+91,compno
+92,if (jpc_qcx_putcompparms(&qcc->compparms, cstate, out))
+93,jpc_qcx_putcompparms(&qcc->compparms, cstate, out)
+94,&qcc->compparms
+95,qcc->compparms
+96,qcc
+97,compparms
+98,cstate
+99,out
+100,<empty>
+101,return -1;
+102,-1
+103,1
+104,return 0;
+105,0
+106,RET
+107,jpc_ms_t *ms
+108,jpc_cstate_t *cstate
+109,jas_stream_t *out
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int jpc_qcc_putparms(jpc_ms_t *ms, jpc_cstate_t *cstate, jas_stream_t *out) {
+jpc_qcc_t *qcc = &ms->parms.qcc;
+if(cstate->numcomps <= 256)
+jpc_putuint8(out, qcc->compno);
+return 0;
+=======================

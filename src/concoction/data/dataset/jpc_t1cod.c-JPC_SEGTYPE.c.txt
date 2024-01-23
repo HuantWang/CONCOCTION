@@ -1,0 +1,428 @@
+-----label-----
+0
+-----code-----
+int JPC_SEGTYPE(int passno, int firstpassno, int bypass)
+{
+	int passtype;
+	if (bypass) {
+		passtype = JPC_PASSTYPE(passno);
+		if (passtype == JPC_CLNPASS) {
+			return JPC_SEG_MQ;
+		}
+		return ((passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW);
+	} else {
+		return JPC_SEG_MQ;
+	}
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+7,8
+9,10
+9,11
+11,12
+13,14
+13,15
+15,16
+17,18
+17,19
+18,19
+19,20
+19,21
+21,22
+23,24
+23,25
+23,26
+24,25
+26,27
+26,28
+26,29
+27,28
+28,29
+28,30
+29,30
+31,32
+31,33
+32,33
+34,35
+36,37
+36,38
+37,38
+37,39
+38,39
+40,41
+42,43
+43,44
+44,45
+46,47
+47,48
+48,49
+48,50
+48,51
+49,50
+50,51
+50,52
+51,52
+53,54
+53,55
+54,55
+57,58
+59,60
+61,62
+62,63
+63,64
+-----nextToken-----
+2,4,6,8,10,12,14,16,20,22,25,30,33,35,39,41,45,52,55,56,58,60,64
+-----computeFrom-----
+28,29
+28,30
+37,38
+37,39
+50,51
+50,52
+53,54
+53,55
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;IdExpression;Name;ReturnStatement;UnaryExpression;ConditionalExpression;UnaryExpression;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+int JPC_SEGTYPE(int passno, int firstpassno, int bypass){	int passtype;	if (bypass) {		passtype = JPC_PASSTYPE(passno);		if (passtype == JPC_CLNPASS) {			return JPC_SEG_MQ;		}		return ((passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW);	} else {		return JPC_SEG_MQ;	}}
+int
+JPC_SEGTYPE(int passno, int firstpassno, int bypass)
+JPC_SEGTYPE
+int passno
+int
+passno
+passno
+int firstpassno
+int
+firstpassno
+firstpassno
+int bypass
+int
+bypass
+bypass
+{	int passtype;	if (bypass) {		passtype = JPC_PASSTYPE(passno);		if (passtype == JPC_CLNPASS) {			return JPC_SEG_MQ;		}		return ((passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW);	} else {		return JPC_SEG_MQ;	}}
+int passtype;
+int passtype;
+int
+passtype
+passtype
+if (bypass) {		passtype = JPC_PASSTYPE(passno);		if (passtype == JPC_CLNPASS) {			return JPC_SEG_MQ;		}		return ((passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW);	} else {		return JPC_SEG_MQ;	}
+bypass
+bypass
+{		passtype = JPC_PASSTYPE(passno);		if (passtype == JPC_CLNPASS) {			return JPC_SEG_MQ;		}		return ((passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW);	}
+passtype = JPC_PASSTYPE(passno);
+passtype = JPC_PASSTYPE(passno)
+passtype
+passtype
+JPC_PASSTYPE(passno)
+JPC_PASSTYPE
+JPC_PASSTYPE
+passno
+passno
+if (passtype == JPC_CLNPASS) {			return JPC_SEG_MQ;		}
+passtype == JPC_CLNPASS
+passtype
+passtype
+JPC_CLNPASS
+JPC_CLNPASS
+{			return JPC_SEG_MQ;		}
+return JPC_SEG_MQ;
+JPC_SEG_MQ
+JPC_SEG_MQ
+return ((passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW);
+((passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW)
+(passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW
+(passno < firstpassno + 10)
+passno < firstpassno + 10
+passno
+passno
+firstpassno + 10
+firstpassno
+firstpassno
+10
+JPC_SEG_MQ
+JPC_SEG_MQ
+JPC_SEG_RAW
+JPC_SEG_RAW
+{		return JPC_SEG_MQ;	}
+return JPC_SEG_MQ;
+JPC_SEG_MQ
+JPC_SEG_MQ
+-----joern-----
+(10,9,0)
+(3,5,0)
+(14,9,0)
+(10,21,0)
+(2,33,0)
+(5,31,0)
+(8,9,0)
+(39,5,0)
+(38,24,0)
+(26,31,0)
+(32,31,0)
+(15,40,0)
+(16,37,0)
+(35,31,0)
+(27,23,0)
+(43,31,0)
+(29,10,0)
+(13,9,0)
+(19,16,0)
+(41,16,0)
+(22,31,0)
+(0,10,0)
+(1,2,0)
+(11,44,0)
+(12,40,0)
+(39,44,0)
+(16,33,0)
+(39,15,0)
+(24,12,0)
+(25,2,0)
+(39,28,0)
+(30,15,0)
+(37,9,0)
+(24,4,0)
+(28,31,0)
+(7,23,0)
+(12,24,0)
+(44,36,0)
+(6,17,0)
+(42,24,0)
+(18,28,0)
+(37,16,0)
+(23,20,0)
+(16,19,1)
+(39,8,1)
+(2,1,1)
+(23,7,1)
+(25,10,1)
+(24,4,1)
+(39,5,1)
+(8,32,1)
+(15,30,1)
+(16,33,1)
+(27,37,1)
+(24,42,1)
+(28,18,1)
+(39,28,1)
+(34,23,1)
+(10,0,1)
+(41,2,1)
+(38,23,1)
+(42,38,1)
+(23,20,1)
+(2,33,1)
+(11,2,1)
+(18,34,1)
+(12,24,1)
+(8,34,1)
+(30,12,1)
+(37,16,1)
+(8,35,1)
+(39,15,1)
+(7,27,1)
+(39,44,1)
+(19,41,1)
+(5,3,1)
+(0,29,1)
+(10,21,1)
+(44,11,1)
+(3,34,1)
+(1,25,1)
+(2,33,2)
+(34,23,2)
+(28,34,2)
+(23,20,2)
+(39,28,2)
+(39,15,2)
+(39,5,2)
+(42,23,2)
+(10,21,2)
+(30,23,2)
+(7,2,2)
+(41,2,2)
+(16,2,2)
+(8,34,2)
+(15,23,2)
+(18,34,2)
+(39,44,2)
+(3,34,2)
+(19,2,2)
+(11,2,2)
+(27,2,2)
+(23,2,2)
+(38,23,2)
+(37,16,2)
+(24,4,2)
+(12,24,2)
+(12,23,2)
+(44,2,2)
+(37,2,2)
+(16,33,2)
+(5,34,2)
+(24,23,2)
+-----------------------------------
+(0,0)
+(1,JPC_COX_INS)
+(2,qmfbid == JPC_COX_INS)
+(3,2)
+(4,int orient)
+(5,return 2;)
+(6,switch (orient)
+(7,0)
+(8,abort()
+(9,)
+(10,numlvls = 0)
+(11,0)
+(12,assert(orient == JPC_TSFB_LL)
+(13,if (qmfbid == JPC_COX_INS)
+(14,if (lvlno == 0)
+(15,return 0;)
+(16,qmfbid == JPC_COX_RFT)
+(17,)
+(18,1)
+(19,JPC_COX_RFT)
+(20,int lvlno)
+(21,int numlvls)
+(22,case JPC_TSFB_HH:)
+(23,lvlno == 0)
+(24,orient == JPC_TSFB_LL)
+(25,qmfbid)
+(26,case JPC_TSFB_LH:)
+(27,lvlno)
+(28,return 1;)
+(29,numlvls)
+(30,0)
+(31,)
+(32,break;)
+(33,int qmfbid)
+(34,orient)
+(35,break;)
+(36,)
+(37,assert(qmfbid == JPC_COX_RFT)
+(38,orient)
+(39,RET)
+(40,)
+(41,qmfbid)
+(42,JPC_TSFB_LL)
+(43,case JPC_TSFB_HL:)
+(44,return 0;)
+-----cfg-----
+(16,21)
+(18,16)
+(21,25)
+(21,31)
+(38,40)
+(7,18)
+(7,38)
+(25,40)
+(27,40)
+(28,27)
+(29,28)
+(31,29)
+-----path-----
+7,18,16,21,25,40
+7,18,16,21,31,29,28,27,40
+7,38,40
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int JPC_SEGTYPE (int passno,int firstpassno,int bypass)
+8,int passno
+9,int firstpassno
+10,int bypass
+11,<empty>
+12,int passtype
+13,if (bypass)
+14,bypass
+15,<empty>
+16,passtype = JPC_PASSTYPE(passno)
+17,passtype
+18,JPC_PASSTYPE(passno)
+19,passno
+20,if (passtype == JPC_CLNPASS)
+21,passtype == JPC_CLNPASS
+22,passtype
+23,JPC_CLNPASS
+24,<empty>
+25,return JPC_SEG_MQ;
+26,JPC_SEG_MQ
+27,return ((passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW);
+28,(passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW
+29,passno < firstpassno + 10
+30,passno
+31,firstpassno + 10
+32,firstpassno
+33,10
+34,JPC_SEG_MQ
+35,JPC_SEG_RAW
+36,else
+37,<empty>
+38,return JPC_SEG_MQ;
+39,JPC_SEG_MQ
+40,RET
+41,int passno
+42,int firstpassno
+43,int bypass
+44,RET
+45,int JPC_SEGTYPE (int passno,int firstpassno,int bypass)
+46,int passno
+47,int firstpassno
+48,int bypass
+49,<empty>
+50,int passtype
+51,if (bypass)
+52,bypass
+53,<empty>
+54,passtype = JPC_PASSTYPE(passno)
+55,passtype
+56,JPC_PASSTYPE(passno)
+57,passno
+58,if (passtype == JPC_CLNPASS)
+59,passtype == JPC_CLNPASS
+60,passtype
+61,JPC_CLNPASS
+62,<empty>
+63,return JPC_SEG_MQ;
+64,JPC_SEG_MQ
+65,return ((passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW);
+66,(passno < firstpassno + 10) ? JPC_SEG_MQ : JPC_SEG_RAW
+67,passno < firstpassno + 10
+68,passno
+69,firstpassno + 10
+70,firstpassno
+71,10
+72,JPC_SEG_MQ
+73,JPC_SEG_RAW
+74,else
+75,<empty>
+76,return JPC_SEG_MQ;
+77,JPC_SEG_MQ
+78,RET
+79,int passno
+80,int firstpassno
+81,int bypass
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int JPC_SEGTYPE(int passno, int firstpassno, int bypass) {
+int passtype;
+return JPC_SEG_MQ;
+=======================

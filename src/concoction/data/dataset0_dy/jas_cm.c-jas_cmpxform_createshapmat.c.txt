@@ -1,0 +1,54 @@
+
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static jas_cmpxform_t *jas_cmpxform_createshapmat() {
+int i;
+int j;
+jas_cmpxform_t *pxform;
+jas_cmshapmat_t *shapmat;
+pxform->ops = &shapmat_ops;
+shapmat = &pxform->data.shapmat;
+shapmat->mono = 0;
+shapmat->order = 0;
+shapmat->useluts = 0;
+shapmat->usemat = 0;
+for(i = 0;i < 3;++i)
+jas_cmshapmatlut_init(&shapmat->luts[i]);
+for(i = 0;i < 3;++i)
+jas_cmshapmatlut_init(&shapmat->luts[i]);
+for(i = 0;i < 3;++i)
+jas_cmshapmatlut_init(&shapmat->luts[i]);
+for(i = 0;i < 3;++i)
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(i = 0;i < 3;++i)
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(i = 0;i < 3;++i)
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+for(j = 0;j < 4;++j)
+shapmat->mat[i][j] = 0.0;
+++pxform->refcnt;
+return pxform;
+=======================

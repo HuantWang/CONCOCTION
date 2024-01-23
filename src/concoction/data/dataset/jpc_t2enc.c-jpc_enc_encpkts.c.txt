@@ -1,0 +1,576 @@
+-----label-----
+0
+-----code-----
+int jpc_enc_encpkts(jpc_enc_t *enc, jas_stream_t *out)
+{
+	jpc_enc_tile_t *tile;
+	jpc_pi_t *pi;
+
+	tile = enc->curtile;
+
+	jpc_init_t2state(enc, 0);
+	pi = tile->pi;
+	jpc_pi_init(pi);
+
+	if (!jpc_pi_next(pi)) {
+		for (;;) {
+			if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),
+			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))) {
+				return -1;
+			}
+			if (jpc_pi_next(pi)) {
+				break;
+			}
+		}
+	}
+	
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+17,20
+17,21
+17,22
+17,23
+17,24
+17,25
+18,19
+19,20
+19,21
+20,21
+22,23
+22,24
+25,26
+26,27
+26,28
+27,28
+29,30
+29,31
+32,33
+33,34
+33,35
+34,35
+36,37
+36,38
+37,38
+40,41
+41,42
+41,43
+41,44
+42,43
+44,45
+47,48
+48,49
+48,50
+49,50
+51,52
+51,53
+52,53
+55,56
+56,57
+56,58
+57,58
+59,60
+61,62
+61,63
+62,63
+63,64
+63,65
+64,65
+66,67
+68,69
+69,70
+69,71
+71,72
+71,73
+72,73
+72,74
+73,74
+73,75
+73,76
+73,77
+73,78
+73,79
+73,80
+74,75
+76,77
+78,79
+80,81
+80,82
+81,82
+83,84
+85,86
+85,87
+86,87
+88,89
+90,91
+90,92
+91,92
+93,94
+95,96
+95,97
+96,97
+98,99
+100,101
+101,102
+102,103
+104,105
+104,106
+105,106
+105,107
+106,107
+108,109
+110,111
+112,113
+-----nextToken-----
+2,4,7,9,10,13,15,16,21,23,24,28,30,31,35,38,39,43,45,46,50,53,54,58,60,65,67,70,75,77,79,82,84,87,89,92,94,97,99,103,107,109,111,113
+-----computeFrom-----
+33,34
+33,35
+48,49
+48,50
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;UnaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ForStatement;NullStatement;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;BreakStatement;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jpc_enc_encpkts(jpc_enc_t *enc, jas_stream_t *out){	jpc_enc_tile_t *tile;	jpc_pi_t *pi;	tile = enc->curtile;	jpc_init_t2state(enc, 0);	pi = tile->pi;	jpc_pi_init(pi);	if (!jpc_pi_next(pi)) {		for (;;) {			if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))) {				return -1;			}			if (jpc_pi_next(pi)) {				break;			}		}	}		return 0;}
+int
+jpc_enc_encpkts(jpc_enc_t *enc, jas_stream_t *out)
+jpc_enc_encpkts
+jpc_enc_t *enc
+jpc_enc_t
+jpc_enc_t
+*enc
+*
+enc
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+{	jpc_enc_tile_t *tile;	jpc_pi_t *pi;	tile = enc->curtile;	jpc_init_t2state(enc, 0);	pi = tile->pi;	jpc_pi_init(pi);	if (!jpc_pi_next(pi)) {		for (;;) {			if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))) {				return -1;			}			if (jpc_pi_next(pi)) {				break;			}		}	}		return 0;}
+jpc_enc_tile_t *tile;
+jpc_enc_tile_t *tile;
+jpc_enc_tile_t
+jpc_enc_tile_t
+*tile
+*
+tile
+jpc_pi_t *pi;
+jpc_pi_t *pi;
+jpc_pi_t
+jpc_pi_t
+*pi
+*
+pi
+tile = enc->curtile;
+tile = enc->curtile
+tile
+tile
+enc->curtile
+enc
+enc
+curtile
+jpc_init_t2state(enc, 0);
+jpc_init_t2state(enc, 0)
+jpc_init_t2state
+jpc_init_t2state
+enc
+enc
+0
+pi = tile->pi;
+pi = tile->pi
+pi
+pi
+tile->pi
+tile
+tile
+pi
+jpc_pi_init(pi);
+jpc_pi_init(pi)
+jpc_pi_init
+jpc_pi_init
+pi
+pi
+if (!jpc_pi_next(pi)) {		for (;;) {			if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))) {				return -1;			}			if (jpc_pi_next(pi)) {				break;			}		}	}
+!jpc_pi_next(pi)
+jpc_pi_next(pi)
+jpc_pi_next
+jpc_pi_next
+pi
+pi
+{		for (;;) {			if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))) {				return -1;			}			if (jpc_pi_next(pi)) {				break;			}		}	}
+for (;;) {			if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))) {				return -1;			}			if (jpc_pi_next(pi)) {				break;			}		}
+;
+{			if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))) {				return -1;			}			if (jpc_pi_next(pi)) {				break;			}		}
+if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))) {				return -1;			}
+jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))
+jpc_enc_encpkt
+jpc_enc_encpkt
+enc
+enc
+out
+out
+jpc_pi_cmptno(pi)
+jpc_pi_cmptno
+jpc_pi_cmptno
+pi
+pi
+jpc_pi_rlvlno(pi)
+jpc_pi_rlvlno
+jpc_pi_rlvlno
+pi
+pi
+jpc_pi_prcno(pi)
+jpc_pi_prcno
+jpc_pi_prcno
+pi
+pi
+jpc_pi_lyrno(pi)
+jpc_pi_lyrno
+jpc_pi_lyrno
+pi
+pi
+{				return -1;			}
+return -1;
+-1
+1
+if (jpc_pi_next(pi)) {				break;			}
+jpc_pi_next(pi)
+jpc_pi_next
+jpc_pi_next
+pi
+pi
+{				break;			}
+break;
+return 0;
+0
+-----joern-----
+(18,25,0)
+(29,26,0)
+(6,16,0)
+(28,15,0)
+(5,16,0)
+(1,12,0)
+(13,15,0)
+(22,19,0)
+(19,30,0)
+(20,19,0)
+(33,17,0)
+(26,27,0)
+(2,12,0)
+(3,27,0)
+(24,10,0)
+(15,28,0)
+(17,33,0)
+(19,4,0)
+(0,28,0)
+(32,21,0)
+(3,32,0)
+(16,31,0)
+(23,9,0)
+(11,16,0)
+(35,17,0)
+(9,32,0)
+(14,28,0)
+(33,30,0)
+(10,12,0)
+(16,6,0)
+(3,10,0)
+(4,12,0)
+(27,8,0)
+(34,33,0)
+(28,31,0)
+(4,19,0)
+(7,6,0)
+(24,6,1)
+(17,35,1)
+(3,10,1)
+(9,23,1)
+(14,0,1)
+(34,4,1)
+(35,33,1)
+(22,20,1)
+(0,17,1)
+(33,34,1)
+(26,29,1)
+(6,7,1)
+(27,26,1)
+(33,30,1)
+(16,11,1)
+(16,31,1)
+(3,32,1)
+(28,14,1)
+(7,16,1)
+(10,24,1)
+(19,30,1)
+(3,27,1)
+(15,13,1)
+(11,5,1)
+(6,16,1)
+(28,31,1)
+(13,28,1)
+(23,6,1)
+(5,17,1)
+(29,15,1)
+(19,22,1)
+(15,28,1)
+(17,33,1)
+(34,15,1)
+(32,9,1)
+(4,19,1)
+(28,17,2)
+(16,17,2)
+(0,17,2)
+(16,31,2)
+(15,28,2)
+(17,33,2)
+(6,16,2)
+(24,6,2)
+(3,10,2)
+(19,30,2)
+(32,6,2)
+(23,6,2)
+(3,27,2)
+(5,17,2)
+(13,17,2)
+(10,6,2)
+(29,15,2)
+(7,17,2)
+(17,15,2)
+(27,15,2)
+(14,17,2)
+(35,15,2)
+(4,19,2)
+(3,32,2)
+(28,31,2)
+(9,6,2)
+(11,17,2)
+(33,15,2)
+(15,17,2)
+(33,30,2)
+(6,17,2)
+(26,15,2)
+(34,15,2)
+-----------------------------------
+(0,out)
+(1,while (--n >= 0)
+(2,if (jpc_bitstream_putbit(out, 0)
+(3,RET)
+(4,assert(n >= 0)
+(5,out)
+(6,jpc_bitstream_putbit(out, 0)
+(7,EOF)
+(8,)
+(9,-1)
+(10,return 0;)
+(11,0)
+(12,)
+(13,EOF)
+(14,1)
+(15,jpc_bitstream_putbit(out, 1)
+(16,jpc_bitstream_putbit(out, 0)
+(17,--n >= 0)
+(18,if (jpc_bitstream_putbit(out, 1)
+(19,n >= 0)
+(20,n)
+(21,)
+(22,0)
+(23,1)
+(24,0)
+(25,)
+(26,-1)
+(27,return -1;)
+(28,jpc_bitstream_putbit(out, 1)
+(29,1)
+(30,int n)
+(31,jpc_bitstream_t *out)
+(32,return -1;)
+(33,--n)
+(34,n)
+(35,0)
+-----cfg-----
+(37,50)
+(37,53)
+(7,17)
+(40,42)
+(42,44)
+(44,46)
+(13,18)
+(46,37)
+(15,13)
+(17,15)
+(49,59)
+(18,25)
+(50,49)
+(21,26)
+(53,40)
+(53,57)
+(23,21)
+(57,59)
+(25,23)
+(26,30)
+(29,40)
+(29,57)
+(30,29)
+-----path-----
+7,17,15,13,18,25,23,21,26,30,29,40,42,44,46,37,50,49,59
+7,17,15,13,18,25,23,21,26,30,29,40,42,44,46,37,53,57,59
+7,17,15,13,18,25,23,21,26,30,29,57,59
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_enc_encpkts (jpc_enc_t *enc,jas_stream_t *out)
+8,jpc_enc_t *enc
+9,jas_stream_t *out
+10,<empty>
+11,jpc_enc_tile_t* tile
+12,jpc_pi_t* pi
+13,tile = enc->curtile
+14,tile
+15,enc->curtile
+16,enc
+17,curtile
+18,jpc_init_t2state(enc, 0)
+19,enc
+20,0
+21,pi = tile->pi
+22,pi
+23,tile->pi
+24,tile
+25,pi
+26,jpc_pi_init(pi)
+27,pi
+28,if (!jpc_pi_next(pi))
+29,!jpc_pi_next(pi)
+30,jpc_pi_next(pi)
+31,pi
+32,<empty>
+33,for (;;)
+34,<empty>
+35,<empty>
+36,if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),
+37,			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi)))
+38,jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),
+39,			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))
+40,enc
+41,out
+42,jpc_pi_cmptno(pi)
+43,pi
+44,jpc_pi_rlvlno(pi)
+45,pi
+46,jpc_pi_prcno(pi)
+47,pi
+48,jpc_pi_lyrno(pi)
+49,pi
+50,<empty>
+51,return -1;
+52,-1
+53,1
+54,if (jpc_pi_next(pi))
+55,jpc_pi_next(pi)
+56,pi
+57,<empty>
+58,break;
+59,return 0;
+60,0
+61,RET
+62,jpc_enc_t *enc
+63,jas_stream_t *out
+64,RET
+65,int jpc_enc_encpkts (jpc_enc_t *enc,jas_stream_t *out)
+66,jpc_enc_t *enc
+67,jas_stream_t *out
+68,<empty>
+69,jpc_enc_tile_t* tile
+70,jpc_pi_t* pi
+71,tile = enc->curtile
+72,tile
+73,enc->curtile
+74,enc
+75,curtile
+76,jpc_init_t2state(enc, 0)
+77,enc
+78,0
+79,pi = tile->pi
+80,pi
+81,tile->pi
+82,tile
+83,pi
+84,jpc_pi_init(pi)
+85,pi
+86,if (!jpc_pi_next(pi))
+87,!jpc_pi_next(pi)
+88,jpc_pi_next(pi)
+89,pi
+90,<empty>
+91,for (;;)
+92,<empty>
+93,<empty>
+94,if (jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),
+95,			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi)))
+96,jpc_enc_encpkt(enc, out, jpc_pi_cmptno(pi), jpc_pi_rlvlno(pi),
+97,			  jpc_pi_prcno(pi), jpc_pi_lyrno(pi))
+98,enc
+99,out
+100,jpc_pi_cmptno(pi)
+101,pi
+102,jpc_pi_rlvlno(pi)
+103,pi
+104,jpc_pi_prcno(pi)
+105,pi
+106,jpc_pi_lyrno(pi)
+107,pi
+108,<empty>
+109,return -1;
+110,-1
+111,1
+112,if (jpc_pi_next(pi))
+113,jpc_pi_next(pi)
+114,pi
+115,<empty>
+116,break;
+117,return 0;
+118,0
+119,RET
+120,jpc_enc_t *enc
+121,jas_stream_t *out
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_enc_encpkts(jpc_enc_t *enc, jas_stream_t *out) {
+jpc_enc_tile_t *tile;
+jpc_pi_t *pi;
+tile = enc->curtile;
+jpc_init_t2state(enc, 0);
+pi = tile->pi;
+jpc_pi_init(pi);
+if(!jpc_pi_next(pi))
+if(jpc_pi_next(pi))
+return 0;
+=======================

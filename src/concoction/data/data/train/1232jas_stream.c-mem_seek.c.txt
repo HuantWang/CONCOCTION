@@ -1,0 +1,503 @@
+-----label-----
+0
+-----code-----
+static long mem_seek(jas_stream_obj_t *obj, long offset, int origin)
+{
+	jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;
+	long newpos;
+
+	switch (origin) {
+	case SEEK_SET:
+		newpos = offset;
+		break;
+	case SEEK_END:
+		newpos = m->len_ - offset;
+		break;
+	case SEEK_CUR:
+		newpos = m->pos_ + offset;
+		break;
+	default:
+		abort();
+		break;
+	}
+	if (newpos < 0) {
+		return -1;
+	}
+	m->pos_ = newpos;
+
+	return m->pos_;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+15,16
+15,17
+17,18
+19,20
+19,21
+19,22
+19,23
+19,24
+19,25
+20,21
+21,22
+21,23
+22,23
+24,25
+24,26
+24,27
+27,28
+28,29
+28,30
+29,30
+29,31
+30,31
+32,33
+34,35
+36,37
+37,38
+37,39
+39,40
+41,42
+41,43
+42,43
+44,45
+44,46
+44,47
+44,48
+44,49
+44,50
+44,51
+44,52
+44,53
+44,54
+44,55
+44,56
+45,46
+46,47
+48,49
+49,50
+49,51
+50,51
+52,53
+55,56
+56,57
+58,59
+59,60
+59,61
+60,61
+62,63
+62,64
+63,64
+63,65
+64,65
+67,68
+70,71
+71,72
+73,74
+74,75
+74,76
+75,76
+77,78
+77,79
+78,79
+78,80
+79,80
+82,83
+86,87
+87,88
+88,89
+91,92
+91,93
+92,93
+92,94
+93,94
+96,97
+97,98
+98,99
+100,101
+101,102
+101,103
+102,103
+102,104
+103,104
+106,107
+108,109
+109,110
+109,111
+110,111
+-----nextToken-----
+2,4,7,9,10,12,14,16,18,23,25,26,31,33,35,38,40,43,47,51,53,54,57,61,65,66,68,69,72,76,80,81,83,84,85,89,90,94,95,99,104,105,107,111,112
+-----computeFrom-----
+49,50
+49,51
+59,60
+59,61
+62,63
+62,64
+74,75
+74,76
+77,78
+77,79
+92,93
+92,94
+101,102
+101,103
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;CastExpression;TypeId;NamedTypeSpecifier;Name;Declarator;Pointer;IdExpression;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;SwitchStatement;IdExpression;Name;CompoundStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;BreakStatement;DefaultStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BreakStatement;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ReturnStatement;FieldReference;IdExpression;Name;Name;
+-----ast_node-----
+static long mem_seek(jas_stream_obj_t *obj, long offset, int origin){	jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;	long newpos;	switch (origin) {	case SEEK_SET:		newpos = offset;		break;	case SEEK_END:		newpos = m->len_ - offset;		break;	case SEEK_CUR:		newpos = m->pos_ + offset;		break;	default:		abort();		break;	}	if (newpos < 0) {		return -1;	}	m->pos_ = newpos;	return m->pos_;}
+static long
+mem_seek(jas_stream_obj_t *obj, long offset, int origin)
+mem_seek
+jas_stream_obj_t *obj
+jas_stream_obj_t
+jas_stream_obj_t
+*obj
+*
+obj
+long offset
+long
+offset
+offset
+int origin
+int
+origin
+origin
+{	jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;	long newpos;	switch (origin) {	case SEEK_SET:		newpos = offset;		break;	case SEEK_END:		newpos = m->len_ - offset;		break;	case SEEK_CUR:		newpos = m->pos_ + offset;		break;	default:		abort();		break;	}	if (newpos < 0) {		return -1;	}	m->pos_ = newpos;	return m->pos_;}
+jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;
+jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;
+jas_stream_memobj_t
+jas_stream_memobj_t
+*m = (jas_stream_memobj_t *)obj
+*
+m
+= (jas_stream_memobj_t *)obj
+(jas_stream_memobj_t *)obj
+jas_stream_memobj_t *
+jas_stream_memobj_t
+jas_stream_memobj_t
+*
+*
+obj
+obj
+long newpos;
+long newpos;
+long
+newpos
+newpos
+switch (origin) {	case SEEK_SET:		newpos = offset;		break;	case SEEK_END:		newpos = m->len_ - offset;		break;	case SEEK_CUR:		newpos = m->pos_ + offset;		break;	default:		abort();		break;	}
+origin
+origin
+{	case SEEK_SET:		newpos = offset;		break;	case SEEK_END:		newpos = m->len_ - offset;		break;	case SEEK_CUR:		newpos = m->pos_ + offset;		break;	default:		abort();		break;	}
+case SEEK_SET:
+SEEK_SET
+SEEK_SET
+newpos = offset;
+newpos = offset
+newpos
+newpos
+offset
+offset
+break;
+case SEEK_END:
+SEEK_END
+SEEK_END
+newpos = m->len_ - offset;
+newpos = m->len_ - offset
+newpos
+newpos
+m->len_ - offset
+m->len_
+m
+m
+len_
+offset
+offset
+break;
+case SEEK_CUR:
+SEEK_CUR
+SEEK_CUR
+newpos = m->pos_ + offset;
+newpos = m->pos_ + offset
+newpos
+newpos
+m->pos_ + offset
+m->pos_
+m
+m
+pos_
+offset
+offset
+break;
+default:
+abort();
+abort()
+abort
+abort
+break;
+if (newpos < 0) {		return -1;	}
+newpos < 0
+newpos
+newpos
+0
+{		return -1;	}
+return -1;
+-1
+1
+m->pos_ = newpos;
+m->pos_ = newpos
+m->pos_
+m
+m
+pos_
+newpos
+newpos
+return m->pos_;
+m->pos_
+m
+m
+pos_
+-----joern-----
+(24,36,0)
+(24,40,0)
+(33,38,0)
+(49,46,0)
+(46,3,0)
+(10,1,0)
+(22,33,0)
+(24,1,0)
+(15,0,0)
+(45,7,0)
+(6,7,0)
+(44,5,0)
+(43,38,0)
+(42,7,0)
+(20,23,0)
+(3,38,0)
+(39,32,0)
+(8,21,0)
+(26,10,0)
+(37,41,0)
+(2,41,0)
+(17,3,0)
+(35,33,0)
+(5,0,0)
+(43,5,0)
+(0,5,0)
+(18,43,0)
+(36,9,0)
+(4,41,0)
+(16,7,0)
+(5,43,0)
+(34,46,0)
+(31,33,0)
+(7,38,0)
+(50,5,0)
+(3,46,0)
+(24,20,0)
+(27,40,0)
+(50,41,0)
+(7,45,0)
+(33,46,0)
+(12,25,0)
+(33,25,0)
+(13,45,0)
+(28,50,0)
+(47,41,0)
+(25,33,0)
+(11,41,0)
+(29,27,0)
+(32,20,0)
+(1,19,0)
+(14,49,0)
+(46,49,0)
+(21,36,0)
+(48,41,0)
+(40,30,0)
+(24,50,0)
+(7,6,1)
+(17,34,1)
+(36,21,1)
+(44,45,1)
+(33,38,1)
+(43,18,1)
+(50,5,1)
+(25,33,1)
+(12,33,1)
+(14,46,1)
+(40,27,1)
+(10,26,1)
+(25,12,1)
+(27,29,1)
+(8,25,1)
+(26,49,1)
+(46,3,1)
+(24,40,1)
+(13,7,1)
+(16,42,1)
+(18,44,1)
+(33,46,1)
+(24,20,1)
+(0,5,1)
+(1,10,1)
+(24,36,1)
+(0,15,1)
+(29,45,1)
+(3,38,1)
+(42,49,1)
+(7,38,1)
+(5,43,1)
+(6,16,1)
+(33,35,1)
+(28,25,1)
+(45,7,1)
+(45,13,1)
+(31,22,1)
+(3,17,1)
+(49,14,1)
+(15,5,1)
+(39,0,1)
+(49,46,1)
+(43,38,1)
+(24,50,1)
+(22,0,1)
+(50,28,1)
+(21,8,1)
+(24,1,1)
+(20,32,1)
+(35,31,1)
+(32,39,1)
+(5,43,2)
+(50,25,2)
+(0,5,2)
+(6,49,2)
+(12,0,2)
+(43,38,2)
+(46,3,2)
+(26,49,2)
+(44,45,2)
+(24,50,2)
+(27,45,2)
+(50,5,2)
+(24,20,2)
+(31,0,2)
+(10,49,2)
+(25,33,2)
+(8,25,2)
+(43,45,2)
+(5,45,2)
+(20,0,2)
+(33,46,2)
+(49,46,2)
+(42,49,2)
+(39,0,2)
+(40,45,2)
+(1,49,2)
+(36,25,2)
+(24,1,2)
+(15,45,2)
+(7,49,2)
+(45,7,2)
+(33,0,2)
+(16,49,2)
+(25,0,2)
+(24,40,2)
+(22,0,2)
+(13,49,2)
+(29,45,2)
+(33,38,2)
+(35,0,2)
+(18,45,2)
+(28,25,2)
+(21,25,2)
+(7,38,2)
+(32,0,2)
+(45,49,2)
+(24,36,2)
+(0,45,2)
+(3,38,2)
+-----------------------------------
+(0,(pos = jas_stream_tell(stream)
+(1,return -1;)
+(2,pos)
+(3,jas_stream_tell(stream)
+(4,if ((pos = jas_stream_tell(stream)
+(5,pos = jas_stream_tell(stream)
+(6,SEEK_END)
+(7,jas_stream_seek(stream, 0, SEEK_END)
+(8,1)
+(9,)
+(10,-1)
+(11,if (jas_stream_seek(stream, 0, SEEK_END)
+(12,0)
+(13,0)
+(14,0)
+(15,0)
+(16,0)
+(17,stream)
+(18,stream)
+(19,)
+(20,return -1;)
+(21,-1)
+(22,stream)
+(23,)
+(24,RET)
+(25,jas_stream_seek(stream, oldpos, SEEK_SET)
+(26,1)
+(27,-1)
+(28,pos)
+(29,1)
+(30,)
+(31,oldpos)
+(32,-1)
+(33,jas_stream_seek(stream, oldpos, SEEK_SET)
+(34,oldpos)
+(35,SEEK_SET)
+(36,return -1;)
+(37,if ((oldpos = jas_stream_tell(stream)
+(38,jas_stream_t *stream)
+(39,1)
+(40,return -1;)
+(41,)
+(42,stream)
+(43,jas_stream_tell(stream)
+(44,pos)
+(45,jas_stream_seek(stream, 0, SEEK_END)
+(46,oldpos = jas_stream_tell(stream)
+(47,if (jas_stream_seek(stream, oldpos, SEEK_SET)
+(48,oldpos)
+(49,(oldpos = jas_stream_tell(stream)
+(50,return pos;)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000080000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff9cf9a66300000000ffffffffffffffff32faa66300000000ffffffffffffffff32faa66300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff5d00050000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+static long mem_seek(jas_stream_obj_t *obj, long offset, int origin) {
+jas_stream_memobj_t *m = (jas_stream_memobj_t *)obj;
+long newpos;
+switch(origin)
+newpos = m->pos_ + offset;
+m->pos_ = newpos;
+return m->pos_;
+=======================

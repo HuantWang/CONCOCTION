@@ -1,0 +1,962 @@
+-----label-----
+0
+-----code-----
+int jpc_tsfb_analyze2(jpc_tsfb_t *tsfb, int *a, int xstart, int ystart,
+  int width, int height, int stride, int numlvls)
+{
+	if (width > 0 && height > 0) {
+		if ((*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride))
+			return -1;
+		if (numlvls > 0) {
+			if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,
+			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(
+			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),
+			  JPC_CEILDIVPOW2(ystart + height, 1) -
+			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)) {
+				return -1;
+			}
+		}
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+3,8
+3,9
+3,10
+3,11
+3,12
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+13,15
+16,17
+16,18
+18,19
+20,21
+20,22
+22,23
+24,25
+24,26
+26,27
+28,29
+28,30
+30,31
+32,33
+32,34
+34,35
+36,37
+36,38
+38,39
+40,41
+40,42
+41,42
+41,43
+42,43
+42,44
+43,44
+43,45
+44,45
+47,48
+47,49
+48,49
+51,52
+51,53
+52,53
+52,54
+53,54
+53,55
+53,56
+53,57
+53,58
+53,59
+53,60
+54,55
+55,56
+56,57
+56,58
+57,58
+57,59
+58,59
+62,63
+64,65
+66,67
+68,69
+70,71
+72,73
+74,75
+75,76
+77,78
+77,79
+78,79
+78,80
+79,80
+82,83
+83,84
+83,85
+84,85
+84,86
+84,87
+84,88
+84,89
+84,90
+84,91
+84,92
+84,93
+85,86
+87,88
+89,90
+91,92
+91,93
+91,94
+92,93
+94,95
+97,98
+97,99
+97,100
+98,99
+100,101
+103,104
+103,105
+104,105
+104,106
+104,107
+105,106
+107,108
+107,109
+108,109
+110,111
+113,114
+113,115
+113,116
+114,115
+116,117
+119,120
+119,121
+120,121
+120,122
+120,123
+121,122
+123,124
+123,125
+124,125
+126,127
+129,130
+129,131
+129,132
+130,131
+132,133
+135,136
+137,138
+137,139
+138,139
+141,142
+142,143
+143,144
+145,146
+-----nextToken-----
+2,4,7,9,10,12,14,15,17,19,21,23,25,27,29,31,33,35,37,39,45,46,49,50,59,60,61,63,65,67,69,71,73,76,80,81,86,88,90,93,95,96,99,101,102,106,109,111,112,115,117,118,122,125,127,128,131,133,134,136,139,140,144,146
+-----computeFrom-----
+42,43
+42,44
+43,44
+43,45
+47,48
+47,49
+78,79
+78,80
+103,104
+103,105
+107,108
+107,109
+119,120
+119,121
+123,124
+123,125
+137,138
+137,139
+-----guardedBy-----
+45,111
+49,127
+80,139
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;IfStatement;BinaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;FunctionCallExpression;UnaryExpression;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jpc_tsfb_analyze2(jpc_tsfb_t *tsfb, int *a, int xstart, int ystart,  int width, int height, int stride, int numlvls){	if (width > 0 && height > 0) {		if ((*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride))			return -1;		if (numlvls > 0) {			if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),			  JPC_CEILDIVPOW2(ystart + height, 1) -			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)) {				return -1;			}		}	}	return 0;}
+int
+jpc_tsfb_analyze2(jpc_tsfb_t *tsfb, int *a, int xstart, int ystart,  int width, int height, int stride, int numlvls)
+jpc_tsfb_analyze2
+jpc_tsfb_t *tsfb
+jpc_tsfb_t
+jpc_tsfb_t
+*tsfb
+*
+tsfb
+int *a
+int
+*a
+*
+a
+int xstart
+int
+xstart
+xstart
+int ystart
+int
+ystart
+ystart
+int width
+int
+width
+width
+int height
+int
+height
+height
+int stride
+int
+stride
+stride
+int numlvls
+int
+numlvls
+numlvls
+{	if (width > 0 && height > 0) {		if ((*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride))			return -1;		if (numlvls > 0) {			if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),			  JPC_CEILDIVPOW2(ystart + height, 1) -			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)) {				return -1;			}		}	}	return 0;}
+if (width > 0 && height > 0) {		if ((*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride))			return -1;		if (numlvls > 0) {			if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),			  JPC_CEILDIVPOW2(ystart + height, 1) -			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)) {				return -1;			}		}	}
+width > 0 && height > 0
+width > 0
+width
+width
+0
+height > 0
+height
+height
+0
+{		if ((*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride))			return -1;		if (numlvls > 0) {			if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),			  JPC_CEILDIVPOW2(ystart + height, 1) -			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)) {				return -1;			}		}	}
+if ((*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride))			return -1;
+(*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride)
+(*tsfb->qmfb->analyze)
+*tsfb->qmfb->analyze
+tsfb->qmfb->analyze
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+analyze
+a
+a
+xstart
+xstart
+ystart
+ystart
+width
+width
+height
+height
+stride
+stride
+return -1;
+-1
+1
+if (numlvls > 0) {			if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),			  JPC_CEILDIVPOW2(ystart + height, 1) -			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)) {				return -1;			}		}
+numlvls > 0
+numlvls
+numlvls
+0
+{			if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),			  JPC_CEILDIVPOW2(ystart + height, 1) -			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)) {				return -1;			}		}
+if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),			  JPC_CEILDIVPOW2(ystart + height, 1) -			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)) {				return -1;			}
+jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),			  JPC_CEILDIVPOW2(ystart + height, 1) -			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)
+jpc_tsfb_analyze2
+jpc_tsfb_analyze2
+tsfb
+tsfb
+a
+a
+JPC_CEILDIVPOW2(xstart,			  1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+xstart
+xstart
+1
+JPC_CEILDIVPOW2(ystart, 1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+ystart
+ystart
+1
+JPC_CEILDIVPOW2(			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1)
+JPC_CEILDIVPOW2(			  xstart + width, 1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+xstart + width
+xstart
+xstart
+width
+width
+1
+JPC_CEILDIVPOW2(xstart, 1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+xstart
+xstart
+1
+JPC_CEILDIVPOW2(ystart + height, 1) -			  JPC_CEILDIVPOW2(ystart, 1)
+JPC_CEILDIVPOW2(ystart + height, 1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+ystart + height
+ystart
+ystart
+height
+height
+1
+JPC_CEILDIVPOW2(ystart, 1)
+JPC_CEILDIVPOW2
+JPC_CEILDIVPOW2
+ystart
+ystart
+1
+stride
+stride
+numlvls - 1
+numlvls
+numlvls
+1
+{				return -1;			}
+return -1;
+-1
+1
+return 0;
+0
+-----joern-----
+(30,21,0)
+(59,60,0)
+(61,60,0)
+(6,37,0)
+(2,35,0)
+(56,59,0)
+(9,38,0)
+(59,68,0)
+(37,27,0)
+(59,10,0)
+(70,31,0)
+(59,21,0)
+(35,27,0)
+(21,22,0)
+(18,9,0)
+(73,48,0)
+(49,37,0)
+(59,72,0)
+(22,32,0)
+(25,59,0)
+(27,35,0)
+(31,63,0)
+(52,67,0)
+(10,59,0)
+(58,72,0)
+(53,48,0)
+(20,15,0)
+(29,5,0)
+(16,69,0)
+(64,24,0)
+(54,69,0)
+(3,36,0)
+(72,59,0)
+(0,59,0)
+(48,68,0)
+(44,16,0)
+(50,22,0)
+(41,3,0)
+(5,0,0)
+(43,22,0)
+(48,51,0)
+(72,11,0)
+(60,59,0)
+(42,36,0)
+(48,13,0)
+(18,3,0)
+(7,59,0)
+(33,46,0)
+(21,59,0)
+(28,35,0)
+(21,30,0)
+(23,31,0)
+(31,32,0)
+(55,11,0)
+(65,48,0)
+(17,10,0)
+(10,13,0)
+(0,69,0)
+(18,33,0)
+(24,33,0)
+(60,32,0)
+(39,30,0)
+(31,30,0)
+(4,55,0)
+(22,21,0)
+(14,34,0)
+(66,55,0)
+(48,32,0)
+(0,5,0)
+(48,63,0)
+(12,48,0)
+(47,36,0)
+(30,31,0)
+(16,13,0)
+(62,72,0)
+(16,51,0)
+(71,10,0)
+(35,63,0)
+(69,0,0)
+(67,9,0)
+(5,13,0)
+(37,51,0)
+(45,16,0)
+(59,57,0)
+(59,8,0)
+(26,48,0)
+(59,0,0)
+(48,8,0)
+(27,37,0)
+(1,48,0)
+(69,16,0)
+(40,60,0)
+(19,5,0)
+(41,48,1)
+(35,2,1)
+(53,73,1)
+(1,27,1)
+(59,68,1)
+(5,29,1)
+(48,63,1)
+(55,11,1)
+(48,68,1)
+(72,58,1)
+(22,32,1)
+(49,55,1)
+(70,23,1)
+(18,9,1)
+(69,16,1)
+(62,56,1)
+(65,12,1)
+(58,62,1)
+(2,28,1)
+(71,17,1)
+(27,35,1)
+(30,31,1)
+(48,13,1)
+(59,10,1)
+(28,37,1)
+(10,71,1)
+(16,13,1)
+(72,11,1)
+(26,65,1)
+(37,51,1)
+(64,59,1)
+(67,52,1)
+(0,69,1)
+(12,1,1)
+(21,22,1)
+(16,51,1)
+(30,39,1)
+(48,53,1)
+(49,59,1)
+(16,45,1)
+(41,27,1)
+(18,33,1)
+(35,63,1)
+(0,5,1)
+(37,6,1)
+(17,25,1)
+(7,55,1)
+(59,60,1)
+(59,72,1)
+(61,40,1)
+(31,70,1)
+(60,32,1)
+(23,0,1)
+(69,54,1)
+(18,3,1)
+(59,57,1)
+(52,48,1)
+(3,41,1)
+(24,64,1)
+(25,7,1)
+(19,69,1)
+(55,4,1)
+(29,19,1)
+(21,30,1)
+(59,0,1)
+(43,30,1)
+(54,16,1)
+(73,26,1)
+(45,44,1)
+(22,50,1)
+(27,37,1)
+(6,49,1)
+(59,8,1)
+(33,24,1)
+(10,13,1)
+(50,43,1)
+(5,13,1)
+(40,10,1)
+(59,21,1)
+(4,66,1)
+(9,67,1)
+(44,60,1)
+(60,61,1)
+(48,8,1)
+(56,21,1)
+(48,51,1)
+(31,63,1)
+(48,32,1)
+(31,32,1)
+(39,31,1)
+(59,72,2)
+(37,55,2)
+(48,27,2)
+(27,35,2)
+(33,59,2)
+(49,55,2)
+(23,55,2)
+(70,55,2)
+(48,32,2)
+(29,55,2)
+(72,11,2)
+(9,48,2)
+(48,51,2)
+(65,27,2)
+(10,55,2)
+(27,37,2)
+(5,55,2)
+(41,48,2)
+(59,0,2)
+(54,55,2)
+(3,48,2)
+(37,59,2)
+(0,69,2)
+(69,55,2)
+(69,16,2)
+(52,48,2)
+(6,55,2)
+(18,33,2)
+(21,22,2)
+(16,51,2)
+(40,55,2)
+(17,55,2)
+(59,10,2)
+(25,55,2)
+(59,57,2)
+(48,68,2)
+(30,31,2)
+(44,55,2)
+(62,55,2)
+(35,37,2)
+(59,21,2)
+(67,48,2)
+(50,55,2)
+(24,59,2)
+(0,55,2)
+(59,60,2)
+(41,27,2)
+(18,3,2)
+(72,55,2)
+(27,55,2)
+(27,59,2)
+(2,37,2)
+(16,13,2)
+(39,55,2)
+(1,27,2)
+(3,27,2)
+(59,55,2)
+(61,55,2)
+(60,55,2)
+(53,27,2)
+(31,32,2)
+(22,55,2)
+(12,27,2)
+(73,27,2)
+(49,59,2)
+(71,55,2)
+(48,8,2)
+(31,55,2)
+(35,63,2)
+(5,13,2)
+(43,55,2)
+(7,55,2)
+(18,9,2)
+(19,55,2)
+(45,55,2)
+(59,68,2)
+(22,32,2)
+(16,55,2)
+(28,37,2)
+(60,32,2)
+(21,55,2)
+(59,8,2)
+(37,51,2)
+(21,30,2)
+(48,63,2)
+(55,11,2)
+(48,13,2)
+(31,63,2)
+(64,59,2)
+(30,55,2)
+(6,59,2)
+(0,5,2)
+(58,55,2)
+(26,27,2)
+(10,13,2)
+(56,55,2)
+-----------------------------------
+(0,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(1,a)
+(2,0)
+(3,return 0;)
+(4,0)
+(5,JPC_CEILDIVPOW2(xstart, 1)
+(6,0)
+(7,tsfb)
+(8,int *a)
+(9,return -1;)
+(10,JPC_CEILDIVPOW2(xstart, 1)
+(11,int numlvls)
+(12,xstart)
+(13,int xstart)
+(14,if ((*tsfb->qmfb->synthesize)
+(15,)
+(16,xstart + width)
+(17,xstart)
+(18,RET)
+(19,xstart)
+(20,if (jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(21,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(22,JPC_CEILDIVPOW2(ystart, 1)
+(23,ystart)
+(24,-1)
+(25,a)
+(26,width)
+(27,width > 0 && height > 0)
+(28,height)
+(29,1)
+(30,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(31,ystart +\\n\\t\\t  height)
+(32,int ystart)
+(33,return -1;)
+(34,)
+(35,height > 0)
+(36,)
+(37,width > 0)
+(38,)
+(39,1)
+(40,ystart)
+(41,0)
+(42,if (width > 0 && height > 0)
+(43,ystart)
+(44,xstart)
+(45,width)
+(46,)
+(47,if (numlvls > 0)
+(48,(*tsfb->qmfb->synthesize)
+(49,width)
+(50,1)
+(51,int width)
+(52,1)
+(53,stride)
+(54,1)
+(55,numlvls > 0)
+(56,stride)
+(57,jpc_tsfb_t *tsfb)
+(58,1)
+(59,jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(60,JPC_CEILDIVPOW2(ystart, 1)
+(61,1)
+(62,numlvls)
+(63,int height)
+(64,1)
+(65,ystart)
+(66,numlvls)
+(67,-1)
+(68,int stride)
+(69,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(70,height)
+(71,1)
+(72,numlvls -\\n\\t\\t  1)
+(73,height)
+-----cfg-----
+(65,59)
+(68,78)
+(69,74)
+(70,69)
+(7,19)
+(74,68)
+(78,50)
+(18,32)
+(18,85)
+(82,87)
+(19,18)
+(19,22)
+(83,82)
+(85,87)
+(22,18)
+(27,42)
+(27,45)
+(28,27)
+(29,28)
+(30,33)
+(32,30)
+(33,29)
+(41,87)
+(42,41)
+(45,53)
+(45,85)
+(50,83)
+(50,85)
+(53,56)
+(56,61)
+(59,70)
+(60,65)
+(61,60)
+-----path-----
+7,19,18,32,30,33,29,28,27,42,41,87
+7,19,18,32,30,33,29,28,27,45,53,56,61,60,65,59,70,69,74,68,78,50,83,82,87
+7,19,18,32,30,33,29,28,27,45,53,56,61,60,65,59,70,69,74,68,78,50,85,87
+7,19,18,32,30,33,29,28,27,45,85,87
+7,19,18,85,87
+7,19,22,18,32,30,33,29,28,27,42,41,87
+7,19,22,18,32,30,33,29,28,27,45,53,56,61,60,65,59,70,69,74,68,78,50,83,82,87
+7,19,22,18,32,30,33,29,28,27,45,53,56,61,60,65,59,70,69,74,68,78,50,85,87
+7,19,22,18,32,30,33,29,28,27,45,85,87
+7,19,22,18,85,87
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_tsfb_analyze2 (jpc_tsfb_t *tsfb,int *a,int xstart,int ystart,int width,int height,int stride,int numlvls)
+8,jpc_tsfb_t *tsfb
+9,int *a
+10,int xstart
+11,int ystart
+12,int width
+13,int height
+14,int stride
+15,int numlvls
+16,<empty>
+17,if (width > 0 && height > 0)
+18,width > 0 && height > 0
+19,width > 0
+20,width
+21,0
+22,height > 0
+23,height
+24,0
+25,<empty>
+26,if ((*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride))
+27,(*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride)
+28,*tsfb->qmfb->analyze
+29,tsfb->qmfb->analyze
+30,tsfb->qmfb
+31,tsfb
+32,qmfb
+33,analyze
+34,a
+35,xstart
+36,ystart
+37,width
+38,height
+39,stride
+40,<empty>
+41,return -1;
+42,-1
+43,1
+44,if (numlvls > 0)
+45,numlvls > 0
+46,numlvls
+47,0
+48,<empty>
+49,if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,
+50,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(
+51,			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),
+52,			  JPC_CEILDIVPOW2(ystart + height, 1) -
+53,			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1))
+54,jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,
+55,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(
+56,			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),
+57,			  JPC_CEILDIVPOW2(ystart + height, 1) -
+58,			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)
+59,tsfb
+60,a
+61,JPC_CEILDIVPOW2(xstart,
+62,			  1)
+63,xstart
+64,1
+65,JPC_CEILDIVPOW2(ystart, 1)
+66,ystart
+67,1
+68,JPC_CEILDIVPOW2(
+69,			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1)
+70,JPC_CEILDIVPOW2(
+71,			  xstart + width, 1)
+72,xstart + width
+73,xstart
+74,width
+75,1
+76,JPC_CEILDIVPOW2(xstart, 1)
+77,xstart
+78,1
+79,JPC_CEILDIVPOW2(ystart + height, 1) -
+80,			  JPC_CEILDIVPOW2(ystart, 1)
+81,JPC_CEILDIVPOW2(ystart + height, 1)
+82,ystart + height
+83,ystart
+84,height
+85,1
+86,JPC_CEILDIVPOW2(ystart, 1)
+87,ystart
+88,1
+89,stride
+90,numlvls - 1
+91,numlvls
+92,1
+93,<empty>
+94,return -1;
+95,-1
+96,1
+97,return 0;
+98,0
+99,RET
+100,jpc_tsfb_t *tsfb
+101,int *a
+102,int xstart
+103,int ystart
+104,int width
+105,int height
+106,int stride
+107,int numlvls
+108,RET
+109,int jpc_tsfb_analyze2 (jpc_tsfb_t *tsfb,int *a,int xstart,int ystart,int width,int height,int stride,int numlvls)
+110,jpc_tsfb_t *tsfb
+111,int *a
+112,int xstart
+113,int ystart
+114,int width
+115,int height
+116,int stride
+117,int numlvls
+118,<empty>
+119,if (width > 0 && height > 0)
+120,width > 0 && height > 0
+121,width > 0
+122,width
+123,0
+124,height > 0
+125,height
+126,0
+127,<empty>
+128,if ((*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride))
+129,(*tsfb->qmfb->analyze)(a, xstart, ystart, width, height, stride)
+130,*tsfb->qmfb->analyze
+131,tsfb->qmfb->analyze
+132,tsfb->qmfb
+133,tsfb
+134,qmfb
+135,analyze
+136,a
+137,xstart
+138,ystart
+139,width
+140,height
+141,stride
+142,<empty>
+143,return -1;
+144,-1
+145,1
+146,if (numlvls > 0)
+147,numlvls > 0
+148,numlvls
+149,0
+150,<empty>
+151,if (jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,
+152,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(
+153,			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),
+154,			  JPC_CEILDIVPOW2(ystart + height, 1) -
+155,			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1))
+156,jpc_tsfb_analyze2(tsfb, a, JPC_CEILDIVPOW2(xstart,
+157,			  1), JPC_CEILDIVPOW2(ystart, 1), JPC_CEILDIVPOW2(
+158,			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1),
+159,			  JPC_CEILDIVPOW2(ystart + height, 1) -
+160,			  JPC_CEILDIVPOW2(ystart, 1), stride, numlvls - 1)
+161,tsfb
+162,a
+163,JPC_CEILDIVPOW2(xstart,
+164,			  1)
+165,xstart
+166,1
+167,JPC_CEILDIVPOW2(ystart, 1)
+168,ystart
+169,1
+170,JPC_CEILDIVPOW2(
+171,			  xstart + width, 1) - JPC_CEILDIVPOW2(xstart, 1)
+172,JPC_CEILDIVPOW2(
+173,			  xstart + width, 1)
+174,xstart + width
+175,xstart
+176,width
+177,1
+178,JPC_CEILDIVPOW2(xstart, 1)
+179,xstart
+180,1
+181,JPC_CEILDIVPOW2(ystart + height, 1) -
+182,			  JPC_CEILDIVPOW2(ystart, 1)
+183,JPC_CEILDIVPOW2(ystart + height, 1)
+184,ystart + height
+185,ystart
+186,height
+187,1
+188,JPC_CEILDIVPOW2(ystart, 1)
+189,ystart
+190,1
+191,stride
+192,numlvls - 1
+193,numlvls
+194,1
+195,<empty>
+196,return -1;
+197,-1
+198,1
+199,return 0;
+200,0
+201,RET
+202,jpc_tsfb_t *tsfb
+203,int *a
+204,int xstart
+205,int ystart
+206,int width
+207,int height
+208,int stride
+209,int numlvls
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_tsfb_analyze2(jpc_tsfb_t *tsfb, int *a, int xstart, int ystart,   int width, int height, int stride, int numlvls) {
+if(width > 0 && height > 0)
+if(numlvls > 0)
+return 0;
+=======================

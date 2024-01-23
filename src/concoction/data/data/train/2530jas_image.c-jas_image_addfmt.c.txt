@@ -1,0 +1,551 @@
+-----label-----
+0
+-----code-----
+int jas_image_addfmt(int id, char *name, char *ext, char *desc,
+  jas_image_fmtops_t *ops)
+{
+	jas_image_fmtinfo_t *fmtinfo;
+	assert(id >= 0 && name && ext && ops);
+	if (jas_image_numfmts >= JAS_IMAGE_MAXFMTS) {
+		return -1;
+	}
+	fmtinfo = &jas_image_fmtinfos[jas_image_numfmts];
+	fmtinfo->id = id;
+	if (!(fmtinfo->name = jas_strdup(name))) {
+		return -1;
+	}
+	if (!(fmtinfo->ext = jas_strdup(ext))) {
+		jas_free(fmtinfo->name);
+		return -1;
+	}
+	if (!(fmtinfo->desc = jas_strdup(desc))) {
+		jas_free(fmtinfo->name);
+		jas_free(fmtinfo->ext);
+		return -1;
+	}
+	fmtinfo->ops = *ops;
+	++jas_image_numfmts;
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+3,8
+3,9
+5,6
+5,7
+7,8
+9,10
+9,11
+11,12
+11,13
+14,15
+14,16
+16,17
+16,18
+19,20
+19,21
+21,22
+21,23
+24,25
+24,26
+25,26
+27,28
+27,29
+30,31
+30,32
+30,33
+30,34
+30,35
+30,36
+30,37
+30,38
+30,39
+30,40
+30,41
+31,32
+32,33
+32,34
+33,34
+35,36
+35,37
+38,39
+39,40
+39,41
+40,41
+42,43
+42,44
+43,44
+43,45
+44,45
+44,46
+45,46
+45,47
+46,47
+49,50
+51,52
+53,54
+55,56
+55,57
+56,57
+56,58
+57,58
+59,60
+61,62
+62,63
+63,64
+65,66
+66,67
+66,68
+67,68
+69,70
+70,71
+70,72
+71,72
+73,74
+75,76
+76,77
+76,78
+77,78
+77,79
+78,79
+81,82
+83,84
+83,85
+84,85
+85,86
+86,87
+86,88
+87,88
+87,89
+88,89
+91,92
+91,93
+92,93
+94,95
+96,97
+97,98
+98,99
+100,101
+100,102
+101,102
+102,103
+103,104
+103,105
+104,105
+104,106
+105,106
+108,109
+108,110
+109,110
+111,112
+113,114
+113,115
+114,115
+115,116
+115,117
+116,117
+118,119
+118,120
+119,120
+122,123
+123,124
+125,126
+125,127
+126,127
+127,128
+128,129
+128,130
+129,130
+129,131
+130,131
+133,134
+133,135
+134,135
+136,137
+138,139
+138,140
+138,141
+139,140
+140,141
+140,142
+141,142
+143,144
+143,145
+144,145
+147,148
+148,149
+148,150
+149,150
+151,152
+151,153
+152,153
+155,156
+156,157
+158,159
+159,160
+159,161
+160,161
+160,162
+161,162
+164,165
+165,166
+167,168
+168,169
+169,170
+171,172
+-----nextToken-----
+2,4,6,8,10,12,13,15,17,18,20,22,23,26,28,29,34,36,37,41,47,48,50,52,54,58,60,64,68,72,74,79,80,82,89,90,93,95,99,106,107,110,112,117,120,121,124,131,132,135,137,142,145,146,150,153,154,157,162,163,166,170,172
+-----computeFrom-----
+42,43
+42,44
+43,44
+43,45
+44,45
+44,46
+45,46
+45,47
+56,57
+56,58
+66,67
+66,68
+76,77
+76,78
+86,87
+86,88
+103,104
+103,105
+128,129
+128,130
+159,160
+159,161
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;BinaryExpression;BinaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jas_image_addfmt(int id, char *name, char *ext, char *desc,  jas_image_fmtops_t *ops){	jas_image_fmtinfo_t *fmtinfo;	assert(id >= 0 && name && ext && ops);	if (jas_image_numfmts >= JAS_IMAGE_MAXFMTS) {		return -1;	}	fmtinfo = &jas_image_fmtinfos[jas_image_numfmts];	fmtinfo->id = id;	if (!(fmtinfo->name = jas_strdup(name))) {		return -1;	}	if (!(fmtinfo->ext = jas_strdup(ext))) {		jas_free(fmtinfo->name);		return -1;	}	if (!(fmtinfo->desc = jas_strdup(desc))) {		jas_free(fmtinfo->name);		jas_free(fmtinfo->ext);		return -1;	}	fmtinfo->ops = *ops;	++jas_image_numfmts;	return 0;}
+int
+jas_image_addfmt(int id, char *name, char *ext, char *desc,  jas_image_fmtops_t *ops)
+jas_image_addfmt
+int id
+int
+id
+id
+char *name
+char
+*name
+*
+name
+char *ext
+char
+*ext
+*
+ext
+char *desc
+char
+*desc
+*
+desc
+jas_image_fmtops_t *ops
+jas_image_fmtops_t
+jas_image_fmtops_t
+*ops
+*
+ops
+{	jas_image_fmtinfo_t *fmtinfo;	assert(id >= 0 && name && ext && ops);	if (jas_image_numfmts >= JAS_IMAGE_MAXFMTS) {		return -1;	}	fmtinfo = &jas_image_fmtinfos[jas_image_numfmts];	fmtinfo->id = id;	if (!(fmtinfo->name = jas_strdup(name))) {		return -1;	}	if (!(fmtinfo->ext = jas_strdup(ext))) {		jas_free(fmtinfo->name);		return -1;	}	if (!(fmtinfo->desc = jas_strdup(desc))) {		jas_free(fmtinfo->name);		jas_free(fmtinfo->ext);		return -1;	}	fmtinfo->ops = *ops;	++jas_image_numfmts;	return 0;}
+jas_image_fmtinfo_t *fmtinfo;
+jas_image_fmtinfo_t *fmtinfo;
+jas_image_fmtinfo_t
+jas_image_fmtinfo_t
+*fmtinfo
+*
+fmtinfo
+assert(id >= 0 && name && ext && ops);
+assert(id >= 0 && name && ext && ops)
+assert
+assert
+id >= 0 && name && ext && ops
+id >= 0 && name && ext
+id >= 0 && name
+id >= 0
+id
+id
+0
+name
+name
+ext
+ext
+ops
+ops
+if (jas_image_numfmts >= JAS_IMAGE_MAXFMTS) {		return -1;	}
+jas_image_numfmts >= JAS_IMAGE_MAXFMTS
+jas_image_numfmts
+jas_image_numfmts
+JAS_IMAGE_MAXFMTS
+JAS_IMAGE_MAXFMTS
+{		return -1;	}
+return -1;
+-1
+1
+fmtinfo = &jas_image_fmtinfos[jas_image_numfmts];
+fmtinfo = &jas_image_fmtinfos[jas_image_numfmts]
+fmtinfo
+fmtinfo
+&jas_image_fmtinfos[jas_image_numfmts]
+jas_image_fmtinfos[jas_image_numfmts]
+jas_image_fmtinfos
+jas_image_fmtinfos
+jas_image_numfmts
+jas_image_numfmts
+fmtinfo->id = id;
+fmtinfo->id = id
+fmtinfo->id
+fmtinfo
+fmtinfo
+id
+id
+id
+if (!(fmtinfo->name = jas_strdup(name))) {		return -1;	}
+!(fmtinfo->name = jas_strdup(name))
+(fmtinfo->name = jas_strdup(name))
+fmtinfo->name = jas_strdup(name)
+fmtinfo->name
+fmtinfo
+fmtinfo
+name
+jas_strdup(name)
+jas_strdup
+jas_strdup
+name
+name
+{		return -1;	}
+return -1;
+-1
+1
+if (!(fmtinfo->ext = jas_strdup(ext))) {		jas_free(fmtinfo->name);		return -1;	}
+!(fmtinfo->ext = jas_strdup(ext))
+(fmtinfo->ext = jas_strdup(ext))
+fmtinfo->ext = jas_strdup(ext)
+fmtinfo->ext
+fmtinfo
+fmtinfo
+ext
+jas_strdup(ext)
+jas_strdup
+jas_strdup
+ext
+ext
+{		jas_free(fmtinfo->name);		return -1;	}
+jas_free(fmtinfo->name);
+jas_free(fmtinfo->name)
+jas_free
+jas_free
+fmtinfo->name
+fmtinfo
+fmtinfo
+name
+return -1;
+-1
+1
+if (!(fmtinfo->desc = jas_strdup(desc))) {		jas_free(fmtinfo->name);		jas_free(fmtinfo->ext);		return -1;	}
+!(fmtinfo->desc = jas_strdup(desc))
+(fmtinfo->desc = jas_strdup(desc))
+fmtinfo->desc = jas_strdup(desc)
+fmtinfo->desc
+fmtinfo
+fmtinfo
+desc
+jas_strdup(desc)
+jas_strdup
+jas_strdup
+desc
+desc
+{		jas_free(fmtinfo->name);		jas_free(fmtinfo->ext);		return -1;	}
+jas_free(fmtinfo->name);
+jas_free(fmtinfo->name)
+jas_free
+jas_free
+fmtinfo->name
+fmtinfo
+fmtinfo
+name
+jas_free(fmtinfo->ext);
+jas_free(fmtinfo->ext)
+jas_free
+jas_free
+fmtinfo->ext
+fmtinfo
+fmtinfo
+ext
+return -1;
+-1
+1
+fmtinfo->ops = *ops;
+fmtinfo->ops = *ops
+fmtinfo->ops
+fmtinfo
+fmtinfo
+ops
+*ops
+ops
+ops
+++jas_image_numfmts;
+++jas_image_numfmts
+jas_image_numfmts
+jas_image_numfmts
+return 0;
+0
+-----joern-----
+(28,12,0)
+(22,23,0)
+(30,28,0)
+(18,33,0)
+(21,0,0)
+(10,17,0)
+(24,7,0)
+(31,17,0)
+(0,1,0)
+(13,1,0)
+(23,17,0)
+(16,14,0)
+(1,0,0)
+(20,26,0)
+(5,29,0)
+(1,25,0)
+(33,28,0)
+(2,1,0)
+(27,26,0)
+(27,4,0)
+(6,0,0)
+(26,17,0)
+(3,14,0)
+(5,28,0)
+(23,29,0)
+(17,12,0)
+(32,5,0)
+(1,13,0)
+(8,4,0)
+(4,14,0)
+(26,11,0)
+(15,14,0)
+(0,17,0)
+(19,33,0)
+(9,28,0)
+(5,28,1)
+(23,22,1)
+(33,28,1)
+(10,31,1)
+(6,21,1)
+(27,26,1)
+(33,19,1)
+(0,6,1)
+(18,17,1)
+(26,17,1)
+(27,4,1)
+(31,28,1)
+(1,25,1)
+(21,33,1)
+(1,2,1)
+(8,33,1)
+(17,10,1)
+(19,18,1)
+(13,1,1)
+(1,0,1)
+(0,17,1)
+(28,9,1)
+(9,30,1)
+(23,17,1)
+(2,0,1)
+(5,32,1)
+(20,13,1)
+(18,23,1)
+(32,13,1)
+(26,20,1)
+(22,5,1)
+(4,8,1)
+(8,33,2)
+(2,33,2)
+(0,17,2)
+(1,0,2)
+(32,13,2)
+(21,33,2)
+(19,13,2)
+(33,28,2)
+(22,13,2)
+(0,33,2)
+(13,33,2)
+(6,33,2)
+(18,13,2)
+(26,17,2)
+(33,13,2)
+(5,13,2)
+(26,13,2)
+(4,33,2)
+(1,33,2)
+(27,26,2)
+(5,28,2)
+(20,13,2)
+(27,4,2)
+(1,25,2)
+(13,1,2)
+(23,17,2)
+(23,13,2)
+-----------------------------------
+(0,fmtinfo->name)
+(1,strcmp(fmtinfo->name, name)
+(2,name)
+(3,for (i = 0, fmtinfo = jas_image_fmtinfos; i < jas_image_numfmts; ++i, ++fmtinfo)
+(4,return 0;)
+(5,++i)
+(6,name)
+(7,)
+(8,0)
+(9,0)
+(10,jas_image_fmtinfos)
+(11,)
+(12,)
+(13,!strcmp(fmtinfo->name, name)
+(14,)
+(15,fmtinfo)
+(16,i)
+(17,fmtinfo = jas_image_fmtinfos)
+(18,i)
+(19,jas_image_numfmts)
+(20,fmtinfo)
+(21,fmtinfo)
+(22,fmtinfo)
+(23,++fmtinfo)
+(24,if (!strcmp(fmtinfo->name, name)
+(25,const char *name)
+(26,return fmtinfo;)
+(27,RET)
+(28,i = 0)
+(29,)
+(30,i)
+(31,fmtinfo)
+(32,i)
+(33,i < jas_image_numfmts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000080000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffffbea0ad6300000000ffffffffffffffffbea0ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff5d00040002ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+int jas_image_addfmt(int id, char *name, char *ext, char *desc,   jas_image_fmtops_t *ops) {
+jas_image_fmtinfo_t *fmtinfo;
+assert(id >= 0 && name && ext && ops);
+fmtinfo = &jas_image_fmtinfos[jas_image_numfmts];
+fmtinfo->id = id;
+fmtinfo->ops = *ops;
+++jas_image_numfmts;
+return 0;
+=======================

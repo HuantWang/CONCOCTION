@@ -1,0 +1,1007 @@
+-----label-----
+0
+-----code-----
+static int jpc_qcx_getcompparms(jpc_qcxcp_t *compparms, jpc_cstate_t *cstate,
+  jas_stream_t *in, uint_fast16_t len)
+{
+	uint_fast8_t tmp;
+	int n;
+	int i;
+
+	/* Eliminate compiler warning about unused variables. */
+	cstate = 0;
+
+	n = 0;
+	jpc_getuint8(in, &tmp);
+	++n;
+	compparms->qntsty = tmp & 0x1f;
+	compparms->numguard = (tmp >> 5) & 7;
+	switch (compparms->qntsty) {
+	case JPC_QCX_SIQNT:
+		compparms->numstepsizes = 1;
+		break;
+	case JPC_QCX_NOQNT:
+		compparms->numstepsizes = (len - n);
+		break;
+	case JPC_QCX_SEQNT:
+		/* XXX - this is a hack */
+		compparms->numstepsizes = (len - n) / 2;
+		break;
+	}
+	if (compparms->numstepsizes > 0) {
+		compparms->stepsizes = jas_malloc(compparms->numstepsizes *
+		  sizeof(uint_fast16_t));
+		assert(compparms->stepsizes);
+		for (i = 0; i < compparms->numstepsizes; ++i) {
+			if (compparms->qntsty == JPC_QCX_NOQNT) {
+				jpc_getuint8(in, &tmp);
+				compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);
+			} else {
+				jpc_getuint16(in, &compparms->stepsizes[i]);
+			}
+		}
+	} else {
+		compparms->stepsizes = 0;
+	}
+	if (jas_stream_error(in) || jas_stream_eof(in)) {
+		jpc_qcx_destroycompparms(compparms);
+		return -1;
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+3,8
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+23,25
+24,25
+26,27
+28,29
+28,30
+28,31
+28,32
+28,33
+28,34
+28,35
+28,36
+28,37
+28,38
+28,39
+28,40
+28,41
+29,30
+30,31
+30,32
+31,32
+33,34
+35,36
+36,37
+36,38
+38,39
+40,41
+41,42
+41,43
+43,44
+45,46
+46,47
+46,48
+47,48
+50,51
+51,52
+51,53
+52,53
+55,56
+56,57
+56,58
+56,59
+57,58
+59,60
+61,62
+62,63
+64,65
+65,66
+66,67
+68,69
+69,70
+69,71
+70,71
+70,72
+71,72
+74,75
+74,76
+75,76
+78,79
+79,80
+79,81
+80,81
+80,82
+81,82
+84,85
+84,86
+85,86
+86,87
+86,88
+87,88
+91,92
+91,93
+92,93
+92,94
+93,94
+96,97
+96,98
+96,99
+96,100
+96,101
+96,102
+96,103
+96,104
+96,105
+97,98
+98,99
+100,101
+101,102
+101,103
+102,103
+102,104
+103,104
+108,109
+109,110
+111,112
+112,113
+112,114
+113,114
+113,115
+114,115
+117,118
+118,119
+118,120
+119,120
+121,122
+124,125
+125,126
+127,128
+128,129
+128,130
+129,130
+129,131
+130,131
+133,134
+133,135
+134,135
+135,136
+135,137
+136,137
+138,139
+142,143
+142,144
+142,145
+143,144
+143,145
+144,145
+144,146
+145,146
+149,150
+149,151
+149,152
+150,151
+151,152
+151,153
+152,153
+152,154
+153,154
+156,157
+156,158
+157,158
+159,160
+159,161
+160,161
+160,162
+161,162
+164,165
+165,166
+165,167
+166,167
+169,170
+170,171
+170,172
+171,172
+173,174
+173,175
+174,175
+177,178
+177,179
+177,180
+177,181
+178,179
+179,180
+179,181
+180,181
+183,184
+183,185
+184,185
+186,187
+186,188
+187,188
+190,191
+191,192
+193,194
+194,195
+194,196
+194,197
+195,196
+195,197
+196,197
+196,198
+197,198
+200,201
+202,203
+202,204
+203,204
+204,205
+204,206
+204,207
+205,206
+207,208
+209,210
+210,211
+212,213
+213,214
+213,215
+214,215
+214,216
+215,216
+215,217
+216,217
+219,220
+221,222
+221,223
+222,223
+224,225
+224,226
+225,226
+228,229
+229,230
+230,231
+230,232
+230,233
+231,232
+233,234
+235,236
+236,237
+236,238
+237,238
+237,239
+238,239
+241,242
+243,244
+244,245
+245,246
+245,247
+246,247
+246,248
+247,248
+251,252
+251,253
+252,253
+252,254
+253,254
+253,255
+254,255
+256,257
+258,259
+258,260
+259,260
+261,262
+263,264
+263,265
+264,265
+265,266
+265,267
+266,267
+268,269
+270,271
+271,272
+273,274
+-----nextToken-----
+2,4,7,9,10,13,15,16,19,21,22,25,27,32,34,37,39,42,44,48,49,53,54,58,60,63,67,72,73,76,77,82,83,88,89,90,94,95,99,104,105,106,107,110,115,116,120,122,123,126,131,132,137,139,140,141,146,147,148,154,155,158,162,163,167,168,172,175,176,181,182,185,188,189,192,198,199,201,206,208,211,217,218,220,223,226,227,232,234,239,240,242,248,249,250,255,257,260,262,267,269,272,274
+-----computeFrom-----
+46,47
+46,48
+51,52
+51,53
+69,70
+69,71
+74,75
+74,76
+79,80
+79,81
+84,85
+84,86
+86,87
+86,88
+101,102
+101,103
+112,113
+112,114
+118,119
+118,120
+128,129
+128,130
+133,134
+133,135
+135,136
+135,137
+143,144
+143,145
+151,152
+151,153
+159,160
+159,161
+179,180
+179,181
+183,184
+183,185
+195,196
+195,197
+213,214
+213,215
+224,225
+224,226
+245,246
+245,247
+252,253
+252,254
+-----guardedBy-----
+147,189
+146,239
+198,217
+-----guardedByNegation-----
+146,248
+198,239
+-----lastLexicalUse-----
+146,248
+198,239
+-----jump-----
+146,248
+198,239
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;LiteralExpression;SwitchStatement;FieldReference;IdExpression;Name;Name;CompoundStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;BreakStatement;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int jpc_qcx_getcompparms(jpc_qcxcp_t *compparms, jpc_cstate_t *cstate,  jas_stream_t *in, uint_fast16_t len){	uint_fast8_t tmp;	int n;	int i;	/* Eliminate compiler warning about unused variables. */	cstate = 0;	n = 0;	jpc_getuint8(in, &tmp);	++n;	compparms->qntsty = tmp & 0x1f;	compparms->numguard = (tmp >> 5) & 7;	switch (compparms->qntsty) {	case JPC_QCX_SIQNT:		compparms->numstepsizes = 1;		break;	case JPC_QCX_NOQNT:		compparms->numstepsizes = (len - n);		break;	case JPC_QCX_SEQNT:		/* XXX - this is a hack */		compparms->numstepsizes = (len - n) / 2;		break;	}	if (compparms->numstepsizes > 0) {		compparms->stepsizes = jas_malloc(compparms->numstepsizes *		  sizeof(uint_fast16_t));		assert(compparms->stepsizes);		for (i = 0; i < compparms->numstepsizes; ++i) {			if (compparms->qntsty == JPC_QCX_NOQNT) {				jpc_getuint8(in, &tmp);				compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);			} else {				jpc_getuint16(in, &compparms->stepsizes[i]);			}		}	} else {		compparms->stepsizes = 0;	}	if (jas_stream_error(in) || jas_stream_eof(in)) {		jpc_qcx_destroycompparms(compparms);		return -1;	}	return 0;}
+static int
+jpc_qcx_getcompparms(jpc_qcxcp_t *compparms, jpc_cstate_t *cstate,  jas_stream_t *in, uint_fast16_t len)
+jpc_qcx_getcompparms
+jpc_qcxcp_t *compparms
+jpc_qcxcp_t
+jpc_qcxcp_t
+*compparms
+*
+compparms
+jpc_cstate_t *cstate
+jpc_cstate_t
+jpc_cstate_t
+*cstate
+*
+cstate
+jas_stream_t *in
+jas_stream_t
+jas_stream_t
+*in
+*
+in
+uint_fast16_t len
+uint_fast16_t
+uint_fast16_t
+len
+len
+{	uint_fast8_t tmp;	int n;	int i;	/* Eliminate compiler warning about unused variables. */	cstate = 0;	n = 0;	jpc_getuint8(in, &tmp);	++n;	compparms->qntsty = tmp & 0x1f;	compparms->numguard = (tmp >> 5) & 7;	switch (compparms->qntsty) {	case JPC_QCX_SIQNT:		compparms->numstepsizes = 1;		break;	case JPC_QCX_NOQNT:		compparms->numstepsizes = (len - n);		break;	case JPC_QCX_SEQNT:		/* XXX - this is a hack */		compparms->numstepsizes = (len - n) / 2;		break;	}	if (compparms->numstepsizes > 0) {		compparms->stepsizes = jas_malloc(compparms->numstepsizes *		  sizeof(uint_fast16_t));		assert(compparms->stepsizes);		for (i = 0; i < compparms->numstepsizes; ++i) {			if (compparms->qntsty == JPC_QCX_NOQNT) {				jpc_getuint8(in, &tmp);				compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);			} else {				jpc_getuint16(in, &compparms->stepsizes[i]);			}		}	} else {		compparms->stepsizes = 0;	}	if (jas_stream_error(in) || jas_stream_eof(in)) {		jpc_qcx_destroycompparms(compparms);		return -1;	}	return 0;}
+uint_fast8_t tmp;
+uint_fast8_t tmp;
+uint_fast8_t
+uint_fast8_t
+tmp
+tmp
+int n;
+int n;
+int
+n
+n
+int i;
+int i;
+int
+i
+i
+cstate = 0;
+cstate = 0
+cstate
+cstate
+0
+n = 0;
+n = 0
+n
+n
+0
+jpc_getuint8(in, &tmp);
+jpc_getuint8(in, &tmp)
+jpc_getuint8
+jpc_getuint8
+in
+in
+&tmp
+tmp
+tmp
+++n;
+++n
+n
+n
+compparms->qntsty = tmp & 0x1f;
+compparms->qntsty = tmp & 0x1f
+compparms->qntsty
+compparms
+compparms
+qntsty
+tmp & 0x1f
+tmp
+tmp
+0x1f
+compparms->numguard = (tmp >> 5) & 7;
+compparms->numguard = (tmp >> 5) & 7
+compparms->numguard
+compparms
+compparms
+numguard
+(tmp >> 5) & 7
+(tmp >> 5)
+tmp >> 5
+tmp
+tmp
+5
+7
+switch (compparms->qntsty) {	case JPC_QCX_SIQNT:		compparms->numstepsizes = 1;		break;	case JPC_QCX_NOQNT:		compparms->numstepsizes = (len - n);		break;	case JPC_QCX_SEQNT:		/* XXX - this is a hack */		compparms->numstepsizes = (len - n) / 2;		break;	}
+compparms->qntsty
+compparms
+compparms
+qntsty
+{	case JPC_QCX_SIQNT:		compparms->numstepsizes = 1;		break;	case JPC_QCX_NOQNT:		compparms->numstepsizes = (len - n);		break;	case JPC_QCX_SEQNT:		/* XXX - this is a hack */		compparms->numstepsizes = (len - n) / 2;		break;	}
+case JPC_QCX_SIQNT:
+JPC_QCX_SIQNT
+JPC_QCX_SIQNT
+compparms->numstepsizes = 1;
+compparms->numstepsizes = 1
+compparms->numstepsizes
+compparms
+compparms
+numstepsizes
+1
+break;
+case JPC_QCX_NOQNT:
+JPC_QCX_NOQNT
+JPC_QCX_NOQNT
+compparms->numstepsizes = (len - n);
+compparms->numstepsizes = (len - n)
+compparms->numstepsizes
+compparms
+compparms
+numstepsizes
+(len - n)
+len - n
+len
+len
+n
+n
+break;
+case JPC_QCX_SEQNT:
+JPC_QCX_SEQNT
+JPC_QCX_SEQNT
+compparms->numstepsizes = (len - n) / 2;
+compparms->numstepsizes = (len - n) / 2
+compparms->numstepsizes
+compparms
+compparms
+numstepsizes
+(len - n) / 2
+(len - n)
+len - n
+len
+len
+n
+n
+2
+break;
+if (compparms->numstepsizes > 0) {		compparms->stepsizes = jas_malloc(compparms->numstepsizes *		  sizeof(uint_fast16_t));		assert(compparms->stepsizes);		for (i = 0; i < compparms->numstepsizes; ++i) {			if (compparms->qntsty == JPC_QCX_NOQNT) {				jpc_getuint8(in, &tmp);				compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);			} else {				jpc_getuint16(in, &compparms->stepsizes[i]);			}		}	} else {		compparms->stepsizes = 0;	}
+compparms->numstepsizes > 0
+compparms->numstepsizes
+compparms
+compparms
+numstepsizes
+0
+{		compparms->stepsizes = jas_malloc(compparms->numstepsizes *		  sizeof(uint_fast16_t));		assert(compparms->stepsizes);		for (i = 0; i < compparms->numstepsizes; ++i) {			if (compparms->qntsty == JPC_QCX_NOQNT) {				jpc_getuint8(in, &tmp);				compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);			} else {				jpc_getuint16(in, &compparms->stepsizes[i]);			}		}	}
+compparms->stepsizes = jas_malloc(compparms->numstepsizes *		  sizeof(uint_fast16_t));
+compparms->stepsizes = jas_malloc(compparms->numstepsizes *		  sizeof(uint_fast16_t))
+compparms->stepsizes
+compparms
+compparms
+stepsizes
+jas_malloc(compparms->numstepsizes *		  sizeof(uint_fast16_t))
+jas_malloc
+jas_malloc
+compparms->numstepsizes *		  sizeof(uint_fast16_t)
+compparms->numstepsizes
+compparms
+compparms
+numstepsizes
+sizeof(uint_fast16_t)
+uint_fast16_t
+uint_fast16_t
+uint_fast16_t
+
+assert(compparms->stepsizes);
+assert(compparms->stepsizes)
+assert
+assert
+compparms->stepsizes
+compparms
+compparms
+stepsizes
+for (i = 0; i < compparms->numstepsizes; ++i) {			if (compparms->qntsty == JPC_QCX_NOQNT) {				jpc_getuint8(in, &tmp);				compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);			} else {				jpc_getuint16(in, &compparms->stepsizes[i]);			}		}
+i = 0;
+i = 0
+i
+i
+0
+i < compparms->numstepsizes
+i
+i
+compparms->numstepsizes
+compparms
+compparms
+numstepsizes
+++i
+i
+i
+{			if (compparms->qntsty == JPC_QCX_NOQNT) {				jpc_getuint8(in, &tmp);				compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);			} else {				jpc_getuint16(in, &compparms->stepsizes[i]);			}		}
+if (compparms->qntsty == JPC_QCX_NOQNT) {				jpc_getuint8(in, &tmp);				compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);			} else {				jpc_getuint16(in, &compparms->stepsizes[i]);			}
+compparms->qntsty == JPC_QCX_NOQNT
+compparms->qntsty
+compparms
+compparms
+qntsty
+JPC_QCX_NOQNT
+JPC_QCX_NOQNT
+{				jpc_getuint8(in, &tmp);				compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);			}
+jpc_getuint8(in, &tmp);
+jpc_getuint8(in, &tmp)
+jpc_getuint8
+jpc_getuint8
+in
+in
+&tmp
+tmp
+tmp
+compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);
+compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3)
+compparms->stepsizes[i]
+compparms->stepsizes
+compparms
+compparms
+stepsizes
+i
+i
+JPC_QCX_EXPN(tmp >> 3)
+JPC_QCX_EXPN
+JPC_QCX_EXPN
+tmp >> 3
+tmp
+tmp
+3
+{				jpc_getuint16(in, &compparms->stepsizes[i]);			}
+jpc_getuint16(in, &compparms->stepsizes[i]);
+jpc_getuint16(in, &compparms->stepsizes[i])
+jpc_getuint16
+jpc_getuint16
+in
+in
+&compparms->stepsizes[i]
+compparms->stepsizes[i]
+compparms->stepsizes
+compparms
+compparms
+stepsizes
+i
+i
+{		compparms->stepsizes = 0;	}
+compparms->stepsizes = 0;
+compparms->stepsizes = 0
+compparms->stepsizes
+compparms
+compparms
+stepsizes
+0
+if (jas_stream_error(in) || jas_stream_eof(in)) {		jpc_qcx_destroycompparms(compparms);		return -1;	}
+jas_stream_error(in) || jas_stream_eof(in)
+jas_stream_error(in)
+jas_stream_error
+jas_stream_error
+in
+in
+jas_stream_eof(in)
+jas_stream_eof
+jas_stream_eof
+in
+in
+{		jpc_qcx_destroycompparms(compparms);		return -1;	}
+jpc_qcx_destroycompparms(compparms);
+jpc_qcx_destroycompparms(compparms)
+jpc_qcx_destroycompparms
+jpc_qcx_destroycompparms
+compparms
+compparms
+return -1;
+-1
+1
+return 0;
+0
+-----joern-----
+(62,9,0)
+(65,24,0)
+(29,65,0)
+(38,50,0)
+(32,27,0)
+(54,68,0)
+(32,69,0)
+(3,32,0)
+(46,69,0)
+(23,47,0)
+(56,62,0)
+(41,7,0)
+(39,6,0)
+(6,47,0)
+(38,24,0)
+(70,7,0)
+(10,47,0)
+(2,63,0)
+(15,69,0)
+(63,4,0)
+(4,24,0)
+(9,22,0)
+(10,68,0)
+(27,69,0)
+(45,23,0)
+(9,24,0)
+(28,9,0)
+(62,13,0)
+(33,34,0)
+(66,54,0)
+(49,6,0)
+(72,7,0)
+(67,50,0)
+(69,6,0)
+(42,33,0)
+(2,16,0)
+(57,51,0)
+(17,9,0)
+(52,32,0)
+(63,2,0)
+(44,65,0)
+(37,22,0)
+(54,9,0)
+(50,23,0)
+(65,29,0)
+(11,10,0)
+(34,33,0)
+(0,58,0)
+(51,57,0)
+(66,62,0)
+(55,51,0)
+(12,24,0)
+(5,54,0)
+(64,9,0)
+(32,29,0)
+(51,48,0)
+(33,1,0)
+(61,51,0)
+(66,64,0)
+(27,16,0)
+(53,56,0)
+(64,7,0)
+(50,38,0)
+(6,69,0)
+(22,1,0)
+(32,48,0)
+(24,38,0)
+(4,63,0)
+(24,7,0)
+(36,4,0)
+(30,64,0)
+(8,27,0)
+(25,57,0)
+(23,50,0)
+(33,58,0)
+(69,7,0)
+(35,34,0)
+(46,1,0)
+(43,27,0)
+(31,65,0)
+(40,7,0)
+(14,4,0)
+(19,7,0)
+(18,46,0)
+(60,2,0)
+(29,32,0)
+(59,0,0)
+(20,32,0)
+(32,58,0)
+(26,23,0)
+(2,58,0)
+(21,7,0)
+(71,5,0)
+(46,69,1)
+(20,3,1)
+(29,65,1)
+(57,25,1)
+(32,20,1)
+(17,33,1)
+(44,46,1)
+(32,58,1)
+(64,30,1)
+(2,58,1)
+(2,63,1)
+(67,23,1)
+(49,39,1)
+(66,64,1)
+(0,59,1)
+(26,12,1)
+(65,31,1)
+(31,44,1)
+(9,24,1)
+(50,67,1)
+(51,55,1)
+(25,51,1)
+(22,37,1)
+(33,34,1)
+(53,32,1)
+(43,2,1)
+(27,69,1)
+(30,0,1)
+(42,57,1)
+(54,9,1)
+(10,47,1)
+(37,9,1)
+(56,53,1)
+(62,9,1)
+(51,48,1)
+(34,35,1)
+(18,22,1)
+(66,62,1)
+(38,50,1)
+(45,26,1)
+(46,18,1)
+(32,29,1)
+(54,5,1)
+(32,27,1)
+(52,29,1)
+(64,9,1)
+(32,48,1)
+(65,24,1)
+(57,51,1)
+(6,47,1)
+(9,28,1)
+(4,24,1)
+(0,58,1)
+(50,23,1)
+(24,38,1)
+(39,15,1)
+(61,69,1)
+(71,10,1)
+(11,0,1)
+(63,4,1)
+(60,57,1)
+(32,69,1)
+(33,58,1)
+(6,49,1)
+(15,24,1)
+(66,54,1)
+(27,8,1)
+(3,52,1)
+(44,27,1)
+(23,45,1)
+(8,43,1)
+(55,61,1)
+(28,17,1)
+(4,14,1)
+(14,36,1)
+(10,11,1)
+(23,47,1)
+(35,42,1)
+(69,6,1)
+(59,32,1)
+(62,56,1)
+(5,71,1)
+(36,60,1)
+(54,9,2)
+(4,24,2)
+(35,57,2)
+(54,0,2)
+(59,32,2)
+(32,69,2)
+(0,32,2)
+(64,9,2)
+(28,57,2)
+(14,57,2)
+(46,69,2)
+(6,47,2)
+(2,57,2)
+(37,57,2)
+(33,58,2)
+(71,0,2)
+(36,57,2)
+(27,57,2)
+(2,63,2)
+(32,58,2)
+(65,24,2)
+(9,24,2)
+(29,65,2)
+(53,32,2)
+(8,57,2)
+(69,6,2)
+(62,32,2)
+(32,27,2)
+(9,57,2)
+(34,57,2)
+(43,57,2)
+(50,23,2)
+(10,0,2)
+(11,0,2)
+(64,0,2)
+(4,57,2)
+(30,0,2)
+(66,62,2)
+(32,48,2)
+(23,47,2)
+(66,54,2)
+(18,57,2)
+(38,50,2)
+(60,57,2)
+(17,57,2)
+(5,0,2)
+(56,32,2)
+(24,38,2)
+(32,29,2)
+(33,34,2)
+(42,57,2)
+(10,47,2)
+(46,57,2)
+(22,57,2)
+(27,69,2)
+(63,4,2)
+(33,57,2)
+(57,51,2)
+(62,9,2)
+(2,58,2)
+(63,57,2)
+(0,58,2)
+(51,48,2)
+(66,64,2)
+-----------------------------------
+(0,jas_stream_eof(in)
+(1,)
+(2,jpc_getuint16(in, &qcc->compno)
+(3,in)
+(4,qcc->compno)
+(5,-1)
+(6,ms->len)
+(7,)
+(8,2)
+(9,qcc->compno)
+(10,jpc_qcc_destroyparms(ms)
+(11,ms)
+(12,qcc)
+(13,)
+(14,compno)
+(15,len)
+(16,)
+(17,qcc)
+(18,len)
+(19,len)
+(20,len)
+(21,if (jpc_qcx_getcompparms(&qcc->compparms, cstate, in, len)
+(22,qcc->compno = tmp)
+(23,ms->parms)
+(24,*qcc = &ms->parms.qcc)
+(25,256)
+(26,ms)
+(27,len -= 2)
+(28,compno)
+(29,&qcc->compparms)
+(30,0)
+(31,compparms)
+(32,jpc_qcx_getcompparms(&qcc->compparms, cstate, in, len)
+(33,jpc_getuint8(in, &tmp)
+(34,&tmp)
+(35,tmp)
+(36,qcc)
+(37,tmp)
+(38,&ms->parms.qcc)
+(39,ms)
+(40,tmp)
+(41,if (jas_stream_eof(in)
+(42,in)
+(43,len)
+(44,qcc)
+(45,parms)
+(46,--len)
+(47,jpc_ms_t *ms)
+(48,jpc_cstate_t *cstate)
+(49,len)
+(50,ms->parms.qcc)
+(51,cstate->numcomps)
+(52,cstate)
+(53,1)
+(54,return -1;)
+(55,numcomps)
+(56,-1)
+(57,cstate->numcomps <= 256)
+(58,jas_stream_t *in)
+(59,in)
+(60,in)
+(61,cstate)
+(62,return -1;)
+(63,&qcc->compno)
+(64,return 0;)
+(65,qcc->compparms)
+(66,RET)
+(67,qcc)
+(68,)
+(69,len = ms->len)
+(70,qcc)
+(71,1)
+(72,if (cstate->numcomps <= 256)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000080000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff9cf9a66300000000ffffffffffffffffcaf9a66300000000ffffffffffffffffcaf9a66300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff5d00050000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+static int jpc_qcx_getcompparms(jpc_qcxcp_t *compparms, jpc_cstate_t *cstate,   jas_stream_t *in, uint_fast16_t len) {
+uint_fast8_t tmp;
+int n;
+int i;
+cstate = 0;
+n = 0;
+jpc_getuint8(in, &tmp);
+++n;
+compparms->qntsty = tmp & 0x1f;
+compparms->numguard = (tmp >> 5) & 7;
+switch(compparms->qntsty)
+compparms->numstepsizes = (len - n);
+if(compparms->numstepsizes > 0)
+compparms->stepsizes = jas_malloc(compparms->numstepsizes * 		  sizeof(uint_fast16_t));
+assert(compparms->stepsizes);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_getuint8(in, &tmp);
+compparms->stepsizes[i] = JPC_QCX_EXPN(tmp >> 3);
+return 0;
+=======================

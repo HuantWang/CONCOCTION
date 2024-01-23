@@ -1,0 +1,121 @@
+-----label-----
+0
+-----code-----
+void *jas_malloc(size_t size)
+{
+#if defined(MEMALLOC_ALIGN2)
+	void *ptr;
+abort();
+	if (posix_memalign(&ptr, MEMALLOC_ALIGNMENT, size)) {
+		return 0;
+	}
+	return ptr;
+#endif
+	return malloc(size);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+6,7
+6,8
+7,8
+9,10
+11,12
+12,13
+13,14
+13,15
+14,15
+16,17
+-----nextToken-----
+2,4,5,8,10,15,17
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;CompoundStatement;ReturnStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+void *jas_malloc(size_t size){#if defined(MEMALLOC_ALIGN2)	void *ptr;abort();	if (posix_memalign(&ptr, MEMALLOC_ALIGNMENT, size)) {		return 0;	}	return ptr;#endif	return malloc(size);}
+void
+*jas_malloc(size_t size)
+*
+jas_malloc
+size_t size
+size_t
+size_t
+size
+size
+{#if defined(MEMALLOC_ALIGN2)	void *ptr;abort();	if (posix_memalign(&ptr, MEMALLOC_ALIGNMENT, size)) {		return 0;	}	return ptr;#endif	return malloc(size);}
+return malloc(size);
+malloc(size)
+malloc
+malloc
+size
+size
+-----joern-----
+(3,5,0)
+(3,2,0)
+(4,3,0)
+(7,3,0)
+(3,6,0)
+(5,1,0)
+(0,5,0)
+(0,5,1)
+(3,2,1)
+(4,7,1)
+(5,3,1)
+(3,6,1)
+(3,4,1)
+(3,6,2)
+(3,2,2)
+(0,5,2)
+-----------------------------------
+(0,RET)
+(1,)
+(2,size_t size)
+(3,realloc(ptr, size)
+(4,size)
+(5,return realloc(ptr, size)
+(6,void *ptr)
+(7,ptr)
+-----cfg-----
+(7,11)
+(10,13)
+(11,10)
+-----path-----
+7,11,10,13
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void* jas_malloc (size_t size)
+8,size_t size
+9,<empty>
+10,return malloc(size);
+11,malloc(size)
+12,size
+13,RET
+14,size_t size
+15,RET
+16,void* jas_malloc (size_t size)
+17,size_t size
+18,<empty>
+19,return malloc(size);
+20,malloc(size)
+21,size
+22,RET
+23,size_t size
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+void *jas_malloc(size_t size) {
+return malloc(size);
+=======================

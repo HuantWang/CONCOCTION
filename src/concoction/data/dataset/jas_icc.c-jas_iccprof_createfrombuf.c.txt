@@ -1,0 +1,473 @@
+-----label-----
+0
+-----code-----
+jas_iccprof_t *jas_iccprof_createfrombuf(uchar *buf, int len)
+{
+	jas_stream_t *in;
+	jas_iccprof_t *prof;
+	if (!(in = jas_stream_memopen(JAS_CAST(char *, buf), len)))
+		goto error;
+	if (!(prof = jas_iccprof_load(in)))
+		goto error;
+	jas_stream_close(in);
+	return prof;
+error:
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+8,9
+10,11
+10,12
+13,14
+13,15
+15,16
+17,18
+17,19
+17,20
+17,21
+17,22
+17,23
+17,24
+18,19
+19,20
+19,21
+20,21
+22,23
+22,24
+25,26
+26,27
+26,28
+27,28
+29,30
+29,31
+32,33
+32,34
+33,34
+34,35
+36,37
+36,38
+37,38
+38,39
+39,40
+39,41
+40,41
+42,43
+42,44
+43,44
+45,46
+47,48
+49,50
+50,51
+50,52
+51,52
+53,54
+55,56
+56,57
+58,59
+58,60
+60,61
+-----nextToken-----
+3,5,6,9,11,12,14,16,21,23,24,28,30,31,35,41,44,46,48,52,54,57,59,61
+-----computeFrom-----
+39,40
+39,41
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;ProblemExpression;GotoStatement;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;GotoStatement;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;LabelStatement;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+jas_iccprof_t *jas_iccprof_createfrombuf(uchar *buf, int len){	jas_stream_t *in;	jas_iccprof_t *prof;	if (!(in = jas_stream_memopen(JAS_CAST(char *, buf), len)))		goto error;	if (!(prof = jas_iccprof_load(in)))		goto error;	jas_stream_close(in);	return prof;error:	return 0;}
+jas_iccprof_t
+jas_iccprof_t
+*jas_iccprof_createfrombuf(uchar *buf, int len)
+*
+jas_iccprof_createfrombuf
+uchar *buf
+uchar
+uchar
+*buf
+*
+buf
+int len
+int
+len
+len
+{	jas_stream_t *in;	jas_iccprof_t *prof;	if (!(in = jas_stream_memopen(JAS_CAST(char *, buf), len)))		goto error;	if (!(prof = jas_iccprof_load(in)))		goto error;	jas_stream_close(in);	return prof;error:	return 0;}
+jas_stream_t *in;
+jas_stream_t *in;
+jas_stream_t
+jas_stream_t
+*in
+*
+in
+jas_iccprof_t *prof;
+jas_iccprof_t *prof;
+jas_iccprof_t
+jas_iccprof_t
+*prof
+*
+prof
+if (!(in = jas_stream_memopen(JAS_CAST(char *, buf), len)))		goto error;
+!(in = jas_stream_memopen(JAS_CAST(char *, buf), len))
+goto error;
+error
+if (!(prof = jas_iccprof_load(in)))		goto error;
+!(prof = jas_iccprof_load(in))
+(prof = jas_iccprof_load(in))
+prof = jas_iccprof_load(in)
+prof
+prof
+jas_iccprof_load(in)
+jas_iccprof_load
+jas_iccprof_load
+in
+in
+goto error;
+error
+jas_stream_close(in);
+jas_stream_close(in)
+jas_stream_close
+jas_stream_close
+in
+in
+return prof;
+prof
+prof
+error:	return 0;
+error
+return 0;
+0
+-----joern-----
+(4,40,0)
+(39,28,0)
+(47,3,0)
+(36,29,0)
+(17,47,0)
+(35,23,0)
+(26,28,0)
+(40,22,0)
+(43,40,0)
+(31,15,0)
+(19,28,0)
+(22,28,0)
+(46,29,0)
+(38,28,0)
+(33,21,0)
+(1,39,0)
+(23,38,0)
+(45,47,0)
+(42,47,0)
+(24,12,0)
+(1,17,0)
+(21,33,0)
+(47,45,0)
+(25,12,0)
+(9,42,0)
+(11,28,0)
+(16,23,0)
+(41,12,0)
+(42,31,0)
+(39,1,0)
+(14,39,0)
+(12,47,0)
+(10,19,0)
+(13,28,0)
+(6,19,0)
+(27,7,0)
+(36,38,0)
+(2,48,0)
+(29,21,0)
+(48,21,0)
+(17,1,0)
+(49,42,0)
+(5,28,0)
+(21,48,0)
+(22,40,0)
+(29,36,0)
+(40,47,0)
+(31,28,0)
+(20,21,0)
+(23,47,0)
+(12,25,0)
+(19,47,0)
+(37,17,0)
+(0,17,0)
+(8,28,0)
+(32,29,0)
+(38,36,0)
+(39,25,0)
+(18,31,0)
+(7,28,0)
+(48,15,0)
+(25,39,0)
+(30,47,0)
+(3,47,0)
+(6,7,0)
+(27,44,1)
+(47,45,1)
+(25,12,1)
+(16,35,1)
+(22,40,1)
+(33,21,1)
+(19,10,1)
+(6,7,1)
+(38,36,1)
+(6,19,1)
+(32,46,1)
+(12,47,1)
+(48,2,1)
+(7,27,1)
+(39,25,1)
+(14,1,1)
+(21,48,1)
+(31,15,1)
+(3,47,1)
+(23,16,1)
+(45,30,1)
+(40,47,1)
+(17,47,1)
+(35,3,1)
+(17,0,1)
+(18,42,1)
+(2,20,1)
+(40,43,1)
+(44,33,1)
+(23,47,1)
+(48,15,1)
+(42,9,1)
+(29,32,1)
+(37,22,1)
+(34,3,1)
+(24,41,1)
+(0,37,1)
+(1,17,1)
+(12,24,1)
+(4,31,1)
+(49,38,1)
+(9,49,1)
+(27,34,1)
+(30,33,1)
+(29,21,1)
+(39,1,1)
+(41,14,1)
+(43,4,1)
+(31,18,1)
+(36,29,1)
+(42,47,1)
+(46,23,1)
+(10,39,1)
+(19,47,1)
+(6,19,2)
+(41,3,2)
+(36,29,2)
+(18,3,2)
+(1,17,2)
+(27,3,2)
+(39,1,2)
+(31,15,2)
+(22,3,2)
+(47,33,2)
+(45,33,2)
+(3,47,2)
+(4,3,2)
+(22,40,2)
+(32,3,2)
+(25,12,2)
+(17,47,2)
+(47,45,2)
+(42,47,2)
+(23,3,2)
+(38,36,2)
+(27,33,2)
+(29,3,2)
+(40,47,2)
+(36,3,2)
+(23,47,2)
+(9,3,2)
+(39,25,2)
+(7,33,2)
+(21,48,2)
+(12,47,2)
+(38,3,2)
+(31,3,2)
+(48,15,2)
+(3,33,2)
+(30,33,2)
+(40,3,2)
+(37,3,2)
+(10,3,2)
+(24,3,2)
+(19,3,2)
+(0,3,2)
+(1,3,2)
+(33,21,2)
+(44,33,2)
+(49,3,2)
+(43,3,2)
+(35,3,2)
+(14,3,2)
+(42,3,2)
+(46,3,2)
+(12,3,2)
+(39,3,2)
+(6,7,2)
+(17,3,2)
+(34,3,2)
+(7,3,2)
+(29,21,2)
+(16,3,2)
+(25,3,2)
+(19,47,2)
+-----------------------------------
+(0,data)
+(1,&attrval->data)
+(2,type)
+(3,!(attrval = jas_iccattrval_create0()
+(4,attrval)
+(5,error:)
+(6,RET)
+(7,return 0;)
+(8,attrval)
+(9,type)
+(10,attrval)
+(11,if (!(attrval = jas_iccattrval_create0()
+(12,attrval->data)
+(13,info)
+(14,0)
+(15,jas_iccuint32_t type)
+(16,ops)
+(17,attrval->data)
+(18,type)
+(19,return attrval;)
+(20,info)
+(21,info = jas_iccattrvalinfo_lookup(type)
+(22,++attrval->refcnt)
+(23,attrval->ops)
+(24,data)
+(25,sizeof(attrval->data)
+(26,if (!(info = jas_iccattrvalinfo_lookup(type)
+(27,0)
+(28,)
+(29,info->ops)
+(30,attrval)
+(31,attrval->type = type)
+(32,ops)
+(33,!(info = jas_iccattrvalinfo_lookup(type)
+(34,goto error;)
+(35,attrval)
+(36,&info->ops)
+(37,attrval)
+(38,attrval->ops = &info->ops)
+(39,memset(&attrval->data, 0, sizeof(attrval->data)
+(40,attrval->refcnt)
+(41,attrval)
+(42,attrval->type)
+(43,refcnt)
+(44,goto error;)
+(45,jas_iccattrval_create0()
+(46,info)
+(47,attrval = jas_iccattrval_create0()
+(48,jas_iccattrvalinfo_lookup(type)
+(49,attrval)
+-----cfg-----
+(18,30)
+(18,25)
+(19,18)
+(21,19)
+(7,14)
+(25,27)
+(27,32)
+(30,32)
+(14,30)
+(14,21)
+-----path-----
+7,14,30,32
+7,14,21,19,18,30,32
+7,14,21,19,18,25,27,32
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jas_iccprof_t jas_iccprof_createfrombuf (uchar *buf,int len)
+8,uchar *buf
+9,int len
+10,<empty>
+11,jas_stream_t* in
+12,jas_iccprof_t* prof
+13,if (!(in = jas_stream_memopen(JAS_CAST(char *, buf), len)))
+14,!(in = jas_stream_memopen(JAS_CAST(char *, buf), len))
+15,<empty>
+16,goto error;
+17,if (!(prof = jas_iccprof_load(in)))
+18,!(prof = jas_iccprof_load(in))
+19,prof = jas_iccprof_load(in)
+20,prof
+21,jas_iccprof_load(in)
+22,in
+23,<empty>
+24,goto error;
+25,jas_stream_close(in)
+26,in
+27,return prof;
+28,prof
+29,error:
+30,	return 0;
+31,return 0;
+32,0
+33,RET
+34,uchar *buf
+35,int len
+36,RET
+37,jas_iccprof_t jas_iccprof_createfrombuf (uchar *buf,int len)
+38,uchar *buf
+39,int len
+40,<empty>
+41,jas_stream_t* in
+42,jas_iccprof_t* prof
+43,if (!(in = jas_stream_memopen(JAS_CAST(char *, buf), len)))
+44,!(in = jas_stream_memopen(JAS_CAST(char *, buf), len))
+45,<empty>
+46,goto error;
+47,if (!(prof = jas_iccprof_load(in)))
+48,!(prof = jas_iccprof_load(in))
+49,prof = jas_iccprof_load(in)
+50,prof
+51,jas_iccprof_load(in)
+52,in
+53,<empty>
+54,goto error;
+55,jas_stream_close(in)
+56,in
+57,return prof;
+58,prof
+59,error:
+60,	return 0;
+61,return 0;
+62,0
+63,RET
+64,uchar *buf
+65,int len
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jas_iccprof_t *jas_iccprof_createfrombuf(uchar *buf, int len) {
+jas_stream_t *in;
+jas_iccprof_t *prof;
+jas_stream_close(in);
+return prof;
+=======================

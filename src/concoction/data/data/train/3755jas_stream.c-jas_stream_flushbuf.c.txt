@@ -1,0 +1,711 @@
+-----label-----
+0
+-----code-----
+int jas_stream_flushbuf(jas_stream_t *stream, int c)
+{
+	int len;
+	int n;
+
+	/* The stream should not be in an error or EOF state. */
+	if ((stream->flags_ & (JAS_STREAM_ERRMASK)) != 0) {
+		return EOF;
+	}
+
+	/* The stream must be open for writing. */
+	if ((stream->openmode_ & (JAS_STREAM_WRITE | JAS_STREAM_APPEND)) == 0) {
+		return EOF;
+	}
+
+	/* The buffer should not currently be in use for reading. */
+	assert(!(stream->bufmode_ & JAS_STREAM_RDBUF));
+
+	/* Note: Do not use the quantity stream->cnt to determine the number
+	of characters in the buffer!  Depending on how this function was
+	called, the stream->cnt value may be "off-by-one". */
+	len = stream->ptr_ - stream->bufstart_;
+	if (len > 0) {
+		n = (*stream->ops_->write_)(stream->obj_, (char *)
+		  stream->bufstart_, len);
+		if (n != len) {
+			stream->flags_ |= JAS_STREAM_ERR;
+			return EOF;
+		}
+	}
+	stream->cnt_ = stream->bufsize_;
+	stream->ptr_ = stream->bufstart_;
+
+	stream->bufmode_ |= JAS_STREAM_WRBUF;
+
+	if (c != EOF) {
+		assert(stream->cnt_ > 0);
+		return jas_stream_putc2(stream, c);
+	}
+
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+15,16
+15,17
+15,18
+15,19
+15,20
+15,21
+15,22
+15,23
+15,24
+15,25
+15,26
+15,27
+16,17
+17,18
+17,19
+19,20
+21,22
+22,23
+22,24
+24,25
+26,27
+26,28
+27,28
+27,29
+28,29
+29,30
+29,31
+30,31
+30,32
+31,32
+34,35
+35,36
+38,39
+39,40
+40,41
+42,43
+42,44
+43,44
+43,45
+44,45
+45,46
+45,47
+46,47
+46,48
+47,48
+50,51
+51,52
+51,53
+52,53
+54,55
+57,58
+58,59
+59,60
+61,62
+62,63
+62,64
+63,64
+65,66
+66,67
+67,68
+67,69
+68,69
+68,70
+69,70
+72,73
+74,75
+75,76
+75,77
+76,77
+78,79
+78,80
+79,80
+79,81
+80,81
+83,84
+83,85
+84,85
+87,88
+87,89
+88,89
+88,90
+89,90
+92,93
+92,94
+93,94
+94,95
+94,96
+95,96
+97,98
+97,99
+97,100
+97,101
+98,99
+99,100
+100,101
+100,102
+101,102
+101,103
+102,103
+106,107
+106,108
+107,108
+110,111
+110,112
+111,112
+111,113
+113,114
+115,116
+115,117
+116,117
+119,120
+121,122
+121,123
+122,123
+122,124
+123,124
+125,126
+127,128
+127,129
+128,129
+129,130
+129,131
+130,131
+130,132
+131,132
+134,135
+136,137
+137,138
+139,140
+140,141
+140,142
+141,142
+141,143
+142,143
+145,146
+145,147
+146,147
+149,150
+150,151
+150,152
+151,152
+151,153
+152,153
+155,156
+155,157
+156,157
+159,160
+160,161
+160,162
+161,162
+161,163
+162,163
+165,166
+167,168
+167,169
+168,169
+168,170
+169,170
+171,172
+173,174
+173,175
+174,175
+175,176
+175,177
+176,177
+178,179
+178,180
+179,180
+179,181
+180,181
+184,185
+185,186
+185,187
+185,188
+186,187
+188,189
+190,191
+192,193
+-----nextToken-----
+2,4,7,9,10,12,14,18,20,23,25,32,33,36,37,41,48,49,53,55,56,60,64,70,71,73,77,81,82,85,86,90,91,96,103,104,105,108,109,112,114,117,118,120,124,126,132,133,135,138,143,144,147,148,153,154,157,158,163,164,166,170,172,177,181,182,183,187,189,191,193
+-----computeFrom-----
+27,28
+27,29
+29,30
+29,31
+43,44
+43,45
+45,46
+45,47
+51,52
+51,53
+67,68
+67,69
+75,76
+75,77
+78,79
+78,80
+88,89
+88,90
+94,95
+94,96
+122,123
+122,124
+129,130
+129,131
+140,141
+140,142
+150,151
+150,152
+160,161
+160,162
+168,169
+168,170
+178,179
+178,180
+-----guardedBy-----
+90,126
+170,191
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ReturnStatement;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ReturnStatement;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;UnaryExpression;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;FieldReference;IdExpression;Name;Name;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;Pointer;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ReturnStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jas_stream_flushbuf(jas_stream_t *stream, int c){	int len;	int n;	/* The stream should not be in an error or EOF state. */	if ((stream->flags_ & (JAS_STREAM_ERRMASK)) != 0) {		return EOF;	}	/* The stream must be open for writing. */	if ((stream->openmode_ & (JAS_STREAM_WRITE | JAS_STREAM_APPEND)) == 0) {		return EOF;	}	/* The buffer should not currently be in use for reading. */	assert(!(stream->bufmode_ & JAS_STREAM_RDBUF));	/* Note: Do not use the quantity stream->cnt to determine the number	of characters in the buffer!  Depending on how this function was	called, the stream->cnt value may be "off-by-one". */	len = stream->ptr_ - stream->bufstart_;	if (len > 0) {		n = (*stream->ops_->write_)(stream->obj_, (char *)		  stream->bufstart_, len);		if (n != len) {			stream->flags_ |= JAS_STREAM_ERR;			return EOF;		}	}	stream->cnt_ = stream->bufsize_;	stream->ptr_ = stream->bufstart_;	stream->bufmode_ |= JAS_STREAM_WRBUF;	if (c != EOF) {		assert(stream->cnt_ > 0);		return jas_stream_putc2(stream, c);	}	return 0;}
+int
+jas_stream_flushbuf(jas_stream_t *stream, int c)
+jas_stream_flushbuf
+jas_stream_t *stream
+jas_stream_t
+jas_stream_t
+*stream
+*
+stream
+int c
+int
+c
+c
+{	int len;	int n;	/* The stream should not be in an error or EOF state. */	if ((stream->flags_ & (JAS_STREAM_ERRMASK)) != 0) {		return EOF;	}	/* The stream must be open for writing. */	if ((stream->openmode_ & (JAS_STREAM_WRITE | JAS_STREAM_APPEND)) == 0) {		return EOF;	}	/* The buffer should not currently be in use for reading. */	assert(!(stream->bufmode_ & JAS_STREAM_RDBUF));	/* Note: Do not use the quantity stream->cnt to determine the number	of characters in the buffer!  Depending on how this function was	called, the stream->cnt value may be "off-by-one". */	len = stream->ptr_ - stream->bufstart_;	if (len > 0) {		n = (*stream->ops_->write_)(stream->obj_, (char *)		  stream->bufstart_, len);		if (n != len) {			stream->flags_ |= JAS_STREAM_ERR;			return EOF;		}	}	stream->cnt_ = stream->bufsize_;	stream->ptr_ = stream->bufstart_;	stream->bufmode_ |= JAS_STREAM_WRBUF;	if (c != EOF) {		assert(stream->cnt_ > 0);		return jas_stream_putc2(stream, c);	}	return 0;}
+int len;
+int len;
+int
+len
+len
+int n;
+int n;
+int
+n
+n
+if ((stream->flags_ & (JAS_STREAM_ERRMASK)) != 0) {		return EOF;	}
+(stream->flags_ & (JAS_STREAM_ERRMASK)) != 0
+(stream->flags_ & (JAS_STREAM_ERRMASK))
+stream->flags_ & (JAS_STREAM_ERRMASK)
+stream->flags_
+stream
+stream
+flags_
+(JAS_STREAM_ERRMASK)
+JAS_STREAM_ERRMASK
+JAS_STREAM_ERRMASK
+0
+{		return EOF;	}
+return EOF;
+EOF
+EOF
+if ((stream->openmode_ & (JAS_STREAM_WRITE | JAS_STREAM_APPEND)) == 0) {		return EOF;	}
+(stream->openmode_ & (JAS_STREAM_WRITE | JAS_STREAM_APPEND)) == 0
+(stream->openmode_ & (JAS_STREAM_WRITE | JAS_STREAM_APPEND))
+stream->openmode_ & (JAS_STREAM_WRITE | JAS_STREAM_APPEND)
+stream->openmode_
+stream
+stream
+openmode_
+(JAS_STREAM_WRITE | JAS_STREAM_APPEND)
+JAS_STREAM_WRITE | JAS_STREAM_APPEND
+JAS_STREAM_WRITE
+JAS_STREAM_WRITE
+JAS_STREAM_APPEND
+JAS_STREAM_APPEND
+0
+{		return EOF;	}
+return EOF;
+EOF
+EOF
+assert(!(stream->bufmode_ & JAS_STREAM_RDBUF));
+assert(!(stream->bufmode_ & JAS_STREAM_RDBUF))
+assert
+assert
+!(stream->bufmode_ & JAS_STREAM_RDBUF)
+(stream->bufmode_ & JAS_STREAM_RDBUF)
+stream->bufmode_ & JAS_STREAM_RDBUF
+stream->bufmode_
+stream
+stream
+bufmode_
+JAS_STREAM_RDBUF
+JAS_STREAM_RDBUF
+len = stream->ptr_ - stream->bufstart_;
+len = stream->ptr_ - stream->bufstart_
+len
+len
+stream->ptr_ - stream->bufstart_
+stream->ptr_
+stream
+stream
+ptr_
+stream->bufstart_
+stream
+stream
+bufstart_
+if (len > 0) {		n = (*stream->ops_->write_)(stream->obj_, (char *)		  stream->bufstart_, len);		if (n != len) {			stream->flags_ |= JAS_STREAM_ERR;			return EOF;		}	}
+len > 0
+len
+len
+0
+{		n = (*stream->ops_->write_)(stream->obj_, (char *)		  stream->bufstart_, len);		if (n != len) {			stream->flags_ |= JAS_STREAM_ERR;			return EOF;		}	}
+n = (*stream->ops_->write_)(stream->obj_, (char *)		  stream->bufstart_, len);
+n = (*stream->ops_->write_)(stream->obj_, (char *)		  stream->bufstart_, len)
+n
+n
+(*stream->ops_->write_)(stream->obj_, (char *)		  stream->bufstart_, len)
+(*stream->ops_->write_)
+*stream->ops_->write_
+stream->ops_->write_
+stream->ops_
+stream
+stream
+ops_
+write_
+stream->obj_
+stream
+stream
+obj_
+(char *)		  stream->bufstart_
+char *
+char
+*
+*
+stream->bufstart_
+stream
+stream
+bufstart_
+len
+len
+if (n != len) {			stream->flags_ |= JAS_STREAM_ERR;			return EOF;		}
+n != len
+n
+n
+len
+len
+{			stream->flags_ |= JAS_STREAM_ERR;			return EOF;		}
+stream->flags_ |= JAS_STREAM_ERR;
+stream->flags_ |= JAS_STREAM_ERR
+stream->flags_
+stream
+stream
+flags_
+JAS_STREAM_ERR
+JAS_STREAM_ERR
+return EOF;
+EOF
+EOF
+stream->cnt_ = stream->bufsize_;
+stream->cnt_ = stream->bufsize_
+stream->cnt_
+stream
+stream
+cnt_
+stream->bufsize_
+stream
+stream
+bufsize_
+stream->ptr_ = stream->bufstart_;
+stream->ptr_ = stream->bufstart_
+stream->ptr_
+stream
+stream
+ptr_
+stream->bufstart_
+stream
+stream
+bufstart_
+stream->bufmode_ |= JAS_STREAM_WRBUF;
+stream->bufmode_ |= JAS_STREAM_WRBUF
+stream->bufmode_
+stream
+stream
+bufmode_
+JAS_STREAM_WRBUF
+JAS_STREAM_WRBUF
+if (c != EOF) {		assert(stream->cnt_ > 0);		return jas_stream_putc2(stream, c);	}
+c != EOF
+c
+c
+EOF
+EOF
+{		assert(stream->cnt_ > 0);		return jas_stream_putc2(stream, c);	}
+assert(stream->cnt_ > 0);
+assert(stream->cnt_ > 0)
+assert
+assert
+stream->cnt_ > 0
+stream->cnt_
+stream
+stream
+cnt_
+0
+return jas_stream_putc2(stream, c);
+jas_stream_putc2(stream, c)
+jas_stream_putc2
+jas_stream_putc2
+stream
+stream
+c
+c
+return 0;
+0
+-----joern-----
+(42,48,0)
+(41,37,0)
+(36,23,0)
+(12,41,0)
+(17,15,0)
+(24,16,0)
+(36,35,0)
+(23,9,0)
+(27,49,0)
+(15,30,0)
+(16,39,0)
+(46,2,0)
+(14,6,0)
+(14,1,0)
+(0,44,0)
+(30,44,0)
+(7,38,0)
+(18,38,0)
+(13,6,0)
+(47,10,0)
+(36,41,0)
+(31,10,0)
+(36,2,0)
+(43,38,0)
+(3,40,0)
+(48,35,0)
+(16,24,0)
+(44,30,0)
+(33,10,0)
+(10,1,0)
+(34,30,0)
+(28,26,0)
+(22,12,0)
+(25,38,0)
+(36,3,0)
+(29,19,0)
+(2,16,0)
+(20,38,0)
+(35,5,0)
+(4,14,0)
+(10,49,0)
+(32,38,0)
+(24,1,0)
+(6,14,0)
+(11,14,0)
+(49,10,0)
+(45,24,0)
+(2,38,0)
+(26,23,0)
+(14,30,0)
+(19,3,0)
+(50,39,0)
+(21,14,0)
+(8,16,0)
+(39,16,0)
+(30,15,0)
+(15,1,0)
+(21,11,1)
+(36,41,1)
+(39,16,1)
+(10,47,1)
+(24,45,1)
+(4,21,1)
+(44,30,1)
+(41,12,1)
+(22,39,1)
+(31,44,1)
+(27,10,1)
+(23,26,1)
+(33,31,1)
+(11,39,1)
+(30,15,1)
+(39,50,1)
+(16,24,1)
+(2,46,1)
+(12,22,1)
+(0,30,1)
+(46,6,1)
+(45,8,1)
+(47,33,1)
+(48,42,1)
+(29,49,1)
+(6,13,1)
+(50,16,1)
+(36,3,1)
+(36,35,1)
+(17,34,1)
+(19,29,1)
+(15,17,1)
+(14,30,1)
+(10,1,1)
+(14,1,1)
+(2,16,1)
+(49,10,1)
+(28,6,1)
+(44,0,1)
+(8,49,1)
+(24,1,1)
+(6,14,1)
+(15,1,1)
+(36,23,1)
+(13,14,1)
+(3,19,1)
+(49,27,1)
+(14,4,1)
+(36,2,1)
+(35,48,1)
+(26,28,1)
+(42,44,1)
+(8,49,2)
+(39,49,2)
+(29,49,2)
+(30,15,2)
+(12,39,2)
+(28,6,2)
+(4,39,2)
+(6,39,2)
+(45,49,2)
+(21,39,2)
+(2,16,2)
+(3,49,2)
+(27,44,2)
+(41,39,2)
+(36,41,2)
+(15,1,2)
+(49,44,2)
+(10,1,2)
+(39,16,2)
+(46,6,2)
+(14,1,2)
+(19,49,2)
+(26,6,2)
+(23,6,2)
+(48,44,2)
+(6,14,2)
+(13,39,2)
+(36,2,2)
+(2,6,2)
+(49,10,2)
+(50,49,2)
+(42,44,2)
+(33,44,2)
+(14,30,2)
+(11,39,2)
+(44,30,2)
+(31,44,2)
+(16,24,2)
+(16,49,2)
+(36,35,2)
+(36,23,2)
+(24,1,2)
+(35,44,2)
+(14,39,2)
+(47,44,2)
+(36,3,2)
+(10,44,2)
+(24,49,2)
+(22,39,2)
+-----------------------------------
+(0,0)
+(1,jas_stream_t *stream)
+(2,return pos;)
+(3,return -1;)
+(4,SEEK_SET)
+(5,)
+(6,jas_stream_seek(stream, oldpos, SEEK_SET)
+(7,pos)
+(8,pos)
+(9,)
+(10,jas_stream_seek(stream, 0, SEEK_END)
+(11,stream)
+(12,-1)
+(13,0)
+(14,jas_stream_seek(stream, oldpos, SEEK_SET)
+(15,jas_stream_tell(stream)
+(16,pos = jas_stream_tell(stream)
+(17,stream)
+(18,if ((oldpos = jas_stream_tell(stream)
+(19,-1)
+(20,oldpos)
+(21,oldpos)
+(22,1)
+(23,return -1;)
+(24,jas_stream_tell(stream)
+(25,if (jas_stream_seek(stream, 0, SEEK_END)
+(26,-1)
+(27,0)
+(28,1)
+(29,1)
+(30,oldpos = jas_stream_tell(stream)
+(31,stream)
+(32,if ((pos = jas_stream_tell(stream)
+(33,0)
+(34,oldpos)
+(35,return -1;)
+(36,RET)
+(37,)
+(38,)
+(39,(pos = jas_stream_tell(stream)
+(40,)
+(41,return -1;)
+(42,1)
+(43,if (jas_stream_seek(stream, oldpos, SEEK_SET)
+(44,(oldpos = jas_stream_tell(stream)
+(45,stream)
+(46,pos)
+(47,SEEK_END)
+(48,-1)
+(49,jas_stream_seek(stream, 0, SEEK_END)
+(50,0)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff1a34ad6300000000ffffffffffffffff5834ad6300000000ffffffffffffffff5834ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff5d00060000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+arg03:0x4100000000
+arg02:0x2d66ff
+arg01:0x2d64ff
+arg00:0x2d46ff
+=========trace=========
+int jas_stream_flushbuf(jas_stream_t *stream, int c) {
+int len;
+int n;
+assert(!(stream->bufmode_ & JAS_STREAM_RDBUF));
+len = stream->ptr_ - stream->bufstart_;
+if(len > 0)
+n = (*stream->ops_->write_)(stream->obj_, (char *) 		  stream->bufstart_, len);
+stream->cnt_ = stream->bufsize_;
+stream->ptr_ = stream->bufstart_;
+stream->bufmode_ |= JAS_STREAM_WRBUF;
+return 0;
+=======================

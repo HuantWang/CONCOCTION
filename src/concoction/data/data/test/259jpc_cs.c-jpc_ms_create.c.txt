@@ -1,0 +1,614 @@
+-----label-----
+0
+-----code-----
+jpc_ms_t *jpc_ms_create(int type)
+{
+	jpc_ms_t *ms;
+	jpc_mstabent_t *mstabent;
+
+	if (!(ms = jas_malloc(sizeof(jpc_ms_t)))) {
+		return 0;
+	}
+	ms->id = type;
+	ms->len = 0;
+	mstabent = jpc_mstab_lookup(ms->id);
+	ms->ops = &mstabent->ops;
+	memset(&ms->parms, 0, sizeof(jpc_msparms_t));
+	return ms;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+7,8
+7,9
+9,10
+11,12
+11,13
+11,14
+11,15
+11,16
+11,17
+11,18
+11,19
+11,20
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+19,20
+20,21
+20,22
+21,22
+23,24
+23,25
+26,27
+26,28
+27,28
+28,29
+29,30
+29,31
+30,31
+32,33
+32,34
+33,34
+35,36
+36,37
+36,38
+37,38
+40,41
+41,42
+43,44
+44,45
+44,46
+45,46
+45,47
+46,47
+49,50
+51,52
+52,53
+52,54
+53,54
+53,55
+54,55
+58,59
+59,60
+59,61
+60,61
+62,63
+62,64
+63,64
+65,66
+65,67
+66,67
+69,70
+70,71
+70,72
+71,72
+71,73
+72,73
+75,76
+76,77
+76,78
+77,78
+80,81
+81,82
+81,83
+81,84
+81,85
+82,83
+84,85
+85,86
+85,87
+86,87
+90,91
+91,92
+91,93
+92,93
+95,96
+96,97
+-----nextToken-----
+3,5,6,8,10,15,17,18,22,24,25,31,34,38,39,42,47,48,50,55,56,57,61,64,67,68,73,74,78,79,83,87,88,89,93,94,97
+-----computeFrom-----
+29,30
+29,31
+44,45
+44,46
+52,53
+52,54
+59,60
+59,61
+70,71
+70,72
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+jpc_ms_t *jpc_ms_create(int type){	jpc_ms_t *ms;	jpc_mstabent_t *mstabent;	if (!(ms = jas_malloc(sizeof(jpc_ms_t)))) {		return 0;	}	ms->id = type;	ms->len = 0;	mstabent = jpc_mstab_lookup(ms->id);	ms->ops = &mstabent->ops;	memset(&ms->parms, 0, sizeof(jpc_msparms_t));	return ms;}
+jpc_ms_t
+jpc_ms_t
+*jpc_ms_create(int type)
+*
+jpc_ms_create
+int type
+int
+type
+type
+{	jpc_ms_t *ms;	jpc_mstabent_t *mstabent;	if (!(ms = jas_malloc(sizeof(jpc_ms_t)))) {		return 0;	}	ms->id = type;	ms->len = 0;	mstabent = jpc_mstab_lookup(ms->id);	ms->ops = &mstabent->ops;	memset(&ms->parms, 0, sizeof(jpc_msparms_t));	return ms;}
+jpc_ms_t *ms;
+jpc_ms_t *ms;
+jpc_ms_t
+jpc_ms_t
+*ms
+*
+ms
+jpc_mstabent_t *mstabent;
+jpc_mstabent_t *mstabent;
+jpc_mstabent_t
+jpc_mstabent_t
+*mstabent
+*
+mstabent
+if (!(ms = jas_malloc(sizeof(jpc_ms_t)))) {		return 0;	}
+!(ms = jas_malloc(sizeof(jpc_ms_t)))
+(ms = jas_malloc(sizeof(jpc_ms_t)))
+ms = jas_malloc(sizeof(jpc_ms_t))
+ms
+ms
+jas_malloc(sizeof(jpc_ms_t))
+jas_malloc
+jas_malloc
+sizeof(jpc_ms_t)
+jpc_ms_t
+jpc_ms_t
+jpc_ms_t
+
+{		return 0;	}
+return 0;
+0
+ms->id = type;
+ms->id = type
+ms->id
+ms
+ms
+id
+type
+type
+ms->len = 0;
+ms->len = 0
+ms->len
+ms
+ms
+len
+0
+mstabent = jpc_mstab_lookup(ms->id);
+mstabent = jpc_mstab_lookup(ms->id)
+mstabent
+mstabent
+jpc_mstab_lookup(ms->id)
+jpc_mstab_lookup
+jpc_mstab_lookup
+ms->id
+ms
+ms
+id
+ms->ops = &mstabent->ops;
+ms->ops = &mstabent->ops
+ms->ops
+ms
+ms
+ops
+&mstabent->ops
+mstabent->ops
+mstabent
+mstabent
+ops
+memset(&ms->parms, 0, sizeof(jpc_msparms_t));
+memset(&ms->parms, 0, sizeof(jpc_msparms_t))
+memset
+memset
+&ms->parms
+ms->parms
+ms
+ms
+parms
+0
+sizeof(jpc_msparms_t)
+jpc_msparms_t
+jpc_msparms_t
+jpc_msparms_t
+
+return ms;
+ms
+ms
+-----joern-----
+(36,60,0)
+(35,30,0)
+(15,18,0)
+(50,75,0)
+(32,4,0)
+(13,27,0)
+(28,4,0)
+(75,76,0)
+(33,18,0)
+(69,71,0)
+(22,18,0)
+(79,73,0)
+(45,81,0)
+(68,46,0)
+(64,63,0)
+(30,54,0)
+(45,12,0)
+(28,10,0)
+(34,18,0)
+(16,25,0)
+(40,3,0)
+(57,63,0)
+(1,39,0)
+(53,29,0)
+(14,45,0)
+(58,42,0)
+(56,28,0)
+(64,1,0)
+(48,31,0)
+(52,57,0)
+(73,72,0)
+(66,13,0)
+(74,31,0)
+(80,28,0)
+(8,64,0)
+(8,9,0)
+(42,72,0)
+(37,63,0)
+(49,81,0)
+(75,2,0)
+(67,30,0)
+(60,27,0)
+(26,63,0)
+(62,1,0)
+(17,2,0)
+(52,42,0)
+(71,29,0)
+(71,64,0)
+(4,63,0)
+(12,45,0)
+(77,63,0)
+(38,55,0)
+(52,41,0)
+(23,60,0)
+(30,19,0)
+(1,64,0)
+(18,34,0)
+(81,39,0)
+(41,47,0)
+(82,58,0)
+(60,4,0)
+(0,68,0)
+(78,9,0)
+(18,54,0)
+(51,63,0)
+(18,8,0)
+(34,31,0)
+(27,60,0)
+(4,12,0)
+(19,30,0)
+(13,76,0)
+(21,1,0)
+(59,8,0)
+(81,45,0)
+(10,29,0)
+(7,63,0)
+(5,19,0)
+(70,57,0)
+(31,4,0)
+(3,44,0)
+(65,40,0)
+(73,39,0)
+(24,8,0)
+(2,75,0)
+(20,10,0)
+(25,76,0)
+(52,3,0)
+(18,64,0)
+(52,46,0)
+(46,28,0)
+(11,63,0)
+(61,81,0)
+(6,64,0)
+(31,34,0)
+(18,76,0)
+(12,4,0)
+(42,28,0)
+(46,43,0)
+(27,13,0)
+(55,41,0)
+(57,28,0)
+(18,8,1)
+(31,48,1)
+(59,13,1)
+(2,17,1)
+(22,33,1)
+(30,54,1)
+(66,19,1)
+(17,50,1)
+(1,39,1)
+(52,46,1)
+(57,28,1)
+(25,16,1)
+(8,64,1)
+(71,64,1)
+(56,80,1)
+(12,45,1)
+(6,4,1)
+(48,74,1)
+(42,58,1)
+(73,39,1)
+(25,76,1)
+(50,19,1)
+(21,62,1)
+(18,34,1)
+(67,35,1)
+(36,66,1)
+(58,82,1)
+(79,25,1)
+(64,1,1)
+(18,54,1)
+(57,70,1)
+(0,18,1)
+(45,14,1)
+(41,55,1)
+(52,57,1)
+(3,40,1)
+(4,12,1)
+(40,65,1)
+(28,4,1)
+(14,81,1)
+(62,6,1)
+(23,36,1)
+(70,25,1)
+(24,59,1)
+(34,31,1)
+(52,3,1)
+(61,32,1)
+(33,15,1)
+(74,8,1)
+(38,13,1)
+(28,56,1)
+(31,4,1)
+(35,64,1)
+(73,79,1)
+(68,0,1)
+(18,64,1)
+(5,30,1)
+(71,69,1)
+(60,4,1)
+(74,71,1)
+(49,61,1)
+(52,41,1)
+(19,30,1)
+(16,18,1)
+(18,22,1)
+(52,42,1)
+(8,24,1)
+(27,60,1)
+(13,76,1)
+(75,76,1)
+(75,2,1)
+(69,10,1)
+(1,21,1)
+(45,81,1)
+(60,23,1)
+(80,75,1)
+(65,75,1)
+(81,49,1)
+(55,38,1)
+(15,34,1)
+(13,27,1)
+(46,68,1)
+(20,28,1)
+(42,28,1)
+(81,39,1)
+(19,5,1)
+(46,28,1)
+(10,20,1)
+(18,76,1)
+(82,73,1)
+(30,67,1)
+(20,75,2)
+(34,31,2)
+(28,4,2)
+(33,13,2)
+(46,28,2)
+(82,25,2)
+(27,60,2)
+(8,13,2)
+(52,3,2)
+(58,25,2)
+(34,75,2)
+(23,19,2)
+(2,19,2)
+(18,34,2)
+(75,2,2)
+(12,45,2)
+(25,76,2)
+(8,64,2)
+(22,13,2)
+(66,19,2)
+(57,25,2)
+(30,54,2)
+(27,19,2)
+(28,75,2)
+(40,75,2)
+(41,13,2)
+(57,28,2)
+(18,76,2)
+(52,57,2)
+(45,81,2)
+(17,19,2)
+(55,13,2)
+(52,41,2)
+(33,75,2)
+(13,76,2)
+(25,18,2)
+(24,13,2)
+(74,13,2)
+(13,27,2)
+(3,75,2)
+(18,54,2)
+(42,28,2)
+(65,75,2)
+(31,13,2)
+(75,19,2)
+(73,25,2)
+(31,4,2)
+(68,18,2)
+(18,13,2)
+(34,13,2)
+(52,42,2)
+(19,30,2)
+(71,75,2)
+(42,25,2)
+(15,13,2)
+(46,18,2)
+(81,39,2)
+(38,13,2)
+(18,8,2)
+(31,75,2)
+(48,13,2)
+(60,19,2)
+(16,18,2)
+(80,75,2)
+(64,1,2)
+(36,19,2)
+(59,13,2)
+(22,75,2)
+(71,64,2)
+(4,12,2)
+(48,75,2)
+(60,4,2)
+(13,19,2)
+(75,76,2)
+(70,25,2)
+(18,64,2)
+(1,39,2)
+(74,75,2)
+(18,75,2)
+(69,75,2)
+(52,46,2)
+(15,75,2)
+(73,39,2)
+(50,19,2)
+(10,75,2)
+(79,25,2)
+(56,75,2)
+(0,18,2)
+-----------------------------------
+(0,1)
+(1,ms->len)
+(2,&tmp)
+(3,return -1;)
+(4,*qcc = &ms->parms.qcc)
+(5,256)
+(6,len)
+(7,qcc)
+(8,len -= 2)
+(9,)
+(10,qcc->compno = tmp)
+(11,if (jpc_qcx_getcompparms(&qcc->compparms, cstate, in, len)
+(12,&ms->parms.qcc)
+(13,jpc_getuint16(in, &qcc->compno)
+(14,qcc)
+(15,cstate)
+(16,in)
+(17,tmp)
+(18,jpc_qcx_getcompparms(&qcc->compparms, cstate, in, len)
+(19,cstate->numcomps <= 256)
+(20,tmp)
+(21,len)
+(22,len)
+(23,compno)
+(24,2)
+(25,jas_stream_eof(in)
+(26,tmp)
+(27,&qcc->compno)
+(28,qcc->compno)
+(29,)
+(30,cstate->numcomps)
+(31,qcc->compparms)
+(32,qcc)
+(33,in)
+(34,&qcc->compparms)
+(35,cstate)
+(36,qcc)
+(37,len)
+(38,1)
+(39,jpc_ms_t *ms)
+(40,-1)
+(41,return -1;)
+(42,return -1;)
+(43,)
+(44,)
+(45,ms->parms.qcc)
+(46,return -1;)
+(47,)
+(48,compparms)
+(49,parms)
+(50,in)
+(51,if (jas_stream_eof(in)
+(52,RET)
+(53,if (jpc_getuint8(in, &tmp)
+(54,jpc_cstate_t *cstate)
+(55,-1)
+(56,compno)
+(57,return 0;)
+(58,-1)
+(59,len)
+(60,qcc->compno)
+(61,ms)
+(62,ms)
+(63,)
+(64,len = ms->len)
+(65,1)
+(66,in)
+(67,numcomps)
+(68,-1)
+(69,len)
+(70,0)
+(71,--len)
+(72,)
+(73,jpc_qcc_destroyparms(ms)
+(74,qcc)
+(75,jpc_getuint8(in, &tmp)
+(76,jas_stream_t *in)
+(77,if (cstate->numcomps <= 256)
+(78,if (jpc_getuint16(in, &qcc->compno)
+(79,ms)
+(80,qcc)
+(81,ms->parms)
+(82,1)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000020000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffffbea0ad6300000000ffffffffffffffffbea0ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff3000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+jpc_ms_t *jpc_ms_create(int type) {
+jpc_ms_t *ms;
+jpc_mstabent_t *mstabent;
+ms->id = type;
+ms->len = 0;
+mstabent = jpc_mstab_lookup(ms->id);
+ms->ops = &mstabent->ops;
+memset(&ms->parms, 0, sizeof(jpc_msparms_t));
+return ms;
+=======================

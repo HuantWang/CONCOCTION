@@ -1,0 +1,140 @@
+-----label-----
+0
+-----code-----
+char *jas_tvparser_gettag(jas_tvparser_t *tvp)
+{
+	return tvp->tag;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+6,7
+6,8
+7,8
+9,10
+9,11
+12,13
+13,14
+14,15
+14,16
+15,16
+-----nextToken-----
+2,4,5,8,10,11,16,17
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;ReturnStatement;FieldReference;IdExpression;Name;Name;
+-----ast_node-----
+char *jas_tvparser_gettag(jas_tvparser_t *tvp){	return tvp->tag;}
+char
+*jas_tvparser_gettag(jas_tvparser_t *tvp)
+*
+jas_tvparser_gettag
+jas_tvparser_t *tvp
+jas_tvparser_t
+jas_tvparser_t
+*tvp
+*
+tvp
+{	return tvp->tag;}
+return tvp->tag;
+tvp->tag
+tvp
+tvp
+tag
+-----joern-----
+(6,5,0)
+(13,8,0)
+(5,0,0)
+(9,7,0)
+(1,10,0)
+(10,7,0)
+(11,9,0)
+(5,7,0)
+(13,10,0)
+(10,13,0)
+(3,9,0)
+(2,10,0)
+(12,0,0)
+(13,10,1)
+(4,5,1)
+(9,7,1)
+(5,7,1)
+(10,7,1)
+(9,11,1)
+(11,3,1)
+(6,9,1)
+(2,1,1)
+(10,2,1)
+(6,13,1)
+(1,9,1)
+(5,6,1)
+(5,7,2)
+(9,7,2)
+(2,9,2)
+(13,9,2)
+(10,9,2)
+(10,7,2)
+(13,10,2)
+(1,9,2)
+-----------------------------------
+(0,)
+(1,tvp)
+(2,buf)
+(3,tvp)
+(4,RET)
+(5,jas_free(tvp)
+(6,tvp)
+(7,jas_tvparser_t *tvp)
+(8,)
+(9,tvp->buf)
+(10,tvp->buf)
+(11,buf)
+(12,if (tvp->buf)
+(13,jas_free(tvp->buf)
+-----cfg-----
+(7,13)
+(10,14)
+(11,10)
+(13,11)
+-----path-----
+7,13,11,10,14
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,char* jas_tvparser_gettag (jas_tvparser_t *tvp)
+8,jas_tvparser_t *tvp
+9,<empty>
+10,return tvp->tag;
+11,tvp->tag
+12,tvp
+13,tag
+14,RET
+15,jas_tvparser_t *tvp
+16,RET
+17,char* jas_tvparser_gettag (jas_tvparser_t *tvp)
+18,jas_tvparser_t *tvp
+19,<empty>
+20,return tvp->tag;
+21,tvp->tag
+22,tvp
+23,tag
+24,RET
+25,jas_tvparser_t *tvp
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+char *jas_tvparser_gettag(jas_tvparser_t *tvp) {
+return tvp->tag;
+=======================

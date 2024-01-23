@@ -1,0 +1,5967 @@
+-----label-----
+0
+-----code-----
+int jpc_enc_encpkt(jpc_enc_t *enc, jas_stream_t *out, int compno, int lvlno, int prcno, int lyrno)
+{
+	jpc_enc_tcmpt_t *comp;
+	jpc_enc_rlvl_t *lvl;
+	jpc_enc_band_t *band;
+	jpc_enc_band_t *endbands;
+	jpc_enc_cblk_t *cblk;
+	jpc_enc_cblk_t *endcblks;
+	jpc_bitstream_t *outb;
+	jpc_enc_pass_t *pass;
+	jpc_enc_pass_t *startpass;
+	jpc_enc_pass_t *lastpass;
+	jpc_enc_pass_t *endpass;
+	jpc_enc_pass_t *endpasses;
+	int i;
+	int included;
+	int ret;
+	jpc_tagtreenode_t *leaf;
+	int n;
+	int t1;
+	int t2;
+	int adjust;
+	int maxadjust;
+	int datalen;
+	int numnewpasses;
+	int passcount;
+	jpc_enc_tile_t *tile;
+	jpc_enc_prc_t *prc;
+	jpc_enc_cp_t *cp;
+	jpc_ms_t *ms;
+
+	tile = enc->curtile;
+	cp = enc->cp;
+
+	if (cp->tcp.csty & JPC_COD_SOP) {
+		if (!(ms = jpc_ms_create(JPC_MS_SOP))) {
+			return -1;
+		}
+		ms->parms.sop.seqno = jpc_pi_getind(tile->pi);
+		if (jpc_putms(out, enc->cstate, ms)) {
+			return -1;
+		}
+		jpc_ms_destroy(ms);
+	}
+
+	outb = jpc_bitstream_sopen(out, "w+");
+	assert(outb);
+
+	if (jpc_bitstream_putbit(outb, 1) == EOF) {
+		return -1;
+	}
+	JAS_DBGLOG(10, ("\n"));
+	JAS_DBGLOG(10, ("present. "));
+
+	comp = &tile->tcmpts[compno];
+	lvl = &comp->rlvls[lvlno];
+	endbands = &lvl->bands[lvl->numbands];
+	for (band = lvl->bands; band != endbands; ++band) {
+		if (!band->data) {
+			continue;
+		}
+		prc = &band->prcs[prcno];
+		if (!prc->cblks) {
+			continue;
+		}
+
+		endcblks = &prc->cblks[prc->numcblks];
+		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {
+			if (!lyrno) {
+				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);
+				jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);
+			}
+			pass = cblk->curpass;
+			included = (pass && pass->lyrno == lyrno);
+			if (included && (!cblk->numencpasses)) {
+				assert(pass->lyrno == lyrno);
+				leaf = jpc_tagtree_getleaf(prc->incltree,
+				  cblk - prc->cblks);
+				jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);
+			}
+		}
+
+		endcblks = &prc->cblks[prc->numcblks];
+		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {
+			pass = cblk->curpass;
+			included = (pass && pass->lyrno == lyrno);
+			if (!cblk->numencpasses) {
+				leaf = jpc_tagtree_getleaf(prc->incltree,
+				  cblk - prc->cblks);
+				if (jpc_tagtree_encode(prc->incltree, leaf, lyrno
+				  + 1, outb) < 0) {
+					return -1;
+				}
+			} else {
+				if (jpc_bitstream_putbit(outb, included) == EOF) {
+					return -1;
+				}
+			}
+			JAS_DBGLOG(10, ("included=%d ", included));
+			if (!included) {
+				continue;
+			}
+			if (!cblk->numencpasses) {
+				i = 1;
+				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);
+				for (;;) {
+					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {
+						return -1;
+					}
+					if (ret) {
+						break;
+					}
+					++i;
+				}
+				assert(leaf->known_ && i == leaf->value_ + 1);
+			}
+
+			endpasses = &cblk->passes[cblk->numpasses];
+			startpass = pass;
+			endpass = startpass;
+			while (endpass != endpasses && endpass->lyrno == lyrno){
+				++endpass;
+			}
+			numnewpasses = endpass - startpass;
+			if (jpc_putnumnewpasses(outb, numnewpasses)) {
+				return -1;
+			}
+			JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses));
+
+			lastpass = endpass - 1;
+			n = startpass->start;
+			passcount = 1;
+			maxadjust = 0;
+			for (pass = startpass; pass != endpass; ++pass) {
+				if (pass->term || pass == lastpass) {
+					datalen = pass->end - n;
+					t1 = jpc_firstone(datalen) + 1;
+					t2 = cblk->numlenbits + jpc_floorlog2(passcount);
+					adjust = JAS_MAX(t1 - t2, 0);
+					maxadjust = JAS_MAX(adjust, maxadjust);
+					n += datalen;
+					passcount = 1;
+				} else {
+					++passcount;
+				}
+			}
+			if (jpc_putcommacode(outb, maxadjust)) {
+				return -1;
+			}
+			cblk->numlenbits += maxadjust;
+
+			lastpass = endpass - 1;
+			n = startpass->start;
+			passcount = 1;
+			for (pass = startpass; pass != endpass; ++pass) {
+				if (pass->term || pass == lastpass) {
+					datalen = pass->end - n;
+assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));
+					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {
+						return -1;
+					}
+					n += datalen;
+					passcount = 1;
+				} else {
+					++passcount;
+				}
+			}
+		}
+	}
+
+	jpc_bitstream_outalign(outb, 0);
+	jpc_bitstream_close(outb);
+
+	if (cp->tcp.csty & JPC_COD_EPH) {
+		if (!(ms = jpc_ms_create(JPC_MS_EPH))) {
+			return -1;
+		}
+		jpc_putms(out, enc->cstate, ms);
+		jpc_ms_destroy(ms);
+	}
+
+	comp = &tile->tcmpts[compno];
+	lvl = &comp->rlvls[lvlno];
+	endbands = &lvl->bands[lvl->numbands];
+	for (band = lvl->bands; band != endbands; ++band) {
+		if (!band->data) {
+			continue;
+		}
+		prc = &band->prcs[prcno];
+		if (!prc->cblks) {
+			continue;
+		}
+		endcblks = &prc->cblks[prc->numcblks];
+		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {
+			pass = cblk->curpass;
+
+			if (!pass) {
+				continue;
+			}
+			if (pass->lyrno != lyrno) {
+				assert(pass->lyrno < 0 || pass->lyrno > lyrno);
+				continue;
+			}
+
+			endpasses = &cblk->passes[cblk->numpasses];
+			startpass = pass;
+			endpass = startpass;
+			while (endpass != endpasses && endpass->lyrno == lyrno){
+				++endpass;
+			}
+			lastpass = endpass - 1;
+			numnewpasses = endpass - startpass;
+
+			jas_stream_seek(cblk->stream, startpass->start, SEEK_SET);
+			assert(jas_stream_tell(cblk->stream) == startpass->start);
+			if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)) {
+				return -1;
+			}
+			cblk->curpass = (endpass != endpasses) ? endpass : 0;
+			cblk->numencpasses += numnewpasses;
+
+		}
+	}
+
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+3,8
+3,9
+3,10
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+19,20
+21,22
+21,23
+23,24
+25,26
+25,27
+27,28
+29,30
+29,31
+31,32
+33,34
+33,35
+33,36
+33,37
+33,38
+33,39
+33,40
+33,41
+33,42
+33,43
+33,44
+33,45
+33,46
+33,47
+33,48
+33,49
+33,50
+33,51
+33,52
+33,53
+33,54
+33,55
+33,56
+33,57
+33,58
+33,59
+33,60
+33,61
+33,62
+33,63
+33,64
+33,65
+33,66
+33,67
+33,68
+33,69
+33,70
+33,71
+33,72
+33,73
+33,74
+33,75
+33,76
+33,77
+33,78
+33,79
+33,80
+33,81
+34,35
+35,36
+35,37
+36,37
+38,39
+38,40
+41,42
+42,43
+42,44
+43,44
+45,46
+45,47
+48,49
+49,50
+49,51
+50,51
+52,53
+52,54
+55,56
+56,57
+56,58
+57,58
+59,60
+59,61
+62,63
+63,64
+63,65
+64,65
+66,67
+66,68
+69,70
+70,71
+70,72
+71,72
+73,74
+73,75
+76,77
+77,78
+77,79
+78,79
+80,81
+80,82
+83,84
+84,85
+84,86
+85,86
+87,88
+87,89
+90,91
+91,92
+91,93
+92,93
+94,95
+94,96
+97,98
+98,99
+98,100
+99,100
+101,102
+101,103
+104,105
+105,106
+105,107
+106,107
+108,109
+108,110
+111,112
+112,113
+112,114
+113,114
+115,116
+115,117
+118,119
+119,120
+119,121
+121,122
+123,124
+124,125
+124,126
+126,127
+128,129
+129,130
+129,131
+131,132
+133,134
+134,135
+134,136
+135,136
+137,138
+137,139
+140,141
+141,142
+141,143
+143,144
+145,146
+146,147
+146,148
+148,149
+150,151
+151,152
+151,153
+153,154
+155,156
+156,157
+156,158
+158,159
+160,161
+161,162
+161,163
+163,164
+165,166
+166,167
+166,168
+168,169
+170,171
+171,172
+171,173
+173,174
+175,176
+176,177
+176,178
+178,179
+180,181
+181,182
+181,183
+182,183
+184,185
+184,186
+187,188
+188,189
+188,190
+189,190
+191,192
+191,193
+194,195
+195,196
+195,197
+196,197
+198,199
+198,200
+201,202
+202,203
+202,204
+203,204
+205,206
+205,207
+208,209
+209,210
+209,211
+210,211
+212,213
+212,214
+213,214
+216,217
+217,218
+217,219
+218,219
+220,221
+220,222
+221,222
+224,225
+224,226
+225,226
+225,227
+226,227
+226,228
+227,228
+227,229
+228,229
+232,233
+234,235
+234,236
+234,237
+234,238
+235,236
+235,237
+236,237
+237,238
+238,239
+238,240
+239,240
+241,242
+241,243
+242,243
+244,245
+246,247
+247,248
+248,249
+250,251
+251,252
+251,253
+252,253
+252,254
+253,254
+253,255
+254,255
+254,256
+255,256
+260,261
+260,262
+261,262
+263,264
+263,265
+264,265
+267,268
+267,269
+268,269
+268,270
+268,271
+268,272
+269,270
+271,272
+273,274
+273,275
+274,275
+277,278
+279,280
+280,281
+281,282
+283,284
+284,285
+284,286
+285,286
+287,288
+289,290
+290,291
+290,292
+291,292
+293,294
+293,295
+293,296
+294,295
+296,297
+299,300
+300,301
+300,302
+301,302
+303,304
+305,306
+305,307
+306,307
+306,308
+307,308
+307,309
+307,310
+308,309
+310,311
+313,314
+315,316
+316,317
+317,318
+319,320
+320,321
+320,322
+320,323
+321,322
+324,325
+326,327
+327,328
+327,329
+327,330
+328,329
+331,332
+333,334
+334,335
+334,336
+335,336
+337,338
+338,339
+338,340
+339,340
+339,341
+340,341
+343,344
+345,346
+346,347
+346,348
+347,348
+349,350
+350,351
+350,352
+351,352
+351,353
+352,353
+355,356
+357,358
+358,359
+358,360
+359,360
+361,362
+362,363
+362,364
+363,364
+363,365
+364,365
+367,368
+367,369
+368,369
+371,372
+371,373
+371,374
+371,375
+372,373
+373,374
+373,375
+374,375
+376,377
+376,378
+377,378
+380,381
+380,382
+381,382
+383,384
+385,386
+386,387
+388,389
+388,390
+388,391
+388,392
+388,393
+388,394
+388,395
+389,390
+389,391
+390,391
+391,392
+391,393
+392,393
+395,396
+397,398
+398,399
+398,400
+399,400
+401,402
+402,403
+402,404
+403,404
+403,405
+404,405
+407,408
+409,410
+409,411
+410,411
+411,412
+411,413
+412,413
+415,416
+417,418
+418,419
+418,420
+419,420
+421,422
+422,423
+422,424
+423,424
+423,425
+424,425
+427,428
+427,429
+428,429
+431,432
+431,433
+431,434
+431,435
+432,433
+433,434
+433,435
+434,435
+436,437
+436,438
+437,438
+440,441
+440,442
+441,442
+443,444
+445,446
+446,447
+448,449
+448,450
+448,451
+448,452
+449,450
+449,451
+450,451
+451,452
+453,454
+453,455
+454,455
+455,456
+455,457
+456,457
+458,459
+458,460
+458,461
+459,460
+461,462
+461,463
+462,463
+465,466
+465,467
+466,467
+468,469
+468,470
+469,470
+472,473
+473,474
+473,475
+473,476
+473,477
+474,475
+476,477
+476,478
+477,478
+480,481
+482,483
+482,484
+483,484
+486,487
+487,488
+487,489
+488,489
+490,491
+490,492
+491,492
+494,495
+495,496
+495,497
+496,497
+498,499
+499,500
+499,501
+500,501
+502,503
+502,504
+503,504
+503,505
+504,505
+507,508
+509,510
+509,511
+510,511
+510,512
+511,512
+513,514
+514,515
+515,516
+515,517
+516,517
+519,520
+519,521
+519,522
+520,521
+521,522
+521,523
+522,523
+524,525
+524,526
+525,526
+525,527
+526,527
+529,530
+531,532
+532,533
+532,534
+533,534
+535,536
+535,537
+535,538
+536,537
+538,539
+538,540
+539,540
+542,543
+542,544
+543,544
+545,546
+545,547
+546,547
+549,550
+550,551
+550,552
+550,553
+550,554
+551,552
+553,554
+553,555
+554,555
+557,558
+559,560
+559,561
+560,561
+563,564
+564,565
+564,566
+565,566
+567,568
+568,569
+568,570
+569,570
+569,571
+570,571
+573,574
+573,575
+574,575
+577,578
+577,579
+577,580
+577,581
+578,579
+579,580
+579,581
+580,581
+582,583
+582,584
+583,584
+586,587
+586,588
+587,588
+589,590
+591,592
+592,593
+594,595
+594,596
+594,597
+594,598
+594,599
+594,600
+594,601
+594,602
+594,603
+594,604
+594,605
+594,606
+594,607
+594,608
+594,609
+594,610
+594,611
+594,612
+594,613
+594,614
+594,615
+594,616
+594,617
+594,618
+595,596
+596,597
+596,598
+597,598
+599,600
+599,601
+600,601
+603,604
+604,605
+604,606
+605,606
+607,608
+608,609
+608,610
+609,610
+611,612
+611,613
+612,613
+612,614
+613,614
+616,617
+618,619
+618,620
+618,621
+619,620
+620,621
+620,622
+621,622
+624,625
+624,626
+625,626
+626,627
+626,628
+627,628
+629,630
+629,631
+629,632
+630,631
+632,633
+632,634
+633,634
+636,637
+636,638
+637,638
+639,640
+639,641
+640,641
+643,644
+643,645
+644,645
+644,646
+645,646
+645,647
+645,648
+645,649
+645,650
+646,647
+648,649
+648,650
+649,650
+652,653
+654,655
+654,656
+655,656
+658,659
+661,662
+662,663
+663,664
+665,666
+666,667
+666,668
+667,668
+667,669
+668,669
+668,670
+668,671
+669,670
+671,672
+673,674
+675,676
+677,678
+678,679
+679,680
+681,682
+682,683
+682,684
+682,685
+683,684
+686,687
+687,688
+687,689
+689,690
+691,692
+691,693
+692,693
+693,694
+695,696
+697,698
+697,699
+698,699
+699,700
+699,701
+700,701
+703,704
+703,705
+703,706
+703,707
+704,705
+705,706
+705,707
+706,707
+709,710
+710,711
+710,712
+711,712
+713,714
+713,715
+713,716
+714,715
+716,717
+716,718
+717,718
+720,721
+720,722
+721,722
+723,724
+723,725
+724,725
+727,728
+727,729
+729,730
+729,731
+729,732
+730,731
+730,732
+731,732
+731,733
+732,733
+733,734
+733,735
+734,735
+736,737
+736,738
+736,739
+736,740
+736,741
+737,738
+739,740
+739,741
+740,741
+743,744
+745,746
+747,748
+750,751
+751,752
+752,753
+754,755
+754,756
+755,756
+757,758
+759,760
+760,761
+761,762
+763,764
+764,765
+764,766
+765,766
+767,768
+767,769
+768,769
+768,770
+769,770
+772,773
+772,774
+773,774
+775,776
+775,777
+776,777
+776,778
+777,778
+781,782
+782,783
+782,784
+783,784
+785,786
+786,787
+786,788
+787,788
+787,789
+788,789
+791,792
+791,793
+792,793
+795,796
+796,797
+796,798
+797,798
+799,800
+801,802
+802,803
+802,804
+803,804
+805,806
+807,808
+807,809
+808,809
+808,810
+809,810
+809,811
+810,811
+812,813
+814,815
+814,816
+815,816
+815,817
+816,817
+819,820
+821,822
+822,823
+823,824
+824,825
+826,827
+827,828
+827,829
+828,829
+830,831
+830,832
+831,832
+833,834
+835,836
+835,837
+836,837
+836,838
+836,839
+837,838
+839,840
+841,842
+843,844
+844,845
+845,846
+847,848
+848,849
+848,850
+848,851
+849,850
+852,853
+853,854
+853,855
+855,856
+857,858
+858,859
+858,860
+859,860
+861,862
+861,863
+862,863
+865,866
+866,867
+866,868
+867,868
+869,870
+869,871
+870,871
+873,874
+874,875
+874,876
+875,876
+878,879
+879,880
+879,881
+880,881
+883,884
+883,885
+883,886
+883,887
+884,885
+885,886
+885,887
+886,887
+888,889
+890,891
+890,892
+891,892
+893,894
+895,896
+896,897
+898,899
+899,900
+899,901
+899,902
+900,901
+900,902
+901,902
+901,903
+902,903
+905,906
+905,907
+906,907
+908,909
+910,911
+910,912
+910,913
+910,914
+910,915
+910,916
+910,917
+911,912
+912,913
+912,914
+913,914
+915,916
+915,917
+916,917
+916,918
+917,918
+920,921
+922,923
+923,924
+923,925
+924,925
+926,927
+926,928
+927,928
+927,929
+928,929
+930,931
+933,934
+934,935
+934,936
+935,936
+937,938
+937,939
+938,939
+938,940
+939,940
+942,943
+942,944
+943,944
+945,946
+947,948
+948,949
+948,950
+949,950
+951,952
+951,953
+951,954
+952,953
+954,955
+954,956
+955,956
+957,958
+960,961
+961,962
+961,963
+962,963
+964,965
+964,966
+964,967
+965,966
+967,968
+969,970
+971,972
+972,973
+972,974
+973,974
+975,976
+977,978
+978,979
+978,980
+979,980
+982,983
+983,984
+984,985
+985,986
+987,988
+987,989
+988,989
+988,990
+988,991
+989,990
+991,992
+993,994
+995,996
+996,997
+997,998
+999,1000
+1000,1001
+1000,1002
+1001,1002
+1001,1003
+1002,1003
+1005,1006
+1007,1008
+1008,1009
+1008,1010
+1009,1010
+1011,1012
+1011,1013
+1012,1013
+1015,1016
+1016,1017
+1016,1018
+1017,1018
+1019,1020
+1019,1021
+1020,1021
+1023,1024
+1024,1025
+1024,1026
+1025,1026
+1028,1029
+1028,1030
+1028,1031
+1028,1032
+1029,1030
+1030,1031
+1030,1032
+1031,1032
+1033,1034
+1035,1036
+1035,1037
+1036,1037
+1038,1039
+1040,1041
+1041,1042
+1043,1044
+1044,1045
+1044,1046
+1044,1047
+1045,1046
+1045,1047
+1046,1047
+1046,1048
+1047,1048
+1050,1051
+1050,1052
+1051,1052
+1053,1054
+1055,1056
+1055,1057
+1055,1058
+1055,1059
+1055,1060
+1056,1057
+1057,1058
+1057,1059
+1058,1059
+1060,1061
+1060,1062
+1061,1062
+1061,1063
+1062,1063
+1065,1066
+1067,1068
+1068,1069
+1068,1070
+1069,1070
+1071,1072
+1071,1073
+1072,1073
+1072,1074
+1073,1074
+1075,1076
+1077,1078
+1077,1079
+1078,1079
+1078,1080
+1079,1080
+1082,1083
+1082,1084
+1083,1084
+1085,1086
+1087,1088
+1087,1089
+1088,1089
+1088,1090
+1089,1090
+1089,1091
+1089,1092
+1089,1093
+1090,1091
+1092,1093
+1094,1095
+1094,1096
+1095,1096
+1095,1097
+1096,1097
+1099,1100
+1099,1101
+1100,1101
+1102,1103
+1104,1105
+1106,1107
+1108,1109
+1109,1110
+1110,1111
+1112,1113
+1113,1114
+1113,1115
+1114,1115
+1116,1117
+1118,1119
+1119,1120
+1119,1121
+1120,1121
+1123,1124
+1124,1125
+1125,1126
+1126,1127
+1128,1129
+1129,1130
+1129,1131
+1129,1132
+1130,1131
+1132,1133
+1135,1136
+1136,1137
+1136,1138
+1137,1138
+1139,1140
+1141,1142
+1141,1143
+1142,1143
+1142,1144
+1143,1144
+1143,1145
+1144,1145
+1144,1146
+1145,1146
+1149,1150
+1151,1152
+1151,1153
+1151,1154
+1152,1153
+1152,1154
+1153,1154
+1154,1155
+1155,1156
+1155,1157
+1156,1157
+1158,1159
+1158,1160
+1159,1160
+1161,1162
+1163,1164
+1164,1165
+1165,1166
+1167,1168
+1168,1169
+1168,1170
+1168,1171
+1168,1172
+1169,1170
+1171,1172
+1173,1174
+1173,1175
+1174,1175
+1177,1178
+1179,1180
+1180,1181
+1180,1182
+1181,1182
+1183,1184
+1185,1186
+1186,1187
+1186,1188
+1187,1188
+1189,1190
+1190,1191
+1190,1192
+1191,1192
+1191,1193
+1192,1193
+1195,1196
+1197,1198
+1198,1199
+1198,1200
+1199,1200
+1201,1202
+1202,1203
+1202,1204
+1203,1204
+1203,1205
+1204,1205
+1207,1208
+1209,1210
+1210,1211
+1210,1212
+1211,1212
+1213,1214
+1214,1215
+1214,1216
+1215,1216
+1215,1217
+1216,1217
+1219,1220
+1219,1221
+1220,1221
+1223,1224
+1223,1225
+1223,1226
+1223,1227
+1224,1225
+1225,1226
+1225,1227
+1226,1227
+1228,1229
+1228,1230
+1229,1230
+1232,1233
+1232,1234
+1233,1234
+1235,1236
+1237,1238
+1238,1239
+1240,1241
+1240,1242
+1240,1243
+1240,1244
+1240,1245
+1241,1242
+1241,1243
+1242,1243
+1243,1244
+1243,1245
+1244,1245
+1247,1248
+1249,1250
+1250,1251
+1250,1252
+1251,1252
+1253,1254
+1254,1255
+1254,1256
+1255,1256
+1255,1257
+1256,1257
+1259,1260
+1261,1262
+1261,1263
+1262,1263
+1263,1264
+1263,1265
+1264,1265
+1267,1268
+1269,1270
+1270,1271
+1270,1272
+1271,1272
+1273,1274
+1274,1275
+1274,1276
+1275,1276
+1275,1277
+1276,1277
+1279,1280
+1279,1281
+1280,1281
+1283,1284
+1283,1285
+1283,1286
+1283,1287
+1284,1285
+1285,1286
+1285,1287
+1286,1287
+1288,1289
+1288,1290
+1289,1290
+1292,1293
+1292,1294
+1293,1294
+1295,1296
+1297,1298
+1298,1299
+1300,1301
+1300,1302
+1300,1303
+1300,1304
+1300,1305
+1300,1306
+1300,1307
+1300,1308
+1300,1309
+1300,1310
+1300,1311
+1300,1312
+1300,1313
+1300,1314
+1301,1302
+1302,1303
+1302,1304
+1303,1304
+1305,1306
+1305,1307
+1306,1307
+1309,1310
+1309,1311
+1310,1311
+1311,1312
+1313,1314
+1315,1316
+1315,1317
+1316,1317
+1316,1318
+1317,1318
+1317,1319
+1318,1319
+1321,1322
+1323,1324
+1323,1325
+1324,1325
+1325,1326
+1325,1327
+1326,1327
+1328,1329
+1328,1330
+1329,1330
+1329,1331
+1330,1331
+1330,1332
+1331,1332
+1335,1336
+1335,1337
+1336,1337
+1336,1338
+1337,1338
+1340,1341
+1343,1344
+1344,1345
+1344,1346
+1345,1346
+1347,1348
+1348,1349
+1348,1350
+1349,1350
+1349,1351
+1350,1351
+1353,1354
+1353,1355
+1354,1355
+1357,1358
+1358,1359
+1358,1360
+1359,1360
+1361,1362
+1363,1364
+1364,1365
+1364,1366
+1365,1366
+1367,1368
+1369,1370
+1369,1371
+1370,1371
+1370,1372
+1371,1372
+1371,1373
+1372,1373
+1374,1375
+1376,1377
+1376,1378
+1377,1378
+1377,1379
+1378,1379
+1381,1382
+1383,1384
+1384,1385
+1385,1386
+1386,1387
+1388,1389
+1389,1390
+1389,1391
+1390,1391
+1392,1393
+1392,1394
+1393,1394
+1396,1397
+1397,1398
+1397,1399
+1398,1399
+1400,1401
+1400,1402
+1401,1402
+1403,1404
+1405,1406
+1406,1407
+1406,1408
+1406,1409
+1406,1410
+1407,1408
+1409,1410
+1409,1411
+1410,1411
+1413,1414
+1413,1415
+1414,1415
+1417,1418
+1419,1420
+1420,1421
+1420,1422
+1421,1422
+1423,1424
+1423,1425
+1424,1425
+1424,1426
+1425,1426
+1427,1428
+1427,1429
+1428,1429
+1431,1432
+1431,1433
+1432,1433
+1435,1436
+1435,1437
+1436,1437
+1436,1438
+1436,1439
+1436,1440
+1437,1438
+1439,1440
+1441,1442
+1441,1443
+1442,1443
+1445,1446
+1445,1447
+1446,1447
+1446,1448
+1447,1448
+1450,1451
+1450,1452
+1451,1452
+1454,1455
+1455,1456
+1456,1457
+1458,1459
+1459,1460
+1459,1461
+1460,1461
+1460,1462
+1461,1462
+1464,1465
+1464,1466
+1464,1467
+1465,1466
+1466,1467
+1466,1468
+1467,1468
+1469,1470
+1471,1472
+1474,1475
+1475,1476
+1475,1477
+1476,1477
+1476,1478
+1477,1478
+1480,1481
+1482,1483
+-----nextToken-----
+2,4,7,9,10,13,15,16,18,20,22,24,26,28,30,32,37,39,40,44,46,47,51,53,54,58,60,61,65,67,68,72,74,75,79,81,82,86,88,89,93,95,96,100,102,103,107,109,110,114,116,117,120,122,125,127,130,132,136,138,139,142,144,147,149,152,154,157,159,162,164,167,169,172,174,177,179,183,185,186,190,192,193,197,199,200,204,206,207,211,214,215,219,222,223,229,230,231,233,240,243,245,249,256,257,258,259,262,265,266,270,272,275,276,278,282,286,288,292,295,297,298,302,304,309,311,312,314,318,322,323,325,329,330,332,336,341,342,344,348,353,354,356,360,365,366,369,370,375,378,379,382,384,387,393,394,396,400,405,406,408,413,414,416,420,425,426,429,430,435,438,439,442,444,447,452,457,460,463,464,467,470,471,475,478,479,481,484,485,489,492,493,497,501,505,506,508,512,517,518,523,527,528,530,534,537,540,541,544,547,548,552,555,556,558,561,562,566,571,572,575,576,581,584,585,588,590,593,598,601,602,606,610,614,615,617,622,623,628,631,634,635,638,641,642,647,650,651,653,656,657,659,660,664,670,672,674,676,680,684,685,688,690,694,696,701,702,707,708,712,715,718,719,722,725,726,728,735,738,741,742,744,746,748,749,753,756,758,762,766,770,771,774,778,779,780,784,789,790,793,794,798,800,804,806,811,813,817,818,820,825,829,832,834,838,840,842,846,850,851,854,856,860,863,864,868,871,872,876,877,881,882,887,889,892,894,897,903,904,907,909,914,918,919,921,925,929,931,932,936,940,941,944,946,950,953,956,958,959,963,966,968,970,974,976,980,981,986,990,992,994,998,1003,1004,1006,1010,1013,1014,1018,1021,1022,1026,1027,1032,1034,1037,1039,1042,1048,1049,1052,1054,1059,1063,1064,1066,1070,1074,1076,1080,1081,1084,1086,1091,1093,1097,1098,1101,1103,1105,1107,1111,1115,1117,1121,1122,1127,1131,1133,1134,1138,1140,1146,1147,1148,1150,1157,1160,1162,1166,1170,1172,1175,1176,1178,1182,1184,1188,1193,1194,1196,1200,1205,1206,1208,1212,1217,1218,1221,1222,1227,1230,1231,1234,1236,1239,1245,1246,1248,1252,1257,1258,1260,1265,1266,1268,1272,1277,1278,1281,1282,1287,1290,1291,1294,1296,1299,1304,1307,1308,1312,1314,1319,1320,1322,1327,1332,1333,1334,1338,1339,1341,1342,1346,1351,1352,1355,1356,1360,1362,1366,1368,1373,1375,1379,1380,1382,1387,1391,1394,1395,1399,1402,1404,1408,1411,1412,1415,1416,1418,1422,1426,1429,1430,1433,1434,1438,1440,1443,1444,1448,1449,1452,1453,1457,1462,1463,1468,1470,1472,1473,1478,1479,1481,1483
+-----computeFrom-----
+209,210
+209,211
+217,218
+217,219
+225,226
+225,227
+238,239
+238,240
+251,252
+251,253
+290,291
+290,292
+306,307
+306,308
+334,335
+334,336
+346,347
+346,348
+358,359
+358,360
+373,374
+373,375
+380,381
+380,382
+398,399
+398,400
+418,419
+418,420
+433,434
+433,435
+440,441
+440,442
+455,456
+455,457
+465,466
+465,467
+487,488
+487,489
+495,496
+495,497
+499,500
+499,501
+502,503
+502,504
+510,511
+510,512
+524,525
+524,526
+532,533
+532,534
+542,543
+542,544
+564,565
+564,566
+579,580
+579,581
+586,587
+586,588
+596,597
+596,598
+604,605
+604,606
+608,609
+608,610
+611,612
+611,613
+626,627
+626,628
+636,637
+636,638
+644,645
+644,646
+654,655
+654,656
+667,668
+667,669
+705,706
+705,707
+710,711
+710,712
+720,721
+720,722
+731,732
+731,733
+733,734
+733,735
+767,768
+767,769
+772,773
+772,774
+775,776
+775,777
+782,783
+782,784
+796,797
+796,798
+802,803
+802,804
+808,809
+808,810
+809,810
+809,811
+814,815
+814,816
+827,828
+827,829
+830,831
+830,832
+858,859
+858,860
+861,862
+861,863
+866,867
+866,868
+874,875
+874,876
+879,880
+879,881
+885,886
+885,887
+890,891
+890,892
+900,901
+900,902
+905,906
+905,907
+912,913
+912,914
+915,916
+915,917
+923,924
+923,925
+926,927
+926,928
+934,935
+934,936
+937,938
+937,939
+948,949
+948,950
+954,955
+954,956
+961,962
+961,963
+972,973
+972,974
+978,979
+978,980
+1000,1001
+1000,1002
+1008,1009
+1008,1010
+1011,1012
+1011,1013
+1016,1017
+1016,1018
+1024,1025
+1024,1026
+1030,1031
+1030,1032
+1035,1036
+1035,1037
+1045,1046
+1045,1047
+1050,1051
+1050,1052
+1057,1058
+1057,1059
+1060,1061
+1060,1062
+1071,1072
+1071,1073
+1077,1078
+1077,1079
+1088,1089
+1088,1090
+1094,1095
+1094,1096
+1113,1114
+1113,1115
+1119,1120
+1119,1121
+1142,1143
+1142,1144
+1155,1156
+1155,1157
+1186,1187
+1186,1188
+1198,1199
+1198,1200
+1210,1211
+1210,1212
+1225,1226
+1225,1227
+1232,1233
+1232,1234
+1250,1251
+1250,1252
+1270,1271
+1270,1272
+1285,1286
+1285,1287
+1292,1293
+1292,1294
+1302,1303
+1302,1304
+1316,1317
+1316,1318
+1328,1329
+1328,1330
+1329,1330
+1329,1331
+1335,1336
+1335,1337
+1344,1345
+1344,1346
+1358,1359
+1358,1360
+1364,1365
+1364,1366
+1370,1371
+1370,1372
+1371,1372
+1371,1373
+1376,1377
+1376,1378
+1389,1390
+1389,1391
+1392,1393
+1392,1394
+1397,1398
+1397,1399
+1400,1401
+1400,1402
+1423,1424
+1423,1425
+1445,1446
+1445,1447
+1459,1460
+1459,1461
+1466,1467
+1466,1468
+1475,1476
+1475,1477
+-----guardedBy-----
+517,544
+907,918
+1052,1063
+1319,1338
+1322,1341
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IfStatement;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;FieldReference;FieldReference;IdExpression;Name;Name;Name;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LiteralExpression;UnaryExpression;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LiteralExpression;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;UnaryExpression;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;CompoundStatement;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LiteralExpression;UnaryExpression;ExpressionList;LiteralExpression;IdExpression;Name;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;ContinueStatement;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ForStatement;NullStatement;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;IdExpression;Name;CompoundStatement;BreakStatement;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;WhileStatement;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LiteralExpression;UnaryExpression;ExpressionList;LiteralExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;UnaryExpression;IdExpression;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;ContinueStatement;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;WhileStatement;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;ConditionalExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jpc_enc_encpkt(jpc_enc_t *enc, jas_stream_t *out, int compno, int lvlno, int prcno, int lyrno){	jpc_enc_tcmpt_t *comp;	jpc_enc_rlvl_t *lvl;	jpc_enc_band_t *band;	jpc_enc_band_t *endbands;	jpc_enc_cblk_t *cblk;	jpc_enc_cblk_t *endcblks;	jpc_bitstream_t *outb;	jpc_enc_pass_t *pass;	jpc_enc_pass_t *startpass;	jpc_enc_pass_t *lastpass;	jpc_enc_pass_t *endpass;	jpc_enc_pass_t *endpasses;	int i;	int included;	int ret;	jpc_tagtreenode_t *leaf;	int n;	int t1;	int t2;	int adjust;	int maxadjust;	int datalen;	int numnewpasses;	int passcount;	jpc_enc_tile_t *tile;	jpc_enc_prc_t *prc;	jpc_enc_cp_t *cp;	jpc_ms_t *ms;	tile = enc->curtile;	cp = enc->cp;	if (cp->tcp.csty & JPC_COD_SOP) {		if (!(ms = jpc_ms_create(JPC_MS_SOP))) {			return -1;		}		ms->parms.sop.seqno = jpc_pi_getind(tile->pi);		if (jpc_putms(out, enc->cstate, ms)) {			return -1;		}		jpc_ms_destroy(ms);	}	outb = jpc_bitstream_sopen(out, "w+");	assert(outb);	if (jpc_bitstream_putbit(outb, 1) == EOF) {		return -1;	}	JAS_DBGLOG(10, ("\n"));	JAS_DBGLOG(10, ("present. "));	comp = &tile->tcmpts[compno];	lvl = &comp->rlvls[lvlno];	endbands = &lvl->bands[lvl->numbands];	for (band = lvl->bands; band != endbands; ++band) {		if (!band->data) {			continue;		}		prc = &band->prcs[prcno];		if (!prc->cblks) {			continue;		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			if (!lyrno) {				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);			}			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (included && (!cblk->numencpasses)) {				assert(pass->lyrno == lyrno);				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);			}		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (!cblk->numencpasses) {				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				if (jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0) {					return -1;				}			} else {				if (jpc_bitstream_putbit(outb, included) == EOF) {					return -1;				}			}			JAS_DBGLOG(10, ("included=%d ", included));			if (!included) {				continue;			}			if (!cblk->numencpasses) {				i = 1;				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				for (;;) {					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}				assert(leaf->known_ && i == leaf->value_ + 1);			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			numnewpasses = endpass - startpass;			if (jpc_putnumnewpasses(outb, numnewpasses)) {				return -1;			}			JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses));			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			maxadjust = 0;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				} else {					++passcount;				}			}			if (jpc_putcommacode(outb, maxadjust)) {				return -1;			}			cblk->numlenbits += maxadjust;			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				} else {					++passcount;				}			}		}	}	jpc_bitstream_outalign(outb, 0);	jpc_bitstream_close(outb);	if (cp->tcp.csty & JPC_COD_EPH) {		if (!(ms = jpc_ms_create(JPC_MS_EPH))) {			return -1;		}		jpc_putms(out, enc->cstate, ms);		jpc_ms_destroy(ms);	}	comp = &tile->tcmpts[compno];	lvl = &comp->rlvls[lvlno];	endbands = &lvl->bands[lvl->numbands];	for (band = lvl->bands; band != endbands; ++band) {		if (!band->data) {			continue;		}		prc = &band->prcs[prcno];		if (!prc->cblks) {			continue;		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			if (!pass) {				continue;			}			if (pass->lyrno != lyrno) {				assert(pass->lyrno < 0 || pass->lyrno > lyrno);				continue;			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			lastpass = endpass - 1;			numnewpasses = endpass - startpass;			jas_stream_seek(cblk->stream, startpass->start, SEEK_SET);			assert(jas_stream_tell(cblk->stream) == startpass->start);			if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)) {				return -1;			}			cblk->curpass = (endpass != endpasses) ? endpass : 0;			cblk->numencpasses += numnewpasses;		}	}	return 0;}
+int
+jpc_enc_encpkt(jpc_enc_t *enc, jas_stream_t *out, int compno, int lvlno, int prcno, int lyrno)
+jpc_enc_encpkt
+jpc_enc_t *enc
+jpc_enc_t
+jpc_enc_t
+*enc
+*
+enc
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+int compno
+int
+compno
+compno
+int lvlno
+int
+lvlno
+lvlno
+int prcno
+int
+prcno
+prcno
+int lyrno
+int
+lyrno
+lyrno
+{	jpc_enc_tcmpt_t *comp;	jpc_enc_rlvl_t *lvl;	jpc_enc_band_t *band;	jpc_enc_band_t *endbands;	jpc_enc_cblk_t *cblk;	jpc_enc_cblk_t *endcblks;	jpc_bitstream_t *outb;	jpc_enc_pass_t *pass;	jpc_enc_pass_t *startpass;	jpc_enc_pass_t *lastpass;	jpc_enc_pass_t *endpass;	jpc_enc_pass_t *endpasses;	int i;	int included;	int ret;	jpc_tagtreenode_t *leaf;	int n;	int t1;	int t2;	int adjust;	int maxadjust;	int datalen;	int numnewpasses;	int passcount;	jpc_enc_tile_t *tile;	jpc_enc_prc_t *prc;	jpc_enc_cp_t *cp;	jpc_ms_t *ms;	tile = enc->curtile;	cp = enc->cp;	if (cp->tcp.csty & JPC_COD_SOP) {		if (!(ms = jpc_ms_create(JPC_MS_SOP))) {			return -1;		}		ms->parms.sop.seqno = jpc_pi_getind(tile->pi);		if (jpc_putms(out, enc->cstate, ms)) {			return -1;		}		jpc_ms_destroy(ms);	}	outb = jpc_bitstream_sopen(out, "w+");	assert(outb);	if (jpc_bitstream_putbit(outb, 1) == EOF) {		return -1;	}	JAS_DBGLOG(10, ("\n"));	JAS_DBGLOG(10, ("present. "));	comp = &tile->tcmpts[compno];	lvl = &comp->rlvls[lvlno];	endbands = &lvl->bands[lvl->numbands];	for (band = lvl->bands; band != endbands; ++band) {		if (!band->data) {			continue;		}		prc = &band->prcs[prcno];		if (!prc->cblks) {			continue;		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			if (!lyrno) {				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);			}			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (included && (!cblk->numencpasses)) {				assert(pass->lyrno == lyrno);				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);			}		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (!cblk->numencpasses) {				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				if (jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0) {					return -1;				}			} else {				if (jpc_bitstream_putbit(outb, included) == EOF) {					return -1;				}			}			JAS_DBGLOG(10, ("included=%d ", included));			if (!included) {				continue;			}			if (!cblk->numencpasses) {				i = 1;				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				for (;;) {					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}				assert(leaf->known_ && i == leaf->value_ + 1);			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			numnewpasses = endpass - startpass;			if (jpc_putnumnewpasses(outb, numnewpasses)) {				return -1;			}			JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses));			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			maxadjust = 0;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				} else {					++passcount;				}			}			if (jpc_putcommacode(outb, maxadjust)) {				return -1;			}			cblk->numlenbits += maxadjust;			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				} else {					++passcount;				}			}		}	}	jpc_bitstream_outalign(outb, 0);	jpc_bitstream_close(outb);	if (cp->tcp.csty & JPC_COD_EPH) {		if (!(ms = jpc_ms_create(JPC_MS_EPH))) {			return -1;		}		jpc_putms(out, enc->cstate, ms);		jpc_ms_destroy(ms);	}	comp = &tile->tcmpts[compno];	lvl = &comp->rlvls[lvlno];	endbands = &lvl->bands[lvl->numbands];	for (band = lvl->bands; band != endbands; ++band) {		if (!band->data) {			continue;		}		prc = &band->prcs[prcno];		if (!prc->cblks) {			continue;		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			if (!pass) {				continue;			}			if (pass->lyrno != lyrno) {				assert(pass->lyrno < 0 || pass->lyrno > lyrno);				continue;			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			lastpass = endpass - 1;			numnewpasses = endpass - startpass;			jas_stream_seek(cblk->stream, startpass->start, SEEK_SET);			assert(jas_stream_tell(cblk->stream) == startpass->start);			if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)) {				return -1;			}			cblk->curpass = (endpass != endpasses) ? endpass : 0;			cblk->numencpasses += numnewpasses;		}	}	return 0;}
+jpc_enc_tcmpt_t *comp;
+jpc_enc_tcmpt_t *comp;
+jpc_enc_tcmpt_t
+jpc_enc_tcmpt_t
+*comp
+*
+comp
+jpc_enc_rlvl_t *lvl;
+jpc_enc_rlvl_t *lvl;
+jpc_enc_rlvl_t
+jpc_enc_rlvl_t
+*lvl
+*
+lvl
+jpc_enc_band_t *band;
+jpc_enc_band_t *band;
+jpc_enc_band_t
+jpc_enc_band_t
+*band
+*
+band
+jpc_enc_band_t *endbands;
+jpc_enc_band_t *endbands;
+jpc_enc_band_t
+jpc_enc_band_t
+*endbands
+*
+endbands
+jpc_enc_cblk_t *cblk;
+jpc_enc_cblk_t *cblk;
+jpc_enc_cblk_t
+jpc_enc_cblk_t
+*cblk
+*
+cblk
+jpc_enc_cblk_t *endcblks;
+jpc_enc_cblk_t *endcblks;
+jpc_enc_cblk_t
+jpc_enc_cblk_t
+*endcblks
+*
+endcblks
+jpc_bitstream_t *outb;
+jpc_bitstream_t *outb;
+jpc_bitstream_t
+jpc_bitstream_t
+*outb
+*
+outb
+jpc_enc_pass_t *pass;
+jpc_enc_pass_t *pass;
+jpc_enc_pass_t
+jpc_enc_pass_t
+*pass
+*
+pass
+jpc_enc_pass_t *startpass;
+jpc_enc_pass_t *startpass;
+jpc_enc_pass_t
+jpc_enc_pass_t
+*startpass
+*
+startpass
+jpc_enc_pass_t *lastpass;
+jpc_enc_pass_t *lastpass;
+jpc_enc_pass_t
+jpc_enc_pass_t
+*lastpass
+*
+lastpass
+jpc_enc_pass_t *endpass;
+jpc_enc_pass_t *endpass;
+jpc_enc_pass_t
+jpc_enc_pass_t
+*endpass
+*
+endpass
+jpc_enc_pass_t *endpasses;
+jpc_enc_pass_t *endpasses;
+jpc_enc_pass_t
+jpc_enc_pass_t
+*endpasses
+*
+endpasses
+int i;
+int i;
+int
+i
+i
+int included;
+int included;
+int
+included
+included
+int ret;
+int ret;
+int
+ret
+ret
+jpc_tagtreenode_t *leaf;
+jpc_tagtreenode_t *leaf;
+jpc_tagtreenode_t
+jpc_tagtreenode_t
+*leaf
+*
+leaf
+int n;
+int n;
+int
+n
+n
+int t1;
+int t1;
+int
+t1
+t1
+int t2;
+int t2;
+int
+t2
+t2
+int adjust;
+int adjust;
+int
+adjust
+adjust
+int maxadjust;
+int maxadjust;
+int
+maxadjust
+maxadjust
+int datalen;
+int datalen;
+int
+datalen
+datalen
+int numnewpasses;
+int numnewpasses;
+int
+numnewpasses
+numnewpasses
+int passcount;
+int passcount;
+int
+passcount
+passcount
+jpc_enc_tile_t *tile;
+jpc_enc_tile_t *tile;
+jpc_enc_tile_t
+jpc_enc_tile_t
+*tile
+*
+tile
+jpc_enc_prc_t *prc;
+jpc_enc_prc_t *prc;
+jpc_enc_prc_t
+jpc_enc_prc_t
+*prc
+*
+prc
+jpc_enc_cp_t *cp;
+jpc_enc_cp_t *cp;
+jpc_enc_cp_t
+jpc_enc_cp_t
+*cp
+*
+cp
+jpc_ms_t *ms;
+jpc_ms_t *ms;
+jpc_ms_t
+jpc_ms_t
+*ms
+*
+ms
+tile = enc->curtile;
+tile = enc->curtile
+tile
+tile
+enc->curtile
+enc
+enc
+curtile
+cp = enc->cp;
+cp = enc->cp
+cp
+cp
+enc->cp
+enc
+enc
+cp
+if (cp->tcp.csty & JPC_COD_SOP) {		if (!(ms = jpc_ms_create(JPC_MS_SOP))) {			return -1;		}		ms->parms.sop.seqno = jpc_pi_getind(tile->pi);		if (jpc_putms(out, enc->cstate, ms)) {			return -1;		}		jpc_ms_destroy(ms);	}
+cp->tcp.csty & JPC_COD_SOP
+cp->tcp.csty
+cp->tcp
+cp
+cp
+tcp
+csty
+JPC_COD_SOP
+JPC_COD_SOP
+{		if (!(ms = jpc_ms_create(JPC_MS_SOP))) {			return -1;		}		ms->parms.sop.seqno = jpc_pi_getind(tile->pi);		if (jpc_putms(out, enc->cstate, ms)) {			return -1;		}		jpc_ms_destroy(ms);	}
+if (!(ms = jpc_ms_create(JPC_MS_SOP))) {			return -1;		}
+!(ms = jpc_ms_create(JPC_MS_SOP))
+(ms = jpc_ms_create(JPC_MS_SOP))
+ms = jpc_ms_create(JPC_MS_SOP)
+ms
+ms
+jpc_ms_create(JPC_MS_SOP)
+jpc_ms_create
+jpc_ms_create
+JPC_MS_SOP
+JPC_MS_SOP
+{			return -1;		}
+return -1;
+-1
+1
+ms->parms.sop.seqno = jpc_pi_getind(tile->pi);
+ms->parms.sop.seqno = jpc_pi_getind(tile->pi)
+ms->parms.sop.seqno
+ms->parms.sop
+ms->parms
+ms
+ms
+parms
+sop
+seqno
+jpc_pi_getind(tile->pi)
+jpc_pi_getind
+jpc_pi_getind
+tile->pi
+tile
+tile
+pi
+if (jpc_putms(out, enc->cstate, ms)) {			return -1;		}
+jpc_putms(out, enc->cstate, ms)
+jpc_putms
+jpc_putms
+out
+out
+enc->cstate
+enc
+enc
+cstate
+ms
+ms
+{			return -1;		}
+return -1;
+-1
+1
+jpc_ms_destroy(ms);
+jpc_ms_destroy(ms)
+jpc_ms_destroy
+jpc_ms_destroy
+ms
+ms
+outb = jpc_bitstream_sopen(out, "w+");
+outb = jpc_bitstream_sopen(out, "w+")
+outb
+outb
+jpc_bitstream_sopen(out, "w+")
+jpc_bitstream_sopen
+jpc_bitstream_sopen
+out
+out
+"w+"
+assert(outb);
+assert(outb)
+assert
+assert
+outb
+outb
+if (jpc_bitstream_putbit(outb, 1) == EOF) {		return -1;	}
+jpc_bitstream_putbit(outb, 1) == EOF
+jpc_bitstream_putbit(outb, 1)
+jpc_bitstream_putbit
+jpc_bitstream_putbit
+outb
+outb
+1
+EOF
+EOF
+{		return -1;	}
+return -1;
+-1
+1
+JAS_DBGLOG(10, ("\n"));
+JAS_DBGLOG(10, ("\n"))
+JAS_DBGLOG
+JAS_DBGLOG
+10
+("\n")
+"\n"
+JAS_DBGLOG(10, ("present. "));
+JAS_DBGLOG(10, ("present. "))
+JAS_DBGLOG
+JAS_DBGLOG
+10
+("present. ")
+"present. "
+comp = &tile->tcmpts[compno];
+comp = &tile->tcmpts[compno]
+comp
+comp
+&tile->tcmpts[compno]
+tile->tcmpts[compno]
+tile->tcmpts
+tile
+tile
+tcmpts
+compno
+compno
+lvl = &comp->rlvls[lvlno];
+lvl = &comp->rlvls[lvlno]
+lvl
+lvl
+&comp->rlvls[lvlno]
+comp->rlvls[lvlno]
+comp->rlvls
+comp
+comp
+rlvls
+lvlno
+lvlno
+endbands = &lvl->bands[lvl->numbands];
+endbands = &lvl->bands[lvl->numbands]
+endbands
+endbands
+&lvl->bands[lvl->numbands]
+lvl->bands[lvl->numbands]
+lvl->bands
+lvl
+lvl
+bands
+lvl->numbands
+lvl
+lvl
+numbands
+for (band = lvl->bands; band != endbands; ++band) {		if (!band->data) {			continue;		}		prc = &band->prcs[prcno];		if (!prc->cblks) {			continue;		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			if (!lyrno) {				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);			}			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (included && (!cblk->numencpasses)) {				assert(pass->lyrno == lyrno);				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);			}		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (!cblk->numencpasses) {				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				if (jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0) {					return -1;				}			} else {				if (jpc_bitstream_putbit(outb, included) == EOF) {					return -1;				}			}			JAS_DBGLOG(10, ("included=%d ", included));			if (!included) {				continue;			}			if (!cblk->numencpasses) {				i = 1;				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				for (;;) {					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}				assert(leaf->known_ && i == leaf->value_ + 1);			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			numnewpasses = endpass - startpass;			if (jpc_putnumnewpasses(outb, numnewpasses)) {				return -1;			}			JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses));			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			maxadjust = 0;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				} else {					++passcount;				}			}			if (jpc_putcommacode(outb, maxadjust)) {				return -1;			}			cblk->numlenbits += maxadjust;			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				} else {					++passcount;				}			}		}	}
+band = lvl->bands;
+band = lvl->bands
+band
+band
+lvl->bands
+lvl
+lvl
+bands
+band != endbands
+band
+band
+endbands
+endbands
+++band
+band
+band
+{		if (!band->data) {			continue;		}		prc = &band->prcs[prcno];		if (!prc->cblks) {			continue;		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			if (!lyrno) {				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);			}			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (included && (!cblk->numencpasses)) {				assert(pass->lyrno == lyrno);				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);			}		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (!cblk->numencpasses) {				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				if (jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0) {					return -1;				}			} else {				if (jpc_bitstream_putbit(outb, included) == EOF) {					return -1;				}			}			JAS_DBGLOG(10, ("included=%d ", included));			if (!included) {				continue;			}			if (!cblk->numencpasses) {				i = 1;				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				for (;;) {					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}				assert(leaf->known_ && i == leaf->value_ + 1);			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			numnewpasses = endpass - startpass;			if (jpc_putnumnewpasses(outb, numnewpasses)) {				return -1;			}			JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses));			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			maxadjust = 0;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				} else {					++passcount;				}			}			if (jpc_putcommacode(outb, maxadjust)) {				return -1;			}			cblk->numlenbits += maxadjust;			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				} else {					++passcount;				}			}		}	}
+if (!band->data) {			continue;		}
+!band->data
+band->data
+band
+band
+data
+{			continue;		}
+continue;
+prc = &band->prcs[prcno];
+prc = &band->prcs[prcno]
+prc
+prc
+&band->prcs[prcno]
+band->prcs[prcno]
+band->prcs
+band
+band
+prcs
+prcno
+prcno
+if (!prc->cblks) {			continue;		}
+!prc->cblks
+prc->cblks
+prc
+prc
+cblks
+{			continue;		}
+continue;
+endcblks = &prc->cblks[prc->numcblks];
+endcblks = &prc->cblks[prc->numcblks]
+endcblks
+endcblks
+&prc->cblks[prc->numcblks]
+prc->cblks[prc->numcblks]
+prc->cblks
+prc
+prc
+cblks
+prc->numcblks
+prc
+prc
+numcblks
+for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			if (!lyrno) {				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);			}			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (included && (!cblk->numencpasses)) {				assert(pass->lyrno == lyrno);				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);			}		}
+cblk = prc->cblks;
+cblk = prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+cblk != endcblks
+cblk
+cblk
+endcblks
+endcblks
+++cblk
+cblk
+cblk
+{			if (!lyrno) {				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);			}			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (included && (!cblk->numencpasses)) {				assert(pass->lyrno == lyrno);				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);			}		}
+if (!lyrno) {				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);			}
+!lyrno
+lyrno
+lyrno
+{				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);			}
+leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);
+leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+leaf
+leaf
+jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+jpc_tagtree_getleaf
+jpc_tagtree_getleaf
+prc->nlibtree
+prc
+prc
+nlibtree
+cblk - prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);
+jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs)
+jpc_tagtree_setvalue
+jpc_tagtree_setvalue
+prc->nlibtree
+prc
+prc
+nlibtree
+leaf
+leaf
+cblk->numimsbs
+cblk
+cblk
+numimsbs
+pass = cblk->curpass;
+pass = cblk->curpass
+pass
+pass
+cblk->curpass
+cblk
+cblk
+curpass
+included = (pass && pass->lyrno == lyrno);
+included = (pass && pass->lyrno == lyrno)
+included
+included
+(pass && pass->lyrno == lyrno)
+pass && pass->lyrno == lyrno
+pass
+pass
+pass->lyrno == lyrno
+pass->lyrno
+pass
+pass
+lyrno
+lyrno
+lyrno
+if (included && (!cblk->numencpasses)) {				assert(pass->lyrno == lyrno);				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);			}
+included && (!cblk->numencpasses)
+included
+included
+(!cblk->numencpasses)
+!cblk->numencpasses
+cblk->numencpasses
+cblk
+cblk
+numencpasses
+{				assert(pass->lyrno == lyrno);				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);			}
+assert(pass->lyrno == lyrno);
+assert(pass->lyrno == lyrno)
+assert
+assert
+pass->lyrno == lyrno
+pass->lyrno
+pass
+pass
+lyrno
+lyrno
+lyrno
+leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);
+leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks)
+leaf
+leaf
+jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks)
+jpc_tagtree_getleaf
+jpc_tagtree_getleaf
+prc->incltree
+prc
+prc
+incltree
+cblk - prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno);
+jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno)
+jpc_tagtree_setvalue
+jpc_tagtree_setvalue
+prc->incltree
+prc
+prc
+incltree
+leaf
+leaf
+pass->lyrno
+pass
+pass
+lyrno
+endcblks = &prc->cblks[prc->numcblks];
+endcblks = &prc->cblks[prc->numcblks]
+endcblks
+endcblks
+&prc->cblks[prc->numcblks]
+prc->cblks[prc->numcblks]
+prc->cblks
+prc
+prc
+cblks
+prc->numcblks
+prc
+prc
+numcblks
+for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (!cblk->numencpasses) {				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				if (jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0) {					return -1;				}			} else {				if (jpc_bitstream_putbit(outb, included) == EOF) {					return -1;				}			}			JAS_DBGLOG(10, ("included=%d ", included));			if (!included) {				continue;			}			if (!cblk->numencpasses) {				i = 1;				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				for (;;) {					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}				assert(leaf->known_ && i == leaf->value_ + 1);			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			numnewpasses = endpass - startpass;			if (jpc_putnumnewpasses(outb, numnewpasses)) {				return -1;			}			JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses));			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			maxadjust = 0;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				} else {					++passcount;				}			}			if (jpc_putcommacode(outb, maxadjust)) {				return -1;			}			cblk->numlenbits += maxadjust;			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				} else {					++passcount;				}			}		}
+cblk = prc->cblks;
+cblk = prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+cblk != endcblks
+cblk
+cblk
+endcblks
+endcblks
+++cblk
+cblk
+cblk
+{			pass = cblk->curpass;			included = (pass && pass->lyrno == lyrno);			if (!cblk->numencpasses) {				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				if (jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0) {					return -1;				}			} else {				if (jpc_bitstream_putbit(outb, included) == EOF) {					return -1;				}			}			JAS_DBGLOG(10, ("included=%d ", included));			if (!included) {				continue;			}			if (!cblk->numencpasses) {				i = 1;				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				for (;;) {					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}				assert(leaf->known_ && i == leaf->value_ + 1);			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			numnewpasses = endpass - startpass;			if (jpc_putnumnewpasses(outb, numnewpasses)) {				return -1;			}			JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses));			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			maxadjust = 0;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				} else {					++passcount;				}			}			if (jpc_putcommacode(outb, maxadjust)) {				return -1;			}			cblk->numlenbits += maxadjust;			lastpass = endpass - 1;			n = startpass->start;			passcount = 1;			for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				} else {					++passcount;				}			}		}
+pass = cblk->curpass;
+pass = cblk->curpass
+pass
+pass
+cblk->curpass
+cblk
+cblk
+curpass
+included = (pass && pass->lyrno == lyrno);
+included = (pass && pass->lyrno == lyrno)
+included
+included
+(pass && pass->lyrno == lyrno)
+pass && pass->lyrno == lyrno
+pass
+pass
+pass->lyrno == lyrno
+pass->lyrno
+pass
+pass
+lyrno
+lyrno
+lyrno
+if (!cblk->numencpasses) {				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				if (jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0) {					return -1;				}			} else {				if (jpc_bitstream_putbit(outb, included) == EOF) {					return -1;				}			}
+!cblk->numencpasses
+cblk->numencpasses
+cblk
+cblk
+numencpasses
+{				leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);				if (jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0) {					return -1;				}			}
+leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks);
+leaf = jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks)
+leaf
+leaf
+jpc_tagtree_getleaf(prc->incltree,				  cblk - prc->cblks)
+jpc_tagtree_getleaf
+jpc_tagtree_getleaf
+prc->incltree
+prc
+prc
+incltree
+cblk - prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+if (jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0) {					return -1;				}
+jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb) < 0
+jpc_tagtree_encode(prc->incltree, leaf, lyrno				  + 1, outb)
+jpc_tagtree_encode
+jpc_tagtree_encode
+prc->incltree
+prc
+prc
+incltree
+leaf
+leaf
+lyrno				  + 1
+lyrno
+lyrno
+1
+outb
+outb
+0
+{					return -1;				}
+return -1;
+-1
+1
+{				if (jpc_bitstream_putbit(outb, included) == EOF) {					return -1;				}			}
+if (jpc_bitstream_putbit(outb, included) == EOF) {					return -1;				}
+jpc_bitstream_putbit(outb, included) == EOF
+jpc_bitstream_putbit(outb, included)
+jpc_bitstream_putbit
+jpc_bitstream_putbit
+outb
+outb
+included
+included
+EOF
+EOF
+{					return -1;				}
+return -1;
+-1
+1
+JAS_DBGLOG(10, ("included=%d ", included));
+JAS_DBGLOG(10, ("included=%d ", included))
+JAS_DBGLOG
+JAS_DBGLOG
+10
+("included=%d ", included)
+"included=%d ", included
+"included=%d "
+included
+included
+if (!included) {				continue;			}
+!included
+included
+included
+{				continue;			}
+continue;
+if (!cblk->numencpasses) {				i = 1;				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				for (;;) {					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}				assert(leaf->known_ && i == leaf->value_ + 1);			}
+!cblk->numencpasses
+cblk->numencpasses
+cblk
+cblk
+numencpasses
+{				i = 1;				leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);				for (;;) {					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}				assert(leaf->known_ && i == leaf->value_ + 1);			}
+i = 1;
+i = 1
+i
+i
+1
+leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);
+leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+leaf
+leaf
+jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+jpc_tagtree_getleaf
+jpc_tagtree_getleaf
+prc->nlibtree
+prc
+prc
+nlibtree
+cblk - prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+for (;;) {					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}
+;
+{					if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}					if (ret) {						break;					}					++i;				}
+if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0) {						return -1;					}
+(ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0
+(ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb))
+ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)
+ret
+ret
+jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)
+jpc_tagtree_encode
+jpc_tagtree_encode
+prc->nlibtree
+prc
+prc
+nlibtree
+leaf
+leaf
+i
+i
+outb
+outb
+0
+{						return -1;					}
+return -1;
+-1
+1
+if (ret) {						break;					}
+ret
+ret
+{						break;					}
+break;
+++i;
+++i
+i
+i
+assert(leaf->known_ && i == leaf->value_ + 1);
+assert(leaf->known_ && i == leaf->value_ + 1)
+assert
+assert
+leaf->known_ && i == leaf->value_ + 1
+leaf->known_
+leaf
+leaf
+known_
+i == leaf->value_ + 1
+i
+i
+leaf->value_ + 1
+leaf->value_
+leaf
+leaf
+value_
+1
+endpasses = &cblk->passes[cblk->numpasses];
+endpasses = &cblk->passes[cblk->numpasses]
+endpasses
+endpasses
+&cblk->passes[cblk->numpasses]
+cblk->passes[cblk->numpasses]
+cblk->passes
+cblk
+cblk
+passes
+cblk->numpasses
+cblk
+cblk
+numpasses
+startpass = pass;
+startpass = pass
+startpass
+startpass
+pass
+pass
+endpass = startpass;
+endpass = startpass
+endpass
+endpass
+startpass
+startpass
+while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}
+endpass != endpasses && endpass->lyrno == lyrno
+endpass != endpasses
+endpass
+endpass
+endpasses
+endpasses
+endpass->lyrno == lyrno
+endpass->lyrno
+endpass
+endpass
+lyrno
+lyrno
+lyrno
+{				++endpass;			}
+++endpass;
+++endpass
+endpass
+endpass
+numnewpasses = endpass - startpass;
+numnewpasses = endpass - startpass
+numnewpasses
+numnewpasses
+endpass - startpass
+endpass
+endpass
+startpass
+startpass
+if (jpc_putnumnewpasses(outb, numnewpasses)) {				return -1;			}
+jpc_putnumnewpasses(outb, numnewpasses)
+jpc_putnumnewpasses
+jpc_putnumnewpasses
+outb
+outb
+numnewpasses
+numnewpasses
+{				return -1;			}
+return -1;
+-1
+1
+JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses));
+JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses))
+JAS_DBGLOG
+JAS_DBGLOG
+10
+("numnewpasses=%d ", numnewpasses)
+"numnewpasses=%d ", numnewpasses
+"numnewpasses=%d "
+numnewpasses
+numnewpasses
+lastpass = endpass - 1;
+lastpass = endpass - 1
+lastpass
+lastpass
+endpass - 1
+endpass
+endpass
+1
+n = startpass->start;
+n = startpass->start
+n
+n
+startpass->start
+startpass
+startpass
+start
+passcount = 1;
+passcount = 1
+passcount
+passcount
+1
+maxadjust = 0;
+maxadjust = 0
+maxadjust
+maxadjust
+0
+for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				} else {					++passcount;				}			}
+pass = startpass;
+pass = startpass
+pass
+pass
+startpass
+startpass
+pass != endpass
+pass
+pass
+endpass
+endpass
+++pass
+pass
+pass
+{				if (pass->term || pass == lastpass) {					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				} else {					++passcount;				}			}
+if (pass->term || pass == lastpass) {					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				} else {					++passcount;				}
+pass->term || pass == lastpass
+pass->term
+pass
+pass
+term
+pass == lastpass
+pass
+pass
+lastpass
+lastpass
+{					datalen = pass->end - n;					t1 = jpc_firstone(datalen) + 1;					t2 = cblk->numlenbits + jpc_floorlog2(passcount);					adjust = JAS_MAX(t1 - t2, 0);					maxadjust = JAS_MAX(adjust, maxadjust);					n += datalen;					passcount = 1;				}
+datalen = pass->end - n;
+datalen = pass->end - n
+datalen
+datalen
+pass->end - n
+pass->end
+pass
+pass
+end
+n
+n
+t1 = jpc_firstone(datalen) + 1;
+t1 = jpc_firstone(datalen) + 1
+t1
+t1
+jpc_firstone(datalen) + 1
+jpc_firstone(datalen)
+jpc_firstone
+jpc_firstone
+datalen
+datalen
+1
+t2 = cblk->numlenbits + jpc_floorlog2(passcount);
+t2 = cblk->numlenbits + jpc_floorlog2(passcount)
+t2
+t2
+cblk->numlenbits + jpc_floorlog2(passcount)
+cblk->numlenbits
+cblk
+cblk
+numlenbits
+jpc_floorlog2(passcount)
+jpc_floorlog2
+jpc_floorlog2
+passcount
+passcount
+adjust = JAS_MAX(t1 - t2, 0);
+adjust = JAS_MAX(t1 - t2, 0)
+adjust
+adjust
+JAS_MAX(t1 - t2, 0)
+JAS_MAX
+JAS_MAX
+t1 - t2
+t1
+t1
+t2
+t2
+0
+maxadjust = JAS_MAX(adjust, maxadjust);
+maxadjust = JAS_MAX(adjust, maxadjust)
+maxadjust
+maxadjust
+JAS_MAX(adjust, maxadjust)
+JAS_MAX
+JAS_MAX
+adjust
+adjust
+maxadjust
+maxadjust
+n += datalen;
+n += datalen
+n
+n
+datalen
+datalen
+passcount = 1;
+passcount = 1
+passcount
+passcount
+1
+{					++passcount;				}
+++passcount;
+++passcount
+passcount
+passcount
+if (jpc_putcommacode(outb, maxadjust)) {				return -1;			}
+jpc_putcommacode(outb, maxadjust)
+jpc_putcommacode
+jpc_putcommacode
+outb
+outb
+maxadjust
+maxadjust
+{				return -1;			}
+return -1;
+-1
+1
+cblk->numlenbits += maxadjust;
+cblk->numlenbits += maxadjust
+cblk->numlenbits
+cblk
+cblk
+numlenbits
+maxadjust
+maxadjust
+lastpass = endpass - 1;
+lastpass = endpass - 1
+lastpass
+lastpass
+endpass - 1
+endpass
+endpass
+1
+n = startpass->start;
+n = startpass->start
+n
+n
+startpass->start
+startpass
+startpass
+start
+passcount = 1;
+passcount = 1
+passcount
+passcount
+1
+for (pass = startpass; pass != endpass; ++pass) {				if (pass->term || pass == lastpass) {					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				} else {					++passcount;				}			}
+pass = startpass;
+pass = startpass
+pass
+pass
+startpass
+startpass
+pass != endpass
+pass
+pass
+endpass
+endpass
+++pass
+pass
+pass
+{				if (pass->term || pass == lastpass) {					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				} else {					++passcount;				}			}
+if (pass->term || pass == lastpass) {					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				} else {					++passcount;				}
+pass->term || pass == lastpass
+pass->term
+pass
+pass
+term
+pass == lastpass
+pass
+pass
+lastpass
+lastpass
+{					datalen = pass->end - n;assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));					if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}					n += datalen;					passcount = 1;				}
+datalen = pass->end - n;
+datalen = pass->end - n
+datalen
+datalen
+pass->end - n
+pass->end
+pass
+pass
+end
+n
+n
+assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount));
+assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount))
+assert
+assert
+jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount)
+jpc_firstone(datalen)
+jpc_firstone
+jpc_firstone
+datalen
+datalen
+cblk->numlenbits + jpc_floorlog2(passcount)
+cblk->numlenbits
+cblk
+cblk
+numlenbits
+jpc_floorlog2(passcount)
+jpc_floorlog2
+jpc_floorlog2
+passcount
+passcount
+if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF) {						return -1;					}
+jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF
+jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen)
+jpc_bitstream_putbits
+jpc_bitstream_putbits
+outb
+outb
+cblk->numlenbits + jpc_floorlog2(passcount)
+cblk->numlenbits
+cblk
+cblk
+numlenbits
+jpc_floorlog2(passcount)
+jpc_floorlog2
+jpc_floorlog2
+passcount
+passcount
+datalen
+datalen
+EOF
+EOF
+{						return -1;					}
+return -1;
+-1
+1
+n += datalen;
+n += datalen
+n
+n
+datalen
+datalen
+passcount = 1;
+passcount = 1
+passcount
+passcount
+1
+{					++passcount;				}
+++passcount;
+++passcount
+passcount
+passcount
+jpc_bitstream_outalign(outb, 0);
+jpc_bitstream_outalign(outb, 0)
+jpc_bitstream_outalign
+jpc_bitstream_outalign
+outb
+outb
+0
+jpc_bitstream_close(outb);
+jpc_bitstream_close(outb)
+jpc_bitstream_close
+jpc_bitstream_close
+outb
+outb
+if (cp->tcp.csty & JPC_COD_EPH) {		if (!(ms = jpc_ms_create(JPC_MS_EPH))) {			return -1;		}		jpc_putms(out, enc->cstate, ms);		jpc_ms_destroy(ms);	}
+cp->tcp.csty & JPC_COD_EPH
+cp->tcp.csty
+cp->tcp
+cp
+cp
+tcp
+csty
+JPC_COD_EPH
+JPC_COD_EPH
+{		if (!(ms = jpc_ms_create(JPC_MS_EPH))) {			return -1;		}		jpc_putms(out, enc->cstate, ms);		jpc_ms_destroy(ms);	}
+if (!(ms = jpc_ms_create(JPC_MS_EPH))) {			return -1;		}
+!(ms = jpc_ms_create(JPC_MS_EPH))
+(ms = jpc_ms_create(JPC_MS_EPH))
+ms = jpc_ms_create(JPC_MS_EPH)
+ms
+ms
+jpc_ms_create(JPC_MS_EPH)
+jpc_ms_create
+jpc_ms_create
+JPC_MS_EPH
+JPC_MS_EPH
+{			return -1;		}
+return -1;
+-1
+1
+jpc_putms(out, enc->cstate, ms);
+jpc_putms(out, enc->cstate, ms)
+jpc_putms
+jpc_putms
+out
+out
+enc->cstate
+enc
+enc
+cstate
+ms
+ms
+jpc_ms_destroy(ms);
+jpc_ms_destroy(ms)
+jpc_ms_destroy
+jpc_ms_destroy
+ms
+ms
+comp = &tile->tcmpts[compno];
+comp = &tile->tcmpts[compno]
+comp
+comp
+&tile->tcmpts[compno]
+tile->tcmpts[compno]
+tile->tcmpts
+tile
+tile
+tcmpts
+compno
+compno
+lvl = &comp->rlvls[lvlno];
+lvl = &comp->rlvls[lvlno]
+lvl
+lvl
+&comp->rlvls[lvlno]
+comp->rlvls[lvlno]
+comp->rlvls
+comp
+comp
+rlvls
+lvlno
+lvlno
+endbands = &lvl->bands[lvl->numbands];
+endbands = &lvl->bands[lvl->numbands]
+endbands
+endbands
+&lvl->bands[lvl->numbands]
+lvl->bands[lvl->numbands]
+lvl->bands
+lvl
+lvl
+bands
+lvl->numbands
+lvl
+lvl
+numbands
+for (band = lvl->bands; band != endbands; ++band) {		if (!band->data) {			continue;		}		prc = &band->prcs[prcno];		if (!prc->cblks) {			continue;		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			if (!pass) {				continue;			}			if (pass->lyrno != lyrno) {				assert(pass->lyrno < 0 || pass->lyrno > lyrno);				continue;			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			lastpass = endpass - 1;			numnewpasses = endpass - startpass;			jas_stream_seek(cblk->stream, startpass->start, SEEK_SET);			assert(jas_stream_tell(cblk->stream) == startpass->start);			if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)) {				return -1;			}			cblk->curpass = (endpass != endpasses) ? endpass : 0;			cblk->numencpasses += numnewpasses;		}	}
+band = lvl->bands;
+band = lvl->bands
+band
+band
+lvl->bands
+lvl
+lvl
+bands
+band != endbands
+band
+band
+endbands
+endbands
+++band
+band
+band
+{		if (!band->data) {			continue;		}		prc = &band->prcs[prcno];		if (!prc->cblks) {			continue;		}		endcblks = &prc->cblks[prc->numcblks];		for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			if (!pass) {				continue;			}			if (pass->lyrno != lyrno) {				assert(pass->lyrno < 0 || pass->lyrno > lyrno);				continue;			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			lastpass = endpass - 1;			numnewpasses = endpass - startpass;			jas_stream_seek(cblk->stream, startpass->start, SEEK_SET);			assert(jas_stream_tell(cblk->stream) == startpass->start);			if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)) {				return -1;			}			cblk->curpass = (endpass != endpasses) ? endpass : 0;			cblk->numencpasses += numnewpasses;		}	}
+if (!band->data) {			continue;		}
+!band->data
+band->data
+band
+band
+data
+{			continue;		}
+continue;
+prc = &band->prcs[prcno];
+prc = &band->prcs[prcno]
+prc
+prc
+&band->prcs[prcno]
+band->prcs[prcno]
+band->prcs
+band
+band
+prcs
+prcno
+prcno
+if (!prc->cblks) {			continue;		}
+!prc->cblks
+prc->cblks
+prc
+prc
+cblks
+{			continue;		}
+continue;
+endcblks = &prc->cblks[prc->numcblks];
+endcblks = &prc->cblks[prc->numcblks]
+endcblks
+endcblks
+&prc->cblks[prc->numcblks]
+prc->cblks[prc->numcblks]
+prc->cblks
+prc
+prc
+cblks
+prc->numcblks
+prc
+prc
+numcblks
+for (cblk = prc->cblks; cblk != endcblks; ++cblk) {			pass = cblk->curpass;			if (!pass) {				continue;			}			if (pass->lyrno != lyrno) {				assert(pass->lyrno < 0 || pass->lyrno > lyrno);				continue;			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			lastpass = endpass - 1;			numnewpasses = endpass - startpass;			jas_stream_seek(cblk->stream, startpass->start, SEEK_SET);			assert(jas_stream_tell(cblk->stream) == startpass->start);			if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)) {				return -1;			}			cblk->curpass = (endpass != endpasses) ? endpass : 0;			cblk->numencpasses += numnewpasses;		}
+cblk = prc->cblks;
+cblk = prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+cblk != endcblks
+cblk
+cblk
+endcblks
+endcblks
+++cblk
+cblk
+cblk
+{			pass = cblk->curpass;			if (!pass) {				continue;			}			if (pass->lyrno != lyrno) {				assert(pass->lyrno < 0 || pass->lyrno > lyrno);				continue;			}			endpasses = &cblk->passes[cblk->numpasses];			startpass = pass;			endpass = startpass;			while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}			lastpass = endpass - 1;			numnewpasses = endpass - startpass;			jas_stream_seek(cblk->stream, startpass->start, SEEK_SET);			assert(jas_stream_tell(cblk->stream) == startpass->start);			if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)) {				return -1;			}			cblk->curpass = (endpass != endpasses) ? endpass : 0;			cblk->numencpasses += numnewpasses;		}
+pass = cblk->curpass;
+pass = cblk->curpass
+pass
+pass
+cblk->curpass
+cblk
+cblk
+curpass
+if (!pass) {				continue;			}
+!pass
+pass
+pass
+{				continue;			}
+continue;
+if (pass->lyrno != lyrno) {				assert(pass->lyrno < 0 || pass->lyrno > lyrno);				continue;			}
+pass->lyrno != lyrno
+pass->lyrno
+pass
+pass
+lyrno
+lyrno
+lyrno
+{				assert(pass->lyrno < 0 || pass->lyrno > lyrno);				continue;			}
+assert(pass->lyrno < 0 || pass->lyrno > lyrno);
+assert(pass->lyrno < 0 || pass->lyrno > lyrno)
+assert
+assert
+pass->lyrno < 0 || pass->lyrno > lyrno
+pass->lyrno < 0
+pass->lyrno
+pass
+pass
+lyrno
+0
+pass->lyrno > lyrno
+pass->lyrno
+pass
+pass
+lyrno
+lyrno
+lyrno
+continue;
+endpasses = &cblk->passes[cblk->numpasses];
+endpasses = &cblk->passes[cblk->numpasses]
+endpasses
+endpasses
+&cblk->passes[cblk->numpasses]
+cblk->passes[cblk->numpasses]
+cblk->passes
+cblk
+cblk
+passes
+cblk->numpasses
+cblk
+cblk
+numpasses
+startpass = pass;
+startpass = pass
+startpass
+startpass
+pass
+pass
+endpass = startpass;
+endpass = startpass
+endpass
+endpass
+startpass
+startpass
+while (endpass != endpasses && endpass->lyrno == lyrno){				++endpass;			}
+endpass != endpasses && endpass->lyrno == lyrno
+endpass != endpasses
+endpass
+endpass
+endpasses
+endpasses
+endpass->lyrno == lyrno
+endpass->lyrno
+endpass
+endpass
+lyrno
+lyrno
+lyrno
+{				++endpass;			}
+++endpass;
+++endpass
+endpass
+endpass
+lastpass = endpass - 1;
+lastpass = endpass - 1
+lastpass
+lastpass
+endpass - 1
+endpass
+endpass
+1
+numnewpasses = endpass - startpass;
+numnewpasses = endpass - startpass
+numnewpasses
+numnewpasses
+endpass - startpass
+endpass
+endpass
+startpass
+startpass
+jas_stream_seek(cblk->stream, startpass->start, SEEK_SET);
+jas_stream_seek(cblk->stream, startpass->start, SEEK_SET)
+jas_stream_seek
+jas_stream_seek
+cblk->stream
+cblk
+cblk
+stream
+startpass->start
+startpass
+startpass
+start
+SEEK_SET
+SEEK_SET
+assert(jas_stream_tell(cblk->stream) == startpass->start);
+assert(jas_stream_tell(cblk->stream) == startpass->start)
+assert
+assert
+jas_stream_tell(cblk->stream) == startpass->start
+jas_stream_tell(cblk->stream)
+jas_stream_tell
+jas_stream_tell
+cblk->stream
+cblk
+cblk
+stream
+startpass->start
+startpass
+startpass
+start
+if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)) {				return -1;			}
+jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)
+jas_stream_copy
+jas_stream_copy
+out
+out
+cblk->stream
+cblk
+cblk
+stream
+lastpass->end - startpass->start
+lastpass->end
+lastpass
+lastpass
+end
+startpass->start
+startpass
+startpass
+start
+{				return -1;			}
+return -1;
+-1
+1
+cblk->curpass = (endpass != endpasses) ? endpass : 0;
+cblk->curpass = (endpass != endpasses) ? endpass : 0
+cblk->curpass
+cblk
+cblk
+curpass
+(endpass != endpasses) ? endpass : 0
+(endpass != endpasses)
+endpass != endpasses
+endpass
+endpass
+endpasses
+endpasses
+endpass
+endpass
+0
+cblk->numencpasses += numnewpasses;
+cblk->numencpasses += numnewpasses
+cblk->numencpasses
+cblk
+cblk
+numencpasses
+numnewpasses
+numnewpasses
+return 0;
+0
+-----joern-----
+(18,25,0)
+(29,26,0)
+(6,16,0)
+(28,15,0)
+(5,16,0)
+(1,12,0)
+(13,15,0)
+(22,19,0)
+(19,30,0)
+(20,19,0)
+(33,17,0)
+(26,27,0)
+(2,12,0)
+(3,27,0)
+(24,10,0)
+(15,28,0)
+(17,33,0)
+(19,4,0)
+(0,28,0)
+(32,21,0)
+(3,32,0)
+(16,31,0)
+(23,9,0)
+(11,16,0)
+(35,17,0)
+(9,32,0)
+(14,28,0)
+(33,30,0)
+(10,12,0)
+(16,6,0)
+(3,10,0)
+(4,12,0)
+(27,8,0)
+(34,33,0)
+(28,31,0)
+(4,19,0)
+(7,6,0)
+(24,6,1)
+(17,35,1)
+(3,10,1)
+(9,23,1)
+(14,0,1)
+(34,4,1)
+(35,33,1)
+(22,20,1)
+(0,17,1)
+(33,34,1)
+(26,29,1)
+(6,7,1)
+(27,26,1)
+(33,30,1)
+(16,11,1)
+(16,31,1)
+(3,32,1)
+(28,14,1)
+(7,16,1)
+(10,24,1)
+(19,30,1)
+(3,27,1)
+(15,13,1)
+(11,5,1)
+(6,16,1)
+(28,31,1)
+(13,28,1)
+(23,6,1)
+(5,17,1)
+(29,15,1)
+(19,22,1)
+(15,28,1)
+(17,33,1)
+(34,15,1)
+(32,9,1)
+(4,19,1)
+(28,17,2)
+(16,17,2)
+(0,17,2)
+(16,31,2)
+(15,28,2)
+(17,33,2)
+(6,16,2)
+(24,6,2)
+(3,10,2)
+(19,30,2)
+(32,6,2)
+(23,6,2)
+(3,27,2)
+(5,17,2)
+(13,17,2)
+(10,6,2)
+(29,15,2)
+(7,17,2)
+(17,15,2)
+(27,15,2)
+(14,17,2)
+(35,15,2)
+(4,19,2)
+(3,32,2)
+(28,31,2)
+(9,6,2)
+(11,17,2)
+(33,15,2)
+(15,17,2)
+(33,30,2)
+(6,17,2)
+(26,15,2)
+(34,15,2)
+-----------------------------------
+(0,out)
+(1,while (--n >= 0)
+(2,if (jpc_bitstream_putbit(out, 0)
+(3,RET)
+(4,assert(n >= 0)
+(5,out)
+(6,jpc_bitstream_putbit(out, 0)
+(7,EOF)
+(8,)
+(9,-1)
+(10,return 0;)
+(11,0)
+(12,)
+(13,EOF)
+(14,1)
+(15,jpc_bitstream_putbit(out, 1)
+(16,jpc_bitstream_putbit(out, 0)
+(17,--n >= 0)
+(18,if (jpc_bitstream_putbit(out, 1)
+(19,n >= 0)
+(20,n)
+(21,)
+(22,0)
+(23,1)
+(24,0)
+(25,)
+(26,-1)
+(27,return -1;)
+(28,jpc_bitstream_putbit(out, 1)
+(29,1)
+(30,int n)
+(31,jpc_bitstream_t *out)
+(32,return -1;)
+(33,--n)
+(34,n)
+(35,0)
+-----cfg-----
+(7,47)
+(43,52)
+(45,43)
+(47,45)
+(48,58)
+(50,48)
+(52,50)
+(54,66)
+(54,99)
+(55,54)
+(56,59)
+(58,56)
+(59,55)
+(63,70)
+(63,77)
+(64,63)
+(66,64)
+(69,876)
+(70,69)
+(72,89)
+(73,83)
+(74,79)
+(75,78)
+(77,75)
+(78,74)
+(79,73)
+(80,72)
+(81,80)
+(83,81)
+(85,93)
+(85,95)
+(87,85)
+(89,87)
+(92,876)
+(93,92)
+(95,99)
+(97,102)
+(99,97)
+(102,106)
+(105,112)
+(105,114)
+(106,105)
+(111,876)
+(112,111)
+(114,117)
+(117,126)
+(120,134)
+(122,120)
+(123,122)
+(124,123)
+(126,124)
+(128,142)
+(130,128)
+(131,130)
+(132,131)
+(134,132)
+(136,152)
+(138,136)
+(139,138)
+(140,145)
+(142,140)
+(143,139)
+(145,143)
+(148,153)
+(150,148)
+(152,150)
+(153,163)
+(153,640)
+(156,153)
+(160,156)
+(160,172)
+(161,160)
+(163,161)
+(166,178)
+(168,166)
+(169,168)
+(170,169)
+(172,170)
+(175,156)
+(175,187)
+(176,175)
+(178,176)
+(181,197)
+(183,181)
+(184,183)
+(185,190)
+(187,185)
+(188,184)
+(190,188)
+(193,198)
+(195,193)
+(197,195)
+(198,205)
+(198,280)
+(201,198)
+(205,213)
+(205,231)
+(208,222)
+(210,208)
+(211,218)
+(213,211)
+(214,210)
+(216,214)
+(218,216)
+(219,231)
+(220,226)
+(222,220)
+(224,219)
+(226,224)
+(227,234)
+(227,239)
+(229,227)
+(231,229)
+(232,242)
+(232,247)
+(234,232)
+(236,234)
+(237,236)
+(239,237)
+(242,253)
+(242,201)
+(244,242)
+(245,244)
+(247,245)
+(249,260)
+(250,249)
+(251,250)
+(253,251)
+(255,269)
+(257,255)
+(258,265)
+(260,258)
+(261,257)
+(263,261)
+(265,263)
+(266,201)
+(267,273)
+(269,267)
+(271,266)
+(273,271)
+(274,290)
+(276,274)
+(277,276)
+(278,283)
+(280,278)
+(281,277)
+(283,281)
+(286,291)
+(288,286)
+(290,288)
+(291,301)
+(291,156)
+(294,291)
+(297,304)
+(297,309)
+(299,297)
+(301,299)
+(302,315)
+(304,302)
+(306,304)
+(307,306)
+(309,307)
+(312,322)
+(312,348)
+(313,312)
+(315,313)
+(317,333)
+(319,317)
+(320,327)
+(322,320)
+(323,319)
+(325,323)
+(327,325)
+(329,342)
+(329,359)
+(330,329)
+(331,335)
+(333,331)
+(335,330)
+(341,876)
+(342,341)
+(347,354)
+(347,359)
+(348,347)
+(353,876)
+(354,353)
+(356,363)
+(358,356)
+(359,358)
+(363,294)
+(363,371)
+(368,373)
+(368,430)
+(369,368)
+(371,369)
+(373,381)
+(376,397)
+(378,376)
+(379,386)
+(381,379)
+(382,378)
+(384,382)
+(386,384)
+(391,404)
+(391,416)
+(391,410)
+(392,391)
+(394,392)
+(395,394)
+(397,395)
+(403,876)
+(404,403)
+(410,397)
+(412,430)
+(413,412)
+(414,413)
+(414,422)
+(416,414)
+(417,413)
+(419,417)
+(420,419)
+(422,420)
+(424,434)
+(426,424)
+(427,426)
+(428,433)
+(430,428)
+(431,427)
+(433,431)
+(434,437)
+(437,442)
+(441,451)
+(441,455)
+(442,441)
+(442,448)
+(445,441)
+(446,445)
+(448,446)
+(451,442)
+(453,459)
+(455,453)
+(459,464)
+(459,469)
+(463,876)
+(464,463)
+(466,474)
+(468,466)
+(469,468)
+(472,481)
+(474,472)
+(477,482)
+(479,477)
+(481,479)
+(482,485)
+(485,490)
+(490,493)
+(493,503)
+(493,552)
+(496,493)
+(500,513)
+(500,549)
+(501,500)
+(501,504)
+(503,501)
+(504,500)
+(508,518)
+(510,508)
+(511,510)
+(513,511)
+(515,526)
+(517,515)
+(518,517)
+(521,532)
+(523,521)
+(524,527)
+(526,524)
+(527,523)
+(529,538)
+(531,529)
+(532,531)
+(536,541)
+(538,536)
+(541,544)
+(544,496)
+(549,496)
+(552,557)
+(552,562)
+(556,876)
+(557,556)
+(559,566)
+(560,559)
+(562,560)
+(564,573)
+(566,564)
+(569,574)
+(571,569)
+(573,571)
+(574,579)
+(579,582)
+(582,592)
+(582,294)
+(585,582)
+(589,602)
+(589,638)
+(590,589)
+(590,593)
+(592,590)
+(593,589)
+(597,606)
+(599,597)
+(600,599)
+(602,600)
+(604,621)
+(605,604)
+(606,611)
+(608,605)
+(609,612)
+(611,609)
+(612,608)
+(615,628)
+(615,630)
+(616,615)
+(618,616)
+(619,622)
+(621,619)
+(622,618)
+(627,876)
+(628,627)
+(630,633)
+(633,585)
+(638,585)
+(640,643)
+(643,650)
+(646,658)
+(646,678)
+(647,646)
+(648,651)
+(650,648)
+(651,647)
+(655,662)
+(655,668)
+(656,655)
+(658,656)
+(661,876)
+(662,661)
+(664,670)
+(666,664)
+(668,666)
+(670,678)
+(672,686)
+(674,672)
+(675,674)
+(676,675)
+(678,676)
+(680,694)
+(682,680)
+(683,682)
+(684,683)
+(686,684)
+(688,704)
+(690,688)
+(691,690)
+(692,697)
+(694,692)
+(695,691)
+(697,695)
+(700,705)
+(702,700)
+(704,702)
+(705,715)
+(705,874)
+(708,705)
+(712,708)
+(712,724)
+(713,712)
+(715,713)
+(718,730)
+(720,718)
+(721,720)
+(722,721)
+(724,722)
+(727,708)
+(727,739)
+(728,727)
+(730,728)
+(733,749)
+(735,733)
+(736,735)
+(737,742)
+(739,737)
+(740,736)
+(742,740)
+(745,750)
+(747,745)
+(749,747)
+(750,760)
+(750,708)
+(753,750)
+(756,762)
+(758,756)
+(760,758)
+(762,753)
+(762,770)
+(767,778)
+(767,792)
+(768,767)
+(770,768)
+(773,753)
+(774,773)
+(775,774)
+(775,783)
+(776,775)
+(778,776)
+(780,774)
+(781,780)
+(783,781)
+(786,796)
+(788,786)
+(789,788)
+(790,795)
+(792,790)
+(793,789)
+(795,793)
+(796,799)
+(799,804)
+(803,813)
+(803,817)
+(804,803)
+(804,810)
+(807,803)
+(808,807)
+(810,808)
+(813,804)
+(815,822)
+(817,815)
+(820,828)
+(822,820)
+(825,838)
+(826,831)
+(828,826)
+(829,825)
+(831,829)
+(833,847)
+(834,833)
+(835,841)
+(836,835)
+(838,836)
+(839,834)
+(841,839)
+(843,857)
+(843,862)
+(845,851)
+(847,845)
+(848,843)
+(849,854)
+(851,849)
+(852,848)
+(854,852)
+(856,876)
+(857,856)
+(859,872)
+(860,864)
+(862,860)
+(863,859)
+(864,863)
+(869,753)
+(870,869)
+(872,870)
+(874,876)
+-----path-----
+7,47,45,43,52,50,48,58,56,59,55,54,66,64,63,70,69,876
+7,47,45,43,52,50,48,58,56,59,55,54,66,64,63,77,75,78,74,79,73,83,81,80,72,89,87,85,93,92,876
+7,47,45,43,52,50,48,58,56,59,55,54,66,64,63,77,75,78,74,79,73,83,81,80,72,89,87,85,95,99,97,102,106,105,112,111,876
+7,47,45,43,52,50,48,58,56,59,55,54,66,64,63,77,75,78,74,79,73,83,81,80,72,89,87,85,95,99,97,102,106,105,114,117,126,124,123,122,120,134,132,131,130,128,142,140,145,143,139
+7,47,45,43,52,50,48,58,56,59,55,54,99,97,102,106,105,112,111,876
+7,47,45,43,52,50,48,58,56,59,55,54,99,97,102,106,105,114,117,126,124,123,122,120,134,132,131,130,128,142,140,145,143,139,138,136,152,150,148,153,163,161,160,156,153,640,643,650,648,651,647
+7,47,45,43,52,50,48,58,56,59,55,54,99,97,102,106,105,114,117,126,124,123,122,120,134,132,131,130,128,142,140,145,143,139,138,136,152,150,148,153,163,161,160,172,170,169,168,166,178,176,175
+7,47,45,43,52,50,48,58,56,59,55,54,99,97,102,106,105,114,117,126,124,123,122,120,134,132,131,130,128,142,140,145,143,139,138,136,152,150,148,153,640,643,650,648,651,647,646,658,656,655,662
+7,47,45,43,52,50,48,58,56,59,55,54,99,97,102,106,105,114,117,126,124,123,122,120,134,132,131,130,128,142,140,145,143,139,138,136,152,150,148,153,640,643,650,648,651,647,646,658,656,655,668
+7,47,45,43,52,50,48,58,56,59,55,54,99,97,102,106,105,114,117,126,124,123,122,120,134,132,131,130,128,142,140,145,143,139,138,136,152,150,148,153,640,643,650,648,651,647,646,678,676,675,674
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_enc_encpkt (jpc_enc_t *enc,jas_stream_t *out,int compno,int lvlno,int prcno,int lyrno)
+8,jpc_enc_t *enc
+9,jas_stream_t *out
+10,int compno
+11,int lvlno
+12,int prcno
+13,int lyrno
+14,<empty>
+15,jpc_enc_tcmpt_t* comp
+16,jpc_enc_rlvl_t* lvl
+17,jpc_enc_band_t* band
+18,jpc_enc_band_t* endbands
+19,jpc_enc_cblk_t* cblk
+20,jpc_enc_cblk_t* endcblks
+21,jpc_bitstream_t* outb
+22,jpc_enc_pass_t* pass
+23,jpc_enc_pass_t* startpass
+24,jpc_enc_pass_t* lastpass
+25,jpc_enc_pass_t* endpass
+26,jpc_enc_pass_t* endpasses
+27,int i
+28,int included
+29,int ret
+30,jpc_tagtreenode_t* leaf
+31,int n
+32,int t1
+33,int t2
+34,int adjust
+35,int maxadjust
+36,int datalen
+37,int numnewpasses
+38,int passcount
+39,jpc_enc_tile_t* tile
+40,jpc_enc_prc_t* prc
+41,jpc_enc_cp_t* cp
+42,jpc_ms_t* ms
+43,tile = enc->curtile
+44,tile
+45,enc->curtile
+46,enc
+47,curtile
+48,cp = enc->cp
+49,cp
+50,enc->cp
+51,enc
+52,cp
+53,if (cp->tcp.csty & JPC_COD_SOP)
+54,cp->tcp.csty & JPC_COD_SOP
+55,cp->tcp.csty
+56,cp->tcp
+57,cp
+58,tcp
+59,csty
+60,JPC_COD_SOP
+61,<empty>
+62,if (!(ms = jpc_ms_create(JPC_MS_SOP)))
+63,!(ms = jpc_ms_create(JPC_MS_SOP))
+64,ms = jpc_ms_create(JPC_MS_SOP)
+65,ms
+66,jpc_ms_create(JPC_MS_SOP)
+67,JPC_MS_SOP
+68,<empty>
+69,return -1;
+70,-1
+71,1
+72,ms->parms.sop.seqno = jpc_pi_getind(tile->pi)
+73,ms->parms.sop.seqno
+74,ms->parms.sop
+75,ms->parms
+76,ms
+77,parms
+78,sop
+79,seqno
+80,jpc_pi_getind(tile->pi)
+81,tile->pi
+82,tile
+83,pi
+84,if (jpc_putms(out, enc->cstate, ms))
+85,jpc_putms(out, enc->cstate, ms)
+86,out
+87,enc->cstate
+88,enc
+89,cstate
+90,ms
+91,<empty>
+92,return -1;
+93,-1
+94,1
+95,jpc_ms_destroy(ms)
+96,ms
+97,outb = jpc_bitstream_sopen(out, "w+")
+98,outb
+99,jpc_bitstream_sopen(out, "w+")
+100,out
+101,"w+"
+102,assert(outb)
+103,outb
+104,if (jpc_bitstream_putbit(outb, 1) == EOF)
+105,jpc_bitstream_putbit(outb, 1) == EOF
+106,jpc_bitstream_putbit(outb, 1)
+107,outb
+108,1
+109,EOF
+110,<empty>
+111,return -1;
+112,-1
+113,1
+114,JAS_DBGLOG(10, ("\n"))
+115,10
+116,"\n"
+117,JAS_DBGLOG(10, ("present. "))
+118,10
+119,"present. "
+120,comp = &tile->tcmpts[compno]
+121,comp
+122,&tile->tcmpts[compno]
+123,tile->tcmpts[compno]
+124,tile->tcmpts
+125,tile
+126,tcmpts
+127,compno
+128,lvl = &comp->rlvls[lvlno]
+129,lvl
+130,&comp->rlvls[lvlno]
+131,comp->rlvls[lvlno]
+132,comp->rlvls
+133,comp
+134,rlvls
+135,lvlno
+136,endbands = &lvl->bands[lvl->numbands]
+137,endbands
+138,&lvl->bands[lvl->numbands]
+139,lvl->bands[lvl->numbands]
+140,lvl->bands
+141,lvl
+142,bands
+143,lvl->numbands
+144,lvl
+145,numbands
+146,for (band = lvl->bands;band != endbands;++band)
+147,<empty>
+148,band = lvl->bands
+149,band
+150,lvl->bands
+151,lvl
+152,bands
+153,band != endbands
+154,band
+155,endbands
+156,++band
+157,band
+158,<empty>
+159,if (!band->data)
+160,!band->data
+161,band->data
+162,band
+163,data
+164,<empty>
+165,continue;
+166,prc = &band->prcs[prcno]
+167,prc
+168,&band->prcs[prcno]
+169,band->prcs[prcno]
+170,band->prcs
+171,band
+172,prcs
+173,prcno
+174,if (!prc->cblks)
+175,!prc->cblks
+176,prc->cblks
+177,prc
+178,cblks
+179,<empty>
+180,continue;
+181,endcblks = &prc->cblks[prc->numcblks]
+182,endcblks
+183,&prc->cblks[prc->numcblks]
+184,prc->cblks[prc->numcblks]
+185,prc->cblks
+186,prc
+187,cblks
+188,prc->numcblks
+189,prc
+190,numcblks
+191,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+192,<empty>
+193,cblk = prc->cblks
+194,cblk
+195,prc->cblks
+196,prc
+197,cblks
+198,cblk != endcblks
+199,cblk
+200,endcblks
+201,++cblk
+202,cblk
+203,<empty>
+204,if (!lyrno)
+205,!lyrno
+206,lyrno
+207,<empty>
+208,leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+209,leaf
+210,jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+211,prc->nlibtree
+212,prc
+213,nlibtree
+214,cblk - prc->cblks
+215,cblk
+216,prc->cblks
+217,prc
+218,cblks
+219,jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs)
+220,prc->nlibtree
+221,prc
+222,nlibtree
+223,leaf
+224,cblk->numimsbs
+225,cblk
+226,numimsbs
+227,pass = cblk->curpass
+228,pass
+229,cblk->curpass
+230,cblk
+231,curpass
+232,included = (pass && pass->lyrno == lyrno)
+233,included
+234,pass && pass->lyrno == lyrno
+235,pass
+236,pass->lyrno == lyrno
+237,pass->lyrno
+238,pass
+239,lyrno
+240,lyrno
+241,if (included && (!cblk->numencpasses))
+242,included && (!cblk->numencpasses)
+243,included
+244,!cblk->numencpasses
+245,cblk->numencpasses
+246,cblk
+247,numencpasses
+248,<empty>
+249,assert(pass->lyrno == lyrno)
+250,pass->lyrno == lyrno
+251,pass->lyrno
+252,pass
+253,lyrno
+254,lyrno
+255,leaf = jpc_tagtree_getleaf(prc->incltree,
+256,				  cblk - prc->cblks)
+257,leaf
+258,jpc_tagtree_getleaf(prc->incltree,
+259,				  cblk - prc->cblks)
+260,prc->incltree
+261,prc
+262,incltree
+263,cblk - prc->cblks
+264,cblk
+265,prc->cblks
+266,prc
+267,cblks
+268,jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno)
+269,prc->incltree
+270,prc
+271,incltree
+272,leaf
+273,pass->lyrno
+274,pass
+275,lyrno
+276,endcblks = &prc->cblks[prc->numcblks]
+277,endcblks
+278,&prc->cblks[prc->numcblks]
+279,prc->cblks[prc->numcblks]
+280,prc->cblks
+281,prc
+282,cblks
+283,prc->numcblks
+284,prc
+285,numcblks
+286,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+287,<empty>
+288,cblk = prc->cblks
+289,cblk
+290,prc->cblks
+291,prc
+292,cblks
+293,cblk != endcblks
+294,cblk
+295,endcblks
+296,++cblk
+297,cblk
+298,<empty>
+299,pass = cblk->curpass
+300,pass
+301,cblk->curpass
+302,cblk
+303,curpass
+304,included = (pass && pass->lyrno == lyrno)
+305,included
+306,pass && pass->lyrno == lyrno
+307,pass
+308,pass->lyrno == lyrno
+309,pass->lyrno
+310,pass
+311,lyrno
+312,lyrno
+313,if (!cblk->numencpasses)
+314,!cblk->numencpasses
+315,cblk->numencpasses
+316,cblk
+317,numencpasses
+318,<empty>
+319,leaf = jpc_tagtree_getleaf(prc->incltree,
+320,				  cblk - prc->cblks)
+321,leaf
+322,jpc_tagtree_getleaf(prc->incltree,
+323,				  cblk - prc->cblks)
+324,prc->incltree
+325,prc
+326,incltree
+327,cblk - prc->cblks
+328,cblk
+329,prc->cblks
+330,prc
+331,cblks
+332,if (jpc_tagtree_encode(prc->incltree, leaf, lyrno
+333,				  + 1, outb) < 0)
+334,jpc_tagtree_encode(prc->incltree, leaf, lyrno
+335,				  + 1, outb) < 0
+336,jpc_tagtree_encode(prc->incltree, leaf, lyrno
+337,				  + 1, outb)
+338,prc->incltree
+339,prc
+340,incltree
+341,leaf
+342,lyrno
+343,				  + 1
+344,lyrno
+345,1
+346,outb
+347,0
+348,<empty>
+349,return -1;
+350,-1
+351,1
+352,else
+353,<empty>
+354,if (jpc_bitstream_putbit(outb, included) == EOF)
+355,jpc_bitstream_putbit(outb, included) == EOF
+356,jpc_bitstream_putbit(outb, included)
+357,outb
+358,included
+359,EOF
+360,<empty>
+361,return -1;
+362,-1
+363,1
+364,JAS_DBGLOG(10, ("included=%d ", included))
+365,10
+366,("included=%d ", included)
+367,"included=%d ", included
+368,"included=%d "
+369,included
+370,if (!included)
+371,!included
+372,included
+373,<empty>
+374,continue;
+375,if (!cblk->numencpasses)
+376,!cblk->numencpasses
+377,cblk->numencpasses
+378,cblk
+379,numencpasses
+380,<empty>
+381,i = 1
+382,i
+383,1
+384,leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+385,leaf
+386,jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+387,prc->nlibtree
+388,prc
+389,nlibtree
+390,cblk - prc->cblks
+391,cblk
+392,prc->cblks
+393,prc
+394,cblks
+395,for (;;)
+396,<empty>
+397,<empty>
+398,if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0)
+399,(ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0
+400,ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)
+401,ret
+402,jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)
+403,prc->nlibtree
+404,prc
+405,nlibtree
+406,leaf
+407,i
+408,outb
+409,0
+410,<empty>
+411,return -1;
+412,-1
+413,1
+414,if (ret)
+415,ret
+416,<empty>
+417,break;
+418,++i
+419,i
+420,assert(leaf->known_ && i == leaf->value_ + 1)
+421,leaf->known_ && i == leaf->value_ + 1
+422,leaf->known_
+423,leaf
+424,known_
+425,i == leaf->value_ + 1
+426,i
+427,leaf->value_ + 1
+428,leaf->value_
+429,leaf
+430,value_
+431,1
+432,endpasses = &cblk->passes[cblk->numpasses]
+433,endpasses
+434,&cblk->passes[cblk->numpasses]
+435,cblk->passes[cblk->numpasses]
+436,cblk->passes
+437,cblk
+438,passes
+439,cblk->numpasses
+440,cblk
+441,numpasses
+442,startpass = pass
+443,startpass
+444,pass
+445,endpass = startpass
+446,endpass
+447,startpass
+448,while (endpass != endpasses && endpass->lyrno == lyrno)
+449,endpass != endpasses && endpass->lyrno == lyrno
+450,endpass != endpasses
+451,endpass
+452,endpasses
+453,endpass->lyrno == lyrno
+454,endpass->lyrno
+455,endpass
+456,lyrno
+457,lyrno
+458,<empty>
+459,++endpass
+460,endpass
+461,numnewpasses = endpass - startpass
+462,numnewpasses
+463,endpass - startpass
+464,endpass
+465,startpass
+466,if (jpc_putnumnewpasses(outb, numnewpasses))
+467,jpc_putnumnewpasses(outb, numnewpasses)
+468,outb
+469,numnewpasses
+470,<empty>
+471,return -1;
+472,-1
+473,1
+474,JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses))
+475,10
+476,("numnewpasses=%d ", numnewpasses)
+477,"numnewpasses=%d ", numnewpasses
+478,"numnewpasses=%d "
+479,numnewpasses
+480,lastpass = endpass - 1
+481,lastpass
+482,endpass - 1
+483,endpass
+484,1
+485,n = startpass->start
+486,n
+487,startpass->start
+488,startpass
+489,start
+490,passcount = 1
+491,passcount
+492,1
+493,maxadjust = 0
+494,maxadjust
+495,0
+496,for (pass = startpass;pass != endpass;++pass)
+497,<empty>
+498,pass = startpass
+499,pass
+500,startpass
+501,pass != endpass
+502,pass
+503,endpass
+504,++pass
+505,pass
+506,<empty>
+507,if (pass->term || pass == lastpass)
+508,pass->term || pass == lastpass
+509,pass->term
+510,pass
+511,term
+512,pass == lastpass
+513,pass
+514,lastpass
+515,<empty>
+516,datalen = pass->end - n
+517,datalen
+518,pass->end - n
+519,pass->end
+520,pass
+521,end
+522,n
+523,t1 = jpc_firstone(datalen) + 1
+524,t1
+525,jpc_firstone(datalen) + 1
+526,jpc_firstone(datalen)
+527,datalen
+528,1
+529,t2 = cblk->numlenbits + jpc_floorlog2(passcount)
+530,t2
+531,cblk->numlenbits + jpc_floorlog2(passcount)
+532,cblk->numlenbits
+533,cblk
+534,numlenbits
+535,jpc_floorlog2(passcount)
+536,passcount
+537,adjust = JAS_MAX(t1 - t2, 0)
+538,adjust
+539,JAS_MAX(t1 - t2, 0)
+540,t1 - t2
+541,t1
+542,t2
+543,0
+544,maxadjust = JAS_MAX(adjust, maxadjust)
+545,maxadjust
+546,JAS_MAX(adjust, maxadjust)
+547,adjust
+548,maxadjust
+549,n += datalen
+550,n
+551,datalen
+552,passcount = 1
+553,passcount
+554,1
+555,else
+556,<empty>
+557,++passcount
+558,passcount
+559,if (jpc_putcommacode(outb, maxadjust))
+560,jpc_putcommacode(outb, maxadjust)
+561,outb
+562,maxadjust
+563,<empty>
+564,return -1;
+565,-1
+566,1
+567,cblk->numlenbits += maxadjust
+568,cblk->numlenbits
+569,cblk
+570,numlenbits
+571,maxadjust
+572,lastpass = endpass - 1
+573,lastpass
+574,endpass - 1
+575,endpass
+576,1
+577,n = startpass->start
+578,n
+579,startpass->start
+580,startpass
+581,start
+582,passcount = 1
+583,passcount
+584,1
+585,for (pass = startpass;pass != endpass;++pass)
+586,<empty>
+587,pass = startpass
+588,pass
+589,startpass
+590,pass != endpass
+591,pass
+592,endpass
+593,++pass
+594,pass
+595,<empty>
+596,if (pass->term || pass == lastpass)
+597,pass->term || pass == lastpass
+598,pass->term
+599,pass
+600,term
+601,pass == lastpass
+602,pass
+603,lastpass
+604,<empty>
+605,datalen = pass->end - n
+606,datalen
+607,pass->end - n
+608,pass->end
+609,pass
+610,end
+611,n
+612,assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount))
+613,jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount)
+614,jpc_firstone(datalen)
+615,datalen
+616,cblk->numlenbits + jpc_floorlog2(passcount)
+617,cblk->numlenbits
+618,cblk
+619,numlenbits
+620,jpc_floorlog2(passcount)
+621,passcount
+622,if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF)
+623,jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF
+624,jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen)
+625,outb
+626,cblk->numlenbits + jpc_floorlog2(passcount)
+627,cblk->numlenbits
+628,cblk
+629,numlenbits
+630,jpc_floorlog2(passcount)
+631,passcount
+632,datalen
+633,EOF
+634,<empty>
+635,return -1;
+636,-1
+637,1
+638,n += datalen
+639,n
+640,datalen
+641,passcount = 1
+642,passcount
+643,1
+644,else
+645,<empty>
+646,++passcount
+647,passcount
+648,jpc_bitstream_outalign(outb, 0)
+649,outb
+650,0
+651,jpc_bitstream_close(outb)
+652,outb
+653,if (cp->tcp.csty & JPC_COD_EPH)
+654,cp->tcp.csty & JPC_COD_EPH
+655,cp->tcp.csty
+656,cp->tcp
+657,cp
+658,tcp
+659,csty
+660,JPC_COD_EPH
+661,<empty>
+662,if (!(ms = jpc_ms_create(JPC_MS_EPH)))
+663,!(ms = jpc_ms_create(JPC_MS_EPH))
+664,ms = jpc_ms_create(JPC_MS_EPH)
+665,ms
+666,jpc_ms_create(JPC_MS_EPH)
+667,JPC_MS_EPH
+668,<empty>
+669,return -1;
+670,-1
+671,1
+672,jpc_putms(out, enc->cstate, ms)
+673,out
+674,enc->cstate
+675,enc
+676,cstate
+677,ms
+678,jpc_ms_destroy(ms)
+679,ms
+680,comp = &tile->tcmpts[compno]
+681,comp
+682,&tile->tcmpts[compno]
+683,tile->tcmpts[compno]
+684,tile->tcmpts
+685,tile
+686,tcmpts
+687,compno
+688,lvl = &comp->rlvls[lvlno]
+689,lvl
+690,&comp->rlvls[lvlno]
+691,comp->rlvls[lvlno]
+692,comp->rlvls
+693,comp
+694,rlvls
+695,lvlno
+696,endbands = &lvl->bands[lvl->numbands]
+697,endbands
+698,&lvl->bands[lvl->numbands]
+699,lvl->bands[lvl->numbands]
+700,lvl->bands
+701,lvl
+702,bands
+703,lvl->numbands
+704,lvl
+705,numbands
+706,for (band = lvl->bands;band != endbands;++band)
+707,<empty>
+708,band = lvl->bands
+709,band
+710,lvl->bands
+711,lvl
+712,bands
+713,band != endbands
+714,band
+715,endbands
+716,++band
+717,band
+718,<empty>
+719,if (!band->data)
+720,!band->data
+721,band->data
+722,band
+723,data
+724,<empty>
+725,continue;
+726,prc = &band->prcs[prcno]
+727,prc
+728,&band->prcs[prcno]
+729,band->prcs[prcno]
+730,band->prcs
+731,band
+732,prcs
+733,prcno
+734,if (!prc->cblks)
+735,!prc->cblks
+736,prc->cblks
+737,prc
+738,cblks
+739,<empty>
+740,continue;
+741,endcblks = &prc->cblks[prc->numcblks]
+742,endcblks
+743,&prc->cblks[prc->numcblks]
+744,prc->cblks[prc->numcblks]
+745,prc->cblks
+746,prc
+747,cblks
+748,prc->numcblks
+749,prc
+750,numcblks
+751,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+752,<empty>
+753,cblk = prc->cblks
+754,cblk
+755,prc->cblks
+756,prc
+757,cblks
+758,cblk != endcblks
+759,cblk
+760,endcblks
+761,++cblk
+762,cblk
+763,<empty>
+764,pass = cblk->curpass
+765,pass
+766,cblk->curpass
+767,cblk
+768,curpass
+769,if (!pass)
+770,!pass
+771,pass
+772,<empty>
+773,continue;
+774,if (pass->lyrno != lyrno)
+775,pass->lyrno != lyrno
+776,pass->lyrno
+777,pass
+778,lyrno
+779,lyrno
+780,<empty>
+781,assert(pass->lyrno < 0 || pass->lyrno > lyrno)
+782,pass->lyrno < 0 || pass->lyrno > lyrno
+783,pass->lyrno < 0
+784,pass->lyrno
+785,pass
+786,lyrno
+787,0
+788,pass->lyrno > lyrno
+789,pass->lyrno
+790,pass
+791,lyrno
+792,lyrno
+793,continue;
+794,endpasses = &cblk->passes[cblk->numpasses]
+795,endpasses
+796,&cblk->passes[cblk->numpasses]
+797,cblk->passes[cblk->numpasses]
+798,cblk->passes
+799,cblk
+800,passes
+801,cblk->numpasses
+802,cblk
+803,numpasses
+804,startpass = pass
+805,startpass
+806,pass
+807,endpass = startpass
+808,endpass
+809,startpass
+810,while (endpass != endpasses && endpass->lyrno == lyrno)
+811,endpass != endpasses && endpass->lyrno == lyrno
+812,endpass != endpasses
+813,endpass
+814,endpasses
+815,endpass->lyrno == lyrno
+816,endpass->lyrno
+817,endpass
+818,lyrno
+819,lyrno
+820,<empty>
+821,++endpass
+822,endpass
+823,lastpass = endpass - 1
+824,lastpass
+825,endpass - 1
+826,endpass
+827,1
+828,numnewpasses = endpass - startpass
+829,numnewpasses
+830,endpass - startpass
+831,endpass
+832,startpass
+833,jas_stream_seek(cblk->stream, startpass->start, SEEK_SET)
+834,cblk->stream
+835,cblk
+836,stream
+837,startpass->start
+838,startpass
+839,start
+840,SEEK_SET
+841,assert(jas_stream_tell(cblk->stream) == startpass->start)
+842,jas_stream_tell(cblk->stream) == startpass->start
+843,jas_stream_tell(cblk->stream)
+844,cblk->stream
+845,cblk
+846,stream
+847,startpass->start
+848,startpass
+849,start
+850,if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start))
+851,jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)
+852,out
+853,cblk->stream
+854,cblk
+855,stream
+856,lastpass->end - startpass->start
+857,lastpass->end
+858,lastpass
+859,end
+860,startpass->start
+861,startpass
+862,start
+863,<empty>
+864,return -1;
+865,-1
+866,1
+867,cblk->curpass = (endpass != endpasses) ? endpass : 0
+868,cblk->curpass
+869,cblk
+870,curpass
+871,(endpass != endpasses) ? endpass : 0
+872,endpass != endpasses
+873,endpass
+874,endpasses
+875,endpass
+876,0
+877,cblk->numencpasses += numnewpasses
+878,cblk->numencpasses
+879,cblk
+880,numencpasses
+881,numnewpasses
+882,return 0;
+883,0
+884,RET
+885,jpc_enc_t *enc
+886,jas_stream_t *out
+887,int compno
+888,int lvlno
+889,int prcno
+890,int lyrno
+891,RET
+892,int jpc_enc_encpkt (jpc_enc_t *enc,jas_stream_t *out,int compno,int lvlno,int prcno,int lyrno)
+893,jpc_enc_t *enc
+894,jas_stream_t *out
+895,int compno
+896,int lvlno
+897,int prcno
+898,int lyrno
+899,<empty>
+900,jpc_enc_tcmpt_t* comp
+901,jpc_enc_rlvl_t* lvl
+902,jpc_enc_band_t* band
+903,jpc_enc_band_t* endbands
+904,jpc_enc_cblk_t* cblk
+905,jpc_enc_cblk_t* endcblks
+906,jpc_bitstream_t* outb
+907,jpc_enc_pass_t* pass
+908,jpc_enc_pass_t* startpass
+909,jpc_enc_pass_t* lastpass
+910,jpc_enc_pass_t* endpass
+911,jpc_enc_pass_t* endpasses
+912,int i
+913,int included
+914,int ret
+915,jpc_tagtreenode_t* leaf
+916,int n
+917,int t1
+918,int t2
+919,int adjust
+920,int maxadjust
+921,int datalen
+922,int numnewpasses
+923,int passcount
+924,jpc_enc_tile_t* tile
+925,jpc_enc_prc_t* prc
+926,jpc_enc_cp_t* cp
+927,jpc_ms_t* ms
+928,tile = enc->curtile
+929,tile
+930,enc->curtile
+931,enc
+932,curtile
+933,cp = enc->cp
+934,cp
+935,enc->cp
+936,enc
+937,cp
+938,if (cp->tcp.csty & JPC_COD_SOP)
+939,cp->tcp.csty & JPC_COD_SOP
+940,cp->tcp.csty
+941,cp->tcp
+942,cp
+943,tcp
+944,csty
+945,JPC_COD_SOP
+946,<empty>
+947,if (!(ms = jpc_ms_create(JPC_MS_SOP)))
+948,!(ms = jpc_ms_create(JPC_MS_SOP))
+949,ms = jpc_ms_create(JPC_MS_SOP)
+950,ms
+951,jpc_ms_create(JPC_MS_SOP)
+952,JPC_MS_SOP
+953,<empty>
+954,return -1;
+955,-1
+956,1
+957,ms->parms.sop.seqno = jpc_pi_getind(tile->pi)
+958,ms->parms.sop.seqno
+959,ms->parms.sop
+960,ms->parms
+961,ms
+962,parms
+963,sop
+964,seqno
+965,jpc_pi_getind(tile->pi)
+966,tile->pi
+967,tile
+968,pi
+969,if (jpc_putms(out, enc->cstate, ms))
+970,jpc_putms(out, enc->cstate, ms)
+971,out
+972,enc->cstate
+973,enc
+974,cstate
+975,ms
+976,<empty>
+977,return -1;
+978,-1
+979,1
+980,jpc_ms_destroy(ms)
+981,ms
+982,outb = jpc_bitstream_sopen(out, "w+")
+983,outb
+984,jpc_bitstream_sopen(out, "w+")
+985,out
+986,"w+"
+987,assert(outb)
+988,outb
+989,if (jpc_bitstream_putbit(outb, 1) == EOF)
+990,jpc_bitstream_putbit(outb, 1) == EOF
+991,jpc_bitstream_putbit(outb, 1)
+992,outb
+993,1
+994,EOF
+995,<empty>
+996,return -1;
+997,-1
+998,1
+999,JAS_DBGLOG(10, ("\n"))
+1000,10
+1001,"\n"
+1002,JAS_DBGLOG(10, ("present. "))
+1003,10
+1004,"present. "
+1005,comp = &tile->tcmpts[compno]
+1006,comp
+1007,&tile->tcmpts[compno]
+1008,tile->tcmpts[compno]
+1009,tile->tcmpts
+1010,tile
+1011,tcmpts
+1012,compno
+1013,lvl = &comp->rlvls[lvlno]
+1014,lvl
+1015,&comp->rlvls[lvlno]
+1016,comp->rlvls[lvlno]
+1017,comp->rlvls
+1018,comp
+1019,rlvls
+1020,lvlno
+1021,endbands = &lvl->bands[lvl->numbands]
+1022,endbands
+1023,&lvl->bands[lvl->numbands]
+1024,lvl->bands[lvl->numbands]
+1025,lvl->bands
+1026,lvl
+1027,bands
+1028,lvl->numbands
+1029,lvl
+1030,numbands
+1031,for (band = lvl->bands;band != endbands;++band)
+1032,<empty>
+1033,band = lvl->bands
+1034,band
+1035,lvl->bands
+1036,lvl
+1037,bands
+1038,band != endbands
+1039,band
+1040,endbands
+1041,++band
+1042,band
+1043,<empty>
+1044,if (!band->data)
+1045,!band->data
+1046,band->data
+1047,band
+1048,data
+1049,<empty>
+1050,continue;
+1051,prc = &band->prcs[prcno]
+1052,prc
+1053,&band->prcs[prcno]
+1054,band->prcs[prcno]
+1055,band->prcs
+1056,band
+1057,prcs
+1058,prcno
+1059,if (!prc->cblks)
+1060,!prc->cblks
+1061,prc->cblks
+1062,prc
+1063,cblks
+1064,<empty>
+1065,continue;
+1066,endcblks = &prc->cblks[prc->numcblks]
+1067,endcblks
+1068,&prc->cblks[prc->numcblks]
+1069,prc->cblks[prc->numcblks]
+1070,prc->cblks
+1071,prc
+1072,cblks
+1073,prc->numcblks
+1074,prc
+1075,numcblks
+1076,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+1077,<empty>
+1078,cblk = prc->cblks
+1079,cblk
+1080,prc->cblks
+1081,prc
+1082,cblks
+1083,cblk != endcblks
+1084,cblk
+1085,endcblks
+1086,++cblk
+1087,cblk
+1088,<empty>
+1089,if (!lyrno)
+1090,!lyrno
+1091,lyrno
+1092,<empty>
+1093,leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+1094,leaf
+1095,jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+1096,prc->nlibtree
+1097,prc
+1098,nlibtree
+1099,cblk - prc->cblks
+1100,cblk
+1101,prc->cblks
+1102,prc
+1103,cblks
+1104,jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs)
+1105,prc->nlibtree
+1106,prc
+1107,nlibtree
+1108,leaf
+1109,cblk->numimsbs
+1110,cblk
+1111,numimsbs
+1112,pass = cblk->curpass
+1113,pass
+1114,cblk->curpass
+1115,cblk
+1116,curpass
+1117,included = (pass && pass->lyrno == lyrno)
+1118,included
+1119,pass && pass->lyrno == lyrno
+1120,pass
+1121,pass->lyrno == lyrno
+1122,pass->lyrno
+1123,pass
+1124,lyrno
+1125,lyrno
+1126,if (included && (!cblk->numencpasses))
+1127,included && (!cblk->numencpasses)
+1128,included
+1129,!cblk->numencpasses
+1130,cblk->numencpasses
+1131,cblk
+1132,numencpasses
+1133,<empty>
+1134,assert(pass->lyrno == lyrno)
+1135,pass->lyrno == lyrno
+1136,pass->lyrno
+1137,pass
+1138,lyrno
+1139,lyrno
+1140,leaf = jpc_tagtree_getleaf(prc->incltree,
+1141,				  cblk - prc->cblks)
+1142,leaf
+1143,jpc_tagtree_getleaf(prc->incltree,
+1144,				  cblk - prc->cblks)
+1145,prc->incltree
+1146,prc
+1147,incltree
+1148,cblk - prc->cblks
+1149,cblk
+1150,prc->cblks
+1151,prc
+1152,cblks
+1153,jpc_tagtree_setvalue(prc->incltree, leaf, pass->lyrno)
+1154,prc->incltree
+1155,prc
+1156,incltree
+1157,leaf
+1158,pass->lyrno
+1159,pass
+1160,lyrno
+1161,endcblks = &prc->cblks[prc->numcblks]
+1162,endcblks
+1163,&prc->cblks[prc->numcblks]
+1164,prc->cblks[prc->numcblks]
+1165,prc->cblks
+1166,prc
+1167,cblks
+1168,prc->numcblks
+1169,prc
+1170,numcblks
+1171,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+1172,<empty>
+1173,cblk = prc->cblks
+1174,cblk
+1175,prc->cblks
+1176,prc
+1177,cblks
+1178,cblk != endcblks
+1179,cblk
+1180,endcblks
+1181,++cblk
+1182,cblk
+1183,<empty>
+1184,pass = cblk->curpass
+1185,pass
+1186,cblk->curpass
+1187,cblk
+1188,curpass
+1189,included = (pass && pass->lyrno == lyrno)
+1190,included
+1191,pass && pass->lyrno == lyrno
+1192,pass
+1193,pass->lyrno == lyrno
+1194,pass->lyrno
+1195,pass
+1196,lyrno
+1197,lyrno
+1198,if (!cblk->numencpasses)
+1199,!cblk->numencpasses
+1200,cblk->numencpasses
+1201,cblk
+1202,numencpasses
+1203,<empty>
+1204,leaf = jpc_tagtree_getleaf(prc->incltree,
+1205,				  cblk - prc->cblks)
+1206,leaf
+1207,jpc_tagtree_getleaf(prc->incltree,
+1208,				  cblk - prc->cblks)
+1209,prc->incltree
+1210,prc
+1211,incltree
+1212,cblk - prc->cblks
+1213,cblk
+1214,prc->cblks
+1215,prc
+1216,cblks
+1217,if (jpc_tagtree_encode(prc->incltree, leaf, lyrno
+1218,				  + 1, outb) < 0)
+1219,jpc_tagtree_encode(prc->incltree, leaf, lyrno
+1220,				  + 1, outb) < 0
+1221,jpc_tagtree_encode(prc->incltree, leaf, lyrno
+1222,				  + 1, outb)
+1223,prc->incltree
+1224,prc
+1225,incltree
+1226,leaf
+1227,lyrno
+1228,				  + 1
+1229,lyrno
+1230,1
+1231,outb
+1232,0
+1233,<empty>
+1234,return -1;
+1235,-1
+1236,1
+1237,else
+1238,<empty>
+1239,if (jpc_bitstream_putbit(outb, included) == EOF)
+1240,jpc_bitstream_putbit(outb, included) == EOF
+1241,jpc_bitstream_putbit(outb, included)
+1242,outb
+1243,included
+1244,EOF
+1245,<empty>
+1246,return -1;
+1247,-1
+1248,1
+1249,JAS_DBGLOG(10, ("included=%d ", included))
+1250,10
+1251,("included=%d ", included)
+1252,"included=%d ", included
+1253,"included=%d "
+1254,included
+1255,if (!included)
+1256,!included
+1257,included
+1258,<empty>
+1259,continue;
+1260,if (!cblk->numencpasses)
+1261,!cblk->numencpasses
+1262,cblk->numencpasses
+1263,cblk
+1264,numencpasses
+1265,<empty>
+1266,i = 1
+1267,i
+1268,1
+1269,leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+1270,leaf
+1271,jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks)
+1272,prc->nlibtree
+1273,prc
+1274,nlibtree
+1275,cblk - prc->cblks
+1276,cblk
+1277,prc->cblks
+1278,prc
+1279,cblks
+1280,for (;;)
+1281,<empty>
+1282,<empty>
+1283,if ((ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0)
+1284,(ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)) < 0
+1285,ret = jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)
+1286,ret
+1287,jpc_tagtree_encode(prc->nlibtree, leaf, i, outb)
+1288,prc->nlibtree
+1289,prc
+1290,nlibtree
+1291,leaf
+1292,i
+1293,outb
+1294,0
+1295,<empty>
+1296,return -1;
+1297,-1
+1298,1
+1299,if (ret)
+1300,ret
+1301,<empty>
+1302,break;
+1303,++i
+1304,i
+1305,assert(leaf->known_ && i == leaf->value_ + 1)
+1306,leaf->known_ && i == leaf->value_ + 1
+1307,leaf->known_
+1308,leaf
+1309,known_
+1310,i == leaf->value_ + 1
+1311,i
+1312,leaf->value_ + 1
+1313,leaf->value_
+1314,leaf
+1315,value_
+1316,1
+1317,endpasses = &cblk->passes[cblk->numpasses]
+1318,endpasses
+1319,&cblk->passes[cblk->numpasses]
+1320,cblk->passes[cblk->numpasses]
+1321,cblk->passes
+1322,cblk
+1323,passes
+1324,cblk->numpasses
+1325,cblk
+1326,numpasses
+1327,startpass = pass
+1328,startpass
+1329,pass
+1330,endpass = startpass
+1331,endpass
+1332,startpass
+1333,while (endpass != endpasses && endpass->lyrno == lyrno)
+1334,endpass != endpasses && endpass->lyrno == lyrno
+1335,endpass != endpasses
+1336,endpass
+1337,endpasses
+1338,endpass->lyrno == lyrno
+1339,endpass->lyrno
+1340,endpass
+1341,lyrno
+1342,lyrno
+1343,<empty>
+1344,++endpass
+1345,endpass
+1346,numnewpasses = endpass - startpass
+1347,numnewpasses
+1348,endpass - startpass
+1349,endpass
+1350,startpass
+1351,if (jpc_putnumnewpasses(outb, numnewpasses))
+1352,jpc_putnumnewpasses(outb, numnewpasses)
+1353,outb
+1354,numnewpasses
+1355,<empty>
+1356,return -1;
+1357,-1
+1358,1
+1359,JAS_DBGLOG(10, ("numnewpasses=%d ", numnewpasses))
+1360,10
+1361,("numnewpasses=%d ", numnewpasses)
+1362,"numnewpasses=%d ", numnewpasses
+1363,"numnewpasses=%d "
+1364,numnewpasses
+1365,lastpass = endpass - 1
+1366,lastpass
+1367,endpass - 1
+1368,endpass
+1369,1
+1370,n = startpass->start
+1371,n
+1372,startpass->start
+1373,startpass
+1374,start
+1375,passcount = 1
+1376,passcount
+1377,1
+1378,maxadjust = 0
+1379,maxadjust
+1380,0
+1381,for (pass = startpass;pass != endpass;++pass)
+1382,<empty>
+1383,pass = startpass
+1384,pass
+1385,startpass
+1386,pass != endpass
+1387,pass
+1388,endpass
+1389,++pass
+1390,pass
+1391,<empty>
+1392,if (pass->term || pass == lastpass)
+1393,pass->term || pass == lastpass
+1394,pass->term
+1395,pass
+1396,term
+1397,pass == lastpass
+1398,pass
+1399,lastpass
+1400,<empty>
+1401,datalen = pass->end - n
+1402,datalen
+1403,pass->end - n
+1404,pass->end
+1405,pass
+1406,end
+1407,n
+1408,t1 = jpc_firstone(datalen) + 1
+1409,t1
+1410,jpc_firstone(datalen) + 1
+1411,jpc_firstone(datalen)
+1412,datalen
+1413,1
+1414,t2 = cblk->numlenbits + jpc_floorlog2(passcount)
+1415,t2
+1416,cblk->numlenbits + jpc_floorlog2(passcount)
+1417,cblk->numlenbits
+1418,cblk
+1419,numlenbits
+1420,jpc_floorlog2(passcount)
+1421,passcount
+1422,adjust = JAS_MAX(t1 - t2, 0)
+1423,adjust
+1424,JAS_MAX(t1 - t2, 0)
+1425,t1 - t2
+1426,t1
+1427,t2
+1428,0
+1429,maxadjust = JAS_MAX(adjust, maxadjust)
+1430,maxadjust
+1431,JAS_MAX(adjust, maxadjust)
+1432,adjust
+1433,maxadjust
+1434,n += datalen
+1435,n
+1436,datalen
+1437,passcount = 1
+1438,passcount
+1439,1
+1440,else
+1441,<empty>
+1442,++passcount
+1443,passcount
+1444,if (jpc_putcommacode(outb, maxadjust))
+1445,jpc_putcommacode(outb, maxadjust)
+1446,outb
+1447,maxadjust
+1448,<empty>
+1449,return -1;
+1450,-1
+1451,1
+1452,cblk->numlenbits += maxadjust
+1453,cblk->numlenbits
+1454,cblk
+1455,numlenbits
+1456,maxadjust
+1457,lastpass = endpass - 1
+1458,lastpass
+1459,endpass - 1
+1460,endpass
+1461,1
+1462,n = startpass->start
+1463,n
+1464,startpass->start
+1465,startpass
+1466,start
+1467,passcount = 1
+1468,passcount
+1469,1
+1470,for (pass = startpass;pass != endpass;++pass)
+1471,<empty>
+1472,pass = startpass
+1473,pass
+1474,startpass
+1475,pass != endpass
+1476,pass
+1477,endpass
+1478,++pass
+1479,pass
+1480,<empty>
+1481,if (pass->term || pass == lastpass)
+1482,pass->term || pass == lastpass
+1483,pass->term
+1484,pass
+1485,term
+1486,pass == lastpass
+1487,pass
+1488,lastpass
+1489,<empty>
+1490,datalen = pass->end - n
+1491,datalen
+1492,pass->end - n
+1493,pass->end
+1494,pass
+1495,end
+1496,n
+1497,assert(jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount))
+1498,jpc_firstone(datalen) < cblk->numlenbits + jpc_floorlog2(passcount)
+1499,jpc_firstone(datalen)
+1500,datalen
+1501,cblk->numlenbits + jpc_floorlog2(passcount)
+1502,cblk->numlenbits
+1503,cblk
+1504,numlenbits
+1505,jpc_floorlog2(passcount)
+1506,passcount
+1507,if (jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF)
+1508,jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen) == EOF
+1509,jpc_bitstream_putbits(outb, cblk->numlenbits + jpc_floorlog2(passcount), datalen)
+1510,outb
+1511,cblk->numlenbits + jpc_floorlog2(passcount)
+1512,cblk->numlenbits
+1513,cblk
+1514,numlenbits
+1515,jpc_floorlog2(passcount)
+1516,passcount
+1517,datalen
+1518,EOF
+1519,<empty>
+1520,return -1;
+1521,-1
+1522,1
+1523,n += datalen
+1524,n
+1525,datalen
+1526,passcount = 1
+1527,passcount
+1528,1
+1529,else
+1530,<empty>
+1531,++passcount
+1532,passcount
+1533,jpc_bitstream_outalign(outb, 0)
+1534,outb
+1535,0
+1536,jpc_bitstream_close(outb)
+1537,outb
+1538,if (cp->tcp.csty & JPC_COD_EPH)
+1539,cp->tcp.csty & JPC_COD_EPH
+1540,cp->tcp.csty
+1541,cp->tcp
+1542,cp
+1543,tcp
+1544,csty
+1545,JPC_COD_EPH
+1546,<empty>
+1547,if (!(ms = jpc_ms_create(JPC_MS_EPH)))
+1548,!(ms = jpc_ms_create(JPC_MS_EPH))
+1549,ms = jpc_ms_create(JPC_MS_EPH)
+1550,ms
+1551,jpc_ms_create(JPC_MS_EPH)
+1552,JPC_MS_EPH
+1553,<empty>
+1554,return -1;
+1555,-1
+1556,1
+1557,jpc_putms(out, enc->cstate, ms)
+1558,out
+1559,enc->cstate
+1560,enc
+1561,cstate
+1562,ms
+1563,jpc_ms_destroy(ms)
+1564,ms
+1565,comp = &tile->tcmpts[compno]
+1566,comp
+1567,&tile->tcmpts[compno]
+1568,tile->tcmpts[compno]
+1569,tile->tcmpts
+1570,tile
+1571,tcmpts
+1572,compno
+1573,lvl = &comp->rlvls[lvlno]
+1574,lvl
+1575,&comp->rlvls[lvlno]
+1576,comp->rlvls[lvlno]
+1577,comp->rlvls
+1578,comp
+1579,rlvls
+1580,lvlno
+1581,endbands = &lvl->bands[lvl->numbands]
+1582,endbands
+1583,&lvl->bands[lvl->numbands]
+1584,lvl->bands[lvl->numbands]
+1585,lvl->bands
+1586,lvl
+1587,bands
+1588,lvl->numbands
+1589,lvl
+1590,numbands
+1591,for (band = lvl->bands;band != endbands;++band)
+1592,<empty>
+1593,band = lvl->bands
+1594,band
+1595,lvl->bands
+1596,lvl
+1597,bands
+1598,band != endbands
+1599,band
+1600,endbands
+1601,++band
+1602,band
+1603,<empty>
+1604,if (!band->data)
+1605,!band->data
+1606,band->data
+1607,band
+1608,data
+1609,<empty>
+1610,continue;
+1611,prc = &band->prcs[prcno]
+1612,prc
+1613,&band->prcs[prcno]
+1614,band->prcs[prcno]
+1615,band->prcs
+1616,band
+1617,prcs
+1618,prcno
+1619,if (!prc->cblks)
+1620,!prc->cblks
+1621,prc->cblks
+1622,prc
+1623,cblks
+1624,<empty>
+1625,continue;
+1626,endcblks = &prc->cblks[prc->numcblks]
+1627,endcblks
+1628,&prc->cblks[prc->numcblks]
+1629,prc->cblks[prc->numcblks]
+1630,prc->cblks
+1631,prc
+1632,cblks
+1633,prc->numcblks
+1634,prc
+1635,numcblks
+1636,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+1637,<empty>
+1638,cblk = prc->cblks
+1639,cblk
+1640,prc->cblks
+1641,prc
+1642,cblks
+1643,cblk != endcblks
+1644,cblk
+1645,endcblks
+1646,++cblk
+1647,cblk
+1648,<empty>
+1649,pass = cblk->curpass
+1650,pass
+1651,cblk->curpass
+1652,cblk
+1653,curpass
+1654,if (!pass)
+1655,!pass
+1656,pass
+1657,<empty>
+1658,continue;
+1659,if (pass->lyrno != lyrno)
+1660,pass->lyrno != lyrno
+1661,pass->lyrno
+1662,pass
+1663,lyrno
+1664,lyrno
+1665,<empty>
+1666,assert(pass->lyrno < 0 || pass->lyrno > lyrno)
+1667,pass->lyrno < 0 || pass->lyrno > lyrno
+1668,pass->lyrno < 0
+1669,pass->lyrno
+1670,pass
+1671,lyrno
+1672,0
+1673,pass->lyrno > lyrno
+1674,pass->lyrno
+1675,pass
+1676,lyrno
+1677,lyrno
+1678,continue;
+1679,endpasses = &cblk->passes[cblk->numpasses]
+1680,endpasses
+1681,&cblk->passes[cblk->numpasses]
+1682,cblk->passes[cblk->numpasses]
+1683,cblk->passes
+1684,cblk
+1685,passes
+1686,cblk->numpasses
+1687,cblk
+1688,numpasses
+1689,startpass = pass
+1690,startpass
+1691,pass
+1692,endpass = startpass
+1693,endpass
+1694,startpass
+1695,while (endpass != endpasses && endpass->lyrno == lyrno)
+1696,endpass != endpasses && endpass->lyrno == lyrno
+1697,endpass != endpasses
+1698,endpass
+1699,endpasses
+1700,endpass->lyrno == lyrno
+1701,endpass->lyrno
+1702,endpass
+1703,lyrno
+1704,lyrno
+1705,<empty>
+1706,++endpass
+1707,endpass
+1708,lastpass = endpass - 1
+1709,lastpass
+1710,endpass - 1
+1711,endpass
+1712,1
+1713,numnewpasses = endpass - startpass
+1714,numnewpasses
+1715,endpass - startpass
+1716,endpass
+1717,startpass
+1718,jas_stream_seek(cblk->stream, startpass->start, SEEK_SET)
+1719,cblk->stream
+1720,cblk
+1721,stream
+1722,startpass->start
+1723,startpass
+1724,start
+1725,SEEK_SET
+1726,assert(jas_stream_tell(cblk->stream) == startpass->start)
+1727,jas_stream_tell(cblk->stream) == startpass->start
+1728,jas_stream_tell(cblk->stream)
+1729,cblk->stream
+1730,cblk
+1731,stream
+1732,startpass->start
+1733,startpass
+1734,start
+1735,if (jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start))
+1736,jas_stream_copy(out, cblk->stream, lastpass->end - startpass->start)
+1737,out
+1738,cblk->stream
+1739,cblk
+1740,stream
+1741,lastpass->end - startpass->start
+1742,lastpass->end
+1743,lastpass
+1744,end
+1745,startpass->start
+1746,startpass
+1747,start
+1748,<empty>
+1749,return -1;
+1750,-1
+1751,1
+1752,cblk->curpass = (endpass != endpasses) ? endpass : 0
+1753,cblk->curpass
+1754,cblk
+1755,curpass
+1756,(endpass != endpasses) ? endpass : 0
+1757,endpass != endpasses
+1758,endpass
+1759,endpasses
+1760,endpass
+1761,0
+1762,cblk->numencpasses += numnewpasses
+1763,cblk->numencpasses
+1764,cblk
+1765,numencpasses
+1766,numnewpasses
+1767,return 0;
+1768,0
+1769,RET
+1770,jpc_enc_t *enc
+1771,jas_stream_t *out
+1772,int compno
+1773,int lvlno
+1774,int prcno
+1775,int lyrno
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_enc_encpkt(jpc_enc_t *enc, jas_stream_t *out, int compno, int lvlno, int prcno, int lyrno) {
+jpc_enc_tcmpt_t *comp;
+jpc_enc_rlvl_t *lvl;
+jpc_enc_band_t *band;
+jpc_enc_band_t *endbands;
+jpc_enc_cblk_t *cblk;
+jpc_enc_cblk_t *endcblks;
+jpc_bitstream_t *outb;
+jpc_enc_pass_t *pass;
+jpc_enc_pass_t *startpass;
+jpc_enc_pass_t *lastpass;
+jpc_enc_pass_t *endpass;
+jpc_enc_pass_t *endpasses;
+int i;
+int included;
+int ret;
+jpc_tagtreenode_t *leaf;
+int n;
+int t1;
+int t2;
+int adjust;
+int maxadjust;
+int datalen;
+int numnewpasses;
+int passcount;
+jpc_enc_tile_t *tile;
+jpc_enc_prc_t *prc;
+jpc_enc_cp_t *cp;
+jpc_ms_t *ms;
+tile = enc->curtile;
+cp = enc->cp;
+outb = jpc_bitstream_sopen(out, 'w+');
+assert(outb);
+comp = &tile->tcmpts[compno];
+lvl = &comp->rlvls[lvlno];
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+prc = &band->prcs[prcno];
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+if(!lyrno)
+leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);
+jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);
+pass = cblk->curpass;
+included = (pass && pass->lyrno == lyrno);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+pass = cblk->curpass;
+included = (pass && pass->lyrno == lyrno);
+if(!cblk->numencpasses)
+leaf = jpc_tagtree_getleaf(prc->incltree, 				  cblk - prc->cblks);
+if(!included)
+for(band = lvl->bands;band != endbands;++band)
+prc = &band->prcs[prcno];
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+if(!lyrno)
+leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);
+jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);
+pass = cblk->curpass;
+included = (pass && pass->lyrno == lyrno);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+pass = cblk->curpass;
+included = (pass && pass->lyrno == lyrno);
+if(!cblk->numencpasses)
+leaf = jpc_tagtree_getleaf(prc->incltree, 				  cblk - prc->cblks);
+if(!included)
+for(band = lvl->bands;band != endbands;++band)
+prc = &band->prcs[prcno];
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+if(!lyrno)
+leaf = jpc_tagtree_getleaf(prc->nlibtree, cblk - prc->cblks);
+jpc_tagtree_setvalue(prc->nlibtree, leaf, cblk->numimsbs);
+pass = cblk->curpass;
+included = (pass && pass->lyrno == lyrno);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+pass = cblk->curpass;
+included = (pass && pass->lyrno == lyrno);
+if(!cblk->numencpasses)
+leaf = jpc_tagtree_getleaf(prc->incltree, 				  cblk - prc->cblks);
+if(!included)
+jpc_bitstream_outalign(outb, 0);
+jpc_bitstream_close(outb);
+comp = &tile->tcmpts[compno];
+lvl = &comp->rlvls[lvlno];
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+prc = &band->prcs[prcno];
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+pass = cblk->curpass;
+if(!pass)
+for(band = lvl->bands;band != endbands;++band)
+prc = &band->prcs[prcno];
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+pass = cblk->curpass;
+if(!pass)
+for(band = lvl->bands;band != endbands;++band)
+prc = &band->prcs[prcno];
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+pass = cblk->curpass;
+if(!pass)
+return 0;
+=======================

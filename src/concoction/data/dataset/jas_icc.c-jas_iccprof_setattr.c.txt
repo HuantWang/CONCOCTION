@@ -1,0 +1,673 @@
+-----label-----
+0
+-----code-----
+int jas_iccprof_setattr(jas_iccprof_t *prof, jas_iccattrname_t name,
+  jas_iccattrval_t *val)
+{
+	int i;
+	if ((i = jas_iccattrtab_lookup(prof->attrtab, name)) >= 0) {
+		if (val) {
+			if (jas_iccattrtab_replace(prof->attrtab, i, name, val))
+				goto error;
+		} else {
+			jas_iccattrtab_delete(prof->attrtab, i);
+		}
+	} else {
+		if (val) {
+			if (jas_iccattrtab_add(prof->attrtab, -1, name, val))
+				goto error;
+		} else {
+			/* NOP */
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+16,17
+16,18
+17,18
+19,20
+19,21
+22,23
+22,24
+22,25
+22,26
+23,24
+24,25
+24,26
+26,27
+28,29
+28,30
+28,31
+29,30
+29,31
+30,31
+31,32
+31,33
+32,33
+34,35
+34,36
+34,37
+35,36
+37,38
+37,39
+38,39
+41,42
+44,45
+45,46
+45,47
+45,48
+46,47
+48,49
+49,50
+49,51
+50,51
+50,52
+50,53
+50,54
+50,55
+51,52
+53,54
+53,55
+54,55
+57,58
+59,60
+61,62
+63,64
+65,66
+66,67
+67,68
+67,69
+67,70
+68,69
+70,71
+70,72
+71,72
+74,75
+76,77
+77,78
+77,79
+77,80
+78,79
+80,81
+81,82
+81,83
+82,83
+82,84
+82,85
+82,86
+82,87
+83,84
+85,86
+85,87
+86,87
+89,90
+91,92
+93,94
+95,96
+98,99
+100,101
+100,102
+102,103
+103,104
+-----nextToken-----
+2,4,7,9,10,13,15,18,20,21,25,27,33,36,39,40,42,43,47,52,55,56,58,60,62,64,69,72,73,75,79,84,87,88,90,92,94,96,97,99,101,104
+-----computeFrom-----
+29,30
+29,31
+31,32
+31,33
+-----guardedBy-----
+40,73
+42,60
+33,75
+39,72
+-----guardedByNegation-----
+40,88
+42,92
+39,87
+-----lastLexicalUse-----
+40,88
+42,92
+39,87
+-----jump-----
+40,88
+42,92
+39,87
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;IdExpression;Name;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;GotoStatement;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;IfStatement;IdExpression;Name;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;LiteralExpression;IdExpression;Name;IdExpression;Name;GotoStatement;Name;CompoundStatement;ReturnStatement;LiteralExpression;LabelStatement;Name;ReturnStatement;UnaryExpression;LiteralExpression;
+-----ast_node-----
+int jas_iccprof_setattr(jas_iccprof_t *prof, jas_iccattrname_t name,  jas_iccattrval_t *val){	int i;	if ((i = jas_iccattrtab_lookup(prof->attrtab, name)) >= 0) {		if (val) {			if (jas_iccattrtab_replace(prof->attrtab, i, name, val))				goto error;		} else {			jas_iccattrtab_delete(prof->attrtab, i);		}	} else {		if (val) {			if (jas_iccattrtab_add(prof->attrtab, -1, name, val))				goto error;		} else {			/* NOP */		}	}	return 0;error:	return -1;}
+int
+jas_iccprof_setattr(jas_iccprof_t *prof, jas_iccattrname_t name,  jas_iccattrval_t *val)
+jas_iccprof_setattr
+jas_iccprof_t *prof
+jas_iccprof_t
+jas_iccprof_t
+*prof
+*
+prof
+jas_iccattrname_t name
+jas_iccattrname_t
+jas_iccattrname_t
+name
+name
+jas_iccattrval_t *val
+jas_iccattrval_t
+jas_iccattrval_t
+*val
+*
+val
+{	int i;	if ((i = jas_iccattrtab_lookup(prof->attrtab, name)) >= 0) {		if (val) {			if (jas_iccattrtab_replace(prof->attrtab, i, name, val))				goto error;		} else {			jas_iccattrtab_delete(prof->attrtab, i);		}	} else {		if (val) {			if (jas_iccattrtab_add(prof->attrtab, -1, name, val))				goto error;		} else {			/* NOP */		}	}	return 0;error:	return -1;}
+int i;
+int i;
+int
+i
+i
+if ((i = jas_iccattrtab_lookup(prof->attrtab, name)) >= 0) {		if (val) {			if (jas_iccattrtab_replace(prof->attrtab, i, name, val))				goto error;		} else {			jas_iccattrtab_delete(prof->attrtab, i);		}	} else {		if (val) {			if (jas_iccattrtab_add(prof->attrtab, -1, name, val))				goto error;		} else {			/* NOP */		}	}
+(i = jas_iccattrtab_lookup(prof->attrtab, name)) >= 0
+(i = jas_iccattrtab_lookup(prof->attrtab, name))
+i = jas_iccattrtab_lookup(prof->attrtab, name)
+i
+i
+jas_iccattrtab_lookup(prof->attrtab, name)
+jas_iccattrtab_lookup
+jas_iccattrtab_lookup
+prof->attrtab
+prof
+prof
+attrtab
+name
+name
+0
+{		if (val) {			if (jas_iccattrtab_replace(prof->attrtab, i, name, val))				goto error;		} else {			jas_iccattrtab_delete(prof->attrtab, i);		}	}
+if (val) {			if (jas_iccattrtab_replace(prof->attrtab, i, name, val))				goto error;		} else {			jas_iccattrtab_delete(prof->attrtab, i);		}
+val
+val
+{			if (jas_iccattrtab_replace(prof->attrtab, i, name, val))				goto error;		}
+if (jas_iccattrtab_replace(prof->attrtab, i, name, val))				goto error;
+jas_iccattrtab_replace(prof->attrtab, i, name, val)
+jas_iccattrtab_replace
+jas_iccattrtab_replace
+prof->attrtab
+prof
+prof
+attrtab
+i
+i
+name
+name
+val
+val
+goto error;
+error
+{			jas_iccattrtab_delete(prof->attrtab, i);		}
+jas_iccattrtab_delete(prof->attrtab, i);
+jas_iccattrtab_delete(prof->attrtab, i)
+jas_iccattrtab_delete
+jas_iccattrtab_delete
+prof->attrtab
+prof
+prof
+attrtab
+i
+i
+{		if (val) {			if (jas_iccattrtab_add(prof->attrtab, -1, name, val))				goto error;		} else {			/* NOP */		}	}
+if (val) {			if (jas_iccattrtab_add(prof->attrtab, -1, name, val))				goto error;		} else {			/* NOP */		}
+val
+val
+{			if (jas_iccattrtab_add(prof->attrtab, -1, name, val))				goto error;		}
+if (jas_iccattrtab_add(prof->attrtab, -1, name, val))				goto error;
+jas_iccattrtab_add(prof->attrtab, -1, name, val)
+jas_iccattrtab_add
+jas_iccattrtab_add
+prof->attrtab
+prof
+prof
+attrtab
+-1
+1
+name
+name
+val
+val
+goto error;
+error
+{			/* NOP */		}
+return 0;
+0
+error:	return -1;
+error
+return -1;
+-1
+1
+-----joern-----
+(4,40,0)
+(39,28,0)
+(47,3,0)
+(36,29,0)
+(17,47,0)
+(35,23,0)
+(26,28,0)
+(40,22,0)
+(43,40,0)
+(31,15,0)
+(19,28,0)
+(22,28,0)
+(46,29,0)
+(38,28,0)
+(33,21,0)
+(1,39,0)
+(23,38,0)
+(45,47,0)
+(42,47,0)
+(24,12,0)
+(1,17,0)
+(21,33,0)
+(47,45,0)
+(25,12,0)
+(9,42,0)
+(11,28,0)
+(16,23,0)
+(41,12,0)
+(42,31,0)
+(39,1,0)
+(14,39,0)
+(12,47,0)
+(10,19,0)
+(13,28,0)
+(6,19,0)
+(27,7,0)
+(36,38,0)
+(2,48,0)
+(29,21,0)
+(48,21,0)
+(17,1,0)
+(49,42,0)
+(5,28,0)
+(21,48,0)
+(22,40,0)
+(29,36,0)
+(40,47,0)
+(31,28,0)
+(20,21,0)
+(23,47,0)
+(12,25,0)
+(19,47,0)
+(37,17,0)
+(0,17,0)
+(8,28,0)
+(32,29,0)
+(38,36,0)
+(39,25,0)
+(18,31,0)
+(7,28,0)
+(48,15,0)
+(25,39,0)
+(30,47,0)
+(3,47,0)
+(6,7,0)
+(27,44,1)
+(47,45,1)
+(25,12,1)
+(16,35,1)
+(22,40,1)
+(33,21,1)
+(19,10,1)
+(6,7,1)
+(38,36,1)
+(6,19,1)
+(32,46,1)
+(12,47,1)
+(48,2,1)
+(7,27,1)
+(39,25,1)
+(14,1,1)
+(21,48,1)
+(31,15,1)
+(3,47,1)
+(23,16,1)
+(45,30,1)
+(40,47,1)
+(17,47,1)
+(35,3,1)
+(17,0,1)
+(18,42,1)
+(2,20,1)
+(40,43,1)
+(44,33,1)
+(23,47,1)
+(48,15,1)
+(42,9,1)
+(29,32,1)
+(37,22,1)
+(34,3,1)
+(24,41,1)
+(0,37,1)
+(1,17,1)
+(12,24,1)
+(4,31,1)
+(49,38,1)
+(9,49,1)
+(27,34,1)
+(30,33,1)
+(29,21,1)
+(39,1,1)
+(41,14,1)
+(43,4,1)
+(31,18,1)
+(36,29,1)
+(42,47,1)
+(46,23,1)
+(10,39,1)
+(19,47,1)
+(6,19,2)
+(41,3,2)
+(36,29,2)
+(18,3,2)
+(1,17,2)
+(27,3,2)
+(39,1,2)
+(31,15,2)
+(22,3,2)
+(47,33,2)
+(45,33,2)
+(3,47,2)
+(4,3,2)
+(22,40,2)
+(32,3,2)
+(25,12,2)
+(17,47,2)
+(47,45,2)
+(42,47,2)
+(23,3,2)
+(38,36,2)
+(27,33,2)
+(29,3,2)
+(40,47,2)
+(36,3,2)
+(23,47,2)
+(9,3,2)
+(39,25,2)
+(7,33,2)
+(21,48,2)
+(12,47,2)
+(38,3,2)
+(31,3,2)
+(48,15,2)
+(3,33,2)
+(30,33,2)
+(40,3,2)
+(37,3,2)
+(10,3,2)
+(24,3,2)
+(19,3,2)
+(0,3,2)
+(1,3,2)
+(33,21,2)
+(44,33,2)
+(49,3,2)
+(43,3,2)
+(35,3,2)
+(14,3,2)
+(42,3,2)
+(46,3,2)
+(12,3,2)
+(39,3,2)
+(6,7,2)
+(17,3,2)
+(34,3,2)
+(7,3,2)
+(29,21,2)
+(16,3,2)
+(25,3,2)
+(19,47,2)
+-----------------------------------
+(0,data)
+(1,&attrval->data)
+(2,type)
+(3,!(attrval = jas_iccattrval_create0()
+(4,attrval)
+(5,error:)
+(6,RET)
+(7,return 0;)
+(8,attrval)
+(9,type)
+(10,attrval)
+(11,if (!(attrval = jas_iccattrval_create0()
+(12,attrval->data)
+(13,info)
+(14,0)
+(15,jas_iccuint32_t type)
+(16,ops)
+(17,attrval->data)
+(18,type)
+(19,return attrval;)
+(20,info)
+(21,info = jas_iccattrvalinfo_lookup(type)
+(22,++attrval->refcnt)
+(23,attrval->ops)
+(24,data)
+(25,sizeof(attrval->data)
+(26,if (!(info = jas_iccattrvalinfo_lookup(type)
+(27,0)
+(28,)
+(29,info->ops)
+(30,attrval)
+(31,attrval->type = type)
+(32,ops)
+(33,!(info = jas_iccattrvalinfo_lookup(type)
+(34,goto error;)
+(35,attrval)
+(36,&info->ops)
+(37,attrval)
+(38,attrval->ops = &info->ops)
+(39,memset(&attrval->data, 0, sizeof(attrval->data)
+(40,attrval->refcnt)
+(41,attrval)
+(42,attrval->type)
+(43,refcnt)
+(44,goto error;)
+(45,jas_iccattrval_create0()
+(46,info)
+(47,attrval = jas_iccattrval_create0()
+(48,jas_iccattrvalinfo_lookup(type)
+(49,attrval)
+-----cfg-----
+(65,68)
+(66,65)
+(39,62)
+(7,20)
+(40,39)
+(42,40)
+(14,31)
+(14,42)
+(14,53)
+(14,62)
+(15,14)
+(17,15)
+(18,17)
+(50,66)
+(50,62)
+(51,54)
+(20,18)
+(53,51)
+(54,50)
+(28,66)
+(28,62)
+(29,28)
+(62,68)
+(31,29)
+-----path-----
+7,20,18,17,15,14,31,29,28,66,65,68
+7,20,18,17,15,14,31,29,28,62,68
+7,20,18,17,15,14,42,40,39,62,68
+7,20,18,17,15,14,53,51,54,50,66,65,68
+7,20,18,17,15,14,53,51,54,50,62,68
+7,20,18,17,15,14,62,68
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jas_iccprof_setattr (jas_iccprof_t *prof,jas_iccattrname_t name,jas_iccattrval_t *val)
+8,jas_iccprof_t *prof
+9,jas_iccattrname_t name
+10,jas_iccattrval_t *val
+11,<empty>
+12,int i
+13,if ((i = jas_iccattrtab_lookup(prof->attrtab, name)) >= 0)
+14,(i = jas_iccattrtab_lookup(prof->attrtab, name)) >= 0
+15,i = jas_iccattrtab_lookup(prof->attrtab, name)
+16,i
+17,jas_iccattrtab_lookup(prof->attrtab, name)
+18,prof->attrtab
+19,prof
+20,attrtab
+21,name
+22,0
+23,<empty>
+24,if (val)
+25,val
+26,<empty>
+27,if (jas_iccattrtab_replace(prof->attrtab, i, name, val))
+28,jas_iccattrtab_replace(prof->attrtab, i, name, val)
+29,prof->attrtab
+30,prof
+31,attrtab
+32,i
+33,name
+34,val
+35,<empty>
+36,goto error;
+37,else
+38,<empty>
+39,jas_iccattrtab_delete(prof->attrtab, i)
+40,prof->attrtab
+41,prof
+42,attrtab
+43,i
+44,else
+45,<empty>
+46,if (val)
+47,val
+48,<empty>
+49,if (jas_iccattrtab_add(prof->attrtab, -1, name, val))
+50,jas_iccattrtab_add(prof->attrtab, -1, name, val)
+51,prof->attrtab
+52,prof
+53,attrtab
+54,-1
+55,1
+56,name
+57,val
+58,<empty>
+59,goto error;
+60,else
+61,<empty>
+62,return 0;
+63,0
+64,error:
+65,	return -1;
+66,return -1;
+67,-1
+68,1
+69,RET
+70,jas_iccprof_t *prof
+71,jas_iccattrname_t name
+72,jas_iccattrval_t *val
+73,RET
+74,int jas_iccprof_setattr (jas_iccprof_t *prof,jas_iccattrname_t name,jas_iccattrval_t *val)
+75,jas_iccprof_t *prof
+76,jas_iccattrname_t name
+77,jas_iccattrval_t *val
+78,<empty>
+79,int i
+80,if ((i = jas_iccattrtab_lookup(prof->attrtab, name)) >= 0)
+81,(i = jas_iccattrtab_lookup(prof->attrtab, name)) >= 0
+82,i = jas_iccattrtab_lookup(prof->attrtab, name)
+83,i
+84,jas_iccattrtab_lookup(prof->attrtab, name)
+85,prof->attrtab
+86,prof
+87,attrtab
+88,name
+89,0
+90,<empty>
+91,if (val)
+92,val
+93,<empty>
+94,if (jas_iccattrtab_replace(prof->attrtab, i, name, val))
+95,jas_iccattrtab_replace(prof->attrtab, i, name, val)
+96,prof->attrtab
+97,prof
+98,attrtab
+99,i
+100,name
+101,val
+102,<empty>
+103,goto error;
+104,else
+105,<empty>
+106,jas_iccattrtab_delete(prof->attrtab, i)
+107,prof->attrtab
+108,prof
+109,attrtab
+110,i
+111,else
+112,<empty>
+113,if (val)
+114,val
+115,<empty>
+116,if (jas_iccattrtab_add(prof->attrtab, -1, name, val))
+117,jas_iccattrtab_add(prof->attrtab, -1, name, val)
+118,prof->attrtab
+119,prof
+120,attrtab
+121,-1
+122,1
+123,name
+124,val
+125,<empty>
+126,goto error;
+127,else
+128,<empty>
+129,return 0;
+130,0
+131,error:
+132,	return -1;
+133,return -1;
+134,-1
+135,1
+136,RET
+137,jas_iccprof_t *prof
+138,jas_iccattrname_t name
+139,jas_iccattrval_t *val
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jas_iccprof_setattr(jas_iccprof_t *prof, jas_iccattrname_t name,   jas_iccattrval_t *val) {
+int i;
+if(val)
+return 0;
+=======================

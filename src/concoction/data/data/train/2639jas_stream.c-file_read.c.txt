@@ -1,0 +1,353 @@
+-----label-----
+0
+-----code-----
+static int file_read(jas_stream_obj_t *obj, char *buf, int cnt)
+{
+	jas_stream_fileobj_t *fileobj;
+	JAS_DBGLOG(100, ("file_read(%p, %p, %d)\n", obj, buf, cnt));
+	fileobj = JAS_CAST(jas_stream_fileobj_t *, obj);
+	return read(fileobj->fd, buf, cnt);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+13,15
+16,17
+16,18
+18,19
+20,21
+20,22
+20,23
+20,24
+21,22
+22,23
+22,24
+23,24
+25,26
+25,27
+28,29
+29,30
+29,31
+29,32
+30,31
+33,34
+34,35
+34,36
+34,37
+34,38
+36,37
+38,39
+40,41
+42,43
+43,44
+44,45
+44,46
+44,47
+44,48
+45,46
+47,48
+47,49
+48,49
+51,52
+53,54
+-----nextToken-----
+2,4,7,9,10,12,14,15,17,19,24,26,27,31,32,35,37,39,41,46,49,50,52,54
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LiteralExpression;UnaryExpression;ExpressionList;LiteralExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ProblemStatement;ReturnStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+static int file_read(jas_stream_obj_t *obj, char *buf, int cnt){	jas_stream_fileobj_t *fileobj;	JAS_DBGLOG(100, ("file_read(%p, %p, %d)\n", obj, buf, cnt));	fileobj = JAS_CAST(jas_stream_fileobj_t *, obj);	return read(fileobj->fd, buf, cnt);}
+static int
+file_read(jas_stream_obj_t *obj, char *buf, int cnt)
+file_read
+jas_stream_obj_t *obj
+jas_stream_obj_t
+jas_stream_obj_t
+*obj
+*
+obj
+char *buf
+char
+*buf
+*
+buf
+int cnt
+int
+cnt
+cnt
+{	jas_stream_fileobj_t *fileobj;	JAS_DBGLOG(100, ("file_read(%p, %p, %d)\n", obj, buf, cnt));	fileobj = JAS_CAST(jas_stream_fileobj_t *, obj);	return read(fileobj->fd, buf, cnt);}
+jas_stream_fileobj_t *fileobj;
+jas_stream_fileobj_t *fileobj;
+jas_stream_fileobj_t
+jas_stream_fileobj_t
+*fileobj
+*
+fileobj
+JAS_DBGLOG(100, ("file_read(%p, %p, %d)\n", obj, buf, cnt));
+JAS_DBGLOG(100, ("file_read(%p, %p, %d)\n", obj, buf, cnt))
+JAS_DBGLOG
+JAS_DBGLOG
+100
+("file_read(%p, %p, %d)\n", obj, buf, cnt)
+"file_read(%p, %p, %d)\n", obj, buf, cnt
+"file_read(%p, %p, %d)\n"
+obj
+obj
+buf
+buf
+cnt
+cnt
+fileobj = JAS_CAST(jas_stream_fileobj_t *, obj);
+return read(fileobj->fd, buf, cnt);
+read(fileobj->fd, buf, cnt)
+read
+read
+fileobj->fd
+fileobj
+fileobj
+fd
+buf
+buf
+cnt
+cnt
+-----joern-----
+(8,33,0)
+(13,49,0)
+(30,45,0)
+(26,45,0)
+(2,24,0)
+(41,45,0)
+(10,14,0)
+(31,43,0)
+(19,29,0)
+(11,50,0)
+(32,49,0)
+(36,7,0)
+(15,49,0)
+(7,21,0)
+(12,49,0)
+(18,6,0)
+(45,2,0)
+(2,48,0)
+(42,40,0)
+(45,6,0)
+(50,45,0)
+(14,18,0)
+(39,43,0)
+(14,10,0)
+(16,29,0)
+(1,18,0)
+(9,48,0)
+(17,8,0)
+(34,24,0)
+(38,39,0)
+(48,6,0)
+(43,0,0)
+(45,50,0)
+(31,3,0)
+(20,10,0)
+(27,29,0)
+(23,29,0)
+(5,47,0)
+(4,36,0)
+(3,37,0)
+(31,47,0)
+(29,6,0)
+(40,3,0)
+(46,17,0)
+(31,8,0)
+(24,2,0)
+(25,2,0)
+(47,49,0)
+(28,19,0)
+(18,14,0)
+(29,19,0)
+(47,14,0)
+(35,14,0)
+(31,7,0)
+(22,49,0)
+(48,2,0)
+(44,49,0)
+(19,28,1)
+(2,48,1)
+(40,42,1)
+(38,24,1)
+(43,39,1)
+(35,19,1)
+(46,50,1)
+(18,1,1)
+(5,50,1)
+(14,18,1)
+(45,6,1)
+(26,41,1)
+(11,45,1)
+(31,3,1)
+(31,8,1)
+(23,16,1)
+(29,6,1)
+(31,47,1)
+(17,46,1)
+(18,6,1)
+(41,10,1)
+(31,7,1)
+(4,19,1)
+(24,34,1)
+(7,36,1)
+(29,27,1)
+(8,17,1)
+(24,2,1)
+(47,14,1)
+(48,6,1)
+(19,29,1)
+(20,14,1)
+(34,2,1)
+(50,45,1)
+(45,30,1)
+(47,5,1)
+(3,40,1)
+(28,29,1)
+(10,20,1)
+(42,10,1)
+(31,43,1)
+(36,4,1)
+(50,11,1)
+(10,14,1)
+(9,25,1)
+(16,24,1)
+(45,2,1)
+(27,23,1)
+(48,9,1)
+(39,38,1)
+(30,26,1)
+(1,35,1)
+(40,10,2)
+(17,50,2)
+(30,10,2)
+(28,24,2)
+(5,50,2)
+(42,10,2)
+(8,50,2)
+(38,24,2)
+(35,19,2)
+(45,10,2)
+(29,24,2)
+(7,19,2)
+(29,6,2)
+(19,29,2)
+(27,24,2)
+(41,10,2)
+(16,24,2)
+(23,24,2)
+(46,50,2)
+(50,45,2)
+(36,19,2)
+(50,10,2)
+(39,24,2)
+(2,48,2)
+(31,7,2)
+(45,2,2)
+(18,6,2)
+(47,50,2)
+(31,3,2)
+(26,10,2)
+(31,47,2)
+(47,14,2)
+(31,43,2)
+(14,19,2)
+(10,14,2)
+(24,2,2)
+(31,8,2)
+(20,19,2)
+(3,10,2)
+(18,19,2)
+(48,6,2)
+(10,19,2)
+(4,19,2)
+(1,19,2)
+(11,10,2)
+(45,6,2)
+(14,18,2)
+(43,24,2)
+(19,24,2)
+-----------------------------------
+(0,)
+(1,stream)
+(2,oldpos = jas_stream_tell(stream)
+(3,return -1;)
+(4,1)
+(5,pos)
+(6,jas_stream_t *stream)
+(7,return -1;)
+(8,return -1;)
+(9,stream)
+(10,(pos = jas_stream_tell(stream)
+(11,0)
+(12,if ((pos = jas_stream_tell(stream)
+(13,pos)
+(14,pos = jas_stream_tell(stream)
+(15,if (jas_stream_seek(stream, oldpos, SEEK_SET)
+(16,stream)
+(17,-1)
+(18,jas_stream_tell(stream)
+(19,jas_stream_seek(stream, 0, SEEK_END)
+(20,0)
+(21,)
+(22,if (jas_stream_seek(stream, 0, SEEK_END)
+(23,0)
+(24,(oldpos = jas_stream_tell(stream)
+(25,oldpos)
+(26,oldpos)
+(27,SEEK_END)
+(28,0)
+(29,jas_stream_seek(stream, 0, SEEK_END)
+(30,SEEK_SET)
+(31,RET)
+(32,oldpos)
+(33,)
+(34,0)
+(35,pos)
+(36,-1)
+(37,)
+(38,1)
+(39,-1)
+(40,-1)
+(41,stream)
+(42,1)
+(43,return -1;)
+(44,if ((oldpos = jas_stream_tell(stream)
+(45,jas_stream_seek(stream, oldpos, SEEK_SET)
+(46,1)
+(47,return pos;)
+(48,jas_stream_tell(stream)
+(49,)
+(50,jas_stream_seek(stream, oldpos, SEEK_SET)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000020000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffff4095ad6300000000ffffffffffffffff4095ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x59a66a95ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+static int file_read(jas_stream_obj_t *obj, char *buf, int cnt) {
+jas_stream_fileobj_t *fileobj;
+JAS_DBGLOG(100, ('file_read(_p, _p, _d) ', obj, buf, cnt));
+fileobj = JAS_CAST(jas_stream_fileobj_t *, obj);
+return read(fileobj->fd, buf, cnt);
+=======================

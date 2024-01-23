@@ -1,0 +1,1346 @@
+-----label-----
+0
+-----code-----
+static int pnm_getsintstr(jas_stream_t *in, int_fast32_t *val)
+{
+	int c;
+	int s;
+	int_fast32_t v;
+
+	/* Discard any leading whitespace. */
+	do {
+		if ((c = pnm_getc(in)) == EOF) {
+			return -1;
+		}
+	} while (isspace(c));
+
+	/* Get the number, allowing for a negative sign. */
+	s = 1;
+	if (c == '-') {
+		s = -1;
+		if ((c = pnm_getc(in)) == EOF) {
+			return -1;
+		}
+	} else if (c == '+') {
+		if ((c = pnm_getc(in)) == EOF) {
+			return -1;
+		}
+	}
+	v = 0;
+	while (isdigit(c)) {
+		v = 10 * v + c - '0';
+		if ((c = pnm_getc(in)) < 0) {
+			return -1;
+		}
+	}
+
+	/* The number must be followed by whitespace. */
+	if (!isspace(c)) {
+		return -1;
+	}
+
+	if (val) {
+		*val = (s >= 0) ? v : (-v);
+	}
+
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+17,20
+17,21
+17,22
+17,23
+17,24
+17,25
+17,26
+17,27
+17,28
+18,19
+19,20
+19,21
+21,22
+23,24
+24,25
+24,26
+26,27
+28,29
+29,30
+29,31
+30,31
+32,33
+34,35
+34,36
+35,36
+36,37
+36,38
+37,38
+37,39
+38,39
+39,40
+39,41
+40,41
+42,43
+42,44
+43,44
+45,46
+47,48
+49,50
+50,51
+51,52
+53,54
+53,55
+54,55
+56,57
+58,59
+59,60
+59,61
+60,61
+63,64
+63,65
+63,66
+64,65
+64,66
+65,66
+68,69
+68,70
+69,70
+70,71
+70,72
+71,72
+73,74
+75,76
+75,77
+76,77
+76,78
+77,78
+78,79
+78,80
+79,80
+81,82
+81,83
+82,83
+84,85
+86,87
+88,89
+89,90
+90,91
+92,93
+92,94
+93,94
+93,95
+94,95
+97,98
+98,99
+98,100
+99,100
+99,101
+100,101
+101,102
+101,103
+102,103
+104,105
+104,106
+105,106
+107,108
+109,110
+111,112
+112,113
+113,114
+115,116
+116,117
+116,118
+117,118
+120,121
+120,122
+121,122
+121,123
+122,123
+124,125
+126,127
+126,128
+127,128
+128,129
+128,130
+129,130
+131,132
+131,133
+132,133
+132,134
+133,134
+133,135
+135,136
+137,138
+140,141
+140,142
+141,142
+141,143
+142,143
+143,144
+143,145
+144,145
+146,147
+146,148
+147,148
+149,150
+152,153
+153,154
+154,155
+156,157
+156,158
+157,158
+158,159
+158,160
+159,160
+161,162
+163,164
+164,165
+165,166
+167,168
+167,169
+168,169
+170,171
+171,172
+172,173
+172,174
+173,174
+174,175
+176,177
+176,178
+176,179
+177,178
+178,179
+178,180
+179,180
+182,183
+184,185
+185,186
+186,187
+188,189
+-----nextToken-----
+2,4,7,9,10,13,15,16,20,22,25,27,31,33,41,44,46,48,52,55,57,61,62,66,67,72,74,80,83,85,87,91,95,96,103,106,108,110,114,118,119,123,125,130,134,136,138,139,145,148,150,151,155,160,162,166,169,175,180,181,183,187,189
+-----computeFrom-----
+37,38
+37,39
+39,40
+39,41
+59,60
+59,61
+64,65
+64,66
+70,71
+70,72
+76,77
+76,78
+78,79
+78,80
+93,94
+93,95
+99,100
+99,101
+101,102
+101,103
+116,117
+116,118
+128,129
+128,130
+131,132
+131,133
+132,133
+132,134
+133,134
+133,135
+141,142
+141,143
+143,144
+143,145
+172,173
+172,174
+178,179
+178,180
+-----guardedBy-----
+66,80
+95,103
+-----guardedByNegation-----
+66,103
+-----lastLexicalUse-----
+66,103
+-----jump-----
+66,103
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;DoStatement;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;WhileStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;BinaryExpression;BinaryExpression;LiteralExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;UnaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;UnaryExpression;IdExpression;Name;ConditionalExpression;UnaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;UnaryExpression;UnaryExpression;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int pnm_getsintstr(jas_stream_t *in, int_fast32_t *val){	int c;	int s;	int_fast32_t v;	/* Discard any leading whitespace. */	do {		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	} while (isspace(c));	/* Get the number, allowing for a negative sign. */	s = 1;	if (c == '-') {		s = -1;		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	} else if (c == '+') {		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	}	v = 0;	while (isdigit(c)) {		v = 10 * v + c - '0';		if ((c = pnm_getc(in)) < 0) {			return -1;		}	}	/* The number must be followed by whitespace. */	if (!isspace(c)) {		return -1;	}	if (val) {		*val = (s >= 0) ? v : (-v);	}	return 0;}
+static int
+pnm_getsintstr(jas_stream_t *in, int_fast32_t *val)
+pnm_getsintstr
+jas_stream_t *in
+jas_stream_t
+jas_stream_t
+*in
+*
+in
+int_fast32_t *val
+int_fast32_t
+int_fast32_t
+*val
+*
+val
+{	int c;	int s;	int_fast32_t v;	/* Discard any leading whitespace. */	do {		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	} while (isspace(c));	/* Get the number, allowing for a negative sign. */	s = 1;	if (c == '-') {		s = -1;		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	} else if (c == '+') {		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	}	v = 0;	while (isdigit(c)) {		v = 10 * v + c - '0';		if ((c = pnm_getc(in)) < 0) {			return -1;		}	}	/* The number must be followed by whitespace. */	if (!isspace(c)) {		return -1;	}	if (val) {		*val = (s >= 0) ? v : (-v);	}	return 0;}
+int c;
+int c;
+int
+c
+c
+int s;
+int s;
+int
+s
+s
+int_fast32_t v;
+int_fast32_t v;
+int_fast32_t
+int_fast32_t
+v
+v
+do {		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	} while (isspace(c));
+{		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	}
+if ((c = pnm_getc(in)) == EOF) {			return -1;		}
+(c = pnm_getc(in)) == EOF
+(c = pnm_getc(in))
+c = pnm_getc(in)
+c
+c
+pnm_getc(in)
+pnm_getc
+pnm_getc
+in
+in
+EOF
+EOF
+{			return -1;		}
+return -1;
+-1
+1
+isspace(c)
+isspace
+isspace
+c
+c
+s = 1;
+s = 1
+s
+s
+1
+if (c == '-') {		s = -1;		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	} else if (c == '+') {		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	}
+c == '-'
+c
+c
+'-'
+{		s = -1;		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	}
+s = -1;
+s = -1
+s
+s
+-1
+1
+if ((c = pnm_getc(in)) == EOF) {			return -1;		}
+(c = pnm_getc(in)) == EOF
+(c = pnm_getc(in))
+c = pnm_getc(in)
+c
+c
+pnm_getc(in)
+pnm_getc
+pnm_getc
+in
+in
+EOF
+EOF
+{			return -1;		}
+return -1;
+-1
+1
+if (c == '+') {		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	}
+c == '+'
+c
+c
+'+'
+{		if ((c = pnm_getc(in)) == EOF) {			return -1;		}	}
+if ((c = pnm_getc(in)) == EOF) {			return -1;		}
+(c = pnm_getc(in)) == EOF
+(c = pnm_getc(in))
+c = pnm_getc(in)
+c
+c
+pnm_getc(in)
+pnm_getc
+pnm_getc
+in
+in
+EOF
+EOF
+{			return -1;		}
+return -1;
+-1
+1
+v = 0;
+v = 0
+v
+v
+0
+while (isdigit(c)) {		v = 10 * v + c - '0';		if ((c = pnm_getc(in)) < 0) {			return -1;		}	}
+isdigit(c)
+isdigit
+isdigit
+c
+c
+{		v = 10 * v + c - '0';		if ((c = pnm_getc(in)) < 0) {			return -1;		}	}
+v = 10 * v + c - '0';
+v = 10 * v + c - '0'
+v
+v
+10 * v + c - '0'
+10 * v + c
+10 * v
+10
+v
+v
+c
+c
+'0'
+if ((c = pnm_getc(in)) < 0) {			return -1;		}
+(c = pnm_getc(in)) < 0
+(c = pnm_getc(in))
+c = pnm_getc(in)
+c
+c
+pnm_getc(in)
+pnm_getc
+pnm_getc
+in
+in
+0
+{			return -1;		}
+return -1;
+-1
+1
+if (!isspace(c)) {		return -1;	}
+!isspace(c)
+isspace(c)
+isspace
+isspace
+c
+c
+{		return -1;	}
+return -1;
+-1
+1
+if (val) {		*val = (s >= 0) ? v : (-v);	}
+val
+val
+{		*val = (s >= 0) ? v : (-v);	}
+*val = (s >= 0) ? v : (-v);
+*val = (s >= 0) ? v : (-v)
+*val
+val
+val
+(s >= 0) ? v : (-v)
+(s >= 0)
+s >= 0
+s
+s
+0
+v
+v
+(-v)
+-v
+v
+v
+return 0;
+0
+-----joern-----
+(76,81,0)
+(20,10,0)
+(74,111,0)
+(12,77,0)
+(7,84,0)
+(106,45,0)
+(34,36,0)
+(50,20,0)
+(40,60,0)
+(80,28,0)
+(23,27,0)
+(66,105,0)
+(27,60,0)
+(13,69,0)
+(71,105,0)
+(45,5,0)
+(19,84,0)
+(12,107,0)
+(5,68,0)
+(53,80,0)
+(12,41,0)
+(7,35,0)
+(11,40,0)
+(51,2,0)
+(68,62,0)
+(102,105,0)
+(85,15,0)
+(52,45,0)
+(96,105,0)
+(1,28,0)
+(43,10,0)
+(37,15,0)
+(111,74,0)
+(41,24,0)
+(63,103,0)
+(36,61,0)
+(31,60,0)
+(32,72,0)
+(100,34,0)
+(6,105,0)
+(103,60,0)
+(111,62,0)
+(38,60,0)
+(44,77,0)
+(48,28,0)
+(9,36,0)
+(73,103,0)
+(75,41,0)
+(31,94,0)
+(108,102,0)
+(54,101,0)
+(94,95,0)
+(45,62,0)
+(2,35,0)
+(22,107,0)
+(35,20,0)
+(95,49,0)
+(94,31,0)
+(56,81,0)
+(21,38,0)
+(57,64,0)
+(90,15,0)
+(17,105,0)
+(26,52,0)
+(4,17,0)
+(46,19,0)
+(27,32,0)
+(42,20,0)
+(0,105,0)
+(77,17,0)
+(69,76,0)
+(3,68,0)
+(39,95,0)
+(12,103,0)
+(49,5,0)
+(8,77,0)
+(25,31,0)
+(68,5,0)
+(32,64,0)
+(45,52,0)
+(5,45,0)
+(33,80,0)
+(77,60,0)
+(104,88,0)
+(35,14,0)
+(35,103,0)
+(69,60,0)
+(7,12,0)
+(109,69,0)
+(41,60,0)
+(12,20,0)
+(5,49,0)
+(101,15,0)
+(20,60,0)
+(86,107,0)
+(78,15,0)
+(40,55,0)
+(91,74,0)
+(84,18,0)
+(49,95,0)
+(107,60,0)
+(110,38,0)
+(12,27,0)
+(24,61,0)
+(65,105,0)
+(107,102,0)
+(59,12,0)
+(12,34,0)
+(103,101,0)
+(88,68,0)
+(55,40,0)
+(72,28,0)
+(81,76,0)
+(89,15,0)
+(83,72,0)
+(99,31,0)
+(10,15,0)
+(87,105,0)
+(97,57,0)
+(95,94,0)
+(93,41,0)
+(92,24,0)
+(72,32,0)
+(30,105,0)
+(29,111,0)
+(16,27,0)
+(12,15,0)
+(79,15,0)
+(76,69,0)
+(67,40,0)
+(70,34,0)
+(12,38,0)
+(95,62,0)
+(24,28,0)
+(28,82,0)
+(47,15,0)
+(68,88,0)
+(98,58,0)
+(34,60,0)
+(38,57,0)
+(52,26,1)
+(77,44,1)
+(10,43,1)
+(86,55,1)
+(91,29,1)
+(38,21,1)
+(24,92,1)
+(7,84,1)
+(92,41,1)
+(45,62,1)
+(57,97,1)
+(94,31,1)
+(104,3,1)
+(95,94,1)
+(22,86,1)
+(83,27,1)
+(73,49,1)
+(75,80,1)
+(28,48,1)
+(27,16,1)
+(50,42,1)
+(56,76,1)
+(46,49,1)
+(12,41,1)
+(72,28,1)
+(35,2,1)
+(76,69,1)
+(40,11,1)
+(44,8,1)
+(31,60,1)
+(72,83,1)
+(20,50,1)
+(59,30,1)
+(35,20,1)
+(68,88,1)
+(4,77,1)
+(70,100,1)
+(102,108,1)
+(24,28,1)
+(107,60,1)
+(12,59,1)
+(100,24,1)
+(74,91,1)
+(1,81,1)
+(34,70,1)
+(9,34,1)
+(40,60,1)
+(12,20,1)
+(12,38,1)
+(80,53,1)
+(80,28,1)
+(59,87,1)
+(12,103,1)
+(49,95,1)
+(21,110,1)
+(69,60,1)
+(13,109,1)
+(32,72,1)
+(49,5,1)
+(12,34,1)
+(29,81,1)
+(7,12,1)
+(84,19,1)
+(67,36,1)
+(43,20,1)
+(11,67,1)
+(5,45,1)
+(93,75,1)
+(54,103,1)
+(99,39,1)
+(27,60,1)
+(103,60,1)
+(12,27,1)
+(97,38,1)
+(108,107,1)
+(81,76,1)
+(12,107,1)
+(103,63,1)
+(110,32,1)
+(5,68,1)
+(63,73,1)
+(111,62,1)
+(41,60,1)
+(59,71,1)
+(12,77,1)
+(48,1,1)
+(38,60,1)
+(45,52,1)
+(33,28,1)
+(34,60,1)
+(109,10,1)
+(36,9,1)
+(7,35,1)
+(17,4,1)
+(25,99,1)
+(30,102,1)
+(16,23,1)
+(42,101,1)
+(87,17,1)
+(51,111,1)
+(20,60,1)
+(107,22,1)
+(55,40,1)
+(8,55,1)
+(88,104,1)
+(19,46,1)
+(95,62,1)
+(101,54,1)
+(31,25,1)
+(69,13,1)
+(106,68,1)
+(35,103,1)
+(53,33,1)
+(68,62,1)
+(23,80,1)
+(26,106,1)
+(71,0,1)
+(41,93,1)
+(111,74,1)
+(81,56,1)
+(3,95,1)
+(77,60,1)
+(67,57,1)
+(0,55,1)
+(2,51,1)
+(33,111,1)
+(9,80,2)
+(67,81,2)
+(100,80,2)
+(7,35,2)
+(32,72,2)
+(68,95,2)
+(59,81,2)
+(20,49,2)
+(93,80,2)
+(36,80,2)
+(104,95,2)
+(53,111,2)
+(41,60,2)
+(44,55,2)
+(111,74,2)
+(17,55,2)
+(84,49,2)
+(68,62,2)
+(11,81,2)
+(95,62,2)
+(40,81,2)
+(106,68,2)
+(45,62,2)
+(12,107,2)
+(12,27,2)
+(1,81,2)
+(55,111,2)
+(75,80,2)
+(54,49,2)
+(35,111,2)
+(2,111,2)
+(88,95,2)
+(92,80,2)
+(12,81,2)
+(12,20,2)
+(5,95,2)
+(20,60,2)
+(50,49,2)
+(87,55,2)
+(38,60,2)
+(77,55,2)
+(72,28,2)
+(80,81,2)
+(41,80,2)
+(63,49,2)
+(22,55,2)
+(32,80,2)
+(4,55,2)
+(3,95,2)
+(48,81,2)
+(102,55,2)
+(12,34,2)
+(111,62,2)
+(110,80,2)
+(40,60,2)
+(33,111,2)
+(30,55,2)
+(28,81,2)
+(72,80,2)
+(81,76,2)
+(29,81,2)
+(107,55,2)
+(80,28,2)
+(11,111,2)
+(51,111,2)
+(71,55,2)
+(5,68,2)
+(12,38,2)
+(94,31,2)
+(91,81,2)
+(52,68,2)
+(26,68,2)
+(35,103,2)
+(49,5,2)
+(77,60,2)
+(19,49,2)
+(7,12,2)
+(35,20,2)
+(23,80,2)
+(103,49,2)
+(56,49,2)
+(69,49,2)
+(95,94,2)
+(69,60,2)
+(12,111,2)
+(21,80,2)
+(53,81,2)
+(55,81,2)
+(59,111,2)
+(86,55,2)
+(76,69,2)
+(83,80,2)
+(57,80,2)
+(8,55,2)
+(34,60,2)
+(27,80,2)
+(34,80,2)
+(13,49,2)
+(49,95,2)
+(24,28,2)
+(67,111,2)
+(73,49,2)
+(40,111,2)
+(0,55,2)
+(38,80,2)
+(43,49,2)
+(12,103,2)
+(101,49,2)
+(46,49,2)
+(74,81,2)
+(107,60,2)
+(111,81,2)
+(109,49,2)
+(42,49,2)
+(108,55,2)
+(33,81,2)
+(27,60,2)
+(68,88,2)
+(76,49,2)
+(16,80,2)
+(81,49,2)
+(55,40,2)
+(45,52,2)
+(70,80,2)
+(24,80,2)
+(12,41,2)
+(7,84,2)
+(31,60,2)
+(103,60,2)
+(97,80,2)
+(45,68,2)
+(10,49,2)
+(80,111,2)
+(5,45,2)
+(12,77,2)
+-----------------------------------
+(0,abort()
+(1,maxval)
+(2,-1)
+(3,in)
+(4,3)
+(5,pnm_getsintstr(in, &width)
+(6,case PNM_TYPE_PBM:)
+(7,RET)
+(8,hdr)
+(9,false)
+(10,hdr->height = height)
+(11,magic)
+(12,return 0;)
+(13,magic)
+(14,)
+(15,)
+(16,maxval)
+(17,hdr->numcmpts = 3)
+(18,)
+(19,-1)
+(20,hdr->height)
+(21,sgnd)
+(22,numcmpts)
+(23,hdr)
+(24,hdr->maxval = maxval)
+(25,magic)
+(26,height)
+(27,hdr->maxval)
+(28,maxval = 1)
+(29,in)
+(30,break;)
+(31,hdr->magic)
+(32,hdr->maxval = -maxval)
+(33,maxval)
+(34,hdr->sgnd)
+(35,return -1;)
+(36,hdr->sgnd = false)
+(37,width)
+(38,hdr->sgnd)
+(39,in)
+(40,hdr->magic)
+(41,hdr->maxval)
+(42,hdr)
+(43,height)
+(44,numcmpts)
+(45,pnm_getsintstr(in, &height)
+(46,1)
+(47,height)
+(48,1)
+(49,pnm_getint16(in, &hdr->magic)
+(50,height)
+(51,1)
+(52,&height)
+(53,0)
+(54,width)
+(55,pnm_type(hdr->magic)
+(56,PNM_TYPE_PBM)
+(57,hdr->sgnd = true)
+(58,)
+(59,0)
+(60,pnm_hdr_t *hdr)
+(61,)
+(62,jas_stream_t *in)
+(63,width)
+(64,)
+(65,default:)
+(66,case PNM_TYPE_PPM:)
+(67,hdr)
+(68,pnm_getsintstr(in, &width)
+(69,hdr->magic)
+(70,sgnd)
+(71,break;)
+(72,-maxval)
+(73,hdr)
+(74,&maxval)
+(75,hdr)
+(76,pnm_type(hdr->magic)
+(77,hdr->numcmpts)
+(78,if (pnm_getint16(in, &hdr->magic)
+(79,switch (pnm_type(hdr->magic)
+(80,maxval < 0)
+(81,pnm_type(hdr->magic)
+(82,)
+(83,maxval)
+(84,return -1;)
+(85,if (maxval < 0)
+(86,hdr)
+(87,break;)
+(88,&width)
+(89,maxval)
+(90,if (pnm_type(hdr->magic)
+(91,maxval)
+(92,maxval)
+(93,maxval)
+(94,&hdr->magic)
+(95,pnm_getint16(in, &hdr->magic)
+(96,case PNM_TYPE_PGM:)
+(97,true)
+(98,if (pnm_getsintstr(in, &maxval)
+(99,hdr)
+(100,hdr)
+(101,hdr->width = width)
+(102,hdr->numcmpts = 1)
+(103,hdr->width)
+(104,width)
+(105,)
+(106,in)
+(107,hdr->numcmpts)
+(108,1)
+(109,hdr)
+(110,hdr)
+(111,pnm_getsintstr(in, &maxval)
+-----cfg-----
+(67,120)
+(68,67)
+(70,74)
+(7,20)
+(74,81)
+(74,99)
+(77,90)
+(79,77)
+(80,79)
+(17,27)
+(17,25)
+(81,80)
+(18,17)
+(20,18)
+(87,74)
+(87,95)
+(24,120)
+(88,87)
+(25,24)
+(90,88)
+(27,20)
+(27,29)
+(29,33)
+(94,120)
+(95,94)
+(33,39)
+(33,55)
+(98,103)
+(98,109)
+(98,118)
+(99,98)
+(37,45)
+(102,120)
+(39,37)
+(103,102)
+(42,50)
+(42,70)
+(43,42)
+(108,118)
+(109,112)
+(45,43)
+(111,108)
+(112,111)
+(112,116)
+(49,120)
+(50,49)
+(116,111)
+(118,120)
+(55,63)
+(55,70)
+(60,68)
+(60,70)
+(61,60)
+(63,61)
+-----path-----
+7,20,18,17,27,29,33,39,37,45,43,42,50,49,120
+7,20,18,17,27,29,33,39,37,45,43,42,70,74,81,80,79,77,90,88,87,74,99,98,103,102,120
+7,20,18,17,27,29,33,39,37,45,43,42,70,74,81,80,79,77,90,88,87,74,99,98,109,112,111,108,118,120
+7,20,18,17,27,29,33,39,37,45,43,42,70,74,81,80,79,77,90,88,87,74,99,98,109,112,116,111,108,118,120
+7,20,18,17,27,29,33,39,37,45,43,42,70,74,81,80,79,77,90,88,87,74,99,98,118,120
+7,20,18,17,27,29,33,39,37,45,43,42,70,74,81,80,79,77,90,88,87,95,94,120
+7,20,18,17,27,29,33,39,37,45,43,42,70,74,99,98,103,102,120
+7,20,18,17,27,29,33,39,37,45,43,42,70,74,99,98,109,112,111,108,118,120
+7,20,18,17,27,29,33,39,37,45,43,42,70,74,99,98,109,112,116,111,108,118,120
+7,20,18,17,27,29,33,39,37,45,43,42,70,74,99,98,118,120
+7,20,18,17,27,29,33,55,63,61,60,68,67,120
+7,20,18,17,27,29,33,55,63,61,60,70,74,81,80,79,77,90,88,87,74,99,98,103,102,120
+7,20,18,17,27,29,33,55,63,61,60,70,74,81,80,79,77,90,88,87,74,99,98,109,112,111,108,118,120
+7,20,18,17,27,29,33,55,63,61,60,70,74,81,80,79,77,90,88,87,74,99,98,109,112,116,111,108,118,120
+7,20,18,17,27,29,33,55,63,61,60,70,74,81,80,79,77,90,88,87,74,99,98,118,120
+7,20,18,17,27,29,33,55,63,61,60,70,74,81,80,79,77,90,88,87,95,94,120
+7,20,18,17,27,29,33,55,63,61,60,70,74,99,98,103,102,120
+7,20,18,17,27,29,33,55,63,61,60,70,74,99,98,109,112,111,108,118,120
+7,20,18,17,27,29,33,55,63,61,60,70,74,99,98,109,112,116,111,108,118,120
+7,20,18,17,27,29,33,55,63,61,60,70,74,99,98,118,120
+7,20,18,17,27,29,33,55,70,74,81,80,79,77,90,88,87,74,99,98,103,102,120
+7,20,18,17,27,29,33,55,70,74,81,80,79,77,90,88,87,74,99,98,109,112,111,108,118,120
+7,20,18,17,27,29,33,55,70,74,81,80,79,77,90,88,87,74,99,98,109,112,116,111,108,118,120
+7,20,18,17,27,29,33,55,70,74,81,80,79,77,90,88,87,74,99,98,118,120
+7,20,18,17,27,29,33,55,70,74,81,80,79,77,90,88,87,95,94,120
+7,20,18,17,27,29,33,55,70,74,99,98,103,102,120
+7,20,18,17,27,29,33,55,70,74,99,98,109,112,111,108,118,120
+7,20,18,17,27,29,33,55,70,74,99,98,109,112,116,111,108,118,120
+7,20,18,17,27,29,33,55,70,74,99,98,118,120
+7,20,18,17,25,24,120
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int pnm_getsintstr (jas_stream_t *in,int_fast32_t *val)
+8,jas_stream_t *in
+9,int_fast32_t *val
+10,<empty>
+11,int c
+12,int s
+13,int_fast32_t v
+14,do {
+15,		if ((c = pnm_getc(in)) == EOF) {
+16,			return -1;
+17,		}
+18,	} while (isspace(c));
+19,<empty>
+20,if ((c = pnm_getc(in)) == EOF)
+21,(c = pnm_getc(in)) == EOF
+22,c = pnm_getc(in)
+23,c
+24,pnm_getc(in)
+25,in
+26,EOF
+27,<empty>
+28,return -1;
+29,-1
+30,1
+31,isspace(c)
+32,c
+33,s = 1
+34,s
+35,1
+36,if (c == '-')
+37,c == '-'
+38,c
+39,'-'
+40,<empty>
+41,s = -1
+42,s
+43,-1
+44,1
+45,if ((c = pnm_getc(in)) == EOF)
+46,(c = pnm_getc(in)) == EOF
+47,c = pnm_getc(in)
+48,c
+49,pnm_getc(in)
+50,in
+51,EOF
+52,<empty>
+53,return -1;
+54,-1
+55,1
+56,else
+57,<empty>
+58,if (c == '+')
+59,c == '+'
+60,c
+61,'+'
+62,<empty>
+63,if ((c = pnm_getc(in)) == EOF)
+64,(c = pnm_getc(in)) == EOF
+65,c = pnm_getc(in)
+66,c
+67,pnm_getc(in)
+68,in
+69,EOF
+70,<empty>
+71,return -1;
+72,-1
+73,1
+74,v = 0
+75,v
+76,0
+77,while (isdigit(c))
+78,isdigit(c)
+79,c
+80,<empty>
+81,v = 10 * v + c - '0'
+82,v
+83,10 * v + c - '0'
+84,10 * v + c
+85,10 * v
+86,10
+87,v
+88,c
+89,'0'
+90,if ((c = pnm_getc(in)) < 0)
+91,(c = pnm_getc(in)) < 0
+92,c = pnm_getc(in)
+93,c
+94,pnm_getc(in)
+95,in
+96,0
+97,<empty>
+98,return -1;
+99,-1
+100,1
+101,if (!isspace(c))
+102,!isspace(c)
+103,isspace(c)
+104,c
+105,<empty>
+106,return -1;
+107,-1
+108,1
+109,if (val)
+110,val
+111,<empty>
+112,*val = (s >= 0) ? v : (-v)
+113,*val
+114,val
+115,(s >= 0) ? v : (-v)
+116,s >= 0
+117,s
+118,0
+119,v
+120,-v
+121,v
+122,return 0;
+123,0
+124,RET
+125,jas_stream_t *in
+126,int_fast32_t *val
+127,RET
+128,int pnm_getsintstr (jas_stream_t *in,int_fast32_t *val)
+129,jas_stream_t *in
+130,int_fast32_t *val
+131,<empty>
+132,int c
+133,int s
+134,int_fast32_t v
+135,do {
+136,		if ((c = pnm_getc(in)) == EOF) {
+137,			return -1;
+138,		}
+139,	} while (isspace(c));
+140,<empty>
+141,if ((c = pnm_getc(in)) == EOF)
+142,(c = pnm_getc(in)) == EOF
+143,c = pnm_getc(in)
+144,c
+145,pnm_getc(in)
+146,in
+147,EOF
+148,<empty>
+149,return -1;
+150,-1
+151,1
+152,isspace(c)
+153,c
+154,s = 1
+155,s
+156,1
+157,if (c == '-')
+158,c == '-'
+159,c
+160,'-'
+161,<empty>
+162,s = -1
+163,s
+164,-1
+165,1
+166,if ((c = pnm_getc(in)) == EOF)
+167,(c = pnm_getc(in)) == EOF
+168,c = pnm_getc(in)
+169,c
+170,pnm_getc(in)
+171,in
+172,EOF
+173,<empty>
+174,return -1;
+175,-1
+176,1
+177,else
+178,<empty>
+179,if (c == '+')
+180,c == '+'
+181,c
+182,'+'
+183,<empty>
+184,if ((c = pnm_getc(in)) == EOF)
+185,(c = pnm_getc(in)) == EOF
+186,c = pnm_getc(in)
+187,c
+188,pnm_getc(in)
+189,in
+190,EOF
+191,<empty>
+192,return -1;
+193,-1
+194,1
+195,v = 0
+196,v
+197,0
+198,while (isdigit(c))
+199,isdigit(c)
+200,c
+201,<empty>
+202,v = 10 * v + c - '0'
+203,v
+204,10 * v + c - '0'
+205,10 * v + c
+206,10 * v
+207,10
+208,v
+209,c
+210,'0'
+211,if ((c = pnm_getc(in)) < 0)
+212,(c = pnm_getc(in)) < 0
+213,c = pnm_getc(in)
+214,c
+215,pnm_getc(in)
+216,in
+217,0
+218,<empty>
+219,return -1;
+220,-1
+221,1
+222,if (!isspace(c))
+223,!isspace(c)
+224,isspace(c)
+225,c
+226,<empty>
+227,return -1;
+228,-1
+229,1
+230,if (val)
+231,val
+232,<empty>
+233,*val = (s >= 0) ? v : (-v)
+234,*val
+235,val
+236,(s >= 0) ? v : (-v)
+237,s >= 0
+238,s
+239,0
+240,v
+241,-v
+242,v
+243,return 0;
+244,0
+245,RET
+246,jas_stream_t *in
+247,int_fast32_t *val
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int pnm_getsintstr(jas_stream_t *in, int_fast32_t *val) {
+int c;
+int s;
+int_fast32_t v;
+s = 1;
+v = 0;
+while(isdigit(c))
+v = 10 * v + c - '0';
+while(isdigit(c))
+v = 10 * v + c - '0';
+while(isdigit(c))
+v = 10 * v + c - '0';
+if(val)
+*val = (s >= 0) ? v : (-v);
+return 0;
+=======================

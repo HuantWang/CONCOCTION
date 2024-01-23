@@ -1,0 +1,4286 @@
+-----label-----
+0
+-----code-----
+int jpc_enc_enccblks(jpc_enc_t *enc)
+{
+	jpc_enc_tcmpt_t *tcmpt;
+	jpc_enc_tcmpt_t *endcomps;
+	jpc_enc_rlvl_t *lvl;
+	jpc_enc_rlvl_t *endlvls;
+	jpc_enc_band_t *band;
+	jpc_enc_band_t *endbands;
+	jpc_enc_cblk_t *cblk;
+	jpc_enc_cblk_t *endcblks;
+	int i;
+	int j;
+	int mx;
+	int bmx;
+	int v;
+	jpc_enc_tile_t *tile;
+	uint_fast32_t prcno;
+	jpc_enc_prc_t *prc;
+
+	tile = enc->curtile;
+
+	endcomps = &tile->tcmpts[tile->numtcmpts];
+	for (tcmpt = tile->tcmpts; tcmpt != endcomps; ++tcmpt) {
+		endlvls = &tcmpt->rlvls[tcmpt->numrlvls];
+		for (lvl = tcmpt->rlvls; lvl != endlvls; ++lvl) {
+			if (!lvl->bands) {
+				continue;
+			}
+			endbands = &lvl->bands[lvl->numbands];
+			for (band = lvl->bands; band != endbands; ++band) {
+				if (!band->data) {
+					continue;
+				}
+				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {
+					if (!prc->cblks) {
+						continue;
+					}
+					bmx = 0;
+					endcblks = &prc->cblks[prc->numcblks];
+					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {
+						mx = 0;
+						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {
+							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {
+								v = abs(jas_matrix_get(cblk->data, i, j));
+								if (v > mx) {
+									mx = v;
+								}
+							}
+						}
+						if (mx > bmx) {
+							bmx = mx;
+						}
+						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+					}
+
+					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {
+						cblk->numimsbs = band->numbps - cblk->numbps;
+						assert(cblk->numimsbs >= 0);
+					}
+
+					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {
+						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {
+							return -1;
+						}
+					}
+				}
+			}
+		}
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+11,16
+11,17
+11,18
+11,19
+11,20
+11,21
+11,22
+11,23
+11,24
+11,25
+11,26
+11,27
+11,28
+11,29
+11,30
+11,31
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+19,20
+20,21
+20,22
+21,22
+23,24
+23,25
+26,27
+27,28
+27,29
+28,29
+30,31
+30,32
+33,34
+34,35
+34,36
+35,36
+37,38
+37,39
+40,41
+41,42
+41,43
+42,43
+44,45
+44,46
+47,48
+48,49
+48,50
+49,50
+51,52
+51,53
+54,55
+55,56
+55,57
+56,57
+58,59
+58,60
+61,62
+62,63
+62,64
+63,64
+65,66
+65,67
+68,69
+69,70
+69,71
+71,72
+73,74
+74,75
+74,76
+76,77
+78,79
+79,80
+79,81
+81,82
+83,84
+84,85
+84,86
+86,87
+88,89
+89,90
+89,91
+91,92
+93,94
+94,95
+94,96
+95,96
+97,98
+97,99
+100,101
+101,102
+101,103
+102,103
+104,105
+106,107
+107,108
+107,109
+108,109
+110,111
+110,112
+113,114
+114,115
+114,116
+115,116
+117,118
+117,119
+118,119
+121,122
+122,123
+122,124
+123,124
+125,126
+126,127
+126,128
+127,128
+127,129
+128,129
+131,132
+131,133
+132,133
+135,136
+135,137
+135,138
+135,139
+136,137
+137,138
+137,139
+138,139
+140,141
+140,142
+141,142
+144,145
+144,146
+145,146
+147,148
+149,150
+150,151
+152,153
+152,154
+153,154
+154,155
+154,156
+155,156
+157,158
+158,159
+158,160
+159,160
+159,161
+160,161
+163,164
+163,165
+164,165
+167,168
+167,169
+167,170
+167,171
+168,169
+169,170
+169,171
+170,171
+172,173
+172,174
+173,174
+176,177
+176,178
+177,178
+179,180
+181,182
+182,183
+184,185
+184,186
+184,187
+185,186
+185,187
+186,187
+187,188
+187,189
+188,189
+191,192
+193,194
+194,195
+194,196
+195,196
+197,198
+198,199
+198,200
+199,200
+199,201
+200,201
+203,204
+203,205
+204,205
+207,208
+207,209
+207,210
+207,211
+208,209
+209,210
+209,211
+210,211
+212,213
+212,214
+213,214
+216,217
+216,218
+217,218
+219,220
+221,222
+222,223
+224,225
+224,226
+225,226
+225,227
+226,227
+227,228
+227,229
+228,229
+231,232
+233,234
+233,235
+233,236
+233,237
+234,235
+235,236
+235,237
+236,237
+236,238
+237,238
+240,241
+240,242
+241,242
+243,244
+243,245
+244,245
+247,248
+247,249
+248,249
+250,251
+250,252
+251,252
+254,255
+254,256
+255,256
+256,257
+258,259
+259,260
+261,262
+261,263
+261,264
+261,265
+261,266
+261,267
+262,263
+262,264
+263,264
+264,265
+264,266
+265,266
+268,269
+270,271
+271,272
+271,273
+272,273
+275,276
+276,277
+276,278
+277,278
+279,280
+280,281
+280,282
+281,282
+281,283
+282,283
+285,286
+285,287
+286,287
+289,290
+289,291
+289,292
+289,293
+290,291
+291,292
+291,293
+292,293
+294,295
+294,296
+295,296
+298,299
+298,300
+299,300
+301,302
+303,304
+304,305
+306,307
+306,308
+306,309
+306,310
+307,308
+308,309
+308,310
+309,310
+312,313
+312,314
+312,315
+312,316
+313,314
+314,315
+314,316
+315,316
+318,319
+318,320
+319,320
+321,322
+321,323
+322,323
+324,325
+324,326
+325,326
+328,329
+329,330
+331,332
+332,333
+332,334
+332,335
+332,336
+333,334
+334,335
+334,336
+335,336
+338,339
+338,340
+339,340
+341,342
+341,343
+342,343
+344,345
+344,346
+345,346
+348,349
+349,350
+351,352
+351,353
+352,353
+353,354
+353,355
+354,355
+356,357
+356,358
+357,358
+359,360
+359,361
+359,362
+359,363
+360,361
+362,363
+362,364
+363,364
+366,367
+368,369
+370,371
+370,372
+371,372
+371,373
+372,373
+374,375
+376,377
+377,378
+378,379
+378,380
+379,380
+381,382
+383,384
+383,385
+384,385
+384,386
+385,386
+387,388
+389,390
+390,391
+391,392
+391,393
+392,393
+394,395
+396,397
+397,398
+397,399
+398,399
+398,400
+399,400
+402,403
+402,404
+402,405
+403,404
+405,406
+405,407
+406,407
+406,408
+407,408
+407,409
+408,409
+410,411
+413,414
+416,417
+416,418
+416,419
+416,420
+417,418
+418,419
+418,420
+419,420
+421,422
+421,423
+422,423
+425,426
+425,427
+426,427
+428,429
+430,431
+431,432
+433,434
+433,435
+434,435
+435,436
+435,437
+436,437
+436,438
+437,438
+440,441
+440,442
+441,442
+441,443
+442,443
+445,446
+445,447
+446,447
+449,450
+450,451
+450,452
+451,452
+453,454
+453,455
+454,455
+454,456
+455,456
+459,460
+459,461
+459,462
+459,463
+460,461
+461,462
+461,463
+462,463
+464,465
+464,466
+465,466
+468,469
+468,470
+469,470
+471,472
+473,474
+474,475
+476,477
+477,478
+477,479
+478,479
+478,480
+478,481
+478,482
+478,483
+478,484
+479,480
+481,482
+483,484
+483,485
+484,485
+487,488
+489,490
+491,492
+493,494
+494,495
+495,496
+497,498
+-----nextToken-----
+2,4,7,9,10,15,17,18,22,24,25,29,31,32,36,38,39,43,45,46,50,52,53,57,59,60,64,66,67,70,72,75,77,80,82,85,87,90,92,96,98,99,103,105,109,111,112,116,119,120,124,129,130,133,134,139,142,143,146,148,151,156,161,162,165,166,171,174,175,178,180,183,189,190,192,196,201,202,205,206,211,214,215,218,220,223,229,230,232,238,239,242,245,246,249,252,253,257,260,266,267,269,273,274,278,283,284,287,288,293,296,297,300,302,305,310,311,316,317,320,323,326,327,330,336,337,340,343,346,347,350,355,358,361,364,365,367,369,373,375,380,382,386,388,393,395,400,401,404,409,411,412,414,415,420,423,424,427,429,432,438,439,443,444,447,448,452,456,457,458,463,466,467,470,472,475,480,482,485,486,488,490,492,496,498
+-----computeFrom-----
+114,115
+114,116
+122,123
+122,124
+137,138
+137,139
+144,145
+144,146
+154,155
+154,156
+169,170
+169,171
+176,177
+176,178
+194,195
+194,196
+209,210
+209,211
+216,217
+216,218
+236,237
+236,238
+240,241
+240,242
+247,248
+247,249
+271,272
+271,273
+276,277
+276,278
+291,292
+291,293
+298,299
+298,300
+308,309
+308,310
+314,315
+314,316
+318,319
+318,320
+334,335
+334,336
+338,339
+338,340
+353,354
+353,355
+371,372
+371,373
+378,379
+378,380
+384,385
+384,386
+391,392
+391,393
+397,398
+397,399
+405,406
+405,407
+406,407
+406,408
+418,419
+418,420
+425,426
+425,427
+435,436
+435,437
+440,441
+440,442
+453,454
+453,455
+461,462
+461,463
+468,469
+468,470
+-----guardedBy-----
+373,382
+375,380
+386,395
+388,393
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jpc_enc_enccblks(jpc_enc_t *enc){	jpc_enc_tcmpt_t *tcmpt;	jpc_enc_tcmpt_t *endcomps;	jpc_enc_rlvl_t *lvl;	jpc_enc_rlvl_t *endlvls;	jpc_enc_band_t *band;	jpc_enc_band_t *endbands;	jpc_enc_cblk_t *cblk;	jpc_enc_cblk_t *endcblks;	int i;	int j;	int mx;	int bmx;	int v;	jpc_enc_tile_t *tile;	uint_fast32_t prcno;	jpc_enc_prc_t *prc;	tile = enc->curtile;	endcomps = &tile->tcmpts[tile->numtcmpts];	for (tcmpt = tile->tcmpts; tcmpt != endcomps; ++tcmpt) {		endlvls = &tcmpt->rlvls[tcmpt->numrlvls];		for (lvl = tcmpt->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}			}		}	}	return 0;}
+int
+jpc_enc_enccblks(jpc_enc_t *enc)
+jpc_enc_enccblks
+jpc_enc_t *enc
+jpc_enc_t
+jpc_enc_t
+*enc
+*
+enc
+{	jpc_enc_tcmpt_t *tcmpt;	jpc_enc_tcmpt_t *endcomps;	jpc_enc_rlvl_t *lvl;	jpc_enc_rlvl_t *endlvls;	jpc_enc_band_t *band;	jpc_enc_band_t *endbands;	jpc_enc_cblk_t *cblk;	jpc_enc_cblk_t *endcblks;	int i;	int j;	int mx;	int bmx;	int v;	jpc_enc_tile_t *tile;	uint_fast32_t prcno;	jpc_enc_prc_t *prc;	tile = enc->curtile;	endcomps = &tile->tcmpts[tile->numtcmpts];	for (tcmpt = tile->tcmpts; tcmpt != endcomps; ++tcmpt) {		endlvls = &tcmpt->rlvls[tcmpt->numrlvls];		for (lvl = tcmpt->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}			}		}	}	return 0;}
+jpc_enc_tcmpt_t *tcmpt;
+jpc_enc_tcmpt_t *tcmpt;
+jpc_enc_tcmpt_t
+jpc_enc_tcmpt_t
+*tcmpt
+*
+tcmpt
+jpc_enc_tcmpt_t *endcomps;
+jpc_enc_tcmpt_t *endcomps;
+jpc_enc_tcmpt_t
+jpc_enc_tcmpt_t
+*endcomps
+*
+endcomps
+jpc_enc_rlvl_t *lvl;
+jpc_enc_rlvl_t *lvl;
+jpc_enc_rlvl_t
+jpc_enc_rlvl_t
+*lvl
+*
+lvl
+jpc_enc_rlvl_t *endlvls;
+jpc_enc_rlvl_t *endlvls;
+jpc_enc_rlvl_t
+jpc_enc_rlvl_t
+*endlvls
+*
+endlvls
+jpc_enc_band_t *band;
+jpc_enc_band_t *band;
+jpc_enc_band_t
+jpc_enc_band_t
+*band
+*
+band
+jpc_enc_band_t *endbands;
+jpc_enc_band_t *endbands;
+jpc_enc_band_t
+jpc_enc_band_t
+*endbands
+*
+endbands
+jpc_enc_cblk_t *cblk;
+jpc_enc_cblk_t *cblk;
+jpc_enc_cblk_t
+jpc_enc_cblk_t
+*cblk
+*
+cblk
+jpc_enc_cblk_t *endcblks;
+jpc_enc_cblk_t *endcblks;
+jpc_enc_cblk_t
+jpc_enc_cblk_t
+*endcblks
+*
+endcblks
+int i;
+int i;
+int
+i
+i
+int j;
+int j;
+int
+j
+j
+int mx;
+int mx;
+int
+mx
+mx
+int bmx;
+int bmx;
+int
+bmx
+bmx
+int v;
+int v;
+int
+v
+v
+jpc_enc_tile_t *tile;
+jpc_enc_tile_t *tile;
+jpc_enc_tile_t
+jpc_enc_tile_t
+*tile
+*
+tile
+uint_fast32_t prcno;
+uint_fast32_t prcno;
+uint_fast32_t
+uint_fast32_t
+prcno
+prcno
+jpc_enc_prc_t *prc;
+jpc_enc_prc_t *prc;
+jpc_enc_prc_t
+jpc_enc_prc_t
+*prc
+*
+prc
+tile = enc->curtile;
+tile = enc->curtile
+tile
+tile
+enc->curtile
+enc
+enc
+curtile
+endcomps = &tile->tcmpts[tile->numtcmpts];
+endcomps = &tile->tcmpts[tile->numtcmpts]
+endcomps
+endcomps
+&tile->tcmpts[tile->numtcmpts]
+tile->tcmpts[tile->numtcmpts]
+tile->tcmpts
+tile
+tile
+tcmpts
+tile->numtcmpts
+tile
+tile
+numtcmpts
+for (tcmpt = tile->tcmpts; tcmpt != endcomps; ++tcmpt) {		endlvls = &tcmpt->rlvls[tcmpt->numrlvls];		for (lvl = tcmpt->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}			}		}	}
+tcmpt = tile->tcmpts;
+tcmpt = tile->tcmpts
+tcmpt
+tcmpt
+tile->tcmpts
+tile
+tile
+tcmpts
+tcmpt != endcomps
+tcmpt
+tcmpt
+endcomps
+endcomps
+++tcmpt
+tcmpt
+tcmpt
+{		endlvls = &tcmpt->rlvls[tcmpt->numrlvls];		for (lvl = tcmpt->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}			}		}	}
+endlvls = &tcmpt->rlvls[tcmpt->numrlvls];
+endlvls = &tcmpt->rlvls[tcmpt->numrlvls]
+endlvls
+endlvls
+&tcmpt->rlvls[tcmpt->numrlvls]
+tcmpt->rlvls[tcmpt->numrlvls]
+tcmpt->rlvls
+tcmpt
+tcmpt
+rlvls
+tcmpt->numrlvls
+tcmpt
+tcmpt
+numrlvls
+for (lvl = tcmpt->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}			}		}
+lvl = tcmpt->rlvls;
+lvl = tcmpt->rlvls
+lvl
+lvl
+tcmpt->rlvls
+tcmpt
+tcmpt
+rlvls
+lvl != endlvls
+lvl
+lvl
+endlvls
+endlvls
+++lvl
+lvl
+lvl
+{			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}			}		}
+if (!lvl->bands) {				continue;			}
+!lvl->bands
+lvl->bands
+lvl
+lvl
+bands
+{				continue;			}
+continue;
+endbands = &lvl->bands[lvl->numbands];
+endbands = &lvl->bands[lvl->numbands]
+endbands
+endbands
+&lvl->bands[lvl->numbands]
+lvl->bands[lvl->numbands]
+lvl->bands
+lvl
+lvl
+bands
+lvl->numbands
+lvl
+lvl
+numbands
+for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}			}
+band = lvl->bands;
+band = lvl->bands
+band
+band
+lvl->bands
+lvl
+lvl
+bands
+band != endbands
+band
+band
+endbands
+endbands
+++band
+band
+band
+{				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}			}
+if (!band->data) {					continue;				}
+!band->data
+band->data
+band
+band
+data
+{					continue;				}
+continue;
+for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}
+prcno = 0, prc = band->prcs;
+prcno = 0, prc = band->prcs
+prcno = 0
+prcno
+prcno
+0
+prc = band->prcs
+prc
+prc
+band->prcs
+band
+band
+prcs
+prcno < lvl->numprcs
+prcno
+prcno
+lvl->numprcs
+lvl
+lvl
+numprcs
+++prcno, ++prc
+++prcno
+prcno
+prcno
+++prc
+prc
+prc
+{					if (!prc->cblks) {						continue;					}					bmx = 0;					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}				}
+if (!prc->cblks) {						continue;					}
+!prc->cblks
+prc->cblks
+prc
+prc
+cblks
+{						continue;					}
+continue;
+bmx = 0;
+bmx = 0
+bmx
+bmx
+0
+endcblks = &prc->cblks[prc->numcblks];
+endcblks = &prc->cblks[prc->numcblks]
+endcblks
+endcblks
+&prc->cblks[prc->numcblks]
+prc->cblks[prc->numcblks]
+prc->cblks
+prc
+prc
+cblks
+prc->numcblks
+prc
+prc
+numcblks
+for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}
+cblk = prc->cblks;
+cblk = prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+cblk != endcblks
+cblk
+cblk
+endcblks
+endcblks
+++cblk
+cblk
+cblk
+{						mx = 0;						for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}						if (mx > bmx) {							bmx = mx;						}						cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);					}
+mx = 0;
+mx = 0
+mx
+mx
+0
+for (i = 0; i < jas_matrix_numrows(cblk->data); ++i) {							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}
+i = 0;
+i = 0
+i
+i
+0
+i < jas_matrix_numrows(cblk->data)
+i
+i
+jas_matrix_numrows(cblk->data)
+jas_matrix_numrows
+jas_matrix_numrows
+cblk->data
+cblk
+cblk
+data
+++i
+i
+i
+{							for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}						}
+for (j = 0; j < jas_matrix_numcols(cblk->data); ++j) {								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}
+j = 0;
+j = 0
+j
+j
+0
+j < jas_matrix_numcols(cblk->data)
+j
+j
+jas_matrix_numcols(cblk->data)
+jas_matrix_numcols
+jas_matrix_numcols
+cblk->data
+cblk
+cblk
+data
+++j
+j
+j
+{								v = abs(jas_matrix_get(cblk->data, i, j));								if (v > mx) {									mx = v;								}							}
+v = abs(jas_matrix_get(cblk->data, i, j));
+v = abs(jas_matrix_get(cblk->data, i, j))
+v
+v
+abs(jas_matrix_get(cblk->data, i, j))
+abs
+abs
+jas_matrix_get(cblk->data, i, j)
+jas_matrix_get
+jas_matrix_get
+cblk->data
+cblk
+cblk
+data
+i
+i
+j
+j
+if (v > mx) {									mx = v;								}
+v > mx
+v
+v
+mx
+mx
+{									mx = v;								}
+mx = v;
+mx = v
+mx
+mx
+v
+v
+if (mx > bmx) {							bmx = mx;						}
+mx > bmx
+mx
+mx
+bmx
+bmx
+{							bmx = mx;						}
+bmx = mx;
+bmx = mx
+bmx
+bmx
+mx
+mx
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0)
+cblk->numbps
+cblk
+cblk
+numbps
+JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0)
+JAS_MAX
+JAS_MAX
+jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS
+jpc_firstone(mx) + 1
+jpc_firstone(mx)
+jpc_firstone
+jpc_firstone
+mx
+mx
+1
+JPC_NUMEXTRABITS
+JPC_NUMEXTRABITS
+0
+for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}
+cblk = prc->cblks;
+cblk = prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+cblk != endcblks
+cblk
+cblk
+endcblks
+endcblks
+++cblk
+cblk
+cblk
+{						cblk->numimsbs = band->numbps - cblk->numbps;						assert(cblk->numimsbs >= 0);					}
+cblk->numimsbs = band->numbps - cblk->numbps;
+cblk->numimsbs = band->numbps - cblk->numbps
+cblk->numimsbs
+cblk
+cblk
+numimsbs
+band->numbps - cblk->numbps
+band->numbps
+band
+band
+numbps
+cblk->numbps
+cblk
+cblk
+numbps
+assert(cblk->numimsbs >= 0);
+assert(cblk->numimsbs >= 0)
+assert
+assert
+cblk->numimsbs >= 0
+cblk->numimsbs
+cblk
+cblk
+numimsbs
+0
+for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}
+cblk = prc->cblks;
+cblk = prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+cblk != endcblks
+cblk
+cblk
+endcblks
+endcblks
+++cblk
+cblk
+cblk
+{						if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}					}
+if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)) {							return -1;						}
+jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)
+jpc_enc_enccblk
+jpc_enc_enccblk
+enc
+enc
+cblk->stream
+cblk
+cblk
+stream
+tcmpt
+tcmpt
+band
+band
+cblk
+cblk
+{							return -1;						}
+return -1;
+-1
+1
+return 0;
+0
+-----joern-----
+(46,136,0)
+(191,9,0)
+(176,171,0)
+(182,224,0)
+(97,184,0)
+(18,87,0)
+(41,92,0)
+(8,65,0)
+(32,99,0)
+(76,90,0)
+(55,131,0)
+(149,97,0)
+(163,90,0)
+(0,65,0)
+(19,143,0)
+(221,121,0)
+(120,160,0)
+(132,21,0)
+(107,168,0)
+(121,10,0)
+(131,118,0)
+(93,65,0)
+(118,109,0)
+(180,199,0)
+(148,134,0)
+(6,145,0)
+(154,79,0)
+(133,176,0)
+(21,76,0)
+(173,92,0)
+(112,171,0)
+(9,193,0)
+(48,121,0)
+(30,106,0)
+(147,65,0)
+(102,65,0)
+(59,118,0)
+(47,40,0)
+(61,76,0)
+(103,96,0)
+(200,145,0)
+(184,118,0)
+(75,79,0)
+(196,191,0)
+(36,69,0)
+(145,10,0)
+(80,224,0)
+(222,85,0)
+(51,90,0)
+(166,145,0)
+(73,102,0)
+(49,79,0)
+(92,90,0)
+(98,102,0)
+(28,103,0)
+(187,24,0)
+(36,16,0)
+(25,217,0)
+(126,131,0)
+(117,154,0)
+(223,144,0)
+(1,24,0)
+(159,215,0)
+(85,118,0)
+(124,10,0)
+(91,172,0)
+(205,124,0)
+(72,99,0)
+(42,65,0)
+(61,181,0)
+(124,63,0)
+(144,90,0)
+(204,87,0)
+(24,224,0)
+(84,199,0)
+(145,90,0)
+(190,3,0)
+(171,212,0)
+(121,184,0)
+(106,31,0)
+(161,90,0)
+(131,90,0)
+(17,46,0)
+(119,98,0)
+(194,154,0)
+(99,63,0)
+(124,85,0)
+(189,21,0)
+(216,121,0)
+(69,36,0)
+(171,87,0)
+(213,14,0)
+(59,90,0)
+(43,74,0)
+(96,65,0)
+(103,134,0)
+(131,16,0)
+(207,80,0)
+(85,90,0)
+(76,18,0)
+(12,59,0)
+(140,65,0)
+(191,191,0)
+(97,90,0)
+(52,65,0)
+(214,18,0)
+(95,206,0)
+(141,84,0)
+(152,208,0)
+(68,141,0)
+(80,143,0)
+(146,124,0)
+(131,160,0)
+(208,224,0)
+(110,76,0)
+(115,208,0)
+(85,97,0)
+(218,46,0)
+(69,169,0)
+(74,102,0)
+(113,3,0)
+(143,80,0)
+(88,61,0)
+(134,90,0)
+(152,65,0)
+(131,10,0)
+(101,144,0)
+(70,208,0)
+(99,105,0)
+(206,65,0)
+(100,76,0)
+(143,65,0)
+(22,145,0)
+(185,87,0)
+(20,189,0)
+(171,74,0)
+(83,185,0)
+(141,185,0)
+(118,65,0)
+(127,65,0)
+(165,145,0)
+(33,197,0)
+(125,152,0)
+(169,65,0)
+(14,154,0)
+(89,46,0)
+(131,169,0)
+(53,121,0)
+(108,124,0)
+(86,185,0)
+(128,121,0)
+(210,145,0)
+(164,209,0)
+(59,85,0)
+(129,33,0)
+(182,96,0)
+(29,124,0)
+(26,36,0)
+(124,118,0)
+(184,90,0)
+(158,5,0)
+(201,90,0)
+(37,169,0)
+(50,124,0)
+(167,145,0)
+(114,59,0)
+(71,74,0)
+(31,76,0)
+(35,160,0)
+(130,85,0)
+(21,189,0)
+(92,171,0)
+(39,98,0)
+(124,16,0)
+(82,31,0)
+(121,63,0)
+(145,16,0)
+(124,169,0)
+(137,134,0)
+(79,143,0)
+(181,61,0)
+(212,65,0)
+(138,65,0)
+(121,103,0)
+(175,145,0)
+(5,154,0)
+(197,33,0)
+(77,97,0)
+(45,121,0)
+(23,127,0)
+(1,65,0)
+(192,181,0)
+(98,118,0)
+(156,171,0)
+(56,96,0)
+(121,90,0)
+(111,124,0)
+(74,9,0)
+(135,96,0)
+(31,106,0)
+(145,92,0)
+(178,65,0)
+(116,69,0)
+(78,109,0)
+(154,154,0)
+(188,121,0)
+(198,65,0)
+(155,131,0)
+(174,65,0)
+(160,96,0)
+(177,65,0)
+(172,144,0)
+(160,103,0)
+(3,1,0)
+(64,191,0)
+(131,97,0)
+(121,16,0)
+(220,131,0)
+(172,90,0)
+(145,134,0)
+(209,206,0)
+(169,69,0)
+(74,212,0)
+(145,118,0)
+(134,185,0)
+(184,92,0)
+(24,1,0)
+(124,90,0)
+(176,84,0)
+(127,209,0)
+(74,74,0)
+(109,118,0)
+(208,152,0)
+(217,65,0)
+(102,98,0)
+(67,13,0)
+(135,217,0)
+(209,10,0)
+(142,208,0)
+(18,5,0)
+(183,118,0)
+(2,103,0)
+(103,90,0)
+(62,65,0)
+(44,121,0)
+(27,36,0)
+(104,131,0)
+(144,160,0)
+(58,14,0)
+(180,3,0)
+(145,186,0)
+(219,124,0)
+(145,169,0)
+(34,197,0)
+(97,118,0)
+(94,1,0)
+(4,131,0)
+(5,79,0)
+(162,172,0)
+(33,76,0)
+(122,139,0)
+(170,65,0)
+(131,63,0)
+(191,217,0)
+(153,135,0)
+(215,3,0)
+(203,124,0)
+(57,65,0)
+(212,46,0)
+(160,90,0)
+(81,65,0)
+(96,182,0)
+(145,63,0)
+(66,5,0)
+(123,127,0)
+(217,135,0)
+(15,215,0)
+(5,18,0)
+(151,184,0)
+(109,136,0)
+(54,135,0)
+(121,118,0)
+(185,191,0)
+(124,144,0)
+(150,65,0)
+(191,152,0)
+(11,212,0)
+(60,180,0)
+(202,131,0)
+(46,212,0)
+(195,131,0)
+(38,65,0)
+(157,65,0)
+(7,182,0)
+(14,79,0)
+(154,193,0)
+(185,152,0)
+(172,96,0)
+(121,169,0)
+(211,184,0)
+(144,96,0)
+(4,104,1)
+(151,189,1)
+(80,224,1)
+(60,47,1)
+(217,135,1)
+(208,224,1)
+(127,23,1)
+(131,10,1)
+(53,48,1)
+(182,7,1)
+(107,189,1)
+(158,66,1)
+(145,175,1)
+(144,223,1)
+(41,173,1)
+(160,96,1)
+(155,160,1)
+(115,125,1)
+(210,166,1)
+(172,144,1)
+(1,24,1)
+(126,55,1)
+(60,107,1)
+(22,200,1)
+(121,221,1)
+(79,143,1)
+(176,171,1)
+(23,179,1)
+(124,85,1)
+(3,190,1)
+(141,185,1)
+(48,45,1)
+(55,220,1)
+(203,108,1)
+(20,21,1)
+(184,211,1)
+(85,97,1)
+(31,76,1)
+(124,10,1)
+(135,96,1)
+(122,197,1)
+(183,143,1)
+(43,154,1)
+(121,10,1)
+(108,29,1)
+(97,118,1)
+(131,63,1)
+(15,141,1)
+(189,20,1)
+(83,171,1)
+(50,203,1)
+(132,145,1)
+(152,208,1)
+(66,214,1)
+(121,103,1)
+(194,215,1)
+(72,32,1)
+(121,184,1)
+(131,4,1)
+(103,134,1)
+(124,205,1)
+(114,106,1)
+(5,154,1)
+(171,212,1)
+(180,60,1)
+(100,110,1)
+(212,46,1)
+(14,79,1)
+(24,187,1)
+(19,1,1)
+(14,58,1)
+(207,19,1)
+(111,219,1)
+(179,14,1)
+(165,22,1)
+(197,34,1)
+(15,3,1)
+(135,153,1)
+(176,133,1)
+(74,102,1)
+(69,36,1)
+(124,169,1)
+(30,31,1)
+(61,88,1)
+(28,2,1)
+(124,118,1)
+(59,85,1)
+(103,96,1)
+(222,130,1)
+(25,102,1)
+(123,127,1)
+(6,167,1)
+(129,121,1)
+(192,61,1)
+(98,118,1)
+(47,106,1)
+(159,15,1)
+(202,155,1)
+(166,76,1)
+(59,118,1)
+(154,154,1)
+(218,89,1)
+(91,162,1)
+(77,197,1)
+(213,191,1)
+(11,169,1)
+(49,75,1)
+(131,16,1)
+(145,16,1)
+(153,54,1)
+(131,169,1)
+(184,92,1)
+(73,96,1)
+(134,185,1)
+(214,185,1)
+(121,63,1)
+(96,182,1)
+(103,28,1)
+(121,169,1)
+(142,115,1)
+(220,195,1)
+(80,207,1)
+(181,192,1)
+(21,76,1)
+(180,3,1)
+(92,41,1)
+(125,212,1)
+(131,160,1)
+(188,128,1)
+(101,85,1)
+(94,206,1)
+(97,184,1)
+(109,78,1)
+(75,152,1)
+(32,179,1)
+(59,12,1)
+(31,82,1)
+(171,74,1)
+(191,191,1)
+(102,98,1)
+(33,76,1)
+(127,209,1)
+(145,63,1)
+(5,158,1)
+(189,21,1)
+(131,97,1)
+(124,144,1)
+(121,118,1)
+(182,224,1)
+(197,33,1)
+(148,137,1)
+(223,101,1)
+(106,31,1)
+(130,181,1)
+(21,132,1)
+(45,216,1)
+(171,156,1)
+(5,79,1)
+(208,70,1)
+(29,144,1)
+(17,11,1)
+(79,49,1)
+(175,6,1)
+(23,99,1)
+(124,16,1)
+(221,188,1)
+(124,63,1)
+(86,83,1)
+(181,61,1)
+(160,35,1)
+(119,73,1)
+(74,71,1)
+(213,79,1)
+(27,26,1)
+(60,67,1)
+(58,213,1)
+(121,16,1)
+(211,151,1)
+(46,136,1)
+(7,56,1)
+(162,59,1)
+(70,142,1)
+(216,44,1)
+(209,164,1)
+(60,172,1)
+(143,80,1)
+(60,122,1)
+(116,37,1)
+(36,16,1)
+(205,111,1)
+(76,100,1)
+(195,202,1)
+(144,96,1)
+(104,126,1)
+(215,159,1)
+(85,222,1)
+(215,3,1)
+(74,212,1)
+(2,184,1)
+(144,160,1)
+(190,113,1)
+(97,149,1)
+(110,134,1)
+(74,74,1)
+(26,116,1)
+(172,91,1)
+(196,74,1)
+(76,18,1)
+(185,86,1)
+(146,50,1)
+(156,112,1)
+(191,64,1)
+(99,72,1)
+(68,176,1)
+(169,69,1)
+(185,152,1)
+(149,77,1)
+(167,165,1)
+(112,14,1)
+(61,76,1)
+(145,169,1)
+(85,118,1)
+(145,10,1)
+(33,129,1)
+(99,63,1)
+(78,183,1)
+(88,131,1)
+(145,186,1)
+(44,103,1)
+(141,68,1)
+(117,194,1)
+(92,171,1)
+(134,148,1)
+(14,154,1)
+(54,25,1)
+(95,209,1)
+(64,196,1)
+(191,217,1)
+(82,124,1)
+(200,210,1)
+(128,53,1)
+(37,217,1)
+(39,119,1)
+(109,136,1)
+(154,79,1)
+(145,118,1)
+(12,114,1)
+(187,94,1)
+(98,39,1)
+(145,134,1)
+(106,30,1)
+(137,92,1)
+(133,180,1)
+(120,97,1)
+(219,146,1)
+(36,27,1)
+(191,152,1)
+(184,118,1)
+(71,43,1)
+(185,191,1)
+(24,224,1)
+(131,118,1)
+(67,181,1)
+(46,218,1)
+(34,33,1)
+(3,1,1)
+(113,18,1)
+(35,120,1)
+(18,5,1)
+(118,109,1)
+(145,92,1)
+(154,117,1)
+(89,17,1)
+(172,96,1)
+(160,103,1)
+(173,215,1)
+(209,10,1)
+(206,95,1)
+(56,118,1)
+(97,184,2)
+(118,109,2)
+(165,215,2)
+(149,197,2)
+(121,169,2)
+(220,197,2)
+(110,215,2)
+(216,189,2)
+(182,224,2)
+(102,98,2)
+(99,63,2)
+(96,182,2)
+(185,14,2)
+(68,215,2)
+(190,14,2)
+(208,224,2)
+(99,179,2)
+(104,197,2)
+(123,127,2)
+(33,189,2)
+(97,118,2)
+(12,106,2)
+(59,85,2)
+(83,14,2)
+(223,181,2)
+(103,134,2)
+(162,106,2)
+(86,14,2)
+(74,14,2)
+(184,189,2)
+(132,215,2)
+(109,136,2)
+(197,33,2)
+(181,61,2)
+(121,118,2)
+(100,215,2)
+(222,181,2)
+(58,14,2)
+(131,63,2)
+(158,14,2)
+(143,80,2)
+(107,189,2)
+(171,212,2)
+(124,169,2)
+(173,215,2)
+(80,224,2)
+(172,96,2)
+(146,181,2)
+(21,76,2)
+(154,154,2)
+(21,215,2)
+(127,209,2)
+(141,215,2)
+(47,106,2)
+(106,181,2)
+(85,97,2)
+(221,189,2)
+(77,197,2)
+(213,14,2)
+(44,189,2)
+(3,14,2)
+(131,16,2)
+(166,215,2)
+(205,181,2)
+(172,106,2)
+(15,14,2)
+(154,79,2)
+(76,215,2)
+(33,76,2)
+(92,171,2)
+(160,197,2)
+(154,14,2)
+(124,144,2)
+(121,184,2)
+(14,79,2)
+(215,215,2)
+(53,189,2)
+(124,118,2)
+(121,103,2)
+(145,186,2)
+(133,215,2)
+(124,63,2)
+(46,136,2)
+(111,181,2)
+(67,181,2)
+(145,215,2)
+(195,197,2)
+(121,189,2)
+(214,14,2)
+(172,144,2)
+(59,106,2)
+(3,1,2)
+(200,215,2)
+(175,215,2)
+(219,181,2)
+(181,197,2)
+(184,92,2)
+(28,189,2)
+(71,14,2)
+(196,14,2)
+(192,197,2)
+(6,215,2)
+(34,189,2)
+(5,14,2)
+(184,118,2)
+(156,14,2)
+(180,215,2)
+(145,118,2)
+(185,191,2)
+(55,197,2)
+(32,179,2)
+(130,181,2)
+(41,215,2)
+(14,14,2)
+(176,215,2)
+(97,197,2)
+(76,18,2)
+(72,179,2)
+(131,169,2)
+(124,85,2)
+(215,14,2)
+(5,154,2)
+(36,16,2)
+(191,217,2)
+(103,96,2)
+(92,215,2)
+(194,14,2)
+(131,97,2)
+(124,181,2)
+(160,103,2)
+(98,118,2)
+(22,215,2)
+(74,212,2)
+(145,169,2)
+(43,14,2)
+(128,189,2)
+(210,215,2)
+(126,197,2)
+(155,197,2)
+(74,102,2)
+(45,189,2)
+(18,5,2)
+(191,152,2)
+(85,118,2)
+(176,171,2)
+(59,118,2)
+(141,185,2)
+(145,134,2)
+(151,189,2)
+(188,189,2)
+(112,14,2)
+(108,181,2)
+(202,197,2)
+(101,181,2)
+(103,189,2)
+(31,76,2)
+(79,143,2)
+(60,215,2)
+(129,189,2)
+(191,14,2)
+(106,31,2)
+(191,191,2)
+(135,96,2)
+(121,63,2)
+(121,16,2)
+(159,215,2)
+(61,197,2)
+(85,181,2)
+(148,215,2)
+(117,14,2)
+(48,189,2)
+(211,189,2)
+(180,3,2)
+(30,181,2)
+(145,63,2)
+(29,181,2)
+(160,96,2)
+(189,21,2)
+(144,96,2)
+(14,154,2)
+(35,197,2)
+(171,74,2)
+(15,215,2)
+(5,79,2)
+(209,10,2)
+(144,160,2)
+(131,118,2)
+(20,215,2)
+(144,181,2)
+(145,16,2)
+(113,14,2)
+(152,208,2)
+(185,152,2)
+(74,74,2)
+(212,46,2)
+(131,197,2)
+(137,215,2)
+(169,69,2)
+(82,181,2)
+(122,197,2)
+(189,215,2)
+(88,197,2)
+(61,76,2)
+(134,215,2)
+(24,224,2)
+(131,10,2)
+(134,185,2)
+(114,106,2)
+(203,181,2)
+(197,189,2)
+(145,10,2)
+(31,181,2)
+(159,14,2)
+(131,160,2)
+(50,181,2)
+(217,135,2)
+(124,16,2)
+(4,197,2)
+(121,10,2)
+(124,10,2)
+(69,36,2)
+(66,14,2)
+(120,197,2)
+(91,106,2)
+(171,14,2)
+(64,14,2)
+(145,92,2)
+(2,189,2)
+(18,14,2)
+(167,215,2)
+(215,3,2)
+(1,24,2)
+-----------------------------------
+(0,fstripestep)
+(1,width = jas_matrix_numcols(data)
+(2,dp)
+(3,j = width)
+(4,0)
+(5,JAS_MIN(i, 4)
+(6,out)
+(7,data)
+(8,i)
+(9,)
+(10,long *nmsedec)
+(11,fstripestart)
+(12,frowstep)
+(13,)
+(14,i > 0)
+(15,j)
+(16,int bitpos)
+(17,flags)
+(18,vscanlen = JAS_MIN(i, 4)
+(19,height)
+(20,0)
+(21,--k)
+(22,bitpos)
+(23,0)
+(24,jas_matrix_numcols(data)
+(25,dstripestep)
+(26,bitpos)
+(27,JPC_NUMEXTRABITS)
+(28,drowstep)
+(29,fp)
+(30,0)
+(31,--k)
+(32,out)
+(33,--k)
+(34,0)
+(35,drowstep)
+(36,bitpos + JPC_NUMEXTRABITS)
+(37,one)
+(38,fp)
+(39,2)
+(40,)
+(41,fvscanstart)
+(42,one)
+(43,fstripestart)
+(44,fp)
+(45,dp)
+(46,jas_matrix_getref(flags, 1, 1)
+(47,continue;)
+(48,bitpos)
+(49,height)
+(50,bitpos)
+(51,if (--k <= 0)
+(52,if (term)
+(53,one)
+(54,drowstep)
+(55,one)
+(56,drowstep)
+(57,dvscanstart)
+(58,0)
+(59,fp += frowstep)
+(60,j)
+(61,--k)
+(62,fvscanstart)
+(63,jpc_bitstream_t *out)
+(64,dstripestep)
+(65,)
+(66,i)
+(67,continue;)
+(68,dvscanstart)
+(69,1 << (bitpos + JPC_NUMEXTRABITS)
+(70,0)
+(71,fstripestep)
+(72,0x2a)
+(73,fstripestep)
+(74,fstripestart += fstripestep)
+(75,i)
+(76,k = vscanlen)
+(77,fp)
+(78,flags)
+(79,i = height)
+(80,jas_matrix_numrows(data)
+(81,frowstep)
+(82,k)
+(83,dvscanstart)
+(84,)
+(85,fp += frowstep)
+(86,dstripestart)
+(87,)
+(88,k)
+(89,1)
+(90,)
+(91,drowstep)
+(92,fp = fvscanstart)
+(93,width)
+(94,width)
+(95,0)
+(96,drowstep = jas_matrix_rowstep(data)
+(97,fp += frowstep)
+(98,frowstep << 2)
+(99,jpc_bitstream_outalign(out, 0x2a)
+(100,vscanlen)
+(101,dp)
+(102,fstripestep = frowstep << 2)
+(103,dp += drowstep)
+(104,out)
+(105,)
+(106,--k <= 0)
+(107,continue;)
+(108,frowstep)
+(109,jas_matrix_rowstep(flags)
+(110,k)
+(111,out)
+(112,fvscanstart)
+(113,j)
+(114,fp)
+(115,data)
+(116,1)
+(117,4)
+(118,frowstep = jas_matrix_rowstep(flags)
+(119,frowstep)
+(120,dp)
+(121,rawsigpass_step(fp, frowstep, dp, bitpos, one,\\n\\t\\t\\t  nmsedec, out, 0)
+(122,continue;)
+(123,RET)
+(124,rawsigpass_step(fp, frowstep, dp, bitpos, one,\\n\\t\\t\\t  nmsedec, out, 0)
+(125,dstripestart)
+(126,nmsedec)
+(127,return 0;)
+(128,nmsedec)
+(129,k)
+(130,fp)
+(131,rawsigpass_step(fp, frowstep, dp, bitpos, one,\\n\\t\\t\\t  nmsedec, out, 0)
+(132,k)
+(133,fvscanstart)
+(134,dp = dvscanstart)
+(135,drowstep << 2)
+(136,jas_matrix_t *flags)
+(137,dp)
+(138,height)
+(139,)
+(140,j)
+(141,++dvscanstart)
+(142,0)
+(143,height = jas_matrix_numrows(data)
+(144,dp += drowstep)
+(145,rawsigpass_step(fp, frowstep, dp, bitpos, one,\\n\\t\\t\\t  nmsedec, out, vcausalflag)
+(146,one)
+(147,drowstep)
+(148,dvscanstart)
+(149,frowstep)
+(150,dstripestart)
+(151,fp)
+(152,dstripestart = jas_matrix_getref(data, 0, 0)
+(153,2)
+(154,i -= 4)
+(155,fp)
+(156,fstripestart)
+(157,for (i = height; i > 0; i -= 4, fstripestart += fstripestep,\\n\\t  dstripestart += dstripestep)
+(158,4)
+(159,0)
+(160,dp += drowstep)
+(161,if (--k <= 0)
+(162,dp)
+(163,if (--k <= 0)
+(164,nmsedec)
+(165,one)
+(166,fp)
+(167,nmsedec)
+(168,)
+(169,one = 1 << (bitpos + JPC_NUMEXTRABITS)
+(170,dp)
+(171,fvscanstart = fstripestart)
+(172,dp += drowstep)
+(173,fp)
+(174,vscanlen)
+(175,vcausalflag)
+(176,++fvscanstart)
+(177,fstripestart)
+(178,dstripestep)
+(179,term)
+(180,--j)
+(181,--k <= 0)
+(182,jas_matrix_rowstep(data)
+(183,frowstep)
+(184,fp += frowstep)
+(185,dvscanstart = dstripestart)
+(186,int vcausalflag)
+(187,data)
+(188,out)
+(189,--k <= 0)
+(190,width)
+(191,dstripestart += dstripestep)
+(192,0)
+(193,)
+(194,i)
+(195,dp)
+(196,dstripestart)
+(197,--k <= 0)
+(198,k)
+(199,)
+(200,dp)
+(201,if (--k <= 0)
+(202,frowstep)
+(203,dp)
+(204,for (j = width; j > 0; --j, ++fvscanstart, ++dvscanstart)
+(205,0)
+(206,*nmsedec = 0)
+(207,data)
+(208,jas_matrix_getref(data, 0, 0)
+(209,*nmsedec)
+(210,frowstep)
+(211,frowstep)
+(212,fstripestart = jas_matrix_getref(flags, 1, 1)
+(213,i)
+(214,vscanlen)
+(215,j > 0)
+(216,frowstep)
+(217,dstripestep = drowstep << 2)
+(218,1)
+(219,nmsedec)
+(220,bitpos)
+(221,0)
+(222,frowstep)
+(223,drowstep)
+(224,jas_matrix_t *data)
+-----cfg-----
+(257,255)
+(258,254)
+(260,258)
+(261,247)
+(262,261)
+(263,262)
+(7,30)
+(265,263)
+(269,274)
+(271,269)
+(273,271)
+(274,285)
+(274,131)
+(277,274)
+(281,291)
+(281,277)
+(26,37)
+(283,281)
+(28,26)
+(285,283)
+(30,28)
+(31,47)
+(33,31)
+(34,33)
+(290,295)
+(35,40)
+(291,290)
+(293,295)
+(37,35)
+(38,34)
+(40,38)
+(43,48)
+(45,43)
+(47,45)
+(48,60)
+(48,293)
+(51,48)
+(54,70)
+(56,54)
+(57,56)
+(58,63)
+(60,58)
+(61,57)
+(63,61)
+(66,71)
+(68,66)
+(70,68)
+(71,81)
+(71,51)
+(74,71)
+(78,74)
+(78,90)
+(79,78)
+(81,79)
+(84,100)
+(86,84)
+(87,86)
+(88,93)
+(90,88)
+(91,87)
+(93,91)
+(96,101)
+(98,96)
+(100,98)
+(101,111)
+(101,74)
+(104,101)
+(108,104)
+(108,117)
+(109,108)
+(111,109)
+(116,129)
+(117,124)
+(120,116)
+(122,120)
+(124,122)
+(125,140)
+(125,104)
+(127,125)
+(129,127)
+(130,129)
+(131,133)
+(133,130)
+(137,131)
+(137,143)
+(138,137)
+(140,138)
+(143,152)
+(146,162)
+(148,146)
+(149,148)
+(150,155)
+(152,150)
+(153,149)
+(155,153)
+(158,163)
+(160,158)
+(162,160)
+(163,169)
+(163,243)
+(166,163)
+(169,174)
+(174,182)
+(177,188)
+(177,218)
+(179,177)
+(180,179)
+(182,180)
+(183,182)
+(188,196)
+(191,206)
+(191,183)
+(193,191)
+(194,193)
+(196,194)
+(197,196)
+(200,210)
+(202,200)
+(203,202)
+(204,203)
+(206,204)
+(210,214)
+(210,197)
+(214,197)
+(218,222)
+(218,228)
+(222,228)
+(225,166)
+(226,232)
+(228,226)
+(229,225)
+(230,229)
+(231,230)
+(232,231)
+(239,244)
+(241,239)
+(243,241)
+(244,253)
+(244,273)
+(247,244)
+(250,265)
+(251,257)
+(253,251)
+(254,250)
+(255,260)
+-----path-----
+7,30,28,26,37,35,40,38,34,33,31,47,45,43,48,60,58,63,61,57,56,54,70,68,66,71,81,79,78,74,71,51,48,293,295
+7,30,28,26,37,35,40,38,34,33,31,47,45,43,48,60,58,63,61,57,56,54,70,68,66,71,81,79,78,90,88,93,91,87,86,84,100,98,96,101,111,109,108,104,101,74,71,51,48,293,295
+7,30,28,26,37,35,40,38,34,33,31,47,45,43,48,60,58,63,61,57,56,54,70,68,66,71,81,79,78,90,88,93,91,87,86,84,100,98,96,101,111,109,108,117,124,122,120,116,129,127,125
+7,30,28,26,37,35,40,38,34,33,31,47,45,43,48,60,58,63,61,57,56,54,70,68,66,71,81,79,78,90,88,93,91,87,86,84,100,98,96,101,74,71,51,48,293,295
+7,30,28,26,37,35,40,38,34,33,31,47,45,43,48,60,58,63,61,57,56,54,70,68,66,71,51,48,293,295
+7,30,28,26,37,35,40,38,34,33,31,47,45,43,48,293,295
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_enc_enccblks (jpc_enc_t *enc)
+8,jpc_enc_t *enc
+9,<empty>
+10,jpc_enc_tcmpt_t* tcmpt
+11,jpc_enc_tcmpt_t* endcomps
+12,jpc_enc_rlvl_t* lvl
+13,jpc_enc_rlvl_t* endlvls
+14,jpc_enc_band_t* band
+15,jpc_enc_band_t* endbands
+16,jpc_enc_cblk_t* cblk
+17,jpc_enc_cblk_t* endcblks
+18,int i
+19,int j
+20,int mx
+21,int bmx
+22,int v
+23,jpc_enc_tile_t* tile
+24,uint_fast32_t prcno
+25,jpc_enc_prc_t* prc
+26,tile = enc->curtile
+27,tile
+28,enc->curtile
+29,enc
+30,curtile
+31,endcomps = &tile->tcmpts[tile->numtcmpts]
+32,endcomps
+33,&tile->tcmpts[tile->numtcmpts]
+34,tile->tcmpts[tile->numtcmpts]
+35,tile->tcmpts
+36,tile
+37,tcmpts
+38,tile->numtcmpts
+39,tile
+40,numtcmpts
+41,for (tcmpt = tile->tcmpts;tcmpt != endcomps;++tcmpt)
+42,<empty>
+43,tcmpt = tile->tcmpts
+44,tcmpt
+45,tile->tcmpts
+46,tile
+47,tcmpts
+48,tcmpt != endcomps
+49,tcmpt
+50,endcomps
+51,++tcmpt
+52,tcmpt
+53,<empty>
+54,endlvls = &tcmpt->rlvls[tcmpt->numrlvls]
+55,endlvls
+56,&tcmpt->rlvls[tcmpt->numrlvls]
+57,tcmpt->rlvls[tcmpt->numrlvls]
+58,tcmpt->rlvls
+59,tcmpt
+60,rlvls
+61,tcmpt->numrlvls
+62,tcmpt
+63,numrlvls
+64,for (lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+65,<empty>
+66,lvl = tcmpt->rlvls
+67,lvl
+68,tcmpt->rlvls
+69,tcmpt
+70,rlvls
+71,lvl != endlvls
+72,lvl
+73,endlvls
+74,++lvl
+75,lvl
+76,<empty>
+77,if (!lvl->bands)
+78,!lvl->bands
+79,lvl->bands
+80,lvl
+81,bands
+82,<empty>
+83,continue;
+84,endbands = &lvl->bands[lvl->numbands]
+85,endbands
+86,&lvl->bands[lvl->numbands]
+87,lvl->bands[lvl->numbands]
+88,lvl->bands
+89,lvl
+90,bands
+91,lvl->numbands
+92,lvl
+93,numbands
+94,for (band = lvl->bands;band != endbands;++band)
+95,<empty>
+96,band = lvl->bands
+97,band
+98,lvl->bands
+99,lvl
+100,bands
+101,band != endbands
+102,band
+103,endbands
+104,++band
+105,band
+106,<empty>
+107,if (!band->data)
+108,!band->data
+109,band->data
+110,band
+111,data
+112,<empty>
+113,continue;
+114,for (prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+115,<empty>
+116,prcno = 0, prc = band->prcs
+117,prcno = 0
+118,prcno
+119,0
+120,prc = band->prcs
+121,prc
+122,band->prcs
+123,band
+124,prcs
+125,prcno < lvl->numprcs
+126,prcno
+127,lvl->numprcs
+128,lvl
+129,numprcs
+130,++prcno, ++prc
+131,++prcno
+132,prcno
+133,++prc
+134,prc
+135,<empty>
+136,if (!prc->cblks)
+137,!prc->cblks
+138,prc->cblks
+139,prc
+140,cblks
+141,<empty>
+142,continue;
+143,bmx = 0
+144,bmx
+145,0
+146,endcblks = &prc->cblks[prc->numcblks]
+147,endcblks
+148,&prc->cblks[prc->numcblks]
+149,prc->cblks[prc->numcblks]
+150,prc->cblks
+151,prc
+152,cblks
+153,prc->numcblks
+154,prc
+155,numcblks
+156,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+157,<empty>
+158,cblk = prc->cblks
+159,cblk
+160,prc->cblks
+161,prc
+162,cblks
+163,cblk != endcblks
+164,cblk
+165,endcblks
+166,++cblk
+167,cblk
+168,<empty>
+169,mx = 0
+170,mx
+171,0
+172,for (i = 0;i < jas_matrix_numrows(cblk->data);++i)
+173,<empty>
+174,i = 0
+175,i
+176,0
+177,i < jas_matrix_numrows(cblk->data)
+178,i
+179,jas_matrix_numrows(cblk->data)
+180,cblk->data
+181,cblk
+182,data
+183,++i
+184,i
+185,<empty>
+186,for (j = 0;j < jas_matrix_numcols(cblk->data);++j)
+187,<empty>
+188,j = 0
+189,j
+190,0
+191,j < jas_matrix_numcols(cblk->data)
+192,j
+193,jas_matrix_numcols(cblk->data)
+194,cblk->data
+195,cblk
+196,data
+197,++j
+198,j
+199,<empty>
+200,v = abs(jas_matrix_get(cblk->data, i, j))
+201,v
+202,abs(jas_matrix_get(cblk->data, i, j))
+203,jas_matrix_get(cblk->data, i, j)
+204,cblk->data
+205,cblk
+206,data
+207,i
+208,j
+209,if (v > mx)
+210,v > mx
+211,v
+212,mx
+213,<empty>
+214,mx = v
+215,mx
+216,v
+217,if (mx > bmx)
+218,mx > bmx
+219,mx
+220,bmx
+221,<empty>
+222,bmx = mx
+223,bmx
+224,mx
+225,cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0)
+226,cblk->numbps
+227,cblk
+228,numbps
+229,JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0)
+230,jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS
+231,jpc_firstone(mx) + 1
+232,jpc_firstone(mx)
+233,mx
+234,1
+235,JPC_NUMEXTRABITS
+236,0
+237,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+238,<empty>
+239,cblk = prc->cblks
+240,cblk
+241,prc->cblks
+242,prc
+243,cblks
+244,cblk != endcblks
+245,cblk
+246,endcblks
+247,++cblk
+248,cblk
+249,<empty>
+250,cblk->numimsbs = band->numbps - cblk->numbps
+251,cblk->numimsbs
+252,cblk
+253,numimsbs
+254,band->numbps - cblk->numbps
+255,band->numbps
+256,band
+257,numbps
+258,cblk->numbps
+259,cblk
+260,numbps
+261,assert(cblk->numimsbs >= 0)
+262,cblk->numimsbs >= 0
+263,cblk->numimsbs
+264,cblk
+265,numimsbs
+266,0
+267,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+268,<empty>
+269,cblk = prc->cblks
+270,cblk
+271,prc->cblks
+272,prc
+273,cblks
+274,cblk != endcblks
+275,cblk
+276,endcblks
+277,++cblk
+278,cblk
+279,<empty>
+280,if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk))
+281,jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)
+282,enc
+283,cblk->stream
+284,cblk
+285,stream
+286,tcmpt
+287,band
+288,cblk
+289,<empty>
+290,return -1;
+291,-1
+292,1
+293,return 0;
+294,0
+295,RET
+296,jpc_enc_t *enc
+297,RET
+298,int jpc_enc_enccblks (jpc_enc_t *enc)
+299,jpc_enc_t *enc
+300,<empty>
+301,jpc_enc_tcmpt_t* tcmpt
+302,jpc_enc_tcmpt_t* endcomps
+303,jpc_enc_rlvl_t* lvl
+304,jpc_enc_rlvl_t* endlvls
+305,jpc_enc_band_t* band
+306,jpc_enc_band_t* endbands
+307,jpc_enc_cblk_t* cblk
+308,jpc_enc_cblk_t* endcblks
+309,int i
+310,int j
+311,int mx
+312,int bmx
+313,int v
+314,jpc_enc_tile_t* tile
+315,uint_fast32_t prcno
+316,jpc_enc_prc_t* prc
+317,tile = enc->curtile
+318,tile
+319,enc->curtile
+320,enc
+321,curtile
+322,endcomps = &tile->tcmpts[tile->numtcmpts]
+323,endcomps
+324,&tile->tcmpts[tile->numtcmpts]
+325,tile->tcmpts[tile->numtcmpts]
+326,tile->tcmpts
+327,tile
+328,tcmpts
+329,tile->numtcmpts
+330,tile
+331,numtcmpts
+332,for (tcmpt = tile->tcmpts;tcmpt != endcomps;++tcmpt)
+333,<empty>
+334,tcmpt = tile->tcmpts
+335,tcmpt
+336,tile->tcmpts
+337,tile
+338,tcmpts
+339,tcmpt != endcomps
+340,tcmpt
+341,endcomps
+342,++tcmpt
+343,tcmpt
+344,<empty>
+345,endlvls = &tcmpt->rlvls[tcmpt->numrlvls]
+346,endlvls
+347,&tcmpt->rlvls[tcmpt->numrlvls]
+348,tcmpt->rlvls[tcmpt->numrlvls]
+349,tcmpt->rlvls
+350,tcmpt
+351,rlvls
+352,tcmpt->numrlvls
+353,tcmpt
+354,numrlvls
+355,for (lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+356,<empty>
+357,lvl = tcmpt->rlvls
+358,lvl
+359,tcmpt->rlvls
+360,tcmpt
+361,rlvls
+362,lvl != endlvls
+363,lvl
+364,endlvls
+365,++lvl
+366,lvl
+367,<empty>
+368,if (!lvl->bands)
+369,!lvl->bands
+370,lvl->bands
+371,lvl
+372,bands
+373,<empty>
+374,continue;
+375,endbands = &lvl->bands[lvl->numbands]
+376,endbands
+377,&lvl->bands[lvl->numbands]
+378,lvl->bands[lvl->numbands]
+379,lvl->bands
+380,lvl
+381,bands
+382,lvl->numbands
+383,lvl
+384,numbands
+385,for (band = lvl->bands;band != endbands;++band)
+386,<empty>
+387,band = lvl->bands
+388,band
+389,lvl->bands
+390,lvl
+391,bands
+392,band != endbands
+393,band
+394,endbands
+395,++band
+396,band
+397,<empty>
+398,if (!band->data)
+399,!band->data
+400,band->data
+401,band
+402,data
+403,<empty>
+404,continue;
+405,for (prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+406,<empty>
+407,prcno = 0, prc = band->prcs
+408,prcno = 0
+409,prcno
+410,0
+411,prc = band->prcs
+412,prc
+413,band->prcs
+414,band
+415,prcs
+416,prcno < lvl->numprcs
+417,prcno
+418,lvl->numprcs
+419,lvl
+420,numprcs
+421,++prcno, ++prc
+422,++prcno
+423,prcno
+424,++prc
+425,prc
+426,<empty>
+427,if (!prc->cblks)
+428,!prc->cblks
+429,prc->cblks
+430,prc
+431,cblks
+432,<empty>
+433,continue;
+434,bmx = 0
+435,bmx
+436,0
+437,endcblks = &prc->cblks[prc->numcblks]
+438,endcblks
+439,&prc->cblks[prc->numcblks]
+440,prc->cblks[prc->numcblks]
+441,prc->cblks
+442,prc
+443,cblks
+444,prc->numcblks
+445,prc
+446,numcblks
+447,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+448,<empty>
+449,cblk = prc->cblks
+450,cblk
+451,prc->cblks
+452,prc
+453,cblks
+454,cblk != endcblks
+455,cblk
+456,endcblks
+457,++cblk
+458,cblk
+459,<empty>
+460,mx = 0
+461,mx
+462,0
+463,for (i = 0;i < jas_matrix_numrows(cblk->data);++i)
+464,<empty>
+465,i = 0
+466,i
+467,0
+468,i < jas_matrix_numrows(cblk->data)
+469,i
+470,jas_matrix_numrows(cblk->data)
+471,cblk->data
+472,cblk
+473,data
+474,++i
+475,i
+476,<empty>
+477,for (j = 0;j < jas_matrix_numcols(cblk->data);++j)
+478,<empty>
+479,j = 0
+480,j
+481,0
+482,j < jas_matrix_numcols(cblk->data)
+483,j
+484,jas_matrix_numcols(cblk->data)
+485,cblk->data
+486,cblk
+487,data
+488,++j
+489,j
+490,<empty>
+491,v = abs(jas_matrix_get(cblk->data, i, j))
+492,v
+493,abs(jas_matrix_get(cblk->data, i, j))
+494,jas_matrix_get(cblk->data, i, j)
+495,cblk->data
+496,cblk
+497,data
+498,i
+499,j
+500,if (v > mx)
+501,v > mx
+502,v
+503,mx
+504,<empty>
+505,mx = v
+506,mx
+507,v
+508,if (mx > bmx)
+509,mx > bmx
+510,mx
+511,bmx
+512,<empty>
+513,bmx = mx
+514,bmx
+515,mx
+516,cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0)
+517,cblk->numbps
+518,cblk
+519,numbps
+520,JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0)
+521,jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS
+522,jpc_firstone(mx) + 1
+523,jpc_firstone(mx)
+524,mx
+525,1
+526,JPC_NUMEXTRABITS
+527,0
+528,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+529,<empty>
+530,cblk = prc->cblks
+531,cblk
+532,prc->cblks
+533,prc
+534,cblks
+535,cblk != endcblks
+536,cblk
+537,endcblks
+538,++cblk
+539,cblk
+540,<empty>
+541,cblk->numimsbs = band->numbps - cblk->numbps
+542,cblk->numimsbs
+543,cblk
+544,numimsbs
+545,band->numbps - cblk->numbps
+546,band->numbps
+547,band
+548,numbps
+549,cblk->numbps
+550,cblk
+551,numbps
+552,assert(cblk->numimsbs >= 0)
+553,cblk->numimsbs >= 0
+554,cblk->numimsbs
+555,cblk
+556,numimsbs
+557,0
+558,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+559,<empty>
+560,cblk = prc->cblks
+561,cblk
+562,prc->cblks
+563,prc
+564,cblks
+565,cblk != endcblks
+566,cblk
+567,endcblks
+568,++cblk
+569,cblk
+570,<empty>
+571,if (jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk))
+572,jpc_enc_enccblk(enc, cblk->stream, tcmpt, band, cblk)
+573,enc
+574,cblk->stream
+575,cblk
+576,stream
+577,tcmpt
+578,band
+579,cblk
+580,<empty>
+581,return -1;
+582,-1
+583,1
+584,return 0;
+585,0
+586,RET
+587,jpc_enc_t *enc
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_enc_enccblks(jpc_enc_t *enc) {
+jpc_enc_tcmpt_t *tcmpt;
+jpc_enc_tcmpt_t *endcomps;
+jpc_enc_rlvl_t *lvl;
+jpc_enc_rlvl_t *endlvls;
+jpc_enc_band_t *band;
+jpc_enc_band_t *endbands;
+jpc_enc_cblk_t *cblk;
+jpc_enc_cblk_t *endcblks;
+int i;
+int j;
+int mx;
+int bmx;
+int v;
+jpc_enc_tile_t *tile;
+uint_fast32_t prcno;
+jpc_enc_prc_t *prc;
+tile = enc->curtile;
+endcomps = &tile->tcmpts[tile->numtcmpts];
+for(tcmpt = tile->tcmpts;tcmpt != endcomps;++tcmpt)
+endlvls = &tcmpt->rlvls[tcmpt->numrlvls];
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+if(v > mx)
+mx = v;
+if(mx > bmx)
+bmx = mx;
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(tcmpt = tile->tcmpts;tcmpt != endcomps;++tcmpt)
+endlvls = &tcmpt->rlvls[tcmpt->numrlvls];
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(tcmpt = tile->tcmpts;tcmpt != endcomps;++tcmpt)
+endlvls = &tcmpt->rlvls[tcmpt->numrlvls];
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(lvl = tcmpt->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+bmx = 0;
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+mx = 0;
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(i = 0;i < jas_matrix_numrows(cblk->data);++i)
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+for(j = 0;j < jas_matrix_numcols(cblk->data);++j)
+v = abs(jas_matrix_get(cblk->data, i, j));
+cblk->numbps = JAS_MAX(jpc_firstone(mx) + 1 - JPC_NUMEXTRABITS, 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->numimsbs = band->numbps - cblk->numbps;
+assert(cblk->numimsbs >= 0);
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+return 0;
+=======================

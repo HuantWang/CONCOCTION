@@ -1,0 +1,1570 @@
+-----label-----
+0
+-----code-----
+cmdopts_t *cmdopts_parse(int argc, char **argv)
+{
+
+	typedef enum {
+		CMDOPT_HELP = 0,
+		CMDOPT_VERBOSE,
+		CMDOPT_INFILE,
+		CMDOPT_INFMT,
+		CMDOPT_INOPT,
+		CMDOPT_OUTFILE,
+		CMDOPT_OUTFMT,
+		CMDOPT_OUTOPT,
+		CMDOPT_VERSION,
+		CMDOPT_DEBUG,
+		CMDOPT_CMPTNO,
+		CMDOPT_SRGB
+	} cmdoptid_t;
+
+	static jas_opt_t cmdoptions[] = {
+		{CMDOPT_HELP, "help", 0},
+		{CMDOPT_VERBOSE, "verbose", 0},
+		{CMDOPT_INFILE, "input", JAS_OPT_HASARG},
+		{CMDOPT_INFILE, "f", JAS_OPT_HASARG},
+		{CMDOPT_INFMT, "input-format", JAS_OPT_HASARG},
+		{CMDOPT_INFMT, "t", JAS_OPT_HASARG},
+		{CMDOPT_INOPT, "input-option", JAS_OPT_HASARG},
+		{CMDOPT_INOPT, "o", JAS_OPT_HASARG},
+		{CMDOPT_OUTFILE, "output", JAS_OPT_HASARG},
+		{CMDOPT_OUTFILE, "F", JAS_OPT_HASARG},
+		{CMDOPT_OUTFMT, "output-format", JAS_OPT_HASARG},
+		{CMDOPT_OUTFMT, "T", JAS_OPT_HASARG},
+		{CMDOPT_OUTOPT, "output-option", JAS_OPT_HASARG},
+		{CMDOPT_OUTOPT, "O", JAS_OPT_HASARG},
+		{CMDOPT_VERSION, "version", 0},
+		{CMDOPT_DEBUG, "debug-level", JAS_OPT_HASARG},
+		{CMDOPT_CMPTNO, "cmptno", JAS_OPT_HASARG},
+		{CMDOPT_SRGB, "force-srgb", 0},
+		{CMDOPT_SRGB, "S", 0},
+		{-1, 0, 0}
+	};
+
+	cmdopts_t *cmdopts;
+	int c;
+
+	if (!(cmdopts = malloc(sizeof(cmdopts_t)))) {
+		fprintf(stderr, "error: insufficient memory\n");
+		exit(EXIT_FAILURE);
+	}
+
+	cmdopts->infile = 0;
+	cmdopts->infmt = -1;
+	cmdopts->inopts = 0;
+	cmdopts->inoptsbuf[0] = '\0';
+	cmdopts->outfile = 0;
+	cmdopts->outfmt = -1;
+	cmdopts->outopts = 0;
+	cmdopts->outoptsbuf[0] = '\0';
+	cmdopts->verbose = 0;
+	cmdopts->version = 0;
+	cmdopts->cmptno = -1;
+	cmdopts->debug = 0;
+	cmdopts->srgb = 0;
+
+	while ((c = jas_getopt(argc, argv, cmdoptions)) != EOF) {
+		switch (c) {
+		case CMDOPT_HELP:
+			cmdusage();
+			break;
+		case CMDOPT_VERBOSE:
+			cmdopts->verbose = 1;
+			break;
+		case CMDOPT_VERSION:
+			cmdopts->version = 1;
+			break;
+		case CMDOPT_DEBUG:
+			cmdopts->debug = atoi(jas_optarg);
+			break;
+		case CMDOPT_INFILE:
+			cmdopts->infile = jas_optarg;
+			break;
+		case CMDOPT_INFMT:
+			if ((cmdopts->infmt = jas_image_strtofmt(jas_optarg)) < 0) {
+				fprintf(stderr, "warning: ignoring invalid input format %s\n",
+				  jas_optarg);
+				cmdopts->infmt = -1;
+			}
+			break;
+		case CMDOPT_INOPT:
+			addopt(cmdopts->inoptsbuf, OPTSMAX, jas_optarg);
+			cmdopts->inopts = cmdopts->inoptsbuf;
+			break;
+		case CMDOPT_OUTFILE:
+			cmdopts->outfile = jas_optarg;
+			break;
+		case CMDOPT_OUTFMT:
+			if ((cmdopts->outfmt = jas_image_strtofmt(jas_optarg)) < 0) {
+				fprintf(stderr, "error: invalid output format %s\n", jas_optarg);
+				badusage();
+			}
+			break;
+		case CMDOPT_OUTOPT:
+			addopt(cmdopts->outoptsbuf, OPTSMAX, jas_optarg);
+			cmdopts->outopts = cmdopts->outoptsbuf;
+			break;
+		case CMDOPT_CMPTNO:
+			cmdopts->cmptno = atoi(jas_optarg);
+			break;
+		case CMDOPT_SRGB:
+			cmdopts->srgb = 1;
+			break;
+		default:
+			badusage();
+			break;
+		}
+	}
+
+	while (jas_optind < argc) {
+		fprintf(stderr,
+		  "warning: ignoring bogus command line argument %s\n",
+		  argv[jas_optind]);
+		++jas_optind;
+	}
+
+	if (cmdopts->version) {
+		goto done;
+	}
+
+	if (cmdopts->outfmt < 0 && cmdopts->outfile) {
+		if ((cmdopts->outfmt = jas_image_fmtfromname(cmdopts->outfile)) < 0) {
+			fprintf(stderr,
+			  "error: cannot guess image format from output file name\n");
+		}
+	}
+
+	if (cmdopts->outfmt < 0) {
+		fprintf(stderr, "error: no output format specified\n");
+		badusage();
+	}
+
+done:
+	return cmdopts;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+9,10
+11,12
+11,13
+13,14
+13,15
+13,16
+17,18
+17,19
+17,20
+17,21
+17,22
+17,23
+17,24
+17,25
+17,26
+17,27
+17,28
+17,29
+17,30
+17,31
+17,32
+17,33
+17,34
+17,35
+17,36
+17,37
+17,38
+17,39
+17,40
+17,41
+18,19
+19,20
+19,21
+20,21
+20,22
+20,23
+20,24
+20,25
+20,26
+20,27
+20,28
+20,29
+20,30
+20,31
+20,32
+20,33
+22,23
+22,24
+25,26
+27,28
+29,30
+31,32
+33,34
+35,36
+37,38
+39,40
+41,42
+43,44
+45,46
+47,48
+49,50
+50,51
+50,52
+51,52
+53,54
+53,55
+53,56
+56,57
+57,58
+57,59
+57,60
+57,61
+57,62
+57,63
+57,64
+57,65
+57,66
+57,67
+57,68
+57,69
+57,70
+57,71
+57,72
+57,73
+57,74
+57,75
+57,76
+57,77
+58,59
+58,60
+58,61
+59,60
+63,64
+63,65
+63,66
+64,65
+68,69
+68,70
+68,71
+69,70
+72,73
+74,75
+74,76
+74,77
+75,76
+78,79
+80,81
+80,82
+80,83
+81,82
+84,85
+86,87
+86,88
+86,89
+87,88
+90,91
+92,93
+92,94
+92,95
+93,94
+96,97
+98,99
+98,100
+98,101
+99,100
+102,103
+104,105
+104,106
+104,107
+105,106
+108,109
+110,111
+110,112
+110,113
+111,112
+114,115
+116,117
+116,118
+116,119
+117,118
+120,121
+122,123
+122,124
+122,125
+123,124
+126,127
+128,129
+128,130
+128,131
+129,130
+132,133
+134,135
+134,136
+134,137
+135,136
+138,139
+140,141
+140,142
+140,143
+141,142
+145,146
+145,147
+145,148
+146,147
+149,150
+151,152
+151,153
+151,154
+152,153
+155,156
+157,158
+157,159
+157,160
+158,159
+162,163
+162,164
+162,165
+163,164
+167,168
+167,169
+167,170
+168,169
+172,173
+173,174
+173,175
+174,175
+176,177
+176,178
+179,180
+180,181
+180,182
+182,183
+184,185
+184,186
+185,186
+186,187
+187,188
+187,189
+188,189
+190,191
+190,192
+191,192
+193,194
+194,195
+194,196
+195,196
+198,199
+198,200
+199,200
+200,201
+200,202
+200,203
+201,202
+203,204
+206,207
+207,208
+207,209
+208,209
+210,211
+211,212
+213,214
+214,215
+214,216
+215,216
+215,217
+216,217
+220,221
+221,222
+221,223
+222,223
+222,224
+223,224
+226,227
+228,229
+229,230
+229,231
+230,231
+230,232
+231,232
+235,236
+236,237
+236,238
+237,238
+237,239
+238,239
+238,240
+239,240
+244,245
+245,246
+245,247
+246,247
+246,248
+247,248
+251,252
+252,253
+252,254
+253,254
+253,255
+254,255
+257,258
+259,260
+260,261
+260,262
+261,262
+261,263
+262,263
+266,267
+267,268
+267,269
+268,269
+268,270
+269,270
+269,271
+270,271
+275,276
+276,277
+276,278
+277,278
+277,279
+278,279
+282,283
+283,284
+283,285
+284,285
+284,286
+285,286
+289,290
+290,291
+290,292
+291,292
+291,293
+292,293
+295,296
+297,298
+298,299
+298,300
+299,300
+299,301
+300,301
+304,305
+305,306
+305,307
+306,307
+306,308
+307,308
+311,312
+311,313
+312,313
+312,314
+313,314
+314,315
+314,316
+315,316
+317,318
+317,319
+317,320
+317,321
+318,319
+320,321
+322,323
+324,325
+326,327
+328,329
+329,330
+329,331
+330,331
+332,333
+332,334
+332,335
+332,336
+332,337
+332,338
+332,339
+332,340
+332,341
+332,342
+332,343
+332,344
+332,345
+332,346
+332,347
+332,348
+332,349
+332,350
+332,351
+332,352
+332,353
+332,354
+332,355
+332,356
+332,357
+332,358
+332,359
+332,360
+332,361
+332,362
+332,363
+332,364
+332,365
+332,366
+332,367
+332,368
+332,369
+332,370
+332,371
+332,372
+332,373
+333,334
+334,335
+336,337
+337,338
+338,339
+341,342
+342,343
+344,345
+345,346
+345,347
+346,347
+346,348
+347,348
+352,353
+353,354
+355,356
+356,357
+356,358
+357,358
+357,359
+358,359
+363,364
+364,365
+366,367
+367,368
+367,369
+368,369
+368,370
+369,370
+372,373
+372,374
+373,374
+375,376
+378,379
+379,380
+381,382
+382,383
+382,384
+383,384
+383,385
+384,385
+387,388
+390,391
+391,392
+393,394
+393,395
+394,395
+394,396
+395,396
+396,397
+396,398
+397,398
+397,399
+398,399
+401,402
+401,403
+402,403
+404,405
+407,408
+407,409
+408,409
+409,410
+409,411
+409,412
+409,413
+410,411
+412,413
+415,416
+417,418
+418,419
+418,420
+419,420
+419,421
+420,421
+423,424
+426,427
+427,428
+429,430
+430,431
+430,432
+430,433
+430,434
+431,432
+433,434
+433,435
+434,435
+437,438
+439,440
+441,442
+442,443
+442,444
+443,444
+443,445
+444,445
+447,448
+447,449
+448,449
+452,453
+453,454
+455,456
+456,457
+456,458
+457,458
+457,459
+458,459
+461,462
+464,465
+465,466
+467,468
+467,469
+468,469
+468,470
+469,470
+470,471
+470,472
+471,472
+471,473
+472,473
+475,476
+475,477
+476,477
+478,479
+481,482
+481,483
+482,483
+483,484
+483,485
+483,486
+483,487
+484,485
+486,487
+489,490
+491,492
+492,493
+493,494
+496,497
+497,498
+499,500
+500,501
+500,502
+500,503
+500,504
+501,502
+503,504
+503,505
+504,505
+507,508
+509,510
+511,512
+512,513
+512,514
+513,514
+513,515
+514,515
+517,518
+517,519
+518,519
+522,523
+523,524
+525,526
+526,527
+526,528
+527,528
+527,529
+528,529
+531,532
+531,533
+532,533
+534,535
+537,538
+538,539
+540,541
+541,542
+541,543
+542,543
+542,544
+543,544
+549,550
+550,551
+551,552
+554,555
+554,556
+555,556
+555,557
+556,557
+558,559
+560,561
+560,562
+561,562
+562,563
+562,564
+562,565
+562,566
+563,564
+565,566
+568,569
+568,570
+569,570
+571,572
+573,574
+574,575
+575,576
+577,578
+577,579
+578,579
+578,580
+579,580
+582,583
+583,584
+585,586
+585,587
+586,587
+586,588
+587,588
+587,589
+588,589
+588,590
+589,590
+593,594
+593,595
+594,595
+597,598
+598,599
+598,600
+599,600
+599,601
+600,601
+601,602
+601,603
+602,603
+602,604
+603,604
+606,607
+606,608
+607,608
+609,610
+609,611
+610,611
+614,615
+615,616
+616,617
+616,618
+616,619
+617,618
+619,620
+622,623
+622,624
+623,624
+623,625
+624,625
+624,626
+625,626
+629,630
+629,631
+630,631
+631,632
+631,633
+631,634
+632,633
+634,635
+637,638
+638,639
+639,640
+641,642
+641,643
+643,644
+644,645
+-----nextToken-----
+3,5,6,8,10,12,14,15,16,21,23,24,26,28,30,32,34,36,38,40,42,44,46,48,52,54,55,60,61,62,65,66,67,70,71,73,76,77,79,82,83,85,88,89,91,94,95,97,100,101,103,106,107,109,112,113,115,118,119,121,124,125,127,130,131,133,136,137,139,142,143,144,147,148,150,153,154,156,159,160,161,164,165,166,169,170,171,175,177,178,181,183,189,192,196,197,202,204,205,209,212,217,218,219,224,225,227,232,233,234,240,241,242,243,248,249,250,255,256,258,263,264,265,271,272,273,274,279,280,281,286,287,288,293,294,296,301,302,303,308,309,310,316,319,321,323,325,327,331,335,339,340,343,348,349,350,351,354,359,360,361,362,365,370,371,374,376,377,380,385,386,388,389,392,399,400,403,405,406,411,413,414,416,421,422,424,425,428,432,435,436,438,440,445,446,449,450,451,454,459,460,462,463,466,473,474,477,479,480,485,487,488,490,494,495,498,502,505,506,508,510,515,516,519,520,521,524,529,530,533,535,536,539,544,545,546,547,548,552,553,557,559,564,566,567,570,572,576,580,581,584,590,591,592,595,596,604,605,608,611,612,613,618,620,621,626,627,628,633,635,636,640,642,645
+-----computeFrom-----
+187,188
+187,189
+214,215
+214,216
+221,222
+221,223
+229,230
+229,231
+236,237
+236,238
+245,246
+245,247
+252,253
+252,254
+260,261
+260,262
+267,268
+267,269
+276,277
+276,278
+283,284
+283,285
+290,291
+290,292
+298,299
+298,300
+305,306
+305,307
+312,313
+312,314
+314,315
+314,316
+345,346
+345,347
+356,357
+356,358
+367,368
+367,369
+382,383
+382,384
+394,395
+394,396
+396,397
+396,398
+418,419
+418,420
+442,443
+442,444
+456,457
+456,458
+468,469
+468,470
+470,471
+470,472
+512,513
+512,514
+526,527
+526,528
+541,542
+541,543
+555,556
+555,557
+586,587
+586,588
+587,588
+587,589
+599,600
+599,601
+601,602
+601,603
+623,624
+623,625
+-----guardedBy-----
+400,422
+399,421
+405,416
+479,490
+595,611
+596,612
+591,605
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;EnumerationSpecifier;Name;Enumerator;Name;LiteralExpression;Enumerator;Name;Enumerator;Name;Enumerator;Name;Enumerator;Name;Enumerator;Name;Enumerator;Name;Enumerator;Name;Enumerator;Name;Enumerator;Name;Enumerator;Name;Enumerator;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;ArrayDeclarator;Name;ArrayModifier;EqualsInitializer;InitializerList;InitializerList;IdExpression;Name;LiteralExpression;LiteralExpression;InitializerList;IdExpression;Name;LiteralExpression;LiteralExpression;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;LiteralExpression;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;IdExpression;Name;InitializerList;IdExpression;Name;LiteralExpression;LiteralExpression;InitializerList;IdExpression;Name;LiteralExpression;LiteralExpression;InitializerList;UnaryExpression;LiteralExpression;LiteralExpression;LiteralExpression;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Declarator;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;WhileStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;SwitchStatement;IdExpression;Name;CompoundStatement;CaseStatement;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;LiteralExpression;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BreakStatement;DefaultStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BreakStatement;WhileStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ArraySubscriptExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;IfStatement;FieldReference;IdExpression;Name;Name;CompoundStatement;GotoStatement;Name;IfStatement;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LabelStatement;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+cmdopts_t *cmdopts_parse(int argc, char **argv){	typedef enum {		CMDOPT_HELP = 0,		CMDOPT_VERBOSE,		CMDOPT_INFILE,		CMDOPT_INFMT,		CMDOPT_INOPT,		CMDOPT_OUTFILE,		CMDOPT_OUTFMT,		CMDOPT_OUTOPT,		CMDOPT_VERSION,		CMDOPT_DEBUG,		CMDOPT_CMPTNO,		CMDOPT_SRGB	} cmdoptid_t;	static jas_opt_t cmdoptions[] = {		{CMDOPT_HELP, "help", 0},		{CMDOPT_VERBOSE, "verbose", 0},		{CMDOPT_INFILE, "input", JAS_OPT_HASARG},		{CMDOPT_INFILE, "f", JAS_OPT_HASARG},		{CMDOPT_INFMT, "input-format", JAS_OPT_HASARG},		{CMDOPT_INFMT, "t", JAS_OPT_HASARG},		{CMDOPT_INOPT, "input-option", JAS_OPT_HASARG},		{CMDOPT_INOPT, "o", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "output", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "F", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "output-format", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "T", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "output-option", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "O", JAS_OPT_HASARG},		{CMDOPT_VERSION, "version", 0},		{CMDOPT_DEBUG, "debug-level", JAS_OPT_HASARG},		{CMDOPT_CMPTNO, "cmptno", JAS_OPT_HASARG},		{CMDOPT_SRGB, "force-srgb", 0},		{CMDOPT_SRGB, "S", 0},		{-1, 0, 0}	};	cmdopts_t *cmdopts;	int c;	if (!(cmdopts = malloc(sizeof(cmdopts_t)))) {		fprintf(stderr, "error: insufficient memory\n");		exit(EXIT_FAILURE);	}	cmdopts->infile = 0;	cmdopts->infmt = -1;	cmdopts->inopts = 0;	cmdopts->inoptsbuf[0] = '\0';	cmdopts->outfile = 0;	cmdopts->outfmt = -1;	cmdopts->outopts = 0;	cmdopts->outoptsbuf[0] = '\0';	cmdopts->verbose = 0;	cmdopts->version = 0;	cmdopts->cmptno = -1;	cmdopts->debug = 0;	cmdopts->srgb = 0;	while ((c = jas_getopt(argc, argv, cmdoptions)) != EOF) {		switch (c) {		case CMDOPT_HELP:			cmdusage();			break;		case CMDOPT_VERBOSE:			cmdopts->verbose = 1;			break;		case CMDOPT_VERSION:			cmdopts->version = 1;			break;		case CMDOPT_DEBUG:			cmdopts->debug = atoi(jas_optarg);			break;		case CMDOPT_INFILE:			cmdopts->infile = jas_optarg;			break;		case CMDOPT_INFMT:			if ((cmdopts->infmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg);				cmdopts->infmt = -1;			}			break;		case CMDOPT_INOPT:			addopt(cmdopts->inoptsbuf, OPTSMAX, jas_optarg);			cmdopts->inopts = cmdopts->inoptsbuf;			break;		case CMDOPT_OUTFILE:			cmdopts->outfile = jas_optarg;			break;		case CMDOPT_OUTFMT:			if ((cmdopts->outfmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "error: invalid output format %s\n", jas_optarg);				badusage();			}			break;		case CMDOPT_OUTOPT:			addopt(cmdopts->outoptsbuf, OPTSMAX, jas_optarg);			cmdopts->outopts = cmdopts->outoptsbuf;			break;		case CMDOPT_CMPTNO:			cmdopts->cmptno = atoi(jas_optarg);			break;		case CMDOPT_SRGB:			cmdopts->srgb = 1;			break;		default:			badusage();			break;		}	}	while (jas_optind < argc) {		fprintf(stderr,		  "warning: ignoring bogus command line argument %s\n",		  argv[jas_optind]);		++jas_optind;	}	if (cmdopts->version) {		goto done;	}	if (cmdopts->outfmt < 0 && cmdopts->outfile) {		if ((cmdopts->outfmt = jas_image_fmtfromname(cmdopts->outfile)) < 0) {			fprintf(stderr,			  "error: cannot guess image format from output file name\n");		}	}	if (cmdopts->outfmt < 0) {		fprintf(stderr, "error: no output format specified\n");		badusage();	}done:	return cmdopts;}
+cmdopts_t
+cmdopts_t
+*cmdopts_parse(int argc, char **argv)
+*
+cmdopts_parse
+int argc
+int
+argc
+argc
+char **argv
+char
+**argv
+*
+*
+argv
+{	typedef enum {		CMDOPT_HELP = 0,		CMDOPT_VERBOSE,		CMDOPT_INFILE,		CMDOPT_INFMT,		CMDOPT_INOPT,		CMDOPT_OUTFILE,		CMDOPT_OUTFMT,		CMDOPT_OUTOPT,		CMDOPT_VERSION,		CMDOPT_DEBUG,		CMDOPT_CMPTNO,		CMDOPT_SRGB	} cmdoptid_t;	static jas_opt_t cmdoptions[] = {		{CMDOPT_HELP, "help", 0},		{CMDOPT_VERBOSE, "verbose", 0},		{CMDOPT_INFILE, "input", JAS_OPT_HASARG},		{CMDOPT_INFILE, "f", JAS_OPT_HASARG},		{CMDOPT_INFMT, "input-format", JAS_OPT_HASARG},		{CMDOPT_INFMT, "t", JAS_OPT_HASARG},		{CMDOPT_INOPT, "input-option", JAS_OPT_HASARG},		{CMDOPT_INOPT, "o", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "output", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "F", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "output-format", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "T", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "output-option", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "O", JAS_OPT_HASARG},		{CMDOPT_VERSION, "version", 0},		{CMDOPT_DEBUG, "debug-level", JAS_OPT_HASARG},		{CMDOPT_CMPTNO, "cmptno", JAS_OPT_HASARG},		{CMDOPT_SRGB, "force-srgb", 0},		{CMDOPT_SRGB, "S", 0},		{-1, 0, 0}	};	cmdopts_t *cmdopts;	int c;	if (!(cmdopts = malloc(sizeof(cmdopts_t)))) {		fprintf(stderr, "error: insufficient memory\n");		exit(EXIT_FAILURE);	}	cmdopts->infile = 0;	cmdopts->infmt = -1;	cmdopts->inopts = 0;	cmdopts->inoptsbuf[0] = '\0';	cmdopts->outfile = 0;	cmdopts->outfmt = -1;	cmdopts->outopts = 0;	cmdopts->outoptsbuf[0] = '\0';	cmdopts->verbose = 0;	cmdopts->version = 0;	cmdopts->cmptno = -1;	cmdopts->debug = 0;	cmdopts->srgb = 0;	while ((c = jas_getopt(argc, argv, cmdoptions)) != EOF) {		switch (c) {		case CMDOPT_HELP:			cmdusage();			break;		case CMDOPT_VERBOSE:			cmdopts->verbose = 1;			break;		case CMDOPT_VERSION:			cmdopts->version = 1;			break;		case CMDOPT_DEBUG:			cmdopts->debug = atoi(jas_optarg);			break;		case CMDOPT_INFILE:			cmdopts->infile = jas_optarg;			break;		case CMDOPT_INFMT:			if ((cmdopts->infmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg);				cmdopts->infmt = -1;			}			break;		case CMDOPT_INOPT:			addopt(cmdopts->inoptsbuf, OPTSMAX, jas_optarg);			cmdopts->inopts = cmdopts->inoptsbuf;			break;		case CMDOPT_OUTFILE:			cmdopts->outfile = jas_optarg;			break;		case CMDOPT_OUTFMT:			if ((cmdopts->outfmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "error: invalid output format %s\n", jas_optarg);				badusage();			}			break;		case CMDOPT_OUTOPT:			addopt(cmdopts->outoptsbuf, OPTSMAX, jas_optarg);			cmdopts->outopts = cmdopts->outoptsbuf;			break;		case CMDOPT_CMPTNO:			cmdopts->cmptno = atoi(jas_optarg);			break;		case CMDOPT_SRGB:			cmdopts->srgb = 1;			break;		default:			badusage();			break;		}	}	while (jas_optind < argc) {		fprintf(stderr,		  "warning: ignoring bogus command line argument %s\n",		  argv[jas_optind]);		++jas_optind;	}	if (cmdopts->version) {		goto done;	}	if (cmdopts->outfmt < 0 && cmdopts->outfile) {		if ((cmdopts->outfmt = jas_image_fmtfromname(cmdopts->outfile)) < 0) {			fprintf(stderr,			  "error: cannot guess image format from output file name\n");		}	}	if (cmdopts->outfmt < 0) {		fprintf(stderr, "error: no output format specified\n");		badusage();	}done:	return cmdopts;}
+typedef enum {		CMDOPT_HELP = 0,		CMDOPT_VERBOSE,		CMDOPT_INFILE,		CMDOPT_INFMT,		CMDOPT_INOPT,		CMDOPT_OUTFILE,		CMDOPT_OUTFMT,		CMDOPT_OUTOPT,		CMDOPT_VERSION,		CMDOPT_DEBUG,		CMDOPT_CMPTNO,		CMDOPT_SRGB	} cmdoptid_t;
+typedef enum {		CMDOPT_HELP = 0,		CMDOPT_VERBOSE,		CMDOPT_INFILE,		CMDOPT_INFMT,		CMDOPT_INOPT,		CMDOPT_OUTFILE,		CMDOPT_OUTFMT,		CMDOPT_OUTOPT,		CMDOPT_VERSION,		CMDOPT_DEBUG,		CMDOPT_CMPTNO,		CMDOPT_SRGB	} cmdoptid_t;
+typedef enum {		CMDOPT_HELP = 0,		CMDOPT_VERBOSE,		CMDOPT_INFILE,		CMDOPT_INFMT,		CMDOPT_INOPT,		CMDOPT_OUTFILE,		CMDOPT_OUTFMT,		CMDOPT_OUTOPT,		CMDOPT_VERSION,		CMDOPT_DEBUG,		CMDOPT_CMPTNO,		CMDOPT_SRGB	}
+
+CMDOPT_HELP = 0
+CMDOPT_HELP
+0
+CMDOPT_VERBOSE
+CMDOPT_VERBOSE
+CMDOPT_INFILE
+CMDOPT_INFILE
+CMDOPT_INFMT
+CMDOPT_INFMT
+CMDOPT_INOPT
+CMDOPT_INOPT
+CMDOPT_OUTFILE
+CMDOPT_OUTFILE
+CMDOPT_OUTFMT
+CMDOPT_OUTFMT
+CMDOPT_OUTOPT
+CMDOPT_OUTOPT
+CMDOPT_VERSION
+CMDOPT_VERSION
+CMDOPT_DEBUG
+CMDOPT_DEBUG
+CMDOPT_CMPTNO
+CMDOPT_CMPTNO
+CMDOPT_SRGB
+CMDOPT_SRGB
+cmdoptid_t
+cmdoptid_t
+static jas_opt_t cmdoptions[] = {		{CMDOPT_HELP, "help", 0},		{CMDOPT_VERBOSE, "verbose", 0},		{CMDOPT_INFILE, "input", JAS_OPT_HASARG},		{CMDOPT_INFILE, "f", JAS_OPT_HASARG},		{CMDOPT_INFMT, "input-format", JAS_OPT_HASARG},		{CMDOPT_INFMT, "t", JAS_OPT_HASARG},		{CMDOPT_INOPT, "input-option", JAS_OPT_HASARG},		{CMDOPT_INOPT, "o", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "output", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "F", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "output-format", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "T", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "output-option", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "O", JAS_OPT_HASARG},		{CMDOPT_VERSION, "version", 0},		{CMDOPT_DEBUG, "debug-level", JAS_OPT_HASARG},		{CMDOPT_CMPTNO, "cmptno", JAS_OPT_HASARG},		{CMDOPT_SRGB, "force-srgb", 0},		{CMDOPT_SRGB, "S", 0},		{-1, 0, 0}	};
+static jas_opt_t cmdoptions[] = {		{CMDOPT_HELP, "help", 0},		{CMDOPT_VERBOSE, "verbose", 0},		{CMDOPT_INFILE, "input", JAS_OPT_HASARG},		{CMDOPT_INFILE, "f", JAS_OPT_HASARG},		{CMDOPT_INFMT, "input-format", JAS_OPT_HASARG},		{CMDOPT_INFMT, "t", JAS_OPT_HASARG},		{CMDOPT_INOPT, "input-option", JAS_OPT_HASARG},		{CMDOPT_INOPT, "o", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "output", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "F", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "output-format", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "T", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "output-option", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "O", JAS_OPT_HASARG},		{CMDOPT_VERSION, "version", 0},		{CMDOPT_DEBUG, "debug-level", JAS_OPT_HASARG},		{CMDOPT_CMPTNO, "cmptno", JAS_OPT_HASARG},		{CMDOPT_SRGB, "force-srgb", 0},		{CMDOPT_SRGB, "S", 0},		{-1, 0, 0}	};
+static jas_opt_t
+jas_opt_t
+cmdoptions[] = {		{CMDOPT_HELP, "help", 0},		{CMDOPT_VERBOSE, "verbose", 0},		{CMDOPT_INFILE, "input", JAS_OPT_HASARG},		{CMDOPT_INFILE, "f", JAS_OPT_HASARG},		{CMDOPT_INFMT, "input-format", JAS_OPT_HASARG},		{CMDOPT_INFMT, "t", JAS_OPT_HASARG},		{CMDOPT_INOPT, "input-option", JAS_OPT_HASARG},		{CMDOPT_INOPT, "o", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "output", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "F", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "output-format", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "T", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "output-option", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "O", JAS_OPT_HASARG},		{CMDOPT_VERSION, "version", 0},		{CMDOPT_DEBUG, "debug-level", JAS_OPT_HASARG},		{CMDOPT_CMPTNO, "cmptno", JAS_OPT_HASARG},		{CMDOPT_SRGB, "force-srgb", 0},		{CMDOPT_SRGB, "S", 0},		{-1, 0, 0}	}
+cmdoptions
+[]
+= {		{CMDOPT_HELP, "help", 0},		{CMDOPT_VERBOSE, "verbose", 0},		{CMDOPT_INFILE, "input", JAS_OPT_HASARG},		{CMDOPT_INFILE, "f", JAS_OPT_HASARG},		{CMDOPT_INFMT, "input-format", JAS_OPT_HASARG},		{CMDOPT_INFMT, "t", JAS_OPT_HASARG},		{CMDOPT_INOPT, "input-option", JAS_OPT_HASARG},		{CMDOPT_INOPT, "o", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "output", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "F", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "output-format", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "T", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "output-option", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "O", JAS_OPT_HASARG},		{CMDOPT_VERSION, "version", 0},		{CMDOPT_DEBUG, "debug-level", JAS_OPT_HASARG},		{CMDOPT_CMPTNO, "cmptno", JAS_OPT_HASARG},		{CMDOPT_SRGB, "force-srgb", 0},		{CMDOPT_SRGB, "S", 0},		{-1, 0, 0}	}
+{		{CMDOPT_HELP, "help", 0},		{CMDOPT_VERBOSE, "verbose", 0},		{CMDOPT_INFILE, "input", JAS_OPT_HASARG},		{CMDOPT_INFILE, "f", JAS_OPT_HASARG},		{CMDOPT_INFMT, "input-format", JAS_OPT_HASARG},		{CMDOPT_INFMT, "t", JAS_OPT_HASARG},		{CMDOPT_INOPT, "input-option", JAS_OPT_HASARG},		{CMDOPT_INOPT, "o", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "output", JAS_OPT_HASARG},		{CMDOPT_OUTFILE, "F", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "output-format", JAS_OPT_HASARG},		{CMDOPT_OUTFMT, "T", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "output-option", JAS_OPT_HASARG},		{CMDOPT_OUTOPT, "O", JAS_OPT_HASARG},		{CMDOPT_VERSION, "version", 0},		{CMDOPT_DEBUG, "debug-level", JAS_OPT_HASARG},		{CMDOPT_CMPTNO, "cmptno", JAS_OPT_HASARG},		{CMDOPT_SRGB, "force-srgb", 0},		{CMDOPT_SRGB, "S", 0},		{-1, 0, 0}	}
+{CMDOPT_HELP, "help", 0}
+CMDOPT_HELP
+CMDOPT_HELP
+"help"
+0
+{CMDOPT_VERBOSE, "verbose", 0}
+CMDOPT_VERBOSE
+CMDOPT_VERBOSE
+"verbose"
+0
+{CMDOPT_INFILE, "input", JAS_OPT_HASARG}
+CMDOPT_INFILE
+CMDOPT_INFILE
+"input"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_INFILE, "f", JAS_OPT_HASARG}
+CMDOPT_INFILE
+CMDOPT_INFILE
+"f"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_INFMT, "input-format", JAS_OPT_HASARG}
+CMDOPT_INFMT
+CMDOPT_INFMT
+"input-format"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_INFMT, "t", JAS_OPT_HASARG}
+CMDOPT_INFMT
+CMDOPT_INFMT
+"t"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_INOPT, "input-option", JAS_OPT_HASARG}
+CMDOPT_INOPT
+CMDOPT_INOPT
+"input-option"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_INOPT, "o", JAS_OPT_HASARG}
+CMDOPT_INOPT
+CMDOPT_INOPT
+"o"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_OUTFILE, "output", JAS_OPT_HASARG}
+CMDOPT_OUTFILE
+CMDOPT_OUTFILE
+"output"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_OUTFILE, "F", JAS_OPT_HASARG}
+CMDOPT_OUTFILE
+CMDOPT_OUTFILE
+"F"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_OUTFMT, "output-format", JAS_OPT_HASARG}
+CMDOPT_OUTFMT
+CMDOPT_OUTFMT
+"output-format"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_OUTFMT, "T", JAS_OPT_HASARG}
+CMDOPT_OUTFMT
+CMDOPT_OUTFMT
+"T"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_OUTOPT, "output-option", JAS_OPT_HASARG}
+CMDOPT_OUTOPT
+CMDOPT_OUTOPT
+"output-option"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_OUTOPT, "O", JAS_OPT_HASARG}
+CMDOPT_OUTOPT
+CMDOPT_OUTOPT
+"O"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_VERSION, "version", 0}
+CMDOPT_VERSION
+CMDOPT_VERSION
+"version"
+0
+{CMDOPT_DEBUG, "debug-level", JAS_OPT_HASARG}
+CMDOPT_DEBUG
+CMDOPT_DEBUG
+"debug-level"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_CMPTNO, "cmptno", JAS_OPT_HASARG}
+CMDOPT_CMPTNO
+CMDOPT_CMPTNO
+"cmptno"
+JAS_OPT_HASARG
+JAS_OPT_HASARG
+{CMDOPT_SRGB, "force-srgb", 0}
+CMDOPT_SRGB
+CMDOPT_SRGB
+"force-srgb"
+0
+{CMDOPT_SRGB, "S", 0}
+CMDOPT_SRGB
+CMDOPT_SRGB
+"S"
+0
+{-1, 0, 0}
+-1
+1
+0
+0
+cmdopts_t *cmdopts;
+cmdopts_t *cmdopts;
+cmdopts_t
+cmdopts_t
+*cmdopts
+*
+cmdopts
+int c;
+int c;
+int
+c
+c
+if (!(cmdopts = malloc(sizeof(cmdopts_t)))) {		fprintf(stderr, "error: insufficient memory\n");		exit(EXIT_FAILURE);	}
+!(cmdopts = malloc(sizeof(cmdopts_t)))
+(cmdopts = malloc(sizeof(cmdopts_t)))
+cmdopts = malloc(sizeof(cmdopts_t))
+cmdopts
+cmdopts
+malloc(sizeof(cmdopts_t))
+malloc
+malloc
+sizeof(cmdopts_t)
+cmdopts_t
+cmdopts_t
+cmdopts_t
+
+{		fprintf(stderr, "error: insufficient memory\n");		exit(EXIT_FAILURE);	}
+fprintf(stderr, "error: insufficient memory\n");
+fprintf(stderr, "error: insufficient memory\n")
+fprintf
+fprintf
+stderr
+stderr
+"error: insufficient memory\n"
+exit(EXIT_FAILURE);
+exit(EXIT_FAILURE);
+exit
+exit
+(EXIT_FAILURE)
+EXIT_FAILURE
+EXIT_FAILURE
+cmdopts->infile = 0;
+cmdopts->infile = 0
+cmdopts->infile
+cmdopts
+cmdopts
+infile
+0
+cmdopts->infmt = -1;
+cmdopts->infmt = -1
+cmdopts->infmt
+cmdopts
+cmdopts
+infmt
+-1
+1
+cmdopts->inopts = 0;
+cmdopts->inopts = 0
+cmdopts->inopts
+cmdopts
+cmdopts
+inopts
+0
+cmdopts->inoptsbuf[0] = '\0';
+cmdopts->inoptsbuf[0] = '\0'
+cmdopts->inoptsbuf[0]
+cmdopts->inoptsbuf
+cmdopts
+cmdopts
+inoptsbuf
+0
+'\0'
+cmdopts->outfile = 0;
+cmdopts->outfile = 0
+cmdopts->outfile
+cmdopts
+cmdopts
+outfile
+0
+cmdopts->outfmt = -1;
+cmdopts->outfmt = -1
+cmdopts->outfmt
+cmdopts
+cmdopts
+outfmt
+-1
+1
+cmdopts->outopts = 0;
+cmdopts->outopts = 0
+cmdopts->outopts
+cmdopts
+cmdopts
+outopts
+0
+cmdopts->outoptsbuf[0] = '\0';
+cmdopts->outoptsbuf[0] = '\0'
+cmdopts->outoptsbuf[0]
+cmdopts->outoptsbuf
+cmdopts
+cmdopts
+outoptsbuf
+0
+'\0'
+cmdopts->verbose = 0;
+cmdopts->verbose = 0
+cmdopts->verbose
+cmdopts
+cmdopts
+verbose
+0
+cmdopts->version = 0;
+cmdopts->version = 0
+cmdopts->version
+cmdopts
+cmdopts
+version
+0
+cmdopts->cmptno = -1;
+cmdopts->cmptno = -1
+cmdopts->cmptno
+cmdopts
+cmdopts
+cmptno
+-1
+1
+cmdopts->debug = 0;
+cmdopts->debug = 0
+cmdopts->debug
+cmdopts
+cmdopts
+debug
+0
+cmdopts->srgb = 0;
+cmdopts->srgb = 0
+cmdopts->srgb
+cmdopts
+cmdopts
+srgb
+0
+while ((c = jas_getopt(argc, argv, cmdoptions)) != EOF) {		switch (c) {		case CMDOPT_HELP:			cmdusage();			break;		case CMDOPT_VERBOSE:			cmdopts->verbose = 1;			break;		case CMDOPT_VERSION:			cmdopts->version = 1;			break;		case CMDOPT_DEBUG:			cmdopts->debug = atoi(jas_optarg);			break;		case CMDOPT_INFILE:			cmdopts->infile = jas_optarg;			break;		case CMDOPT_INFMT:			if ((cmdopts->infmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg);				cmdopts->infmt = -1;			}			break;		case CMDOPT_INOPT:			addopt(cmdopts->inoptsbuf, OPTSMAX, jas_optarg);			cmdopts->inopts = cmdopts->inoptsbuf;			break;		case CMDOPT_OUTFILE:			cmdopts->outfile = jas_optarg;			break;		case CMDOPT_OUTFMT:			if ((cmdopts->outfmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "error: invalid output format %s\n", jas_optarg);				badusage();			}			break;		case CMDOPT_OUTOPT:			addopt(cmdopts->outoptsbuf, OPTSMAX, jas_optarg);			cmdopts->outopts = cmdopts->outoptsbuf;			break;		case CMDOPT_CMPTNO:			cmdopts->cmptno = atoi(jas_optarg);			break;		case CMDOPT_SRGB:			cmdopts->srgb = 1;			break;		default:			badusage();			break;		}	}
+(c = jas_getopt(argc, argv, cmdoptions)) != EOF
+(c = jas_getopt(argc, argv, cmdoptions))
+c = jas_getopt(argc, argv, cmdoptions)
+c
+c
+jas_getopt(argc, argv, cmdoptions)
+jas_getopt
+jas_getopt
+argc
+argc
+argv
+argv
+cmdoptions
+cmdoptions
+EOF
+EOF
+{		switch (c) {		case CMDOPT_HELP:			cmdusage();			break;		case CMDOPT_VERBOSE:			cmdopts->verbose = 1;			break;		case CMDOPT_VERSION:			cmdopts->version = 1;			break;		case CMDOPT_DEBUG:			cmdopts->debug = atoi(jas_optarg);			break;		case CMDOPT_INFILE:			cmdopts->infile = jas_optarg;			break;		case CMDOPT_INFMT:			if ((cmdopts->infmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg);				cmdopts->infmt = -1;			}			break;		case CMDOPT_INOPT:			addopt(cmdopts->inoptsbuf, OPTSMAX, jas_optarg);			cmdopts->inopts = cmdopts->inoptsbuf;			break;		case CMDOPT_OUTFILE:			cmdopts->outfile = jas_optarg;			break;		case CMDOPT_OUTFMT:			if ((cmdopts->outfmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "error: invalid output format %s\n", jas_optarg);				badusage();			}			break;		case CMDOPT_OUTOPT:			addopt(cmdopts->outoptsbuf, OPTSMAX, jas_optarg);			cmdopts->outopts = cmdopts->outoptsbuf;			break;		case CMDOPT_CMPTNO:			cmdopts->cmptno = atoi(jas_optarg);			break;		case CMDOPT_SRGB:			cmdopts->srgb = 1;			break;		default:			badusage();			break;		}	}
+switch (c) {		case CMDOPT_HELP:			cmdusage();			break;		case CMDOPT_VERBOSE:			cmdopts->verbose = 1;			break;		case CMDOPT_VERSION:			cmdopts->version = 1;			break;		case CMDOPT_DEBUG:			cmdopts->debug = atoi(jas_optarg);			break;		case CMDOPT_INFILE:			cmdopts->infile = jas_optarg;			break;		case CMDOPT_INFMT:			if ((cmdopts->infmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg);				cmdopts->infmt = -1;			}			break;		case CMDOPT_INOPT:			addopt(cmdopts->inoptsbuf, OPTSMAX, jas_optarg);			cmdopts->inopts = cmdopts->inoptsbuf;			break;		case CMDOPT_OUTFILE:			cmdopts->outfile = jas_optarg;			break;		case CMDOPT_OUTFMT:			if ((cmdopts->outfmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "error: invalid output format %s\n", jas_optarg);				badusage();			}			break;		case CMDOPT_OUTOPT:			addopt(cmdopts->outoptsbuf, OPTSMAX, jas_optarg);			cmdopts->outopts = cmdopts->outoptsbuf;			break;		case CMDOPT_CMPTNO:			cmdopts->cmptno = atoi(jas_optarg);			break;		case CMDOPT_SRGB:			cmdopts->srgb = 1;			break;		default:			badusage();			break;		}
+c
+c
+{		case CMDOPT_HELP:			cmdusage();			break;		case CMDOPT_VERBOSE:			cmdopts->verbose = 1;			break;		case CMDOPT_VERSION:			cmdopts->version = 1;			break;		case CMDOPT_DEBUG:			cmdopts->debug = atoi(jas_optarg);			break;		case CMDOPT_INFILE:			cmdopts->infile = jas_optarg;			break;		case CMDOPT_INFMT:			if ((cmdopts->infmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg);				cmdopts->infmt = -1;			}			break;		case CMDOPT_INOPT:			addopt(cmdopts->inoptsbuf, OPTSMAX, jas_optarg);			cmdopts->inopts = cmdopts->inoptsbuf;			break;		case CMDOPT_OUTFILE:			cmdopts->outfile = jas_optarg;			break;		case CMDOPT_OUTFMT:			if ((cmdopts->outfmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "error: invalid output format %s\n", jas_optarg);				badusage();			}			break;		case CMDOPT_OUTOPT:			addopt(cmdopts->outoptsbuf, OPTSMAX, jas_optarg);			cmdopts->outopts = cmdopts->outoptsbuf;			break;		case CMDOPT_CMPTNO:			cmdopts->cmptno = atoi(jas_optarg);			break;		case CMDOPT_SRGB:			cmdopts->srgb = 1;			break;		default:			badusage();			break;		}
+case CMDOPT_HELP:
+CMDOPT_HELP
+CMDOPT_HELP
+cmdusage();
+cmdusage()
+cmdusage
+cmdusage
+break;
+case CMDOPT_VERBOSE:
+CMDOPT_VERBOSE
+CMDOPT_VERBOSE
+cmdopts->verbose = 1;
+cmdopts->verbose = 1
+cmdopts->verbose
+cmdopts
+cmdopts
+verbose
+1
+break;
+case CMDOPT_VERSION:
+CMDOPT_VERSION
+CMDOPT_VERSION
+cmdopts->version = 1;
+cmdopts->version = 1
+cmdopts->version
+cmdopts
+cmdopts
+version
+1
+break;
+case CMDOPT_DEBUG:
+CMDOPT_DEBUG
+CMDOPT_DEBUG
+cmdopts->debug = atoi(jas_optarg);
+cmdopts->debug = atoi(jas_optarg)
+cmdopts->debug
+cmdopts
+cmdopts
+debug
+atoi(jas_optarg)
+atoi
+atoi
+jas_optarg
+jas_optarg
+break;
+case CMDOPT_INFILE:
+CMDOPT_INFILE
+CMDOPT_INFILE
+cmdopts->infile = jas_optarg;
+cmdopts->infile = jas_optarg
+cmdopts->infile
+cmdopts
+cmdopts
+infile
+jas_optarg
+jas_optarg
+break;
+case CMDOPT_INFMT:
+CMDOPT_INFMT
+CMDOPT_INFMT
+if ((cmdopts->infmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg);				cmdopts->infmt = -1;			}
+(cmdopts->infmt = jas_image_strtofmt(jas_optarg)) < 0
+(cmdopts->infmt = jas_image_strtofmt(jas_optarg))
+cmdopts->infmt = jas_image_strtofmt(jas_optarg)
+cmdopts->infmt
+cmdopts
+cmdopts
+infmt
+jas_image_strtofmt(jas_optarg)
+jas_image_strtofmt
+jas_image_strtofmt
+jas_optarg
+jas_optarg
+0
+{				fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg);				cmdopts->infmt = -1;			}
+fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg);
+fprintf(stderr, "warning: ignoring invalid input format %s\n",				  jas_optarg)
+fprintf
+fprintf
+stderr
+stderr
+"warning: ignoring invalid input format %s\n"
+jas_optarg
+jas_optarg
+cmdopts->infmt = -1;
+cmdopts->infmt = -1
+cmdopts->infmt
+cmdopts
+cmdopts
+infmt
+-1
+1
+break;
+case CMDOPT_INOPT:
+CMDOPT_INOPT
+CMDOPT_INOPT
+addopt(cmdopts->inoptsbuf, OPTSMAX, jas_optarg);
+addopt(cmdopts->inoptsbuf, OPTSMAX, jas_optarg)
+addopt
+addopt
+cmdopts->inoptsbuf
+cmdopts
+cmdopts
+inoptsbuf
+OPTSMAX
+OPTSMAX
+jas_optarg
+jas_optarg
+cmdopts->inopts = cmdopts->inoptsbuf;
+cmdopts->inopts = cmdopts->inoptsbuf
+cmdopts->inopts
+cmdopts
+cmdopts
+inopts
+cmdopts->inoptsbuf
+cmdopts
+cmdopts
+inoptsbuf
+break;
+case CMDOPT_OUTFILE:
+CMDOPT_OUTFILE
+CMDOPT_OUTFILE
+cmdopts->outfile = jas_optarg;
+cmdopts->outfile = jas_optarg
+cmdopts->outfile
+cmdopts
+cmdopts
+outfile
+jas_optarg
+jas_optarg
+break;
+case CMDOPT_OUTFMT:
+CMDOPT_OUTFMT
+CMDOPT_OUTFMT
+if ((cmdopts->outfmt = jas_image_strtofmt(jas_optarg)) < 0) {				fprintf(stderr, "error: invalid output format %s\n", jas_optarg);				badusage();			}
+(cmdopts->outfmt = jas_image_strtofmt(jas_optarg)) < 0
+(cmdopts->outfmt = jas_image_strtofmt(jas_optarg))
+cmdopts->outfmt = jas_image_strtofmt(jas_optarg)
+cmdopts->outfmt
+cmdopts
+cmdopts
+outfmt
+jas_image_strtofmt(jas_optarg)
+jas_image_strtofmt
+jas_image_strtofmt
+jas_optarg
+jas_optarg
+0
+{				fprintf(stderr, "error: invalid output format %s\n", jas_optarg);				badusage();			}
+fprintf(stderr, "error: invalid output format %s\n", jas_optarg);
+fprintf(stderr, "error: invalid output format %s\n", jas_optarg)
+fprintf
+fprintf
+stderr
+stderr
+"error: invalid output format %s\n"
+jas_optarg
+jas_optarg
+badusage();
+badusage()
+badusage
+badusage
+break;
+case CMDOPT_OUTOPT:
+CMDOPT_OUTOPT
+CMDOPT_OUTOPT
+addopt(cmdopts->outoptsbuf, OPTSMAX, jas_optarg);
+addopt(cmdopts->outoptsbuf, OPTSMAX, jas_optarg)
+addopt
+addopt
+cmdopts->outoptsbuf
+cmdopts
+cmdopts
+outoptsbuf
+OPTSMAX
+OPTSMAX
+jas_optarg
+jas_optarg
+cmdopts->outopts = cmdopts->outoptsbuf;
+cmdopts->outopts = cmdopts->outoptsbuf
+cmdopts->outopts
+cmdopts
+cmdopts
+outopts
+cmdopts->outoptsbuf
+cmdopts
+cmdopts
+outoptsbuf
+break;
+case CMDOPT_CMPTNO:
+CMDOPT_CMPTNO
+CMDOPT_CMPTNO
+cmdopts->cmptno = atoi(jas_optarg);
+cmdopts->cmptno = atoi(jas_optarg)
+cmdopts->cmptno
+cmdopts
+cmdopts
+cmptno
+atoi(jas_optarg)
+atoi
+atoi
+jas_optarg
+jas_optarg
+break;
+case CMDOPT_SRGB:
+CMDOPT_SRGB
+CMDOPT_SRGB
+cmdopts->srgb = 1;
+cmdopts->srgb = 1
+cmdopts->srgb
+cmdopts
+cmdopts
+srgb
+1
+break;
+default:
+badusage();
+badusage()
+badusage
+badusage
+break;
+while (jas_optind < argc) {		fprintf(stderr,		  "warning: ignoring bogus command line argument %s\n",		  argv[jas_optind]);		++jas_optind;	}
+jas_optind < argc
+jas_optind
+jas_optind
+argc
+argc
+{		fprintf(stderr,		  "warning: ignoring bogus command line argument %s\n",		  argv[jas_optind]);		++jas_optind;	}
+fprintf(stderr,		  "warning: ignoring bogus command line argument %s\n",		  argv[jas_optind]);
+fprintf(stderr,		  "warning: ignoring bogus command line argument %s\n",		  argv[jas_optind])
+fprintf
+fprintf
+stderr
+stderr
+"warning: ignoring bogus command line argument %s\n"
+argv[jas_optind]
+argv
+argv
+jas_optind
+jas_optind
+++jas_optind;
+++jas_optind
+jas_optind
+jas_optind
+if (cmdopts->version) {		goto done;	}
+cmdopts->version
+cmdopts
+cmdopts
+version
+{		goto done;	}
+goto done;
+done
+if (cmdopts->outfmt < 0 && cmdopts->outfile) {		if ((cmdopts->outfmt = jas_image_fmtfromname(cmdopts->outfile)) < 0) {			fprintf(stderr,			  "error: cannot guess image format from output file name\n");		}	}
+cmdopts->outfmt < 0 && cmdopts->outfile
+cmdopts->outfmt < 0
+cmdopts->outfmt
+cmdopts
+cmdopts
+outfmt
+0
+cmdopts->outfile
+cmdopts
+cmdopts
+outfile
+{		if ((cmdopts->outfmt = jas_image_fmtfromname(cmdopts->outfile)) < 0) {			fprintf(stderr,			  "error: cannot guess image format from output file name\n");		}	}
+if ((cmdopts->outfmt = jas_image_fmtfromname(cmdopts->outfile)) < 0) {			fprintf(stderr,			  "error: cannot guess image format from output file name\n");		}
+(cmdopts->outfmt = jas_image_fmtfromname(cmdopts->outfile)) < 0
+(cmdopts->outfmt = jas_image_fmtfromname(cmdopts->outfile))
+cmdopts->outfmt = jas_image_fmtfromname(cmdopts->outfile)
+cmdopts->outfmt
+cmdopts
+cmdopts
+outfmt
+jas_image_fmtfromname(cmdopts->outfile)
+jas_image_fmtfromname
+jas_image_fmtfromname
+cmdopts->outfile
+cmdopts
+cmdopts
+outfile
+0
+{			fprintf(stderr,			  "error: cannot guess image format from output file name\n");		}
+fprintf(stderr,			  "error: cannot guess image format from output file name\n");
+fprintf(stderr,			  "error: cannot guess image format from output file name\n")
+fprintf
+fprintf
+stderr
+stderr
+"error: cannot guess image format from output file name\n"
+if (cmdopts->outfmt < 0) {		fprintf(stderr, "error: no output format specified\n");		badusage();	}
+cmdopts->outfmt < 0
+cmdopts->outfmt
+cmdopts
+cmdopts
+outfmt
+0
+{		fprintf(stderr, "error: no output format specified\n");		badusage();	}
+fprintf(stderr, "error: no output format specified\n");
+fprintf(stderr, "error: no output format specified\n")
+fprintf
+fprintf
+stderr
+stderr
+"error: no output format specified\n"
+badusage();
+badusage()
+badusage
+badusage
+done:	return cmdopts;
+done
+return cmdopts;
+cmdopts
+cmdopts
+-----joern-----
+(0,4,0)
+(0,1,0)
+(2,0,0)
+(0,4,1)
+(3,0,1)
+(0,2,1)
+(0,4,2)
+-----------------------------------
+(0,free(cmdopts)
+(1,)
+(2,cmdopts)
+(3,RET)
+(4,cmdopts_t *cmdopts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000004000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff9cf9a66300000000ffffffffffffffffcaf9a66300000000ffffffffffffffffcaf9a66300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xffd8000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+cmdopts_t *cmdopts_parse(int argc, char **argv) {
+typedef enum { 		CMDOPT_HELP = 0, 		CMDOPT_VERBOSE, 		CMDOPT_INFILE, 		CMDOPT_INFMT, 		CMDOPT_INOPT, 		CMDOPT_OUTFILE, 		CMDOPT_OUTFMT, 		CMDOPT_OUTOPT, 		CMDOPT_VERSION, 		CMDOPT_DEBUG, 		CMDOPT_CMPTNO, 		CMDOPT_SRGB 	} cmdoptid_t;
+static jas_opt_t cmdoptions[] = { 		{CMDOPT_HELP, 'help', 0}, 		{CMDOPT_VERBOSE, 'verbose', 0}, 		{CMDOPT_INFILE, 'input', JAS_OPT_HASARG}, 		{CMDOPT_INFILE, 'f', JAS_OPT_HASARG}, 		{CMDOPT_INFMT, 'input-format', JAS_OPT_HASARG}, 		{CMDOPT_INFMT, 't', JAS_OPT_HASARG}, 		{CMDOPT_INOPT, 'input-option', JAS_OPT_HASARG}, 		{CMDOPT_INOPT, 'o', JAS_OPT_HASARG}, 		{CMDOPT_OUTFILE, 'output', JAS_OPT_HASARG}, 		{CMDOPT_OUTFILE, 'F', JAS_OPT_HASARG}, 		{CMDOPT_OUTFMT, 'output-format', JAS_OPT_HASARG}, 		{CMDOPT_OUTFMT, 'T', JAS_OPT_HASARG}, 		{CMDOPT_OUTOPT, 'output-option', JAS_OPT_HASARG}, 		{CMDOPT_OUTOPT, 'O', JAS_OPT_HASARG}, 		{CMDOPT_VERSION, 'version', 0}, 		{CMDOPT_DEBUG, 'debug-level', JAS_OPT_HASARG}, 		{CMDOPT_CMPTNO, 'cmptno', JAS_OPT_HASARG}, 		{CMDOPT_SRGB, 'force-srgb', 0}, 		{CMDOPT_SRGB, 'S', 0}, 		{-1, 0, 0} 	};
+cmdopts_t *cmdopts;
+int c;
+cmdopts->infile = 0;
+cmdopts->infmt = -1;
+cmdopts->inopts = 0;
+cmdopts->inoptsbuf[0] = 'cmdopts->outfile = 0;
+cmdopts->outfmt = -1;
+cmdopts->outopts = 0;
+cmdopts->outoptsbuf[0] = 'cmdopts->verbose = 0;
+cmdopts->version = 0;
+cmdopts->cmptno = -1;
+cmdopts->debug = 0;
+cmdopts->srgb = 0;
+while((c = jas_getopt(argc, argv, cmdoptions)) != EOF)
+switch(c)
+cmdopts->infile = jas_optarg;
+while((c = jas_getopt(argc, argv, cmdoptions)) != EOF)
+switch(c)
+cmdopts->outfile = jas_optarg;
+while((c = jas_getopt(argc, argv, cmdoptions)) != EOF)
+switch(c)
+=======================

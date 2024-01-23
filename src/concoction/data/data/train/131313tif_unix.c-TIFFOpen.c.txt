@@ -1,0 +1,446 @@
+-----label-----
+0
+-----code-----
+TIFF*
+TIFFOpen(const char* name, const char* mode)
+{
+	static const char module[] = "TIFFOpen";
+	int m, fd;
+	TIFF* tif;
+
+	m = _TIFFgetMode(mode, module);
+	if (m == -1)
+		return ((TIFF*)0);
+
+/* for cygwin and mingw */
+#ifdef O_BINARY
+	m |= O_BINARY;
+#endif
+
+	fd = open(name, m, 0666);
+	if (fd < 0) {
+		if (errno > 0 && strerror(errno) != NULL ) {
+			TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) );
+		} else {
+			TIFFErrorExt(0, module, "%s: Cannot open", name);
+		}
+		return ((TIFF *)0);
+	}
+
+	tif = TIFFFdOpen((int)fd, name, mode);
+	if(!tif)
+		close(fd);
+	return tif;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+9,10
+9,11
+12,13
+12,14
+14,15
+14,16
+17,18
+17,19
+17,20
+17,21
+17,22
+17,23
+17,24
+17,25
+17,26
+17,27
+18,19
+19,20
+19,21
+21,22
+21,23
+21,24
+24,25
+26,27
+27,28
+27,29
+27,30
+29,30
+31,32
+33,34
+34,35
+34,36
+35,36
+37,38
+37,39
+40,41
+41,42
+41,43
+42,43
+44,45
+44,46
+44,47
+45,46
+47,48
+49,50
+51,52
+51,53
+52,53
+52,54
+53,54
+55,56
+57,58
+58,59
+59,60
+59,61
+60,61
+60,62
+61,62
+63,64
+66,67
+67,68
+67,69
+68,69
+70,71
+70,72
+70,73
+70,74
+71,72
+73,74
+75,76
+78,79
+78,80
+79,80
+79,81
+80,81
+83,84
+83,85
+84,85
+84,86
+84,87
+85,86
+85,87
+86,87
+86,88
+87,88
+90,91
+90,92
+91,92
+91,93
+92,93
+94,95
+96,97
+98,99
+99,100
+100,101
+100,102
+100,103
+100,104
+100,105
+100,106
+101,102
+104,105
+107,108
+109,110
+109,111
+110,111
+112,113
+114,115
+115,116
+116,117
+116,118
+116,119
+116,120
+116,121
+117,118
+120,121
+123,124
+125,126
+126,127
+127,128
+127,129
+128,129
+128,130
+129,130
+131,132
+134,135
+135,136
+135,137
+136,137
+138,139
+138,140
+138,141
+138,142
+139,140
+141,142
+141,143
+142,143
+142,144
+145,146
+147,148
+149,150
+151,152
+151,153
+152,153
+153,154
+155,156
+156,157
+156,158
+157,158
+159,160
+161,162
+162,163
+-----nextToken-----
+3,5,6,8,10,11,13,15,16,20,22,23,25,28,30,32,36,38,39,43,46,48,50,54,56,62,64,65,69,72,74,76,77,81,82,88,89,93,95,97,102,103,105,106,108,111,113,118,119,121,122,124,130,132,133,137,140,143,144,146,148,150,154,158,160,163
+-----computeFrom-----
+41,42
+41,43
+52,53
+52,54
+67,68
+67,69
+79,80
+79,81
+85,86
+85,87
+86,87
+86,88
+90,91
+90,92
+135,136
+135,137
+-----guardedBy-----
+93,111
+95,113
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;ArrayDeclarator;Name;ArrayModifier;EqualsInitializer;LiteralExpression;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;UnaryExpression;LiteralExpression;ReturnStatement;UnaryExpression;CastExpression;TypeId;NamedTypeSpecifier;Name;Declarator;Pointer;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;BinaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;ReturnStatement;UnaryExpression;CastExpression;TypeId;NamedTypeSpecifier;Name;Declarator;Pointer;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+TIFF*TIFFOpen(const char* name, const char* mode){	static const char module[] = "TIFFOpen";	int m, fd;	TIFF* tif;	m = _TIFFgetMode(mode, module);	if (m == -1)		return ((TIFF*)0);/* for cygwin and mingw */#ifdef O_BINARY	m |= O_BINARY;#endif	fd = open(name, m, 0666);	if (fd < 0) {		if (errno > 0 && strerror(errno) != NULL ) {			TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) );		} else {			TIFFErrorExt(0, module, "%s: Cannot open", name);		}		return ((TIFF *)0);	}	tif = TIFFFdOpen((int)fd, name, mode);	if(!tif)		close(fd);	return tif;}
+TIFF
+TIFF
+*TIFFOpen(const char* name, const char* mode)
+*
+TIFFOpen
+const char* name
+const char
+* name
+*
+name
+const char* mode
+const char
+* mode
+*
+mode
+{	static const char module[] = "TIFFOpen";	int m, fd;	TIFF* tif;	m = _TIFFgetMode(mode, module);	if (m == -1)		return ((TIFF*)0);/* for cygwin and mingw */#ifdef O_BINARY	m |= O_BINARY;#endif	fd = open(name, m, 0666);	if (fd < 0) {		if (errno > 0 && strerror(errno) != NULL ) {			TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) );		} else {			TIFFErrorExt(0, module, "%s: Cannot open", name);		}		return ((TIFF *)0);	}	tif = TIFFFdOpen((int)fd, name, mode);	if(!tif)		close(fd);	return tif;}
+static const char module[] = "TIFFOpen";
+static const char module[] = "TIFFOpen";
+static const char
+module[] = "TIFFOpen"
+module
+[]
+= "TIFFOpen"
+"TIFFOpen"
+int m, fd;
+int m, fd;
+int
+m
+m
+fd
+fd
+TIFF* tif;
+TIFF* tif;
+TIFF
+TIFF
+* tif
+*
+tif
+m = _TIFFgetMode(mode, module);
+m = _TIFFgetMode(mode, module)
+m
+m
+_TIFFgetMode(mode, module)
+_TIFFgetMode
+_TIFFgetMode
+mode
+mode
+module
+module
+if (m == -1)		return ((TIFF*)0);
+m == -1
+m
+m
+-1
+1
+return ((TIFF*)0);
+((TIFF*)0)
+(TIFF*)0
+TIFF*
+TIFF
+TIFF
+*
+*
+0
+fd = open(name, m, 0666);
+fd = open(name, m, 0666)
+fd
+fd
+open(name, m, 0666)
+open
+open
+name
+name
+m
+m
+0666
+if (fd < 0) {		if (errno > 0 && strerror(errno) != NULL ) {			TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) );		} else {			TIFFErrorExt(0, module, "%s: Cannot open", name);		}		return ((TIFF *)0);	}
+fd < 0
+fd
+fd
+0
+{		if (errno > 0 && strerror(errno) != NULL ) {			TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) );		} else {			TIFFErrorExt(0, module, "%s: Cannot open", name);		}		return ((TIFF *)0);	}
+if (errno > 0 && strerror(errno) != NULL ) {			TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) );		} else {			TIFFErrorExt(0, module, "%s: Cannot open", name);		}
+errno > 0 && strerror(errno) != NULL
+errno > 0
+errno
+errno
+0
+strerror(errno) != NULL
+strerror(errno)
+strerror
+strerror
+errno
+errno
+NULL
+NULL
+{			TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) );		}
+TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) );
+TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) )
+TIFFErrorExt
+TIFFErrorExt
+0
+module
+module
+"%s: %s"
+name
+name
+strerror(errno)
+strerror
+strerror
+errno
+errno
+{			TIFFErrorExt(0, module, "%s: Cannot open", name);		}
+TIFFErrorExt(0, module, "%s: Cannot open", name);
+TIFFErrorExt(0, module, "%s: Cannot open", name)
+TIFFErrorExt
+TIFFErrorExt
+0
+module
+module
+"%s: Cannot open"
+name
+name
+return ((TIFF *)0);
+((TIFF *)0)
+(TIFF *)0
+TIFF *
+TIFF
+TIFF
+*
+*
+0
+tif = TIFFFdOpen((int)fd, name, mode);
+tif = TIFFFdOpen((int)fd, name, mode)
+tif
+tif
+TIFFFdOpen((int)fd, name, mode)
+TIFFFdOpen
+TIFFFdOpen
+(int)fd
+int
+int
+
+fd
+fd
+name
+name
+mode
+mode
+if(!tif)		close(fd);
+!tif
+tif
+tif
+close(fd);
+close(fd)
+close
+close
+fd
+fd
+return tif;
+tif
+tif
+-----joern-----
+(5,9,0)
+(0,6,0)
+(11,7,0)
+(7,3,0)
+(5,1,0)
+(3,7,0)
+(5,7,0)
+(7,5,0)
+(10,5,0)
+(5,0,0)
+(2,0,0)
+(8,5,0)
+(7,4,0)
+(8,10,1)
+(11,8,1)
+(5,1,1)
+(0,5,1)
+(7,4,1)
+(2,0,1)
+(5,9,1)
+(5,7,1)
+(7,11,1)
+(7,3,1)
+(7,4,2)
+(2,0,2)
+(5,1,2)
+(7,3,2)
+(5,7,2)
+(5,9,2)
+-----------------------------------
+(0,return (memcmp(p1, p2, (size_t)
+(1,const void* p1)
+(2,RET)
+(3,size_t)
+(4,tmsize_t c)
+(5,memcmp(p1, p2, (size_t)
+(6,)
+(7,(size_t)
+(8,p2)
+(9,const void* p2)
+(10,p1)
+(11,c)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff50f6b26300000000ffffffffffffffff6bf6b26300000000ffffffffffffffff6bf6b26300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x4d4d002b00080000000000000000003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+TIFF* TIFFOpen(const char* name, const char* mode) {
+static const char module[] = 'TIFFOpen';
+int m, fd;
+TIFF* tif;
+m = _TIFFgetMode(mode, module);
+fd = open(name, m, 0666);
+tif = TIFFFdOpen((int)fd, name, mode);
+=======================

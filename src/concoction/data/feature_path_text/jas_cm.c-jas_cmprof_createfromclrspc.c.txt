@@ -1,0 +1,1600 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_createfromclrspc.c.txt
+--------------code--------------
+jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc)
+{
+	jas_iccprof_t *iccprof;
+	jas_cmprof_t *prof;
+
+	iccprof = 0;
+	prof = 0;
+	switch (clrspc) {
+	case JAS_CLRSPC_SYCBCR:
+		if (!(prof = jas_cmprof_createsycc()))
+			goto error;
+		break;
+	default:
+		if (!(iccprof = jas_iccprof_createfromclrspc(clrspc)))
+			goto error;
+		if (!(prof = jas_cmprof_createfromiccprof(iccprof)))
+			goto error;
+		jas_iccprof_destroy(iccprof);
+		iccprof = 0;
+		if (!jas_clrspc_isgeneric(clrspc))
+			prof->clrspc = clrspc;
+		break;
+	}
+	return prof;
+error:
+	if (iccprof)
+		jas_iccprof_destroy(iccprof);
+	return 0;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+iccprof
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_cmprof_createsycc()
+prof = jas_cmprof_createsycc()
+!(prof = jas_cmprof_createsycc())
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_iccprof_destroy(iccprof)
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+clrspc
+prof->clrspc
+prof->clrspc = clrspc
+return prof;
+return 0;
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_createfromclrspc (int clrspc)
+iccprof = 0
+prof = 0
+jas_iccprof_createfromclrspc(clrspc)
+iccprof = jas_iccprof_createfromclrspc(clrspc)
+!(iccprof = jas_iccprof_createfromclrspc(clrspc))
+jas_cmprof_createfromiccprof(iccprof)
+prof = jas_cmprof_createfromiccprof(iccprof)
+!(prof = jas_cmprof_createfromiccprof(iccprof))
+jas_iccprof_destroy(iccprof)
+iccprof = 0
+jas_clrspc_isgeneric(clrspc)
+!jas_clrspc_isgeneric(clrspc)
+return prof;
+return 0;
+--------------path over--------------

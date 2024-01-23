@@ -1,0 +1,256 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_copy.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_copy(jas_cmpxform_t *pxform)
+{
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_copy (jas_cmpxform_t *pxform)
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------

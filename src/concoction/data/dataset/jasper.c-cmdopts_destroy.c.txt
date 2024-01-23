@@ -1,0 +1,124 @@
+-----label-----
+0
+-----code-----
+void cmdopts_destroy(cmdopts_t *cmdopts)
+{
+	free(cmdopts);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+12,13
+13,14
+13,15
+14,15
+16,17
+-----nextToken-----
+2,4,7,9,10,15,17
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+void cmdopts_destroy(cmdopts_t *cmdopts){	free(cmdopts);}
+void
+cmdopts_destroy(cmdopts_t *cmdopts)
+cmdopts_destroy
+cmdopts_t *cmdopts
+cmdopts_t
+cmdopts_t
+*cmdopts
+*
+cmdopts
+{	free(cmdopts);}
+free(cmdopts);
+free(cmdopts)
+free
+free
+cmdopts
+cmdopts
+-----joern-----
+(11,2,0)
+(1,9,0)
+(13,0,0)
+(3,9,0)
+(0,2,0)
+(8,0,0)
+(7,11,0)
+(10,0,0)
+(12,11,0)
+(5,9,0)
+(9,2,0)
+(4,11,0)
+(4,7,1)
+(6,0,1)
+(0,8,1)
+(8,13,1)
+(12,4,1)
+(9,1,1)
+(1,3,1)
+(7,9,1)
+(11,12,1)
+(13,10,1)
+(3,5,1)
+(10,11,1)
+-----------------------------------
+(0,fprintf(stderr, "%s\\n", JAS_NOTES)
+(1,JAS_VERSION)
+(2,)
+(3,"JasPer Transcoder (Version %s)
+(4,"%s\\n")
+(5,stderr)
+(6,RET)
+(7,stderr)
+(8,JAS_NOTES)
+(9,fprintf(stderr, "JasPer Transcoder (Version %s)
+(10,stderr)
+(11,fprintf(stderr, "%s\\n", JAS_COPYRIGHT)
+(12,JAS_COPYRIGHT)
+(13,"%s\\n")
+-----cfg-----
+(7,10)
+(10,12)
+-----path-----
+7,10,12
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void cmdopts_destroy (cmdopts_t *cmdopts)
+8,cmdopts_t *cmdopts
+9,<empty>
+10,free(cmdopts)
+11,cmdopts
+12,RET
+13,cmdopts_t *cmdopts
+14,RET
+15,void cmdopts_destroy (cmdopts_t *cmdopts)
+16,cmdopts_t *cmdopts
+17,<empty>
+18,free(cmdopts)
+19,cmdopts
+20,RET
+21,cmdopts_t *cmdopts
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+void cmdopts_destroy(cmdopts_t *cmdopts) {
+free(cmdopts);
+=======================

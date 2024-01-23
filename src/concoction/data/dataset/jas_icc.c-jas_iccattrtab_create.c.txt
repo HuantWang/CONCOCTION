@@ -1,0 +1,581 @@
+-----label-----
+0
+-----code-----
+static jas_iccattrtab_t *jas_iccattrtab_create()
+{
+	jas_iccattrtab_t *tab;
+	tab = 0;
+	if (!(tab = jas_malloc(sizeof(jas_iccattrtab_t))))
+		goto error;
+	tab->maxattrs = 0;
+	tab->numattrs = 0;
+	tab->attrs = 0;
+	if (jas_iccattrtab_resize(tab, 32))
+		goto error;
+	return tab;
+error:
+	if (tab)
+		jas_iccattrtab_destroy(tab);
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+7,8
+7,9
+7,10
+7,11
+7,12
+7,13
+7,14
+7,15
+7,16
+7,17
+8,9
+9,10
+9,11
+10,11
+12,13
+12,14
+15,16
+16,17
+16,18
+17,18
+20,21
+20,22
+21,22
+22,23
+23,24
+23,25
+24,25
+26,27
+26,28
+27,28
+29,30
+30,31
+30,32
+31,32
+34,35
+36,37
+37,38
+37,39
+38,39
+38,40
+39,40
+43,44
+44,45
+44,46
+45,46
+45,47
+46,47
+50,51
+51,52
+51,53
+52,53
+52,54
+53,54
+57,58
+57,59
+58,59
+58,60
+58,61
+59,60
+61,62
+64,65
+66,67
+67,68
+69,70
+69,71
+71,72
+71,73
+72,73
+74,75
+75,76
+75,77
+76,77
+78,79
+80,81
+-----nextToken-----
+3,5,6,11,13,14,18,19,25,28,32,33,35,40,41,42,47,48,49,54,55,56,60,62,63,65,68,70,73,77,79,81
+-----computeFrom-----
+16,17
+16,18
+23,24
+23,25
+37,38
+37,39
+44,45
+44,46
+51,52
+51,53
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;GotoStatement;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;GotoStatement;Name;ReturnStatement;IdExpression;Name;LabelStatement;Name;IfStatement;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static jas_iccattrtab_t *jas_iccattrtab_create(){	jas_iccattrtab_t *tab;	tab = 0;	if (!(tab = jas_malloc(sizeof(jas_iccattrtab_t))))		goto error;	tab->maxattrs = 0;	tab->numattrs = 0;	tab->attrs = 0;	if (jas_iccattrtab_resize(tab, 32))		goto error;	return tab;error:	if (tab)		jas_iccattrtab_destroy(tab);	return 0;}
+static jas_iccattrtab_t
+jas_iccattrtab_t
+*jas_iccattrtab_create()
+*
+jas_iccattrtab_create
+{	jas_iccattrtab_t *tab;	tab = 0;	if (!(tab = jas_malloc(sizeof(jas_iccattrtab_t))))		goto error;	tab->maxattrs = 0;	tab->numattrs = 0;	tab->attrs = 0;	if (jas_iccattrtab_resize(tab, 32))		goto error;	return tab;error:	if (tab)		jas_iccattrtab_destroy(tab);	return 0;}
+jas_iccattrtab_t *tab;
+jas_iccattrtab_t *tab;
+jas_iccattrtab_t
+jas_iccattrtab_t
+*tab
+*
+tab
+tab = 0;
+tab = 0
+tab
+tab
+0
+if (!(tab = jas_malloc(sizeof(jas_iccattrtab_t))))		goto error;
+!(tab = jas_malloc(sizeof(jas_iccattrtab_t)))
+(tab = jas_malloc(sizeof(jas_iccattrtab_t)))
+tab = jas_malloc(sizeof(jas_iccattrtab_t))
+tab
+tab
+jas_malloc(sizeof(jas_iccattrtab_t))
+jas_malloc
+jas_malloc
+sizeof(jas_iccattrtab_t)
+jas_iccattrtab_t
+jas_iccattrtab_t
+jas_iccattrtab_t
+
+goto error;
+error
+tab->maxattrs = 0;
+tab->maxattrs = 0
+tab->maxattrs
+tab
+tab
+maxattrs
+0
+tab->numattrs = 0;
+tab->numattrs = 0
+tab->numattrs
+tab
+tab
+numattrs
+0
+tab->attrs = 0;
+tab->attrs = 0
+tab->attrs
+tab
+tab
+attrs
+0
+if (jas_iccattrtab_resize(tab, 32))		goto error;
+jas_iccattrtab_resize(tab, 32)
+jas_iccattrtab_resize
+jas_iccattrtab_resize
+tab
+tab
+32
+goto error;
+error
+return tab;
+tab
+tab
+error:	if (tab)		jas_iccattrtab_destroy(tab);
+error
+if (tab)		jas_iccattrtab_destroy(tab);
+tab
+tab
+jas_iccattrtab_destroy(tab);
+jas_iccattrtab_destroy(tab)
+jas_iccattrtab_destroy
+jas_iccattrtab_destroy
+tab
+tab
+return 0;
+0
+-----joern-----
+(4,40,0)
+(39,28,0)
+(47,3,0)
+(36,29,0)
+(17,47,0)
+(35,23,0)
+(26,28,0)
+(40,22,0)
+(43,40,0)
+(31,15,0)
+(19,28,0)
+(22,28,0)
+(46,29,0)
+(38,28,0)
+(33,21,0)
+(1,39,0)
+(23,38,0)
+(45,47,0)
+(42,47,0)
+(24,12,0)
+(1,17,0)
+(21,33,0)
+(47,45,0)
+(25,12,0)
+(9,42,0)
+(11,28,0)
+(16,23,0)
+(41,12,0)
+(42,31,0)
+(39,1,0)
+(14,39,0)
+(12,47,0)
+(10,19,0)
+(13,28,0)
+(6,19,0)
+(27,7,0)
+(36,38,0)
+(2,48,0)
+(29,21,0)
+(48,21,0)
+(17,1,0)
+(49,42,0)
+(5,28,0)
+(21,48,0)
+(22,40,0)
+(29,36,0)
+(40,47,0)
+(31,28,0)
+(20,21,0)
+(23,47,0)
+(12,25,0)
+(19,47,0)
+(37,17,0)
+(0,17,0)
+(8,28,0)
+(32,29,0)
+(38,36,0)
+(39,25,0)
+(18,31,0)
+(7,28,0)
+(48,15,0)
+(25,39,0)
+(30,47,0)
+(3,47,0)
+(6,7,0)
+(27,44,1)
+(47,45,1)
+(25,12,1)
+(16,35,1)
+(22,40,1)
+(33,21,1)
+(19,10,1)
+(6,7,1)
+(38,36,1)
+(6,19,1)
+(32,46,1)
+(12,47,1)
+(48,2,1)
+(7,27,1)
+(39,25,1)
+(14,1,1)
+(21,48,1)
+(31,15,1)
+(3,47,1)
+(23,16,1)
+(45,30,1)
+(40,47,1)
+(17,47,1)
+(35,3,1)
+(17,0,1)
+(18,42,1)
+(2,20,1)
+(40,43,1)
+(44,33,1)
+(23,47,1)
+(48,15,1)
+(42,9,1)
+(29,32,1)
+(37,22,1)
+(34,3,1)
+(24,41,1)
+(0,37,1)
+(1,17,1)
+(12,24,1)
+(4,31,1)
+(49,38,1)
+(9,49,1)
+(27,34,1)
+(30,33,1)
+(29,21,1)
+(39,1,1)
+(41,14,1)
+(43,4,1)
+(31,18,1)
+(36,29,1)
+(42,47,1)
+(46,23,1)
+(10,39,1)
+(19,47,1)
+(6,19,2)
+(41,3,2)
+(36,29,2)
+(18,3,2)
+(1,17,2)
+(27,3,2)
+(39,1,2)
+(31,15,2)
+(22,3,2)
+(47,33,2)
+(45,33,2)
+(3,47,2)
+(4,3,2)
+(22,40,2)
+(32,3,2)
+(25,12,2)
+(17,47,2)
+(47,45,2)
+(42,47,2)
+(23,3,2)
+(38,36,2)
+(27,33,2)
+(29,3,2)
+(40,47,2)
+(36,3,2)
+(23,47,2)
+(9,3,2)
+(39,25,2)
+(7,33,2)
+(21,48,2)
+(12,47,2)
+(38,3,2)
+(31,3,2)
+(48,15,2)
+(3,33,2)
+(30,33,2)
+(40,3,2)
+(37,3,2)
+(10,3,2)
+(24,3,2)
+(19,3,2)
+(0,3,2)
+(1,3,2)
+(33,21,2)
+(44,33,2)
+(49,3,2)
+(43,3,2)
+(35,3,2)
+(14,3,2)
+(42,3,2)
+(46,3,2)
+(12,3,2)
+(39,3,2)
+(6,7,2)
+(17,3,2)
+(34,3,2)
+(7,3,2)
+(29,21,2)
+(16,3,2)
+(25,3,2)
+(19,47,2)
+-----------------------------------
+(0,data)
+(1,&attrval->data)
+(2,type)
+(3,!(attrval = jas_iccattrval_create0()
+(4,attrval)
+(5,error:)
+(6,RET)
+(7,return 0;)
+(8,attrval)
+(9,type)
+(10,attrval)
+(11,if (!(attrval = jas_iccattrval_create0()
+(12,attrval->data)
+(13,info)
+(14,0)
+(15,jas_iccuint32_t type)
+(16,ops)
+(17,attrval->data)
+(18,type)
+(19,return attrval;)
+(20,info)
+(21,info = jas_iccattrvalinfo_lookup(type)
+(22,++attrval->refcnt)
+(23,attrval->ops)
+(24,data)
+(25,sizeof(attrval->data)
+(26,if (!(info = jas_iccattrvalinfo_lookup(type)
+(27,0)
+(28,)
+(29,info->ops)
+(30,attrval)
+(31,attrval->type = type)
+(32,ops)
+(33,!(info = jas_iccattrvalinfo_lookup(type)
+(34,goto error;)
+(35,attrval)
+(36,&info->ops)
+(37,attrval)
+(38,attrval->ops = &info->ops)
+(39,memset(&attrval->data, 0, sizeof(attrval->data)
+(40,attrval->refcnt)
+(41,attrval)
+(42,attrval->type)
+(43,refcnt)
+(44,goto error;)
+(45,jas_iccattrval_create0()
+(46,info)
+(47,attrval = jas_iccattrval_create0()
+(48,jas_iccattrvalinfo_lookup(type)
+(49,attrval)
+-----cfg-----
+(32,38)
+(33,32)
+(35,33)
+(38,49)
+(38,51)
+(38,43)
+(7,10)
+(10,18)
+(43,53)
+(14,49)
+(14,51)
+(14,25)
+(15,14)
+(49,51)
+(17,15)
+(18,17)
+(51,53)
+(22,30)
+(23,22)
+(25,23)
+(27,35)
+(28,27)
+(30,28)
+-----path-----
+7,10,18,17,15,14,49,51,53
+7,10,18,17,15,14,51,53
+7,10,18,17,15,14,25,23,22,30,28,27,35,33,32,38,49,51,53
+7,10,18,17,15,14,25,23,22,30,28,27,35,33,32,38,51,53
+7,10,18,17,15,14,25,23,22,30,28,27,35,33,32,38,43,53
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jas_iccattrtab_t jas_iccattrtab_create ()
+8,<empty>
+9,jas_iccattrtab_t* tab
+10,tab = 0
+11,tab
+12,0
+13,if (!(tab = jas_malloc(sizeof(jas_iccattrtab_t))))
+14,!(tab = jas_malloc(sizeof(jas_iccattrtab_t)))
+15,tab = jas_malloc(sizeof(jas_iccattrtab_t))
+16,tab
+17,jas_malloc(sizeof(jas_iccattrtab_t))
+18,sizeof(jas_iccattrtab_t)
+19,jas_iccattrtab_t
+20,<empty>
+21,goto error;
+22,tab->maxattrs = 0
+23,tab->maxattrs
+24,tab
+25,maxattrs
+26,0
+27,tab->numattrs = 0
+28,tab->numattrs
+29,tab
+30,numattrs
+31,0
+32,tab->attrs = 0
+33,tab->attrs
+34,tab
+35,attrs
+36,0
+37,if (jas_iccattrtab_resize(tab, 32))
+38,jas_iccattrtab_resize(tab, 32)
+39,tab
+40,32
+41,<empty>
+42,goto error;
+43,return tab;
+44,tab
+45,error:
+46,	if (tab)
+47,		jas_iccattrtab_destroy(tab);
+48,if (tab)
+49,tab
+50,<empty>
+51,jas_iccattrtab_destroy(tab)
+52,tab
+53,return 0;
+54,0
+55,RET
+56,RET
+57,jas_iccattrtab_t jas_iccattrtab_create ()
+58,<empty>
+59,jas_iccattrtab_t* tab
+60,tab = 0
+61,tab
+62,0
+63,if (!(tab = jas_malloc(sizeof(jas_iccattrtab_t))))
+64,!(tab = jas_malloc(sizeof(jas_iccattrtab_t)))
+65,tab = jas_malloc(sizeof(jas_iccattrtab_t))
+66,tab
+67,jas_malloc(sizeof(jas_iccattrtab_t))
+68,sizeof(jas_iccattrtab_t)
+69,jas_iccattrtab_t
+70,<empty>
+71,goto error;
+72,tab->maxattrs = 0
+73,tab->maxattrs
+74,tab
+75,maxattrs
+76,0
+77,tab->numattrs = 0
+78,tab->numattrs
+79,tab
+80,numattrs
+81,0
+82,tab->attrs = 0
+83,tab->attrs
+84,tab
+85,attrs
+86,0
+87,if (jas_iccattrtab_resize(tab, 32))
+88,jas_iccattrtab_resize(tab, 32)
+89,tab
+90,32
+91,<empty>
+92,goto error;
+93,return tab;
+94,tab
+95,error:
+96,	if (tab)
+97,		jas_iccattrtab_destroy(tab);
+98,if (tab)
+99,tab
+100,<empty>
+101,jas_iccattrtab_destroy(tab)
+102,tab
+103,return 0;
+104,0
+105,RET
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static jas_iccattrtab_t *jas_iccattrtab_create() {
+jas_iccattrtab_t *tab;
+tab = 0;
+tab->maxattrs = 0;
+tab->numattrs = 0;
+tab->attrs = 0;
+return tab;
+=======================

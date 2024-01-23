@@ -1,0 +1,828 @@
+-----label-----
+0
+-----code-----
+void
+TIFFSwabLong8(uint64* lp)
+{
+	register unsigned char* cp = (unsigned char*) lp;
+	unsigned char t;
+	assert(sizeof(uint64)==8);
+	t = cp[7]; cp[7] = cp[0]; cp[0] = t;
+	t = cp[6]; cp[6] = cp[1]; cp[1] = t;
+	t = cp[5]; cp[5] = cp[2]; cp[2] = t;
+	t = cp[4]; cp[4] = cp[3]; cp[3] = t;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+11,16
+11,17
+11,18
+11,19
+11,20
+11,21
+11,22
+11,23
+11,24
+11,25
+11,26
+12,13
+13,14
+13,15
+15,16
+15,17
+15,18
+18,19
+19,20
+19,21
+20,21
+20,22
+22,23
+24,25
+26,27
+27,28
+27,29
+29,30
+31,32
+32,33
+32,34
+33,34
+35,36
+35,37
+36,37
+37,38
+37,39
+38,39
+42,43
+43,44
+43,45
+44,45
+46,47
+46,48
+47,48
+50,51
+51,52
+51,53
+52,53
+52,54
+53,54
+56,57
+56,58
+57,58
+60,61
+61,62
+61,63
+62,63
+62,64
+63,64
+66,67
+68,69
+69,70
+69,71
+70,71
+72,73
+72,74
+73,74
+76,77
+77,78
+77,79
+78,79
+78,80
+79,80
+82,83
+82,84
+83,84
+86,87
+87,88
+87,89
+88,89
+88,90
+89,90
+92,93
+94,95
+95,96
+95,97
+96,97
+98,99
+98,100
+99,100
+102,103
+103,104
+103,105
+104,105
+104,106
+105,106
+108,109
+108,110
+109,110
+112,113
+113,114
+113,115
+114,115
+114,116
+115,116
+118,119
+120,121
+121,122
+121,123
+122,123
+124,125
+124,126
+125,126
+128,129
+129,130
+129,131
+130,131
+130,132
+131,132
+134,135
+134,136
+135,136
+138,139
+139,140
+139,141
+140,141
+140,142
+141,142
+144,145
+-----nextToken-----
+2,4,7,9,10,14,16,17,21,23,25,28,30,34,39,40,41,45,48,49,54,55,58,59,64,65,67,71,74,75,80,81,84,85,90,91,93,97,100,101,106,107,110,111,116,117,119,123,126,127,132,133,136,137,142,143,145
+-----computeFrom-----
+35,36
+35,37
+43,44
+43,45
+51,52
+51,53
+61,62
+61,63
+69,70
+69,71
+77,78
+77,79
+87,88
+87,89
+95,96
+95,97
+103,104
+103,105
+113,114
+113,115
+121,122
+121,123
+129,130
+129,131
+139,140
+139,141
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;EqualsInitializer;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;Pointer;IdExpression;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;
+-----ast_node-----
+voidTIFFSwabLong8(uint64* lp){	register unsigned char* cp = (unsigned char*) lp;	unsigned char t;	assert(sizeof(uint64)==8);	t = cp[7]; cp[7] = cp[0]; cp[0] = t;	t = cp[6]; cp[6] = cp[1]; cp[1] = t;	t = cp[5]; cp[5] = cp[2]; cp[2] = t;	t = cp[4]; cp[4] = cp[3]; cp[3] = t;}
+void
+TIFFSwabLong8(uint64* lp)
+TIFFSwabLong8
+uint64* lp
+uint64
+uint64
+* lp
+*
+lp
+{	register unsigned char* cp = (unsigned char*) lp;	unsigned char t;	assert(sizeof(uint64)==8);	t = cp[7]; cp[7] = cp[0]; cp[0] = t;	t = cp[6]; cp[6] = cp[1]; cp[1] = t;	t = cp[5]; cp[5] = cp[2]; cp[2] = t;	t = cp[4]; cp[4] = cp[3]; cp[3] = t;}
+register unsigned char* cp = (unsigned char*) lp;
+register unsigned char* cp = (unsigned char*) lp;
+register unsigned char
+* cp = (unsigned char*) lp
+*
+cp
+= (unsigned char*) lp
+(unsigned char*) lp
+unsigned char*
+unsigned char
+*
+*
+lp
+lp
+unsigned char t;
+unsigned char t;
+unsigned char
+t
+t
+assert(sizeof(uint64)==8);
+assert(sizeof(uint64)==8)
+assert
+assert
+sizeof(uint64)==8
+sizeof(uint64)
+uint64
+uint64
+uint64
+
+8
+t = cp[7];
+t = cp[7]
+t
+t
+cp[7]
+cp
+cp
+7
+cp[7] = cp[0];
+cp[7] = cp[0]
+cp[7]
+cp
+cp
+7
+cp[0]
+cp
+cp
+0
+cp[0] = t;
+cp[0] = t
+cp[0]
+cp
+cp
+0
+t
+t
+t = cp[6];
+t = cp[6]
+t
+t
+cp[6]
+cp
+cp
+6
+cp[6] = cp[1];
+cp[6] = cp[1]
+cp[6]
+cp
+cp
+6
+cp[1]
+cp
+cp
+1
+cp[1] = t;
+cp[1] = t
+cp[1]
+cp
+cp
+1
+t
+t
+t = cp[5];
+t = cp[5]
+t
+t
+cp[5]
+cp
+cp
+5
+cp[5] = cp[2];
+cp[5] = cp[2]
+cp[5]
+cp
+cp
+5
+cp[2]
+cp
+cp
+2
+cp[2] = t;
+cp[2] = t
+cp[2]
+cp
+cp
+2
+t
+t
+t = cp[4];
+t = cp[4]
+t
+t
+cp[4]
+cp
+cp
+4
+cp[4] = cp[3];
+cp[4] = cp[3]
+cp[4]
+cp
+cp
+4
+cp[3]
+cp
+cp
+3
+cp[3] = t;
+cp[3] = t
+cp[3]
+cp
+cp
+3
+t
+t
+-----joern-----
+(79,58,0)
+(90,26,0)
+(62,28,0)
+(60,55,0)
+(33,58,0)
+(65,28,0)
+(66,45,0)
+(10,31,0)
+(14,5,0)
+(1,72,0)
+(11,18,0)
+(45,8,0)
+(49,45,0)
+(69,21,0)
+(14,10,0)
+(76,73,0)
+(46,3,0)
+(23,62,0)
+(0,49,0)
+(80,49,0)
+(57,28,0)
+(53,4,0)
+(82,85,0)
+(29,4,0)
+(78,31,0)
+(67,76,0)
+(73,76,0)
+(9,1,0)
+(89,25,0)
+(57,78,0)
+(21,28,0)
+(57,61,0)
+(87,1,0)
+(65,44,0)
+(63,31,0)
+(8,28,0)
+(4,28,0)
+(16,55,0)
+(3,31,0)
+(61,31,0)
+(44,65,0)
+(74,87,0)
+(84,80,0)
+(54,38,0)
+(80,31,0)
+(91,28,0)
+(16,41,0)
+(26,90,0)
+(48,66,0)
+(43,25,0)
+(76,88,0)
+(91,61,0)
+(87,28,0)
+(22,87,0)
+(68,31,0)
+(20,72,0)
+(15,78,0)
+(49,28,0)
+(36,1,0)
+(81,14,0)
+(76,28,0)
+(66,28,0)
+(8,45,0)
+(85,28,0)
+(44,31,0)
+(5,44,0)
+(55,16,0)
+(9,28,0)
+(10,14,0)
+(14,28,0)
+(90,86,0)
+(91,68,0)
+(13,66,0)
+(59,78,0)
+(58,72,0)
+(8,38,0)
+(83,16,0)
+(47,5,0)
+(58,63,0)
+(50,86,0)
+(37,85,0)
+(4,61,0)
+(63,9,0)
+(52,18,0)
+(18,28,0)
+(40,25,0)
+(42,91,0)
+(77,15,0)
+(7,14,0)
+(21,5,0)
+(70,8,0)
+(62,10,0)
+(3,88,0)
+(30,57,0)
+(65,10,0)
+(39,8,0)
+(27,21,0)
+(15,28,0)
+(78,68,0)
+(6,62,0)
+(72,31,0)
+(19,65,0)
+(18,63,0)
+(56,65,0)
+(35,91,0)
+(9,63,0)
+(51,49,0)
+(68,91,0)
+(58,28,0)
+(86,90,0)
+(61,57,0)
+(38,31,0)
+(72,58,0)
+(26,25,0)
+(1,31,0)
+(24,57,0)
+(64,15,0)
+(71,9,0)
+(2,68,0)
+(32,44,0)
+(28,31,0)
+(5,31,0)
+(85,38,0)
+(45,31,0)
+(75,28,0)
+(28,76,0)
+(12,9,0)
+(17,90,0)
+(49,80,0)
+(38,80,0)
+(13,48,1)
+(6,23,1)
+(37,45,1)
+(0,84,1)
+(16,41,1)
+(49,51,1)
+(91,61,1)
+(36,87,1)
+(8,38,1)
+(23,44,1)
+(3,88,1)
+(58,33,1)
+(79,20,1)
+(38,80,1)
+(57,30,1)
+(65,28,1)
+(71,12,1)
+(66,13,1)
+(34,55,1)
+(85,28,1)
+(78,68,1)
+(48,80,1)
+(45,8,1)
+(47,21,1)
+(8,28,1)
+(3,46,1)
+(33,79,1)
+(76,88,1)
+(7,62,1)
+(55,16,1)
+(27,10,1)
+(22,63,1)
+(68,91,1)
+(90,17,1)
+(70,66,1)
+(87,74,1)
+(76,73,1)
+(57,28,1)
+(15,64,1)
+(69,27,1)
+(14,81,1)
+(1,72,1)
+(16,83,1)
+(83,3,1)
+(8,39,1)
+(9,71,1)
+(18,28,1)
+(61,57,1)
+(14,5,1)
+(81,7,1)
+(85,82,1)
+(21,69,1)
+(91,35,1)
+(49,28,1)
+(46,78,1)
+(78,59,1)
+(2,1,1)
+(1,36,1)
+(84,28,1)
+(17,86,1)
+(65,56,1)
+(51,0,1)
+(80,49,1)
+(32,38,1)
+(72,58,1)
+(38,54,1)
+(9,28,1)
+(20,5,1)
+(14,28,1)
+(65,10,1)
+(15,28,1)
+(18,52,1)
+(42,2,1)
+(66,28,1)
+(63,9,1)
+(10,14,1)
+(57,78,1)
+(74,22,1)
+(86,50,1)
+(67,75,1)
+(91,28,1)
+(60,16,1)
+(58,28,1)
+(54,85,1)
+(76,67,1)
+(4,53,1)
+(83,26,1)
+(87,28,1)
+(30,24,1)
+(56,19,1)
+(82,37,1)
+(52,11,1)
+(12,18,1)
+(4,28,1)
+(55,60,1)
+(44,65,1)
+(24,4,1)
+(21,28,1)
+(5,47,1)
+(28,76,1)
+(59,15,1)
+(29,68,1)
+(35,42,1)
+(49,45,1)
+(53,29,1)
+(62,6,1)
+(9,1,1)
+(19,32,1)
+(64,77,1)
+(62,28,1)
+(39,70,1)
+(58,63,1)
+(75,55,1)
+(5,44,1)
+(90,86,1)
+(26,90,1)
+(11,72,1)
+(77,61,1)
+(85,55,2)
+(36,55,2)
+(4,28,2)
+(9,55,2)
+(45,8,2)
+(1,72,2)
+(82,55,2)
+(2,55,2)
+(55,55,2)
+(61,57,2)
+(53,55,2)
+(63,55,2)
+(8,55,2)
+(66,28,2)
+(75,55,2)
+(28,76,2)
+(55,16,2)
+(15,28,2)
+(87,28,2)
+(77,55,2)
+(91,55,2)
+(18,55,2)
+(8,28,2)
+(78,68,2)
+(56,55,2)
+(12,55,2)
+(20,55,2)
+(14,55,2)
+(87,55,2)
+(74,55,2)
+(70,55,2)
+(57,78,2)
+(13,55,2)
+(90,86,2)
+(1,55,2)
+(22,55,2)
+(10,14,2)
+(59,55,2)
+(26,90,2)
+(80,49,2)
+(61,55,2)
+(15,55,2)
+(38,55,2)
+(65,28,2)
+(48,55,2)
+(0,55,2)
+(18,28,2)
+(44,65,2)
+(83,55,2)
+(16,41,2)
+(57,28,2)
+(23,55,2)
+(58,55,2)
+(49,55,2)
+(58,28,2)
+(76,73,2)
+(42,55,2)
+(3,55,2)
+(30,55,2)
+(49,45,2)
+(58,63,2)
+(27,55,2)
+(9,1,2)
+(11,55,2)
+(32,55,2)
+(68,91,2)
+(66,55,2)
+(7,55,2)
+(52,55,2)
+(33,55,2)
+(24,55,2)
+(60,55,2)
+(6,55,2)
+(76,88,2)
+(29,55,2)
+(78,55,2)
+(85,28,2)
+(49,28,2)
+(8,38,2)
+(45,55,2)
+(65,10,2)
+(3,88,2)
+(68,55,2)
+(47,55,2)
+(69,55,2)
+(44,55,2)
+(72,55,2)
+(79,55,2)
+(81,55,2)
+(21,55,2)
+(5,55,2)
+(62,28,2)
+(80,55,2)
+(37,55,2)
+(51,55,2)
+(4,55,2)
+(76,55,2)
+(65,55,2)
+(39,55,2)
+(71,55,2)
+(21,28,2)
+(16,55,2)
+(57,55,2)
+(63,9,2)
+(9,28,2)
+(10,55,2)
+(62,55,2)
+(35,55,2)
+(5,44,2)
+(19,55,2)
+(28,55,2)
+(38,80,2)
+(91,61,2)
+(54,55,2)
+(91,28,2)
+(46,55,2)
+(64,55,2)
+(72,58,2)
+(67,55,2)
+(14,28,2)
+(14,5,2)
+(84,55,2)
+-----------------------------------
+(0,cp)
+(1,cp[2] = t)
+(2,t)
+(3,lp++)
+(4,cp[4])
+(5,cp[1] = t)
+(6,6)
+(7,cp)
+(8,cp[0])
+(9,cp[2])
+(10,cp[6] = cp[1])
+(11,cp)
+(12,cp)
+(13,7)
+(14,cp[1])
+(15,cp[3])
+(16,n--)
+(17,8)
+(18,cp[5])
+(19,cp)
+(20,t)
+(21,cp[1])
+(22,cp)
+(23,cp)
+(24,cp)
+(25,)
+(26,assert(sizeof(uint64)
+(27,cp)
+(28,cp = (unsigned char *)
+(29,cp)
+(30,3)
+(31,)
+(32,t)
+(33,5)
+(34,RET)
+(35,4)
+(36,t)
+(37,cp)
+(38,cp[0] = t)
+(39,0)
+(40,t)
+(41,tmsize_t n)
+(42,cp)
+(43,while (n-- > 0)
+(44,t = cp[6])
+(45,cp[7] = cp[0])
+(46,lp)
+(47,t)
+(48,cp)
+(49,cp[7])
+(50,uint64)
+(51,7)
+(52,5)
+(53,4)
+(54,t)
+(55,n-- > 0)
+(56,6)
+(57,cp[3])
+(58,cp[5])
+(59,t)
+(60,0)
+(61,cp[4] = cp[3])
+(62,cp[6])
+(63,cp[5] = cp[2])
+(64,3)
+(65,cp[6])
+(66,cp[7])
+(67,lp)
+(68,t = cp[4])
+(69,1)
+(70,cp)
+(71,2)
+(72,t = cp[5])
+(73,unsigned char *)
+(74,2)
+(75,cp)
+(76,(unsigned char *)
+(77,cp)
+(78,cp[3] = t)
+(79,cp)
+(80,t = cp[7])
+(81,1)
+(82,0)
+(83,n)
+(84,t)
+(85,cp[0])
+(86,sizeof(uint64)
+(87,cp[2])
+(88,register uint64* lp)
+(89,cp)
+(90,sizeof(uint64)
+(91,cp[4])
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000010000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffc7a1b56300000000ffffffffffffffff56a2b56300000000ffffffffffffffff56a2b56300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x4d4d002b00080000c4002ab800000014ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+void TIFFSwabLong8(uint64* lp) {
+register unsigned char* cp = (unsigned char*) lp;
+unsigned char t;
+assert(sizeof(uint64)==8);
+t = cp[7];
+cp[7] = cp[0];
+cp[0] = t;
+t = cp[6];
+cp[6] = cp[1];
+cp[1] = t;
+t = cp[5];
+cp[5] = cp[2];
+cp[2] = t;
+t = cp[4];
+cp[4] = cp[3];
+cp[3] = t;
+=======================

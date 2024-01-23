@@ -1,0 +1,689 @@
+-----label-----
+0
+-----code-----
+static void jas_stream_initbuf(jas_stream_t *stream, int bufmode, char *buf,
+  int bufsize)
+{
+	/* If this function is being called, the buffer should not have been
+	  initialized yet. */
+	assert(!stream->bufbase_);
+
+	if (bufmode != JAS_STREAM_UNBUF) {
+		/* The full- or line-buffered mode is being employed. */
+		if (!buf) {
+			/* The caller has not specified a buffer to employ, so allocate
+			  one. */
+			if ((stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +
+			  JAS_STREAM_MAXPUTBACK))) {
+				stream->bufmode_ |= JAS_STREAM_FREEBUF;
+				stream->bufsize_ = JAS_STREAM_BUFSIZE;
+			} else {
+				/* The buffer allocation has failed.  Resort to unbuffered
+				  operation. */
+				stream->bufbase_ = stream->tinybuf_;
+				stream->bufsize_ = 1;
+			}
+		} else {
+			/* The caller has specified a buffer to employ. */
+			/* The buffer must be large enough to accommodate maximum
+			  putback. */
+			assert(bufsize > JAS_STREAM_MAXPUTBACK);
+			stream->bufbase_ = JAS_CAST(uchar *, buf);
+			stream->bufsize_ = bufsize - JAS_STREAM_MAXPUTBACK;
+		}
+	} else {
+		/* The unbuffered mode is being employed. */
+		/* A buffer should not have been supplied by the caller. */
+		assert(!buf);
+		/* Use a trivial one-character buffer. */
+		stream->bufbase_ = stream->tinybuf_;
+		stream->bufsize_ = 1;
+	}
+	stream->bufstart_ = &stream->bufbase_[JAS_STREAM_MAXPUTBACK];
+	stream->ptr_ = stream->bufstart_;
+	stream->cnt_ = 0;
+	stream->bufmode_ |= bufmode & JAS_STREAM_BUFMODEMASK;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+3,8
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+15,16
+15,17
+17,18
+17,19
+20,21
+20,22
+22,23
+24,25
+24,26
+24,27
+24,28
+24,29
+24,30
+25,26
+26,27
+26,28
+27,28
+29,30
+30,31
+30,32
+31,32
+34,35
+34,36
+34,37
+35,36
+35,37
+36,37
+38,39
+40,41
+41,42
+41,43
+41,44
+42,43
+43,44
+45,46
+46,47
+46,48
+46,49
+47,48
+48,49
+48,50
+49,50
+49,51
+50,51
+53,54
+53,55
+54,55
+56,57
+56,58
+57,58
+59,60
+61,62
+61,63
+62,63
+63,64
+63,65
+64,65
+64,66
+65,66
+68,69
+70,71
+71,72
+71,73
+72,73
+72,74
+73,74
+76,77
+78,79
+78,80
+79,80
+80,81
+80,82
+81,82
+81,83
+82,83
+85,86
+85,87
+86,87
+89,90
+90,91
+90,92
+91,92
+91,93
+92,93
+96,97
+96,98
+96,99
+97,98
+98,99
+98,100
+99,100
+101,102
+101,103
+102,103
+104,105
+106,107
+107,108
+108,109
+108,110
+109,110
+109,111
+110,111
+113,114
+113,115
+114,115
+116,117
+118,119
+118,120
+118,121
+119,120
+120,121
+120,122
+121,122
+123,124
+124,125
+126,127
+127,128
+127,129
+128,129
+128,130
+129,130
+132,133
+132,134
+133,134
+136,137
+137,138
+137,139
+138,139
+138,140
+139,140
+143,144
+144,145
+144,146
+145,146
+145,147
+146,147
+149,150
+150,151
+150,152
+151,152
+151,153
+152,153
+155,156
+157,158
+158,159
+158,160
+159,160
+159,161
+160,161
+163,164
+163,165
+164,165
+167,168
+168,169
+168,170
+169,170
+169,171
+170,171
+174,175
+175,176
+175,177
+176,177
+176,178
+177,178
+180,181
+180,182
+181,182
+183,184
+-----nextToken-----
+2,4,7,9,10,12,14,16,18,19,21,23,28,32,33,37,39,44,51,52,55,58,60,66,67,69,74,75,77,83,84,87,88,93,94,95,100,103,105,111,112,115,117,122,125,130,131,134,135,140,141,142,147,148,153,154,156,161,162,165,166,171,172,173,178,179,182,184
+-----computeFrom-----
+35,36
+35,37
+48,49
+48,50
+56,57
+56,58
+63,64
+63,65
+71,72
+71,73
+80,81
+80,82
+90,91
+90,92
+101,102
+101,103
+108,109
+108,110
+113,114
+113,115
+127,128
+127,129
+137,138
+137,139
+144,145
+144,146
+158,159
+158,160
+168,169
+168,170
+175,176
+175,177
+180,181
+180,182
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;ProblemStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+static void jas_stream_initbuf(jas_stream_t *stream, int bufmode, char *buf,  int bufsize){	/* If this function is being called, the buffer should not have been	  initialized yet. */	assert(!stream->bufbase_);	if (bufmode != JAS_STREAM_UNBUF) {		/* The full- or line-buffered mode is being employed. */		if (!buf) {			/* The caller has not specified a buffer to employ, so allocate			  one. */			if ((stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK))) {				stream->bufmode_ |= JAS_STREAM_FREEBUF;				stream->bufsize_ = JAS_STREAM_BUFSIZE;			} else {				/* The buffer allocation has failed.  Resort to unbuffered				  operation. */				stream->bufbase_ = stream->tinybuf_;				stream->bufsize_ = 1;			}		} else {			/* The caller has specified a buffer to employ. */			/* The buffer must be large enough to accommodate maximum			  putback. */			assert(bufsize > JAS_STREAM_MAXPUTBACK);			stream->bufbase_ = JAS_CAST(uchar *, buf);			stream->bufsize_ = bufsize - JAS_STREAM_MAXPUTBACK;		}	} else {		/* The unbuffered mode is being employed. */		/* A buffer should not have been supplied by the caller. */		assert(!buf);		/* Use a trivial one-character buffer. */		stream->bufbase_ = stream->tinybuf_;		stream->bufsize_ = 1;	}	stream->bufstart_ = &stream->bufbase_[JAS_STREAM_MAXPUTBACK];	stream->ptr_ = stream->bufstart_;	stream->cnt_ = 0;	stream->bufmode_ |= bufmode & JAS_STREAM_BUFMODEMASK;}
+static void
+jas_stream_initbuf(jas_stream_t *stream, int bufmode, char *buf,  int bufsize)
+jas_stream_initbuf
+jas_stream_t *stream
+jas_stream_t
+jas_stream_t
+*stream
+*
+stream
+int bufmode
+int
+bufmode
+bufmode
+char *buf
+char
+*buf
+*
+buf
+int bufsize
+int
+bufsize
+bufsize
+{	/* If this function is being called, the buffer should not have been	  initialized yet. */	assert(!stream->bufbase_);	if (bufmode != JAS_STREAM_UNBUF) {		/* The full- or line-buffered mode is being employed. */		if (!buf) {			/* The caller has not specified a buffer to employ, so allocate			  one. */			if ((stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK))) {				stream->bufmode_ |= JAS_STREAM_FREEBUF;				stream->bufsize_ = JAS_STREAM_BUFSIZE;			} else {				/* The buffer allocation has failed.  Resort to unbuffered				  operation. */				stream->bufbase_ = stream->tinybuf_;				stream->bufsize_ = 1;			}		} else {			/* The caller has specified a buffer to employ. */			/* The buffer must be large enough to accommodate maximum			  putback. */			assert(bufsize > JAS_STREAM_MAXPUTBACK);			stream->bufbase_ = JAS_CAST(uchar *, buf);			stream->bufsize_ = bufsize - JAS_STREAM_MAXPUTBACK;		}	} else {		/* The unbuffered mode is being employed. */		/* A buffer should not have been supplied by the caller. */		assert(!buf);		/* Use a trivial one-character buffer. */		stream->bufbase_ = stream->tinybuf_;		stream->bufsize_ = 1;	}	stream->bufstart_ = &stream->bufbase_[JAS_STREAM_MAXPUTBACK];	stream->ptr_ = stream->bufstart_;	stream->cnt_ = 0;	stream->bufmode_ |= bufmode & JAS_STREAM_BUFMODEMASK;}
+assert(!stream->bufbase_);
+assert(!stream->bufbase_)
+assert
+assert
+!stream->bufbase_
+stream->bufbase_
+stream
+stream
+bufbase_
+if (bufmode != JAS_STREAM_UNBUF) {		/* The full- or line-buffered mode is being employed. */		if (!buf) {			/* The caller has not specified a buffer to employ, so allocate			  one. */			if ((stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK))) {				stream->bufmode_ |= JAS_STREAM_FREEBUF;				stream->bufsize_ = JAS_STREAM_BUFSIZE;			} else {				/* The buffer allocation has failed.  Resort to unbuffered				  operation. */				stream->bufbase_ = stream->tinybuf_;				stream->bufsize_ = 1;			}		} else {			/* The caller has specified a buffer to employ. */			/* The buffer must be large enough to accommodate maximum			  putback. */			assert(bufsize > JAS_STREAM_MAXPUTBACK);			stream->bufbase_ = JAS_CAST(uchar *, buf);			stream->bufsize_ = bufsize - JAS_STREAM_MAXPUTBACK;		}	} else {		/* The unbuffered mode is being employed. */		/* A buffer should not have been supplied by the caller. */		assert(!buf);		/* Use a trivial one-character buffer. */		stream->bufbase_ = stream->tinybuf_;		stream->bufsize_ = 1;	}
+bufmode != JAS_STREAM_UNBUF
+bufmode
+bufmode
+JAS_STREAM_UNBUF
+JAS_STREAM_UNBUF
+{		/* The full- or line-buffered mode is being employed. */		if (!buf) {			/* The caller has not specified a buffer to employ, so allocate			  one. */			if ((stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK))) {				stream->bufmode_ |= JAS_STREAM_FREEBUF;				stream->bufsize_ = JAS_STREAM_BUFSIZE;			} else {				/* The buffer allocation has failed.  Resort to unbuffered				  operation. */				stream->bufbase_ = stream->tinybuf_;				stream->bufsize_ = 1;			}		} else {			/* The caller has specified a buffer to employ. */			/* The buffer must be large enough to accommodate maximum			  putback. */			assert(bufsize > JAS_STREAM_MAXPUTBACK);			stream->bufbase_ = JAS_CAST(uchar *, buf);			stream->bufsize_ = bufsize - JAS_STREAM_MAXPUTBACK;		}	}
+if (!buf) {			/* The caller has not specified a buffer to employ, so allocate			  one. */			if ((stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK))) {				stream->bufmode_ |= JAS_STREAM_FREEBUF;				stream->bufsize_ = JAS_STREAM_BUFSIZE;			} else {				/* The buffer allocation has failed.  Resort to unbuffered				  operation. */				stream->bufbase_ = stream->tinybuf_;				stream->bufsize_ = 1;			}		} else {			/* The caller has specified a buffer to employ. */			/* The buffer must be large enough to accommodate maximum			  putback. */			assert(bufsize > JAS_STREAM_MAXPUTBACK);			stream->bufbase_ = JAS_CAST(uchar *, buf);			stream->bufsize_ = bufsize - JAS_STREAM_MAXPUTBACK;		}
+!buf
+buf
+buf
+{			/* The caller has not specified a buffer to employ, so allocate			  one. */			if ((stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK))) {				stream->bufmode_ |= JAS_STREAM_FREEBUF;				stream->bufsize_ = JAS_STREAM_BUFSIZE;			} else {				/* The buffer allocation has failed.  Resort to unbuffered				  operation. */				stream->bufbase_ = stream->tinybuf_;				stream->bufsize_ = 1;			}		}
+if ((stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK))) {				stream->bufmode_ |= JAS_STREAM_FREEBUF;				stream->bufsize_ = JAS_STREAM_BUFSIZE;			} else {				/* The buffer allocation has failed.  Resort to unbuffered				  operation. */				stream->bufbase_ = stream->tinybuf_;				stream->bufsize_ = 1;			}
+(stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK))
+stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK)
+stream->bufbase_
+stream
+stream
+bufbase_
+jas_malloc(JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK)
+jas_malloc
+jas_malloc
+JAS_STREAM_BUFSIZE +			  JAS_STREAM_MAXPUTBACK
+JAS_STREAM_BUFSIZE
+JAS_STREAM_BUFSIZE
+JAS_STREAM_MAXPUTBACK
+JAS_STREAM_MAXPUTBACK
+{				stream->bufmode_ |= JAS_STREAM_FREEBUF;				stream->bufsize_ = JAS_STREAM_BUFSIZE;			}
+stream->bufmode_ |= JAS_STREAM_FREEBUF;
+stream->bufmode_ |= JAS_STREAM_FREEBUF
+stream->bufmode_
+stream
+stream
+bufmode_
+JAS_STREAM_FREEBUF
+JAS_STREAM_FREEBUF
+stream->bufsize_ = JAS_STREAM_BUFSIZE;
+stream->bufsize_ = JAS_STREAM_BUFSIZE
+stream->bufsize_
+stream
+stream
+bufsize_
+JAS_STREAM_BUFSIZE
+JAS_STREAM_BUFSIZE
+{				/* The buffer allocation has failed.  Resort to unbuffered				  operation. */				stream->bufbase_ = stream->tinybuf_;				stream->bufsize_ = 1;			}
+stream->bufbase_ = stream->tinybuf_;
+stream->bufbase_ = stream->tinybuf_
+stream->bufbase_
+stream
+stream
+bufbase_
+stream->tinybuf_
+stream
+stream
+tinybuf_
+stream->bufsize_ = 1;
+stream->bufsize_ = 1
+stream->bufsize_
+stream
+stream
+bufsize_
+1
+{			/* The caller has specified a buffer to employ. */			/* The buffer must be large enough to accommodate maximum			  putback. */			assert(bufsize > JAS_STREAM_MAXPUTBACK);			stream->bufbase_ = JAS_CAST(uchar *, buf);			stream->bufsize_ = bufsize - JAS_STREAM_MAXPUTBACK;		}
+assert(bufsize > JAS_STREAM_MAXPUTBACK);
+assert(bufsize > JAS_STREAM_MAXPUTBACK)
+assert
+assert
+bufsize > JAS_STREAM_MAXPUTBACK
+bufsize
+bufsize
+JAS_STREAM_MAXPUTBACK
+JAS_STREAM_MAXPUTBACK
+stream->bufbase_ = JAS_CAST(uchar *, buf);
+stream->bufsize_ = bufsize - JAS_STREAM_MAXPUTBACK;
+stream->bufsize_ = bufsize - JAS_STREAM_MAXPUTBACK
+stream->bufsize_
+stream
+stream
+bufsize_
+bufsize - JAS_STREAM_MAXPUTBACK
+bufsize
+bufsize
+JAS_STREAM_MAXPUTBACK
+JAS_STREAM_MAXPUTBACK
+{		/* The unbuffered mode is being employed. */		/* A buffer should not have been supplied by the caller. */		assert(!buf);		/* Use a trivial one-character buffer. */		stream->bufbase_ = stream->tinybuf_;		stream->bufsize_ = 1;	}
+assert(!buf);
+assert(!buf)
+assert
+assert
+!buf
+buf
+buf
+stream->bufbase_ = stream->tinybuf_;
+stream->bufbase_ = stream->tinybuf_
+stream->bufbase_
+stream
+stream
+bufbase_
+stream->tinybuf_
+stream
+stream
+tinybuf_
+stream->bufsize_ = 1;
+stream->bufsize_ = 1
+stream->bufsize_
+stream
+stream
+bufsize_
+1
+stream->bufstart_ = &stream->bufbase_[JAS_STREAM_MAXPUTBACK];
+stream->bufstart_ = &stream->bufbase_[JAS_STREAM_MAXPUTBACK]
+stream->bufstart_
+stream
+stream
+bufstart_
+&stream->bufbase_[JAS_STREAM_MAXPUTBACK]
+stream->bufbase_[JAS_STREAM_MAXPUTBACK]
+stream->bufbase_
+stream
+stream
+bufbase_
+JAS_STREAM_MAXPUTBACK
+JAS_STREAM_MAXPUTBACK
+stream->ptr_ = stream->bufstart_;
+stream->ptr_ = stream->bufstart_
+stream->ptr_
+stream
+stream
+ptr_
+stream->bufstart_
+stream
+stream
+bufstart_
+stream->cnt_ = 0;
+stream->cnt_ = 0
+stream->cnt_
+stream
+stream
+cnt_
+0
+stream->bufmode_ |= bufmode & JAS_STREAM_BUFMODEMASK;
+stream->bufmode_ |= bufmode & JAS_STREAM_BUFMODEMASK
+stream->bufmode_
+stream
+stream
+bufmode_
+bufmode & JAS_STREAM_BUFMODEMASK
+bufmode
+bufmode
+JAS_STREAM_BUFMODEMASK
+JAS_STREAM_BUFMODEMASK
+-----joern-----
+(24,36,0)
+(24,40,0)
+(33,38,0)
+(49,46,0)
+(46,3,0)
+(10,1,0)
+(22,33,0)
+(24,1,0)
+(15,0,0)
+(45,7,0)
+(6,7,0)
+(44,5,0)
+(43,38,0)
+(42,7,0)
+(20,23,0)
+(3,38,0)
+(39,32,0)
+(8,21,0)
+(26,10,0)
+(37,41,0)
+(2,41,0)
+(17,3,0)
+(35,33,0)
+(5,0,0)
+(43,5,0)
+(0,5,0)
+(18,43,0)
+(36,9,0)
+(4,41,0)
+(16,7,0)
+(5,43,0)
+(34,46,0)
+(31,33,0)
+(7,38,0)
+(50,5,0)
+(3,46,0)
+(24,20,0)
+(27,40,0)
+(50,41,0)
+(7,45,0)
+(33,46,0)
+(12,25,0)
+(33,25,0)
+(13,45,0)
+(28,50,0)
+(47,41,0)
+(25,33,0)
+(11,41,0)
+(29,27,0)
+(32,20,0)
+(1,19,0)
+(14,49,0)
+(46,49,0)
+(21,36,0)
+(48,41,0)
+(40,30,0)
+(24,50,0)
+(7,6,1)
+(17,34,1)
+(36,21,1)
+(44,45,1)
+(33,38,1)
+(43,18,1)
+(50,5,1)
+(25,33,1)
+(12,33,1)
+(14,46,1)
+(40,27,1)
+(10,26,1)
+(25,12,1)
+(27,29,1)
+(8,25,1)
+(26,49,1)
+(46,3,1)
+(24,40,1)
+(13,7,1)
+(16,42,1)
+(18,44,1)
+(33,46,1)
+(24,20,1)
+(0,5,1)
+(1,10,1)
+(24,36,1)
+(0,15,1)
+(29,45,1)
+(3,38,1)
+(42,49,1)
+(7,38,1)
+(5,43,1)
+(6,16,1)
+(33,35,1)
+(28,25,1)
+(45,7,1)
+(45,13,1)
+(31,22,1)
+(3,17,1)
+(49,14,1)
+(15,5,1)
+(39,0,1)
+(49,46,1)
+(43,38,1)
+(24,50,1)
+(22,0,1)
+(50,28,1)
+(21,8,1)
+(24,1,1)
+(20,32,1)
+(35,31,1)
+(32,39,1)
+(5,43,2)
+(50,25,2)
+(0,5,2)
+(6,49,2)
+(12,0,2)
+(43,38,2)
+(46,3,2)
+(26,49,2)
+(44,45,2)
+(24,50,2)
+(27,45,2)
+(50,5,2)
+(24,20,2)
+(31,0,2)
+(10,49,2)
+(25,33,2)
+(8,25,2)
+(43,45,2)
+(5,45,2)
+(20,0,2)
+(33,46,2)
+(49,46,2)
+(42,49,2)
+(39,0,2)
+(40,45,2)
+(1,49,2)
+(36,25,2)
+(24,1,2)
+(15,45,2)
+(7,49,2)
+(45,7,2)
+(33,0,2)
+(16,49,2)
+(25,0,2)
+(24,40,2)
+(22,0,2)
+(13,49,2)
+(29,45,2)
+(33,38,2)
+(35,0,2)
+(18,45,2)
+(28,25,2)
+(21,25,2)
+(7,38,2)
+(32,0,2)
+(45,49,2)
+(24,36,2)
+(0,45,2)
+(3,38,2)
+-----------------------------------
+(0,(pos = jas_stream_tell(stream)
+(1,return -1;)
+(2,pos)
+(3,jas_stream_tell(stream)
+(4,if ((pos = jas_stream_tell(stream)
+(5,pos = jas_stream_tell(stream)
+(6,SEEK_END)
+(7,jas_stream_seek(stream, 0, SEEK_END)
+(8,1)
+(9,)
+(10,-1)
+(11,if (jas_stream_seek(stream, 0, SEEK_END)
+(12,0)
+(13,0)
+(14,0)
+(15,0)
+(16,0)
+(17,stream)
+(18,stream)
+(19,)
+(20,return -1;)
+(21,-1)
+(22,stream)
+(23,)
+(24,RET)
+(25,jas_stream_seek(stream, oldpos, SEEK_SET)
+(26,1)
+(27,-1)
+(28,pos)
+(29,1)
+(30,)
+(31,oldpos)
+(32,-1)
+(33,jas_stream_seek(stream, oldpos, SEEK_SET)
+(34,oldpos)
+(35,SEEK_SET)
+(36,return -1;)
+(37,if ((oldpos = jas_stream_tell(stream)
+(38,jas_stream_t *stream)
+(39,1)
+(40,return -1;)
+(41,)
+(42,stream)
+(43,jas_stream_tell(stream)
+(44,pos)
+(45,jas_stream_seek(stream, 0, SEEK_END)
+(46,oldpos = jas_stream_tell(stream)
+(47,if (jas_stream_seek(stream, oldpos, SEEK_SET)
+(48,oldpos)
+(49,(oldpos = jas_stream_tell(stream)
+(50,return pos;)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffff9cf9a66300000000ffffffffffffffff32faa66300000000ffffffffffffffff32faa66300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff4f00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+static void jas_stream_initbuf(jas_stream_t *stream, int bufmode, char *buf,   int bufsize) {
+assert(!stream->bufbase_);
+if(bufmode != JAS_STREAM_UNBUF)
+if(!buf)
+if((stream->bufbase_ = jas_malloc(JAS_STREAM_BUFSIZE + 			  JAS_STREAM_MAXPUTBACK)))
+stream->bufmode_ |= JAS_STREAM_FREEBUF;
+stream->bufsize_ = JAS_STREAM_BUFSIZE;
+stream->bufstart_ = &stream->bufbase_[JAS_STREAM_MAXPUTBACK];
+stream->ptr_ = stream->bufstart_;
+stream->cnt_ = 0;
+stream->bufmode_ |= bufmode & JAS_STREAM_BUFMODEMASK;
+=======================

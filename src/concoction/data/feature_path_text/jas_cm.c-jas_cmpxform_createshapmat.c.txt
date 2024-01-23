@@ -1,0 +1,3456 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_createshapmat.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_createshapmat()
+{
+	int i;
+	int j;
+	jas_cmpxform_t *pxform;
+	jas_cmshapmat_t *shapmat;
+	if (!(pxform = jas_cmpxform_create0()))
+		return 0;
+	pxform->ops = &shapmat_ops;
+	shapmat = &pxform->data.shapmat;
+	shapmat->mono = 0;
+	shapmat->order = 0;
+	shapmat->useluts = 0;
+	shapmat->usemat = 0;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_init(&shapmat->luts[i]);
+	for (i = 0; i < 3; ++i) {
+		for (j = 0; j < 4; ++j)
+			shapmat->mat[i][j] = 0.0;
+	}
+	++pxform->refcnt;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_init(&shapmat->luts[i])
+++i
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+j = 0
+j < 4
+mat
+shapmat->mat
+shapmat->mat[i]
+shapmat->mat[i][j]
+shapmat->mat[i][j] = 0.0
+++j
+j < 4
+++i
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_createshapmat ()
+jas_cmpxform_create0()
+pxform = jas_cmpxform_create0()
+!(pxform = jas_cmpxform_create0())
+ops
+pxform->ops
+&shapmat_ops
+pxform->ops = &shapmat_ops
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+shapmat = &pxform->data.shapmat
+mono
+shapmat->mono
+shapmat->mono = 0
+order
+shapmat->order
+shapmat->order = 0
+useluts
+shapmat->useluts
+shapmat->useluts = 0
+usemat
+shapmat->usemat
+shapmat->usemat = 0
+i = 0
+i < 3
+i = 0
+i < 3
+refcnt
+pxform->refcnt
+++pxform->refcnt
+return pxform;
+RET
+--------------path over--------------

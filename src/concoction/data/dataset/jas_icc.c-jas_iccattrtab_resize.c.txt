@@ -1,0 +1,621 @@
+-----label-----
+0
+-----code-----
+static int jas_iccattrtab_resize(jas_iccattrtab_t *tab, int maxents)
+{
+	jas_iccattr_t *newattrs;
+	assert(maxents >= tab->numattrs);
+	newattrs = tab->attrs ? jas_realloc(tab->attrs, maxents *
+	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t));
+	if (!newattrs)
+		return -1;
+	tab->attrs = newattrs;
+	tab->maxattrs = maxents;
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+15,16
+15,17
+15,18
+15,19
+15,20
+15,21
+15,22
+16,17
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+24,25
+24,26
+25,26
+27,28
+27,29
+28,29
+30,31
+30,32
+31,32
+34,35
+35,36
+35,37
+36,37
+38,39
+38,40
+38,41
+39,40
+39,41
+40,41
+43,44
+43,45
+43,46
+44,45
+46,47
+46,48
+47,48
+50,51
+50,52
+51,52
+53,54
+54,55
+54,56
+55,56
+58,59
+58,60
+59,60
+61,62
+61,63
+62,63
+64,65
+65,66
+65,67
+66,67
+69,70
+69,71
+70,71
+71,72
+73,74
+74,75
+76,77
+77,78
+77,79
+78,79
+78,80
+79,80
+82,83
+84,85
+85,86
+85,87
+86,87
+86,88
+87,88
+90,91
+92,93
+-----nextToken-----
+2,4,7,9,10,12,14,19,21,22,26,29,32,33,37,41,42,45,48,49,52,56,57,60,63,67,68,72,75,80,81,83,88,89,91,93
+-----computeFrom-----
+27,28
+27,29
+35,36
+35,37
+50,51
+50,52
+61,62
+61,63
+77,78
+77,79
+85,86
+85,87
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;ConditionalExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;IfStatement;UnaryExpression;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int jas_iccattrtab_resize(jas_iccattrtab_t *tab, int maxents){	jas_iccattr_t *newattrs;	assert(maxents >= tab->numattrs);	newattrs = tab->attrs ? jas_realloc(tab->attrs, maxents *	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t));	if (!newattrs)		return -1;	tab->attrs = newattrs;	tab->maxattrs = maxents;	return 0;}
+static int
+jas_iccattrtab_resize(jas_iccattrtab_t *tab, int maxents)
+jas_iccattrtab_resize
+jas_iccattrtab_t *tab
+jas_iccattrtab_t
+jas_iccattrtab_t
+*tab
+*
+tab
+int maxents
+int
+maxents
+maxents
+{	jas_iccattr_t *newattrs;	assert(maxents >= tab->numattrs);	newattrs = tab->attrs ? jas_realloc(tab->attrs, maxents *	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t));	if (!newattrs)		return -1;	tab->attrs = newattrs;	tab->maxattrs = maxents;	return 0;}
+jas_iccattr_t *newattrs;
+jas_iccattr_t *newattrs;
+jas_iccattr_t
+jas_iccattr_t
+*newattrs
+*
+newattrs
+assert(maxents >= tab->numattrs);
+assert(maxents >= tab->numattrs)
+assert
+assert
+maxents >= tab->numattrs
+maxents
+maxents
+tab->numattrs
+tab
+tab
+numattrs
+newattrs = tab->attrs ? jas_realloc(tab->attrs, maxents *	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t));
+newattrs = tab->attrs ? jas_realloc(tab->attrs, maxents *	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t))
+newattrs
+newattrs
+tab->attrs ? jas_realloc(tab->attrs, maxents *	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t))
+tab->attrs
+tab
+tab
+attrs
+jas_realloc(tab->attrs, maxents *	  sizeof(jas_iccattr_t))
+jas_realloc
+jas_realloc
+tab->attrs
+tab
+tab
+attrs
+maxents *	  sizeof(jas_iccattr_t)
+maxents
+maxents
+sizeof(jas_iccattr_t)
+jas_iccattr_t
+jas_iccattr_t
+jas_iccattr_t
+
+jas_malloc(maxents * sizeof(jas_iccattr_t))
+jas_malloc
+jas_malloc
+maxents * sizeof(jas_iccattr_t)
+maxents
+maxents
+sizeof(jas_iccattr_t)
+jas_iccattr_t
+jas_iccattr_t
+jas_iccattr_t
+
+if (!newattrs)		return -1;
+!newattrs
+newattrs
+newattrs
+return -1;
+-1
+1
+tab->attrs = newattrs;
+tab->attrs = newattrs
+tab->attrs
+tab
+tab
+attrs
+newattrs
+newattrs
+tab->maxattrs = maxents;
+tab->maxattrs = maxents
+tab->maxattrs
+tab
+tab
+maxattrs
+maxents
+maxents
+return 0;
+0
+-----joern-----
+(4,40,0)
+(39,28,0)
+(47,3,0)
+(36,29,0)
+(17,47,0)
+(35,23,0)
+(26,28,0)
+(40,22,0)
+(43,40,0)
+(31,15,0)
+(19,28,0)
+(22,28,0)
+(46,29,0)
+(38,28,0)
+(33,21,0)
+(1,39,0)
+(23,38,0)
+(45,47,0)
+(42,47,0)
+(24,12,0)
+(1,17,0)
+(21,33,0)
+(47,45,0)
+(25,12,0)
+(9,42,0)
+(11,28,0)
+(16,23,0)
+(41,12,0)
+(42,31,0)
+(39,1,0)
+(14,39,0)
+(12,47,0)
+(10,19,0)
+(13,28,0)
+(6,19,0)
+(27,7,0)
+(36,38,0)
+(2,48,0)
+(29,21,0)
+(48,21,0)
+(17,1,0)
+(49,42,0)
+(5,28,0)
+(21,48,0)
+(22,40,0)
+(29,36,0)
+(40,47,0)
+(31,28,0)
+(20,21,0)
+(23,47,0)
+(12,25,0)
+(19,47,0)
+(37,17,0)
+(0,17,0)
+(8,28,0)
+(32,29,0)
+(38,36,0)
+(39,25,0)
+(18,31,0)
+(7,28,0)
+(48,15,0)
+(25,39,0)
+(30,47,0)
+(3,47,0)
+(6,7,0)
+(27,44,1)
+(47,45,1)
+(25,12,1)
+(16,35,1)
+(22,40,1)
+(33,21,1)
+(19,10,1)
+(6,7,1)
+(38,36,1)
+(6,19,1)
+(32,46,1)
+(12,47,1)
+(48,2,1)
+(7,27,1)
+(39,25,1)
+(14,1,1)
+(21,48,1)
+(31,15,1)
+(3,47,1)
+(23,16,1)
+(45,30,1)
+(40,47,1)
+(17,47,1)
+(35,3,1)
+(17,0,1)
+(18,42,1)
+(2,20,1)
+(40,43,1)
+(44,33,1)
+(23,47,1)
+(48,15,1)
+(42,9,1)
+(29,32,1)
+(37,22,1)
+(34,3,1)
+(24,41,1)
+(0,37,1)
+(1,17,1)
+(12,24,1)
+(4,31,1)
+(49,38,1)
+(9,49,1)
+(27,34,1)
+(30,33,1)
+(29,21,1)
+(39,1,1)
+(41,14,1)
+(43,4,1)
+(31,18,1)
+(36,29,1)
+(42,47,1)
+(46,23,1)
+(10,39,1)
+(19,47,1)
+(6,19,2)
+(41,3,2)
+(36,29,2)
+(18,3,2)
+(1,17,2)
+(27,3,2)
+(39,1,2)
+(31,15,2)
+(22,3,2)
+(47,33,2)
+(45,33,2)
+(3,47,2)
+(4,3,2)
+(22,40,2)
+(32,3,2)
+(25,12,2)
+(17,47,2)
+(47,45,2)
+(42,47,2)
+(23,3,2)
+(38,36,2)
+(27,33,2)
+(29,3,2)
+(40,47,2)
+(36,3,2)
+(23,47,2)
+(9,3,2)
+(39,25,2)
+(7,33,2)
+(21,48,2)
+(12,47,2)
+(38,3,2)
+(31,3,2)
+(48,15,2)
+(3,33,2)
+(30,33,2)
+(40,3,2)
+(37,3,2)
+(10,3,2)
+(24,3,2)
+(19,3,2)
+(0,3,2)
+(1,3,2)
+(33,21,2)
+(44,33,2)
+(49,3,2)
+(43,3,2)
+(35,3,2)
+(14,3,2)
+(42,3,2)
+(46,3,2)
+(12,3,2)
+(39,3,2)
+(6,7,2)
+(17,3,2)
+(34,3,2)
+(7,3,2)
+(29,21,2)
+(16,3,2)
+(25,3,2)
+(19,47,2)
+-----------------------------------
+(0,data)
+(1,&attrval->data)
+(2,type)
+(3,!(attrval = jas_iccattrval_create0()
+(4,attrval)
+(5,error:)
+(6,RET)
+(7,return 0;)
+(8,attrval)
+(9,type)
+(10,attrval)
+(11,if (!(attrval = jas_iccattrval_create0()
+(12,attrval->data)
+(13,info)
+(14,0)
+(15,jas_iccuint32_t type)
+(16,ops)
+(17,attrval->data)
+(18,type)
+(19,return attrval;)
+(20,info)
+(21,info = jas_iccattrvalinfo_lookup(type)
+(22,++attrval->refcnt)
+(23,attrval->ops)
+(24,data)
+(25,sizeof(attrval->data)
+(26,if (!(info = jas_iccattrvalinfo_lookup(type)
+(27,0)
+(28,)
+(29,info->ops)
+(30,attrval)
+(31,attrval->type = type)
+(32,ops)
+(33,!(info = jas_iccattrvalinfo_lookup(type)
+(34,goto error;)
+(35,attrval)
+(36,&info->ops)
+(37,attrval)
+(38,attrval->ops = &info->ops)
+(39,memset(&attrval->data, 0, sizeof(attrval->data)
+(40,attrval->refcnt)
+(41,attrval)
+(42,attrval->type)
+(43,refcnt)
+(44,goto error;)
+(45,jas_iccattrval_create0()
+(46,info)
+(47,attrval = jas_iccattrval_create0()
+(48,jas_iccattrvalinfo_lookup(type)
+(49,attrval)
+-----cfg-----
+(7,17)
+(12,23)
+(13,12)
+(15,13)
+(17,15)
+(18,38)
+(20,18)
+(21,27)
+(21,35)
+(23,21)
+(24,20)
+(25,30)
+(27,25)
+(28,24)
+(30,28)
+(32,20)
+(33,32)
+(35,33)
+(38,42)
+(38,47)
+(41,56)
+(42,41)
+(44,52)
+(45,44)
+(47,45)
+(49,54)
+(50,49)
+(52,50)
+(54,56)
+-----path-----
+7,17,15,13,12,23,21,27,25,30,28,24,20,18,38,42,41,56
+7,17,15,13,12,23,21,27,25,30,28,24,20,18,38,47,45,44,52,50,49,54,56
+7,17,15,13,12,23,21,35,33,32,20,18,38,42,41,56
+7,17,15,13,12,23,21,35,33,32,20,18,38,47,45,44,52,50,49,54,56
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jas_iccattrtab_resize (jas_iccattrtab_t *tab,int maxents)
+8,jas_iccattrtab_t *tab
+9,int maxents
+10,<empty>
+11,jas_iccattr_t* newattrs
+12,assert(maxents >= tab->numattrs)
+13,maxents >= tab->numattrs
+14,maxents
+15,tab->numattrs
+16,tab
+17,numattrs
+18,newattrs = tab->attrs ? jas_realloc(tab->attrs, maxents *
+19,	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t))
+20,newattrs
+21,tab->attrs ? jas_realloc(tab->attrs, maxents *
+22,	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t))
+23,tab->attrs
+24,tab
+25,attrs
+26,jas_realloc(tab->attrs, maxents *
+27,	  sizeof(jas_iccattr_t))
+28,tab->attrs
+29,tab
+30,attrs
+31,maxents *
+32,	  sizeof(jas_iccattr_t)
+33,maxents
+34,sizeof(jas_iccattr_t)
+35,jas_iccattr_t
+36,jas_malloc(maxents * sizeof(jas_iccattr_t))
+37,maxents * sizeof(jas_iccattr_t)
+38,maxents
+39,sizeof(jas_iccattr_t)
+40,jas_iccattr_t
+41,if (!newattrs)
+42,!newattrs
+43,newattrs
+44,<empty>
+45,return -1;
+46,-1
+47,1
+48,tab->attrs = newattrs
+49,tab->attrs
+50,tab
+51,attrs
+52,newattrs
+53,tab->maxattrs = maxents
+54,tab->maxattrs
+55,tab
+56,maxattrs
+57,maxents
+58,return 0;
+59,0
+60,RET
+61,jas_iccattrtab_t *tab
+62,int maxents
+63,RET
+64,int jas_iccattrtab_resize (jas_iccattrtab_t *tab,int maxents)
+65,jas_iccattrtab_t *tab
+66,int maxents
+67,<empty>
+68,jas_iccattr_t* newattrs
+69,assert(maxents >= tab->numattrs)
+70,maxents >= tab->numattrs
+71,maxents
+72,tab->numattrs
+73,tab
+74,numattrs
+75,newattrs = tab->attrs ? jas_realloc(tab->attrs, maxents *
+76,	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t))
+77,newattrs
+78,tab->attrs ? jas_realloc(tab->attrs, maxents *
+79,	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t))
+80,tab->attrs
+81,tab
+82,attrs
+83,jas_realloc(tab->attrs, maxents *
+84,	  sizeof(jas_iccattr_t))
+85,tab->attrs
+86,tab
+87,attrs
+88,maxents *
+89,	  sizeof(jas_iccattr_t)
+90,maxents
+91,sizeof(jas_iccattr_t)
+92,jas_iccattr_t
+93,jas_malloc(maxents * sizeof(jas_iccattr_t))
+94,maxents * sizeof(jas_iccattr_t)
+95,maxents
+96,sizeof(jas_iccattr_t)
+97,jas_iccattr_t
+98,if (!newattrs)
+99,!newattrs
+100,newattrs
+101,<empty>
+102,return -1;
+103,-1
+104,1
+105,tab->attrs = newattrs
+106,tab->attrs
+107,tab
+108,attrs
+109,newattrs
+110,tab->maxattrs = maxents
+111,tab->maxattrs
+112,tab
+113,maxattrs
+114,maxents
+115,return 0;
+116,0
+117,RET
+118,jas_iccattrtab_t *tab
+119,int maxents
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int jas_iccattrtab_resize(jas_iccattrtab_t *tab, int maxents) {
+jas_iccattr_t *newattrs;
+assert(maxents >= tab->numattrs);
+newattrs = tab->attrs ? jas_realloc(tab->attrs, maxents * 	  sizeof(jas_iccattr_t)) : jas_malloc(maxents * sizeof(jas_iccattr_t));
+tab->attrs = newattrs;
+tab->maxattrs = maxents;
+return 0;
+=======================

@@ -1,0 +1,2944 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmatlut_set.c.txt
+--------------code--------------
+static int jas_cmshapmatlut_set(jas_cmshapmatlut_t *lut, jas_icccurv_t *curv)
+{
+	jas_cmreal_t gamma;
+	int i;
+	gamma = 0;
+	jas_cmshapmatlut_cleanup(lut);
+	if (curv->numents == 0) {
+		lut->size = 2;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		lut->data[0] = 0.0;
+		lut->data[1] = 1.0;
+	} else if (curv->numents == 1) {
+		lut->size = 256;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		gamma = curv->ents[0] / 256.0;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = gammafn(i / (double) (lut->size - 1), gamma);
+		}
+	} else {
+		lut->size = curv->numents;
+		if (!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))))
+			goto error;
+		for (i = 0; i < lut->size; ++i) {
+			lut->data[i] = curv->ents[i] / 65535.0;
+		}
+	}
+	return 0;
+error:
+	return -1;
+}
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+size
+lut->size
+lut->size = 2
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+data
+lut->data
+lut->data[0]
+lut->data[0] = 0.0
+data
+lut->data
+lut->data[1]
+lut->data[1] = 1.0
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+lut->size = 256
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+ents
+curv->ents
+curv->ents[0]
+curv->ents[0] / 256.0
+gamma = curv->ents[0] / 256.0
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+return -1;
+return -1;
+1
+--------------path over--------------
+--------------path--------------
+int jas_cmshapmatlut_set (jas_cmshapmatlut_t *lutjas_icccurv_t *curv)
+gamma = 0
+jas_cmshapmatlut_cleanup(lut)
+numents
+curv->numents
+curv->numents == 0
+numents
+curv->numents
+curv->numents == 1
+size
+lut->size
+numents
+curv->numents
+lut->size = curv->numents
+data
+lut->data
+size
+lut->size
+sizeof(jas_cmreal_t)
+lut->size * sizeof(jas_cmreal_t)
+jas_malloc(lut->size * sizeof(jas_cmreal_t))
+lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t))
+!(lut->data = jas_malloc(lut->size * sizeof(jas_cmreal_t)))
+i = 0
+size
+lut->size
+i < lut->size
+return 0;
+1
+--------------path over--------------

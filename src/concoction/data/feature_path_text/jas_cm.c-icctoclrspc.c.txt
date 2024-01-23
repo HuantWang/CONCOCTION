@@ -1,0 +1,864 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-icctoclrspc.c.txt
+--------------code--------------
+static int icctoclrspc(int iccclrspc, int refflag)
+{
+	if (refflag) {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_XYZ:
+			return JAS_CLRSPC_CIEXYZ;
+		case JAS_ICC_COLORSPC_LAB:
+			return JAS_CLRSPC_CIELAB;
+		default:
+			abort();
+			break;
+		}
+	} else {
+		switch (iccclrspc) {
+		case JAS_ICC_COLORSPC_YCBCR:
+			return JAS_CLRSPC_GENYCBCR;
+		case JAS_ICC_COLORSPC_RGB:
+			return JAS_CLRSPC_GENRGB;
+		case JAS_ICC_COLORSPC_GRAY:
+			return JAS_CLRSPC_GENGRAY;
+		default:
+			abort();
+			break;
+		}
+	}
+}
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIEXYZ;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_CIELAB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENYCBCR;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+return JAS_CLRSPC_GENRGB;
+RET
+--------------path over--------------
+--------------path--------------
+int icctoclrspc (int iccclrspcint refflag)
+abort()
+RET
+--------------path over--------------

@@ -1,0 +1,1810 @@
+-----label-----
+0
+-----code-----
+void jpc_restore_t2state(jpc_enc_t *enc)
+{
+
+	jpc_enc_tcmpt_t *comp;
+	jpc_enc_tcmpt_t *endcomps;
+	jpc_enc_rlvl_t *lvl;
+	jpc_enc_rlvl_t *endlvls;
+	jpc_enc_band_t *band;
+	jpc_enc_band_t *endbands;
+	jpc_enc_cblk_t *cblk;
+	jpc_enc_cblk_t *endcblks;
+	jpc_enc_tile_t *tile;
+	int prcno;
+	jpc_enc_prc_t *prc;
+
+	tile = enc->curtile;
+
+	endcomps = &tile->tcmpts[tile->numtcmpts];
+	for (comp = tile->tcmpts; comp != endcomps; ++comp) {
+		endlvls = &comp->rlvls[comp->numrlvls];
+		for (lvl = comp->rlvls; lvl != endlvls; ++lvl) {
+			if (!lvl->bands) {
+				continue;
+			}
+			endbands = &lvl->bands[lvl->numbands];
+			for (band = lvl->bands; band != endbands; ++band) {
+				if (!band->data) {
+					continue;
+				}
+				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {
+					if (!prc->cblks) {
+						continue;
+					}
+					jpc_tagtree_copy(prc->incltree, prc->savincltree);
+					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+					endcblks = &prc->cblks[prc->numcblks];
+					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {
+						cblk->curpass = cblk->savedcurpass;
+						cblk->numencpasses = cblk->savednumencpasses;
+						cblk->numlenbits = cblk->savednumlenbits;
+					}
+				}
+			}
+		}
+	}
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+11,16
+11,17
+11,18
+11,19
+11,20
+11,21
+11,22
+11,23
+11,24
+11,25
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+19,20
+20,21
+20,22
+21,22
+23,24
+23,25
+26,27
+27,28
+27,29
+28,29
+30,31
+30,32
+33,34
+34,35
+34,36
+35,36
+37,38
+37,39
+40,41
+41,42
+41,43
+42,43
+44,45
+44,46
+47,48
+48,49
+48,50
+49,50
+51,52
+51,53
+54,55
+55,56
+55,57
+56,57
+58,59
+58,60
+61,62
+62,63
+62,64
+63,64
+65,66
+65,67
+68,69
+69,70
+69,71
+70,71
+72,73
+72,74
+75,76
+76,77
+76,78
+78,79
+80,81
+81,82
+81,83
+82,83
+84,85
+84,86
+87,88
+88,89
+88,90
+89,90
+91,92
+91,93
+92,93
+95,96
+96,97
+96,98
+97,98
+99,100
+100,101
+100,102
+101,102
+101,103
+102,103
+105,106
+105,107
+106,107
+109,110
+109,111
+109,112
+109,113
+110,111
+111,112
+111,113
+112,113
+114,115
+114,116
+115,116
+118,119
+118,120
+119,120
+121,122
+123,124
+124,125
+126,127
+126,128
+127,128
+128,129
+128,130
+129,130
+131,132
+132,133
+132,134
+133,134
+133,135
+134,135
+137,138
+137,139
+138,139
+141,142
+141,143
+141,144
+141,145
+142,143
+143,144
+143,145
+144,145
+146,147
+146,148
+147,148
+150,151
+150,152
+151,152
+153,154
+155,156
+156,157
+158,159
+158,160
+158,161
+159,160
+159,161
+160,161
+161,162
+161,163
+162,163
+165,166
+167,168
+168,169
+168,170
+169,170
+171,172
+172,173
+172,174
+173,174
+173,175
+174,175
+177,178
+177,179
+178,179
+181,182
+181,183
+181,184
+181,185
+182,183
+183,184
+183,185
+184,185
+186,187
+186,188
+187,188
+190,191
+190,192
+191,192
+193,194
+195,196
+196,197
+198,199
+198,200
+199,200
+199,201
+200,201
+201,202
+201,203
+202,203
+205,206
+207,208
+207,209
+207,210
+207,211
+208,209
+209,210
+209,211
+210,211
+210,212
+211,212
+214,215
+214,216
+215,216
+217,218
+217,219
+218,219
+221,222
+221,223
+222,223
+224,225
+224,226
+225,226
+228,229
+228,230
+229,230
+230,231
+232,233
+233,234
+235,236
+235,237
+235,238
+235,239
+235,240
+236,237
+236,238
+237,238
+238,239
+238,240
+239,240
+242,243
+244,245
+245,246
+245,247
+245,248
+246,247
+248,249
+248,250
+249,250
+252,253
+252,254
+253,254
+256,257
+257,258
+257,259
+257,260
+258,259
+260,261
+260,262
+261,262
+264,265
+264,266
+265,266
+268,269
+269,270
+269,271
+270,271
+272,273
+273,274
+273,275
+274,275
+274,276
+275,276
+278,279
+278,280
+279,280
+282,283
+282,284
+282,285
+282,286
+283,284
+284,285
+284,286
+285,286
+287,288
+287,289
+288,289
+291,292
+291,293
+292,293
+294,295
+296,297
+297,298
+299,300
+299,301
+299,302
+300,301
+301,302
+301,303
+302,303
+302,304
+303,304
+306,307
+306,308
+307,308
+310,311
+311,312
+311,313
+312,313
+312,314
+313,314
+316,317
+316,318
+317,318
+320,321
+321,322
+321,323
+322,323
+322,324
+323,324
+326,327
+326,328
+327,328
+-----nextToken-----
+2,4,7,9,10,15,17,18,22,24,25,29,31,32,36,38,39,43,45,46,50,52,53,57,59,60,64,66,67,71,73,74,77,79,83,85,86,90,93,94,98,103,104,107,108,113,116,117,120,122,125,130,135,136,139,140,145,148,149,152,154,157,163,164,166,170,175,176,179,180,185,188,189,192,194,197,203,204,206,212,213,216,219,220,223,226,227,231,234,240,241,243,247,250,251,254,255,259,262,263,266,267,271,276,277,280,281,286,289,290,293,295,298,304,305,308,309,314,315,318,319,324,325,328,329
+-----computeFrom-----
+88,89
+88,90
+96,97
+96,98
+111,112
+111,113
+118,119
+118,120
+128,129
+128,130
+143,144
+143,145
+150,151
+150,152
+168,169
+168,170
+183,184
+183,185
+190,191
+190,192
+210,211
+210,212
+214,215
+214,216
+221,222
+221,223
+269,270
+269,271
+284,285
+284,286
+291,292
+291,293
+301,302
+301,303
+311,312
+311,313
+321,322
+321,323
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ContinueStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;
+-----ast_node-----
+void jpc_restore_t2state(jpc_enc_t *enc){	jpc_enc_tcmpt_t *comp;	jpc_enc_tcmpt_t *endcomps;	jpc_enc_rlvl_t *lvl;	jpc_enc_rlvl_t *endlvls;	jpc_enc_band_t *band;	jpc_enc_band_t *endbands;	jpc_enc_cblk_t *cblk;	jpc_enc_cblk_t *endcblks;	jpc_enc_tile_t *tile;	int prcno;	jpc_enc_prc_t *prc;	tile = enc->curtile;	endcomps = &tile->tcmpts[tile->numtcmpts];	for (comp = tile->tcmpts; comp != endcomps; ++comp) {		endlvls = &comp->rlvls[comp->numrlvls];		for (lvl = comp->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}			}		}	}}
+void
+jpc_restore_t2state(jpc_enc_t *enc)
+jpc_restore_t2state
+jpc_enc_t *enc
+jpc_enc_t
+jpc_enc_t
+*enc
+*
+enc
+{	jpc_enc_tcmpt_t *comp;	jpc_enc_tcmpt_t *endcomps;	jpc_enc_rlvl_t *lvl;	jpc_enc_rlvl_t *endlvls;	jpc_enc_band_t *band;	jpc_enc_band_t *endbands;	jpc_enc_cblk_t *cblk;	jpc_enc_cblk_t *endcblks;	jpc_enc_tile_t *tile;	int prcno;	jpc_enc_prc_t *prc;	tile = enc->curtile;	endcomps = &tile->tcmpts[tile->numtcmpts];	for (comp = tile->tcmpts; comp != endcomps; ++comp) {		endlvls = &comp->rlvls[comp->numrlvls];		for (lvl = comp->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}			}		}	}}
+jpc_enc_tcmpt_t *comp;
+jpc_enc_tcmpt_t *comp;
+jpc_enc_tcmpt_t
+jpc_enc_tcmpt_t
+*comp
+*
+comp
+jpc_enc_tcmpt_t *endcomps;
+jpc_enc_tcmpt_t *endcomps;
+jpc_enc_tcmpt_t
+jpc_enc_tcmpt_t
+*endcomps
+*
+endcomps
+jpc_enc_rlvl_t *lvl;
+jpc_enc_rlvl_t *lvl;
+jpc_enc_rlvl_t
+jpc_enc_rlvl_t
+*lvl
+*
+lvl
+jpc_enc_rlvl_t *endlvls;
+jpc_enc_rlvl_t *endlvls;
+jpc_enc_rlvl_t
+jpc_enc_rlvl_t
+*endlvls
+*
+endlvls
+jpc_enc_band_t *band;
+jpc_enc_band_t *band;
+jpc_enc_band_t
+jpc_enc_band_t
+*band
+*
+band
+jpc_enc_band_t *endbands;
+jpc_enc_band_t *endbands;
+jpc_enc_band_t
+jpc_enc_band_t
+*endbands
+*
+endbands
+jpc_enc_cblk_t *cblk;
+jpc_enc_cblk_t *cblk;
+jpc_enc_cblk_t
+jpc_enc_cblk_t
+*cblk
+*
+cblk
+jpc_enc_cblk_t *endcblks;
+jpc_enc_cblk_t *endcblks;
+jpc_enc_cblk_t
+jpc_enc_cblk_t
+*endcblks
+*
+endcblks
+jpc_enc_tile_t *tile;
+jpc_enc_tile_t *tile;
+jpc_enc_tile_t
+jpc_enc_tile_t
+*tile
+*
+tile
+int prcno;
+int prcno;
+int
+prcno
+prcno
+jpc_enc_prc_t *prc;
+jpc_enc_prc_t *prc;
+jpc_enc_prc_t
+jpc_enc_prc_t
+*prc
+*
+prc
+tile = enc->curtile;
+tile = enc->curtile
+tile
+tile
+enc->curtile
+enc
+enc
+curtile
+endcomps = &tile->tcmpts[tile->numtcmpts];
+endcomps = &tile->tcmpts[tile->numtcmpts]
+endcomps
+endcomps
+&tile->tcmpts[tile->numtcmpts]
+tile->tcmpts[tile->numtcmpts]
+tile->tcmpts
+tile
+tile
+tcmpts
+tile->numtcmpts
+tile
+tile
+numtcmpts
+for (comp = tile->tcmpts; comp != endcomps; ++comp) {		endlvls = &comp->rlvls[comp->numrlvls];		for (lvl = comp->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}			}		}	}
+comp = tile->tcmpts;
+comp = tile->tcmpts
+comp
+comp
+tile->tcmpts
+tile
+tile
+tcmpts
+comp != endcomps
+comp
+comp
+endcomps
+endcomps
+++comp
+comp
+comp
+{		endlvls = &comp->rlvls[comp->numrlvls];		for (lvl = comp->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}			}		}	}
+endlvls = &comp->rlvls[comp->numrlvls];
+endlvls = &comp->rlvls[comp->numrlvls]
+endlvls
+endlvls
+&comp->rlvls[comp->numrlvls]
+comp->rlvls[comp->numrlvls]
+comp->rlvls
+comp
+comp
+rlvls
+comp->numrlvls
+comp
+comp
+numrlvls
+for (lvl = comp->rlvls; lvl != endlvls; ++lvl) {			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}			}		}
+lvl = comp->rlvls;
+lvl = comp->rlvls
+lvl
+lvl
+comp->rlvls
+comp
+comp
+rlvls
+lvl != endlvls
+lvl
+lvl
+endlvls
+endlvls
+++lvl
+lvl
+lvl
+{			if (!lvl->bands) {				continue;			}			endbands = &lvl->bands[lvl->numbands];			for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}			}		}
+if (!lvl->bands) {				continue;			}
+!lvl->bands
+lvl->bands
+lvl
+lvl
+bands
+{				continue;			}
+continue;
+endbands = &lvl->bands[lvl->numbands];
+endbands = &lvl->bands[lvl->numbands]
+endbands
+endbands
+&lvl->bands[lvl->numbands]
+lvl->bands[lvl->numbands]
+lvl->bands
+lvl
+lvl
+bands
+lvl->numbands
+lvl
+lvl
+numbands
+for (band = lvl->bands; band != endbands; ++band) {				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}			}
+band = lvl->bands;
+band = lvl->bands
+band
+band
+lvl->bands
+lvl
+lvl
+bands
+band != endbands
+band
+band
+endbands
+endbands
+++band
+band
+band
+{				if (!band->data) {					continue;				}				for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}			}
+if (!band->data) {					continue;				}
+!band->data
+band->data
+band
+band
+data
+{					continue;				}
+continue;
+for (prcno = 0, prc = band->prcs; prcno < lvl->numprcs; ++prcno, ++prc) {					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}
+prcno = 0, prc = band->prcs;
+prcno = 0, prc = band->prcs
+prcno = 0
+prcno
+prcno
+0
+prc = band->prcs
+prc
+prc
+band->prcs
+band
+band
+prcs
+prcno < lvl->numprcs
+prcno
+prcno
+lvl->numprcs
+lvl
+lvl
+numprcs
+++prcno, ++prc
+++prcno
+prcno
+prcno
+++prc
+prc
+prc
+{					if (!prc->cblks) {						continue;					}					jpc_tagtree_copy(prc->incltree, prc->savincltree);					jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);					endcblks = &prc->cblks[prc->numcblks];					for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}				}
+if (!prc->cblks) {						continue;					}
+!prc->cblks
+prc->cblks
+prc
+prc
+cblks
+{						continue;					}
+continue;
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->incltree, prc->savincltree)
+jpc_tagtree_copy
+jpc_tagtree_copy
+prc->incltree
+prc
+prc
+incltree
+prc->savincltree
+prc
+prc
+savincltree
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree)
+jpc_tagtree_copy
+jpc_tagtree_copy
+prc->nlibtree
+prc
+prc
+nlibtree
+prc->savnlibtree
+prc
+prc
+savnlibtree
+endcblks = &prc->cblks[prc->numcblks];
+endcblks = &prc->cblks[prc->numcblks]
+endcblks
+endcblks
+&prc->cblks[prc->numcblks]
+prc->cblks[prc->numcblks]
+prc->cblks
+prc
+prc
+cblks
+prc->numcblks
+prc
+prc
+numcblks
+for (cblk = prc->cblks; cblk != endcblks; ++cblk) {						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}
+cblk = prc->cblks;
+cblk = prc->cblks
+cblk
+cblk
+prc->cblks
+prc
+prc
+cblks
+cblk != endcblks
+cblk
+cblk
+endcblks
+endcblks
+++cblk
+cblk
+cblk
+{						cblk->curpass = cblk->savedcurpass;						cblk->numencpasses = cblk->savednumencpasses;						cblk->numlenbits = cblk->savednumlenbits;					}
+cblk->curpass = cblk->savedcurpass;
+cblk->curpass = cblk->savedcurpass
+cblk->curpass
+cblk
+cblk
+curpass
+cblk->savedcurpass
+cblk
+cblk
+savedcurpass
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numencpasses = cblk->savednumencpasses
+cblk->numencpasses
+cblk
+cblk
+numencpasses
+cblk->savednumencpasses
+cblk
+cblk
+savednumencpasses
+cblk->numlenbits = cblk->savednumlenbits;
+cblk->numlenbits = cblk->savednumlenbits
+cblk->numlenbits
+cblk
+cblk
+numlenbits
+cblk->savednumlenbits
+cblk
+cblk
+savednumlenbits
+-----joern-----
+(18,25,0)
+(29,26,0)
+(6,16,0)
+(28,15,0)
+(5,16,0)
+(1,12,0)
+(13,15,0)
+(22,19,0)
+(19,30,0)
+(20,19,0)
+(33,17,0)
+(26,27,0)
+(2,12,0)
+(3,27,0)
+(24,10,0)
+(15,28,0)
+(17,33,0)
+(19,4,0)
+(0,28,0)
+(32,21,0)
+(3,32,0)
+(16,31,0)
+(23,9,0)
+(11,16,0)
+(35,17,0)
+(9,32,0)
+(14,28,0)
+(33,30,0)
+(10,12,0)
+(16,6,0)
+(3,10,0)
+(4,12,0)
+(27,8,0)
+(34,33,0)
+(28,31,0)
+(4,19,0)
+(7,6,0)
+(24,6,1)
+(17,35,1)
+(3,10,1)
+(9,23,1)
+(14,0,1)
+(34,4,1)
+(35,33,1)
+(22,20,1)
+(0,17,1)
+(33,34,1)
+(26,29,1)
+(6,7,1)
+(27,26,1)
+(33,30,1)
+(16,11,1)
+(16,31,1)
+(3,32,1)
+(28,14,1)
+(7,16,1)
+(10,24,1)
+(19,30,1)
+(3,27,1)
+(15,13,1)
+(11,5,1)
+(6,16,1)
+(28,31,1)
+(13,28,1)
+(23,6,1)
+(5,17,1)
+(29,15,1)
+(19,22,1)
+(15,28,1)
+(17,33,1)
+(34,15,1)
+(32,9,1)
+(4,19,1)
+(28,17,2)
+(16,17,2)
+(0,17,2)
+(16,31,2)
+(15,28,2)
+(17,33,2)
+(6,16,2)
+(24,6,2)
+(3,10,2)
+(19,30,2)
+(32,6,2)
+(23,6,2)
+(3,27,2)
+(5,17,2)
+(13,17,2)
+(10,6,2)
+(29,15,2)
+(7,17,2)
+(17,15,2)
+(27,15,2)
+(14,17,2)
+(35,15,2)
+(4,19,2)
+(3,32,2)
+(28,31,2)
+(9,6,2)
+(11,17,2)
+(33,15,2)
+(15,17,2)
+(33,30,2)
+(6,17,2)
+(26,15,2)
+(34,15,2)
+-----------------------------------
+(0,out)
+(1,while (--n >= 0)
+(2,if (jpc_bitstream_putbit(out, 0)
+(3,RET)
+(4,assert(n >= 0)
+(5,out)
+(6,jpc_bitstream_putbit(out, 0)
+(7,EOF)
+(8,)
+(9,-1)
+(10,return 0;)
+(11,0)
+(12,)
+(13,EOF)
+(14,1)
+(15,jpc_bitstream_putbit(out, 1)
+(16,jpc_bitstream_putbit(out, 0)
+(17,--n >= 0)
+(18,if (jpc_bitstream_putbit(out, 1)
+(19,n >= 0)
+(20,n)
+(21,)
+(22,0)
+(23,1)
+(24,0)
+(25,)
+(26,-1)
+(27,return -1;)
+(28,jpc_bitstream_putbit(out, 1)
+(29,1)
+(30,int n)
+(31,jpc_bitstream_t *out)
+(32,return -1;)
+(33,--n)
+(34,n)
+(35,0)
+-----cfg-----
+(7,25)
+(21,32)
+(23,21)
+(25,23)
+(26,42)
+(28,26)
+(29,28)
+(30,35)
+(32,30)
+(33,29)
+(35,33)
+(38,43)
+(40,38)
+(42,40)
+(43,196)
+(43,55)
+(46,43)
+(49,65)
+(51,49)
+(52,51)
+(53,58)
+(55,53)
+(56,52)
+(58,56)
+(61,66)
+(63,61)
+(65,63)
+(66,76)
+(66,46)
+(69,66)
+(73,69)
+(73,85)
+(74,73)
+(76,74)
+(79,95)
+(81,79)
+(82,81)
+(83,88)
+(85,83)
+(86,82)
+(88,86)
+(91,96)
+(93,91)
+(95,93)
+(96,106)
+(96,69)
+(99,96)
+(103,99)
+(103,112)
+(104,103)
+(106,104)
+(111,124)
+(112,119)
+(115,111)
+(117,115)
+(119,117)
+(120,135)
+(120,99)
+(122,120)
+(124,122)
+(125,124)
+(126,128)
+(128,125)
+(132,126)
+(132,141)
+(133,132)
+(135,133)
+(138,148)
+(139,144)
+(141,139)
+(142,138)
+(144,142)
+(145,158)
+(146,151)
+(148,146)
+(149,145)
+(151,149)
+(152,168)
+(154,152)
+(155,154)
+(156,161)
+(158,156)
+(159,155)
+(161,159)
+(164,169)
+(166,164)
+(168,166)
+(169,178)
+(169,126)
+(172,169)
+(175,185)
+(176,181)
+(178,176)
+(179,175)
+(181,179)
+(182,192)
+(183,188)
+(185,183)
+(186,182)
+(188,186)
+(189,172)
+(190,195)
+(192,190)
+(193,189)
+(195,193)
+-----path-----
+7,25,23,21,32,30,35,33,29,28,26,42,40,38,43,196
+7,25,23,21,32,30,35,33,29,28,26,42,40,38,43,55,53,58,56,52,51,49,65,63,61,66,76,74,73,69,66,46,43,196
+7,25,23,21,32,30,35,33,29,28,26,42,40,38,43,55,53,58,56,52,51,49,65,63,61,66,76,74,73,85,83,88,86,82,81,79,95,93,91,96,106,104,103,99,96,69,66,46,43,196
+7,25,23,21,32,30,35,33,29,28,26,42,40,38,43,55,53,58,56,52,51,49,65,63,61,66,76,74,73,85,83,88,86,82,81,79,95,93,91,96,106,104,103,112,119,117,115,111,124,122,120
+7,25,23,21,32,30,35,33,29,28,26,42,40,38,43,55,53,58,56,52,51,49,65,63,61,66,76,74,73,85,83,88,86,82,81,79,95,93,91,96,69,66,46,43,196
+7,25,23,21,32,30,35,33,29,28,26,42,40,38,43,55,53,58,56,52,51,49,65,63,61,66,46,43,196
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jpc_restore_t2state (jpc_enc_t *enc)
+8,jpc_enc_t *enc
+9,<empty>
+10,jpc_enc_tcmpt_t* comp
+11,jpc_enc_tcmpt_t* endcomps
+12,jpc_enc_rlvl_t* lvl
+13,jpc_enc_rlvl_t* endlvls
+14,jpc_enc_band_t* band
+15,jpc_enc_band_t* endbands
+16,jpc_enc_cblk_t* cblk
+17,jpc_enc_cblk_t* endcblks
+18,jpc_enc_tile_t* tile
+19,int prcno
+20,jpc_enc_prc_t* prc
+21,tile = enc->curtile
+22,tile
+23,enc->curtile
+24,enc
+25,curtile
+26,endcomps = &tile->tcmpts[tile->numtcmpts]
+27,endcomps
+28,&tile->tcmpts[tile->numtcmpts]
+29,tile->tcmpts[tile->numtcmpts]
+30,tile->tcmpts
+31,tile
+32,tcmpts
+33,tile->numtcmpts
+34,tile
+35,numtcmpts
+36,for (comp = tile->tcmpts;comp != endcomps;++comp)
+37,<empty>
+38,comp = tile->tcmpts
+39,comp
+40,tile->tcmpts
+41,tile
+42,tcmpts
+43,comp != endcomps
+44,comp
+45,endcomps
+46,++comp
+47,comp
+48,<empty>
+49,endlvls = &comp->rlvls[comp->numrlvls]
+50,endlvls
+51,&comp->rlvls[comp->numrlvls]
+52,comp->rlvls[comp->numrlvls]
+53,comp->rlvls
+54,comp
+55,rlvls
+56,comp->numrlvls
+57,comp
+58,numrlvls
+59,for (lvl = comp->rlvls;lvl != endlvls;++lvl)
+60,<empty>
+61,lvl = comp->rlvls
+62,lvl
+63,comp->rlvls
+64,comp
+65,rlvls
+66,lvl != endlvls
+67,lvl
+68,endlvls
+69,++lvl
+70,lvl
+71,<empty>
+72,if (!lvl->bands)
+73,!lvl->bands
+74,lvl->bands
+75,lvl
+76,bands
+77,<empty>
+78,continue;
+79,endbands = &lvl->bands[lvl->numbands]
+80,endbands
+81,&lvl->bands[lvl->numbands]
+82,lvl->bands[lvl->numbands]
+83,lvl->bands
+84,lvl
+85,bands
+86,lvl->numbands
+87,lvl
+88,numbands
+89,for (band = lvl->bands;band != endbands;++band)
+90,<empty>
+91,band = lvl->bands
+92,band
+93,lvl->bands
+94,lvl
+95,bands
+96,band != endbands
+97,band
+98,endbands
+99,++band
+100,band
+101,<empty>
+102,if (!band->data)
+103,!band->data
+104,band->data
+105,band
+106,data
+107,<empty>
+108,continue;
+109,for (prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+110,<empty>
+111,prcno = 0, prc = band->prcs
+112,prcno = 0
+113,prcno
+114,0
+115,prc = band->prcs
+116,prc
+117,band->prcs
+118,band
+119,prcs
+120,prcno < lvl->numprcs
+121,prcno
+122,lvl->numprcs
+123,lvl
+124,numprcs
+125,++prcno, ++prc
+126,++prcno
+127,prcno
+128,++prc
+129,prc
+130,<empty>
+131,if (!prc->cblks)
+132,!prc->cblks
+133,prc->cblks
+134,prc
+135,cblks
+136,<empty>
+137,continue;
+138,jpc_tagtree_copy(prc->incltree, prc->savincltree)
+139,prc->incltree
+140,prc
+141,incltree
+142,prc->savincltree
+143,prc
+144,savincltree
+145,jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree)
+146,prc->nlibtree
+147,prc
+148,nlibtree
+149,prc->savnlibtree
+150,prc
+151,savnlibtree
+152,endcblks = &prc->cblks[prc->numcblks]
+153,endcblks
+154,&prc->cblks[prc->numcblks]
+155,prc->cblks[prc->numcblks]
+156,prc->cblks
+157,prc
+158,cblks
+159,prc->numcblks
+160,prc
+161,numcblks
+162,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+163,<empty>
+164,cblk = prc->cblks
+165,cblk
+166,prc->cblks
+167,prc
+168,cblks
+169,cblk != endcblks
+170,cblk
+171,endcblks
+172,++cblk
+173,cblk
+174,<empty>
+175,cblk->curpass = cblk->savedcurpass
+176,cblk->curpass
+177,cblk
+178,curpass
+179,cblk->savedcurpass
+180,cblk
+181,savedcurpass
+182,cblk->numencpasses = cblk->savednumencpasses
+183,cblk->numencpasses
+184,cblk
+185,numencpasses
+186,cblk->savednumencpasses
+187,cblk
+188,savednumencpasses
+189,cblk->numlenbits = cblk->savednumlenbits
+190,cblk->numlenbits
+191,cblk
+192,numlenbits
+193,cblk->savednumlenbits
+194,cblk
+195,savednumlenbits
+196,RET
+197,jpc_enc_t *enc
+198,RET
+199,void jpc_restore_t2state (jpc_enc_t *enc)
+200,jpc_enc_t *enc
+201,<empty>
+202,jpc_enc_tcmpt_t* comp
+203,jpc_enc_tcmpt_t* endcomps
+204,jpc_enc_rlvl_t* lvl
+205,jpc_enc_rlvl_t* endlvls
+206,jpc_enc_band_t* band
+207,jpc_enc_band_t* endbands
+208,jpc_enc_cblk_t* cblk
+209,jpc_enc_cblk_t* endcblks
+210,jpc_enc_tile_t* tile
+211,int prcno
+212,jpc_enc_prc_t* prc
+213,tile = enc->curtile
+214,tile
+215,enc->curtile
+216,enc
+217,curtile
+218,endcomps = &tile->tcmpts[tile->numtcmpts]
+219,endcomps
+220,&tile->tcmpts[tile->numtcmpts]
+221,tile->tcmpts[tile->numtcmpts]
+222,tile->tcmpts
+223,tile
+224,tcmpts
+225,tile->numtcmpts
+226,tile
+227,numtcmpts
+228,for (comp = tile->tcmpts;comp != endcomps;++comp)
+229,<empty>
+230,comp = tile->tcmpts
+231,comp
+232,tile->tcmpts
+233,tile
+234,tcmpts
+235,comp != endcomps
+236,comp
+237,endcomps
+238,++comp
+239,comp
+240,<empty>
+241,endlvls = &comp->rlvls[comp->numrlvls]
+242,endlvls
+243,&comp->rlvls[comp->numrlvls]
+244,comp->rlvls[comp->numrlvls]
+245,comp->rlvls
+246,comp
+247,rlvls
+248,comp->numrlvls
+249,comp
+250,numrlvls
+251,for (lvl = comp->rlvls;lvl != endlvls;++lvl)
+252,<empty>
+253,lvl = comp->rlvls
+254,lvl
+255,comp->rlvls
+256,comp
+257,rlvls
+258,lvl != endlvls
+259,lvl
+260,endlvls
+261,++lvl
+262,lvl
+263,<empty>
+264,if (!lvl->bands)
+265,!lvl->bands
+266,lvl->bands
+267,lvl
+268,bands
+269,<empty>
+270,continue;
+271,endbands = &lvl->bands[lvl->numbands]
+272,endbands
+273,&lvl->bands[lvl->numbands]
+274,lvl->bands[lvl->numbands]
+275,lvl->bands
+276,lvl
+277,bands
+278,lvl->numbands
+279,lvl
+280,numbands
+281,for (band = lvl->bands;band != endbands;++band)
+282,<empty>
+283,band = lvl->bands
+284,band
+285,lvl->bands
+286,lvl
+287,bands
+288,band != endbands
+289,band
+290,endbands
+291,++band
+292,band
+293,<empty>
+294,if (!band->data)
+295,!band->data
+296,band->data
+297,band
+298,data
+299,<empty>
+300,continue;
+301,for (prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+302,<empty>
+303,prcno = 0, prc = band->prcs
+304,prcno = 0
+305,prcno
+306,0
+307,prc = band->prcs
+308,prc
+309,band->prcs
+310,band
+311,prcs
+312,prcno < lvl->numprcs
+313,prcno
+314,lvl->numprcs
+315,lvl
+316,numprcs
+317,++prcno, ++prc
+318,++prcno
+319,prcno
+320,++prc
+321,prc
+322,<empty>
+323,if (!prc->cblks)
+324,!prc->cblks
+325,prc->cblks
+326,prc
+327,cblks
+328,<empty>
+329,continue;
+330,jpc_tagtree_copy(prc->incltree, prc->savincltree)
+331,prc->incltree
+332,prc
+333,incltree
+334,prc->savincltree
+335,prc
+336,savincltree
+337,jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree)
+338,prc->nlibtree
+339,prc
+340,nlibtree
+341,prc->savnlibtree
+342,prc
+343,savnlibtree
+344,endcblks = &prc->cblks[prc->numcblks]
+345,endcblks
+346,&prc->cblks[prc->numcblks]
+347,prc->cblks[prc->numcblks]
+348,prc->cblks
+349,prc
+350,cblks
+351,prc->numcblks
+352,prc
+353,numcblks
+354,for (cblk = prc->cblks;cblk != endcblks;++cblk)
+355,<empty>
+356,cblk = prc->cblks
+357,cblk
+358,prc->cblks
+359,prc
+360,cblks
+361,cblk != endcblks
+362,cblk
+363,endcblks
+364,++cblk
+365,cblk
+366,<empty>
+367,cblk->curpass = cblk->savedcurpass
+368,cblk->curpass
+369,cblk
+370,curpass
+371,cblk->savedcurpass
+372,cblk
+373,savedcurpass
+374,cblk->numencpasses = cblk->savednumencpasses
+375,cblk->numencpasses
+376,cblk
+377,numencpasses
+378,cblk->savednumencpasses
+379,cblk
+380,savednumencpasses
+381,cblk->numlenbits = cblk->savednumlenbits
+382,cblk->numlenbits
+383,cblk
+384,numlenbits
+385,cblk->savednumlenbits
+386,cblk
+387,savednumlenbits
+388,RET
+389,jpc_enc_t *enc
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+void jpc_restore_t2state(jpc_enc_t *enc) {
+jpc_enc_tcmpt_t *comp;
+jpc_enc_tcmpt_t *endcomps;
+jpc_enc_rlvl_t *lvl;
+jpc_enc_rlvl_t *endlvls;
+jpc_enc_band_t *band;
+jpc_enc_band_t *endbands;
+jpc_enc_cblk_t *cblk;
+jpc_enc_cblk_t *endcblks;
+jpc_enc_tile_t *tile;
+int prcno;
+jpc_enc_prc_t *prc;
+tile = enc->curtile;
+endcomps = &tile->tcmpts[tile->numtcmpts];
+for(comp = tile->tcmpts;comp != endcomps;++comp)
+endlvls = &comp->rlvls[comp->numrlvls];
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(comp = tile->tcmpts;comp != endcomps;++comp)
+endlvls = &comp->rlvls[comp->numrlvls];
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(comp = tile->tcmpts;comp != endcomps;++comp)
+endlvls = &comp->rlvls[comp->numrlvls];
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+if(!band->data)
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(lvl = comp->rlvls;lvl != endlvls;++lvl)
+endbands = &lvl->bands[lvl->numbands];
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+for(band = lvl->bands;band != endbands;++band)
+for(prcno = 0, prc = band->prcs;prcno < lvl->numprcs;++prcno, ++prc)
+jpc_tagtree_copy(prc->incltree, prc->savincltree);
+jpc_tagtree_copy(prc->nlibtree, prc->savnlibtree);
+endcblks = &prc->cblks[prc->numcblks];
+for(cblk = prc->cblks;cblk != endcblks;++cblk)
+cblk->curpass = cblk->savedcurpass;
+cblk->numencpasses = cblk->savednumencpasses;
+cblk->numlenbits = cblk->savednumlenbits;
+=======================

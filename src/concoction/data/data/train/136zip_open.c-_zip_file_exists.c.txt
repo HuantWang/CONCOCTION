@@ -1,0 +1,607 @@
+-----label-----
+0
+-----code-----
+static int
+_zip_file_exists(const char *fn, int flags, int *zep)
+{
+    struct stat st;
+
+    if (fn == NULL) {
+	set_error(zep, NULL, ZIP_ER_INVAL);
+	return -1;
+    }
+    
+    if (stat(fn, &st) != 0) {
+	if (flags & ZIP_CREATE)
+	    return 0;
+	else {
+	    set_error(zep, NULL, ZIP_ER_OPEN);
+	    return -1;
+	}
+    }
+    else if ((flags & ZIP_EXCL)) {
+	set_error(zep, NULL, ZIP_ER_EXISTS);
+	return -1;
+    }
+    /* ZIP_CREATE gets ignored if file exists and not ZIP_EXCL,
+       just like open() */
+
+    return 1;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+7,8
+7,9
+10,11
+10,12
+12,13
+14,15
+14,16
+16,17
+16,18
+19,20
+19,21
+19,22
+19,23
+20,21
+21,22
+21,23
+22,23
+24,25
+26,27
+26,28
+27,28
+27,29
+28,29
+30,31
+32,33
+32,34
+33,34
+34,35
+34,36
+34,37
+34,38
+35,36
+37,38
+39,40
+41,42
+43,44
+44,45
+46,47
+46,48
+46,49
+47,48
+47,49
+48,49
+48,50
+48,51
+49,50
+51,52
+53,54
+54,55
+57,58
+58,59
+58,60
+58,61
+59,60
+59,61
+60,61
+62,63
+64,65
+66,67
+66,68
+67,68
+68,69
+68,70
+68,71
+68,72
+69,70
+71,72
+73,74
+75,76
+77,78
+78,79
+80,81
+80,82
+81,82
+82,83
+82,84
+83,84
+85,86
+87,88
+87,89
+88,89
+89,90
+89,91
+89,92
+89,93
+90,91
+92,93
+94,95
+96,97
+98,99
+99,100
+101,102
+-----nextToken-----
+2,4,6,8,9,11,13,15,17,18,23,25,29,31,36,38,40,42,45,50,52,55,56,61,63,65,70,72,74,76,79,84,86,91,93,95,97,100,102
+-----computeFrom-----
+27,28
+27,29
+47,48
+47,49
+59,60
+59,61
+82,83
+82,84
+-----guardedBy-----
+31,40
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Name;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int_zip_file_exists(const char *fn, int flags, int *zep){    struct stat st;    if (fn == NULL) {	set_error(zep, NULL, ZIP_ER_INVAL);	return -1;    }        if (stat(fn, &st) != 0) {	if (flags & ZIP_CREATE)	    return 0;	else {	    set_error(zep, NULL, ZIP_ER_OPEN);	    return -1;	}    }    else if ((flags & ZIP_EXCL)) {	set_error(zep, NULL, ZIP_ER_EXISTS);	return -1;    }    /* ZIP_CREATE gets ignored if file exists and not ZIP_EXCL,       just like open() */    return 1;}
+static int
+_zip_file_exists(const char *fn, int flags, int *zep)
+_zip_file_exists
+const char *fn
+const char
+*fn
+*
+fn
+int flags
+int
+flags
+flags
+int *zep
+int
+*zep
+*
+zep
+{    struct stat st;    if (fn == NULL) {	set_error(zep, NULL, ZIP_ER_INVAL);	return -1;    }        if (stat(fn, &st) != 0) {	if (flags & ZIP_CREATE)	    return 0;	else {	    set_error(zep, NULL, ZIP_ER_OPEN);	    return -1;	}    }    else if ((flags & ZIP_EXCL)) {	set_error(zep, NULL, ZIP_ER_EXISTS);	return -1;    }    /* ZIP_CREATE gets ignored if file exists and not ZIP_EXCL,       just like open() */    return 1;}
+struct stat st;
+struct stat st;
+struct stat
+stat
+st
+st
+if (fn == NULL) {	set_error(zep, NULL, ZIP_ER_INVAL);	return -1;    }
+fn == NULL
+fn
+fn
+NULL
+NULL
+{	set_error(zep, NULL, ZIP_ER_INVAL);	return -1;    }
+set_error(zep, NULL, ZIP_ER_INVAL);
+set_error(zep, NULL, ZIP_ER_INVAL)
+set_error
+set_error
+zep
+zep
+NULL
+NULL
+ZIP_ER_INVAL
+ZIP_ER_INVAL
+return -1;
+-1
+1
+if (stat(fn, &st) != 0) {	if (flags & ZIP_CREATE)	    return 0;	else {	    set_error(zep, NULL, ZIP_ER_OPEN);	    return -1;	}    }    else if ((flags & ZIP_EXCL)) {	set_error(zep, NULL, ZIP_ER_EXISTS);	return -1;    }
+stat(fn, &st) != 0
+stat(fn, &st)
+stat
+stat
+fn
+fn
+&st
+st
+st
+0
+{	if (flags & ZIP_CREATE)	    return 0;	else {	    set_error(zep, NULL, ZIP_ER_OPEN);	    return -1;	}    }
+if (flags & ZIP_CREATE)	    return 0;	else {	    set_error(zep, NULL, ZIP_ER_OPEN);	    return -1;	}
+flags & ZIP_CREATE
+flags
+flags
+ZIP_CREATE
+ZIP_CREATE
+return 0;
+0
+{	    set_error(zep, NULL, ZIP_ER_OPEN);	    return -1;	}
+set_error(zep, NULL, ZIP_ER_OPEN);
+set_error(zep, NULL, ZIP_ER_OPEN)
+set_error
+set_error
+zep
+zep
+NULL
+NULL
+ZIP_ER_OPEN
+ZIP_ER_OPEN
+return -1;
+-1
+1
+if ((flags & ZIP_EXCL)) {	set_error(zep, NULL, ZIP_ER_EXISTS);	return -1;    }
+(flags & ZIP_EXCL)
+flags & ZIP_EXCL
+flags
+flags
+ZIP_EXCL
+ZIP_EXCL
+{	set_error(zep, NULL, ZIP_ER_EXISTS);	return -1;    }
+set_error(zep, NULL, ZIP_ER_EXISTS);
+set_error(zep, NULL, ZIP_ER_EXISTS)
+set_error
+set_error
+zep
+zep
+NULL
+NULL
+ZIP_ER_EXISTS
+ZIP_ER_EXISTS
+return -1;
+-1
+1
+return 1;
+1
+-----joern-----
+(9,29,0)
+(18,1,0)
+(17,0,0)
+(27,0,0)
+(31,1,0)
+(41,38,0)
+(6,28,0)
+(16,29,0)
+(25,18,0)
+(23,4,0)
+(39,43,0)
+(34,1,0)
+(14,29,0)
+(41,6,0)
+(3,35,0)
+(29,10,0)
+(42,8,0)
+(18,11,0)
+(29,20,0)
+(40,18,0)
+(15,35,0)
+(8,7,0)
+(41,43,0)
+(18,6,0)
+(24,38,0)
+(1,34,0)
+(32,34,0)
+(8,10,0)
+(19,28,0)
+(0,7,0)
+(5,18,0)
+(4,11,0)
+(26,28,0)
+(33,35,0)
+(18,7,0)
+(2,35,0)
+(43,35,0)
+(0,1,0)
+(30,8,0)
+(41,15,0)
+(4,10,0)
+(4,7,0)
+(22,4,0)
+(13,28,0)
+(37,18,0)
+(1,0,0)
+(18,10,0)
+(36,4,0)
+(21,35,0)
+(38,20,0)
+(8,15,0)
+(12,18,0)
+(5,12,1)
+(40,5,1)
+(9,16,1)
+(4,11,1)
+(4,7,1)
+(12,25,1)
+(8,10,1)
+(0,27,1)
+(4,10,1)
+(41,43,1)
+(17,31,1)
+(16,14,1)
+(34,32,1)
+(29,9,1)
+(30,42,1)
+(0,7,1)
+(41,6,1)
+(31,2,1)
+(18,10,1)
+(23,22,1)
+(1,0,1)
+(4,23,1)
+(25,34,1)
+(38,24,1)
+(22,36,1)
+(34,1,1)
+(18,11,1)
+(15,8,1)
+(32,1,1)
+(37,40,1)
+(24,29,1)
+(27,17,1)
+(2,4,1)
+(41,38,1)
+(8,30,1)
+(18,37,1)
+(29,10,1)
+(18,7,1)
+(14,34,1)
+(8,7,1)
+(6,18,1)
+(41,15,1)
+(42,4,1)
+(43,39,1)
+(18,1,1)
+(18,11,2)
+(12,34,2)
+(1,4,2)
+(8,10,2)
+(29,34,2)
+(6,34,2)
+(16,34,2)
+(37,34,2)
+(18,34,2)
+(40,34,2)
+(0,7,2)
+(18,10,2)
+(25,34,2)
+(4,11,2)
+(17,4,2)
+(18,7,2)
+(41,6,2)
+(2,4,2)
+(8,4,2)
+(0,4,2)
+(41,43,2)
+(14,34,2)
+(30,4,2)
+(29,10,2)
+(24,34,2)
+(34,1,2)
+(18,1,2)
+(4,7,2)
+(1,0,2)
+(4,10,2)
+(41,15,2)
+(31,4,2)
+(38,34,2)
+(15,4,2)
+(27,4,2)
+(8,7,2)
+(42,4,2)
+(32,4,2)
+(5,34,2)
+(41,38,2)
+(34,4,2)
+(9,34,2)
+-----------------------------------
+(0,fopen(fn, "rb")
+(1,fp=fopen(fn, "rb")
+(2,break;)
+(3,default:)
+(4,_zip_file_exists(fn, flags, zep)
+(5,flags)
+(6,return _zip_open(fn, fp, flags, 0, zep)
+(7,const char *fn)
+(8,_zip_allocate_new(fn, zep)
+(9,ZIP_ER_OPEN)
+(10,int *zep)
+(11,int flags)
+(12,fp)
+(13,switch (_zip_file_exists(fn, flags, zep)
+(14,zep)
+(15,return _zip_allocate_new(fn, zep)
+(16,NULL)
+(17,fn)
+(18,_zip_open(fn, fp, flags, 0, zep)
+(19,if ((fp=fopen(fn, "rb")
+(20,)
+(21,case 0:)
+(22,flags)
+(23,zep)
+(24,NULL)
+(25,fn)
+(26,fp)
+(27,"rb")
+(28,)
+(29,set_error(zep, NULL, ZIP_ER_OPEN)
+(30,zep)
+(31,fp)
+(32,NULL)
+(33,1:)
+(34,(fp=fopen(fn, "rb")
+(35,)
+(36,fn)
+(37,zep)
+(38,return NULL;)
+(39,NULL)
+(40,0)
+(41,RET)
+(42,fn)
+(43,return NULL;)
+-----cfg-----
+(34,38)
+(34,42)
+(38,65)
+(7,14)
+(42,47)
+(14,18)
+(14,29)
+(46,65)
+(47,46)
+(18,23)
+(52,56)
+(52,63)
+(22,65)
+(23,22)
+(56,61)
+(26,34)
+(26,52)
+(27,26)
+(60,65)
+(29,27)
+(61,60)
+(63,65)
+-----path-----
+7,14,18,23,22,65
+7,14,29,27,26,34,38,65
+7,14,29,27,26,34,42,47,46,65
+7,14,29,27,26,52,56,61,60,65
+7,14,29,27,26,52,63,65
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int _zip_file_exists (const char *fn,int flags,int *zep)
+8,const char *fn
+9,int flags
+10,int *zep
+11,<empty>
+12,struct stat st
+13,if (fn == NULL)
+14,fn == NULL
+15,fn
+16,NULL
+17,<empty>
+18,set_error(zep, NULL, ZIP_ER_INVAL)
+19,zep
+20,NULL
+21,ZIP_ER_INVAL
+22,return -1;
+23,-1
+24,1
+25,if (stat(fn, &st) != 0)
+26,stat(fn, &st) != 0
+27,stat(fn, &st)
+28,fn
+29,&st
+30,st
+31,0
+32,<empty>
+33,if (flags & ZIP_CREATE)
+34,flags & ZIP_CREATE
+35,flags
+36,ZIP_CREATE
+37,<empty>
+38,return 0;
+39,0
+40,else
+41,<empty>
+42,set_error(zep, NULL, ZIP_ER_OPEN)
+43,zep
+44,NULL
+45,ZIP_ER_OPEN
+46,return -1;
+47,-1
+48,1
+49,else
+50,<empty>
+51,if ((flags & ZIP_EXCL))
+52,flags & ZIP_EXCL
+53,flags
+54,ZIP_EXCL
+55,<empty>
+56,set_error(zep, NULL, ZIP_ER_EXISTS)
+57,zep
+58,NULL
+59,ZIP_ER_EXISTS
+60,return -1;
+61,-1
+62,1
+63,return 1;
+64,1
+65,RET
+66,const char *fn
+67,int flags
+68,int *zep
+69,RET
+70,int _zip_file_exists (const char *fn,int flags,int *zep)
+71,const char *fn
+72,int flags
+73,int *zep
+74,<empty>
+75,struct stat st
+76,if (fn == NULL)
+77,fn == NULL
+78,fn
+79,NULL
+80,<empty>
+81,set_error(zep, NULL, ZIP_ER_INVAL)
+82,zep
+83,NULL
+84,ZIP_ER_INVAL
+85,return -1;
+86,-1
+87,1
+88,if (stat(fn, &st) != 0)
+89,stat(fn, &st) != 0
+90,stat(fn, &st)
+91,fn
+92,&st
+93,st
+94,0
+95,<empty>
+96,if (flags & ZIP_CREATE)
+97,flags & ZIP_CREATE
+98,flags
+99,ZIP_CREATE
+100,<empty>
+101,return 0;
+102,0
+103,else
+104,<empty>
+105,set_error(zep, NULL, ZIP_ER_OPEN)
+106,zep
+107,NULL
+108,ZIP_ER_OPEN
+109,return -1;
+110,-1
+111,1
+112,else
+113,<empty>
+114,if ((flags & ZIP_EXCL))
+115,flags & ZIP_EXCL
+116,flags
+117,ZIP_EXCL
+118,<empty>
+119,set_error(zep, NULL, ZIP_ER_EXISTS)
+120,zep
+121,NULL
+122,ZIP_ER_EXISTS
+123,return -1;
+124,-1
+125,1
+126,return 1;
+127,1
+128,RET
+129,const char *fn
+130,int flags
+131,int *zep
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffb1fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000504b0506000000000000ffff00000000000000000000
+arg00:0x2d53ff
+=========trace=========
+static int _zip_file_exists(const char *fn, int flags, int *zep) {
+struct stat st;
+return 1;
+=======================

@@ -1,0 +1,2037 @@
+-----label-----
+0
+-----code-----
+jas_matrix_t *jas_matrix_create(int numrows, int numcols)
+{
+	jas_matrix_t *matrix;
+	int i;
+
+	if (!(matrix = jas_malloc(sizeof(jas_matrix_t)))) {
+		return 0;
+	}
+	matrix->flags_ = 0;
+	matrix->numrows_ = numrows;
+	matrix->numcols_ = numcols;
+	matrix->rows_ = 0;
+	matrix->maxrows_ = numrows;
+	matrix->data_ = 0;
+	matrix->datasize_ = numrows * numcols;
+
+	if (matrix->maxrows_ > 0) {
+		if (!(matrix->rows_ = jas_malloc(matrix->maxrows_ *
+		  sizeof(jas_seqent_t *)))) {
+			jas_matrix_destroy(matrix);
+			return 0;
+		}
+	}
+
+	if (matrix->datasize_ > 0) {
+		if (!(matrix->data_ = jas_malloc(matrix->datasize_ *
+		  sizeof(jas_seqent_t)))) {
+			jas_matrix_destroy(matrix);
+			return 0;
+		}
+	}
+
+	for (i = 0; i < numrows; ++i) {
+		matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+	}
+
+	for (i = 0; i < matrix->datasize_; ++i) {
+		matrix->data_[i] = 0;
+	}
+
+	matrix->xstart_ = 0;
+	matrix->ystart_ = 0;
+	matrix->xend_ = matrix->numcols_;
+	matrix->yend_ = matrix->numrows_;
+
+	return matrix;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+9,10
+11,12
+11,13
+13,14
+15,16
+15,17
+15,18
+15,19
+15,20
+15,21
+15,22
+15,23
+15,24
+15,25
+15,26
+15,27
+15,28
+15,29
+15,30
+15,31
+15,32
+15,33
+15,34
+16,17
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+24,25
+24,26
+26,27
+28,29
+28,30
+29,30
+30,31
+31,32
+31,33
+32,33
+34,35
+34,36
+35,36
+37,38
+38,39
+38,40
+39,40
+42,43
+43,44
+45,46
+46,47
+46,48
+47,48
+47,49
+48,49
+52,53
+53,54
+53,55
+54,55
+54,56
+55,56
+58,59
+60,61
+61,62
+61,63
+62,63
+62,64
+63,64
+66,67
+68,69
+69,70
+69,71
+70,71
+70,72
+71,72
+75,76
+76,77
+76,78
+77,78
+77,79
+78,79
+81,82
+83,84
+84,85
+84,86
+85,86
+85,87
+86,87
+90,91
+91,92
+91,93
+92,93
+92,94
+93,94
+96,97
+96,98
+97,98
+99,100
+101,102
+101,103
+102,103
+102,104
+103,104
+103,105
+104,105
+108,109
+109,110
+109,111
+110,111
+111,112
+112,113
+112,114
+113,114
+113,115
+114,115
+117,118
+117,119
+118,119
+120,121
+120,122
+121,122
+121,123
+122,123
+125,126
+126,127
+126,128
+127,128
+129,130
+131,132
+131,133
+132,133
+133,134
+133,135
+134,135
+136,137
+138,139
+140,141
+140,142
+141,142
+141,143
+142,143
+142,144
+143,144
+147,148
+148,149
+148,150
+149,150
+150,151
+151,152
+151,153
+152,153
+152,154
+153,154
+156,157
+156,158
+157,158
+159,160
+159,161
+160,161
+160,162
+161,162
+164,165
+165,166
+165,167
+166,167
+169,170
+169,171
+170,171
+171,172
+171,173
+172,173
+174,175
+176,177
+178,179
+178,180
+178,181
+178,182
+179,180
+180,181
+180,182
+181,182
+184,185
+184,186
+185,186
+187,188
+189,190
+190,191
+192,193
+193,194
+194,195
+194,196
+195,196
+195,197
+196,197
+196,198
+197,198
+200,201
+202,203
+203,204
+203,205
+204,205
+204,206
+205,206
+208,209
+208,210
+209,210
+211,212
+211,213
+212,213
+215,216
+215,217
+215,218
+215,219
+216,217
+217,218
+217,219
+218,219
+221,222
+221,223
+222,223
+224,225
+224,226
+225,226
+228,229
+229,230
+231,232
+232,233
+233,234
+233,235
+234,235
+234,236
+235,236
+235,237
+236,237
+239,240
+242,243
+243,244
+243,245
+244,245
+244,246
+245,246
+249,250
+250,251
+250,252
+251,252
+251,253
+252,253
+256,257
+257,258
+257,259
+258,259
+258,260
+259,260
+262,263
+262,264
+263,264
+266,267
+267,268
+267,269
+268,269
+268,270
+269,270
+272,273
+272,274
+273,274
+276,277
+277,278
+-----nextToken-----
+3,5,6,8,10,12,14,19,21,22,25,27,33,36,40,41,44,49,50,51,56,57,59,64,65,67,72,73,74,79,80,82,87,88,89,94,95,98,100,105,106,107,115,116,119,123,124,128,130,135,137,139,144,145,146,154,155,158,162,163,167,168,173,175,177,182,183,186,188,191,198,199,201,206,207,210,213,214,219,220,223,226,227,230,237,238,240,241,246,247,248,253,254,255,260,261,264,265,270,271,274,275,278
+-----computeFrom-----
+31,32
+31,33
+46,47
+46,48
+53,54
+53,55
+61,62
+61,63
+69,70
+69,71
+76,77
+76,78
+84,85
+84,86
+91,92
+91,93
+96,97
+96,98
+102,103
+102,104
+112,113
+112,114
+120,121
+120,122
+141,142
+141,143
+151,152
+151,153
+159,160
+159,161
+180,181
+180,182
+184,185
+184,186
+194,195
+194,196
+208,209
+208,210
+217,218
+217,219
+221,222
+221,223
+233,234
+233,235
+243,244
+243,245
+250,251
+250,252
+257,258
+257,259
+267,268
+267,269
+-----guardedBy-----
+105,137
+106,124
+145,163
+144,175
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;Pointer;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+jas_matrix_t *jas_matrix_create(int numrows, int numcols){	jas_matrix_t *matrix;	int i;	if (!(matrix = jas_malloc(sizeof(jas_matrix_t)))) {		return 0;	}	matrix->flags_ = 0;	matrix->numrows_ = numrows;	matrix->numcols_ = numcols;	matrix->rows_ = 0;	matrix->maxrows_ = numrows;	matrix->data_ = 0;	matrix->datasize_ = numrows * numcols;	if (matrix->maxrows_ > 0) {		if (!(matrix->rows_ = jas_malloc(matrix->maxrows_ *		  sizeof(jas_seqent_t *)))) {			jas_matrix_destroy(matrix);			return 0;		}	}	if (matrix->datasize_ > 0) {		if (!(matrix->data_ = jas_malloc(matrix->datasize_ *		  sizeof(jas_seqent_t)))) {			jas_matrix_destroy(matrix);			return 0;		}	}	for (i = 0; i < numrows; ++i) {		matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];	}	for (i = 0; i < matrix->datasize_; ++i) {		matrix->data_[i] = 0;	}	matrix->xstart_ = 0;	matrix->ystart_ = 0;	matrix->xend_ = matrix->numcols_;	matrix->yend_ = matrix->numrows_;	return matrix;}
+jas_matrix_t
+jas_matrix_t
+*jas_matrix_create(int numrows, int numcols)
+*
+jas_matrix_create
+int numrows
+int
+numrows
+numrows
+int numcols
+int
+numcols
+numcols
+{	jas_matrix_t *matrix;	int i;	if (!(matrix = jas_malloc(sizeof(jas_matrix_t)))) {		return 0;	}	matrix->flags_ = 0;	matrix->numrows_ = numrows;	matrix->numcols_ = numcols;	matrix->rows_ = 0;	matrix->maxrows_ = numrows;	matrix->data_ = 0;	matrix->datasize_ = numrows * numcols;	if (matrix->maxrows_ > 0) {		if (!(matrix->rows_ = jas_malloc(matrix->maxrows_ *		  sizeof(jas_seqent_t *)))) {			jas_matrix_destroy(matrix);			return 0;		}	}	if (matrix->datasize_ > 0) {		if (!(matrix->data_ = jas_malloc(matrix->datasize_ *		  sizeof(jas_seqent_t)))) {			jas_matrix_destroy(matrix);			return 0;		}	}	for (i = 0; i < numrows; ++i) {		matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];	}	for (i = 0; i < matrix->datasize_; ++i) {		matrix->data_[i] = 0;	}	matrix->xstart_ = 0;	matrix->ystart_ = 0;	matrix->xend_ = matrix->numcols_;	matrix->yend_ = matrix->numrows_;	return matrix;}
+jas_matrix_t *matrix;
+jas_matrix_t *matrix;
+jas_matrix_t
+jas_matrix_t
+*matrix
+*
+matrix
+int i;
+int i;
+int
+i
+i
+if (!(matrix = jas_malloc(sizeof(jas_matrix_t)))) {		return 0;	}
+!(matrix = jas_malloc(sizeof(jas_matrix_t)))
+(matrix = jas_malloc(sizeof(jas_matrix_t)))
+matrix = jas_malloc(sizeof(jas_matrix_t))
+matrix
+matrix
+jas_malloc(sizeof(jas_matrix_t))
+jas_malloc
+jas_malloc
+sizeof(jas_matrix_t)
+jas_matrix_t
+jas_matrix_t
+jas_matrix_t
+
+{		return 0;	}
+return 0;
+0
+matrix->flags_ = 0;
+matrix->flags_ = 0
+matrix->flags_
+matrix
+matrix
+flags_
+0
+matrix->numrows_ = numrows;
+matrix->numrows_ = numrows
+matrix->numrows_
+matrix
+matrix
+numrows_
+numrows
+numrows
+matrix->numcols_ = numcols;
+matrix->numcols_ = numcols
+matrix->numcols_
+matrix
+matrix
+numcols_
+numcols
+numcols
+matrix->rows_ = 0;
+matrix->rows_ = 0
+matrix->rows_
+matrix
+matrix
+rows_
+0
+matrix->maxrows_ = numrows;
+matrix->maxrows_ = numrows
+matrix->maxrows_
+matrix
+matrix
+maxrows_
+numrows
+numrows
+matrix->data_ = 0;
+matrix->data_ = 0
+matrix->data_
+matrix
+matrix
+data_
+0
+matrix->datasize_ = numrows * numcols;
+matrix->datasize_ = numrows * numcols
+matrix->datasize_
+matrix
+matrix
+datasize_
+numrows * numcols
+numrows
+numrows
+numcols
+numcols
+if (matrix->maxrows_ > 0) {		if (!(matrix->rows_ = jas_malloc(matrix->maxrows_ *		  sizeof(jas_seqent_t *)))) {			jas_matrix_destroy(matrix);			return 0;		}	}
+matrix->maxrows_ > 0
+matrix->maxrows_
+matrix
+matrix
+maxrows_
+0
+{		if (!(matrix->rows_ = jas_malloc(matrix->maxrows_ *		  sizeof(jas_seqent_t *)))) {			jas_matrix_destroy(matrix);			return 0;		}	}
+if (!(matrix->rows_ = jas_malloc(matrix->maxrows_ *		  sizeof(jas_seqent_t *)))) {			jas_matrix_destroy(matrix);			return 0;		}
+!(matrix->rows_ = jas_malloc(matrix->maxrows_ *		  sizeof(jas_seqent_t *)))
+(matrix->rows_ = jas_malloc(matrix->maxrows_ *		  sizeof(jas_seqent_t *)))
+matrix->rows_ = jas_malloc(matrix->maxrows_ *		  sizeof(jas_seqent_t *))
+matrix->rows_
+matrix
+matrix
+rows_
+jas_malloc(matrix->maxrows_ *		  sizeof(jas_seqent_t *))
+jas_malloc
+jas_malloc
+matrix->maxrows_ *		  sizeof(jas_seqent_t *)
+matrix->maxrows_
+matrix
+matrix
+maxrows_
+sizeof(jas_seqent_t *)
+jas_seqent_t *
+jas_seqent_t
+jas_seqent_t
+*
+*
+{			jas_matrix_destroy(matrix);			return 0;		}
+jas_matrix_destroy(matrix);
+jas_matrix_destroy(matrix)
+jas_matrix_destroy
+jas_matrix_destroy
+matrix
+matrix
+return 0;
+0
+if (matrix->datasize_ > 0) {		if (!(matrix->data_ = jas_malloc(matrix->datasize_ *		  sizeof(jas_seqent_t)))) {			jas_matrix_destroy(matrix);			return 0;		}	}
+matrix->datasize_ > 0
+matrix->datasize_
+matrix
+matrix
+datasize_
+0
+{		if (!(matrix->data_ = jas_malloc(matrix->datasize_ *		  sizeof(jas_seqent_t)))) {			jas_matrix_destroy(matrix);			return 0;		}	}
+if (!(matrix->data_ = jas_malloc(matrix->datasize_ *		  sizeof(jas_seqent_t)))) {			jas_matrix_destroy(matrix);			return 0;		}
+!(matrix->data_ = jas_malloc(matrix->datasize_ *		  sizeof(jas_seqent_t)))
+(matrix->data_ = jas_malloc(matrix->datasize_ *		  sizeof(jas_seqent_t)))
+matrix->data_ = jas_malloc(matrix->datasize_ *		  sizeof(jas_seqent_t))
+matrix->data_
+matrix
+matrix
+data_
+jas_malloc(matrix->datasize_ *		  sizeof(jas_seqent_t))
+jas_malloc
+jas_malloc
+matrix->datasize_ *		  sizeof(jas_seqent_t)
+matrix->datasize_
+matrix
+matrix
+datasize_
+sizeof(jas_seqent_t)
+jas_seqent_t
+jas_seqent_t
+jas_seqent_t
+
+{			jas_matrix_destroy(matrix);			return 0;		}
+jas_matrix_destroy(matrix);
+jas_matrix_destroy(matrix)
+jas_matrix_destroy
+jas_matrix_destroy
+matrix
+matrix
+return 0;
+0
+for (i = 0; i < numrows; ++i) {		matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];	}
+i = 0;
+i = 0
+i
+i
+0
+i < numrows
+i
+i
+numrows
+numrows
+++i
+i
+i
+{		matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];	}
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_]
+matrix->rows_[i]
+matrix->rows_
+matrix
+matrix
+rows_
+i
+i
+&matrix->data_[i * matrix->numcols_]
+matrix->data_[i * matrix->numcols_]
+matrix->data_
+matrix
+matrix
+data_
+i * matrix->numcols_
+i
+i
+matrix->numcols_
+matrix
+matrix
+numcols_
+for (i = 0; i < matrix->datasize_; ++i) {		matrix->data_[i] = 0;	}
+i = 0;
+i = 0
+i
+i
+0
+i < matrix->datasize_
+i
+i
+matrix->datasize_
+matrix
+matrix
+datasize_
+++i
+i
+i
+{		matrix->data_[i] = 0;	}
+matrix->data_[i] = 0;
+matrix->data_[i] = 0
+matrix->data_[i]
+matrix->data_
+matrix
+matrix
+data_
+i
+i
+0
+matrix->xstart_ = 0;
+matrix->xstart_ = 0
+matrix->xstart_
+matrix
+matrix
+xstart_
+0
+matrix->ystart_ = 0;
+matrix->ystart_ = 0
+matrix->ystart_
+matrix
+matrix
+ystart_
+0
+matrix->xend_ = matrix->numcols_;
+matrix->xend_ = matrix->numcols_
+matrix->xend_
+matrix
+matrix
+xend_
+matrix->numcols_
+matrix
+matrix
+numcols_
+matrix->yend_ = matrix->numrows_;
+matrix->yend_ = matrix->numrows_
+matrix->yend_
+matrix
+matrix
+yend_
+matrix->numrows_
+matrix
+matrix
+numrows_
+return matrix;
+matrix
+matrix
+-----joern-----
+(101,40,0)
+(30,66,0)
+(147,4,0)
+(40,64,0)
+(111,139,0)
+(10,17,0)
+(45,56,0)
+(154,96,0)
+(64,91,0)
+(108,102,0)
+(133,73,0)
+(15,96,0)
+(134,66,0)
+(144,38,0)
+(114,145,0)
+(2,61,0)
+(100,61,0)
+(41,125,0)
+(46,77,0)
+(99,125,0)
+(69,138,0)
+(128,88,0)
+(13,86,0)
+(45,154,0)
+(65,57,0)
+(138,110,0)
+(74,40,0)
+(38,17,0)
+(19,75,0)
+(2,77,0)
+(44,45,0)
+(40,56,0)
+(82,32,0)
+(79,81,0)
+(106,153,0)
+(20,120,0)
+(115,26,0)
+(27,154,0)
+(89,127,0)
+(60,67,0)
+(94,87,0)
+(134,27,0)
+(7,63,0)
+(148,92,0)
+(153,106,0)
+(92,104,0)
+(113,26,0)
+(3,7,0)
+(116,127,0)
+(60,91,0)
+(77,125,0)
+(148,41,0)
+(102,27,0)
+(118,99,0)
+(112,91,0)
+(7,66,0)
+(118,26,0)
+(120,81,0)
+(84,111,0)
+(47,148,0)
+(102,66,0)
+(85,30,0)
+(27,125,0)
+(32,125,0)
+(132,89,0)
+(151,71,0)
+(21,119,0)
+(29,134,0)
+(22,30,0)
+(50,111,0)
+(4,66,0)
+(156,86,0)
+(16,125,0)
+(59,134,0)
+(131,142,0)
+(48,105,0)
+(86,66,0)
+(109,106,0)
+(25,15,0)
+(75,6,0)
+(68,153,0)
+(63,7,0)
+(130,66,0)
+(139,83,0)
+(127,41,0)
+(52,102,0)
+(78,24,0)
+(31,4,0)
+(33,82,0)
+(130,87,0)
+(105,66,0)
+(130,32,0)
+(150,95,0)
+(132,125,0)
+(149,6,0)
+(127,66,0)
+(142,66,0)
+(50,75,0)
+(111,66,0)
+(70,130,0)
+(55,17,0)
+(82,33,0)
+(46,66,0)
+(51,142,0)
+(50,125,0)
+(0,83,0)
+(87,5,0)
+(153,77,0)
+(54,61,0)
+(90,53,0)
+(120,66,0)
+(103,88,0)
+(41,148,0)
+(135,77,0)
+(127,89,0)
+(34,155,0)
+(76,125,0)
+(73,66,0)
+(119,66,0)
+(152,75,0)
+(98,135,0)
+(24,130,0)
+(119,76,0)
+(64,40,0)
+(146,155,0)
+(145,88,0)
+(62,139,0)
+(46,76,0)
+(123,120,0)
+(37,73,0)
+(155,99,0)
+(43,153,0)
+(15,88,0)
+(121,50,0)
+(117,46,0)
+(107,119,0)
+(2,140,0)
+(49,79,0)
+(81,151,0)
+(135,66,0)
+(18,127,0)
+(71,151,0)
+(153,66,0)
+(105,132,0)
+(130,24,0)
+(106,88,0)
+(89,120,0)
+(134,118,0)
+(81,125,0)
+(36,79,0)
+(33,150,0)
+(72,92,0)
+(154,27,0)
+(42,151,0)
+(76,46,0)
+(142,32,0)
+(155,66,0)
+(39,15,0)
+(64,15,0)
+(137,138,0)
+(91,104,0)
+(73,50,0)
+(157,71,0)
+(110,5,0)
+(26,66,0)
+(71,56,0)
+(136,154,0)
+(9,130,0)
+(99,118,0)
+(50,53,0)
+(75,66,0)
+(53,87,0)
+(53,66,0)
+(93,135,0)
+(143,2,0)
+(138,66,0)
+(80,46,0)
+(91,60,0)
+(95,150,0)
+(61,2,0)
+(23,92,0)
+(17,38,0)
+(58,53,0)
+(77,2,0)
+(17,55,0)
+(26,118,0)
+(110,138,0)
+(32,82,0)
+(92,148,0)
+(154,45,0)
+(126,125,0)
+(141,38,0)
+(24,60,0)
+(38,66,0)
+(30,76,0)
+(150,33,0)
+(118,134,0)
+(11,57,0)
+(91,64,0)
+(97,111,0)
+(33,119,0)
+(120,89,0)
+(151,81,0)
+(148,14,0)
+(151,104,0)
+(57,66,0)
+(89,132,0)
+(1,125,0)
+(24,88,0)
+(79,66,0)
+(57,41,0)
+(26,77,0)
+(119,33,0)
+(124,71,0)
+(61,96,0)
+(35,45,0)
+(63,12,0)
+(8,7,0)
+(15,64,0)
+(6,83,0)
+(129,105,0)
+(122,125,0)
+(50,75,1)
+(89,127,1)
+(93,50,1)
+(46,117,1)
+(127,116,1)
+(52,108,1)
+(130,9,1)
+(25,39,1)
+(112,64,1)
+(138,69,1)
+(150,95,1)
+(40,56,1)
+(113,134,1)
+(35,44,1)
+(92,104,1)
+(120,66,1)
+(26,66,1)
+(107,21,1)
+(50,111,1)
+(59,29,1)
+(34,132,1)
+(29,155,1)
+(102,66,1)
+(24,130,1)
+(109,145,1)
+(73,66,1)
+(115,113,1)
+(9,70,1)
+(39,40,1)
+(50,53,1)
+(4,147,1)
+(148,92,1)
+(141,4,1)
+(133,87,1)
+(79,49,1)
+(60,91,1)
+(44,102,1)
+(116,18,1)
+(142,51,1)
+(119,107,1)
+(46,66,1)
+(129,48,1)
+(7,3,1)
+(72,23,1)
+(61,96,1)
+(79,66,1)
+(74,24,1)
+(87,94,1)
+(153,77,1)
+(47,57,1)
+(156,13,1)
+(135,66,1)
+(119,66,1)
+(53,66,1)
+(32,82,1)
+(11,65,1)
+(40,101,1)
+(26,77,1)
+(124,79,1)
+(69,137,1)
+(19,55,1)
+(151,104,1)
+(33,119,1)
+(120,81,1)
+(139,62,1)
+(30,22,1)
+(71,157,1)
+(91,112,1)
+(121,73,1)
+(138,66,1)
+(70,106,1)
+(46,77,1)
+(19,63,1)
+(17,38,1)
+(106,153,1)
+(114,60,1)
+(45,35,1)
+(51,131,1)
+(4,66,1)
+(81,151,1)
+(24,78,1)
+(50,121,1)
+(88,128,1)
+(152,19,1)
+(145,114,1)
+(22,85,1)
+(132,89,1)
+(111,97,1)
+(134,27,1)
+(153,66,1)
+(106,88,1)
+(120,123,1)
+(64,15,1)
+(71,56,1)
+(18,120,1)
+(84,6,1)
+(127,41,1)
+(38,66,1)
+(101,74,1)
+(24,88,1)
+(134,59,1)
+(65,77,1)
+(61,100,1)
+(134,66,1)
+(86,66,1)
+(30,66,1)
+(151,71,1)
+(131,76,1)
+(48,27,1)
+(75,66,1)
+(150,119,1)
+(119,76,1)
+(75,152,1)
+(57,11,1)
+(38,144,1)
+(123,20,1)
+(98,93,1)
+(76,46,1)
+(15,88,1)
+(58,110,1)
+(109,88,1)
+(80,30,1)
+(130,87,1)
+(135,98,1)
+(147,31,1)
+(151,42,1)
+(154,45,1)
+(10,38,1)
+(78,130,1)
+(21,142,1)
+(57,66,1)
+(55,17,1)
+(8,55,1)
+(118,26,1)
+(42,71,1)
+(91,64,1)
+(117,80,1)
+(2,140,1)
+(108,81,1)
+(154,136,1)
+(142,66,1)
+(133,86,1)
+(49,36,1)
+(3,8,1)
+(94,53,1)
+(73,37,1)
+(63,7,1)
+(2,61,1)
+(136,45,1)
+(103,32,1)
+(15,96,1)
+(130,32,1)
+(26,115,1)
+(13,4,1)
+(7,66,1)
+(27,154,1)
+(157,124,1)
+(110,138,1)
+(15,25,1)
+(28,99,1)
+(97,84,1)
+(99,118,1)
+(155,66,1)
+(118,134,1)
+(23,47,1)
+(89,120,1)
+(143,135,1)
+(43,68,1)
+(100,54,1)
+(54,143,1)
+(36,106,1)
+(102,52,1)
+(62,111,1)
+(33,150,1)
+(128,103,1)
+(20,105,1)
+(17,10,1)
+(64,40,1)
+(13,139,1)
+(6,149,1)
+(45,56,1)
+(82,33,1)
+(91,104,1)
+(90,58,1)
+(137,86,1)
+(146,34,1)
+(111,66,1)
+(68,109,1)
+(155,146,1)
+(53,90,1)
+(153,43,1)
+(86,156,1)
+(85,41,1)
+(92,72,1)
+(77,2,1)
+(130,66,1)
+(144,141,1)
+(148,14,1)
+(37,133,1)
+(105,66,1)
+(127,66,1)
+(105,129,1)
+(149,75,1)
+(154,96,1)
+(145,88,1)
+(41,148,1)
+(154,45,2)
+(130,106,2)
+(130,66,2)
+(70,106,2)
+(111,66,2)
+(127,41,2)
+(148,92,2)
+(64,106,2)
+(17,38,2)
+(75,66,2)
+(40,56,2)
+(138,86,2)
+(63,55,2)
+(141,4,2)
+(102,66,2)
+(27,154,2)
+(32,82,2)
+(135,66,2)
+(73,66,2)
+(154,96,2)
+(24,106,2)
+(43,106,2)
+(106,88,2)
+(130,87,2)
+(142,66,2)
+(2,61,2)
+(84,4,2)
+(26,77,2)
+(134,27,2)
+(137,86,2)
+(151,104,2)
+(110,86,2)
+(91,104,2)
+(119,76,2)
+(61,96,2)
+(145,88,2)
+(62,4,2)
+(86,66,2)
+(63,7,2)
+(79,66,2)
+(87,86,2)
+(17,4,2)
+(38,4,2)
+(78,106,2)
+(15,106,2)
+(39,106,2)
+(90,86,2)
+(33,119,2)
+(45,56,2)
+(41,148,2)
+(25,106,2)
+(53,86,2)
+(30,66,2)
+(64,40,2)
+(82,33,2)
+(55,4,2)
+(120,66,2)
+(50,75,2)
+(105,66,2)
+(2,140,2)
+(76,46,2)
+(150,95,2)
+(68,106,2)
+(144,4,2)
+(81,151,2)
+(118,134,2)
+(101,106,2)
+(110,138,2)
+(91,106,2)
+(153,77,2)
+(89,120,2)
+(15,88,2)
+(24,88,2)
+(64,15,2)
+(111,4,2)
+(130,32,2)
+(33,150,2)
+(57,66,2)
+(7,66,2)
+(50,111,2)
+(99,118,2)
+(74,106,2)
+(46,77,2)
+(151,71,2)
+(40,106,2)
+(118,26,2)
+(106,106,2)
+(106,153,2)
+(119,66,2)
+(109,106,2)
+(92,104,2)
+(46,66,2)
+(120,81,2)
+(145,106,2)
+(15,96,2)
+(155,66,2)
+(89,127,2)
+(91,64,2)
+(38,66,2)
+(60,91,2)
+(8,55,2)
+(153,66,2)
+(53,66,2)
+(114,106,2)
+(112,106,2)
+(3,55,2)
+(9,106,2)
+(10,4,2)
+(4,66,2)
+(134,66,2)
+(19,4,2)
+(152,4,2)
+(153,106,2)
+(24,130,2)
+(69,86,2)
+(149,4,2)
+(138,66,2)
+(50,53,2)
+(55,17,2)
+(94,86,2)
+(97,4,2)
+(71,56,2)
+(60,106,2)
+(6,4,2)
+(132,89,2)
+(58,86,2)
+(139,4,2)
+(75,4,2)
+(127,66,2)
+(77,2,2)
+(7,55,2)
+(26,66,2)
+(148,14,2)
+-----------------------------------
+(0,if (!(mat0->flags_ & JAS_MATRIX_REF)
+(1,if (mat0->data_)
+(2,r1 - r0 + 1)
+(3,data_)
+(4,mat0->data_)
+(5,)
+(6,mat0->data_ = 0)
+(7,mat0->data_)
+(8,mat0)
+(9,rows_)
+(10,JAS_MATRIX_REF)
+(11,numcols_)
+(12,)
+(13,mat0)
+(14,int c1)
+(15,r0 + i)
+(16,i)
+(17,mat0->flags_ & JAS_MATRIX_REF)
+(18,mat0)
+(19,mat0)
+(20,mat0)
+(21,mat0)
+(22,maxrows_)
+(23,c0)
+(24,mat0->rows_[i])
+(25,i)
+(26,mat0->numrows_)
+(27,mat0->ystart_ = mat1->ystart_ + r0)
+(28,RET)
+(29,mat0)
+(30,mat0->maxrows_)
+(31,mat0)
+(32,mat0->rows_ = jas_malloc(mat0->maxrows_ * sizeof(jas_seqent_t *)
+(33,mat0->maxrows_ * sizeof(jas_seqent_t *)
+(34,mat0)
+(35,ystart_)
+(36,mat0)
+(37,flags_)
+(38,mat0->flags_)
+(39,r0)
+(40,mat1->rows_)
+(41,mat0->numcols_ = c1 - c0 + 1)
+(42,c0)
+(43,numrows_)
+(44,mat1)
+(45,mat1->ystart_)
+(46,mat0->numrows_)
+(47,c1)
+(48,mat0)
+(49,xstart_)
+(50,mat0->flags_ |= JAS_MATRIX_REF)
+(51,rows_)
+(52,ystart_)
+(53,mat0->rows_)
+(54,r0)
+(55,!(mat0->flags_ & JAS_MATRIX_REF)
+(56,jas_matrix_t *mat1)
+(57,mat0->numcols_)
+(58,mat0)
+(59,ystart_)
+(60,mat0->rows_[i] = mat1->rows_[r0 + i] + c0)
+(61,r0 + 1)
+(62,0)
+(63,jas_free(mat0->data_)
+(64,mat1->rows_[r0 + i])
+(65,mat0)
+(66,jas_matrix_t *mat0)
+(67,)
+(68,mat0)
+(69,rows_)
+(70,mat0)
+(71,mat1->xstart_)
+(72,1)
+(73,mat0->flags_)
+(74,mat1)
+(75,mat0->data_)
+(76,mat0->maxrows_ = mat0->numrows_)
+(77,mat0->numrows_ = r1 - r0 + 1)
+(78,i)
+(79,mat0->xstart_)
+(80,mat0)
+(81,mat0->xstart_ = mat1->xstart_ + c0)
+(82,jas_malloc(mat0->maxrows_ * sizeof(jas_seqent_t *)
+(83,)
+(84,mat0)
+(85,mat0)
+(86,mat0->rows_)
+(87,mat0->rows_ = 0)
+(88,i = 0)
+(89,mat0->xstart_ + mat0->numcols_)
+(90,rows_)
+(91,mat1->rows_[r0 + i] + c0)
+(92,c0 + 1)
+(93,mat0)
+(94,0)
+(95,jas_seqent_t *)
+(96,int r0)
+(97,datasize_)
+(98,numrows_)
+(99,mat0->yend_ = mat0->ystart_ + mat0->numrows_)
+(100,1)
+(101,rows_)
+(102,mat0->ystart_)
+(103,i)
+(104,int c0)
+(105,mat0->xend_)
+(106,i < mat0->numrows_)
+(107,maxrows_)
+(108,mat0)
+(109,i)
+(110,jas_free(mat0->rows_)
+(111,mat0->datasize_)
+(112,c0)
+(113,mat0)
+(114,i)
+(115,numrows_)
+(116,numcols_)
+(117,numrows_)
+(118,mat0->ystart_ + mat0->numrows_)
+(119,mat0->maxrows_)
+(120,mat0->xstart_)
+(121,JAS_MATRIX_REF)
+(122,if (mat0->rows_)
+(123,xstart_)
+(124,mat1)
+(125,)
+(126,for (i = 0; i < mat0->numrows_; ++i)
+(127,mat0->numcols_)
+(128,0)
+(129,xend_)
+(130,mat0->rows_)
+(131,mat0)
+(132,mat0->xend_ = mat0->xstart_ + mat0->numcols_)
+(133,mat0)
+(134,mat0->ystart_)
+(135,mat0->numrows_)
+(136,r0)
+(137,mat0)
+(138,mat0->rows_)
+(139,mat0->datasize_ = 0)
+(140,int r1)
+(141,mat0)
+(142,mat0->rows_)
+(143,r1)
+(144,flags_)
+(145,++i)
+(146,yend_)
+(147,data_)
+(148,c1 - c0 + 1)
+(149,0)
+(150,sizeof(jas_seqent_t *)
+(151,mat1->xstart_ + c0)
+(152,data_)
+(153,mat0->numrows_)
+(154,mat1->ystart_ + r0)
+(155,mat0->yend_)
+(156,rows_)
+(157,xstart_)
+-----cfg-----
+(7,18)
+(14,21)
+(14,26)
+(15,14)
+(17,15)
+(18,17)
+(21,183)
+(23,31)
+(24,23)
+(26,24)
+(28,36)
+(29,28)
+(31,29)
+(33,41)
+(34,33)
+(36,34)
+(38,46)
+(39,38)
+(41,39)
+(43,51)
+(44,43)
+(46,44)
+(48,56)
+(49,48)
+(51,49)
+(53,64)
+(54,57)
+(56,54)
+(57,53)
+(61,72)
+(61,89)
+(62,61)
+(64,62)
+(68,81)
+(68,89)
+(69,68)
+(70,77)
+(72,70)
+(73,69)
+(74,73)
+(75,78)
+(77,75)
+(78,74)
+(81,83)
+(83,183)
+(86,97)
+(86,112)
+(87,86)
+(89,87)
+(93,106)
+(93,112)
+(94,93)
+(95,102)
+(97,95)
+(98,94)
+(99,98)
+(100,103)
+(102,100)
+(103,99)
+(106,108)
+(108,183)
+(112,115)
+(115,125)
+(115,139)
+(118,115)
+(121,118)
+(122,131)
+(123,122)
+(125,123)
+(127,121)
+(128,127)
+(129,136)
+(131,129)
+(132,128)
+(134,132)
+(136,134)
+(139,146)
+(142,154)
+(142,160)
+(144,142)
+(146,144)
+(147,146)
+(150,147)
+(151,150)
+(152,151)
+(154,152)
+(157,165)
+(158,157)
+(160,158)
+(162,170)
+(163,162)
+(165,163)
+(167,177)
+(168,173)
+(170,168)
+(171,167)
+(173,171)
+(174,181)
+(175,180)
+(177,175)
+(178,174)
+(180,178)
+(181,183)
+-----path-----
+7,18,17,15,14,21,183
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,72,70,77,75,78,74,73,69,68,81,83,183
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,72,70,77,75,78,74,73,69,68,89,87,86,97,95,102,100,103,99,98,94,93
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,72,70,77,75,78,74,73,69,68,89,87,86,112,115,125,123,122,131,129,136,134
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,72,70,77,75,78,74,73,69,68,89,87,86,112,115,139,146,144,142,154,152,151
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,72,70,77,75,78,74,73,69,68,89,87,86,112,115,139,146,144,142,160,158,157
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,89,87,86,97,95,102,100,103,99,98,94,93,106,108,183
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,89,87,86,97,95,102,100,103,99,98,94,93,112,115,125,123,122,131,129,136,134
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,89,87,86,97,95,102,100,103,99,98,94,93,112,115,139,146,144,142,154,152,151
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,89,87,86,97,95,102,100,103,99,98,94,93,112,115,139,146,144,142,160,158,157
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,89,87,86,112,115,125,123,122,131,129,136,134,132,128,127,121,118,115,139,146,144
+7,18,17,15,14,26,24,23,31,29,28,36,34,33,41,39,38,46,44,43,51,49,48,56,54,57,53,64,62,61,89,87,86,112,115,139,146,144,142,160,158,157,165,163,162,170,168,173,171,167,177
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jas_matrix_t jas_matrix_create (int numrows,int numcols)
+8,int numrows
+9,int numcols
+10,<empty>
+11,jas_matrix_t* matrix
+12,int i
+13,if (!(matrix = jas_malloc(sizeof(jas_matrix_t))))
+14,!(matrix = jas_malloc(sizeof(jas_matrix_t)))
+15,matrix = jas_malloc(sizeof(jas_matrix_t))
+16,matrix
+17,jas_malloc(sizeof(jas_matrix_t))
+18,sizeof(jas_matrix_t)
+19,jas_matrix_t
+20,<empty>
+21,return 0;
+22,0
+23,matrix->flags_ = 0
+24,matrix->flags_
+25,matrix
+26,flags_
+27,0
+28,matrix->numrows_ = numrows
+29,matrix->numrows_
+30,matrix
+31,numrows_
+32,numrows
+33,matrix->numcols_ = numcols
+34,matrix->numcols_
+35,matrix
+36,numcols_
+37,numcols
+38,matrix->rows_ = 0
+39,matrix->rows_
+40,matrix
+41,rows_
+42,0
+43,matrix->maxrows_ = numrows
+44,matrix->maxrows_
+45,matrix
+46,maxrows_
+47,numrows
+48,matrix->data_ = 0
+49,matrix->data_
+50,matrix
+51,data_
+52,0
+53,matrix->datasize_ = numrows * numcols
+54,matrix->datasize_
+55,matrix
+56,datasize_
+57,numrows * numcols
+58,numrows
+59,numcols
+60,if (matrix->maxrows_ > 0)
+61,matrix->maxrows_ > 0
+62,matrix->maxrows_
+63,matrix
+64,maxrows_
+65,0
+66,<empty>
+67,if (!(matrix->rows_ = jas_malloc(matrix->maxrows_ *
+68,		  sizeof(jas_seqent_t *))))
+69,!(matrix->rows_ = jas_malloc(matrix->maxrows_ *
+70,		  sizeof(jas_seqent_t *)))
+71,matrix->rows_ = jas_malloc(matrix->maxrows_ *
+72,		  sizeof(jas_seqent_t *))
+73,matrix->rows_
+74,matrix
+75,rows_
+76,jas_malloc(matrix->maxrows_ *
+77,		  sizeof(jas_seqent_t *))
+78,matrix->maxrows_ *
+79,		  sizeof(jas_seqent_t *)
+80,matrix->maxrows_
+81,matrix
+82,maxrows_
+83,sizeof(jas_seqent_t *)
+84,jas_seqent_t
+85,<empty>
+86,jas_matrix_destroy(matrix)
+87,matrix
+88,return 0;
+89,0
+90,if (matrix->datasize_ > 0)
+91,matrix->datasize_ > 0
+92,matrix->datasize_
+93,matrix
+94,datasize_
+95,0
+96,<empty>
+97,if (!(matrix->data_ = jas_malloc(matrix->datasize_ *
+98,		  sizeof(jas_seqent_t))))
+99,!(matrix->data_ = jas_malloc(matrix->datasize_ *
+100,		  sizeof(jas_seqent_t)))
+101,matrix->data_ = jas_malloc(matrix->datasize_ *
+102,		  sizeof(jas_seqent_t))
+103,matrix->data_
+104,matrix
+105,data_
+106,jas_malloc(matrix->datasize_ *
+107,		  sizeof(jas_seqent_t))
+108,matrix->datasize_ *
+109,		  sizeof(jas_seqent_t)
+110,matrix->datasize_
+111,matrix
+112,datasize_
+113,sizeof(jas_seqent_t)
+114,jas_seqent_t
+115,<empty>
+116,jas_matrix_destroy(matrix)
+117,matrix
+118,return 0;
+119,0
+120,for (i = 0;i < numrows;++i)
+121,<empty>
+122,i = 0
+123,i
+124,0
+125,i < numrows
+126,i
+127,numrows
+128,++i
+129,i
+130,<empty>
+131,matrix->rows_[i] = &matrix->data_[i * matrix->numcols_]
+132,matrix->rows_[i]
+133,matrix->rows_
+134,matrix
+135,rows_
+136,i
+137,&matrix->data_[i * matrix->numcols_]
+138,matrix->data_[i * matrix->numcols_]
+139,matrix->data_
+140,matrix
+141,data_
+142,i * matrix->numcols_
+143,i
+144,matrix->numcols_
+145,matrix
+146,numcols_
+147,for (i = 0;i < matrix->datasize_;++i)
+148,<empty>
+149,i = 0
+150,i
+151,0
+152,i < matrix->datasize_
+153,i
+154,matrix->datasize_
+155,matrix
+156,datasize_
+157,++i
+158,i
+159,<empty>
+160,matrix->data_[i] = 0
+161,matrix->data_[i]
+162,matrix->data_
+163,matrix
+164,data_
+165,i
+166,0
+167,matrix->xstart_ = 0
+168,matrix->xstart_
+169,matrix
+170,xstart_
+171,0
+172,matrix->ystart_ = 0
+173,matrix->ystart_
+174,matrix
+175,ystart_
+176,0
+177,matrix->xend_ = matrix->numcols_
+178,matrix->xend_
+179,matrix
+180,xend_
+181,matrix->numcols_
+182,matrix
+183,numcols_
+184,matrix->yend_ = matrix->numrows_
+185,matrix->yend_
+186,matrix
+187,yend_
+188,matrix->numrows_
+189,matrix
+190,numrows_
+191,return matrix;
+192,matrix
+193,RET
+194,int numrows
+195,int numcols
+196,RET
+197,jas_matrix_t jas_matrix_create (int numrows,int numcols)
+198,int numrows
+199,int numcols
+200,<empty>
+201,jas_matrix_t* matrix
+202,int i
+203,if (!(matrix = jas_malloc(sizeof(jas_matrix_t))))
+204,!(matrix = jas_malloc(sizeof(jas_matrix_t)))
+205,matrix = jas_malloc(sizeof(jas_matrix_t))
+206,matrix
+207,jas_malloc(sizeof(jas_matrix_t))
+208,sizeof(jas_matrix_t)
+209,jas_matrix_t
+210,<empty>
+211,return 0;
+212,0
+213,matrix->flags_ = 0
+214,matrix->flags_
+215,matrix
+216,flags_
+217,0
+218,matrix->numrows_ = numrows
+219,matrix->numrows_
+220,matrix
+221,numrows_
+222,numrows
+223,matrix->numcols_ = numcols
+224,matrix->numcols_
+225,matrix
+226,numcols_
+227,numcols
+228,matrix->rows_ = 0
+229,matrix->rows_
+230,matrix
+231,rows_
+232,0
+233,matrix->maxrows_ = numrows
+234,matrix->maxrows_
+235,matrix
+236,maxrows_
+237,numrows
+238,matrix->data_ = 0
+239,matrix->data_
+240,matrix
+241,data_
+242,0
+243,matrix->datasize_ = numrows * numcols
+244,matrix->datasize_
+245,matrix
+246,datasize_
+247,numrows * numcols
+248,numrows
+249,numcols
+250,if (matrix->maxrows_ > 0)
+251,matrix->maxrows_ > 0
+252,matrix->maxrows_
+253,matrix
+254,maxrows_
+255,0
+256,<empty>
+257,if (!(matrix->rows_ = jas_malloc(matrix->maxrows_ *
+258,		  sizeof(jas_seqent_t *))))
+259,!(matrix->rows_ = jas_malloc(matrix->maxrows_ *
+260,		  sizeof(jas_seqent_t *)))
+261,matrix->rows_ = jas_malloc(matrix->maxrows_ *
+262,		  sizeof(jas_seqent_t *))
+263,matrix->rows_
+264,matrix
+265,rows_
+266,jas_malloc(matrix->maxrows_ *
+267,		  sizeof(jas_seqent_t *))
+268,matrix->maxrows_ *
+269,		  sizeof(jas_seqent_t *)
+270,matrix->maxrows_
+271,matrix
+272,maxrows_
+273,sizeof(jas_seqent_t *)
+274,jas_seqent_t
+275,<empty>
+276,jas_matrix_destroy(matrix)
+277,matrix
+278,return 0;
+279,0
+280,if (matrix->datasize_ > 0)
+281,matrix->datasize_ > 0
+282,matrix->datasize_
+283,matrix
+284,datasize_
+285,0
+286,<empty>
+287,if (!(matrix->data_ = jas_malloc(matrix->datasize_ *
+288,		  sizeof(jas_seqent_t))))
+289,!(matrix->data_ = jas_malloc(matrix->datasize_ *
+290,		  sizeof(jas_seqent_t)))
+291,matrix->data_ = jas_malloc(matrix->datasize_ *
+292,		  sizeof(jas_seqent_t))
+293,matrix->data_
+294,matrix
+295,data_
+296,jas_malloc(matrix->datasize_ *
+297,		  sizeof(jas_seqent_t))
+298,matrix->datasize_ *
+299,		  sizeof(jas_seqent_t)
+300,matrix->datasize_
+301,matrix
+302,datasize_
+303,sizeof(jas_seqent_t)
+304,jas_seqent_t
+305,<empty>
+306,jas_matrix_destroy(matrix)
+307,matrix
+308,return 0;
+309,0
+310,for (i = 0;i < numrows;++i)
+311,<empty>
+312,i = 0
+313,i
+314,0
+315,i < numrows
+316,i
+317,numrows
+318,++i
+319,i
+320,<empty>
+321,matrix->rows_[i] = &matrix->data_[i * matrix->numcols_]
+322,matrix->rows_[i]
+323,matrix->rows_
+324,matrix
+325,rows_
+326,i
+327,&matrix->data_[i * matrix->numcols_]
+328,matrix->data_[i * matrix->numcols_]
+329,matrix->data_
+330,matrix
+331,data_
+332,i * matrix->numcols_
+333,i
+334,matrix->numcols_
+335,matrix
+336,numcols_
+337,for (i = 0;i < matrix->datasize_;++i)
+338,<empty>
+339,i = 0
+340,i
+341,0
+342,i < matrix->datasize_
+343,i
+344,matrix->datasize_
+345,matrix
+346,datasize_
+347,++i
+348,i
+349,<empty>
+350,matrix->data_[i] = 0
+351,matrix->data_[i]
+352,matrix->data_
+353,matrix
+354,data_
+355,i
+356,0
+357,matrix->xstart_ = 0
+358,matrix->xstart_
+359,matrix
+360,xstart_
+361,0
+362,matrix->ystart_ = 0
+363,matrix->ystart_
+364,matrix
+365,ystart_
+366,0
+367,matrix->xend_ = matrix->numcols_
+368,matrix->xend_
+369,matrix
+370,xend_
+371,matrix->numcols_
+372,matrix
+373,numcols_
+374,matrix->yend_ = matrix->numrows_
+375,matrix->yend_
+376,matrix
+377,yend_
+378,matrix->numrows_
+379,matrix
+380,numrows_
+381,return matrix;
+382,matrix
+383,RET
+384,int numrows
+385,int numcols
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jas_matrix_t *jas_matrix_create(int numrows, int numcols) {
+jas_matrix_t *matrix;
+int i;
+matrix->flags_ = 0;
+matrix->numrows_ = numrows;
+matrix->numcols_ = numcols;
+matrix->rows_ = 0;
+matrix->maxrows_ = numrows;
+matrix->data_ = 0;
+matrix->datasize_ = numrows * numcols;
+if(matrix->maxrows_ > 0)
+if(matrix->datasize_ > 0)
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < numrows;++i)
+matrix->rows_[i] = &matrix->data_[i * matrix->numcols_];
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+for(i = 0;i < matrix->datasize_;++i)
+matrix->data_[i] = 0;
+matrix->xstart_ = 0;
+matrix->ystart_ = 0;
+matrix->xend_ = matrix->numcols_;
+matrix->yend_ = matrix->numrows_;
+return matrix;
+=======================

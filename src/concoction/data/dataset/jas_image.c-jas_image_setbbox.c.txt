@@ -1,0 +1,1957 @@
+-----label-----
+0
+-----code-----
+static void jas_image_setbbox(jas_image_t *image)
+{
+	jas_image_cmpt_t *cmpt;
+	int cmptno;
+	int_fast32_t x;
+	int_fast32_t y;
+
+	if (image->numcmpts_ > 0) {
+		/* Determine the bounding box for all of the components on the
+		  reference grid (i.e., the image area) */
+		cmpt = image->cmpts_[0];
+		image->tlx_ = cmpt->tlx_;
+		image->tly_ = cmpt->tly_;
+		image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;
+		image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;
+		for (cmptno = 1; cmptno < image->numcmpts_; ++cmptno) {
+			cmpt = image->cmpts_[cmptno];
+			if (image->tlx_ > cmpt->tlx_) {
+				image->tlx_ = cmpt->tlx_;
+			}
+			if (image->tly_ > cmpt->tly_) {
+				image->tly_ = cmpt->tly_;
+			}
+			x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;
+			if (image->brx_ < x) {
+				image->brx_ = x;
+			}
+			y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;
+			if (image->bry_ < y) {
+				image->bry_ = y;
+			}
+		}
+	} else {
+		image->tlx_ = 0;
+		image->tly_ = 0;
+		image->brx_ = 0;
+		image->bry_ = 0;
+	}
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+11,16
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+19,20
+20,21
+20,22
+22,23
+24,25
+25,26
+25,27
+26,27
+28,29
+30,31
+31,32
+31,33
+32,33
+34,35
+36,37
+36,38
+36,39
+37,38
+37,39
+38,39
+38,40
+39,40
+43,44
+43,45
+43,46
+43,47
+43,48
+43,49
+44,45
+45,46
+45,47
+46,47
+48,49
+48,50
+49,50
+49,51
+50,51
+54,55
+55,56
+55,57
+56,57
+56,58
+57,58
+60,61
+60,62
+61,62
+64,65
+65,66
+65,67
+66,67
+66,68
+67,68
+70,71
+70,72
+71,72
+74,75
+75,76
+75,77
+76,77
+76,78
+77,78
+80,81
+80,82
+81,82
+81,83
+82,83
+82,84
+83,84
+86,87
+86,88
+87,88
+87,89
+88,89
+91,92
+92,93
+92,94
+93,94
+93,95
+94,95
+99,100
+100,101
+100,102
+101,102
+101,103
+102,103
+105,106
+105,107
+106,107
+106,108
+107,108
+107,109
+108,109
+111,112
+111,113
+112,113
+112,114
+113,114
+116,117
+117,118
+117,119
+118,119
+118,120
+119,120
+124,125
+124,126
+124,127
+124,128
+125,126
+126,127
+126,128
+127,128
+130,131
+130,132
+131,132
+133,134
+133,135
+134,135
+137,138
+138,139
+140,141
+140,142
+140,143
+140,144
+140,145
+140,146
+140,147
+141,142
+142,143
+142,144
+143,144
+145,146
+145,147
+146,147
+146,148
+147,148
+150,151
+152,153
+152,154
+153,154
+153,155
+154,155
+154,156
+155,156
+158,159
+158,160
+159,160
+162,163
+163,164
+164,165
+164,166
+165,166
+165,167
+166,167
+169,170
+169,171
+170,171
+173,174
+173,175
+174,175
+174,176
+175,176
+175,177
+176,177
+179,180
+179,181
+180,181
+183,184
+184,185
+185,186
+185,187
+186,187
+186,188
+187,188
+190,191
+190,192
+191,192
+194,195
+195,196
+195,197
+196,197
+198,199
+198,200
+199,200
+199,201
+200,201
+200,202
+201,202
+204,205
+204,206
+205,206
+205,207
+206,207
+209,210
+210,211
+210,212
+211,212
+211,213
+212,213
+217,218
+217,219
+218,219
+218,220
+219,220
+219,221
+220,221
+223,224
+225,226
+226,227
+227,228
+227,229
+228,229
+228,230
+229,230
+232,233
+234,235
+235,236
+235,237
+236,237
+238,239
+238,240
+239,240
+239,241
+240,241
+240,242
+241,242
+244,245
+244,246
+245,246
+245,247
+246,247
+249,250
+250,251
+250,252
+251,252
+251,253
+252,253
+257,258
+257,259
+258,259
+258,260
+259,260
+259,261
+260,261
+263,264
+265,266
+266,267
+267,268
+267,269
+268,269
+268,270
+269,270
+272,273
+274,275
+274,276
+274,277
+274,278
+275,276
+276,277
+276,278
+277,278
+277,279
+278,279
+282,283
+283,284
+283,285
+284,285
+284,286
+285,286
+289,290
+290,291
+290,292
+291,292
+291,293
+292,293
+296,297
+297,298
+297,299
+298,299
+298,300
+299,300
+-----nextToken-----
+2,4,7,9,10,15,17,18,21,23,27,29,33,35,40,41,42,47,51,52,53,58,59,62,63,68,69,72,73,78,79,84,85,89,90,95,96,97,98,103,104,109,110,114,115,120,121,122,123,128,129,132,135,136,139,144,148,149,151,156,157,160,161,167,168,171,172,177,178,181,182,188,189,192,193,197,202,203,207,208,213,214,215,216,221,222,224,230,231,233,237,242,243,247,248,253,254,255,256,261,262,264,270,271,273,279,280,281,286,287,288,293,294,295,300,301,302
+-----computeFrom-----
+37,38
+37,39
+45,46
+45,47
+55,56
+55,57
+65,66
+65,67
+75,76
+75,77
+80,81
+80,82
+81,82
+81,83
+86,87
+86,88
+92,93
+92,94
+100,101
+100,102
+105,106
+105,107
+106,107
+106,108
+111,112
+111,113
+117,118
+117,119
+126,127
+126,128
+130,131
+130,132
+142,143
+142,144
+153,154
+153,155
+164,165
+164,166
+174,175
+174,176
+185,186
+185,187
+195,196
+195,197
+198,199
+198,200
+199,200
+199,201
+204,205
+204,206
+210,211
+210,212
+218,219
+218,220
+227,228
+227,229
+235,236
+235,237
+238,239
+238,240
+239,240
+239,241
+244,245
+244,246
+250,251
+250,252
+258,259
+258,260
+267,268
+267,269
+276,277
+276,278
+283,284
+283,285
+290,291
+290,292
+297,298
+297,299
+-----guardedBy-----
+40,270
+41,136
+160,171
+156,167
+161,172
+181,192
+177,188
+182,193
+221,230
+224,233
+222,231
+261,270
+262,271
+264,273
+-----guardedByNegation-----
+40,300
+-----lastLexicalUse-----
+40,300
+-----jump-----
+40,300
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;
+-----ast_node-----
+static void jas_image_setbbox(jas_image_t *image){	jas_image_cmpt_t *cmpt;	int cmptno;	int_fast32_t x;	int_fast32_t y;	if (image->numcmpts_ > 0) {		/* Determine the bounding box for all of the components on the		  reference grid (i.e., the image area) */		cmpt = image->cmpts_[0];		image->tlx_ = cmpt->tlx_;		image->tly_ = cmpt->tly_;		image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;		image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;		for (cmptno = 1; cmptno < image->numcmpts_; ++cmptno) {			cmpt = image->cmpts_[cmptno];			if (image->tlx_ > cmpt->tlx_) {				image->tlx_ = cmpt->tlx_;			}			if (image->tly_ > cmpt->tly_) {				image->tly_ = cmpt->tly_;			}			x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;			if (image->brx_ < x) {				image->brx_ = x;			}			y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;			if (image->bry_ < y) {				image->bry_ = y;			}		}	} else {		image->tlx_ = 0;		image->tly_ = 0;		image->brx_ = 0;		image->bry_ = 0;	}}
+static void
+jas_image_setbbox(jas_image_t *image)
+jas_image_setbbox
+jas_image_t *image
+jas_image_t
+jas_image_t
+*image
+*
+image
+{	jas_image_cmpt_t *cmpt;	int cmptno;	int_fast32_t x;	int_fast32_t y;	if (image->numcmpts_ > 0) {		/* Determine the bounding box for all of the components on the		  reference grid (i.e., the image area) */		cmpt = image->cmpts_[0];		image->tlx_ = cmpt->tlx_;		image->tly_ = cmpt->tly_;		image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;		image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;		for (cmptno = 1; cmptno < image->numcmpts_; ++cmptno) {			cmpt = image->cmpts_[cmptno];			if (image->tlx_ > cmpt->tlx_) {				image->tlx_ = cmpt->tlx_;			}			if (image->tly_ > cmpt->tly_) {				image->tly_ = cmpt->tly_;			}			x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;			if (image->brx_ < x) {				image->brx_ = x;			}			y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;			if (image->bry_ < y) {				image->bry_ = y;			}		}	} else {		image->tlx_ = 0;		image->tly_ = 0;		image->brx_ = 0;		image->bry_ = 0;	}}
+jas_image_cmpt_t *cmpt;
+jas_image_cmpt_t *cmpt;
+jas_image_cmpt_t
+jas_image_cmpt_t
+*cmpt
+*
+cmpt
+int cmptno;
+int cmptno;
+int
+cmptno
+cmptno
+int_fast32_t x;
+int_fast32_t x;
+int_fast32_t
+int_fast32_t
+x
+x
+int_fast32_t y;
+int_fast32_t y;
+int_fast32_t
+int_fast32_t
+y
+y
+if (image->numcmpts_ > 0) {		/* Determine the bounding box for all of the components on the		  reference grid (i.e., the image area) */		cmpt = image->cmpts_[0];		image->tlx_ = cmpt->tlx_;		image->tly_ = cmpt->tly_;		image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;		image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;		for (cmptno = 1; cmptno < image->numcmpts_; ++cmptno) {			cmpt = image->cmpts_[cmptno];			if (image->tlx_ > cmpt->tlx_) {				image->tlx_ = cmpt->tlx_;			}			if (image->tly_ > cmpt->tly_) {				image->tly_ = cmpt->tly_;			}			x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;			if (image->brx_ < x) {				image->brx_ = x;			}			y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;			if (image->bry_ < y) {				image->bry_ = y;			}		}	} else {		image->tlx_ = 0;		image->tly_ = 0;		image->brx_ = 0;		image->bry_ = 0;	}
+image->numcmpts_ > 0
+image->numcmpts_
+image
+image
+numcmpts_
+0
+{		/* Determine the bounding box for all of the components on the		  reference grid (i.e., the image area) */		cmpt = image->cmpts_[0];		image->tlx_ = cmpt->tlx_;		image->tly_ = cmpt->tly_;		image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;		image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;		for (cmptno = 1; cmptno < image->numcmpts_; ++cmptno) {			cmpt = image->cmpts_[cmptno];			if (image->tlx_ > cmpt->tlx_) {				image->tlx_ = cmpt->tlx_;			}			if (image->tly_ > cmpt->tly_) {				image->tly_ = cmpt->tly_;			}			x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;			if (image->brx_ < x) {				image->brx_ = x;			}			y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;			if (image->bry_ < y) {				image->bry_ = y;			}		}	}
+cmpt = image->cmpts_[0];
+cmpt = image->cmpts_[0]
+cmpt
+cmpt
+image->cmpts_[0]
+image->cmpts_
+image
+image
+cmpts_
+0
+image->tlx_ = cmpt->tlx_;
+image->tlx_ = cmpt->tlx_
+image->tlx_
+image
+image
+tlx_
+cmpt->tlx_
+cmpt
+cmpt
+tlx_
+image->tly_ = cmpt->tly_;
+image->tly_ = cmpt->tly_
+image->tly_
+image
+image
+tly_
+cmpt->tly_
+cmpt
+cmpt
+tly_
+image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;
+image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+image->brx_
+image
+image
+brx_
+cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1)
+cmpt->tlx_
+cmpt
+cmpt
+tlx_
+cmpt->hstep_ * (cmpt->width_ - 1)
+cmpt->hstep_
+cmpt
+cmpt
+hstep_
+(cmpt->width_ - 1)
+cmpt->width_ - 1
+cmpt->width_
+cmpt
+cmpt
+width_
+1
+1
+image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;
+image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+image->bry_
+image
+image
+bry_
+cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1)
+cmpt->tly_
+cmpt
+cmpt
+tly_
+cmpt->vstep_ * (cmpt->height_ - 1)
+cmpt->vstep_
+cmpt
+cmpt
+vstep_
+(cmpt->height_ - 1)
+cmpt->height_ - 1
+cmpt->height_
+cmpt
+cmpt
+height_
+1
+1
+for (cmptno = 1; cmptno < image->numcmpts_; ++cmptno) {			cmpt = image->cmpts_[cmptno];			if (image->tlx_ > cmpt->tlx_) {				image->tlx_ = cmpt->tlx_;			}			if (image->tly_ > cmpt->tly_) {				image->tly_ = cmpt->tly_;			}			x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;			if (image->brx_ < x) {				image->brx_ = x;			}			y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;			if (image->bry_ < y) {				image->bry_ = y;			}		}
+cmptno = 1;
+cmptno = 1
+cmptno
+cmptno
+1
+cmptno < image->numcmpts_
+cmptno
+cmptno
+image->numcmpts_
+image
+image
+numcmpts_
+++cmptno
+cmptno
+cmptno
+{			cmpt = image->cmpts_[cmptno];			if (image->tlx_ > cmpt->tlx_) {				image->tlx_ = cmpt->tlx_;			}			if (image->tly_ > cmpt->tly_) {				image->tly_ = cmpt->tly_;			}			x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;			if (image->brx_ < x) {				image->brx_ = x;			}			y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;			if (image->bry_ < y) {				image->bry_ = y;			}		}
+cmpt = image->cmpts_[cmptno];
+cmpt = image->cmpts_[cmptno]
+cmpt
+cmpt
+image->cmpts_[cmptno]
+image->cmpts_
+image
+image
+cmpts_
+cmptno
+cmptno
+if (image->tlx_ > cmpt->tlx_) {				image->tlx_ = cmpt->tlx_;			}
+image->tlx_ > cmpt->tlx_
+image->tlx_
+image
+image
+tlx_
+cmpt->tlx_
+cmpt
+cmpt
+tlx_
+{				image->tlx_ = cmpt->tlx_;			}
+image->tlx_ = cmpt->tlx_;
+image->tlx_ = cmpt->tlx_
+image->tlx_
+image
+image
+tlx_
+cmpt->tlx_
+cmpt
+cmpt
+tlx_
+if (image->tly_ > cmpt->tly_) {				image->tly_ = cmpt->tly_;			}
+image->tly_ > cmpt->tly_
+image->tly_
+image
+image
+tly_
+cmpt->tly_
+cmpt
+cmpt
+tly_
+{				image->tly_ = cmpt->tly_;			}
+image->tly_ = cmpt->tly_;
+image->tly_ = cmpt->tly_
+image->tly_
+image
+image
+tly_
+cmpt->tly_
+cmpt
+cmpt
+tly_
+x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;
+x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+x
+x
+cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1)
+cmpt->tlx_
+cmpt
+cmpt
+tlx_
+cmpt->hstep_ * (cmpt->width_ - 1)
+cmpt->hstep_
+cmpt
+cmpt
+hstep_
+(cmpt->width_ - 1)
+cmpt->width_ - 1
+cmpt->width_
+cmpt
+cmpt
+width_
+1
+1
+if (image->brx_ < x) {				image->brx_ = x;			}
+image->brx_ < x
+image->brx_
+image
+image
+brx_
+x
+x
+{				image->brx_ = x;			}
+image->brx_ = x;
+image->brx_ = x
+image->brx_
+image
+image
+brx_
+x
+x
+y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;
+y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+y
+y
+cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1)
+cmpt->tly_
+cmpt
+cmpt
+tly_
+cmpt->vstep_ * (cmpt->height_ - 1)
+cmpt->vstep_
+cmpt
+cmpt
+vstep_
+(cmpt->height_ - 1)
+cmpt->height_ - 1
+cmpt->height_
+cmpt
+cmpt
+height_
+1
+1
+if (image->bry_ < y) {				image->bry_ = y;			}
+image->bry_ < y
+image->bry_
+image
+image
+bry_
+y
+y
+{				image->bry_ = y;			}
+image->bry_ = y;
+image->bry_ = y
+image->bry_
+image
+image
+bry_
+y
+y
+{		image->tlx_ = 0;		image->tly_ = 0;		image->brx_ = 0;		image->bry_ = 0;	}
+image->tlx_ = 0;
+image->tlx_ = 0
+image->tlx_
+image
+image
+tlx_
+0
+image->tly_ = 0;
+image->tly_ = 0
+image->tly_
+image
+image
+tly_
+0
+image->brx_ = 0;
+image->brx_ = 0
+image->brx_
+image
+image
+brx_
+0
+image->bry_ = 0;
+image->bry_ = 0
+image->bry_
+image
+image
+bry_
+0
+-----joern-----
+(95,130,0)
+(100,82,0)
+(25,67,0)
+(32,129,0)
+(115,80,0)
+(107,7,0)
+(1,39,0)
+(72,65,0)
+(129,67,0)
+(52,62,0)
+(68,39,0)
+(62,108,0)
+(6,86,0)
+(74,127,0)
+(34,106,0)
+(50,45,0)
+(9,7,0)
+(62,106,0)
+(51,111,0)
+(4,124,0)
+(73,130,0)
+(10,85,0)
+(97,113,0)
+(107,33,0)
+(58,82,0)
+(45,14,0)
+(4,85,0)
+(13,16,0)
+(100,85,0)
+(4,118,0)
+(4,127,0)
+(127,82,0)
+(117,14,0)
+(60,81,0)
+(90,25,0)
+(31,36,0)
+(11,95,0)
+(3,80,0)
+(0,46,0)
+(85,87,0)
+(65,67,0)
+(26,111,0)
+(121,62,0)
+(128,25,0)
+(66,16,0)
+(28,108,0)
+(92,100,0)
+(125,106,0)
+(7,130,0)
+(78,25,0)
+(7,27,0)
+(77,122,0)
+(5,67,0)
+(46,108,0)
+(104,13,0)
+(8,127,0)
+(13,27,0)
+(36,124,0)
+(37,4,0)
+(57,86,0)
+(111,51,0)
+(45,61,0)
+(111,130,0)
+(13,130,0)
+(75,77,0)
+(13,129,0)
+(81,122,0)
+(43,45,0)
+(21,124,0)
+(62,124,0)
+(14,45,0)
+(65,87,0)
+(42,21,0)
+(95,87,0)
+(29,61,0)
+(93,4,0)
+(16,13,0)
+(98,7,0)
+(129,13,0)
+(56,107,0)
+(67,65,0)
+(116,82,0)
+(83,62,0)
+(113,82,0)
+(76,21,0)
+(20,25,0)
+(102,95,0)
+(35,122,0)
+(51,27,0)
+(16,107,0)
+(30,130,0)
+(87,33,0)
+(70,108,0)
+(19,25,0)
+(86,108,0)
+(59,24,0)
+(110,33,0)
+(106,62,0)
+(103,13,0)
+(88,51,0)
+(122,33,0)
+(49,13,0)
+(112,4,0)
+(40,54,0)
+(109,37,0)
+(61,122,0)
+(63,39,0)
+(17,39,0)
+(54,130,0)
+(53,129,0)
+(18,39,0)
+(84,65,0)
+(62,120,0)
+(5,82,0)
+(23,51,0)
+(91,39,0)
+(85,100,0)
+(85,4,0)
+(12,25,0)
+(55,39,0)
+(64,13,0)
+(15,100,0)
+(119,33,0)
+(47,67,0)
+(44,39,0)
+(129,87,0)
+(96,16,0)
+(37,107,0)
+(21,33,0)
+(45,81,0)
+(61,45,0)
+(25,27,0)
+(80,77,0)
+(80,27,0)
+(100,67,0)
+(122,77,0)
+(95,27,0)
+(2,36,0)
+(45,124,0)
+(81,45,0)
+(41,13,0)
+(77,80,0)
+(77,130,0)
+(106,108,0)
+(36,33,0)
+(45,33,0)
+(127,4,0)
+(22,48,0)
+(7,107,0)
+(123,5,0)
+(14,122,0)
+(126,25,0)
+(101,14,0)
+(67,33,0)
+(79,87,0)
+(105,5,0)
+(4,37,0)
+(25,130,0)
+(71,81,0)
+(114,62,0)
+(87,95,0)
+(13,67,0)
+(86,67,0)
+(99,61,0)
+(94,33,0)
+(38,33,0)
+(69,37,0)
+(62,124,1)
+(82,58,1)
+(43,50,1)
+(13,16,1)
+(11,102,1)
+(127,82,1)
+(111,130,1)
+(62,106,1)
+(28,25,1)
+(106,108,1)
+(62,108,1)
+(84,72,1)
+(21,42,1)
+(52,121,1)
+(56,87,1)
+(97,4,1)
+(74,8,1)
+(121,83,1)
+(13,27,1)
+(25,130,1)
+(45,61,1)
+(40,21,1)
+(15,10,1)
+(86,57,1)
+(111,51,1)
+(0,62,1)
+(104,41,1)
+(83,114,1)
+(26,54,1)
+(81,60,1)
+(108,70,1)
+(112,93,1)
+(22,13,1)
+(60,71,1)
+(93,5,1)
+(34,125,1)
+(13,104,1)
+(71,14,1)
+(79,45,1)
+(67,65,1)
+(5,67,1)
+(123,82,1)
+(46,0,1)
+(54,130,1)
+(13,130,1)
+(102,79,1)
+(6,46,1)
+(45,124,1)
+(53,32,1)
+(130,73,1)
+(95,27,1)
+(100,82,1)
+(5,105,1)
+(4,37,1)
+(77,80,1)
+(95,11,1)
+(13,129,1)
+(14,117,1)
+(58,116,1)
+(92,15,1)
+(78,20,1)
+(76,5,1)
+(126,67,1)
+(64,103,1)
+(77,130,1)
+(129,53,1)
+(69,109,1)
+(16,107,1)
+(32,64,1)
+(28,59,1)
+(8,37,1)
+(45,14,1)
+(12,19,1)
+(103,36,1)
+(129,87,1)
+(100,92,1)
+(7,27,1)
+(36,124,1)
+(6,108,1)
+(101,43,1)
+(51,88,1)
+(2,31,1)
+(59,25,1)
+(96,66,1)
+(86,108,1)
+(37,69,1)
+(80,27,1)
+(77,75,1)
+(7,98,1)
+(21,124,1)
+(36,2,1)
+(46,108,1)
+(113,82,1)
+(54,40,1)
+(25,67,1)
+(73,30,1)
+(129,67,1)
+(20,12,1)
+(65,87,1)
+(114,86,1)
+(122,77,1)
+(23,26,1)
+(66,129,1)
+(49,16,1)
+(125,52,1)
+(7,130,1)
+(47,107,1)
+(89,111,1)
+(85,100,1)
+(26,130,1)
+(61,122,1)
+(87,95,1)
+(95,130,1)
+(65,84,1)
+(14,122,1)
+(128,90,1)
+(123,113,1)
+(57,6,1)
+(50,122,1)
+(3,35,1)
+(19,126,1)
+(127,74,1)
+(25,27,1)
+(99,81,1)
+(4,127,1)
+(4,85,1)
+(61,29,1)
+(75,80,1)
+(88,23,1)
+(37,107,1)
+(5,82,1)
+(86,67,1)
+(51,27,1)
+(10,112,1)
+(85,87,1)
+(72,47,1)
+(113,97,1)
+(13,67,1)
+(45,81,1)
+(98,9,1)
+(25,128,1)
+(116,22,1)
+(80,115,1)
+(90,78,1)
+(31,86,1)
+(4,124,1)
+(105,123,1)
+(117,101,1)
+(29,99,1)
+(35,111,1)
+(81,122,1)
+(16,96,1)
+(9,56,1)
+(106,34,1)
+(115,3,1)
+(100,67,1)
+(41,49,1)
+(109,85,1)
+(42,76,1)
+(107,7,1)
+(70,28,1)
+(116,13,1)
+(127,5,2)
+(32,111,2)
+(65,111,2)
+(7,27,2)
+(25,130,2)
+(67,65,2)
+(88,111,2)
+(106,108,2)
+(35,111,2)
+(4,85,2)
+(4,124,2)
+(57,86,2)
+(77,80,2)
+(106,86,2)
+(117,111,2)
+(13,130,2)
+(46,108,2)
+(2,111,2)
+(16,111,2)
+(87,95,2)
+(41,111,2)
+(25,27,2)
+(80,27,2)
+(46,86,2)
+(4,127,2)
+(128,111,2)
+(107,7,2)
+(11,111,2)
+(26,111,2)
+(102,111,2)
+(61,111,2)
+(122,77,2)
+(40,111,2)
+(122,111,2)
+(23,111,2)
+(19,111,2)
+(109,5,2)
+(92,5,2)
+(103,111,2)
+(74,5,2)
+(114,86,2)
+(21,111,2)
+(83,86,2)
+(104,111,2)
+(121,86,2)
+(14,111,2)
+(99,111,2)
+(93,5,2)
+(25,111,2)
+(62,86,2)
+(54,130,2)
+(113,82,2)
+(75,111,2)
+(105,5,2)
+(6,86,2)
+(77,130,2)
+(45,124,2)
+(79,111,2)
+(129,67,2)
+(111,130,2)
+(53,111,2)
+(51,27,2)
+(100,82,2)
+(95,130,2)
+(43,111,2)
+(16,107,2)
+(13,16,2)
+(58,111,2)
+(21,124,2)
+(25,67,2)
+(3,111,2)
+(85,5,2)
+(37,107,2)
+(20,111,2)
+(100,67,2)
+(77,111,2)
+(71,111,2)
+(36,124,2)
+(50,111,2)
+(57,111,2)
+(52,86,2)
+(36,111,2)
+(66,111,2)
+(13,111,2)
+(98,111,2)
+(123,111,2)
+(9,111,2)
+(56,111,2)
+(4,37,2)
+(123,5,2)
+(61,122,2)
+(15,5,2)
+(7,130,2)
+(13,67,2)
+(105,111,2)
+(125,86,2)
+(4,5,2)
+(45,61,2)
+(82,111,2)
+(64,111,2)
+(60,111,2)
+(6,111,2)
+(107,111,2)
+(5,82,2)
+(78,111,2)
+(65,87,2)
+(81,122,2)
+(22,13,2)
+(86,86,2)
+(51,111,2)
+(101,111,2)
+(126,111,2)
+(70,111,2)
+(62,124,2)
+(115,111,2)
+(129,111,2)
+(31,111,2)
+(90,111,2)
+(108,111,2)
+(45,14,2)
+(112,5,2)
+(45,111,2)
+(81,111,2)
+(95,111,2)
+(42,111,2)
+(54,111,2)
+(29,111,2)
+(86,67,2)
+(59,25,2)
+(69,5,2)
+(28,111,2)
+(10,5,2)
+(111,111,2)
+(111,51,2)
+(34,86,2)
+(62,108,2)
+(76,111,2)
+(85,100,2)
+(116,111,2)
+(62,106,2)
+(13,129,2)
+(80,111,2)
+(100,5,2)
+(87,111,2)
+(97,5,2)
+(5,5,2)
+(67,111,2)
+(5,67,2)
+(72,111,2)
+(85,87,2)
+(7,111,2)
+(84,111,2)
+(37,5,2)
+(47,111,2)
+(8,5,2)
+(13,27,2)
+(129,87,2)
+(96,111,2)
+(113,5,2)
+(14,122,2)
+(45,81,2)
+(127,82,2)
+(86,108,2)
+(49,111,2)
+(86,111,2)
+(5,111,2)
+(0,86,2)
+(95,27,2)
+(12,111,2)
+-----------------------------------
+(0,i)
+(1,cmpt)
+(2,"\\n")
+(3,image)
+(4,fprintf(out, " f(%d,%d)
+(5,i < n)
+(6,i)
+(7,jas_image_cmptheight(image, cmptno)
+(8,buf)
+(9,image)
+(10,width)
+(11,cmptno)
+(12,0)
+(13,jas_image_readcmpt2(image, cmptno, width - n, height - 1, n, 1, buf)
+(14,cmpt->prec_)
+(15,n)
+(16,height - 1)
+(17,i)
+(18,for (cmptno = 0; cmptno < image->numcmpts_; ++cmptno)
+(19,cmptno)
+(20,0)
+(21,fprintf(out, "\\n")
+(22,abort()
+(23,image)
+(24,)
+(25,jas_image_readcmpt2(image, cmptno, 0, 0, n, 1, buf)
+(26,cmptno)
+(27,jas_image_t *image)
+(28,i)
+(29,type_)
+(30,cmptno)
+(31,out)
+(32,width)
+(33,)
+(34,i)
+(35,cmpt)
+(36,fprintf(out, "\\n")
+(37,height - 1)
+(38,if (jas_image_readcmpt2(image, cmptno, width - n, height - 1, n, 1, buf)
+(39,)
+(40,cmptno)
+(41,1)
+(42,"\\n")
+(43,"prec=%d, sgnd=%d, cmpttype=%d\\n")
+(44,n)
+(45,fprintf(out, "prec=%d, sgnd=%d, cmpttype=%d\\n", cmpt->prec_,\\n\\t\\t  cmpt->sgnd_, cmpt->type_)
+(46,++i)
+(47,n)
+(48,)
+(49,n)
+(50,out)
+(51,image->numcmpts_)
+(52,0)
+(53,n)
+(54,++cmptno)
+(55,buf)
+(56,height)
+(57,n)
+(58,0)
+(59,abort()
+(60,sgnd_)
+(61,cmpt->type_)
+(62,fprintf(out, " f(%d,%d)
+(63,height)
+(64,cmptno)
+(65,JAS_MIN(16, width)
+(66,height)
+(67,n = JAS_MIN(16, width)
+(68,width)
+(69,1)
+(70,0)
+(71,cmpt)
+(72,16)
+(73,0)
+(74,i)
+(75,cmptno)
+(76,out)
+(77,image->cmpts_[cmptno])
+(78,n)
+(79,width)
+(80,image->cmpts_)
+(81,cmpt->sgnd_)
+(82,i = 0)
+(83," f(%d,%d)
+(84,width)
+(85,width - n + i)
+(86,i < n)
+(87,width = jas_image_cmptwidth(image, cmptno)
+(88,numcmpts_)
+(89,RET)
+(90,1)
+(91,cmptno)
+(92,i)
+(93,out)
+(94,if (jas_image_readcmpt2(image, cmptno, 0, 0, n, 1, buf)
+(95,jas_image_cmptwidth(image, cmptno)
+(96,1)
+(97,i)
+(98,cmptno)
+(99,cmpt)
+(100,n + i)
+(101,cmpt)
+(102,image)
+(103,image)
+(104,buf)
+(105,n)
+(106,buf[i])
+(107,height = jas_image_cmptheight(image, cmptno)
+(108,i = 0)
+(109,height)
+(110,for (i = 0; i < n; ++i)
+(111,cmptno < image->numcmpts_)
+(112," f(%d,%d)
+(113,++i)
+(114,out)
+(115,cmpts_)
+(116,i)
+(117,prec_)
+(118,)
+(119,for (i = 0; i < n; ++i)
+(120,)
+(121,i)
+(122,cmpt = image->cmpts_[cmptno])
+(123,i)
+(124,FILE *out)
+(125,buf)
+(126,image)
+(127,buf[i])
+(128,buf)
+(129,width - n)
+(130,cmptno = 0)
+-----cfg-----
+(7,18)
+(15,26)
+(15,195)
+(16,15)
+(18,16)
+(21,31)
+(23,21)
+(24,23)
+(26,24)
+(28,38)
+(29,34)
+(31,29)
+(32,28)
+(34,32)
+(35,45)
+(36,41)
+(38,36)
+(39,35)
+(41,39)
+(42,64)
+(43,50)
+(45,43)
+(46,42)
+(47,46)
+(48,54)
+(50,48)
+(51,47)
+(52,58)
+(54,52)
+(55,51)
+(56,55)
+(58,56)
+(61,82)
+(62,69)
+(64,62)
+(65,61)
+(66,65)
+(67,73)
+(69,67)
+(70,66)
+(71,77)
+(73,71)
+(74,70)
+(75,74)
+(77,75)
+(82,89)
+(85,212)
+(85,98)
+(87,85)
+(89,87)
+(90,89)
+(93,104)
+(95,93)
+(96,95)
+(98,96)
+(101,112)
+(101,120)
+(102,107)
+(104,102)
+(105,101)
+(107,105)
+(109,120)
+(110,115)
+(112,110)
+(113,109)
+(115,113)
+(117,128)
+(117,138)
+(118,123)
+(120,118)
+(121,117)
+(123,121)
+(125,138)
+(126,131)
+(128,126)
+(129,125)
+(131,129)
+(132,153)
+(134,132)
+(135,134)
+(136,142)
+(138,136)
+(139,135)
+(140,146)
+(142,140)
+(143,139)
+(144,143)
+(146,144)
+(150,159)
+(150,167)
+(151,150)
+(153,151)
+(156,167)
+(157,156)
+(159,157)
+(161,182)
+(163,161)
+(164,163)
+(165,171)
+(167,165)
+(168,164)
+(169,175)
+(171,169)
+(172,168)
+(173,172)
+(175,173)
+(179,188)
+(179,90)
+(180,179)
+(182,180)
+(185,90)
+(186,185)
+(188,186)
+(192,200)
+(193,192)
+(195,193)
+(197,205)
+(198,197)
+(200,198)
+(202,210)
+(203,202)
+(205,203)
+(207,212)
+(208,207)
+(210,208)
+-----path-----
+7,18,16,15,26,24,23,21,31,29,34,32,28,38,36,41,39,35,45,43,50,48,54,52,58,56,55,51,47,46,42,64,62,69,67,73,71,77,75,74,70,66,65,61,82,89,87,85,212
+7,18,16,15,26,24,23,21,31,29,34,32,28,38,36,41,39,35,45,43,50,48,54,52,58,56,55,51,47,46,42,64,62,69,67,73,71,77,75,74,70,66,65,61,82,89,87,85,98,96,95
+7,18,16,15,195,193,192,200,198,197,205,203,202,210,208,207,212
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jas_image_setbbox (jas_image_t *image)
+8,jas_image_t *image
+9,<empty>
+10,jas_image_cmpt_t* cmpt
+11,int cmptno
+12,int_fast32_t x
+13,int_fast32_t y
+14,if (image->numcmpts_ > 0)
+15,image->numcmpts_ > 0
+16,image->numcmpts_
+17,image
+18,numcmpts_
+19,0
+20,<empty>
+21,cmpt = image->cmpts_[0]
+22,cmpt
+23,image->cmpts_[0]
+24,image->cmpts_
+25,image
+26,cmpts_
+27,0
+28,image->tlx_ = cmpt->tlx_
+29,image->tlx_
+30,image
+31,tlx_
+32,cmpt->tlx_
+33,cmpt
+34,tlx_
+35,image->tly_ = cmpt->tly_
+36,image->tly_
+37,image
+38,tly_
+39,cmpt->tly_
+40,cmpt
+41,tly_
+42,image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+43,image->brx_
+44,image
+45,brx_
+46,cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+47,cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1)
+48,cmpt->tlx_
+49,cmpt
+50,tlx_
+51,cmpt->hstep_ * (cmpt->width_ - 1)
+52,cmpt->hstep_
+53,cmpt
+54,hstep_
+55,cmpt->width_ - 1
+56,cmpt->width_
+57,cmpt
+58,width_
+59,1
+60,1
+61,image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+62,image->bry_
+63,image
+64,bry_
+65,cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+66,cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1)
+67,cmpt->tly_
+68,cmpt
+69,tly_
+70,cmpt->vstep_ * (cmpt->height_ - 1)
+71,cmpt->vstep_
+72,cmpt
+73,vstep_
+74,cmpt->height_ - 1
+75,cmpt->height_
+76,cmpt
+77,height_
+78,1
+79,1
+80,for (cmptno = 1;cmptno < image->numcmpts_;++cmptno)
+81,<empty>
+82,cmptno = 1
+83,cmptno
+84,1
+85,cmptno < image->numcmpts_
+86,cmptno
+87,image->numcmpts_
+88,image
+89,numcmpts_
+90,++cmptno
+91,cmptno
+92,<empty>
+93,cmpt = image->cmpts_[cmptno]
+94,cmpt
+95,image->cmpts_[cmptno]
+96,image->cmpts_
+97,image
+98,cmpts_
+99,cmptno
+100,if (image->tlx_ > cmpt->tlx_)
+101,image->tlx_ > cmpt->tlx_
+102,image->tlx_
+103,image
+104,tlx_
+105,cmpt->tlx_
+106,cmpt
+107,tlx_
+108,<empty>
+109,image->tlx_ = cmpt->tlx_
+110,image->tlx_
+111,image
+112,tlx_
+113,cmpt->tlx_
+114,cmpt
+115,tlx_
+116,if (image->tly_ > cmpt->tly_)
+117,image->tly_ > cmpt->tly_
+118,image->tly_
+119,image
+120,tly_
+121,cmpt->tly_
+122,cmpt
+123,tly_
+124,<empty>
+125,image->tly_ = cmpt->tly_
+126,image->tly_
+127,image
+128,tly_
+129,cmpt->tly_
+130,cmpt
+131,tly_
+132,x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+133,x
+134,cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+135,cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1)
+136,cmpt->tlx_
+137,cmpt
+138,tlx_
+139,cmpt->hstep_ * (cmpt->width_ - 1)
+140,cmpt->hstep_
+141,cmpt
+142,hstep_
+143,cmpt->width_ - 1
+144,cmpt->width_
+145,cmpt
+146,width_
+147,1
+148,1
+149,if (image->brx_ < x)
+150,image->brx_ < x
+151,image->brx_
+152,image
+153,brx_
+154,x
+155,<empty>
+156,image->brx_ = x
+157,image->brx_
+158,image
+159,brx_
+160,x
+161,y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+162,y
+163,cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+164,cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1)
+165,cmpt->tly_
+166,cmpt
+167,tly_
+168,cmpt->vstep_ * (cmpt->height_ - 1)
+169,cmpt->vstep_
+170,cmpt
+171,vstep_
+172,cmpt->height_ - 1
+173,cmpt->height_
+174,cmpt
+175,height_
+176,1
+177,1
+178,if (image->bry_ < y)
+179,image->bry_ < y
+180,image->bry_
+181,image
+182,bry_
+183,y
+184,<empty>
+185,image->bry_ = y
+186,image->bry_
+187,image
+188,bry_
+189,y
+190,else
+191,<empty>
+192,image->tlx_ = 0
+193,image->tlx_
+194,image
+195,tlx_
+196,0
+197,image->tly_ = 0
+198,image->tly_
+199,image
+200,tly_
+201,0
+202,image->brx_ = 0
+203,image->brx_
+204,image
+205,brx_
+206,0
+207,image->bry_ = 0
+208,image->bry_
+209,image
+210,bry_
+211,0
+212,RET
+213,jas_image_t *image
+214,RET
+215,void jas_image_setbbox (jas_image_t *image)
+216,jas_image_t *image
+217,<empty>
+218,jas_image_cmpt_t* cmpt
+219,int cmptno
+220,int_fast32_t x
+221,int_fast32_t y
+222,if (image->numcmpts_ > 0)
+223,image->numcmpts_ > 0
+224,image->numcmpts_
+225,image
+226,numcmpts_
+227,0
+228,<empty>
+229,cmpt = image->cmpts_[0]
+230,cmpt
+231,image->cmpts_[0]
+232,image->cmpts_
+233,image
+234,cmpts_
+235,0
+236,image->tlx_ = cmpt->tlx_
+237,image->tlx_
+238,image
+239,tlx_
+240,cmpt->tlx_
+241,cmpt
+242,tlx_
+243,image->tly_ = cmpt->tly_
+244,image->tly_
+245,image
+246,tly_
+247,cmpt->tly_
+248,cmpt
+249,tly_
+250,image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+251,image->brx_
+252,image
+253,brx_
+254,cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+255,cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1)
+256,cmpt->tlx_
+257,cmpt
+258,tlx_
+259,cmpt->hstep_ * (cmpt->width_ - 1)
+260,cmpt->hstep_
+261,cmpt
+262,hstep_
+263,cmpt->width_ - 1
+264,cmpt->width_
+265,cmpt
+266,width_
+267,1
+268,1
+269,image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+270,image->bry_
+271,image
+272,bry_
+273,cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+274,cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1)
+275,cmpt->tly_
+276,cmpt
+277,tly_
+278,cmpt->vstep_ * (cmpt->height_ - 1)
+279,cmpt->vstep_
+280,cmpt
+281,vstep_
+282,cmpt->height_ - 1
+283,cmpt->height_
+284,cmpt
+285,height_
+286,1
+287,1
+288,for (cmptno = 1;cmptno < image->numcmpts_;++cmptno)
+289,<empty>
+290,cmptno = 1
+291,cmptno
+292,1
+293,cmptno < image->numcmpts_
+294,cmptno
+295,image->numcmpts_
+296,image
+297,numcmpts_
+298,++cmptno
+299,cmptno
+300,<empty>
+301,cmpt = image->cmpts_[cmptno]
+302,cmpt
+303,image->cmpts_[cmptno]
+304,image->cmpts_
+305,image
+306,cmpts_
+307,cmptno
+308,if (image->tlx_ > cmpt->tlx_)
+309,image->tlx_ > cmpt->tlx_
+310,image->tlx_
+311,image
+312,tlx_
+313,cmpt->tlx_
+314,cmpt
+315,tlx_
+316,<empty>
+317,image->tlx_ = cmpt->tlx_
+318,image->tlx_
+319,image
+320,tlx_
+321,cmpt->tlx_
+322,cmpt
+323,tlx_
+324,if (image->tly_ > cmpt->tly_)
+325,image->tly_ > cmpt->tly_
+326,image->tly_
+327,image
+328,tly_
+329,cmpt->tly_
+330,cmpt
+331,tly_
+332,<empty>
+333,image->tly_ = cmpt->tly_
+334,image->tly_
+335,image
+336,tly_
+337,cmpt->tly_
+338,cmpt
+339,tly_
+340,x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+341,x
+342,cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1
+343,cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1)
+344,cmpt->tlx_
+345,cmpt
+346,tlx_
+347,cmpt->hstep_ * (cmpt->width_ - 1)
+348,cmpt->hstep_
+349,cmpt
+350,hstep_
+351,cmpt->width_ - 1
+352,cmpt->width_
+353,cmpt
+354,width_
+355,1
+356,1
+357,if (image->brx_ < x)
+358,image->brx_ < x
+359,image->brx_
+360,image
+361,brx_
+362,x
+363,<empty>
+364,image->brx_ = x
+365,image->brx_
+366,image
+367,brx_
+368,x
+369,y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+370,y
+371,cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1
+372,cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1)
+373,cmpt->tly_
+374,cmpt
+375,tly_
+376,cmpt->vstep_ * (cmpt->height_ - 1)
+377,cmpt->vstep_
+378,cmpt
+379,vstep_
+380,cmpt->height_ - 1
+381,cmpt->height_
+382,cmpt
+383,height_
+384,1
+385,1
+386,if (image->bry_ < y)
+387,image->bry_ < y
+388,image->bry_
+389,image
+390,bry_
+391,y
+392,<empty>
+393,image->bry_ = y
+394,image->bry_
+395,image
+396,bry_
+397,y
+398,else
+399,<empty>
+400,image->tlx_ = 0
+401,image->tlx_
+402,image
+403,tlx_
+404,0
+405,image->tly_ = 0
+406,image->tly_
+407,image
+408,tly_
+409,0
+410,image->brx_ = 0
+411,image->brx_
+412,image
+413,brx_
+414,0
+415,image->bry_ = 0
+416,image->bry_
+417,image
+418,bry_
+419,0
+420,RET
+421,jas_image_t *image
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static void jas_image_setbbox(jas_image_t *image) {
+jas_image_cmpt_t *cmpt;
+int cmptno;
+int_fast32_t x;
+int_fast32_t y;
+if(image->numcmpts_ > 0)
+cmpt = image->cmpts_[0];
+image->tlx_ = cmpt->tlx_;
+image->tly_ = cmpt->tly_;
+image->brx_ = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;
+image->bry_ = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;
+for(cmptno = 1;cmptno < image->numcmpts_;++cmptno)
+cmpt = image->cmpts_[cmptno];
+x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;
+y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;
+for(cmptno = 1;cmptno < image->numcmpts_;++cmptno)
+cmpt = image->cmpts_[cmptno];
+x = cmpt->tlx_ + cmpt->hstep_ * (cmpt->width_ - 1) + 1;
+y = cmpt->tly_ + cmpt->vstep_ * (cmpt->height_ - 1) + 1;
+=======================

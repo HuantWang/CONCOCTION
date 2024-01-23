@@ -1,0 +1,361 @@
+-----label-----
+0
+-----code-----
+int pnm_type(uint_fast16_t magic)
+{
+	int type;
+	switch (magic) {
+	case PNM_MAGIC_TXTPPM:
+	case PNM_MAGIC_BINPPM:
+		type = PNM_TYPE_PPM;
+		break;
+	case PNM_MAGIC_TXTPGM:
+	case PNM_MAGIC_BINPGM:
+		type = PNM_TYPE_PGM;
+		break;
+	case PNM_MAGIC_TXTPBM:
+	case PNM_MAGIC_BINPBM:
+		type = PNM_TYPE_PBM;
+		break;
+	default:
+		/* This should not happen. */
+		abort();
+		break;
+	}
+	return type;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+10,11
+10,12
+10,13
+11,12
+12,13
+12,14
+14,15
+16,17
+16,18
+17,18
+19,20
+19,21
+19,22
+19,23
+19,24
+19,25
+19,26
+19,27
+19,28
+19,29
+19,30
+19,31
+19,32
+19,33
+19,34
+20,21
+21,22
+23,24
+24,25
+26,27
+27,28
+27,29
+28,29
+30,31
+33,34
+34,35
+36,37
+37,38
+39,40
+40,41
+40,42
+41,42
+43,44
+46,47
+47,48
+49,50
+50,51
+52,53
+53,54
+53,55
+54,55
+56,57
+60,61
+61,62
+62,63
+65,66
+66,67
+-----nextToken-----
+2,4,7,9,13,15,18,22,25,29,31,32,35,38,42,44,45,48,51,55,57,58,59,63,64,67
+-----computeFrom-----
+27,28
+27,29
+40,41
+40,42
+53,54
+53,55
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;SwitchStatement;IdExpression;Name;CompoundStatement;CaseStatement;IdExpression;Name;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BreakStatement;CaseStatement;IdExpression;Name;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BreakStatement;DefaultStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BreakStatement;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+int pnm_type(uint_fast16_t magic){	int type;	switch (magic) {	case PNM_MAGIC_TXTPPM:	case PNM_MAGIC_BINPPM:		type = PNM_TYPE_PPM;		break;	case PNM_MAGIC_TXTPGM:	case PNM_MAGIC_BINPGM:		type = PNM_TYPE_PGM;		break;	case PNM_MAGIC_TXTPBM:	case PNM_MAGIC_BINPBM:		type = PNM_TYPE_PBM;		break;	default:		/* This should not happen. */		abort();		break;	}	return type;}
+int
+pnm_type(uint_fast16_t magic)
+pnm_type
+uint_fast16_t magic
+uint_fast16_t
+uint_fast16_t
+magic
+magic
+{	int type;	switch (magic) {	case PNM_MAGIC_TXTPPM:	case PNM_MAGIC_BINPPM:		type = PNM_TYPE_PPM;		break;	case PNM_MAGIC_TXTPGM:	case PNM_MAGIC_BINPGM:		type = PNM_TYPE_PGM;		break;	case PNM_MAGIC_TXTPBM:	case PNM_MAGIC_BINPBM:		type = PNM_TYPE_PBM;		break;	default:		/* This should not happen. */		abort();		break;	}	return type;}
+int type;
+int type;
+int
+type
+type
+switch (magic) {	case PNM_MAGIC_TXTPPM:	case PNM_MAGIC_BINPPM:		type = PNM_TYPE_PPM;		break;	case PNM_MAGIC_TXTPGM:	case PNM_MAGIC_BINPGM:		type = PNM_TYPE_PGM;		break;	case PNM_MAGIC_TXTPBM:	case PNM_MAGIC_BINPBM:		type = PNM_TYPE_PBM;		break;	default:		/* This should not happen. */		abort();		break;	}
+magic
+magic
+{	case PNM_MAGIC_TXTPPM:	case PNM_MAGIC_BINPPM:		type = PNM_TYPE_PPM;		break;	case PNM_MAGIC_TXTPGM:	case PNM_MAGIC_BINPGM:		type = PNM_TYPE_PGM;		break;	case PNM_MAGIC_TXTPBM:	case PNM_MAGIC_BINPBM:		type = PNM_TYPE_PBM;		break;	default:		/* This should not happen. */		abort();		break;	}
+case PNM_MAGIC_TXTPPM:
+PNM_MAGIC_TXTPPM
+PNM_MAGIC_TXTPPM
+case PNM_MAGIC_BINPPM:
+PNM_MAGIC_BINPPM
+PNM_MAGIC_BINPPM
+type = PNM_TYPE_PPM;
+type = PNM_TYPE_PPM
+type
+type
+PNM_TYPE_PPM
+PNM_TYPE_PPM
+break;
+case PNM_MAGIC_TXTPGM:
+PNM_MAGIC_TXTPGM
+PNM_MAGIC_TXTPGM
+case PNM_MAGIC_BINPGM:
+PNM_MAGIC_BINPGM
+PNM_MAGIC_BINPGM
+type = PNM_TYPE_PGM;
+type = PNM_TYPE_PGM
+type
+type
+PNM_TYPE_PGM
+PNM_TYPE_PGM
+break;
+case PNM_MAGIC_TXTPBM:
+PNM_MAGIC_TXTPBM
+PNM_MAGIC_TXTPBM
+case PNM_MAGIC_BINPBM:
+PNM_MAGIC_BINPBM
+PNM_MAGIC_BINPBM
+type = PNM_TYPE_PBM;
+type = PNM_TYPE_PBM
+type
+type
+PNM_TYPE_PBM
+PNM_TYPE_PBM
+break;
+default:
+abort();
+abort()
+abort
+abort
+break;
+return type;
+type
+type
+-----joern-----
+(4,13,0)
+(10,12,0)
+(9,3,0)
+(6,3,0)
+(17,4,0)
+(16,9,0)
+(5,11,0)
+(0,13,0)
+(9,12,0)
+(7,4,0)
+(18,3,0)
+(12,3,0)
+(11,8,0)
+(0,4,0)
+(1,0,0)
+(4,4,0)
+(14,9,0)
+(15,12,0)
+(4,8,0)
+(11,12,0)
+(2,0,0)
+(11,12,1)
+(0,4,1)
+(4,13,1)
+(12,10,1)
+(1,2,1)
+(7,0,1)
+(2,12,1)
+(10,15,1)
+(2,11,1)
+(14,0,1)
+(9,12,1)
+(5,4,1)
+(11,5,1)
+(4,4,1)
+(0,13,1)
+(4,17,1)
+(16,9,1)
+(0,1,1)
+(9,14,1)
+(17,7,1)
+(4,4,2)
+(2,0,2)
+(11,12,2)
+(5,0,2)
+(4,0,2)
+(9,12,2)
+(1,0,2)
+(7,0,2)
+(11,0,2)
+(16,9,2)
+(0,13,2)
+(4,13,2)
+(0,4,2)
+(0,0,2)
+(17,0,2)
+-----------------------------------
+(0,maxval > 0)
+(1,0)
+(2,maxval)
+(3,)
+(4,maxval >>= 1)
+(5,n)
+(6,n)
+(7,maxval)
+(8,)
+(9,return n;)
+(10,0)
+(11,++n)
+(12,n = 0)
+(13,uint_fast32_t maxval)
+(14,n)
+(15,n)
+(16,RET)
+(17,1)
+(18,while (maxval > 0)
+-----cfg-----
+(18,41)
+(34,41)
+(39,41)
+(7,18)
+(7,26)
+(7,34)
+(7,39)
+(41,43)
+(26,41)
+-----path-----
+7,18,41,43
+7,26,41,43
+7,34,41,43
+7,39,41,43
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int pnm_type (uint_fast16_t magic)
+8,uint_fast16_t magic
+9,<empty>
+10,int type
+11,switch(magic)
+12,magic
+13,<empty>
+14,case PNM_MAGIC_TXTPPM:
+15,PNM_MAGIC_TXTPPM
+16,case PNM_MAGIC_BINPPM:
+17,PNM_MAGIC_BINPPM
+18,type = PNM_TYPE_PPM
+19,type
+20,PNM_TYPE_PPM
+21,break;
+22,case PNM_MAGIC_TXTPGM:
+23,PNM_MAGIC_TXTPGM
+24,case PNM_MAGIC_BINPGM:
+25,PNM_MAGIC_BINPGM
+26,type = PNM_TYPE_PGM
+27,type
+28,PNM_TYPE_PGM
+29,break;
+30,case PNM_MAGIC_TXTPBM:
+31,PNM_MAGIC_TXTPBM
+32,case PNM_MAGIC_BINPBM:
+33,PNM_MAGIC_BINPBM
+34,type = PNM_TYPE_PBM
+35,type
+36,PNM_TYPE_PBM
+37,break;
+38,default:
+39,abort()
+40,break;
+41,return type;
+42,type
+43,RET
+44,uint_fast16_t magic
+45,RET
+46,int pnm_type (uint_fast16_t magic)
+47,uint_fast16_t magic
+48,<empty>
+49,int type
+50,switch(magic)
+51,magic
+52,<empty>
+53,case PNM_MAGIC_TXTPPM:
+54,PNM_MAGIC_TXTPPM
+55,case PNM_MAGIC_BINPPM:
+56,PNM_MAGIC_BINPPM
+57,type = PNM_TYPE_PPM
+58,type
+59,PNM_TYPE_PPM
+60,break;
+61,case PNM_MAGIC_TXTPGM:
+62,PNM_MAGIC_TXTPGM
+63,case PNM_MAGIC_BINPGM:
+64,PNM_MAGIC_BINPGM
+65,type = PNM_TYPE_PGM
+66,type
+67,PNM_TYPE_PGM
+68,break;
+69,case PNM_MAGIC_TXTPBM:
+70,PNM_MAGIC_TXTPBM
+71,case PNM_MAGIC_BINPBM:
+72,PNM_MAGIC_BINPBM
+73,type = PNM_TYPE_PBM
+74,type
+75,PNM_TYPE_PBM
+76,break;
+77,default:
+78,abort()
+79,break;
+80,return type;
+81,type
+82,RET
+83,uint_fast16_t magic
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int pnm_type(uint_fast16_t magic) {
+int type;
+switch(magic)
+type = PNM_TYPE_PPM;
+return type;
+=======================

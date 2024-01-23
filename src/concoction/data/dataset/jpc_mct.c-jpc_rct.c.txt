@@ -1,0 +1,3872 @@
+-----label-----
+0
+-----code-----
+void jpc_rct(jas_matrix_t *c0, jas_matrix_t *c1, jas_matrix_t *c2)
+{
+	int numrows;
+	int numcols;
+	int i;
+	int j;
+	jpc_fix_t *c0p;
+	jpc_fix_t *c1p;
+	jpc_fix_t *c2p;
+
+	numrows = jas_matrix_numrows(c0);
+	numcols = jas_matrix_numcols(c0);
+
+	/* All three matrices must have the same dimensions. */
+	assert(jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols);
+
+	for (i = 0; i < numrows; i++) {
+		c0p = jas_matrix_getref(c0, i, 0);
+		c1p = jas_matrix_getref(c1, i, 0);
+		c2p = jas_matrix_getref(c2, i, 0);
+		for (j = numcols; j > 0; --j) {
+			int r;
+			int g;
+			int b;
+			int y;
+			int u;
+			int v;
+			r = *c0p;
+			g = *c1p;
+			b = *c2p;
+			y = (r + (g << 1) + b) >> 2;
+			u = b - g;
+			v = r - g;
+			*c0p++ = y;
+			*c1p++ = u;
+			*c2p++ = v;
+		}
+	}
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+23,25
+23,26
+23,27
+23,28
+23,29
+23,30
+23,31
+23,32
+23,33
+23,34
+24,25
+25,26
+25,27
+27,28
+29,30
+30,31
+30,32
+32,33
+34,35
+35,36
+35,37
+37,38
+39,40
+40,41
+40,42
+42,43
+44,45
+45,46
+45,47
+46,47
+48,49
+48,50
+51,52
+52,53
+52,54
+53,54
+55,56
+55,57
+58,59
+59,60
+59,61
+60,61
+62,63
+62,64
+65,66
+66,67
+66,68
+67,68
+69,70
+69,71
+70,71
+72,73
+74,75
+75,76
+75,77
+76,77
+78,79
+78,80
+79,80
+81,82
+83,84
+84,85
+84,86
+85,86
+87,88
+87,89
+88,89
+88,90
+89,90
+89,91
+90,91
+90,92
+91,92
+91,93
+92,93
+94,95
+96,97
+98,99
+98,100
+99,100
+99,101
+100,101
+102,103
+104,105
+106,107
+106,108
+107,108
+107,109
+108,109
+110,111
+112,113
+114,115
+114,116
+115,116
+115,117
+116,117
+118,119
+120,121
+122,123
+122,124
+122,125
+122,126
+123,124
+124,125
+124,126
+125,126
+128,129
+128,130
+129,130
+131,132
+133,134
+134,135
+136,137
+136,138
+136,139
+136,140
+137,138
+138,139
+138,140
+139,140
+141,142
+141,143
+141,144
+141,145
+142,143
+144,145
+146,147
+149,150
+150,151
+150,152
+151,152
+153,154
+153,155
+153,156
+153,157
+154,155
+156,157
+158,159
+161,162
+162,163
+162,164
+163,164
+165,166
+165,167
+165,168
+165,169
+166,167
+168,169
+170,171
+173,174
+173,175
+173,176
+173,177
+174,175
+175,176
+175,177
+176,177
+178,179
+180,181
+180,182
+181,182
+184,185
+185,186
+187,188
+187,189
+187,190
+187,191
+187,192
+187,193
+187,194
+187,195
+187,196
+187,197
+187,198
+187,199
+187,200
+187,201
+187,202
+188,189
+189,190
+189,191
+191,192
+193,194
+194,195
+194,196
+196,197
+198,199
+199,200
+199,201
+201,202
+203,204
+204,205
+204,206
+206,207
+208,209
+209,210
+209,211
+211,212
+213,214
+214,215
+214,216
+216,217
+218,219
+219,220
+219,221
+220,221
+222,223
+223,224
+225,226
+226,227
+226,228
+227,228
+229,230
+230,231
+232,233
+233,234
+233,235
+234,235
+236,237
+237,238
+239,240
+240,241
+240,242
+241,242
+243,244
+243,245
+244,245
+245,246
+245,247
+246,247
+246,248
+247,248
+249,250
+250,251
+250,252
+251,252
+254,255
+257,258
+258,259
+258,260
+259,260
+261,262
+261,263
+262,263
+264,265
+266,267
+267,268
+267,269
+268,269
+270,271
+270,272
+271,272
+273,274
+275,276
+276,277
+276,278
+277,278
+278,279
+279,280
+281,282
+283,284
+284,285
+284,286
+285,286
+286,287
+287,288
+289,290
+291,292
+292,293
+292,294
+293,294
+294,295
+295,296
+297,298
+-----nextToken-----
+2,4,7,9,10,13,15,16,19,21,22,26,28,31,33,36,38,41,43,47,49,50,54,56,57,61,63,64,68,71,73,77,80,82,86,93,95,97,101,103,105,109,111,113,117,119,121,126,127,130,132,135,140,143,145,147,148,152,155,157,159,160,164,167,169,171,172,177,179,182,183,186,190,192,195,197,200,202,205,207,210,212,215,217,221,224,228,231,235,238,242,248,252,253,255,256,260,263,265,269,272,274,280,282,288,290,296,298
+-----computeFrom-----
+66,67
+66,68
+75,76
+75,77
+87,88
+87,89
+88,89
+88,90
+89,90
+89,91
+90,91
+90,92
+98,99
+98,100
+106,107
+106,108
+114,115
+114,116
+124,125
+124,126
+128,129
+128,130
+138,139
+138,140
+150,151
+150,152
+162,163
+162,164
+175,176
+175,177
+180,181
+180,182
+219,220
+219,221
+226,227
+226,228
+233,234
+233,235
+240,241
+240,242
+243,244
+243,245
+245,246
+245,247
+246,247
+246,248
+250,251
+250,252
+258,259
+258,260
+261,262
+261,263
+267,268
+267,269
+270,271
+270,272
+276,277
+276,278
+284,285
+284,286
+292,293
+292,294
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;BinaryExpression;BinaryExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;UnaryExpression;IdExpression;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;BinaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+void jpc_rct(jas_matrix_t *c0, jas_matrix_t *c1, jas_matrix_t *c2){	int numrows;	int numcols;	int i;	int j;	jpc_fix_t *c0p;	jpc_fix_t *c1p;	jpc_fix_t *c2p;	numrows = jas_matrix_numrows(c0);	numcols = jas_matrix_numcols(c0);	/* All three matrices must have the same dimensions. */	assert(jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols);	for (i = 0; i < numrows; i++) {		c0p = jas_matrix_getref(c0, i, 0);		c1p = jas_matrix_getref(c1, i, 0);		c2p = jas_matrix_getref(c2, i, 0);		for (j = numcols; j > 0; --j) {			int r;			int g;			int b;			int y;			int u;			int v;			r = *c0p;			g = *c1p;			b = *c2p;			y = (r + (g << 1) + b) >> 2;			u = b - g;			v = r - g;			*c0p++ = y;			*c1p++ = u;			*c2p++ = v;		}	}}
+void
+jpc_rct(jas_matrix_t *c0, jas_matrix_t *c1, jas_matrix_t *c2)
+jpc_rct
+jas_matrix_t *c0
+jas_matrix_t
+jas_matrix_t
+*c0
+*
+c0
+jas_matrix_t *c1
+jas_matrix_t
+jas_matrix_t
+*c1
+*
+c1
+jas_matrix_t *c2
+jas_matrix_t
+jas_matrix_t
+*c2
+*
+c2
+{	int numrows;	int numcols;	int i;	int j;	jpc_fix_t *c0p;	jpc_fix_t *c1p;	jpc_fix_t *c2p;	numrows = jas_matrix_numrows(c0);	numcols = jas_matrix_numcols(c0);	/* All three matrices must have the same dimensions. */	assert(jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols);	for (i = 0; i < numrows; i++) {		c0p = jas_matrix_getref(c0, i, 0);		c1p = jas_matrix_getref(c1, i, 0);		c2p = jas_matrix_getref(c2, i, 0);		for (j = numcols; j > 0; --j) {			int r;			int g;			int b;			int y;			int u;			int v;			r = *c0p;			g = *c1p;			b = *c2p;			y = (r + (g << 1) + b) >> 2;			u = b - g;			v = r - g;			*c0p++ = y;			*c1p++ = u;			*c2p++ = v;		}	}}
+int numrows;
+int numrows;
+int
+numrows
+numrows
+int numcols;
+int numcols;
+int
+numcols
+numcols
+int i;
+int i;
+int
+i
+i
+int j;
+int j;
+int
+j
+j
+jpc_fix_t *c0p;
+jpc_fix_t *c0p;
+jpc_fix_t
+jpc_fix_t
+*c0p
+*
+c0p
+jpc_fix_t *c1p;
+jpc_fix_t *c1p;
+jpc_fix_t
+jpc_fix_t
+*c1p
+*
+c1p
+jpc_fix_t *c2p;
+jpc_fix_t *c2p;
+jpc_fix_t
+jpc_fix_t
+*c2p
+*
+c2p
+numrows = jas_matrix_numrows(c0);
+numrows = jas_matrix_numrows(c0)
+numrows
+numrows
+jas_matrix_numrows(c0)
+jas_matrix_numrows
+jas_matrix_numrows
+c0
+c0
+numcols = jas_matrix_numcols(c0);
+numcols = jas_matrix_numcols(c0)
+numcols
+numcols
+jas_matrix_numcols(c0)
+jas_matrix_numcols
+jas_matrix_numcols
+c0
+c0
+assert(jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols);
+assert(jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols)
+assert
+assert
+jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols
+jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols	  && jas_matrix_numrows(c2) == numrows
+jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+jas_matrix_numrows(c1) == numrows
+jas_matrix_numrows(c1)
+jas_matrix_numrows
+jas_matrix_numrows
+c1
+c1
+numrows
+numrows
+jas_matrix_numcols(c1) == numcols
+jas_matrix_numcols(c1)
+jas_matrix_numcols
+jas_matrix_numcols
+c1
+c1
+numcols
+numcols
+jas_matrix_numrows(c2) == numrows
+jas_matrix_numrows(c2)
+jas_matrix_numrows
+jas_matrix_numrows
+c2
+c2
+numrows
+numrows
+jas_matrix_numcols(c2) == numcols
+jas_matrix_numcols(c2)
+jas_matrix_numcols
+jas_matrix_numcols
+c2
+c2
+numcols
+numcols
+for (i = 0; i < numrows; i++) {		c0p = jas_matrix_getref(c0, i, 0);		c1p = jas_matrix_getref(c1, i, 0);		c2p = jas_matrix_getref(c2, i, 0);		for (j = numcols; j > 0; --j) {			int r;			int g;			int b;			int y;			int u;			int v;			r = *c0p;			g = *c1p;			b = *c2p;			y = (r + (g << 1) + b) >> 2;			u = b - g;			v = r - g;			*c0p++ = y;			*c1p++ = u;			*c2p++ = v;		}	}
+i = 0;
+i = 0
+i
+i
+0
+i < numrows
+i
+i
+numrows
+numrows
+i++
+i
+i
+{		c0p = jas_matrix_getref(c0, i, 0);		c1p = jas_matrix_getref(c1, i, 0);		c2p = jas_matrix_getref(c2, i, 0);		for (j = numcols; j > 0; --j) {			int r;			int g;			int b;			int y;			int u;			int v;			r = *c0p;			g = *c1p;			b = *c2p;			y = (r + (g << 1) + b) >> 2;			u = b - g;			v = r - g;			*c0p++ = y;			*c1p++ = u;			*c2p++ = v;		}	}
+c0p = jas_matrix_getref(c0, i, 0);
+c0p = jas_matrix_getref(c0, i, 0)
+c0p
+c0p
+jas_matrix_getref(c0, i, 0)
+jas_matrix_getref
+jas_matrix_getref
+c0
+c0
+i
+i
+0
+c1p = jas_matrix_getref(c1, i, 0);
+c1p = jas_matrix_getref(c1, i, 0)
+c1p
+c1p
+jas_matrix_getref(c1, i, 0)
+jas_matrix_getref
+jas_matrix_getref
+c1
+c1
+i
+i
+0
+c2p = jas_matrix_getref(c2, i, 0);
+c2p = jas_matrix_getref(c2, i, 0)
+c2p
+c2p
+jas_matrix_getref(c2, i, 0)
+jas_matrix_getref
+jas_matrix_getref
+c2
+c2
+i
+i
+0
+for (j = numcols; j > 0; --j) {			int r;			int g;			int b;			int y;			int u;			int v;			r = *c0p;			g = *c1p;			b = *c2p;			y = (r + (g << 1) + b) >> 2;			u = b - g;			v = r - g;			*c0p++ = y;			*c1p++ = u;			*c2p++ = v;		}
+j = numcols;
+j = numcols
+j
+j
+numcols
+numcols
+j > 0
+j
+j
+0
+--j
+j
+j
+{			int r;			int g;			int b;			int y;			int u;			int v;			r = *c0p;			g = *c1p;			b = *c2p;			y = (r + (g << 1) + b) >> 2;			u = b - g;			v = r - g;			*c0p++ = y;			*c1p++ = u;			*c2p++ = v;		}
+int r;
+int r;
+int
+r
+r
+int g;
+int g;
+int
+g
+g
+int b;
+int b;
+int
+b
+b
+int y;
+int y;
+int
+y
+y
+int u;
+int u;
+int
+u
+u
+int v;
+int v;
+int
+v
+v
+r = *c0p;
+r = *c0p
+r
+r
+*c0p
+c0p
+c0p
+g = *c1p;
+g = *c1p
+g
+g
+*c1p
+c1p
+c1p
+b = *c2p;
+b = *c2p
+b
+b
+*c2p
+c2p
+c2p
+y = (r + (g << 1) + b) >> 2;
+y = (r + (g << 1) + b) >> 2
+y
+y
+(r + (g << 1) + b) >> 2
+(r + (g << 1) + b)
+r + (g << 1) + b
+r + (g << 1)
+r
+r
+(g << 1)
+g << 1
+g
+g
+1
+b
+b
+2
+u = b - g;
+u = b - g
+u
+u
+b - g
+b
+b
+g
+g
+v = r - g;
+v = r - g
+v
+v
+r - g
+r
+r
+g
+g
+*c0p++ = y;
+*c0p++ = y
+*c0p++
+c0p++
+c0p
+c0p
+y
+y
+*c1p++ = u;
+*c1p++ = u
+*c1p++
+c1p++
+c1p
+c1p
+u
+u
+*c2p++ = v;
+*c2p++ = v
+*c2p++
+c2p++
+c2p
+c2p
+v
+v
+-----joern-----
+(145,78,0)
+(135,62,0)
+(27,93,0)
+(37,142,0)
+(62,106,0)
+(114,19,0)
+(79,156,0)
+(29,124,0)
+(42,19,0)
+(26,107,0)
+(44,110,0)
+(101,156,0)
+(118,3,0)
+(26,97,0)
+(88,52,0)
+(57,134,0)
+(108,133,0)
+(32,48,0)
+(106,120,0)
+(68,92,0)
+(81,133,0)
+(134,81,0)
+(34,21,0)
+(139,147,0)
+(76,129,0)
+(87,79,0)
+(15,93,0)
+(11,157,0)
+(67,19,0)
+(59,125,0)
+(151,93,0)
+(95,12,0)
+(133,81,0)
+(92,142,0)
+(14,90,0)
+(52,125,0)
+(85,101,0)
+(50,19,0)
+(149,97,0)
+(43,115,0)
+(157,19,0)
+(107,32,0)
+(100,96,0)
+(98,147,0)
+(20,75,0)
+(49,19,0)
+(17,12,0)
+(13,74,0)
+(24,105,0)
+(87,124,0)
+(53,12,0)
+(127,71,0)
+(23,127,0)
+(154,46,0)
+(18,106,0)
+(9,66,0)
+(48,32,0)
+(144,125,0)
+(125,90,0)
+(51,96,0)
+(40,117,0)
+(154,60,0)
+(69,19,0)
+(5,90,0)
+(47,19,0)
+(140,46,0)
+(138,92,0)
+(60,154,0)
+(1,149,0)
+(82,109,0)
+(134,151,0)
+(107,150,0)
+(31,127,0)
+(103,59,0)
+(74,31,0)
+(150,142,0)
+(10,119,0)
+(128,142,0)
+(72,157,0)
+(130,19,0)
+(59,152,0)
+(122,39,0)
+(80,120,0)
+(8,46,0)
+(22,118,0)
+(70,53,0)
+(3,117,0)
+(153,7,0)
+(51,134,0)
+(153,120,0)
+(121,153,0)
+(77,127,0)
+(2,120,0)
+(28,75,0)
+(28,17,0)
+(117,3,0)
+(31,90,0)
+(41,15,0)
+(36,80,0)
+(141,87,0)
+(142,128,0)
+(155,143,0)
+(79,92,0)
+(116,79,0)
+(78,150,0)
+(87,119,0)
+(96,51,0)
+(152,59,0)
+(75,28,0)
+(9,12,0)
+(151,53,0)
+(48,21,0)
+(142,12,0)
+(93,15,0)
+(111,80,0)
+(89,153,0)
+(134,51,0)
+(94,116,0)
+(62,6,0)
+(119,12,0)
+(150,78,0)
+(46,157,0)
+(115,6,0)
+(95,53,0)
+(106,136,0)
+(136,80,0)
+(99,110,0)
+(80,111,0)
+(55,72,0)
+(86,7,0)
+(156,81,0)
+(111,71,0)
+(26,119,0)
+(109,72,0)
+(91,95,0)
+(46,140,0)
+(39,154,0)
+(118,142,0)
+(45,128,0)
+(104,136,0)
+(110,5,0)
+(119,52,0)
+(110,105,0)
+(143,7,0)
+(102,39,0)
+(115,7,0)
+(129,120,0)
+(65,19,0)
+(33,7,0)
+(118,151,0)
+(102,6,0)
+(25,19,0)
+(5,110,0)
+(127,31,0)
+(148,19,0)
+(151,134,0)
+(74,58,0)
+(53,151,0)
+(128,5,0)
+(38,110,0)
+(54,9,0)
+(4,150,0)
+(92,79,0)
+(140,71,0)
+(129,105,0)
+(66,107,0)
+(136,104,0)
+(39,102,0)
+(116,12,0)
+(92,68,0)
+(97,26,0)
+(64,127,0)
+(80,136,0)
+(107,26,0)
+(154,39,0)
+(136,106,0)
+(75,5,0)
+(79,87,0)
+(61,31,0)
+(93,119,0)
+(115,125,0)
+(131,19,0)
+(125,115,0)
+(104,19,0)
+(52,119,0)
+(58,74,0)
+(81,12,0)
+(151,118,0)
+(56,66,0)
+(120,129,0)
+(32,107,0)
+(147,72,0)
+(152,9,0)
+(0,156,0)
+(39,157,0)
+(159,24,0)
+(66,12,0)
+(133,31,0)
+(158,102,0)
+(126,68,0)
+(112,111,0)
+(79,116,0)
+(113,72,0)
+(63,19,0)
+(93,151,0)
+(46,154,0)
+(84,5,0)
+(35,19,0)
+(21,48,0)
+(60,19,0)
+(156,101,0)
+(17,116,0)
+(137,81,0)
+(120,19,0)
+(110,7,0)
+(32,81,0)
+(16,140,0)
+(106,62,0)
+(24,157,0)
+(107,66,0)
+(3,118,0)
+(123,115,0)
+(97,149,0)
+(73,115,0)
+(150,107,0)
+(124,87,0)
+(132,32,0)
+(127,7,0)
+(156,79,0)
+(58,95,0)
+(83,26,0)
+(30,17,0)
+(157,24,0)
+(7,33,1)
+(81,133,1)
+(134,57,1)
+(96,100,1)
+(13,17,1)
+(28,75,1)
+(125,115,1)
+(106,18,1)
+(73,144,1)
+(62,6,1)
+(111,71,1)
+(134,51,1)
+(135,80,1)
+(21,34,1)
+(144,31,1)
+(93,15,1)
+(140,16,1)
+(113,125,1)
+(46,8,1)
+(110,7,1)
+(115,123,1)
+(60,154,1)
+(117,40,1)
+(1,32,1)
+(92,68,1)
+(38,84,1)
+(79,92,1)
+(78,145,1)
+(54,152,1)
+(70,116,1)
+(155,147,1)
+(4,78,1)
+(143,7,1)
+(108,137,1)
+(151,93,1)
+(132,48,1)
+(88,10,1)
+(24,105,1)
+(76,2,1)
+(18,62,1)
+(80,36,1)
+(149,1,1)
+(59,103,1)
+(126,94,1)
+(22,3,1)
+(74,13,1)
+(48,21,1)
+(158,46,1)
+(46,157,1)
+(137,142,1)
+(5,110,1)
+(24,159,1)
+(32,132,1)
+(79,156,1)
+(139,72,1)
+(87,124,1)
+(102,6,1)
+(147,72,1)
+(3,117,1)
+(15,41,1)
+(118,142,1)
+(143,155,1)
+(52,125,1)
+(128,45,1)
+(92,142,1)
+(110,44,1)
+(154,39,1)
+(152,59,1)
+(119,52,1)
+(128,5,1)
+(59,125,1)
+(100,118,1)
+(86,60,1)
+(97,149,1)
+(8,140,1)
+(103,95,1)
+(109,82,1)
+(89,121,1)
+(39,157,1)
+(129,76,1)
+(10,81,1)
+(151,134,1)
+(112,120,1)
+(80,111,1)
+(9,54,1)
+(141,124,1)
+(93,119,1)
+(115,7,1)
+(20,66,1)
+(153,7,1)
+(116,79,1)
+(153,89,1)
+(46,140,1)
+(55,113,1)
+(26,119,1)
+(32,81,1)
+(122,102,1)
+(80,120,1)
+(127,71,1)
+(87,119,1)
+(138,68,1)
+(58,74,1)
+(101,85,1)
+(26,97,1)
+(16,157,1)
+(159,11,1)
+(17,116,1)
+(134,81,1)
+(107,150,1)
+(106,62,1)
+(57,51,1)
+(31,127,1)
+(85,92,1)
+(43,73,1)
+(140,71,1)
+(123,43,1)
+(79,87,1)
+(0,101,1)
+(87,141,1)
+(52,88,1)
+(72,55,1)
+(37,147,1)
+(82,9,1)
+(121,7,1)
+(127,23,1)
+(150,142,1)
+(34,150,1)
+(75,5,1)
+(139,109,1)
+(27,15,1)
+(26,83,1)
+(53,151,1)
+(41,134,1)
+(66,107,1)
+(121,143,1)
+(17,30,1)
+(33,86,1)
+(84,153,1)
+(146,153,1)
+(23,77,1)
+(40,70,1)
+(72,157,1)
+(29,156,1)
+(92,138,1)
+(56,53,1)
+(11,104,1)
+(104,136,1)
+(124,29,1)
+(99,38,1)
+(61,5,1)
+(62,135,1)
+(156,81,1)
+(102,158,1)
+(39,122,1)
+(39,102,1)
+(156,101,1)
+(153,120,1)
+(127,7,1)
+(106,120,1)
+(83,97,1)
+(136,80,1)
+(98,139,1)
+(95,91,1)
+(133,108,1)
+(142,128,1)
+(77,64,1)
+(147,98,1)
+(32,48,1)
+(68,126,1)
+(107,26,1)
+(156,0,1)
+(151,118,1)
+(133,31,1)
+(118,22,1)
+(157,24,1)
+(136,106,1)
+(115,6,1)
+(154,46,1)
+(64,61,1)
+(44,99,1)
+(91,58,1)
+(93,27,1)
+(129,105,1)
+(109,72,1)
+(107,32,1)
+(110,105,1)
+(150,78,1)
+(111,112,1)
+(75,20,1)
+(145,56,1)
+(150,4,1)
+(45,37,1)
+(118,3,1)
+(9,66,1)
+(51,96,1)
+(95,53,1)
+(120,129,1)
+(36,111,1)
+(94,119,1)
+(30,28,1)
+(74,31,1)
+(23,153,2)
+(93,15,2)
+(125,153,2)
+(129,105,2)
+(97,147,2)
+(52,147,2)
+(89,153,2)
+(59,125,2)
+(74,31,2)
+(5,153,2)
+(54,147,2)
+(64,153,2)
+(26,97,2)
+(144,153,2)
+(60,154,2)
+(40,147,2)
+(17,116,2)
+(80,111,2)
+(150,147,2)
+(95,53,2)
+(82,147,2)
+(1,147,2)
+(9,66,2)
+(150,142,2)
+(39,46,2)
+(120,129,2)
+(66,107,2)
+(0,147,2)
+(92,68,2)
+(46,140,2)
+(152,147,2)
+(18,80,2)
+(48,21,2)
+(142,147,2)
+(102,46,2)
+(138,147,2)
+(153,7,2)
+(48,147,2)
+(110,105,2)
+(132,147,2)
+(73,153,2)
+(99,153,2)
+(59,147,2)
+(31,127,2)
+(103,147,2)
+(20,147,2)
+(125,115,2)
+(136,80,2)
+(72,157,2)
+(38,153,2)
+(92,142,2)
+(21,147,2)
+(3,147,2)
+(115,153,2)
+(143,153,2)
+(122,46,2)
+(83,147,2)
+(118,3,2)
+(106,62,2)
+(75,5,2)
+(140,71,2)
+(154,39,2)
+(98,147,2)
+(61,153,2)
+(39,102,2)
+(39,157,2)
+(27,147,2)
+(133,31,2)
+(152,59,2)
+(3,117,2)
+(34,147,2)
+(52,125,2)
+(110,153,2)
+(13,147,2)
+(145,147,2)
+(66,147,2)
+(81,147,2)
+(87,147,2)
+(101,147,2)
+(31,153,2)
+(98,153,2)
+(119,52,2)
+(79,87,2)
+(93,119,2)
+(134,51,2)
+(58,74,2)
+(116,79,2)
+(139,153,2)
+(127,153,2)
+(115,6,2)
+(127,7,2)
+(41,147,2)
+(100,147,2)
+(79,147,2)
+(74,147,2)
+(136,106,2)
+(137,147,2)
+(147,153,2)
+(32,81,2)
+(28,75,2)
+(78,147,2)
+(46,157,2)
+(53,147,2)
+(84,153,2)
+(104,136,2)
+(156,81,2)
+(106,80,2)
+(32,147,2)
+(119,147,2)
+(94,147,2)
+(111,71,2)
+(26,147,2)
+(72,153,2)
+(85,147,2)
+(107,26,2)
+(157,24,2)
+(26,119,2)
+(77,153,2)
+(135,80,2)
+(154,46,2)
+(126,147,2)
+(128,147,2)
+(28,147,2)
+(147,72,2)
+(58,147,2)
+(134,81,2)
+(156,147,2)
+(88,147,2)
+(141,147,2)
+(91,147,2)
+(62,80,2)
+(121,153,2)
+(107,147,2)
+(81,133,2)
+(151,118,2)
+(87,124,2)
+(62,6,2)
+(22,147,2)
+(118,142,2)
+(51,147,2)
+(107,150,2)
+(87,119,2)
+(156,101,2)
+(32,48,2)
+(24,105,2)
+(4,147,2)
+(17,147,2)
+(153,153,2)
+(57,147,2)
+(109,72,2)
+(51,96,2)
+(96,147,2)
+(147,147,2)
+(45,147,2)
+(108,147,2)
+(9,147,2)
+(149,147,2)
+(95,147,2)
+(93,147,2)
+(116,147,2)
+(79,156,2)
+(134,147,2)
+(158,46,2)
+(37,147,2)
+(155,153,2)
+(109,147,2)
+(55,153,2)
+(29,147,2)
+(5,110,2)
+(151,147,2)
+(53,151,2)
+(10,147,2)
+(110,7,2)
+(80,120,2)
+(117,147,2)
+(133,147,2)
+(75,147,2)
+(79,92,2)
+(139,147,2)
+(153,120,2)
+(70,147,2)
+(92,147,2)
+(43,153,2)
+(124,147,2)
+(106,120,2)
+(143,7,2)
+(113,153,2)
+(107,32,2)
+(102,6,2)
+(151,134,2)
+(15,147,2)
+(44,153,2)
+(97,149,2)
+(127,71,2)
+(150,78,2)
+(30,147,2)
+(68,147,2)
+(128,5,2)
+(118,147,2)
+(142,128,2)
+(56,147,2)
+(151,93,2)
+(123,153,2)
+(115,7,2)
+-----------------------------------
+(0,g)
+(1,0.08131)
+(2,numrows)
+(3,jpc_dbltofix(-0.16875)
+(4,r)
+(5,c0p = jas_matrix_getref(c0, i, 0)
+(6,jas_matrix_t *c2)
+(7,i = 0)
+(8,numcols)
+(9,*c2p++ = v)
+(10,b)
+(11,numcols)
+(12,)
+(13,c1p)
+(14,for (j = numcols; j > 0; --j)
+(15,jpc_dbltofix(0.5)
+(16,c1)
+(17,*c0p++ = y)
+(18,numrows)
+(19,)
+(20,c0p)
+(21,-0.41869)
+(22,r)
+(23,0)
+(24,jas_matrix_numcols(c0)
+(25,y)
+(26,jpc_fix_mul(jpc_dbltofix(-0.08131)
+(27,b)
+(28,*c0p++)
+(29,0.114)
+(30,y)
+(31,c1p = jas_matrix_getref(c1, i, 0)
+(32,jpc_fix_mul(jpc_dbltofix(-0.41869)
+(33,0)
+(34,0.41869)
+(35,numrows)
+(36,numrows)
+(37,r)
+(38,c0)
+(39,jas_matrix_numcols(c2)
+(40,0.16875)
+(41,0.5)
+(42,i)
+(43,i)
+(44,0)
+(45,c0p)
+(46,jas_matrix_numcols(c1)
+(47,r)
+(48,jpc_dbltofix(-0.41869)
+(49,numcols)
+(50,v)
+(51,jpc_dbltofix(-0.33126)
+(52,*c2p)
+(53,u = jpc_fix_add3(jpc_fix_mul(jpc_dbltofix(-0.16875)
+(54,v)
+(55,numcols)
+(56,v)
+(57,g)
+(58,*c1p++)
+(59,c2p++)
+(60,assert(jas_matrix_numcols(c1)
+(61,c1p)
+(62,jas_matrix_numrows(c2)
+(63,g)
+(64,c1)
+(65,u)
+(66,v = jpc_fix_add3(jpc_fix_mul(jpc_dbltofix(0.5)
+(67,c2p)
+(68,jpc_dbltofix(0.299)
+(69,j)
+(70,u)
+(71,jas_matrix_t *c1)
+(72,j = numcols)
+(73,c2)
+(74,c1p++)
+(75,c0p++)
+(76,c0)
+(77,i)
+(78,jpc_dbltofix(0.5)
+(79,jpc_fix_add3(jpc_fix_mul(jpc_dbltofix(0.299)
+(80,jas_matrix_numrows(c1)
+(81,g = *c1p)
+(82,j)
+(83,b)
+(84,c0p)
+(85,0.587)
+(86,i)
+(87,jpc_fix_mul(jpc_dbltofix(0.114)
+(88,c2p)
+(89,numrows)
+(90,)
+(91,u)
+(92,jpc_fix_mul(jpc_dbltofix(0.299)
+(93,jpc_fix_mul(jpc_dbltofix(0.5)
+(94,y)
+(95,*c1p++ = u)
+(96,-0.33126)
+(97,jpc_dbltofix(-0.08131)
+(98,0)
+(99,i)
+(100,0.33126)
+(101,jpc_dbltofix(0.587)
+(102,jas_matrix_numcols(c2)
+(103,c2p)
+(104,assert(jas_matrix_numrows(c1)
+(105,jas_matrix_t *c0)
+(106,jas_matrix_numrows(c2)
+(107,jpc_fix_add3(jpc_fix_mul(jpc_dbltofix(0.5)
+(108,c1p)
+(109,--j)
+(110,jas_matrix_getref(c0, i, 0)
+(111,jas_matrix_numrows(c1)
+(112,c1)
+(113,j)
+(114,c0p)
+(115,jas_matrix_getref(c2, i, 0)
+(116,y = jpc_fix_add3(jpc_fix_mul(jpc_dbltofix(0.299)
+(117,-0.16875)
+(118,jpc_fix_mul(jpc_dbltofix(-0.16875)
+(119,b = *c2p)
+(120,numrows = jas_matrix_numrows(c0)
+(121,i)
+(122,numcols)
+(123,0)
+(124,jpc_dbltofix(0.114)
+(125,c2p = jas_matrix_getref(c2, i, 0)
+(126,0.299)
+(127,jas_matrix_getref(c1, i, 0)
+(128,*c0p)
+(129,jas_matrix_numrows(c0)
+(130,b)
+(131,for (i = 0; i < numrows; ++i)
+(132,g)
+(133,*c1p)
+(134,jpc_fix_mul(jpc_dbltofix(-0.33126)
+(135,c2)
+(136,jas_matrix_numrows(c1)
+(137,g)
+(138,r)
+(139,j)
+(140,jas_matrix_numcols(c1)
+(141,b)
+(142,r = *c0p)
+(143,++i)
+(144,c2p)
+(145,0.5)
+(146,RET)
+(147,j > 0)
+(148,c1p)
+(149,-0.08131)
+(150,jpc_fix_mul(jpc_dbltofix(0.5)
+(151,jpc_fix_add3(jpc_fix_mul(jpc_dbltofix(-0.16875)
+(152,*c2p++)
+(153,i < numrows)
+(154,jas_matrix_numcols(c1)
+(155,i)
+(156,jpc_fix_mul(jpc_dbltofix(0.587)
+(157,numcols = jas_matrix_numcols(c0)
+(158,c2)
+(159,c0)
+-----cfg-----
+(128,127)
+(131,138)
+(132,131)
+(133,132)
+(7,21)
+(136,84)
+(137,136)
+(138,137)
+(19,25)
+(21,19)
+(23,32)
+(25,23)
+(27,49)
+(28,27)
+(29,28)
+(29,44)
+(30,29)
+(30,40)
+(31,30)
+(31,36)
+(32,31)
+(35,30)
+(36,35)
+(39,29)
+(40,39)
+(43,28)
+(44,43)
+(49,52)
+(52,141)
+(52,60)
+(55,52)
+(58,66)
+(60,58)
+(64,72)
+(66,64)
+(70,78)
+(72,70)
+(78,81)
+(81,95)
+(81,55)
+(84,81)
+(93,99)
+(95,93)
+(97,103)
+(99,97)
+(101,111)
+(103,101)
+(105,118)
+(107,105)
+(108,107)
+(109,108)
+(111,109)
+(116,123)
+(118,116)
+(121,128)
+(123,121)
+(126,133)
+(127,126)
+-----path-----
+7,21,19,25,23,32,31,30,29,28,27,49,52,141
+7,21,19,25,23,32,31,30,29,28,27,49,52,60,58,66,64,72,70,78,81,95,93,99,97,103,101,111,109,108,107,105,118,116,123,121,128,127,126,133,132,131,138,137,136,84,81,55,52,141
+7,21,19,25,23,32,31,30,29,28,27,49,52,60,58,66,64,72,70,78,81,55,52,141
+7,21,19,25,23,32,31,30,29,44,43,28,27,49,52,141
+7,21,19,25,23,32,31,30,29,44,43,28,27,49,52,60,58,66,64,72,70,78,81,95,93,99,97,103,101,111,109,108,107,105,118,116,123,121,128,127,126,133,132,131,138,137,136,84,81,55,52
+7,21,19,25,23,32,31,30,29,44,43,28,27,49,52,60,58,66,64,72,70,78,81,55,52,141
+7,21,19,25,23,32,31,30,40,39,29,28,27,49,52,141
+7,21,19,25,23,32,31,30,40,39,29,28,27,49,52,60,58,66,64,72,70,78,81,95,93,99,97,103,101,111,109,108,107,105,118,116,123,121,128,127,126,133,132,131,138,137,136,84,81,55,52
+7,21,19,25,23,32,31,30,40,39,29,28,27,49,52,60,58,66,64,72,70,78,81,55,52,141
+7,21,19,25,23,32,31,30,40,39,29,44,43,28,27,49,52,141
+7,21,19,25,23,32,31,30,40,39,29,44,43,28,27,49,52,60,58,66,64,72,70,78,81,95,93,99,97,103,101,111,109,108,107,105,118,116,123,121,128,127,126,133,132,131,138,137,136,84,81
+7,21,19,25,23,32,31,30,40,39,29,44,43,28,27,49,52,60,58,66,64,72,70,78,81,55,52,141
+7,21,19,25,23,32,31,36,35,30,29,28,27,49,52,141
+7,21,19,25,23,32,31,36,35,30,29,28,27,49,52,60,58,66,64,72,70,78,81,95,93,99,97,103,101,111,109,108,107,105,118,116,123,121,128,127,126,133,132,131,138,137,136,84,81,55,52
+7,21,19,25,23,32,31,36,35,30,29,28,27,49,52,60,58,66,64,72,70,78,81,55,52,141
+7,21,19,25,23,32,31,36,35,30,29,44,43,28,27,49,52,141
+7,21,19,25,23,32,31,36,35,30,29,44,43,28,27,49,52,60,58,66,64,72,70,78,81,95,93,99,97,103,101,111,109,108,107,105,118,116,123,121,128,127,126,133,132,131,138,137,136,84,81
+7,21,19,25,23,32,31,36,35,30,29,44,43,28,27,49,52,60,58,66,64,72,70,78,81,55,52,141
+7,21,19,25,23,32,31,36,35,30,40,39,29,28,27,49,52,141
+7,21,19,25,23,32,31,36,35,30,40,39,29,28,27,49,52,60,58,66,64,72,70,78,81,95,93,99,97,103,101,111,109,108,107,105,118,116,123,121,128,127,126,133,132,131,138,137,136,84,81
+7,21,19,25,23,32,31,36,35,30,40,39,29,28,27,49,52,60,58,66,64,72,70,78,81,55,52,141
+7,21,19,25,23,32,31,36,35,30,40,39,29,44,43,28,27,49,52,141
+7,21,19,25,23,32,31,36,35,30,40,39,29,44,43,28,27,49,52,60,58,66,64,72,70,78,81,95,93,99,97,103,101,111,109,108,107,105,118,116,123,121,128,127,126,133,132,131,138,137,136
+7,21,19,25,23,32,31,36,35,30,40,39,29,44,43,28,27,49,52,60,58,66,64,72,70,78,81,55,52,141
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jpc_rct (jas_matrix_t *c0,jas_matrix_t *c1,jas_matrix_t *c2)
+8,jas_matrix_t *c0
+9,jas_matrix_t *c1
+10,jas_matrix_t *c2
+11,<empty>
+12,int numrows
+13,int numcols
+14,int i
+15,int j
+16,jpc_fix_t* c0p
+17,jpc_fix_t* c1p
+18,jpc_fix_t* c2p
+19,numrows = jas_matrix_numrows(c0)
+20,numrows
+21,jas_matrix_numrows(c0)
+22,c0
+23,numcols = jas_matrix_numcols(c0)
+24,numcols
+25,jas_matrix_numcols(c0)
+26,c0
+27,assert(jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+28,	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols)
+29,jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+30,	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols
+31,jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+32,	  && jas_matrix_numrows(c2) == numrows
+33,jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+34,jas_matrix_numrows(c1) == numrows
+35,jas_matrix_numrows(c1)
+36,c1
+37,numrows
+38,jas_matrix_numcols(c1) == numcols
+39,jas_matrix_numcols(c1)
+40,c1
+41,numcols
+42,jas_matrix_numrows(c2) == numrows
+43,jas_matrix_numrows(c2)
+44,c2
+45,numrows
+46,jas_matrix_numcols(c2) == numcols
+47,jas_matrix_numcols(c2)
+48,c2
+49,numcols
+50,for (i = 0;i < numrows;i++)
+51,<empty>
+52,i = 0
+53,i
+54,0
+55,i < numrows
+56,i
+57,numrows
+58,i++
+59,i
+60,<empty>
+61,c0p = jas_matrix_getref(c0, i, 0)
+62,c0p
+63,jas_matrix_getref(c0, i, 0)
+64,c0
+65,i
+66,0
+67,c1p = jas_matrix_getref(c1, i, 0)
+68,c1p
+69,jas_matrix_getref(c1, i, 0)
+70,c1
+71,i
+72,0
+73,c2p = jas_matrix_getref(c2, i, 0)
+74,c2p
+75,jas_matrix_getref(c2, i, 0)
+76,c2
+77,i
+78,0
+79,for (j = numcols;j > 0;--j)
+80,<empty>
+81,j = numcols
+82,j
+83,numcols
+84,j > 0
+85,j
+86,0
+87,--j
+88,j
+89,<empty>
+90,int r
+91,int g
+92,int b
+93,int y
+94,int u
+95,int v
+96,r = *c0p
+97,r
+98,*c0p
+99,c0p
+100,g = *c1p
+101,g
+102,*c1p
+103,c1p
+104,b = *c2p
+105,b
+106,*c2p
+107,c2p
+108,y = (r + (g << 1) + b) >> 2
+109,y
+110,(r + (g << 1) + b) >> 2
+111,r + (g << 1) + b
+112,r + (g << 1)
+113,r
+114,g << 1
+115,g
+116,1
+117,b
+118,2
+119,u = b - g
+120,u
+121,b - g
+122,b
+123,g
+124,v = r - g
+125,v
+126,r - g
+127,r
+128,g
+129,*c0p++ = y
+130,*c0p++
+131,c0p++
+132,c0p
+133,y
+134,*c1p++ = u
+135,*c1p++
+136,c1p++
+137,c1p
+138,u
+139,*c2p++ = v
+140,*c2p++
+141,c2p++
+142,c2p
+143,v
+144,RET
+145,jas_matrix_t *c0
+146,jas_matrix_t *c1
+147,jas_matrix_t *c2
+148,RET
+149,void jpc_rct (jas_matrix_t *c0,jas_matrix_t *c1,jas_matrix_t *c2)
+150,jas_matrix_t *c0
+151,jas_matrix_t *c1
+152,jas_matrix_t *c2
+153,<empty>
+154,int numrows
+155,int numcols
+156,int i
+157,int j
+158,jpc_fix_t* c0p
+159,jpc_fix_t* c1p
+160,jpc_fix_t* c2p
+161,numrows = jas_matrix_numrows(c0)
+162,numrows
+163,jas_matrix_numrows(c0)
+164,c0
+165,numcols = jas_matrix_numcols(c0)
+166,numcols
+167,jas_matrix_numcols(c0)
+168,c0
+169,assert(jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+170,	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols)
+171,jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+172,	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols
+173,jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+174,	  && jas_matrix_numrows(c2) == numrows
+175,jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols
+176,jas_matrix_numrows(c1) == numrows
+177,jas_matrix_numrows(c1)
+178,c1
+179,numrows
+180,jas_matrix_numcols(c1) == numcols
+181,jas_matrix_numcols(c1)
+182,c1
+183,numcols
+184,jas_matrix_numrows(c2) == numrows
+185,jas_matrix_numrows(c2)
+186,c2
+187,numrows
+188,jas_matrix_numcols(c2) == numcols
+189,jas_matrix_numcols(c2)
+190,c2
+191,numcols
+192,for (i = 0;i < numrows;i++)
+193,<empty>
+194,i = 0
+195,i
+196,0
+197,i < numrows
+198,i
+199,numrows
+200,i++
+201,i
+202,<empty>
+203,c0p = jas_matrix_getref(c0, i, 0)
+204,c0p
+205,jas_matrix_getref(c0, i, 0)
+206,c0
+207,i
+208,0
+209,c1p = jas_matrix_getref(c1, i, 0)
+210,c1p
+211,jas_matrix_getref(c1, i, 0)
+212,c1
+213,i
+214,0
+215,c2p = jas_matrix_getref(c2, i, 0)
+216,c2p
+217,jas_matrix_getref(c2, i, 0)
+218,c2
+219,i
+220,0
+221,for (j = numcols;j > 0;--j)
+222,<empty>
+223,j = numcols
+224,j
+225,numcols
+226,j > 0
+227,j
+228,0
+229,--j
+230,j
+231,<empty>
+232,int r
+233,int g
+234,int b
+235,int y
+236,int u
+237,int v
+238,r = *c0p
+239,r
+240,*c0p
+241,c0p
+242,g = *c1p
+243,g
+244,*c1p
+245,c1p
+246,b = *c2p
+247,b
+248,*c2p
+249,c2p
+250,y = (r + (g << 1) + b) >> 2
+251,y
+252,(r + (g << 1) + b) >> 2
+253,r + (g << 1) + b
+254,r + (g << 1)
+255,r
+256,g << 1
+257,g
+258,1
+259,b
+260,2
+261,u = b - g
+262,u
+263,b - g
+264,b
+265,g
+266,v = r - g
+267,v
+268,r - g
+269,r
+270,g
+271,*c0p++ = y
+272,*c0p++
+273,c0p++
+274,c0p
+275,y
+276,*c1p++ = u
+277,*c1p++
+278,c1p++
+279,c1p
+280,u
+281,*c2p++ = v
+282,*c2p++
+283,c2p++
+284,c2p
+285,v
+286,RET
+287,jas_matrix_t *c0
+288,jas_matrix_t *c1
+289,jas_matrix_t *c2
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+void jpc_rct(jas_matrix_t *c0, jas_matrix_t *c1, jas_matrix_t *c2) {
+int numrows;
+int numcols;
+int i;
+int j;
+jpc_fix_t *c0p;
+jpc_fix_t *c1p;
+jpc_fix_t *c2p;
+numrows = jas_matrix_numrows(c0);
+numcols = jas_matrix_numcols(c0);
+assert(jas_matrix_numrows(c1) == numrows && jas_matrix_numcols(c1) == numcols 	  && jas_matrix_numrows(c2) == numrows && jas_matrix_numcols(c2) == numcols);
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(i = 0;i < numrows;i++)
+c0p = jas_matrix_getref(c0, i, 0);
+c1p = jas_matrix_getref(c1, i, 0);
+c2p = jas_matrix_getref(c2, i, 0);
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+for(j = numcols;j > 0;--j)
+int r;
+int g;
+int b;
+int y;
+int u;
+int v;
+r = *c0p;
+g = *c1p;
+b = *c2p;
+y = (r + (g << 1) + b) >> 2;
+u = b - g;
+v = r - g;
+*c0p++ = y;
+*c1p++ = u;
+*c2p++ = v;
+=======================

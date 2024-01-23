@@ -1,0 +1,759 @@
+-----label-----
+0
+-----code-----
+jpc_tsfb_t *jpc_cod_gettsfb(int qmfbid, int numlvls)
+{
+	jpc_tsfb_t *tsfb;
+
+	if (!(tsfb = malloc(sizeof(jpc_tsfb_t))))
+		return 0;
+
+	if (numlvls > 0) {
+		switch (qmfbid) {
+		case JPC_COX_INS:
+			tsfb->qmfb = &jpc_ns_qmfb2d;
+			break;
+		default:
+		case JPC_COX_RFT:
+			tsfb->qmfb = &jpc_ft_qmfb2d;
+			break;
+		}
+	} else {
+		tsfb->qmfb = 0;
+	}
+	tsfb->numlvls = numlvls;
+	return tsfb;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+9,10
+11,12
+11,13
+13,14
+15,16
+15,17
+15,18
+15,19
+15,20
+16,17
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+23,25
+24,25
+25,26
+26,27
+26,28
+27,28
+29,30
+29,31
+30,31
+32,33
+33,34
+33,35
+34,35
+37,38
+39,40
+39,41
+39,42
+40,41
+40,42
+41,42
+44,45
+45,46
+45,47
+46,47
+48,49
+48,50
+48,51
+48,52
+48,53
+48,54
+48,55
+49,50
+50,51
+52,53
+53,54
+53,55
+54,55
+54,56
+55,56
+58,59
+59,60
+63,64
+64,65
+66,67
+67,68
+67,69
+68,69
+68,70
+69,70
+72,73
+73,74
+76,77
+77,78
+78,79
+78,80
+79,80
+79,81
+80,81
+84,85
+85,86
+85,87
+86,87
+86,88
+87,88
+90,91
+92,93
+93,94
+-----nextToken-----
+3,5,6,8,10,12,14,19,21,22,28,31,35,36,38,42,43,47,51,56,57,60,61,62,65,70,71,74,75,81,82,83,88,89,91,94
+-----computeFrom-----
+26,27
+26,28
+40,41
+40,42
+53,54
+53,55
+67,68
+67,69
+78,79
+78,80
+85,86
+85,87
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;ReturnStatement;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;SwitchStatement;IdExpression;Name;CompoundStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;BreakStatement;DefaultStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;BreakStatement;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+jpc_tsfb_t *jpc_cod_gettsfb(int qmfbid, int numlvls){	jpc_tsfb_t *tsfb;	if (!(tsfb = malloc(sizeof(jpc_tsfb_t))))		return 0;	if (numlvls > 0) {		switch (qmfbid) {		case JPC_COX_INS:			tsfb->qmfb = &jpc_ns_qmfb2d;			break;		default:		case JPC_COX_RFT:			tsfb->qmfb = &jpc_ft_qmfb2d;			break;		}	} else {		tsfb->qmfb = 0;	}	tsfb->numlvls = numlvls;	return tsfb;}
+jpc_tsfb_t
+jpc_tsfb_t
+*jpc_cod_gettsfb(int qmfbid, int numlvls)
+*
+jpc_cod_gettsfb
+int qmfbid
+int
+qmfbid
+qmfbid
+int numlvls
+int
+numlvls
+numlvls
+{	jpc_tsfb_t *tsfb;	if (!(tsfb = malloc(sizeof(jpc_tsfb_t))))		return 0;	if (numlvls > 0) {		switch (qmfbid) {		case JPC_COX_INS:			tsfb->qmfb = &jpc_ns_qmfb2d;			break;		default:		case JPC_COX_RFT:			tsfb->qmfb = &jpc_ft_qmfb2d;			break;		}	} else {		tsfb->qmfb = 0;	}	tsfb->numlvls = numlvls;	return tsfb;}
+jpc_tsfb_t *tsfb;
+jpc_tsfb_t *tsfb;
+jpc_tsfb_t
+jpc_tsfb_t
+*tsfb
+*
+tsfb
+if (!(tsfb = malloc(sizeof(jpc_tsfb_t))))		return 0;
+!(tsfb = malloc(sizeof(jpc_tsfb_t)))
+(tsfb = malloc(sizeof(jpc_tsfb_t)))
+tsfb = malloc(sizeof(jpc_tsfb_t))
+tsfb
+tsfb
+malloc(sizeof(jpc_tsfb_t))
+malloc
+malloc
+sizeof(jpc_tsfb_t)
+jpc_tsfb_t
+jpc_tsfb_t
+jpc_tsfb_t
+
+return 0;
+0
+if (numlvls > 0) {		switch (qmfbid) {		case JPC_COX_INS:			tsfb->qmfb = &jpc_ns_qmfb2d;			break;		default:		case JPC_COX_RFT:			tsfb->qmfb = &jpc_ft_qmfb2d;			break;		}	} else {		tsfb->qmfb = 0;	}
+numlvls > 0
+numlvls
+numlvls
+0
+{		switch (qmfbid) {		case JPC_COX_INS:			tsfb->qmfb = &jpc_ns_qmfb2d;			break;		default:		case JPC_COX_RFT:			tsfb->qmfb = &jpc_ft_qmfb2d;			break;		}	}
+switch (qmfbid) {		case JPC_COX_INS:			tsfb->qmfb = &jpc_ns_qmfb2d;			break;		default:		case JPC_COX_RFT:			tsfb->qmfb = &jpc_ft_qmfb2d;			break;		}
+qmfbid
+qmfbid
+{		case JPC_COX_INS:			tsfb->qmfb = &jpc_ns_qmfb2d;			break;		default:		case JPC_COX_RFT:			tsfb->qmfb = &jpc_ft_qmfb2d;			break;		}
+case JPC_COX_INS:
+JPC_COX_INS
+JPC_COX_INS
+tsfb->qmfb = &jpc_ns_qmfb2d;
+tsfb->qmfb = &jpc_ns_qmfb2d
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+&jpc_ns_qmfb2d
+jpc_ns_qmfb2d
+jpc_ns_qmfb2d
+break;
+default:
+case JPC_COX_RFT:
+JPC_COX_RFT
+JPC_COX_RFT
+tsfb->qmfb = &jpc_ft_qmfb2d;
+tsfb->qmfb = &jpc_ft_qmfb2d
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+&jpc_ft_qmfb2d
+jpc_ft_qmfb2d
+jpc_ft_qmfb2d
+break;
+{		tsfb->qmfb = 0;	}
+tsfb->qmfb = 0;
+tsfb->qmfb = 0
+tsfb->qmfb
+tsfb
+tsfb
+qmfb
+0
+tsfb->numlvls = numlvls;
+tsfb->numlvls = numlvls
+tsfb->numlvls
+tsfb
+tsfb
+numlvls
+numlvls
+numlvls
+return tsfb;
+tsfb
+tsfb
+-----joern-----
+(30,21,0)
+(59,60,0)
+(61,60,0)
+(6,37,0)
+(2,35,0)
+(56,59,0)
+(9,38,0)
+(59,68,0)
+(37,27,0)
+(59,10,0)
+(70,31,0)
+(59,21,0)
+(35,27,0)
+(21,22,0)
+(18,9,0)
+(73,48,0)
+(49,37,0)
+(59,72,0)
+(22,32,0)
+(25,59,0)
+(27,35,0)
+(31,63,0)
+(52,67,0)
+(10,59,0)
+(58,72,0)
+(53,48,0)
+(20,15,0)
+(29,5,0)
+(16,69,0)
+(64,24,0)
+(54,69,0)
+(3,36,0)
+(72,59,0)
+(0,59,0)
+(48,68,0)
+(44,16,0)
+(50,22,0)
+(41,3,0)
+(5,0,0)
+(43,22,0)
+(48,51,0)
+(72,11,0)
+(60,59,0)
+(42,36,0)
+(48,13,0)
+(18,3,0)
+(7,59,0)
+(33,46,0)
+(21,59,0)
+(28,35,0)
+(21,30,0)
+(23,31,0)
+(31,32,0)
+(55,11,0)
+(65,48,0)
+(17,10,0)
+(10,13,0)
+(0,69,0)
+(18,33,0)
+(24,33,0)
+(60,32,0)
+(39,30,0)
+(31,30,0)
+(4,55,0)
+(22,21,0)
+(14,34,0)
+(66,55,0)
+(48,32,0)
+(0,5,0)
+(48,63,0)
+(12,48,0)
+(47,36,0)
+(30,31,0)
+(16,13,0)
+(62,72,0)
+(16,51,0)
+(71,10,0)
+(35,63,0)
+(69,0,0)
+(67,9,0)
+(5,13,0)
+(37,51,0)
+(45,16,0)
+(59,57,0)
+(59,8,0)
+(26,48,0)
+(59,0,0)
+(48,8,0)
+(27,37,0)
+(1,48,0)
+(69,16,0)
+(40,60,0)
+(19,5,0)
+(41,48,1)
+(35,2,1)
+(53,73,1)
+(1,27,1)
+(59,68,1)
+(5,29,1)
+(48,63,1)
+(55,11,1)
+(48,68,1)
+(72,58,1)
+(22,32,1)
+(49,55,1)
+(70,23,1)
+(18,9,1)
+(69,16,1)
+(62,56,1)
+(65,12,1)
+(58,62,1)
+(2,28,1)
+(71,17,1)
+(27,35,1)
+(30,31,1)
+(48,13,1)
+(59,10,1)
+(28,37,1)
+(10,71,1)
+(16,13,1)
+(72,11,1)
+(26,65,1)
+(37,51,1)
+(64,59,1)
+(67,52,1)
+(0,69,1)
+(12,1,1)
+(21,22,1)
+(16,51,1)
+(30,39,1)
+(48,53,1)
+(49,59,1)
+(16,45,1)
+(41,27,1)
+(18,33,1)
+(35,63,1)
+(0,5,1)
+(37,6,1)
+(17,25,1)
+(7,55,1)
+(59,60,1)
+(59,72,1)
+(61,40,1)
+(31,70,1)
+(60,32,1)
+(23,0,1)
+(69,54,1)
+(18,3,1)
+(59,57,1)
+(52,48,1)
+(3,41,1)
+(24,64,1)
+(25,7,1)
+(19,69,1)
+(55,4,1)
+(29,19,1)
+(21,30,1)
+(59,0,1)
+(43,30,1)
+(54,16,1)
+(73,26,1)
+(45,44,1)
+(22,50,1)
+(27,37,1)
+(6,49,1)
+(59,8,1)
+(33,24,1)
+(10,13,1)
+(50,43,1)
+(5,13,1)
+(40,10,1)
+(59,21,1)
+(4,66,1)
+(9,67,1)
+(44,60,1)
+(60,61,1)
+(48,8,1)
+(56,21,1)
+(48,51,1)
+(31,63,1)
+(48,32,1)
+(31,32,1)
+(39,31,1)
+(59,72,2)
+(37,55,2)
+(48,27,2)
+(27,35,2)
+(33,59,2)
+(49,55,2)
+(23,55,2)
+(70,55,2)
+(48,32,2)
+(29,55,2)
+(72,11,2)
+(9,48,2)
+(48,51,2)
+(65,27,2)
+(10,55,2)
+(27,37,2)
+(5,55,2)
+(41,48,2)
+(59,0,2)
+(54,55,2)
+(3,48,2)
+(37,59,2)
+(0,69,2)
+(69,55,2)
+(69,16,2)
+(52,48,2)
+(6,55,2)
+(18,33,2)
+(21,22,2)
+(16,51,2)
+(40,55,2)
+(17,55,2)
+(59,10,2)
+(25,55,2)
+(59,57,2)
+(48,68,2)
+(30,31,2)
+(44,55,2)
+(62,55,2)
+(35,37,2)
+(59,21,2)
+(67,48,2)
+(50,55,2)
+(24,59,2)
+(0,55,2)
+(59,60,2)
+(41,27,2)
+(18,3,2)
+(72,55,2)
+(27,55,2)
+(27,59,2)
+(2,37,2)
+(16,13,2)
+(39,55,2)
+(1,27,2)
+(3,27,2)
+(59,55,2)
+(61,55,2)
+(60,55,2)
+(53,27,2)
+(31,32,2)
+(22,55,2)
+(12,27,2)
+(73,27,2)
+(49,59,2)
+(71,55,2)
+(48,8,2)
+(31,55,2)
+(35,63,2)
+(5,13,2)
+(43,55,2)
+(7,55,2)
+(18,9,2)
+(19,55,2)
+(45,55,2)
+(59,68,2)
+(22,32,2)
+(16,55,2)
+(28,37,2)
+(60,32,2)
+(21,55,2)
+(59,8,2)
+(37,51,2)
+(21,30,2)
+(48,63,2)
+(55,11,2)
+(48,13,2)
+(31,63,2)
+(64,59,2)
+(30,55,2)
+(6,59,2)
+(0,5,2)
+(58,55,2)
+(26,27,2)
+(10,13,2)
+(56,55,2)
+-----------------------------------
+(0,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(1,a)
+(2,0)
+(3,return 0;)
+(4,0)
+(5,JPC_CEILDIVPOW2(xstart, 1)
+(6,0)
+(7,tsfb)
+(8,int *a)
+(9,return -1;)
+(10,JPC_CEILDIVPOW2(xstart, 1)
+(11,int numlvls)
+(12,xstart)
+(13,int xstart)
+(14,if ((*tsfb->qmfb->synthesize)
+(15,)
+(16,xstart + width)
+(17,xstart)
+(18,RET)
+(19,xstart)
+(20,if (jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(21,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(22,JPC_CEILDIVPOW2(ystart, 1)
+(23,ystart)
+(24,-1)
+(25,a)
+(26,width)
+(27,width > 0 && height > 0)
+(28,height)
+(29,1)
+(30,JPC_CEILDIVPOW2(ystart +\\n\\t\\t  height, 1)
+(31,ystart +\\n\\t\\t  height)
+(32,int ystart)
+(33,return -1;)
+(34,)
+(35,height > 0)
+(36,)
+(37,width > 0)
+(38,)
+(39,1)
+(40,ystart)
+(41,0)
+(42,if (width > 0 && height > 0)
+(43,ystart)
+(44,xstart)
+(45,width)
+(46,)
+(47,if (numlvls > 0)
+(48,(*tsfb->qmfb->synthesize)
+(49,width)
+(50,1)
+(51,int width)
+(52,1)
+(53,stride)
+(54,1)
+(55,numlvls > 0)
+(56,stride)
+(57,jpc_tsfb_t *tsfb)
+(58,1)
+(59,jpc_tsfb_synthesize2(tsfb, a, JPC_CEILDIVPOW2(xstart, 1)
+(60,JPC_CEILDIVPOW2(ystart, 1)
+(61,1)
+(62,numlvls)
+(63,int height)
+(64,1)
+(65,ystart)
+(66,numlvls)
+(67,-1)
+(68,int stride)
+(69,JPC_CEILDIVPOW2(xstart + width,\\n\\t\\t  1)
+(70,height)
+(71,1)
+(72,numlvls -\\n\\t\\t  1)
+(73,height)
+-----cfg-----
+(32,59)
+(33,36)
+(35,33)
+(36,32)
+(7,17)
+(42,59)
+(43,46)
+(13,20)
+(13,23)
+(45,43)
+(14,13)
+(46,42)
+(16,14)
+(17,16)
+(51,59)
+(20,63)
+(52,51)
+(54,52)
+(23,35)
+(23,45)
+(23,54)
+(56,61)
+(57,56)
+(59,57)
+(61,63)
+-----path-----
+7,17,16,14,13,20,63
+7,17,16,14,13,23,35,33,36,32,59,57,56,61,63
+7,17,16,14,13,23,45,43,46,42,59,57,56,61,63
+7,17,16,14,13,23,54,52,51,59,57,56,61,63
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jpc_tsfb_t jpc_cod_gettsfb (int qmfbid,int numlvls)
+8,int qmfbid
+9,int numlvls
+10,<empty>
+11,jpc_tsfb_t* tsfb
+12,if (!(tsfb = malloc(sizeof(jpc_tsfb_t))))
+13,!(tsfb = malloc(sizeof(jpc_tsfb_t)))
+14,tsfb = malloc(sizeof(jpc_tsfb_t))
+15,tsfb
+16,malloc(sizeof(jpc_tsfb_t))
+17,sizeof(jpc_tsfb_t)
+18,jpc_tsfb_t
+19,<empty>
+20,return 0;
+21,0
+22,if (numlvls > 0)
+23,numlvls > 0
+24,numlvls
+25,0
+26,<empty>
+27,switch(qmfbid)
+28,qmfbid
+29,<empty>
+30,case JPC_COX_INS:
+31,JPC_COX_INS
+32,tsfb->qmfb = &jpc_ns_qmfb2d
+33,tsfb->qmfb
+34,tsfb
+35,qmfb
+36,&jpc_ns_qmfb2d
+37,jpc_ns_qmfb2d
+38,break;
+39,default:
+40,case JPC_COX_RFT:
+41,JPC_COX_RFT
+42,tsfb->qmfb = &jpc_ft_qmfb2d
+43,tsfb->qmfb
+44,tsfb
+45,qmfb
+46,&jpc_ft_qmfb2d
+47,jpc_ft_qmfb2d
+48,break;
+49,else
+50,<empty>
+51,tsfb->qmfb = 0
+52,tsfb->qmfb
+53,tsfb
+54,qmfb
+55,0
+56,tsfb->numlvls = numlvls
+57,tsfb->numlvls
+58,tsfb
+59,numlvls
+60,numlvls
+61,return tsfb;
+62,tsfb
+63,RET
+64,int qmfbid
+65,int numlvls
+66,RET
+67,jpc_tsfb_t jpc_cod_gettsfb (int qmfbid,int numlvls)
+68,int qmfbid
+69,int numlvls
+70,<empty>
+71,jpc_tsfb_t* tsfb
+72,if (!(tsfb = malloc(sizeof(jpc_tsfb_t))))
+73,!(tsfb = malloc(sizeof(jpc_tsfb_t)))
+74,tsfb = malloc(sizeof(jpc_tsfb_t))
+75,tsfb
+76,malloc(sizeof(jpc_tsfb_t))
+77,sizeof(jpc_tsfb_t)
+78,jpc_tsfb_t
+79,<empty>
+80,return 0;
+81,0
+82,if (numlvls > 0)
+83,numlvls > 0
+84,numlvls
+85,0
+86,<empty>
+87,switch(qmfbid)
+88,qmfbid
+89,<empty>
+90,case JPC_COX_INS:
+91,JPC_COX_INS
+92,tsfb->qmfb = &jpc_ns_qmfb2d
+93,tsfb->qmfb
+94,tsfb
+95,qmfb
+96,&jpc_ns_qmfb2d
+97,jpc_ns_qmfb2d
+98,break;
+99,default:
+100,case JPC_COX_RFT:
+101,JPC_COX_RFT
+102,tsfb->qmfb = &jpc_ft_qmfb2d
+103,tsfb->qmfb
+104,tsfb
+105,qmfb
+106,&jpc_ft_qmfb2d
+107,jpc_ft_qmfb2d
+108,break;
+109,else
+110,<empty>
+111,tsfb->qmfb = 0
+112,tsfb->qmfb
+113,tsfb
+114,qmfb
+115,0
+116,tsfb->numlvls = numlvls
+117,tsfb->numlvls
+118,tsfb
+119,numlvls
+120,numlvls
+121,return tsfb;
+122,tsfb
+123,RET
+124,int qmfbid
+125,int numlvls
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jpc_tsfb_t *jpc_cod_gettsfb(int qmfbid, int numlvls) {
+jpc_tsfb_t *tsfb;
+if(numlvls > 0)
+switch(qmfbid)
+tsfb->qmfb = &jpc_ft_qmfb2d;
+tsfb->numlvls = numlvls;
+return tsfb;
+=======================

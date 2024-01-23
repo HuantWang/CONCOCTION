@@ -1,0 +1,748 @@
+-----label-----
+1
+-----code-----
+struct zip_cdir *
+_zip_cdir_new(int nentry, struct zip_error *error)
+{
+    struct zip_cdir *cd;
+    
+    if ((cd=(struct zip_cdir *)malloc(sizeof(*cd))) == NULL) {
+	_zip_error_set(error, ZIP_ER_MEMORY, 0);
+	return NULL;
+    }
+
+    if ((cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))
+	== NULL) {
+	_zip_error_set(error, ZIP_ER_MEMORY, 0);
+	free(cd);
+	return NULL;
+    }
+
+    /* entries must be initialized by caller */
+
+    cd->nentry = nentry;
+    cd->size = cd->offset = 0;
+    cd->comment = NULL;
+    cd->comment_len = 0;
+
+    return cd;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+9,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+17,20
+17,21
+17,22
+17,23
+17,24
+17,25
+18,19
+19,20
+19,21
+20,21
+22,23
+22,24
+25,26
+25,27
+26,27
+26,28
+27,28
+28,29
+28,30
+29,30
+31,32
+31,33
+32,33
+32,34
+33,34
+35,36
+37,38
+37,39
+38,39
+40,41
+41,42
+42,43
+43,44
+45,46
+47,48
+47,49
+48,49
+49,50
+49,51
+49,52
+49,53
+50,51
+52,53
+54,55
+57,58
+58,59
+60,61
+60,62
+61,62
+61,63
+62,63
+63,64
+63,65
+64,65
+64,66
+65,66
+68,69
+68,70
+69,70
+69,71
+70,71
+72,73
+74,75
+74,76
+75,76
+77,78
+77,79
+78,79
+79,80
+80,81
+81,82
+82,83
+82,84
+83,84
+86,87
+88,89
+90,91
+90,92
+90,93
+91,92
+92,93
+92,94
+92,95
+92,96
+93,94
+95,96
+97,98
+100,101
+101,102
+101,103
+102,103
+104,105
+106,107
+107,108
+109,110
+110,111
+110,112
+111,112
+111,113
+112,113
+115,116
+117,118
+118,119
+118,120
+119,120
+119,121
+120,121
+123,124
+123,125
+124,125
+124,126
+125,126
+129,130
+130,131
+130,132
+131,132
+131,133
+132,133
+135,136
+137,138
+138,139
+138,140
+139,140
+139,141
+140,141
+144,145
+145,146
+-----nextToken-----
+3,5,6,8,10,13,15,16,21,23,24,30,34,36,39,44,46,51,53,55,56,59,66,67,71,73,76,84,85,87,89,94,96,98,99,103,105,108,113,114,116,121,122,126,127,128,133,134,136,141,142,143,146
+-----computeFrom-----
+26,27
+26,28
+28,29
+28,30
+61,62
+61,63
+63,64
+63,65
+77,78
+77,79
+110,111
+110,112
+118,119
+118,120
+123,124
+123,125
+130,131
+130,132
+138,139
+138,140
+-----guardedBy-----
+46,59
+84,105
+89,108
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;ElaboratedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;CastExpression;TypeId;ElaboratedTypeSpecifier;Name;Declarator;Pointer;FunctionCallExpression;IdExpression;Name;UnaryExpression;UnaryExpression;UnaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ReturnStatement;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;CastExpression;TypeId;ElaboratedTypeSpecifier;Name;Declarator;Pointer;FunctionCallExpression;IdExpression;Name;BinaryExpression;UnaryExpression;UnaryExpression;UnaryExpression;UnaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+struct zip_cdir *_zip_cdir_new(int nentry, struct zip_error *error){    struct zip_cdir *cd;        if ((cd=(struct zip_cdir *)malloc(sizeof(*cd))) == NULL) {	_zip_error_set(error, ZIP_ER_MEMORY, 0);	return NULL;    }    if ((cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))	== NULL) {	_zip_error_set(error, ZIP_ER_MEMORY, 0);	free(cd);	return NULL;    }    /* entries must be initialized by caller */    cd->nentry = nentry;    cd->size = cd->offset = 0;    cd->comment = NULL;    cd->comment_len = 0;    return cd;}
+struct zip_cdir
+zip_cdir
+*_zip_cdir_new(int nentry, struct zip_error *error)
+*
+_zip_cdir_new
+int nentry
+int
+nentry
+nentry
+struct zip_error *error
+struct zip_error
+zip_error
+*error
+*
+error
+{    struct zip_cdir *cd;        if ((cd=(struct zip_cdir *)malloc(sizeof(*cd))) == NULL) {	_zip_error_set(error, ZIP_ER_MEMORY, 0);	return NULL;    }    if ((cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))	== NULL) {	_zip_error_set(error, ZIP_ER_MEMORY, 0);	free(cd);	return NULL;    }    /* entries must be initialized by caller */    cd->nentry = nentry;    cd->size = cd->offset = 0;    cd->comment = NULL;    cd->comment_len = 0;    return cd;}
+struct zip_cdir *cd;
+struct zip_cdir *cd;
+struct zip_cdir
+zip_cdir
+*cd
+*
+cd
+if ((cd=(struct zip_cdir *)malloc(sizeof(*cd))) == NULL) {	_zip_error_set(error, ZIP_ER_MEMORY, 0);	return NULL;    }
+(cd=(struct zip_cdir *)malloc(sizeof(*cd))) == NULL
+(cd=(struct zip_cdir *)malloc(sizeof(*cd)))
+cd=(struct zip_cdir *)malloc(sizeof(*cd))
+cd
+cd
+(struct zip_cdir *)malloc(sizeof(*cd))
+struct zip_cdir *
+struct zip_cdir
+zip_cdir
+*
+*
+malloc(sizeof(*cd))
+malloc
+malloc
+sizeof(*cd)
+(*cd)
+*cd
+cd
+cd
+NULL
+NULL
+{	_zip_error_set(error, ZIP_ER_MEMORY, 0);	return NULL;    }
+_zip_error_set(error, ZIP_ER_MEMORY, 0);
+_zip_error_set(error, ZIP_ER_MEMORY, 0)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_MEMORY
+ZIP_ER_MEMORY
+0
+return NULL;
+NULL
+NULL
+if ((cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))	== NULL) {	_zip_error_set(error, ZIP_ER_MEMORY, 0);	free(cd);	return NULL;    }
+(cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))	== NULL
+(cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))
+cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry)
+cd->entry
+cd
+cd
+entry
+(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry)
+struct zip_dirent *
+struct zip_dirent
+zip_dirent
+*
+*
+malloc(sizeof(*(cd->entry))*nentry)
+malloc
+malloc
+sizeof(*(cd->entry))*nentry
+sizeof(*(cd->entry))
+(*(cd->entry))
+*(cd->entry)
+(cd->entry)
+cd->entry
+cd
+cd
+entry
+nentry
+nentry
+NULL
+NULL
+{	_zip_error_set(error, ZIP_ER_MEMORY, 0);	free(cd);	return NULL;    }
+_zip_error_set(error, ZIP_ER_MEMORY, 0);
+_zip_error_set(error, ZIP_ER_MEMORY, 0)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_MEMORY
+ZIP_ER_MEMORY
+0
+free(cd);
+free(cd)
+free
+free
+cd
+cd
+return NULL;
+NULL
+NULL
+cd->nentry = nentry;
+cd->nentry = nentry
+cd->nentry
+cd
+cd
+nentry
+nentry
+nentry
+cd->size = cd->offset = 0;
+cd->size = cd->offset = 0
+cd->size
+cd
+cd
+size
+cd->offset = 0
+cd->offset
+cd
+cd
+offset
+0
+cd->comment = NULL;
+cd->comment = NULL
+cd->comment
+cd
+cd
+comment
+NULL
+NULL
+cd->comment_len = 0;
+cd->comment_len = 0
+cd->comment_len
+cd
+cd
+comment_len
+0
+return cd;
+cd
+cd
+-----joern-----
+(4,7,0)
+(11,5,0)
+(15,13,0)
+(0,24,0)
+(13,18,0)
+(5,25,0)
+(12,7,0)
+(2,28,0)
+(26,21,0)
+(27,17,0)
+(26,7,0)
+(28,18,0)
+(28,20,0)
+(3,8,0)
+(13,16,0)
+(19,32,0)
+(21,17,0)
+(25,7,0)
+(21,26,0)
+(10,24,0)
+(22,17,0)
+(14,18,0)
+(31,7,0)
+(8,18,0)
+(25,5,0)
+(9,21,0)
+(28,24,0)
+(30,21,0)
+(16,13,0)
+(29,22,0)
+(24,17,0)
+(5,17,0)
+(27,7,0)
+(23,27,0)
+(33,18,0)
+(16,17,0)
+(24,28,0)
+(20,28,0)
+(6,16,0)
+(34,5,0)
+(1,16,0)
+(34,26,1)
+(22,29,1)
+(9,13,1)
+(27,17,1)
+(21,30,1)
+(13,18,1)
+(0,13,1)
+(5,17,1)
+(33,14,1)
+(20,28,1)
+(16,1,1)
+(24,10,1)
+(11,34,1)
+(15,8,1)
+(14,22,1)
+(16,17,1)
+(10,0,1)
+(28,2,1)
+(8,18,1)
+(26,21,1)
+(28,24,1)
+(1,6,1)
+(2,24,1)
+(8,3,1)
+(22,17,1)
+(27,23,1)
+(18,33,1)
+(19,27,1)
+(6,15,1)
+(13,16,1)
+(3,20,1)
+(28,18,1)
+(5,11,1)
+(15,18,1)
+(25,5,1)
+(21,17,1)
+(32,22,1)
+(19,32,1)
+(30,9,1)
+(23,25,1)
+(24,17,1)
+(13,22,2)
+(20,13,2)
+(16,22,2)
+(2,13,2)
+(9,22,2)
+(26,22,2)
+(34,22,2)
+(6,22,2)
+(10,13,2)
+(21,17,2)
+(19,32,2)
+(8,18,2)
+(30,22,2)
+(6,13,2)
+(33,22,2)
+(25,22,2)
+(24,17,2)
+(1,22,2)
+(13,18,2)
+(14,22,2)
+(24,13,2)
+(11,22,2)
+(22,17,2)
+(5,22,2)
+(28,13,2)
+(25,5,2)
+(5,17,2)
+(13,13,2)
+(15,13,2)
+(15,22,2)
+(16,17,2)
+(28,18,2)
+(27,22,2)
+(18,22,2)
+(8,13,2)
+(16,13,2)
+(26,21,2)
+(3,13,2)
+(1,13,2)
+(0,13,2)
+(23,22,2)
+(13,16,2)
+(32,22,2)
+(21,22,2)
+(28,24,2)
+(20,28,2)
+(27,17,2)
+-----------------------------------
+(0,cd)
+(1,nentry)
+(2,i)
+(3,i)
+(4,if (!cd)
+(5,cd->entry)
+(6,cd)
+(7,)
+(8,i++)
+(9,cd)
+(10,entry)
+(11,entry)
+(12,i)
+(13,i<cd->nentry)
+(14,i)
+(15,i)
+(16,cd->nentry)
+(17,struct zip_cdir *cd)
+(18,i=0)
+(19,RET)
+(20,_zip_dirent_finalize(cd->entry+i)
+(21,cd->comment)
+(22,!cd)
+(23,cd)
+(24,cd->entry)
+(25,free(cd->entry)
+(26,free(cd->comment)
+(27,free(cd)
+(28,cd->entry+i)
+(29,cd)
+(30,comment)
+(31,for (i=0; i<cd->nentry; i++)
+(32,return;)
+(33,0)
+(34,cd)
+-----cfg-----
+(64,62)
+(65,61)
+(66,65)
+(68,66)
+(70,78)
+(71,70)
+(7,17)
+(73,71)
+(75,80)
+(76,75)
+(13,24)
+(13,35)
+(14,13)
+(78,76)
+(80,82)
+(16,14)
+(17,20)
+(18,16)
+(19,18)
+(20,19)
+(24,28)
+(28,82)
+(31,48)
+(31,59)
+(32,31)
+(33,37)
+(35,33)
+(36,32)
+(37,44)
+(38,36)
+(39,38)
+(40,39)
+(41,40)
+(42,41)
+(44,42)
+(48,52)
+(52,54)
+(54,82)
+(56,64)
+(57,56)
+(59,57)
+(61,73)
+(62,68)
+-----path-----
+7,17,20,19,18,16,14,13,24,28,82
+7,17,20,19,18,16,14,13,35,33,37,44,42,41,40,39,38,36,32,31,48,52,54,82
+7,17,20,19,18,16,14,13,35,33,37,44,42,41,40,39,38,36,32,31,59,57,56,64,62,68,66,65,61,73,71,70,78,76,75,80,82
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,struct zip_cdir _zip_cdir_new (int nentry,struct zip_error *error)
+8,int nentry
+9,struct zip_error *error
+10,<empty>
+11,struct zip_cdir* cd
+12,if ((cd=(struct zip_cdir *)malloc(sizeof(*cd))) == NULL)
+13,(cd=(struct zip_cdir *)malloc(sizeof(*cd))) == NULL
+14,cd=(struct zip_cdir *)malloc(sizeof(*cd))
+15,cd
+16,(struct zip_cdir *)malloc(sizeof(*cd))
+17,struct zip_cdir *
+18,malloc(sizeof(*cd))
+19,sizeof(*cd)
+20,*cd
+21,cd
+22,NULL
+23,<empty>
+24,_zip_error_set(error, ZIP_ER_MEMORY, 0)
+25,error
+26,ZIP_ER_MEMORY
+27,0
+28,return NULL;
+29,NULL
+30,if ((cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))
+31,	== NULL)
+32,(cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))
+33,	== NULL
+34,cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry)
+35,cd->entry
+36,cd
+37,entry
+38,(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry)
+39,struct zip_dirent *
+40,malloc(sizeof(*(cd->entry))*nentry)
+41,sizeof(*(cd->entry))*nentry
+42,sizeof(*(cd->entry))
+43,*(cd->entry)
+44,cd->entry
+45,cd
+46,entry
+47,nentry
+48,NULL
+49,<empty>
+50,_zip_error_set(error, ZIP_ER_MEMORY, 0)
+51,error
+52,ZIP_ER_MEMORY
+53,0
+54,free(cd)
+55,cd
+56,return NULL;
+57,NULL
+58,cd->nentry = nentry
+59,cd->nentry
+60,cd
+61,nentry
+62,nentry
+63,cd->size = cd->offset = 0
+64,cd->size
+65,cd
+66,size
+67,cd->offset = 0
+68,cd->offset
+69,cd
+70,offset
+71,0
+72,cd->comment = NULL
+73,cd->comment
+74,cd
+75,comment
+76,NULL
+77,cd->comment_len = 0
+78,cd->comment_len
+79,cd
+80,comment_len
+81,0
+82,return cd;
+83,cd
+84,RET
+85,int nentry
+86,struct zip_error *error
+87,RET
+88,struct zip_cdir _zip_cdir_new (int nentry,struct zip_error *error)
+89,int nentry
+90,struct zip_error *error
+91,<empty>
+92,struct zip_cdir* cd
+93,if ((cd=(struct zip_cdir *)malloc(sizeof(*cd))) == NULL)
+94,(cd=(struct zip_cdir *)malloc(sizeof(*cd))) == NULL
+95,cd=(struct zip_cdir *)malloc(sizeof(*cd))
+96,cd
+97,(struct zip_cdir *)malloc(sizeof(*cd))
+98,struct zip_cdir *
+99,malloc(sizeof(*cd))
+100,sizeof(*cd)
+101,*cd
+102,cd
+103,NULL
+104,<empty>
+105,_zip_error_set(error, ZIP_ER_MEMORY, 0)
+106,error
+107,ZIP_ER_MEMORY
+108,0
+109,return NULL;
+110,NULL
+111,if ((cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))
+112,	== NULL)
+113,(cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry))
+114,	== NULL
+115,cd->entry=(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry)
+116,cd->entry
+117,cd
+118,entry
+119,(struct zip_dirent *)malloc(sizeof(*(cd->entry))*nentry)
+120,struct zip_dirent *
+121,malloc(sizeof(*(cd->entry))*nentry)
+122,sizeof(*(cd->entry))*nentry
+123,sizeof(*(cd->entry))
+124,*(cd->entry)
+125,cd->entry
+126,cd
+127,entry
+128,nentry
+129,NULL
+130,<empty>
+131,_zip_error_set(error, ZIP_ER_MEMORY, 0)
+132,error
+133,ZIP_ER_MEMORY
+134,0
+135,free(cd)
+136,cd
+137,return NULL;
+138,NULL
+139,cd->nentry = nentry
+140,cd->nentry
+141,cd
+142,nentry
+143,nentry
+144,cd->size = cd->offset = 0
+145,cd->size
+146,cd
+147,size
+148,cd->offset = 0
+149,cd->offset
+150,cd
+151,offset
+152,0
+153,cd->comment = NULL
+154,cd->comment
+155,cd
+156,comment
+157,NULL
+158,cd->comment_len = 0
+159,cd->comment_len
+160,cd
+161,comment_len
+162,0
+163,return cd;
+164,cd
+165,RET
+166,int nentry
+167,struct zip_error *error
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000020000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffb1fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000504b050600000000ffffffff0000010000000000ffff
+arg00:0x2d53ff
+=========trace=========
+struct zip_cdir * _zip_cdir_new(int nentry, struct zip_error *error) {
+struct zip_cdir *cd;
+cd->nentry = nentry;
+cd->size = cd->offset = 0;
+cd->comment = NULL;
+cd->comment_len = 0;
+return cd;
+=======================

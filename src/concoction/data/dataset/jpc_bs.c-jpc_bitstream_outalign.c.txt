@@ -1,0 +1,1177 @@
+-----label-----
+0
+-----code-----
+int jpc_bitstream_outalign(jpc_bitstream_t *bitstream, int filldata)
+{
+	int n;
+	int v;
+
+	/* Ensure that this bit stream is open for writing. */
+	assert(bitstream->openmode_ & JPC_BITSTREAM_WRITE);
+
+	/* Ensure that the first bit of fill data is zero. */
+	/* Note: The first bit of fill data must be zero.  If this were not
+	  the case, the fill data itself could cause further bit stuffing to
+	  be required (which would cause numerous complications). */
+	assert(!(filldata & (~0x3f)));
+
+	if (!bitstream->cnt_) {
+		if ((bitstream->buf_ & 0xff) == 0xff) {
+			n = 7;
+			v = filldata;
+		} else {
+			n = 0;
+			v = 0;
+		}
+	} else if (bitstream->cnt_ > 0 && bitstream->cnt_ < 8) {
+		n = bitstream->cnt_;
+		v = filldata >> (7 - n);
+	} else {
+		n = 0;
+		v = 0;
+		return 0;
+	}
+
+	/* Write the appropriate fill data to the bit stream. */
+	if (n > 0) {
+		if (jpc_bitstream_putbits(bitstream, n, v)) {
+			return -1;
+		}
+	}
+	if (bitstream->cnt_ < 8) {
+		assert(bitstream->cnt_ >= 0 && bitstream->cnt_ < 8);
+		assert((bitstream->buf_ & 0xff) != 0xff);
+		/* Force the pending byte of output to be written to the
+		  underlying (character) stream. */
+		if (jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF) {
+			return -1;
+		}
+		bitstream->cnt_ = 8;
+		bitstream->buf_ = (bitstream->buf_ << 8) & 0xffff;
+	}
+
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+15,16
+15,17
+15,18
+15,19
+15,20
+15,21
+15,22
+15,23
+16,17
+17,18
+17,19
+19,20
+21,22
+22,23
+22,24
+24,25
+26,27
+27,28
+27,29
+28,29
+30,31
+30,32
+31,32
+31,33
+32,33
+35,36
+37,38
+38,39
+38,40
+39,40
+41,42
+42,43
+43,44
+43,45
+44,45
+46,47
+47,48
+49,50
+49,51
+49,52
+50,51
+51,52
+51,53
+52,53
+55,56
+56,57
+56,58
+56,59
+57,58
+57,59
+58,59
+59,60
+59,61
+60,61
+60,62
+61,62
+66,67
+66,68
+67,68
+68,69
+68,70
+69,70
+72,73
+73,74
+73,75
+74,75
+76,77
+78,79
+78,80
+79,80
+80,81
+80,82
+81,82
+84,85
+85,86
+85,87
+86,87
+89,90
+89,91
+89,92
+90,91
+90,92
+91,92
+91,93
+92,93
+92,94
+93,94
+97,98
+97,99
+98,99
+98,100
+99,100
+103,104
+103,105
+104,105
+105,106
+105,107
+106,107
+108,109
+108,110
+109,110
+112,113
+113,114
+113,115
+114,115
+116,117
+116,118
+117,118
+119,120
+120,121
+120,122
+122,123
+124,125
+124,126
+124,127
+125,126
+126,127
+126,128
+127,128
+130,131
+131,132
+131,133
+132,133
+135,136
+137,138
+137,139
+138,139
+138,140
+139,140
+142,143
+143,144
+143,145
+144,145
+144,146
+144,147
+144,148
+145,146
+147,148
+149,150
+151,152
+153,154
+154,155
+155,156
+157,158
+157,159
+158,159
+158,160
+159,160
+159,161
+160,161
+164,165
+164,166
+164,167
+164,168
+164,169
+165,166
+166,167
+166,168
+167,168
+169,170
+169,171
+170,171
+170,172
+171,172
+171,173
+172,173
+176,177
+176,178
+177,178
+177,179
+178,179
+182,183
+183,184
+183,185
+184,185
+186,187
+186,188
+187,188
+188,189
+188,190
+189,190
+189,191
+190,191
+195,196
+195,197
+196,197
+196,198
+197,198
+197,199
+197,200
+198,199
+200,201
+200,202
+201,202
+204,205
+204,206
+205,206
+205,207
+206,207
+210,211
+212,213
+213,214
+214,215
+216,217
+217,218
+217,219
+218,219
+218,220
+219,220
+223,224
+224,225
+224,226
+225,226
+225,227
+226,227
+229,230
+229,231
+230,231
+231,232
+231,233
+232,233
+232,234
+233,234
+238,239
+-----nextToken-----
+2,4,7,9,10,12,14,18,20,23,25,29,33,34,36,40,45,48,53,54,62,63,64,65,70,71,75,77,82,83,87,88,94,95,96,100,101,102,107,110,111,115,118,121,123,128,129,133,134,136,140,141,146,148,150,152,156,161,162,163,168,173,174,175,179,180,181,185,191,192,193,194,199,202,203,207,208,209,211,215,220,221,222,227,228,234,235,236,237,239
+-----computeFrom-----
+30,31
+30,32
+43,44
+43,45
+57,58
+57,59
+59,60
+59,61
+68,69
+68,70
+73,74
+73,75
+80,81
+80,82
+85,86
+85,87
+90,91
+90,92
+91,92
+91,93
+97,98
+97,99
+105,106
+105,107
+113,114
+113,115
+116,117
+116,118
+120,121
+120,122
+126,127
+126,128
+131,132
+131,133
+138,139
+138,140
+158,159
+158,160
+169,170
+169,171
+170,171
+170,172
+176,177
+176,178
+186,187
+186,188
+188,189
+188,190
+196,197
+196,198
+204,205
+204,206
+217,218
+217,219
+224,225
+224,226
+229,230
+229,231
+231,232
+231,233
+-----guardedBy-----
+101,111
+100,110
+140,150
+162,221
+161,234
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;UnaryExpression;UnaryExpression;LiteralExpression;IfStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;LiteralExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ReturnStatement;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;IdExpression;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jpc_bitstream_outalign(jpc_bitstream_t *bitstream, int filldata){	int n;	int v;	/* Ensure that this bit stream is open for writing. */	assert(bitstream->openmode_ & JPC_BITSTREAM_WRITE);	/* Ensure that the first bit of fill data is zero. */	/* Note: The first bit of fill data must be zero.  If this were not	  the case, the fill data itself could cause further bit stuffing to	  be required (which would cause numerous complications). */	assert(!(filldata & (~0x3f)));	if (!bitstream->cnt_) {		if ((bitstream->buf_ & 0xff) == 0xff) {			n = 7;			v = filldata;		} else {			n = 0;			v = 0;		}	} else if (bitstream->cnt_ > 0 && bitstream->cnt_ < 8) {		n = bitstream->cnt_;		v = filldata >> (7 - n);	} else {		n = 0;		v = 0;		return 0;	}	/* Write the appropriate fill data to the bit stream. */	if (n > 0) {		if (jpc_bitstream_putbits(bitstream, n, v)) {			return -1;		}	}	if (bitstream->cnt_ < 8) {		assert(bitstream->cnt_ >= 0 && bitstream->cnt_ < 8);		assert((bitstream->buf_ & 0xff) != 0xff);		/* Force the pending byte of output to be written to the		  underlying (character) stream. */		if (jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF) {			return -1;		}		bitstream->cnt_ = 8;		bitstream->buf_ = (bitstream->buf_ << 8) & 0xffff;	}	return 0;}
+int
+jpc_bitstream_outalign(jpc_bitstream_t *bitstream, int filldata)
+jpc_bitstream_outalign
+jpc_bitstream_t *bitstream
+jpc_bitstream_t
+jpc_bitstream_t
+*bitstream
+*
+bitstream
+int filldata
+int
+filldata
+filldata
+{	int n;	int v;	/* Ensure that this bit stream is open for writing. */	assert(bitstream->openmode_ & JPC_BITSTREAM_WRITE);	/* Ensure that the first bit of fill data is zero. */	/* Note: The first bit of fill data must be zero.  If this were not	  the case, the fill data itself could cause further bit stuffing to	  be required (which would cause numerous complications). */	assert(!(filldata & (~0x3f)));	if (!bitstream->cnt_) {		if ((bitstream->buf_ & 0xff) == 0xff) {			n = 7;			v = filldata;		} else {			n = 0;			v = 0;		}	} else if (bitstream->cnt_ > 0 && bitstream->cnt_ < 8) {		n = bitstream->cnt_;		v = filldata >> (7 - n);	} else {		n = 0;		v = 0;		return 0;	}	/* Write the appropriate fill data to the bit stream. */	if (n > 0) {		if (jpc_bitstream_putbits(bitstream, n, v)) {			return -1;		}	}	if (bitstream->cnt_ < 8) {		assert(bitstream->cnt_ >= 0 && bitstream->cnt_ < 8);		assert((bitstream->buf_ & 0xff) != 0xff);		/* Force the pending byte of output to be written to the		  underlying (character) stream. */		if (jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF) {			return -1;		}		bitstream->cnt_ = 8;		bitstream->buf_ = (bitstream->buf_ << 8) & 0xffff;	}	return 0;}
+int n;
+int n;
+int
+n
+n
+int v;
+int v;
+int
+v
+v
+assert(bitstream->openmode_ & JPC_BITSTREAM_WRITE);
+assert(bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+assert
+assert
+bitstream->openmode_ & JPC_BITSTREAM_WRITE
+bitstream->openmode_
+bitstream
+bitstream
+openmode_
+JPC_BITSTREAM_WRITE
+JPC_BITSTREAM_WRITE
+assert(!(filldata & (~0x3f)));
+assert(!(filldata & (~0x3f)))
+assert
+assert
+!(filldata & (~0x3f))
+(filldata & (~0x3f))
+filldata & (~0x3f)
+filldata
+filldata
+(~0x3f)
+~0x3f
+0x3f
+if (!bitstream->cnt_) {		if ((bitstream->buf_ & 0xff) == 0xff) {			n = 7;			v = filldata;		} else {			n = 0;			v = 0;		}	} else if (bitstream->cnt_ > 0 && bitstream->cnt_ < 8) {		n = bitstream->cnt_;		v = filldata >> (7 - n);	} else {		n = 0;		v = 0;		return 0;	}
+!bitstream->cnt_
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+{		if ((bitstream->buf_ & 0xff) == 0xff) {			n = 7;			v = filldata;		} else {			n = 0;			v = 0;		}	}
+if ((bitstream->buf_ & 0xff) == 0xff) {			n = 7;			v = filldata;		} else {			n = 0;			v = 0;		}
+(bitstream->buf_ & 0xff) == 0xff
+(bitstream->buf_ & 0xff)
+bitstream->buf_ & 0xff
+bitstream->buf_
+bitstream
+bitstream
+buf_
+0xff
+0xff
+{			n = 7;			v = filldata;		}
+n = 7;
+n = 7
+n
+n
+7
+v = filldata;
+v = filldata
+v
+v
+filldata
+filldata
+{			n = 0;			v = 0;		}
+n = 0;
+n = 0
+n
+n
+0
+v = 0;
+v = 0
+v
+v
+0
+if (bitstream->cnt_ > 0 && bitstream->cnt_ < 8) {		n = bitstream->cnt_;		v = filldata >> (7 - n);	} else {		n = 0;		v = 0;		return 0;	}
+bitstream->cnt_ > 0 && bitstream->cnt_ < 8
+bitstream->cnt_ > 0
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+0
+bitstream->cnt_ < 8
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+8
+{		n = bitstream->cnt_;		v = filldata >> (7 - n);	}
+n = bitstream->cnt_;
+n = bitstream->cnt_
+n
+n
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+v = filldata >> (7 - n);
+v = filldata >> (7 - n)
+v
+v
+filldata >> (7 - n)
+filldata
+filldata
+(7 - n)
+7 - n
+7
+n
+n
+{		n = 0;		v = 0;		return 0;	}
+n = 0;
+n = 0
+n
+n
+0
+v = 0;
+v = 0
+v
+v
+0
+return 0;
+0
+if (n > 0) {		if (jpc_bitstream_putbits(bitstream, n, v)) {			return -1;		}	}
+n > 0
+n
+n
+0
+{		if (jpc_bitstream_putbits(bitstream, n, v)) {			return -1;		}	}
+if (jpc_bitstream_putbits(bitstream, n, v)) {			return -1;		}
+jpc_bitstream_putbits(bitstream, n, v)
+jpc_bitstream_putbits
+jpc_bitstream_putbits
+bitstream
+bitstream
+n
+n
+v
+v
+{			return -1;		}
+return -1;
+-1
+1
+if (bitstream->cnt_ < 8) {		assert(bitstream->cnt_ >= 0 && bitstream->cnt_ < 8);		assert((bitstream->buf_ & 0xff) != 0xff);		/* Force the pending byte of output to be written to the		  underlying (character) stream. */		if (jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF) {			return -1;		}		bitstream->cnt_ = 8;		bitstream->buf_ = (bitstream->buf_ << 8) & 0xffff;	}
+bitstream->cnt_ < 8
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+8
+{		assert(bitstream->cnt_ >= 0 && bitstream->cnt_ < 8);		assert((bitstream->buf_ & 0xff) != 0xff);		/* Force the pending byte of output to be written to the		  underlying (character) stream. */		if (jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF) {			return -1;		}		bitstream->cnt_ = 8;		bitstream->buf_ = (bitstream->buf_ << 8) & 0xffff;	}
+assert(bitstream->cnt_ >= 0 && bitstream->cnt_ < 8);
+assert(bitstream->cnt_ >= 0 && bitstream->cnt_ < 8)
+assert
+assert
+bitstream->cnt_ >= 0 && bitstream->cnt_ < 8
+bitstream->cnt_ >= 0
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+0
+bitstream->cnt_ < 8
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+8
+assert((bitstream->buf_ & 0xff) != 0xff);
+assert((bitstream->buf_ & 0xff) != 0xff)
+assert
+assert
+(bitstream->buf_ & 0xff) != 0xff
+(bitstream->buf_ & 0xff)
+bitstream->buf_ & 0xff
+bitstream->buf_
+bitstream
+bitstream
+buf_
+0xff
+0xff
+if (jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF) {			return -1;		}
+jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF
+jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff)
+jas_stream_putc
+jas_stream_putc
+bitstream->stream_
+bitstream
+bitstream
+stream_
+bitstream->buf_ & 0xff
+bitstream->buf_
+bitstream
+bitstream
+buf_
+0xff
+EOF
+EOF
+{			return -1;		}
+return -1;
+-1
+1
+bitstream->cnt_ = 8;
+bitstream->cnt_ = 8
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+8
+bitstream->buf_ = (bitstream->buf_ << 8) & 0xffff;
+bitstream->buf_ = (bitstream->buf_ << 8) & 0xffff
+bitstream->buf_
+bitstream
+bitstream
+buf_
+(bitstream->buf_ << 8) & 0xffff
+(bitstream->buf_ << 8)
+bitstream->buf_ << 8
+bitstream->buf_
+bitstream
+bitstream
+buf_
+8
+0xffff
+return 0;
+0
+-----joern-----
+(17,10,0)
+(13,0,0)
+(3,15,0)
+(1,19,0)
+(15,9,0)
+(22,21,0)
+(14,15,0)
+(24,0,0)
+(5,9,0)
+(0,19,0)
+(6,11,0)
+(9,15,0)
+(7,16,0)
+(8,10,0)
+(16,4,0)
+(20,7,0)
+(23,8,0)
+(24,16,0)
+(10,8,0)
+(24,22,0)
+(18,8,0)
+(15,2,0)
+(12,22,0)
+(8,2,0)
+(7,20,1)
+(15,2,1)
+(10,17,1)
+(5,15,1)
+(9,15,1)
+(23,9,1)
+(17,8,1)
+(12,10,1)
+(10,8,1)
+(24,22,1)
+(24,0,1)
+(22,12,1)
+(16,7,1)
+(8,2,1)
+(3,14,1)
+(8,18,1)
+(20,9,1)
+(18,23,1)
+(15,3,1)
+(13,10,1)
+(9,5,1)
+(24,16,1)
+(0,13,1)
+(22,10,2)
+(10,8,2)
+(8,9,2)
+(20,9,2)
+(23,9,2)
+(24,16,2)
+(17,9,2)
+(0,10,2)
+(13,10,2)
+(8,2,2)
+(7,9,2)
+(15,2,2)
+(10,9,2)
+(24,0,2)
+(12,10,2)
+(9,15,2)
+(24,22,2)
+(18,9,2)
+(16,9,2)
+-----------------------------------
+(0,return 0;)
+(1,if (bitstream->cnt_ < 8)
+(2,jpc_bitstream_t *bitstream)
+(3,openmode_)
+(4,)
+(5,JPC_BITSTREAM_WRITE)
+(6,if (bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(7,-1)
+(8,bitstream->cnt_)
+(9,bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(10,bitstream->cnt_ < 8)
+(11,)
+(12,1)
+(13,0)
+(14,bitstream)
+(15,bitstream->openmode_)
+(16,return -1;)
+(17,8)
+(18,cnt_)
+(19,)
+(20,1)
+(21,)
+(22,return 1;)
+(23,bitstream)
+(24,RET)
+-----cfg-----
+(129,127)
+(133,146)
+(133,151)
+(134,133)
+(135,141)
+(7,17)
+(137,135)
+(138,134)
+(139,138)
+(13,23)
+(141,139)
+(14,13)
+(15,14)
+(17,15)
+(145,166)
+(146,145)
+(19,29)
+(20,19)
+(148,156)
+(21,20)
+(149,148)
+(23,21)
+(151,149)
+(153,164)
+(26,36)
+(26,61)
+(154,161)
+(27,26)
+(156,154)
+(29,27)
+(157,153)
+(158,157)
+(159,158)
+(32,40)
+(32,48)
+(33,32)
+(161,159)
+(34,33)
+(164,166)
+(36,34)
+(40,43)
+(43,92)
+(48,51)
+(51,92)
+(57,73)
+(57,83)
+(58,57)
+(58,66)
+(59,58)
+(61,59)
+(63,57)
+(64,63)
+(66,64)
+(69,78)
+(71,69)
+(73,71)
+(74,92)
+(76,74)
+(78,76)
+(83,86)
+(86,89)
+(89,166)
+(92,97)
+(92,109)
+(97,103)
+(97,109)
+(102,166)
+(103,102)
+(106,117)
+(106,164)
+(107,106)
+(109,107)
+(112,129)
+(113,112)
+(114,113)
+(114,122)
+(115,114)
+(117,115)
+(119,113)
+(120,119)
+(122,120)
+(124,137)
+(125,124)
+(126,125)
+(127,126)
+-----path-----
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,97,103,102,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,97,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,97,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159,158,157,153,164
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,97,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,97,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159,158
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,97,109,107,106,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159,158,157,153,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159,158,157
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,40,43,92,109,107,106,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,97,103,102,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,97,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,97,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159,158,157,153,164
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,97,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,97,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159,158
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,97,109,107,106,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159,158,157,153,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159,158,157
+7,17,15,14,13,23,21,20,19,29,27,26,36,34,33,32,48,51,92,109,107,106,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,97,103,102,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,97,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,97,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,97,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,97,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,97,109,107,106,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154,161,159,158
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,73,71,69,78,76,74,92,109,107,106,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,57,83,86,89,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,97,103,102,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,97,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,97,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,97,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,97,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,97,109,107,106,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,109,107,106,117,115,114,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149,148,156,154
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,146,145
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,109,107,106,117,115,114,122,120,119,113,112,129,127,126,125,124,137,135,141,139,138,134,133,151,149
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,73,71,69,78,76,74,92,109,107,106,164,166
+7,17,15,14,13,23,21,20,19,29,27,26,61,59,58,66,64,63,57,83,86,89,166
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_bitstream_outalign (jpc_bitstream_t *bitstream,int filldata)
+8,jpc_bitstream_t *bitstream
+9,int filldata
+10,<empty>
+11,int n
+12,int v
+13,assert(bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+14,bitstream->openmode_ & JPC_BITSTREAM_WRITE
+15,bitstream->openmode_
+16,bitstream
+17,openmode_
+18,JPC_BITSTREAM_WRITE
+19,assert(!(filldata & (~0x3f)))
+20,!(filldata & (~0x3f))
+21,filldata & (~0x3f)
+22,filldata
+23,~0x3f
+24,0x3f
+25,if (!bitstream->cnt_)
+26,!bitstream->cnt_
+27,bitstream->cnt_
+28,bitstream
+29,cnt_
+30,<empty>
+31,if ((bitstream->buf_ & 0xff) == 0xff)
+32,(bitstream->buf_ & 0xff) == 0xff
+33,bitstream->buf_ & 0xff
+34,bitstream->buf_
+35,bitstream
+36,buf_
+37,0xff
+38,0xff
+39,<empty>
+40,n = 7
+41,n
+42,7
+43,v = filldata
+44,v
+45,filldata
+46,else
+47,<empty>
+48,n = 0
+49,n
+50,0
+51,v = 0
+52,v
+53,0
+54,else
+55,<empty>
+56,if (bitstream->cnt_ > 0 && bitstream->cnt_ < 8)
+57,bitstream->cnt_ > 0 && bitstream->cnt_ < 8
+58,bitstream->cnt_ > 0
+59,bitstream->cnt_
+60,bitstream
+61,cnt_
+62,0
+63,bitstream->cnt_ < 8
+64,bitstream->cnt_
+65,bitstream
+66,cnt_
+67,8
+68,<empty>
+69,n = bitstream->cnt_
+70,n
+71,bitstream->cnt_
+72,bitstream
+73,cnt_
+74,v = filldata >> (7 - n)
+75,v
+76,filldata >> (7 - n)
+77,filldata
+78,7 - n
+79,7
+80,n
+81,else
+82,<empty>
+83,n = 0
+84,n
+85,0
+86,v = 0
+87,v
+88,0
+89,return 0;
+90,0
+91,if (n > 0)
+92,n > 0
+93,n
+94,0
+95,<empty>
+96,if (jpc_bitstream_putbits(bitstream, n, v))
+97,jpc_bitstream_putbits(bitstream, n, v)
+98,bitstream
+99,n
+100,v
+101,<empty>
+102,return -1;
+103,-1
+104,1
+105,if (bitstream->cnt_ < 8)
+106,bitstream->cnt_ < 8
+107,bitstream->cnt_
+108,bitstream
+109,cnt_
+110,8
+111,<empty>
+112,assert(bitstream->cnt_ >= 0 && bitstream->cnt_ < 8)
+113,bitstream->cnt_ >= 0 && bitstream->cnt_ < 8
+114,bitstream->cnt_ >= 0
+115,bitstream->cnt_
+116,bitstream
+117,cnt_
+118,0
+119,bitstream->cnt_ < 8
+120,bitstream->cnt_
+121,bitstream
+122,cnt_
+123,8
+124,assert((bitstream->buf_ & 0xff) != 0xff)
+125,(bitstream->buf_ & 0xff) != 0xff
+126,bitstream->buf_ & 0xff
+127,bitstream->buf_
+128,bitstream
+129,buf_
+130,0xff
+131,0xff
+132,if (jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF)
+133,jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF
+134,jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff)
+135,bitstream->stream_
+136,bitstream
+137,stream_
+138,bitstream->buf_ & 0xff
+139,bitstream->buf_
+140,bitstream
+141,buf_
+142,0xff
+143,EOF
+144,<empty>
+145,return -1;
+146,-1
+147,1
+148,bitstream->cnt_ = 8
+149,bitstream->cnt_
+150,bitstream
+151,cnt_
+152,8
+153,bitstream->buf_ = (bitstream->buf_ << 8) & 0xffff
+154,bitstream->buf_
+155,bitstream
+156,buf_
+157,(bitstream->buf_ << 8) & 0xffff
+158,bitstream->buf_ << 8
+159,bitstream->buf_
+160,bitstream
+161,buf_
+162,8
+163,0xffff
+164,return 0;
+165,0
+166,RET
+167,jpc_bitstream_t *bitstream
+168,int filldata
+169,RET
+170,int jpc_bitstream_outalign (jpc_bitstream_t *bitstream,int filldata)
+171,jpc_bitstream_t *bitstream
+172,int filldata
+173,<empty>
+174,int n
+175,int v
+176,assert(bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+177,bitstream->openmode_ & JPC_BITSTREAM_WRITE
+178,bitstream->openmode_
+179,bitstream
+180,openmode_
+181,JPC_BITSTREAM_WRITE
+182,assert(!(filldata & (~0x3f)))
+183,!(filldata & (~0x3f))
+184,filldata & (~0x3f)
+185,filldata
+186,~0x3f
+187,0x3f
+188,if (!bitstream->cnt_)
+189,!bitstream->cnt_
+190,bitstream->cnt_
+191,bitstream
+192,cnt_
+193,<empty>
+194,if ((bitstream->buf_ & 0xff) == 0xff)
+195,(bitstream->buf_ & 0xff) == 0xff
+196,bitstream->buf_ & 0xff
+197,bitstream->buf_
+198,bitstream
+199,buf_
+200,0xff
+201,0xff
+202,<empty>
+203,n = 7
+204,n
+205,7
+206,v = filldata
+207,v
+208,filldata
+209,else
+210,<empty>
+211,n = 0
+212,n
+213,0
+214,v = 0
+215,v
+216,0
+217,else
+218,<empty>
+219,if (bitstream->cnt_ > 0 && bitstream->cnt_ < 8)
+220,bitstream->cnt_ > 0 && bitstream->cnt_ < 8
+221,bitstream->cnt_ > 0
+222,bitstream->cnt_
+223,bitstream
+224,cnt_
+225,0
+226,bitstream->cnt_ < 8
+227,bitstream->cnt_
+228,bitstream
+229,cnt_
+230,8
+231,<empty>
+232,n = bitstream->cnt_
+233,n
+234,bitstream->cnt_
+235,bitstream
+236,cnt_
+237,v = filldata >> (7 - n)
+238,v
+239,filldata >> (7 - n)
+240,filldata
+241,7 - n
+242,7
+243,n
+244,else
+245,<empty>
+246,n = 0
+247,n
+248,0
+249,v = 0
+250,v
+251,0
+252,return 0;
+253,0
+254,if (n > 0)
+255,n > 0
+256,n
+257,0
+258,<empty>
+259,if (jpc_bitstream_putbits(bitstream, n, v))
+260,jpc_bitstream_putbits(bitstream, n, v)
+261,bitstream
+262,n
+263,v
+264,<empty>
+265,return -1;
+266,-1
+267,1
+268,if (bitstream->cnt_ < 8)
+269,bitstream->cnt_ < 8
+270,bitstream->cnt_
+271,bitstream
+272,cnt_
+273,8
+274,<empty>
+275,assert(bitstream->cnt_ >= 0 && bitstream->cnt_ < 8)
+276,bitstream->cnt_ >= 0 && bitstream->cnt_ < 8
+277,bitstream->cnt_ >= 0
+278,bitstream->cnt_
+279,bitstream
+280,cnt_
+281,0
+282,bitstream->cnt_ < 8
+283,bitstream->cnt_
+284,bitstream
+285,cnt_
+286,8
+287,assert((bitstream->buf_ & 0xff) != 0xff)
+288,(bitstream->buf_ & 0xff) != 0xff
+289,bitstream->buf_ & 0xff
+290,bitstream->buf_
+291,bitstream
+292,buf_
+293,0xff
+294,0xff
+295,if (jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF)
+296,jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff) == EOF
+297,jas_stream_putc(bitstream->stream_, bitstream->buf_ & 0xff)
+298,bitstream->stream_
+299,bitstream
+300,stream_
+301,bitstream->buf_ & 0xff
+302,bitstream->buf_
+303,bitstream
+304,buf_
+305,0xff
+306,EOF
+307,<empty>
+308,return -1;
+309,-1
+310,1
+311,bitstream->cnt_ = 8
+312,bitstream->cnt_
+313,bitstream
+314,cnt_
+315,8
+316,bitstream->buf_ = (bitstream->buf_ << 8) & 0xffff
+317,bitstream->buf_
+318,bitstream
+319,buf_
+320,(bitstream->buf_ << 8) & 0xffff
+321,bitstream->buf_ << 8
+322,bitstream->buf_
+323,bitstream
+324,buf_
+325,8
+326,0xffff
+327,return 0;
+328,0
+329,RET
+330,jpc_bitstream_t *bitstream
+331,int filldata
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_bitstream_outalign(jpc_bitstream_t *bitstream, int filldata) {
+int n;
+int v;
+assert(bitstream->openmode_ & JPC_BITSTREAM_WRITE);
+assert(!(filldata & (~0x3f)));
+n = 0;
+v = 0;
+return 0;
+=======================

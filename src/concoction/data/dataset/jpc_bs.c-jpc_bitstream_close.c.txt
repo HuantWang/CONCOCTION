@@ -1,0 +1,447 @@
+-----label-----
+0
+-----code-----
+int jpc_bitstream_close(jpc_bitstream_t *bitstream)
+{
+	int ret = 0;
+
+	/* Align to the next byte boundary while considering the effects of
+	  bit stuffing. */
+	if (jpc_bitstream_align(bitstream)) {
+		ret = -1;
+	}
+
+	/* If necessary, close the underlying (character) stream. */
+	if (!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE) && bitstream->stream_) {
+		if (jas_stream_close(bitstream->stream_)) {
+			ret = -1;
+		}
+		bitstream->stream_ = 0;
+	}
+
+	jas_free(bitstream);
+	return ret;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+11,16
+12,13
+13,14
+13,15
+15,16
+15,17
+17,18
+19,20
+19,21
+20,21
+20,22
+21,22
+23,24
+25,26
+26,27
+27,28
+27,29
+28,29
+30,31
+32,33
+32,34
+33,34
+33,35
+34,35
+35,36
+36,37
+36,38
+37,38
+37,39
+38,39
+41,42
+43,44
+43,45
+44,45
+47,48
+47,49
+48,49
+48,50
+49,50
+49,51
+50,51
+52,53
+52,54
+53,54
+56,57
+57,58
+58,59
+58,60
+59,60
+61,62
+63,64
+64,65
+64,66
+65,66
+65,67
+66,67
+70,71
+71,72
+71,73
+72,73
+74,75
+76,77
+77,78
+-----nextToken-----
+2,4,7,9,10,14,16,18,22,24,29,31,39,40,42,45,46,51,54,55,60,62,67,68,69,73,75,78
+-----computeFrom-----
+27,28
+27,29
+33,34
+33,35
+36,37
+36,38
+58,59
+58,60
+64,65
+64,66
+-----guardedBy-----
+45,67
+46,68
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;EqualsInitializer;LiteralExpression;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+int jpc_bitstream_close(jpc_bitstream_t *bitstream){	int ret = 0;	/* Align to the next byte boundary while considering the effects of	  bit stuffing. */	if (jpc_bitstream_align(bitstream)) {		ret = -1;	}	/* If necessary, close the underlying (character) stream. */	if (!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE) && bitstream->stream_) {		if (jas_stream_close(bitstream->stream_)) {			ret = -1;		}		bitstream->stream_ = 0;	}	jas_free(bitstream);	return ret;}
+int
+jpc_bitstream_close(jpc_bitstream_t *bitstream)
+jpc_bitstream_close
+jpc_bitstream_t *bitstream
+jpc_bitstream_t
+jpc_bitstream_t
+*bitstream
+*
+bitstream
+{	int ret = 0;	/* Align to the next byte boundary while considering the effects of	  bit stuffing. */	if (jpc_bitstream_align(bitstream)) {		ret = -1;	}	/* If necessary, close the underlying (character) stream. */	if (!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE) && bitstream->stream_) {		if (jas_stream_close(bitstream->stream_)) {			ret = -1;		}		bitstream->stream_ = 0;	}	jas_free(bitstream);	return ret;}
+int ret = 0;
+int ret = 0;
+int
+ret = 0
+ret
+= 0
+0
+if (jpc_bitstream_align(bitstream)) {		ret = -1;	}
+jpc_bitstream_align(bitstream)
+jpc_bitstream_align
+jpc_bitstream_align
+bitstream
+bitstream
+{		ret = -1;	}
+ret = -1;
+ret = -1
+ret
+ret
+-1
+1
+if (!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE) && bitstream->stream_) {		if (jas_stream_close(bitstream->stream_)) {			ret = -1;		}		bitstream->stream_ = 0;	}
+!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE) && bitstream->stream_
+!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE)
+(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE)
+bitstream->flags_ & JPC_BITSTREAM_NOCLOSE
+bitstream->flags_
+bitstream
+bitstream
+flags_
+JPC_BITSTREAM_NOCLOSE
+JPC_BITSTREAM_NOCLOSE
+bitstream->stream_
+bitstream
+bitstream
+stream_
+{		if (jas_stream_close(bitstream->stream_)) {			ret = -1;		}		bitstream->stream_ = 0;	}
+if (jas_stream_close(bitstream->stream_)) {			ret = -1;		}
+jas_stream_close(bitstream->stream_)
+jas_stream_close
+jas_stream_close
+bitstream->stream_
+bitstream
+bitstream
+stream_
+{			ret = -1;		}
+ret = -1;
+ret = -1
+ret
+ret
+-1
+1
+bitstream->stream_ = 0;
+bitstream->stream_ = 0
+bitstream->stream_
+bitstream
+bitstream
+stream_
+0
+jas_free(bitstream);
+jas_free(bitstream)
+jas_free
+jas_free
+bitstream
+bitstream
+return ret;
+ret
+ret
+-----joern-----
+(17,10,0)
+(13,0,0)
+(3,15,0)
+(1,19,0)
+(15,9,0)
+(22,21,0)
+(14,15,0)
+(24,0,0)
+(5,9,0)
+(0,19,0)
+(6,11,0)
+(9,15,0)
+(7,16,0)
+(8,10,0)
+(16,4,0)
+(20,7,0)
+(23,8,0)
+(24,16,0)
+(10,8,0)
+(24,22,0)
+(18,8,0)
+(15,2,0)
+(12,22,0)
+(8,2,0)
+(7,20,1)
+(15,2,1)
+(10,17,1)
+(5,15,1)
+(9,15,1)
+(23,9,1)
+(17,8,1)
+(12,10,1)
+(10,8,1)
+(24,22,1)
+(24,0,1)
+(22,12,1)
+(16,7,1)
+(8,2,1)
+(3,14,1)
+(8,18,1)
+(20,9,1)
+(18,23,1)
+(15,3,1)
+(13,10,1)
+(9,5,1)
+(24,16,1)
+(0,13,1)
+(22,10,2)
+(10,8,2)
+(8,9,2)
+(20,9,2)
+(23,9,2)
+(24,16,2)
+(17,9,2)
+(0,10,2)
+(13,10,2)
+(8,2,2)
+(7,9,2)
+(15,2,2)
+(10,9,2)
+(24,0,2)
+(12,10,2)
+(9,15,2)
+(24,22,2)
+(18,9,2)
+(16,9,2)
+-----------------------------------
+(0,return 0;)
+(1,if (bitstream->cnt_ < 8)
+(2,jpc_bitstream_t *bitstream)
+(3,openmode_)
+(4,)
+(5,JPC_BITSTREAM_WRITE)
+(6,if (bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(7,-1)
+(8,bitstream->cnt_)
+(9,bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(10,bitstream->cnt_ < 8)
+(11,)
+(12,1)
+(13,0)
+(14,bitstream)
+(15,bitstream->openmode_)
+(16,return -1;)
+(17,8)
+(18,cnt_)
+(19,)
+(20,1)
+(21,)
+(22,return 1;)
+(23,bitstream)
+(24,RET)
+-----cfg-----
+(32,30)
+(35,42)
+(35,47)
+(36,35)
+(38,36)
+(7,11)
+(40,47)
+(42,40)
+(11,15)
+(44,49)
+(45,44)
+(15,20)
+(15,28)
+(47,45)
+(49,51)
+(18,28)
+(51,53)
+(20,18)
+(23,38)
+(23,49)
+(24,23)
+(24,32)
+(25,24)
+(26,25)
+(28,26)
+(30,23)
+-----path-----
+7,11,15,20,18,28,26,25,24,23,38,36,35,42,40,47,45,44,49,51,53
+7,11,15,20,18,28,26,25,24,23,38,36,35,47,45,44,49,51,53
+7,11,15,20,18,28,26,25,24,23,49,51,53
+7,11,15,20,18,28,26,25,24,32,30,23,38,36,35,42,40,47,45,44,49,51,53
+7,11,15,20,18,28,26,25,24,32,30,23,38,36,35,47,45,44,49,51,53
+7,11,15,20,18,28,26,25,24,32,30,23,49,51,53
+7,11,15,28,26,25,24,23,38,36,35,42,40,47,45,44,49,51,53
+7,11,15,28,26,25,24,23,38,36,35,47,45,44,49,51,53
+7,11,15,28,26,25,24,23,49,51,53
+7,11,15,28,26,25,24,32,30,23,38,36,35,42,40,47,45,44,49,51,53
+7,11,15,28,26,25,24,32,30,23,38,36,35,47,45,44,49,51,53
+7,11,15,28,26,25,24,32,30,23,49,51,53
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_bitstream_close (jpc_bitstream_t *bitstream)
+8,jpc_bitstream_t *bitstream
+9,<empty>
+10,int ret
+11,ret = 0
+12,ret
+13,0
+14,if (jpc_bitstream_align(bitstream))
+15,jpc_bitstream_align(bitstream)
+16,bitstream
+17,<empty>
+18,ret = -1
+19,ret
+20,-1
+21,1
+22,if (!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE) && bitstream->stream_)
+23,!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE) && bitstream->stream_
+24,!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE)
+25,bitstream->flags_ & JPC_BITSTREAM_NOCLOSE
+26,bitstream->flags_
+27,bitstream
+28,flags_
+29,JPC_BITSTREAM_NOCLOSE
+30,bitstream->stream_
+31,bitstream
+32,stream_
+33,<empty>
+34,if (jas_stream_close(bitstream->stream_))
+35,jas_stream_close(bitstream->stream_)
+36,bitstream->stream_
+37,bitstream
+38,stream_
+39,<empty>
+40,ret = -1
+41,ret
+42,-1
+43,1
+44,bitstream->stream_ = 0
+45,bitstream->stream_
+46,bitstream
+47,stream_
+48,0
+49,jas_free(bitstream)
+50,bitstream
+51,return ret;
+52,ret
+53,RET
+54,jpc_bitstream_t *bitstream
+55,RET
+56,int jpc_bitstream_close (jpc_bitstream_t *bitstream)
+57,jpc_bitstream_t *bitstream
+58,<empty>
+59,int ret
+60,ret = 0
+61,ret
+62,0
+63,if (jpc_bitstream_align(bitstream))
+64,jpc_bitstream_align(bitstream)
+65,bitstream
+66,<empty>
+67,ret = -1
+68,ret
+69,-1
+70,1
+71,if (!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE) && bitstream->stream_)
+72,!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE) && bitstream->stream_
+73,!(bitstream->flags_ & JPC_BITSTREAM_NOCLOSE)
+74,bitstream->flags_ & JPC_BITSTREAM_NOCLOSE
+75,bitstream->flags_
+76,bitstream
+77,flags_
+78,JPC_BITSTREAM_NOCLOSE
+79,bitstream->stream_
+80,bitstream
+81,stream_
+82,<empty>
+83,if (jas_stream_close(bitstream->stream_))
+84,jas_stream_close(bitstream->stream_)
+85,bitstream->stream_
+86,bitstream
+87,stream_
+88,<empty>
+89,ret = -1
+90,ret
+91,-1
+92,1
+93,bitstream->stream_ = 0
+94,bitstream->stream_
+95,bitstream
+96,stream_
+97,0
+98,jas_free(bitstream)
+99,bitstream
+100,return ret;
+101,ret
+102,RET
+103,jpc_bitstream_t *bitstream
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_bitstream_close(jpc_bitstream_t *bitstream) {
+int ret = 0;
+jas_free(bitstream);
+return ret;
+=======================

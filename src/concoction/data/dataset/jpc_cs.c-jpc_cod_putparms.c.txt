@@ -1,0 +1,920 @@
+-----label-----
+0
+-----code-----
+static int jpc_cod_putparms(jpc_ms_t *ms, jpc_cstate_t *cstate, jas_stream_t *out)
+{
+	jpc_cod_t *cod = &ms->parms.cod;
+	assert(cod->numlyrs > 0 && cod->compparms.numdlvls <= 32);
+	assert(cod->compparms.numdlvls == cod->compparms.numrlvls - 1);
+	if (jpc_putuint8(out, cod->compparms.csty) ||
+	  jpc_putuint8(out, cod->prg) ||
+	  jpc_putuint16(out, cod->numlyrs) ||
+	  jpc_putuint8(out, cod->mctrans)) {
+		return -1;
+	}
+	if (jpc_cox_putcompparms(ms, cstate, out,
+	  (cod->csty & JPC_COX_PRT) != 0, &cod->compparms)) {
+		return -1;
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+23,25
+23,26
+23,27
+23,28
+23,29
+24,25
+25,26
+25,27
+26,27
+28,29
+28,30
+28,31
+31,32
+32,33
+33,34
+33,35
+34,35
+34,36
+35,36
+39,40
+40,41
+40,42
+41,42
+43,44
+43,45
+44,45
+44,46
+45,46
+45,47
+46,47
+50,51
+50,52
+51,52
+51,53
+52,53
+52,54
+53,54
+58,59
+59,60
+59,61
+60,61
+62,63
+62,64
+63,64
+63,65
+64,65
+64,66
+65,66
+69,70
+69,71
+70,71
+70,72
+71,72
+71,73
+72,73
+77,78
+77,79
+78,79
+78,80
+79,80
+79,81
+80,81
+80,82
+81,82
+81,83
+81,84
+82,83
+84,85
+86,87
+86,88
+87,88
+87,89
+88,89
+92,93
+92,94
+92,95
+93,94
+95,96
+97,98
+97,99
+98,99
+101,102
+101,103
+101,104
+102,103
+104,105
+106,107
+106,108
+107,108
+110,111
+110,112
+110,113
+111,112
+113,114
+115,116
+115,117
+116,117
+119,120
+120,121
+121,122
+123,124
+123,125
+124,125
+124,126
+124,127
+124,128
+124,129
+124,130
+125,126
+127,128
+129,130
+131,132
+133,134
+133,135
+134,135
+135,136
+135,137
+136,137
+136,138
+137,138
+140,141
+143,144
+144,145
+144,146
+145,146
+148,149
+149,150
+150,151
+152,153
+-----nextToken-----
+2,4,7,9,10,13,15,16,19,21,22,27,29,30,36,37,38,42,47,48,49,54,55,56,57,61,66,67,68,73,74,75,76,83,85,89,90,91,94,96,99,100,103,105,108,109,112,114,117,118,122,126,128,130,132,138,139,141,142,146,147,151,153
+-----computeFrom-----
+43,44
+43,45
+44,45
+44,46
+50,51
+50,52
+62,63
+62,64
+69,70
+69,71
+78,79
+78,80
+79,80
+79,81
+80,81
+80,82
+133,134
+133,135
+135,136
+135,137
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;LiteralExpression;IfStatement;BinaryExpression;BinaryExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;FieldReference;IdExpression;Name;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;LiteralExpression;UnaryExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int jpc_cod_putparms(jpc_ms_t *ms, jpc_cstate_t *cstate, jas_stream_t *out){	jpc_cod_t *cod = &ms->parms.cod;	assert(cod->numlyrs > 0 && cod->compparms.numdlvls <= 32);	assert(cod->compparms.numdlvls == cod->compparms.numrlvls - 1);	if (jpc_putuint8(out, cod->compparms.csty) ||	  jpc_putuint8(out, cod->prg) ||	  jpc_putuint16(out, cod->numlyrs) ||	  jpc_putuint8(out, cod->mctrans)) {		return -1;	}	if (jpc_cox_putcompparms(ms, cstate, out,	  (cod->csty & JPC_COX_PRT) != 0, &cod->compparms)) {		return -1;	}	return 0;}
+static int
+jpc_cod_putparms(jpc_ms_t *ms, jpc_cstate_t *cstate, jas_stream_t *out)
+jpc_cod_putparms
+jpc_ms_t *ms
+jpc_ms_t
+jpc_ms_t
+*ms
+*
+ms
+jpc_cstate_t *cstate
+jpc_cstate_t
+jpc_cstate_t
+*cstate
+*
+cstate
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+{	jpc_cod_t *cod = &ms->parms.cod;	assert(cod->numlyrs > 0 && cod->compparms.numdlvls <= 32);	assert(cod->compparms.numdlvls == cod->compparms.numrlvls - 1);	if (jpc_putuint8(out, cod->compparms.csty) ||	  jpc_putuint8(out, cod->prg) ||	  jpc_putuint16(out, cod->numlyrs) ||	  jpc_putuint8(out, cod->mctrans)) {		return -1;	}	if (jpc_cox_putcompparms(ms, cstate, out,	  (cod->csty & JPC_COX_PRT) != 0, &cod->compparms)) {		return -1;	}	return 0;}
+jpc_cod_t *cod = &ms->parms.cod;
+jpc_cod_t *cod = &ms->parms.cod;
+jpc_cod_t
+jpc_cod_t
+*cod = &ms->parms.cod
+*
+cod
+= &ms->parms.cod
+&ms->parms.cod
+ms->parms.cod
+ms->parms
+ms
+ms
+parms
+cod
+assert(cod->numlyrs > 0 && cod->compparms.numdlvls <= 32);
+assert(cod->numlyrs > 0 && cod->compparms.numdlvls <= 32)
+assert
+assert
+cod->numlyrs > 0 && cod->compparms.numdlvls <= 32
+cod->numlyrs > 0
+cod->numlyrs
+cod
+cod
+numlyrs
+0
+cod->compparms.numdlvls <= 32
+cod->compparms.numdlvls
+cod->compparms
+cod
+cod
+compparms
+numdlvls
+32
+assert(cod->compparms.numdlvls == cod->compparms.numrlvls - 1);
+assert(cod->compparms.numdlvls == cod->compparms.numrlvls - 1)
+assert
+assert
+cod->compparms.numdlvls == cod->compparms.numrlvls - 1
+cod->compparms.numdlvls
+cod->compparms
+cod
+cod
+compparms
+numdlvls
+cod->compparms.numrlvls - 1
+cod->compparms.numrlvls
+cod->compparms
+cod
+cod
+compparms
+numrlvls
+1
+if (jpc_putuint8(out, cod->compparms.csty) ||	  jpc_putuint8(out, cod->prg) ||	  jpc_putuint16(out, cod->numlyrs) ||	  jpc_putuint8(out, cod->mctrans)) {		return -1;	}
+jpc_putuint8(out, cod->compparms.csty) ||	  jpc_putuint8(out, cod->prg) ||	  jpc_putuint16(out, cod->numlyrs) ||	  jpc_putuint8(out, cod->mctrans)
+jpc_putuint8(out, cod->compparms.csty) ||	  jpc_putuint8(out, cod->prg) ||	  jpc_putuint16(out, cod->numlyrs)
+jpc_putuint8(out, cod->compparms.csty) ||	  jpc_putuint8(out, cod->prg)
+jpc_putuint8(out, cod->compparms.csty)
+jpc_putuint8
+jpc_putuint8
+out
+out
+cod->compparms.csty
+cod->compparms
+cod
+cod
+compparms
+csty
+jpc_putuint8(out, cod->prg)
+jpc_putuint8
+jpc_putuint8
+out
+out
+cod->prg
+cod
+cod
+prg
+jpc_putuint16(out, cod->numlyrs)
+jpc_putuint16
+jpc_putuint16
+out
+out
+cod->numlyrs
+cod
+cod
+numlyrs
+jpc_putuint8(out, cod->mctrans)
+jpc_putuint8
+jpc_putuint8
+out
+out
+cod->mctrans
+cod
+cod
+mctrans
+{		return -1;	}
+return -1;
+-1
+1
+if (jpc_cox_putcompparms(ms, cstate, out,	  (cod->csty & JPC_COX_PRT) != 0, &cod->compparms)) {		return -1;	}
+jpc_cox_putcompparms(ms, cstate, out,	  (cod->csty & JPC_COX_PRT) != 0, &cod->compparms)
+jpc_cox_putcompparms
+jpc_cox_putcompparms
+ms
+ms
+cstate
+cstate
+out
+out
+(cod->csty & JPC_COX_PRT) != 0
+(cod->csty & JPC_COX_PRT)
+cod->csty & JPC_COX_PRT
+cod->csty
+cod
+cod
+csty
+JPC_COX_PRT
+JPC_COX_PRT
+0
+&cod->compparms
+cod->compparms
+cod
+cod
+compparms
+{		return -1;	}
+return -1;
+-1
+1
+return 0;
+0
+-----joern-----
+(24,32,0)
+(21,17,0)
+(20,43,0)
+(3,43,0)
+(45,23,0)
+(6,27,0)
+(9,14,0)
+(15,40,0)
+(19,28,0)
+(0,15,0)
+(29,23,0)
+(28,10,0)
+(15,7,0)
+(17,27,0)
+(49,36,0)
+(30,38,0)
+(43,7,0)
+(36,27,0)
+(23,27,0)
+(23,48,0)
+(28,38,0)
+(10,26,0)
+(51,39,0)
+(6,41,0)
+(10,41,0)
+(14,18,0)
+(50,11,0)
+(48,23,0)
+(46,11,0)
+(36,38,0)
+(32,11,0)
+(38,36,0)
+(1,51,0)
+(38,28,0)
+(31,51,0)
+(16,28,0)
+(51,27,0)
+(44,36,0)
+(11,32,0)
+(13,26,0)
+(2,14,0)
+(43,4,0)
+(32,43,0)
+(34,6,0)
+(38,7,0)
+(17,7,0)
+(17,33,0)
+(41,10,0)
+(43,32,0)
+(25,4,0)
+(38,26,0)
+(5,39,0)
+(42,15,0)
+(22,6,0)
+(35,26,0)
+(14,7,0)
+(11,27,0)
+(37,38,0)
+(41,6,0)
+(39,51,0)
+(47,17,0)
+(8,10,0)
+(48,23,1)
+(38,7,1)
+(42,39,1)
+(11,46,1)
+(39,5,1)
+(32,24,1)
+(21,39,1)
+(17,27,1)
+(23,27,1)
+(14,9,1)
+(38,36,1)
+(43,32,1)
+(51,27,1)
+(45,38,1)
+(44,49,1)
+(47,21,1)
+(2,48,1)
+(37,30,1)
+(20,48,1)
+(6,27,1)
+(28,16,1)
+(10,41,1)
+(19,36,1)
+(12,15,1)
+(39,51,1)
+(6,34,1)
+(32,11,1)
+(29,45,1)
+(15,0,1)
+(23,29,1)
+(3,20,1)
+(38,28,1)
+(5,51,1)
+(0,42,1)
+(11,27,1)
+(12,17,1)
+(15,7,1)
+(43,7,1)
+(22,8,1)
+(49,37,1)
+(41,6,1)
+(12,14,1)
+(1,43,1)
+(14,7,1)
+(17,47,1)
+(9,2,1)
+(50,3,1)
+(36,44,1)
+(24,11,1)
+(46,50,1)
+(36,27,1)
+(28,10,1)
+(31,1,1)
+(51,31,1)
+(17,7,1)
+(16,19,1)
+(30,10,1)
+(34,22,1)
+(51,27,2)
+(11,48,2)
+(32,11,2)
+(28,10,2)
+(15,7,2)
+(42,39,2)
+(38,7,2)
+(20,48,2)
+(38,36,2)
+(51,48,2)
+(17,39,2)
+(3,48,2)
+(14,7,2)
+(5,48,2)
+(9,48,2)
+(14,48,2)
+(24,48,2)
+(43,48,2)
+(17,27,2)
+(6,27,2)
+(41,6,2)
+(39,48,2)
+(39,51,2)
+(11,27,2)
+(38,28,2)
+(50,48,2)
+(2,48,2)
+(31,48,2)
+(47,39,2)
+(10,41,2)
+(21,39,2)
+(32,48,2)
+(46,48,2)
+(15,39,2)
+(23,27,2)
+(48,23,2)
+(0,39,2)
+(17,7,2)
+(36,27,2)
+(43,7,2)
+(1,48,2)
+(43,32,2)
+-----------------------------------
+(0,"\\n")
+(1,ms)
+(2,out)
+(3," len = %d;")
+(4,)
+(5,dumpparms)
+(6,ms->id)
+(7,FILE *out)
+(8,mstabent)
+(9,"\\n")
+(10,mstabent = jpc_mstab_lookup(ms->id)
+(11,ms->len)
+(12,RET)
+(13,mstabent)
+(14,fprintf(out, "\\n")
+(15,fprintf(out, "\\n")
+(16,name)
+(17,(*ms->ops->dumpparms)
+(18,)
+(19,mstabent)
+(20,out)
+(21,ms)
+(22,ms)
+(23,ms->id)
+(24,2)
+(25,if (ms->ops->dumpparms)
+(26,)
+(27,jpc_ms_t *ms)
+(28,mstabent->name)
+(29,id)
+(30,out)
+(31,ops)
+(32,ms->len + 2)
+(33,)
+(34,id)
+(35,if (JPC_MS_HASPARMS(ms->id)
+(36,ms->id)
+(37,"type = 0x%04x (%s)
+(38,fprintf(out, "type = 0x%04x (%s)
+(39,ms->ops->dumpparms)
+(40,)
+(41,jpc_mstab_lookup(ms->id)
+(42,out)
+(43,fprintf(out, " len = %d;", ms->len + 2)
+(44,id)
+(45,ms)
+(46,len)
+(47,out)
+(48,JPC_MS_HASPARMS(ms->id)
+(49,ms)
+(50,ms)
+(51,ms->ops)
+-----cfg-----
+(7,19)
+(13,26)
+(15,13)
+(16,15)
+(17,20)
+(19,17)
+(20,16)
+(21,40)
+(22,21)
+(23,22)
+(23,32)
+(24,23)
+(26,24)
+(28,22)
+(29,28)
+(30,33)
+(32,30)
+(33,29)
+(35,58)
+(36,35)
+(37,46)
+(38,41)
+(40,38)
+(41,37)
+(42,36)
+(43,42)
+(44,47)
+(46,44)
+(47,43)
+(50,77)
+(50,88)
+(51,50)
+(51,74)
+(52,51)
+(52,69)
+(53,52)
+(53,64)
+(55,53)
+(56,59)
+(58,56)
+(59,55)
+(60,52)
+(62,60)
+(64,62)
+(65,51)
+(67,65)
+(69,67)
+(70,50)
+(72,70)
+(74,72)
+(76,101)
+(77,76)
+(80,97)
+(80,99)
+(84,94)
+(85,84)
+(86,85)
+(88,86)
+(91,80)
+(92,91)
+(94,92)
+(96,101)
+(97,96)
+(99,101)
+-----path-----
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,74,72,70,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,74,72,70,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,74,72,70,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,74,72,70,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,74,72,70,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,74,72,70,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,74,72,70,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,74,72,70,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,74,72,70,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,74,72,70,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,74,72,70,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,74,72,70,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,74,72,70,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,74,72,70,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,51,74,72,70,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,74,72,70,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,74,72,70,50,88,86,85,84,94,92,91,80,97
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,52,69,67,65,51,74,72,70,50,88,86,85,84,94,92,91,80,99
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,50,88,86,85,84,94,92,91,80,97,96,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,50,88,86,85,84,94,92,91,80,99,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,74,72,70,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,74,72,70,50,88,86,85,84,94,92,91,80,97
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,51,74,72,70,50,88,86,85,84,94,92,91,80,99
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,50,88,86,85,84,94,92,91,80,97
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,50,88,86,85,84,94,92,91,80,99
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,74,72,70,50,77,76,101
+7,19,17,20,16,15,13,26,24,23,32,30,33,29,28,22,21,40,38,41,37,46,44,47,43,42,36,35,58,56,59,55,53,64,62,60,52,69,67,65,51,74,72,70,50,88,86,85,84,94,92
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_cod_putparms (jpc_ms_t *ms,jpc_cstate_t *cstate,jas_stream_t *out)
+8,jpc_ms_t *ms
+9,jpc_cstate_t *cstate
+10,jas_stream_t *out
+11,<empty>
+12,jpc_cod_t* cod
+13,*cod = &ms->parms.cod
+14,cod
+15,&ms->parms.cod
+16,ms->parms.cod
+17,ms->parms
+18,ms
+19,parms
+20,cod
+21,assert(cod->numlyrs > 0 && cod->compparms.numdlvls <= 32)
+22,cod->numlyrs > 0 && cod->compparms.numdlvls <= 32
+23,cod->numlyrs > 0
+24,cod->numlyrs
+25,cod
+26,numlyrs
+27,0
+28,cod->compparms.numdlvls <= 32
+29,cod->compparms.numdlvls
+30,cod->compparms
+31,cod
+32,compparms
+33,numdlvls
+34,32
+35,assert(cod->compparms.numdlvls == cod->compparms.numrlvls - 1)
+36,cod->compparms.numdlvls == cod->compparms.numrlvls - 1
+37,cod->compparms.numdlvls
+38,cod->compparms
+39,cod
+40,compparms
+41,numdlvls
+42,cod->compparms.numrlvls - 1
+43,cod->compparms.numrlvls
+44,cod->compparms
+45,cod
+46,compparms
+47,numrlvls
+48,1
+49,if (jpc_putuint8(out, cod->compparms.csty) ||
+50,	  jpc_putuint8(out, cod->prg) ||
+51,	  jpc_putuint16(out, cod->numlyrs) ||
+52,	  jpc_putuint8(out, cod->mctrans))
+53,jpc_putuint8(out, cod->compparms.csty) ||
+54,	  jpc_putuint8(out, cod->prg) ||
+55,	  jpc_putuint16(out, cod->numlyrs) ||
+56,	  jpc_putuint8(out, cod->mctrans)
+57,jpc_putuint8(out, cod->compparms.csty) ||
+58,	  jpc_putuint8(out, cod->prg) ||
+59,	  jpc_putuint16(out, cod->numlyrs)
+60,jpc_putuint8(out, cod->compparms.csty) ||
+61,	  jpc_putuint8(out, cod->prg)
+62,jpc_putuint8(out, cod->compparms.csty)
+63,out
+64,cod->compparms.csty
+65,cod->compparms
+66,cod
+67,compparms
+68,csty
+69,jpc_putuint8(out, cod->prg)
+70,out
+71,cod->prg
+72,cod
+73,prg
+74,jpc_putuint16(out, cod->numlyrs)
+75,out
+76,cod->numlyrs
+77,cod
+78,numlyrs
+79,jpc_putuint8(out, cod->mctrans)
+80,out
+81,cod->mctrans
+82,cod
+83,mctrans
+84,<empty>
+85,return -1;
+86,-1
+87,1
+88,if (jpc_cox_putcompparms(ms, cstate, out,
+89,	  (cod->csty & JPC_COX_PRT) != 0, &cod->compparms))
+90,jpc_cox_putcompparms(ms, cstate, out,
+91,	  (cod->csty & JPC_COX_PRT) != 0, &cod->compparms)
+92,ms
+93,cstate
+94,out
+95,(cod->csty & JPC_COX_PRT) != 0
+96,cod->csty & JPC_COX_PRT
+97,cod->csty
+98,cod
+99,csty
+100,JPC_COX_PRT
+101,0
+102,&cod->compparms
+103,cod->compparms
+104,cod
+105,compparms
+106,<empty>
+107,return -1;
+108,-1
+109,1
+110,return 0;
+111,0
+112,RET
+113,jpc_ms_t *ms
+114,jpc_cstate_t *cstate
+115,jas_stream_t *out
+116,RET
+117,int jpc_cod_putparms (jpc_ms_t *ms,jpc_cstate_t *cstate,jas_stream_t *out)
+118,jpc_ms_t *ms
+119,jpc_cstate_t *cstate
+120,jas_stream_t *out
+121,<empty>
+122,jpc_cod_t* cod
+123,*cod = &ms->parms.cod
+124,cod
+125,&ms->parms.cod
+126,ms->parms.cod
+127,ms->parms
+128,ms
+129,parms
+130,cod
+131,assert(cod->numlyrs > 0 && cod->compparms.numdlvls <= 32)
+132,cod->numlyrs > 0 && cod->compparms.numdlvls <= 32
+133,cod->numlyrs > 0
+134,cod->numlyrs
+135,cod
+136,numlyrs
+137,0
+138,cod->compparms.numdlvls <= 32
+139,cod->compparms.numdlvls
+140,cod->compparms
+141,cod
+142,compparms
+143,numdlvls
+144,32
+145,assert(cod->compparms.numdlvls == cod->compparms.numrlvls - 1)
+146,cod->compparms.numdlvls == cod->compparms.numrlvls - 1
+147,cod->compparms.numdlvls
+148,cod->compparms
+149,cod
+150,compparms
+151,numdlvls
+152,cod->compparms.numrlvls - 1
+153,cod->compparms.numrlvls
+154,cod->compparms
+155,cod
+156,compparms
+157,numrlvls
+158,1
+159,if (jpc_putuint8(out, cod->compparms.csty) ||
+160,	  jpc_putuint8(out, cod->prg) ||
+161,	  jpc_putuint16(out, cod->numlyrs) ||
+162,	  jpc_putuint8(out, cod->mctrans))
+163,jpc_putuint8(out, cod->compparms.csty) ||
+164,	  jpc_putuint8(out, cod->prg) ||
+165,	  jpc_putuint16(out, cod->numlyrs) ||
+166,	  jpc_putuint8(out, cod->mctrans)
+167,jpc_putuint8(out, cod->compparms.csty) ||
+168,	  jpc_putuint8(out, cod->prg) ||
+169,	  jpc_putuint16(out, cod->numlyrs)
+170,jpc_putuint8(out, cod->compparms.csty) ||
+171,	  jpc_putuint8(out, cod->prg)
+172,jpc_putuint8(out, cod->compparms.csty)
+173,out
+174,cod->compparms.csty
+175,cod->compparms
+176,cod
+177,compparms
+178,csty
+179,jpc_putuint8(out, cod->prg)
+180,out
+181,cod->prg
+182,cod
+183,prg
+184,jpc_putuint16(out, cod->numlyrs)
+185,out
+186,cod->numlyrs
+187,cod
+188,numlyrs
+189,jpc_putuint8(out, cod->mctrans)
+190,out
+191,cod->mctrans
+192,cod
+193,mctrans
+194,<empty>
+195,return -1;
+196,-1
+197,1
+198,if (jpc_cox_putcompparms(ms, cstate, out,
+199,	  (cod->csty & JPC_COX_PRT) != 0, &cod->compparms))
+200,jpc_cox_putcompparms(ms, cstate, out,
+201,	  (cod->csty & JPC_COX_PRT) != 0, &cod->compparms)
+202,ms
+203,cstate
+204,out
+205,(cod->csty & JPC_COX_PRT) != 0
+206,cod->csty & JPC_COX_PRT
+207,cod->csty
+208,cod
+209,csty
+210,JPC_COX_PRT
+211,0
+212,&cod->compparms
+213,cod->compparms
+214,cod
+215,compparms
+216,<empty>
+217,return -1;
+218,-1
+219,1
+220,return 0;
+221,0
+222,RET
+223,jpc_ms_t *ms
+224,jpc_cstate_t *cstate
+225,jas_stream_t *out
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int jpc_cod_putparms(jpc_ms_t *ms, jpc_cstate_t *cstate, jas_stream_t *out) {
+jpc_cod_t *cod = &ms->parms.cod;
+assert(cod->numlyrs > 0 && cod->compparms.numdlvls <= 32);
+assert(cod->compparms.numdlvls == cod->compparms.numrlvls - 1);
+return 0;
+=======================

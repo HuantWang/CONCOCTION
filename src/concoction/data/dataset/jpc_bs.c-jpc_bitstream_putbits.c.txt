@@ -1,0 +1,505 @@
+-----label-----
+0
+-----code-----
+int jpc_bitstream_putbits(jpc_bitstream_t *bitstream, int n, long v)
+{
+	int m;
+
+	/* We can reliably put at most 31 bits since ISO/IEC 9899 only
+	  guarantees that a long can represent values up to 2^31-1. */
+	assert(n >= 0 && n < 32);
+	/* Ensure that only the bits to be output are nonzero. */
+	assert(!(v & (~JAS_ONES(n))));
+
+	/* Put the desired number of bits to the specified bit stream. */
+	m = n - 1;
+	while (--n >= 0) {
+		if (jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF) {
+			return EOF;
+		}
+		v <<= 1;
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+13,14
+15,16
+15,17
+17,18
+19,20
+19,21
+19,22
+19,23
+19,24
+19,25
+20,21
+21,22
+21,23
+23,24
+25,26
+26,27
+26,28
+27,28
+29,30
+29,31
+30,31
+30,32
+31,32
+34,35
+34,36
+35,36
+38,39
+39,40
+39,41
+40,41
+42,43
+43,44
+44,45
+44,46
+45,46
+47,48
+48,49
+49,50
+49,51
+50,51
+52,53
+54,55
+55,56
+55,57
+56,57
+58,59
+58,60
+59,60
+62,63
+62,64
+63,64
+63,65
+64,65
+65,66
+68,69
+68,70
+69,70
+69,71
+70,71
+70,72
+71,72
+71,73
+71,74
+72,73
+74,75
+76,77
+76,78
+77,78
+78,79
+78,80
+79,80
+81,82
+84,85
+86,87
+87,88
+88,89
+90,91
+91,92
+91,93
+92,93
+95,96
+-----nextToken-----
+2,4,7,9,10,12,14,16,18,22,24,28,32,33,36,37,41,46,51,53,57,60,61,66,67,73,75,80,82,83,85,89,93,94,96
+-----computeFrom-----
+29,30
+29,31
+30,31
+30,32
+34,35
+34,36
+44,45
+44,46
+55,56
+55,57
+58,59
+58,60
+63,64
+63,65
+70,71
+70,72
+76,77
+76,78
+78,79
+78,80
+91,92
+91,93
+-----guardedBy-----
+85,89
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;UnaryExpression;UnaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;WhileStatement;BinaryExpression;UnaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;CompoundStatement;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jpc_bitstream_putbits(jpc_bitstream_t *bitstream, int n, long v){	int m;	/* We can reliably put at most 31 bits since ISO/IEC 9899 only	  guarantees that a long can represent values up to 2^31-1. */	assert(n >= 0 && n < 32);	/* Ensure that only the bits to be output are nonzero. */	assert(!(v & (~JAS_ONES(n))));	/* Put the desired number of bits to the specified bit stream. */	m = n - 1;	while (--n >= 0) {		if (jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF) {			return EOF;		}		v <<= 1;	}	return 0;}
+int
+jpc_bitstream_putbits(jpc_bitstream_t *bitstream, int n, long v)
+jpc_bitstream_putbits
+jpc_bitstream_t *bitstream
+jpc_bitstream_t
+jpc_bitstream_t
+*bitstream
+*
+bitstream
+int n
+int
+n
+n
+long v
+long
+v
+v
+{	int m;	/* We can reliably put at most 31 bits since ISO/IEC 9899 only	  guarantees that a long can represent values up to 2^31-1. */	assert(n >= 0 && n < 32);	/* Ensure that only the bits to be output are nonzero. */	assert(!(v & (~JAS_ONES(n))));	/* Put the desired number of bits to the specified bit stream. */	m = n - 1;	while (--n >= 0) {		if (jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF) {			return EOF;		}		v <<= 1;	}	return 0;}
+int m;
+int m;
+int
+m
+m
+assert(n >= 0 && n < 32);
+assert(n >= 0 && n < 32)
+assert
+assert
+n >= 0 && n < 32
+n >= 0
+n
+n
+0
+n < 32
+n
+n
+32
+assert(!(v & (~JAS_ONES(n))));
+assert(!(v & (~JAS_ONES(n))))
+assert
+assert
+!(v & (~JAS_ONES(n)))
+(v & (~JAS_ONES(n)))
+v & (~JAS_ONES(n))
+v
+v
+(~JAS_ONES(n))
+~JAS_ONES(n)
+JAS_ONES(n)
+JAS_ONES
+JAS_ONES
+n
+n
+m = n - 1;
+m = n - 1
+m
+m
+n - 1
+n
+n
+1
+while (--n >= 0) {		if (jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF) {			return EOF;		}		v <<= 1;	}
+--n >= 0
+--n
+n
+n
+0
+{		if (jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF) {			return EOF;		}		v <<= 1;	}
+if (jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF) {			return EOF;		}
+jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF
+jpc_bitstream_putbit(bitstream, (v >> m) & 1)
+jpc_bitstream_putbit
+jpc_bitstream_putbit
+bitstream
+bitstream
+(v >> m) & 1
+(v >> m)
+v >> m
+v
+v
+m
+m
+1
+EOF
+EOF
+{			return EOF;		}
+return EOF;
+EOF
+EOF
+v <<= 1;
+v <<= 1
+v
+v
+1
+return 0;
+0
+-----joern-----
+(17,10,0)
+(13,0,0)
+(3,15,0)
+(1,19,0)
+(15,9,0)
+(22,21,0)
+(14,15,0)
+(24,0,0)
+(5,9,0)
+(0,19,0)
+(6,11,0)
+(9,15,0)
+(7,16,0)
+(8,10,0)
+(16,4,0)
+(20,7,0)
+(23,8,0)
+(24,16,0)
+(10,8,0)
+(24,22,0)
+(18,8,0)
+(15,2,0)
+(12,22,0)
+(8,2,0)
+(7,20,1)
+(15,2,1)
+(10,17,1)
+(5,15,1)
+(9,15,1)
+(23,9,1)
+(17,8,1)
+(12,10,1)
+(10,8,1)
+(24,22,1)
+(24,0,1)
+(22,12,1)
+(16,7,1)
+(8,2,1)
+(3,14,1)
+(8,18,1)
+(20,9,1)
+(18,23,1)
+(15,3,1)
+(13,10,1)
+(9,5,1)
+(24,16,1)
+(0,13,1)
+(22,10,2)
+(10,8,2)
+(8,9,2)
+(20,9,2)
+(23,9,2)
+(24,16,2)
+(17,9,2)
+(0,10,2)
+(13,10,2)
+(8,2,2)
+(7,9,2)
+(15,2,2)
+(10,9,2)
+(24,0,2)
+(12,10,2)
+(9,15,2)
+(24,22,2)
+(18,9,2)
+(16,9,2)
+-----------------------------------
+(0,return 0;)
+(1,if (bitstream->cnt_ < 8)
+(2,jpc_bitstream_t *bitstream)
+(3,openmode_)
+(4,)
+(5,JPC_BITSTREAM_WRITE)
+(6,if (bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(7,-1)
+(8,bitstream->cnt_)
+(9,bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(10,bitstream->cnt_ < 8)
+(11,)
+(12,1)
+(13,0)
+(14,bitstream)
+(15,bitstream->openmode_)
+(16,return -1;)
+(17,8)
+(18,cnt_)
+(19,)
+(20,1)
+(21,)
+(22,return 1;)
+(23,bitstream)
+(24,RET)
+-----cfg-----
+(34,44)
+(34,55)
+(35,34)
+(7,15)
+(40,50)
+(40,52)
+(41,40)
+(43,41)
+(44,43)
+(13,26)
+(14,13)
+(15,14)
+(15,18)
+(18,14)
+(50,57)
+(52,35)
+(21,30)
+(22,21)
+(55,57)
+(23,22)
+(25,23)
+(26,25)
+(28,35)
+(30,28)
+-----path-----
+7,15,14,13,26,25,23,22,21,30,28,35,34,44,43,41,40,50,57
+7,15,14,13,26,25,23,22,21,30,28,35,34,55,57
+7,15,18,14,13,26,25,23,22,21,30,28,35,34,44,43,41,40,50,57
+7,15,18,14,13,26,25,23,22,21,30,28,35,34,55,57
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_bitstream_putbits (jpc_bitstream_t *bitstream,int n,long v)
+8,jpc_bitstream_t *bitstream
+9,int n
+10,long v
+11,<empty>
+12,int m
+13,assert(n >= 0 && n < 32)
+14,n >= 0 && n < 32
+15,n >= 0
+16,n
+17,0
+18,n < 32
+19,n
+20,32
+21,assert(!(v & (~JAS_ONES(n))))
+22,!(v & (~JAS_ONES(n)))
+23,v & (~JAS_ONES(n))
+24,v
+25,~JAS_ONES(n)
+26,JAS_ONES(n)
+27,n
+28,m = n - 1
+29,m
+30,n - 1
+31,n
+32,1
+33,while (--n >= 0)
+34,--n >= 0
+35,--n
+36,n
+37,0
+38,<empty>
+39,if (jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF)
+40,jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF
+41,jpc_bitstream_putbit(bitstream, (v >> m) & 1)
+42,bitstream
+43,(v >> m) & 1
+44,v >> m
+45,v
+46,m
+47,1
+48,EOF
+49,<empty>
+50,return EOF;
+51,EOF
+52,v <<= 1
+53,v
+54,1
+55,return 0;
+56,0
+57,RET
+58,jpc_bitstream_t *bitstream
+59,int n
+60,long v
+61,RET
+62,int jpc_bitstream_putbits (jpc_bitstream_t *bitstream,int n,long v)
+63,jpc_bitstream_t *bitstream
+64,int n
+65,long v
+66,<empty>
+67,int m
+68,assert(n >= 0 && n < 32)
+69,n >= 0 && n < 32
+70,n >= 0
+71,n
+72,0
+73,n < 32
+74,n
+75,32
+76,assert(!(v & (~JAS_ONES(n))))
+77,!(v & (~JAS_ONES(n)))
+78,v & (~JAS_ONES(n))
+79,v
+80,~JAS_ONES(n)
+81,JAS_ONES(n)
+82,n
+83,m = n - 1
+84,m
+85,n - 1
+86,n
+87,1
+88,while (--n >= 0)
+89,--n >= 0
+90,--n
+91,n
+92,0
+93,<empty>
+94,if (jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF)
+95,jpc_bitstream_putbit(bitstream, (v >> m) & 1) == EOF
+96,jpc_bitstream_putbit(bitstream, (v >> m) & 1)
+97,bitstream
+98,(v >> m) & 1
+99,v >> m
+100,v
+101,m
+102,1
+103,EOF
+104,<empty>
+105,return EOF;
+106,EOF
+107,v <<= 1
+108,v
+109,1
+110,return 0;
+111,0
+112,RET
+113,jpc_bitstream_t *bitstream
+114,int n
+115,long v
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_bitstream_putbits(jpc_bitstream_t *bitstream, int n, long v) {
+int m;
+assert(n >= 0 && n < 32);
+assert(!(v & (~JAS_ONES(n))));
+m = n - 1;
+while(--n >= 0)
+v <<= 1;
+while(--n >= 0)
+v <<= 1;
+while(--n >= 0)
+v <<= 1;
+while(--n >= 0)
+v <<= 1;
+return 0;
+=======================

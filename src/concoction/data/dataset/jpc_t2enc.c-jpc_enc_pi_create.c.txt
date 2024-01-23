@@ -1,0 +1,3679 @@
+-----label-----
+0
+-----code-----
+jpc_pi_t *jpc_enc_pi_create(jpc_enc_cp_t *cp, jpc_enc_tile_t *tile)
+{
+	jpc_pi_t *pi;
+	int compno;
+	jpc_picomp_t *picomp;
+	jpc_pirlvl_t *pirlvl;
+	jpc_enc_tcmpt_t *tcomp;
+	int rlvlno;
+	jpc_enc_rlvl_t *rlvl;
+	int prcno;
+	int *prclyrno;
+
+	if (!(pi = jpc_pi_create0())) {
+		return 0;
+	}
+	pi->pktno = -1;
+	pi->numcomps = cp->numcmpts;
+	if (!(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t)))) {
+		jpc_pi_destroy(pi);
+		return 0;
+	}
+	for (compno = 0, picomp = pi->picomps; compno < pi->numcomps; ++compno,
+	  ++picomp) {
+		picomp->pirlvls = 0;
+	}
+
+	for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;
+	  compno < pi->numcomps; ++compno, ++tcomp, ++picomp) {
+		picomp->numrlvls = tcomp->numrlvls;
+		if (!(picomp->pirlvls = jas_malloc(picomp->numrlvls *
+		  sizeof(jpc_pirlvl_t)))) {
+			jpc_pi_destroy(pi);
+			return 0;
+		}
+		for (rlvlno = 0, pirlvl = picomp->pirlvls; rlvlno <
+		  picomp->numrlvls; ++rlvlno, ++pirlvl) {
+			pirlvl->prclyrnos = 0;
+		}
+		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;
+		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {
+/* XXX sizeof(long) should be sizeof different type */
+			pirlvl->numprcs = rlvl->numprcs;
+			if (rlvl->numprcs) {
+				if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *
+				  sizeof(long)))) {
+					jpc_pi_destroy(pi);
+					return 0;
+				}
+			} else {
+				pirlvl->prclyrnos = 0;
+			}
+		}
+	}
+
+	pi->maxrlvls = 0;
+	for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;
+	  compno < pi->numcomps; ++compno, ++tcomp, ++picomp) {
+		picomp->hsamp = cp->ccps[compno].sampgrdstepx;
+		picomp->vsamp = cp->ccps[compno].sampgrdstepy;
+		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;
+		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {
+			pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+			pirlvl->prcheightexpn = rlvl->prcheightexpn;
+			for (prcno = 0, prclyrno = pirlvl->prclyrnos;
+			  prcno < pirlvl->numprcs; ++prcno, ++prclyrno) {
+				*prclyrno = 0;
+			}
+			pirlvl->numhprcs = rlvl->numhprcs;
+		}
+		if (pi->maxrlvls < tcomp->numrlvls) {
+			pi->maxrlvls = tcomp->numrlvls;
+		}
+	}
+
+	pi->numlyrs = tile->numlyrs;
+	pi->xstart = tile->tlx;
+	pi->ystart = tile->tly;
+	pi->xend = tile->brx;
+	pi->yend = tile->bry;
+
+	pi->picomp = 0;
+	pi->pirlvl = 0;
+	pi->x = 0;
+	pi->y = 0;
+	pi->compno = 0;
+	pi->rlvlno = 0;
+	pi->prcno = 0;
+	pi->lyrno = 0;
+	pi->xstep = 0;
+	pi->ystep = 0;
+
+	pi->pchgno = -1;
+
+	pi->defaultpchg.prgord = tile->prg;
+	pi->defaultpchg.compnostart = 0;
+	pi->defaultpchg.compnoend = pi->numcomps;
+	pi->defaultpchg.rlvlnostart = 0;
+	pi->defaultpchg.rlvlnoend = pi->maxrlvls;
+	pi->defaultpchg.lyrnoend = pi->numlyrs;
+	pi->pchg = 0;
+
+	pi->valid = 0;
+
+	return pi;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+7,8
+7,9
+8,9
+10,11
+10,12
+13,14
+13,15
+14,15
+16,17
+16,18
+19,20
+19,21
+19,22
+19,23
+19,24
+19,25
+19,26
+19,27
+19,28
+19,29
+19,30
+19,31
+19,32
+19,33
+19,34
+19,35
+19,36
+19,37
+19,38
+19,39
+19,40
+19,41
+19,42
+19,43
+19,44
+19,45
+19,46
+19,47
+19,48
+19,49
+19,50
+19,51
+19,52
+19,53
+19,54
+19,55
+19,56
+19,57
+19,58
+19,59
+19,60
+19,61
+20,21
+21,22
+21,23
+22,23
+24,25
+24,26
+27,28
+28,29
+28,30
+30,31
+32,33
+33,34
+33,35
+34,35
+36,37
+36,38
+39,40
+40,41
+40,42
+41,42
+43,44
+43,45
+46,47
+47,48
+47,49
+48,49
+50,51
+50,52
+53,54
+54,55
+54,56
+56,57
+58,59
+59,60
+59,61
+60,61
+62,63
+62,64
+65,66
+66,67
+66,68
+68,69
+70,71
+71,72
+71,73
+73,74
+73,75
+76,77
+76,78
+77,78
+78,79
+79,80
+79,81
+80,81
+82,83
+83,84
+85,86
+86,87
+88,89
+89,90
+89,91
+90,91
+90,92
+91,92
+94,95
+96,97
+97,98
+97,99
+98,99
+98,100
+99,100
+102,103
+102,104
+103,104
+106,107
+106,108
+107,108
+108,109
+109,110
+109,111
+110,111
+110,112
+111,112
+114,115
+114,116
+115,116
+117,118
+117,119
+118,119
+118,120
+119,120
+122,123
+123,124
+123,125
+124,125
+127,128
+127,129
+128,129
+129,130
+129,131
+130,131
+132,133
+134,135
+136,137
+136,138
+136,139
+136,140
+137,138
+138,139
+138,140
+139,140
+139,141
+140,141
+143,144
+143,145
+144,145
+146,147
+146,148
+147,148
+150,151
+150,152
+151,152
+153,154
+153,155
+154,155
+157,158
+157,159
+158,159
+159,160
+161,162
+162,163
+164,165
+165,166
+166,167
+166,168
+167,168
+167,169
+168,169
+172,173
+172,174
+172,175
+172,176
+173,174
+174,175
+174,176
+174,177
+175,176
+175,177
+176,177
+179,180
+179,181
+180,181
+182,183
+182,184
+183,184
+186,187
+186,188
+187,188
+189,190
+189,191
+190,191
+193,194
+193,195
+194,195
+196,197
+196,198
+197,198
+200,201
+200,202
+200,203
+201,202
+202,203
+204,205
+205,206
+207,208
+208,209
+210,211
+210,212
+210,213
+210,214
+211,212
+212,213
+212,214
+213,214
+213,215
+214,215
+217,218
+217,219
+218,219
+221,222
+221,223
+222,223
+223,224
+224,225
+224,226
+225,226
+225,227
+226,227
+229,230
+229,231
+230,231
+232,233
+232,234
+233,234
+233,235
+234,235
+237,238
+238,239
+238,240
+239,240
+242,243
+242,244
+243,244
+244,245
+244,246
+245,246
+247,248
+249,250
+251,252
+251,253
+251,254
+251,255
+252,253
+253,254
+253,255
+254,255
+254,256
+255,256
+258,259
+258,260
+259,260
+261,262
+261,263
+262,263
+265,266
+265,267
+266,267
+268,269
+268,270
+269,270
+272,273
+272,274
+273,274
+274,275
+276,277
+277,278
+279,280
+280,281
+281,282
+281,283
+282,283
+282,284
+283,284
+287,288
+287,289
+287,290
+287,291
+288,289
+289,290
+289,291
+289,292
+290,291
+290,292
+291,292
+294,295
+294,296
+295,296
+297,298
+297,299
+298,299
+301,302
+301,303
+302,303
+304,305
+304,306
+305,306
+308,309
+308,310
+309,310
+311,312
+311,313
+312,313
+315,316
+315,317
+315,318
+316,317
+317,318
+319,320
+320,321
+322,323
+323,324
+325,326
+325,327
+326,327
+327,328
+327,329
+328,329
+328,330
+329,330
+332,333
+332,334
+333,334
+336,337
+336,338
+336,339
+337,338
+337,339
+338,339
+341,342
+342,343
+342,344
+343,344
+344,345
+345,346
+345,347
+346,347
+346,348
+347,348
+350,351
+350,352
+351,352
+353,354
+353,355
+354,355
+354,356
+355,356
+358,359
+359,360
+359,361
+362,363
+362,364
+363,364
+364,365
+364,366
+365,366
+367,368
+369,370
+371,372
+372,373
+373,374
+373,375
+374,375
+374,376
+375,376
+379,380
+380,381
+380,382
+381,382
+381,383
+382,383
+386,387
+386,388
+386,389
+386,390
+387,388
+388,389
+388,390
+388,391
+389,390
+389,391
+390,391
+393,394
+393,395
+394,395
+396,397
+396,398
+397,398
+400,401
+400,402
+401,402
+403,404
+403,405
+404,405
+407,408
+407,409
+408,409
+410,411
+410,412
+411,412
+414,415
+414,416
+414,417
+415,416
+416,417
+418,419
+419,420
+421,422
+422,423
+424,425
+424,426
+424,427
+424,428
+425,426
+426,427
+426,428
+427,428
+427,429
+428,429
+431,432
+431,433
+432,433
+432,434
+433,434
+433,435
+434,435
+437,438
+440,441
+441,442
+441,443
+442,443
+442,444
+443,444
+446,447
+446,448
+447,448
+447,449
+448,449
+448,450
+449,450
+452,453
+455,456
+455,457
+455,458
+455,459
+456,457
+457,458
+457,459
+457,460
+458,459
+458,460
+459,460
+462,463
+462,464
+463,464
+465,466
+465,467
+466,467
+469,470
+469,471
+470,471
+472,473
+472,474
+473,474
+476,477
+476,478
+477,478
+479,480
+479,481
+480,481
+483,484
+483,485
+483,486
+484,485
+485,486
+487,488
+488,489
+490,491
+491,492
+493,494
+493,495
+493,496
+493,497
+494,495
+495,496
+495,497
+496,497
+496,498
+497,498
+500,501
+500,502
+501,502
+504,505
+505,506
+505,507
+506,507
+506,508
+507,508
+510,511
+510,512
+511,512
+514,515
+514,516
+514,517
+514,518
+515,516
+516,517
+516,518
+517,518
+517,519
+518,519
+521,522
+521,523
+522,523
+524,525
+524,526
+525,526
+528,529
+528,530
+529,530
+531,532
+531,533
+532,533
+535,536
+535,537
+536,537
+537,538
+539,540
+540,541
+542,543
+543,544
+544,545
+544,546
+545,546
+546,547
+549,550
+550,551
+550,552
+551,552
+551,553
+552,553
+555,556
+555,557
+556,557
+559,560
+559,561
+560,561
+560,562
+561,562
+561,563
+562,563
+565,566
+565,567
+566,567
+569,570
+570,571
+571,572
+571,573
+572,573
+572,574
+573,574
+576,577
+576,578
+577,578
+580,581
+581,582
+581,583
+582,583
+582,584
+583,584
+586,587
+586,588
+587,588
+590,591
+591,592
+591,593
+592,593
+592,594
+593,594
+596,597
+596,598
+597,598
+600,601
+601,602
+601,603
+602,603
+602,604
+603,604
+606,607
+606,608
+607,608
+610,611
+611,612
+611,613
+612,613
+612,614
+613,614
+616,617
+616,618
+617,618
+620,621
+621,622
+621,623
+622,623
+622,624
+623,624
+626,627
+626,628
+627,628
+630,631
+631,632
+631,633
+632,633
+632,634
+633,634
+637,638
+638,639
+638,640
+639,640
+639,641
+640,641
+644,645
+645,646
+645,647
+646,647
+646,648
+647,648
+651,652
+652,653
+652,654
+653,654
+653,655
+654,655
+658,659
+659,660
+659,661
+660,661
+660,662
+661,662
+665,666
+666,667
+666,668
+667,668
+667,669
+668,669
+672,673
+673,674
+673,675
+674,675
+674,676
+675,676
+679,680
+680,681
+680,682
+681,682
+681,683
+682,683
+686,687
+687,688
+687,689
+688,689
+688,690
+689,690
+693,694
+694,695
+694,696
+695,696
+695,697
+696,697
+700,701
+701,702
+701,703
+702,703
+702,704
+703,704
+706,707
+708,709
+709,710
+709,711
+710,711
+710,712
+711,712
+711,713
+712,713
+716,717
+716,718
+717,718
+720,721
+721,722
+721,723
+722,723
+722,724
+723,724
+723,725
+724,725
+729,730
+730,731
+730,732
+731,732
+731,733
+732,733
+732,734
+733,734
+737,738
+737,739
+738,739
+741,742
+742,743
+742,744
+743,744
+743,745
+744,745
+744,746
+745,746
+750,751
+751,752
+751,753
+752,753
+752,754
+753,754
+753,755
+754,755
+758,759
+758,760
+759,760
+762,763
+763,764
+763,765
+764,765
+764,766
+765,766
+765,767
+766,767
+770,771
+770,772
+771,772
+774,775
+775,776
+775,777
+776,777
+776,778
+777,778
+781,782
+782,783
+782,784
+783,784
+783,785
+784,785
+788,789
+789,790
+-----nextToken-----
+3,5,6,9,11,12,15,17,18,23,25,26,29,31,35,37,38,42,44,45,49,51,52,55,57,61,63,64,67,69,72,74,75,81,84,87,92,93,95,100,101,104,105,112,113,116,120,121,125,126,131,133,135,141,142,145,148,149,152,155,156,160,163,169,170,171,177,178,181,184,185,188,191,192,195,198,199,203,206,209,215,216,219,220,227,228,231,235,236,240,241,246,248,250,256,257,260,263,264,267,270,271,275,278,284,285,286,292,293,296,299,300,303,306,307,310,313,314,318,321,324,330,331,334,335,339,340,348,349,352,356,357,360,361,366,368,370,376,377,378,383,384,385,391,392,395,398,399,402,405,406,409,412,413,417,420,423,429,430,435,436,438,439,444,445,450,451,453,454,460,461,464,467,468,471,474,475,478,481,482,486,489,492,498,499,502,503,508,509,512,513,519,520,523,526,527,530,533,534,538,541,547,548,553,554,557,558,563,564,567,568,574,575,578,579,584,585,588,589,594,595,598,599,604,605,608,609,614,615,618,619,624,625,628,629,634,635,636,641,642,643,648,649,650,655,656,657,662,663,664,669,670,671,676,677,678,683,684,685,690,691,692,697,698,699,704,705,707,713,714,715,718,719,725,726,727,728,734,735,736,739,740,746,747,748,749,755,756,757,760,761,767,768,769,772,773,778,779,780,785,786,787,790
+-----computeFrom-----
+79,80
+79,81
+89,90
+89,91
+97,98
+97,99
+109,110
+109,111
+117,118
+117,119
+139,140
+139,141
+143,144
+143,145
+150,151
+150,152
+166,167
+166,168
+175,176
+175,177
+179,180
+179,181
+186,187
+186,188
+193,194
+193,195
+212,213
+212,214
+224,225
+224,226
+232,233
+232,234
+254,255
+254,256
+258,259
+258,260
+265,266
+265,267
+281,282
+281,283
+290,291
+290,292
+294,295
+294,296
+301,302
+301,303
+308,309
+308,310
+327,328
+327,329
+345,346
+345,347
+353,354
+353,355
+373,374
+373,375
+380,381
+380,382
+389,390
+389,391
+393,394
+393,395
+400,401
+400,402
+407,408
+407,409
+426,427
+426,428
+441,442
+441,443
+458,459
+458,460
+462,463
+462,464
+469,470
+469,471
+476,477
+476,478
+495,496
+495,497
+505,506
+505,507
+517,518
+517,519
+521,522
+521,523
+528,529
+528,530
+544,545
+544,546
+550,551
+550,552
+560,561
+560,562
+571,572
+571,573
+581,582
+581,583
+591,592
+591,593
+601,602
+601,603
+611,612
+611,613
+621,622
+621,623
+631,632
+631,633
+638,639
+638,640
+645,646
+645,647
+652,653
+652,654
+659,660
+659,661
+666,667
+666,668
+673,674
+673,675
+680,681
+680,682
+687,688
+687,689
+694,695
+694,696
+701,702
+701,703
+709,710
+709,711
+721,722
+721,723
+730,731
+730,732
+742,743
+742,744
+751,752
+751,753
+763,764
+763,765
+775,776
+775,777
+782,783
+782,784
+-----guardedBy-----
+567,578
+564,575
+563,574
+568,579
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IfStatement;FieldReference;IdExpression;Name;Name;CompoundStatement;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;TypeIdExpression;TypeId;SimpleDeclSpecifier;Declarator;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;Name;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;ExpressionList;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionList;UnaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;UnaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+jpc_pi_t *jpc_enc_pi_create(jpc_enc_cp_t *cp, jpc_enc_tile_t *tile){	jpc_pi_t *pi;	int compno;	jpc_picomp_t *picomp;	jpc_pirlvl_t *pirlvl;	jpc_enc_tcmpt_t *tcomp;	int rlvlno;	jpc_enc_rlvl_t *rlvl;	int prcno;	int *prclyrno;	if (!(pi = jpc_pi_create0())) {		return 0;	}	pi->pktno = -1;	pi->numcomps = cp->numcmpts;	if (!(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t)))) {		jpc_pi_destroy(pi);		return 0;	}	for (compno = 0, picomp = pi->picomps; compno < pi->numcomps; ++compno,	  ++picomp) {		picomp->pirlvls = 0;	}	for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;	  compno < pi->numcomps; ++compno, ++tcomp, ++picomp) {		picomp->numrlvls = tcomp->numrlvls;		if (!(picomp->pirlvls = jas_malloc(picomp->numrlvls *		  sizeof(jpc_pirlvl_t)))) {			jpc_pi_destroy(pi);			return 0;		}		for (rlvlno = 0, pirlvl = picomp->pirlvls; rlvlno <		  picomp->numrlvls; ++rlvlno, ++pirlvl) {			pirlvl->prclyrnos = 0;		}		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {/* XXX sizeof(long) should be sizeof different type */			pirlvl->numprcs = rlvl->numprcs;			if (rlvl->numprcs) {				if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))) {					jpc_pi_destroy(pi);					return 0;				}			} else {				pirlvl->prclyrnos = 0;			}		}	}	pi->maxrlvls = 0;	for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;	  compno < pi->numcomps; ++compno, ++tcomp, ++picomp) {		picomp->hsamp = cp->ccps[compno].sampgrdstepx;		picomp->vsamp = cp->ccps[compno].sampgrdstepy;		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {			pirlvl->prcwidthexpn = rlvl->prcwidthexpn;			pirlvl->prcheightexpn = rlvl->prcheightexpn;			for (prcno = 0, prclyrno = pirlvl->prclyrnos;			  prcno < pirlvl->numprcs; ++prcno, ++prclyrno) {				*prclyrno = 0;			}			pirlvl->numhprcs = rlvl->numhprcs;		}		if (pi->maxrlvls < tcomp->numrlvls) {			pi->maxrlvls = tcomp->numrlvls;		}	}	pi->numlyrs = tile->numlyrs;	pi->xstart = tile->tlx;	pi->ystart = tile->tly;	pi->xend = tile->brx;	pi->yend = tile->bry;	pi->picomp = 0;	pi->pirlvl = 0;	pi->x = 0;	pi->y = 0;	pi->compno = 0;	pi->rlvlno = 0;	pi->prcno = 0;	pi->lyrno = 0;	pi->xstep = 0;	pi->ystep = 0;	pi->pchgno = -1;	pi->defaultpchg.prgord = tile->prg;	pi->defaultpchg.compnostart = 0;	pi->defaultpchg.compnoend = pi->numcomps;	pi->defaultpchg.rlvlnostart = 0;	pi->defaultpchg.rlvlnoend = pi->maxrlvls;	pi->defaultpchg.lyrnoend = pi->numlyrs;	pi->pchg = 0;	pi->valid = 0;	return pi;}
+jpc_pi_t
+jpc_pi_t
+*jpc_enc_pi_create(jpc_enc_cp_t *cp, jpc_enc_tile_t *tile)
+*
+jpc_enc_pi_create
+jpc_enc_cp_t *cp
+jpc_enc_cp_t
+jpc_enc_cp_t
+*cp
+*
+cp
+jpc_enc_tile_t *tile
+jpc_enc_tile_t
+jpc_enc_tile_t
+*tile
+*
+tile
+{	jpc_pi_t *pi;	int compno;	jpc_picomp_t *picomp;	jpc_pirlvl_t *pirlvl;	jpc_enc_tcmpt_t *tcomp;	int rlvlno;	jpc_enc_rlvl_t *rlvl;	int prcno;	int *prclyrno;	if (!(pi = jpc_pi_create0())) {		return 0;	}	pi->pktno = -1;	pi->numcomps = cp->numcmpts;	if (!(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t)))) {		jpc_pi_destroy(pi);		return 0;	}	for (compno = 0, picomp = pi->picomps; compno < pi->numcomps; ++compno,	  ++picomp) {		picomp->pirlvls = 0;	}	for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;	  compno < pi->numcomps; ++compno, ++tcomp, ++picomp) {		picomp->numrlvls = tcomp->numrlvls;		if (!(picomp->pirlvls = jas_malloc(picomp->numrlvls *		  sizeof(jpc_pirlvl_t)))) {			jpc_pi_destroy(pi);			return 0;		}		for (rlvlno = 0, pirlvl = picomp->pirlvls; rlvlno <		  picomp->numrlvls; ++rlvlno, ++pirlvl) {			pirlvl->prclyrnos = 0;		}		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {/* XXX sizeof(long) should be sizeof different type */			pirlvl->numprcs = rlvl->numprcs;			if (rlvl->numprcs) {				if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))) {					jpc_pi_destroy(pi);					return 0;				}			} else {				pirlvl->prclyrnos = 0;			}		}	}	pi->maxrlvls = 0;	for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;	  compno < pi->numcomps; ++compno, ++tcomp, ++picomp) {		picomp->hsamp = cp->ccps[compno].sampgrdstepx;		picomp->vsamp = cp->ccps[compno].sampgrdstepy;		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {			pirlvl->prcwidthexpn = rlvl->prcwidthexpn;			pirlvl->prcheightexpn = rlvl->prcheightexpn;			for (prcno = 0, prclyrno = pirlvl->prclyrnos;			  prcno < pirlvl->numprcs; ++prcno, ++prclyrno) {				*prclyrno = 0;			}			pirlvl->numhprcs = rlvl->numhprcs;		}		if (pi->maxrlvls < tcomp->numrlvls) {			pi->maxrlvls = tcomp->numrlvls;		}	}	pi->numlyrs = tile->numlyrs;	pi->xstart = tile->tlx;	pi->ystart = tile->tly;	pi->xend = tile->brx;	pi->yend = tile->bry;	pi->picomp = 0;	pi->pirlvl = 0;	pi->x = 0;	pi->y = 0;	pi->compno = 0;	pi->rlvlno = 0;	pi->prcno = 0;	pi->lyrno = 0;	pi->xstep = 0;	pi->ystep = 0;	pi->pchgno = -1;	pi->defaultpchg.prgord = tile->prg;	pi->defaultpchg.compnostart = 0;	pi->defaultpchg.compnoend = pi->numcomps;	pi->defaultpchg.rlvlnostart = 0;	pi->defaultpchg.rlvlnoend = pi->maxrlvls;	pi->defaultpchg.lyrnoend = pi->numlyrs;	pi->pchg = 0;	pi->valid = 0;	return pi;}
+jpc_pi_t *pi;
+jpc_pi_t *pi;
+jpc_pi_t
+jpc_pi_t
+*pi
+*
+pi
+int compno;
+int compno;
+int
+compno
+compno
+jpc_picomp_t *picomp;
+jpc_picomp_t *picomp;
+jpc_picomp_t
+jpc_picomp_t
+*picomp
+*
+picomp
+jpc_pirlvl_t *pirlvl;
+jpc_pirlvl_t *pirlvl;
+jpc_pirlvl_t
+jpc_pirlvl_t
+*pirlvl
+*
+pirlvl
+jpc_enc_tcmpt_t *tcomp;
+jpc_enc_tcmpt_t *tcomp;
+jpc_enc_tcmpt_t
+jpc_enc_tcmpt_t
+*tcomp
+*
+tcomp
+int rlvlno;
+int rlvlno;
+int
+rlvlno
+rlvlno
+jpc_enc_rlvl_t *rlvl;
+jpc_enc_rlvl_t *rlvl;
+jpc_enc_rlvl_t
+jpc_enc_rlvl_t
+*rlvl
+*
+rlvl
+int prcno;
+int prcno;
+int
+prcno
+prcno
+int *prclyrno;
+int *prclyrno;
+int
+*prclyrno
+*
+prclyrno
+if (!(pi = jpc_pi_create0())) {		return 0;	}
+!(pi = jpc_pi_create0())
+(pi = jpc_pi_create0())
+pi = jpc_pi_create0()
+pi
+pi
+jpc_pi_create0()
+jpc_pi_create0
+jpc_pi_create0
+{		return 0;	}
+return 0;
+0
+pi->pktno = -1;
+pi->pktno = -1
+pi->pktno
+pi
+pi
+pktno
+-1
+1
+pi->numcomps = cp->numcmpts;
+pi->numcomps = cp->numcmpts
+pi->numcomps
+pi
+pi
+numcomps
+cp->numcmpts
+cp
+cp
+numcmpts
+if (!(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t)))) {		jpc_pi_destroy(pi);		return 0;	}
+!(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t)))
+(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t)))
+pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t))
+pi->picomps
+pi
+pi
+picomps
+jas_malloc(pi->numcomps * sizeof(jpc_picomp_t))
+jas_malloc
+jas_malloc
+pi->numcomps * sizeof(jpc_picomp_t)
+pi->numcomps
+pi
+pi
+numcomps
+sizeof(jpc_picomp_t)
+jpc_picomp_t
+jpc_picomp_t
+jpc_picomp_t
+
+{		jpc_pi_destroy(pi);		return 0;	}
+jpc_pi_destroy(pi);
+jpc_pi_destroy(pi)
+jpc_pi_destroy
+jpc_pi_destroy
+pi
+pi
+return 0;
+0
+for (compno = 0, picomp = pi->picomps; compno < pi->numcomps; ++compno,	  ++picomp) {		picomp->pirlvls = 0;	}
+compno = 0, picomp = pi->picomps;
+compno = 0, picomp = pi->picomps
+compno = 0
+compno
+compno
+0
+picomp = pi->picomps
+picomp
+picomp
+pi->picomps
+pi
+pi
+picomps
+compno < pi->numcomps
+compno
+compno
+pi->numcomps
+pi
+pi
+numcomps
+++compno,	  ++picomp
+++compno
+compno
+compno
+++picomp
+picomp
+picomp
+{		picomp->pirlvls = 0;	}
+picomp->pirlvls = 0;
+picomp->pirlvls = 0
+picomp->pirlvls
+picomp
+picomp
+pirlvls
+0
+for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;	  compno < pi->numcomps; ++compno, ++tcomp, ++picomp) {		picomp->numrlvls = tcomp->numrlvls;		if (!(picomp->pirlvls = jas_malloc(picomp->numrlvls *		  sizeof(jpc_pirlvl_t)))) {			jpc_pi_destroy(pi);			return 0;		}		for (rlvlno = 0, pirlvl = picomp->pirlvls; rlvlno <		  picomp->numrlvls; ++rlvlno, ++pirlvl) {			pirlvl->prclyrnos = 0;		}		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {/* XXX sizeof(long) should be sizeof different type */			pirlvl->numprcs = rlvl->numprcs;			if (rlvl->numprcs) {				if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))) {					jpc_pi_destroy(pi);					return 0;				}			} else {				pirlvl->prclyrnos = 0;			}		}	}
+compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;
+compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps
+compno = 0
+compno
+compno
+0
+tcomp = tile->tcmpts
+tcomp
+tcomp
+tile->tcmpts
+tile
+tile
+tcmpts
+picomp = pi->picomps
+picomp
+picomp
+pi->picomps
+pi
+pi
+picomps
+compno < pi->numcomps
+compno
+compno
+pi->numcomps
+pi
+pi
+numcomps
+++compno, ++tcomp, ++picomp
+++compno
+compno
+compno
+++tcomp
+tcomp
+tcomp
+++picomp
+picomp
+picomp
+{		picomp->numrlvls = tcomp->numrlvls;		if (!(picomp->pirlvls = jas_malloc(picomp->numrlvls *		  sizeof(jpc_pirlvl_t)))) {			jpc_pi_destroy(pi);			return 0;		}		for (rlvlno = 0, pirlvl = picomp->pirlvls; rlvlno <		  picomp->numrlvls; ++rlvlno, ++pirlvl) {			pirlvl->prclyrnos = 0;		}		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {/* XXX sizeof(long) should be sizeof different type */			pirlvl->numprcs = rlvl->numprcs;			if (rlvl->numprcs) {				if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))) {					jpc_pi_destroy(pi);					return 0;				}			} else {				pirlvl->prclyrnos = 0;			}		}	}
+picomp->numrlvls = tcomp->numrlvls;
+picomp->numrlvls = tcomp->numrlvls
+picomp->numrlvls
+picomp
+picomp
+numrlvls
+tcomp->numrlvls
+tcomp
+tcomp
+numrlvls
+if (!(picomp->pirlvls = jas_malloc(picomp->numrlvls *		  sizeof(jpc_pirlvl_t)))) {			jpc_pi_destroy(pi);			return 0;		}
+!(picomp->pirlvls = jas_malloc(picomp->numrlvls *		  sizeof(jpc_pirlvl_t)))
+(picomp->pirlvls = jas_malloc(picomp->numrlvls *		  sizeof(jpc_pirlvl_t)))
+picomp->pirlvls = jas_malloc(picomp->numrlvls *		  sizeof(jpc_pirlvl_t))
+picomp->pirlvls
+picomp
+picomp
+pirlvls
+jas_malloc(picomp->numrlvls *		  sizeof(jpc_pirlvl_t))
+jas_malloc
+jas_malloc
+picomp->numrlvls *		  sizeof(jpc_pirlvl_t)
+picomp->numrlvls
+picomp
+picomp
+numrlvls
+sizeof(jpc_pirlvl_t)
+jpc_pirlvl_t
+jpc_pirlvl_t
+jpc_pirlvl_t
+
+{			jpc_pi_destroy(pi);			return 0;		}
+jpc_pi_destroy(pi);
+jpc_pi_destroy(pi)
+jpc_pi_destroy
+jpc_pi_destroy
+pi
+pi
+return 0;
+0
+for (rlvlno = 0, pirlvl = picomp->pirlvls; rlvlno <		  picomp->numrlvls; ++rlvlno, ++pirlvl) {			pirlvl->prclyrnos = 0;		}
+rlvlno = 0, pirlvl = picomp->pirlvls;
+rlvlno = 0, pirlvl = picomp->pirlvls
+rlvlno = 0
+rlvlno
+rlvlno
+0
+pirlvl = picomp->pirlvls
+pirlvl
+pirlvl
+picomp->pirlvls
+picomp
+picomp
+pirlvls
+rlvlno <		  picomp->numrlvls
+rlvlno
+rlvlno
+picomp->numrlvls
+picomp
+picomp
+numrlvls
+++rlvlno, ++pirlvl
+++rlvlno
+rlvlno
+rlvlno
+++pirlvl
+pirlvl
+pirlvl
+{			pirlvl->prclyrnos = 0;		}
+pirlvl->prclyrnos = 0;
+pirlvl->prclyrnos = 0
+pirlvl->prclyrnos
+pirlvl
+pirlvl
+prclyrnos
+0
+for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {/* XXX sizeof(long) should be sizeof different type */			pirlvl->numprcs = rlvl->numprcs;			if (rlvl->numprcs) {				if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))) {					jpc_pi_destroy(pi);					return 0;				}			} else {				pirlvl->prclyrnos = 0;			}		}
+rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;
+rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls
+rlvlno = 0
+rlvlno
+rlvlno
+0
+pirlvl = picomp->pirlvls
+pirlvl
+pirlvl
+picomp->pirlvls
+picomp
+picomp
+pirlvls
+rlvl = tcomp->rlvls
+rlvl
+rlvl
+tcomp->rlvls
+tcomp
+tcomp
+rlvls
+rlvlno < picomp->numrlvls
+rlvlno
+rlvlno
+picomp->numrlvls
+picomp
+picomp
+numrlvls
+++rlvlno, ++pirlvl, ++rlvl
+++rlvlno
+rlvlno
+rlvlno
+++pirlvl
+pirlvl
+pirlvl
+++rlvl
+rlvl
+rlvl
+{/* XXX sizeof(long) should be sizeof different type */			pirlvl->numprcs = rlvl->numprcs;			if (rlvl->numprcs) {				if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))) {					jpc_pi_destroy(pi);					return 0;				}			} else {				pirlvl->prclyrnos = 0;			}		}
+pirlvl->numprcs = rlvl->numprcs;
+pirlvl->numprcs = rlvl->numprcs
+pirlvl->numprcs
+pirlvl
+pirlvl
+numprcs
+rlvl->numprcs
+rlvl
+rlvl
+numprcs
+if (rlvl->numprcs) {				if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))) {					jpc_pi_destroy(pi);					return 0;				}			} else {				pirlvl->prclyrnos = 0;			}
+rlvl->numprcs
+rlvl
+rlvl
+numprcs
+{				if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))) {					jpc_pi_destroy(pi);					return 0;				}			}
+if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))) {					jpc_pi_destroy(pi);					return 0;				}
+!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))
+(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long)))
+pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *				  sizeof(long))
+pirlvl->prclyrnos
+pirlvl
+pirlvl
+prclyrnos
+jas_malloc(pirlvl->numprcs *				  sizeof(long))
+jas_malloc
+jas_malloc
+pirlvl->numprcs *				  sizeof(long)
+pirlvl->numprcs
+pirlvl
+pirlvl
+numprcs
+sizeof(long)
+long
+long
+
+{					jpc_pi_destroy(pi);					return 0;				}
+jpc_pi_destroy(pi);
+jpc_pi_destroy(pi)
+jpc_pi_destroy
+jpc_pi_destroy
+pi
+pi
+return 0;
+0
+{				pirlvl->prclyrnos = 0;			}
+pirlvl->prclyrnos = 0;
+pirlvl->prclyrnos = 0
+pirlvl->prclyrnos
+pirlvl
+pirlvl
+prclyrnos
+0
+pi->maxrlvls = 0;
+pi->maxrlvls = 0
+pi->maxrlvls
+pi
+pi
+maxrlvls
+0
+for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;	  compno < pi->numcomps; ++compno, ++tcomp, ++picomp) {		picomp->hsamp = cp->ccps[compno].sampgrdstepx;		picomp->vsamp = cp->ccps[compno].sampgrdstepy;		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {			pirlvl->prcwidthexpn = rlvl->prcwidthexpn;			pirlvl->prcheightexpn = rlvl->prcheightexpn;			for (prcno = 0, prclyrno = pirlvl->prclyrnos;			  prcno < pirlvl->numprcs; ++prcno, ++prclyrno) {				*prclyrno = 0;			}			pirlvl->numhprcs = rlvl->numhprcs;		}		if (pi->maxrlvls < tcomp->numrlvls) {			pi->maxrlvls = tcomp->numrlvls;		}	}
+compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;
+compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps
+compno = 0
+compno
+compno
+0
+tcomp = tile->tcmpts
+tcomp
+tcomp
+tile->tcmpts
+tile
+tile
+tcmpts
+picomp = pi->picomps
+picomp
+picomp
+pi->picomps
+pi
+pi
+picomps
+compno < pi->numcomps
+compno
+compno
+pi->numcomps
+pi
+pi
+numcomps
+++compno, ++tcomp, ++picomp
+++compno
+compno
+compno
+++tcomp
+tcomp
+tcomp
+++picomp
+picomp
+picomp
+{		picomp->hsamp = cp->ccps[compno].sampgrdstepx;		picomp->vsamp = cp->ccps[compno].sampgrdstepy;		for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {			pirlvl->prcwidthexpn = rlvl->prcwidthexpn;			pirlvl->prcheightexpn = rlvl->prcheightexpn;			for (prcno = 0, prclyrno = pirlvl->prclyrnos;			  prcno < pirlvl->numprcs; ++prcno, ++prclyrno) {				*prclyrno = 0;			}			pirlvl->numhprcs = rlvl->numhprcs;		}		if (pi->maxrlvls < tcomp->numrlvls) {			pi->maxrlvls = tcomp->numrlvls;		}	}
+picomp->hsamp = cp->ccps[compno].sampgrdstepx;
+picomp->hsamp = cp->ccps[compno].sampgrdstepx
+picomp->hsamp
+picomp
+picomp
+hsamp
+cp->ccps[compno].sampgrdstepx
+cp->ccps[compno]
+cp->ccps
+cp
+cp
+ccps
+compno
+compno
+sampgrdstepx
+picomp->vsamp = cp->ccps[compno].sampgrdstepy;
+picomp->vsamp = cp->ccps[compno].sampgrdstepy
+picomp->vsamp
+picomp
+picomp
+vsamp
+cp->ccps[compno].sampgrdstepy
+cp->ccps[compno]
+cp->ccps
+cp
+cp
+ccps
+compno
+compno
+sampgrdstepy
+for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;		  rlvlno < picomp->numrlvls; ++rlvlno, ++pirlvl, ++rlvl) {			pirlvl->prcwidthexpn = rlvl->prcwidthexpn;			pirlvl->prcheightexpn = rlvl->prcheightexpn;			for (prcno = 0, prclyrno = pirlvl->prclyrnos;			  prcno < pirlvl->numprcs; ++prcno, ++prclyrno) {				*prclyrno = 0;			}			pirlvl->numhprcs = rlvl->numhprcs;		}
+rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;
+rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls
+rlvlno = 0
+rlvlno
+rlvlno
+0
+pirlvl = picomp->pirlvls
+pirlvl
+pirlvl
+picomp->pirlvls
+picomp
+picomp
+pirlvls
+rlvl = tcomp->rlvls
+rlvl
+rlvl
+tcomp->rlvls
+tcomp
+tcomp
+rlvls
+rlvlno < picomp->numrlvls
+rlvlno
+rlvlno
+picomp->numrlvls
+picomp
+picomp
+numrlvls
+++rlvlno, ++pirlvl, ++rlvl
+++rlvlno
+rlvlno
+rlvlno
+++pirlvl
+pirlvl
+pirlvl
+++rlvl
+rlvl
+rlvl
+{			pirlvl->prcwidthexpn = rlvl->prcwidthexpn;			pirlvl->prcheightexpn = rlvl->prcheightexpn;			for (prcno = 0, prclyrno = pirlvl->prclyrnos;			  prcno < pirlvl->numprcs; ++prcno, ++prclyrno) {				*prclyrno = 0;			}			pirlvl->numhprcs = rlvl->numhprcs;		}
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn
+pirlvl->prcwidthexpn
+pirlvl
+pirlvl
+prcwidthexpn
+rlvl->prcwidthexpn
+rlvl
+rlvl
+prcwidthexpn
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn
+pirlvl->prcheightexpn
+pirlvl
+pirlvl
+prcheightexpn
+rlvl->prcheightexpn
+rlvl
+rlvl
+prcheightexpn
+for (prcno = 0, prclyrno = pirlvl->prclyrnos;			  prcno < pirlvl->numprcs; ++prcno, ++prclyrno) {				*prclyrno = 0;			}
+prcno = 0, prclyrno = pirlvl->prclyrnos;
+prcno = 0, prclyrno = pirlvl->prclyrnos
+prcno = 0
+prcno
+prcno
+0
+prclyrno = pirlvl->prclyrnos
+prclyrno
+prclyrno
+pirlvl->prclyrnos
+pirlvl
+pirlvl
+prclyrnos
+prcno < pirlvl->numprcs
+prcno
+prcno
+pirlvl->numprcs
+pirlvl
+pirlvl
+numprcs
+++prcno, ++prclyrno
+++prcno
+prcno
+prcno
+++prclyrno
+prclyrno
+prclyrno
+{				*prclyrno = 0;			}
+*prclyrno = 0;
+*prclyrno = 0
+*prclyrno
+prclyrno
+prclyrno
+0
+pirlvl->numhprcs = rlvl->numhprcs;
+pirlvl->numhprcs = rlvl->numhprcs
+pirlvl->numhprcs
+pirlvl
+pirlvl
+numhprcs
+rlvl->numhprcs
+rlvl
+rlvl
+numhprcs
+if (pi->maxrlvls < tcomp->numrlvls) {			pi->maxrlvls = tcomp->numrlvls;		}
+pi->maxrlvls < tcomp->numrlvls
+pi->maxrlvls
+pi
+pi
+maxrlvls
+tcomp->numrlvls
+tcomp
+tcomp
+numrlvls
+{			pi->maxrlvls = tcomp->numrlvls;		}
+pi->maxrlvls = tcomp->numrlvls;
+pi->maxrlvls = tcomp->numrlvls
+pi->maxrlvls
+pi
+pi
+maxrlvls
+tcomp->numrlvls
+tcomp
+tcomp
+numrlvls
+pi->numlyrs = tile->numlyrs;
+pi->numlyrs = tile->numlyrs
+pi->numlyrs
+pi
+pi
+numlyrs
+tile->numlyrs
+tile
+tile
+numlyrs
+pi->xstart = tile->tlx;
+pi->xstart = tile->tlx
+pi->xstart
+pi
+pi
+xstart
+tile->tlx
+tile
+tile
+tlx
+pi->ystart = tile->tly;
+pi->ystart = tile->tly
+pi->ystart
+pi
+pi
+ystart
+tile->tly
+tile
+tile
+tly
+pi->xend = tile->brx;
+pi->xend = tile->brx
+pi->xend
+pi
+pi
+xend
+tile->brx
+tile
+tile
+brx
+pi->yend = tile->bry;
+pi->yend = tile->bry
+pi->yend
+pi
+pi
+yend
+tile->bry
+tile
+tile
+bry
+pi->picomp = 0;
+pi->picomp = 0
+pi->picomp
+pi
+pi
+picomp
+0
+pi->pirlvl = 0;
+pi->pirlvl = 0
+pi->pirlvl
+pi
+pi
+pirlvl
+0
+pi->x = 0;
+pi->x = 0
+pi->x
+pi
+pi
+x
+0
+pi->y = 0;
+pi->y = 0
+pi->y
+pi
+pi
+y
+0
+pi->compno = 0;
+pi->compno = 0
+pi->compno
+pi
+pi
+compno
+0
+pi->rlvlno = 0;
+pi->rlvlno = 0
+pi->rlvlno
+pi
+pi
+rlvlno
+0
+pi->prcno = 0;
+pi->prcno = 0
+pi->prcno
+pi
+pi
+prcno
+0
+pi->lyrno = 0;
+pi->lyrno = 0
+pi->lyrno
+pi
+pi
+lyrno
+0
+pi->xstep = 0;
+pi->xstep = 0
+pi->xstep
+pi
+pi
+xstep
+0
+pi->ystep = 0;
+pi->ystep = 0
+pi->ystep
+pi
+pi
+ystep
+0
+pi->pchgno = -1;
+pi->pchgno = -1
+pi->pchgno
+pi
+pi
+pchgno
+-1
+1
+pi->defaultpchg.prgord = tile->prg;
+pi->defaultpchg.prgord = tile->prg
+pi->defaultpchg.prgord
+pi->defaultpchg
+pi
+pi
+defaultpchg
+prgord
+tile->prg
+tile
+tile
+prg
+pi->defaultpchg.compnostart = 0;
+pi->defaultpchg.compnostart = 0
+pi->defaultpchg.compnostart
+pi->defaultpchg
+pi
+pi
+defaultpchg
+compnostart
+0
+pi->defaultpchg.compnoend = pi->numcomps;
+pi->defaultpchg.compnoend = pi->numcomps
+pi->defaultpchg.compnoend
+pi->defaultpchg
+pi
+pi
+defaultpchg
+compnoend
+pi->numcomps
+pi
+pi
+numcomps
+pi->defaultpchg.rlvlnostart = 0;
+pi->defaultpchg.rlvlnostart = 0
+pi->defaultpchg.rlvlnostart
+pi->defaultpchg
+pi
+pi
+defaultpchg
+rlvlnostart
+0
+pi->defaultpchg.rlvlnoend = pi->maxrlvls;
+pi->defaultpchg.rlvlnoend = pi->maxrlvls
+pi->defaultpchg.rlvlnoend
+pi->defaultpchg
+pi
+pi
+defaultpchg
+rlvlnoend
+pi->maxrlvls
+pi
+pi
+maxrlvls
+pi->defaultpchg.lyrnoend = pi->numlyrs;
+pi->defaultpchg.lyrnoend = pi->numlyrs
+pi->defaultpchg.lyrnoend
+pi->defaultpchg
+pi
+pi
+defaultpchg
+lyrnoend
+pi->numlyrs
+pi
+pi
+numlyrs
+pi->pchg = 0;
+pi->pchg = 0
+pi->pchg
+pi
+pi
+pchg
+0
+pi->valid = 0;
+pi->valid = 0
+pi->valid
+pi
+pi
+valid
+0
+return pi;
+pi
+pi
+-----joern-----
+(18,25,0)
+(29,26,0)
+(6,16,0)
+(28,15,0)
+(5,16,0)
+(1,12,0)
+(13,15,0)
+(22,19,0)
+(19,30,0)
+(20,19,0)
+(33,17,0)
+(26,27,0)
+(2,12,0)
+(3,27,0)
+(24,10,0)
+(15,28,0)
+(17,33,0)
+(19,4,0)
+(0,28,0)
+(32,21,0)
+(3,32,0)
+(16,31,0)
+(23,9,0)
+(11,16,0)
+(35,17,0)
+(9,32,0)
+(14,28,0)
+(33,30,0)
+(10,12,0)
+(16,6,0)
+(3,10,0)
+(4,12,0)
+(27,8,0)
+(34,33,0)
+(28,31,0)
+(4,19,0)
+(7,6,0)
+(24,6,1)
+(17,35,1)
+(3,10,1)
+(9,23,1)
+(14,0,1)
+(34,4,1)
+(35,33,1)
+(22,20,1)
+(0,17,1)
+(33,34,1)
+(26,29,1)
+(6,7,1)
+(27,26,1)
+(33,30,1)
+(16,11,1)
+(16,31,1)
+(3,32,1)
+(28,14,1)
+(7,16,1)
+(10,24,1)
+(19,30,1)
+(3,27,1)
+(15,13,1)
+(11,5,1)
+(6,16,1)
+(28,31,1)
+(13,28,1)
+(23,6,1)
+(5,17,1)
+(29,15,1)
+(19,22,1)
+(15,28,1)
+(17,33,1)
+(34,15,1)
+(32,9,1)
+(4,19,1)
+(28,17,2)
+(16,17,2)
+(0,17,2)
+(16,31,2)
+(15,28,2)
+(17,33,2)
+(6,16,2)
+(24,6,2)
+(3,10,2)
+(19,30,2)
+(32,6,2)
+(23,6,2)
+(3,27,2)
+(5,17,2)
+(13,17,2)
+(10,6,2)
+(29,15,2)
+(7,17,2)
+(17,15,2)
+(27,15,2)
+(14,17,2)
+(35,15,2)
+(4,19,2)
+(3,32,2)
+(28,31,2)
+(9,6,2)
+(11,17,2)
+(33,15,2)
+(15,17,2)
+(33,30,2)
+(6,17,2)
+(26,15,2)
+(34,15,2)
+-----------------------------------
+(0,out)
+(1,while (--n >= 0)
+(2,if (jpc_bitstream_putbit(out, 0)
+(3,RET)
+(4,assert(n >= 0)
+(5,out)
+(6,jpc_bitstream_putbit(out, 0)
+(7,EOF)
+(8,)
+(9,-1)
+(10,return 0;)
+(11,0)
+(12,)
+(13,EOF)
+(14,1)
+(15,jpc_bitstream_putbit(out, 1)
+(16,jpc_bitstream_putbit(out, 0)
+(17,--n >= 0)
+(18,if (jpc_bitstream_putbit(out, 1)
+(19,n >= 0)
+(20,n)
+(21,)
+(22,0)
+(23,1)
+(24,0)
+(25,)
+(26,-1)
+(27,return -1;)
+(28,jpc_bitstream_putbit(out, 1)
+(29,1)
+(30,int n)
+(31,jpc_bitstream_t *out)
+(32,return -1;)
+(33,--n)
+(34,n)
+(35,0)
+-----cfg-----
+(512,510)
+(513,525)
+(514,521)
+(515,518)
+(517,515)
+(518,514)
+(519,513)
+(7,24)
+(521,519)
+(522,530)
+(523,522)
+(525,523)
+(527,532)
+(528,527)
+(530,528)
+(532,534)
+(21,26)
+(21,31)
+(22,21)
+(24,22)
+(26,534)
+(28,37)
+(29,32)
+(31,29)
+(32,28)
+(34,46)
+(35,40)
+(37,35)
+(38,34)
+(40,38)
+(42,55)
+(42,62)
+(43,42)
+(44,51)
+(46,44)
+(47,43)
+(48,47)
+(49,52)
+(51,49)
+(52,48)
+(55,57)
+(57,534)
+(61,74)
+(62,69)
+(65,61)
+(67,65)
+(69,67)
+(70,84)
+(70,89)
+(72,70)
+(74,72)
+(75,74)
+(76,78)
+(78,75)
+(81,76)
+(82,81)
+(84,82)
+(88,106)
+(89,96)
+(92,101)
+(94,92)
+(96,94)
+(97,88)
+(99,97)
+(101,99)
+(102,118)
+(102,236)
+(104,102)
+(106,104)
+(107,106)
+(108,110)
+(110,112)
+(112,107)
+(115,127)
+(116,121)
+(118,116)
+(119,115)
+(121,119)
+(123,136)
+(123,143)
+(124,123)
+(125,132)
+(127,125)
+(128,124)
+(129,128)
+(130,133)
+(132,130)
+(133,129)
+(136,138)
+(138,534)
+(142,155)
+(143,150)
+(146,142)
+(148,146)
+(150,148)
+(151,165)
+(151,170)
+(153,151)
+(155,153)
+(156,155)
+(157,159)
+(159,156)
+(162,157)
+(163,162)
+(165,163)
+(169,187)
+(170,177)
+(173,182)
+(175,173)
+(177,175)
+(178,169)
+(180,178)
+(182,180)
+(183,199)
+(183,108)
+(185,183)
+(187,185)
+(188,187)
+(189,191)
+(191,193)
+(193,188)
+(196,206)
+(197,202)
+(199,197)
+(200,196)
+(202,200)
+(204,213)
+(204,231)
+(206,204)
+(209,222)
+(209,189)
+(210,209)
+(211,218)
+(213,211)
+(214,210)
+(215,214)
+(216,219)
+(218,216)
+(219,215)
+(222,224)
+(224,534)
+(228,189)
+(229,228)
+(231,229)
+(233,241)
+(234,233)
+(236,234)
+(240,258)
+(241,248)
+(244,253)
+(246,244)
+(248,246)
+(249,240)
+(251,249)
+(253,251)
+(254,270)
+(254,384)
+(256,254)
+(258,256)
+(259,258)
+(260,262)
+(262,264)
+(264,259)
+(267,281)
+(268,275)
+(270,268)
+(271,267)
+(272,277)
+(273,272)
+(275,273)
+(277,271)
+(278,292)
+(279,286)
+(281,279)
+(282,278)
+(283,288)
+(284,283)
+(286,284)
+(288,282)
+(291,309)
+(292,299)
+(295,304)
+(297,295)
+(299,297)
+(300,291)
+(302,300)
+(304,302)
+(305,321)
+(305,369)
+(307,305)
+(309,307)
+(310,309)
+(311,313)
+(313,315)
+(315,310)
+(318,328)
+(319,324)
+(321,319)
+(322,318)
+(324,322)
+(325,335)
+(326,331)
+(328,326)
+(329,325)
+(331,329)
+(334,347)
+(335,342)
+(338,334)
+(340,338)
+(342,340)
+(343,355)
+(343,361)
+(345,343)
+(347,345)
+(348,347)
+(349,351)
+(351,348)
+(354,349)
+(355,354)
+(358,311)
+(359,364)
+(361,359)
+(362,358)
+(364,362)
+(366,377)
+(366,260)
+(367,372)
+(369,367)
+(370,366)
+(372,370)
+(374,260)
+(375,380)
+(377,375)
+(378,374)
+(380,378)
+(381,391)
+(382,387)
+(384,382)
+(385,381)
+(387,385)
+(388,398)
+(389,394)
+(391,389)
+(392,388)
+(394,392)
+(395,405)
+(396,401)
+(398,396)
+(399,395)
+(401,399)
+(402,412)
+(403,408)
+(405,403)
+(406,402)
+(408,406)
+(409,419)
+(410,415)
+(412,410)
+(413,409)
+(415,413)
+(416,424)
+(417,416)
+(419,417)
+(421,429)
+(422,421)
+(424,422)
+(426,434)
+(427,426)
+(429,427)
+(431,439)
+(432,431)
+(434,432)
+(436,444)
+(437,436)
+(439,437)
+(441,449)
+(442,441)
+(444,442)
+(446,454)
+(447,446)
+(449,447)
+(451,459)
+(452,451)
+(454,452)
+(456,464)
+(457,456)
+(459,457)
+(461,469)
+(462,461)
+(464,462)
+(466,476)
+(467,470)
+(469,467)
+(470,466)
+(472,485)
+(473,480)
+(474,477)
+(476,474)
+(477,473)
+(478,472)
+(480,478)
+(481,492)
+(482,481)
+(483,486)
+(485,483)
+(486,482)
+(488,501)
+(489,496)
+(490,493)
+(492,490)
+(493,489)
+(494,488)
+(496,494)
+(497,508)
+(498,497)
+(499,502)
+(501,499)
+(502,498)
+(504,517)
+(505,512)
+(506,509)
+(508,506)
+(509,505)
+(510,504)
+-----path-----
+7,24,22,21,26,534
+7,24,22,21,31,29,32,28,37,35,40,38,34,46,44,51,49,52,48,47,43,42,55,57,534
+7,24,22,21,31,29,32,28,37,35,40,38,34,46,44,51,49,52,48,47,43,42,62,69,67,65,61,74,72,70,89,96,94,92,101,99,97,88,106,104,102,118,116,121,119,115,127,125,132,130,133
+7,24,22,21,31,29,32,28,37,35,40,38,34,46,44,51,49,52,48,47,43,42,62,69,67,65,61,74,72,70,89,96,94,92,101,99,97,88,106,104,102,236,234,233,241,248,246,244,253,251,249
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jpc_pi_t jpc_enc_pi_create (jpc_enc_cp_t *cp,jpc_enc_tile_t *tile)
+8,jpc_enc_cp_t *cp
+9,jpc_enc_tile_t *tile
+10,<empty>
+11,jpc_pi_t* pi
+12,int compno
+13,jpc_picomp_t* picomp
+14,jpc_pirlvl_t* pirlvl
+15,jpc_enc_tcmpt_t* tcomp
+16,int rlvlno
+17,jpc_enc_rlvl_t* rlvl
+18,int prcno
+19,int* prclyrno
+20,if (!(pi = jpc_pi_create0()))
+21,!(pi = jpc_pi_create0())
+22,pi = jpc_pi_create0()
+23,pi
+24,jpc_pi_create0()
+25,<empty>
+26,return 0;
+27,0
+28,pi->pktno = -1
+29,pi->pktno
+30,pi
+31,pktno
+32,-1
+33,1
+34,pi->numcomps = cp->numcmpts
+35,pi->numcomps
+36,pi
+37,numcomps
+38,cp->numcmpts
+39,cp
+40,numcmpts
+41,if (!(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t))))
+42,!(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t)))
+43,pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t))
+44,pi->picomps
+45,pi
+46,picomps
+47,jas_malloc(pi->numcomps * sizeof(jpc_picomp_t))
+48,pi->numcomps * sizeof(jpc_picomp_t)
+49,pi->numcomps
+50,pi
+51,numcomps
+52,sizeof(jpc_picomp_t)
+53,jpc_picomp_t
+54,<empty>
+55,jpc_pi_destroy(pi)
+56,pi
+57,return 0;
+58,0
+59,for (compno = 0, picomp = pi->picomps;compno < pi->numcomps;++compno,
+60,	  ++picomp)
+61,<empty>
+62,compno = 0, picomp = pi->picomps
+63,compno = 0
+64,compno
+65,0
+66,picomp = pi->picomps
+67,picomp
+68,pi->picomps
+69,pi
+70,picomps
+71,compno < pi->numcomps
+72,compno
+73,pi->numcomps
+74,pi
+75,numcomps
+76,++compno,
+77,	  ++picomp
+78,++compno
+79,compno
+80,++picomp
+81,picomp
+82,<empty>
+83,picomp->pirlvls = 0
+84,picomp->pirlvls
+85,picomp
+86,pirlvls
+87,0
+88,for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+89,<empty>
+90,compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps
+91,compno = 0
+92,compno
+93,0
+94,tcomp = tile->tcmpts
+95,tcomp
+96,tile->tcmpts
+97,tile
+98,tcmpts
+99,picomp = pi->picomps
+100,picomp
+101,pi->picomps
+102,pi
+103,picomps
+104,compno < pi->numcomps
+105,compno
+106,pi->numcomps
+107,pi
+108,numcomps
+109,++compno, ++tcomp, ++picomp
+110,++compno
+111,compno
+112,++tcomp
+113,tcomp
+114,++picomp
+115,picomp
+116,<empty>
+117,picomp->numrlvls = tcomp->numrlvls
+118,picomp->numrlvls
+119,picomp
+120,numrlvls
+121,tcomp->numrlvls
+122,tcomp
+123,numrlvls
+124,if (!(picomp->pirlvls = jas_malloc(picomp->numrlvls *
+125,		  sizeof(jpc_pirlvl_t))))
+126,!(picomp->pirlvls = jas_malloc(picomp->numrlvls *
+127,		  sizeof(jpc_pirlvl_t)))
+128,picomp->pirlvls = jas_malloc(picomp->numrlvls *
+129,		  sizeof(jpc_pirlvl_t))
+130,picomp->pirlvls
+131,picomp
+132,pirlvls
+133,jas_malloc(picomp->numrlvls *
+134,		  sizeof(jpc_pirlvl_t))
+135,picomp->numrlvls *
+136,		  sizeof(jpc_pirlvl_t)
+137,picomp->numrlvls
+138,picomp
+139,numrlvls
+140,sizeof(jpc_pirlvl_t)
+141,jpc_pirlvl_t
+142,<empty>
+143,jpc_pi_destroy(pi)
+144,pi
+145,return 0;
+146,0
+147,for (rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno <
+148,		  picomp->numrlvls;++rlvlno, ++pirlvl)
+149,<empty>
+150,rlvlno = 0, pirlvl = picomp->pirlvls
+151,rlvlno = 0
+152,rlvlno
+153,0
+154,pirlvl = picomp->pirlvls
+155,pirlvl
+156,picomp->pirlvls
+157,picomp
+158,pirlvls
+159,rlvlno <
+160,		  picomp->numrlvls
+161,rlvlno
+162,picomp->numrlvls
+163,picomp
+164,numrlvls
+165,++rlvlno, ++pirlvl
+166,++rlvlno
+167,rlvlno
+168,++pirlvl
+169,pirlvl
+170,<empty>
+171,pirlvl->prclyrnos = 0
+172,pirlvl->prclyrnos
+173,pirlvl
+174,prclyrnos
+175,0
+176,for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+177,<empty>
+178,rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls
+179,rlvlno = 0
+180,rlvlno
+181,0
+182,pirlvl = picomp->pirlvls
+183,pirlvl
+184,picomp->pirlvls
+185,picomp
+186,pirlvls
+187,rlvl = tcomp->rlvls
+188,rlvl
+189,tcomp->rlvls
+190,tcomp
+191,rlvls
+192,rlvlno < picomp->numrlvls
+193,rlvlno
+194,picomp->numrlvls
+195,picomp
+196,numrlvls
+197,++rlvlno, ++pirlvl, ++rlvl
+198,++rlvlno
+199,rlvlno
+200,++pirlvl
+201,pirlvl
+202,++rlvl
+203,rlvl
+204,<empty>
+205,pirlvl->numprcs = rlvl->numprcs
+206,pirlvl->numprcs
+207,pirlvl
+208,numprcs
+209,rlvl->numprcs
+210,rlvl
+211,numprcs
+212,if (rlvl->numprcs)
+213,rlvl->numprcs
+214,rlvl
+215,numprcs
+216,<empty>
+217,if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *
+218,				  sizeof(long))))
+219,!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *
+220,				  sizeof(long)))
+221,pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *
+222,				  sizeof(long))
+223,pirlvl->prclyrnos
+224,pirlvl
+225,prclyrnos
+226,jas_malloc(pirlvl->numprcs *
+227,				  sizeof(long))
+228,pirlvl->numprcs *
+229,				  sizeof(long)
+230,pirlvl->numprcs
+231,pirlvl
+232,numprcs
+233,sizeof(long)
+234,long
+235,<empty>
+236,jpc_pi_destroy(pi)
+237,pi
+238,return 0;
+239,0
+240,else
+241,<empty>
+242,pirlvl->prclyrnos = 0
+243,pirlvl->prclyrnos
+244,pirlvl
+245,prclyrnos
+246,0
+247,pi->maxrlvls = 0
+248,pi->maxrlvls
+249,pi
+250,maxrlvls
+251,0
+252,for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+253,<empty>
+254,compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps
+255,compno = 0
+256,compno
+257,0
+258,tcomp = tile->tcmpts
+259,tcomp
+260,tile->tcmpts
+261,tile
+262,tcmpts
+263,picomp = pi->picomps
+264,picomp
+265,pi->picomps
+266,pi
+267,picomps
+268,compno < pi->numcomps
+269,compno
+270,pi->numcomps
+271,pi
+272,numcomps
+273,++compno, ++tcomp, ++picomp
+274,++compno
+275,compno
+276,++tcomp
+277,tcomp
+278,++picomp
+279,picomp
+280,<empty>
+281,picomp->hsamp = cp->ccps[compno].sampgrdstepx
+282,picomp->hsamp
+283,picomp
+284,hsamp
+285,cp->ccps[compno].sampgrdstepx
+286,cp->ccps[compno]
+287,cp->ccps
+288,cp
+289,ccps
+290,compno
+291,sampgrdstepx
+292,picomp->vsamp = cp->ccps[compno].sampgrdstepy
+293,picomp->vsamp
+294,picomp
+295,vsamp
+296,cp->ccps[compno].sampgrdstepy
+297,cp->ccps[compno]
+298,cp->ccps
+299,cp
+300,ccps
+301,compno
+302,sampgrdstepy
+303,for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+304,<empty>
+305,rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls
+306,rlvlno = 0
+307,rlvlno
+308,0
+309,pirlvl = picomp->pirlvls
+310,pirlvl
+311,picomp->pirlvls
+312,picomp
+313,pirlvls
+314,rlvl = tcomp->rlvls
+315,rlvl
+316,tcomp->rlvls
+317,tcomp
+318,rlvls
+319,rlvlno < picomp->numrlvls
+320,rlvlno
+321,picomp->numrlvls
+322,picomp
+323,numrlvls
+324,++rlvlno, ++pirlvl, ++rlvl
+325,++rlvlno
+326,rlvlno
+327,++pirlvl
+328,pirlvl
+329,++rlvl
+330,rlvl
+331,<empty>
+332,pirlvl->prcwidthexpn = rlvl->prcwidthexpn
+333,pirlvl->prcwidthexpn
+334,pirlvl
+335,prcwidthexpn
+336,rlvl->prcwidthexpn
+337,rlvl
+338,prcwidthexpn
+339,pirlvl->prcheightexpn = rlvl->prcheightexpn
+340,pirlvl->prcheightexpn
+341,pirlvl
+342,prcheightexpn
+343,rlvl->prcheightexpn
+344,rlvl
+345,prcheightexpn
+346,for (prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+347,<empty>
+348,prcno = 0, prclyrno = pirlvl->prclyrnos
+349,prcno = 0
+350,prcno
+351,0
+352,prclyrno = pirlvl->prclyrnos
+353,prclyrno
+354,pirlvl->prclyrnos
+355,pirlvl
+356,prclyrnos
+357,prcno < pirlvl->numprcs
+358,prcno
+359,pirlvl->numprcs
+360,pirlvl
+361,numprcs
+362,++prcno, ++prclyrno
+363,++prcno
+364,prcno
+365,++prclyrno
+366,prclyrno
+367,<empty>
+368,*prclyrno = 0
+369,*prclyrno
+370,prclyrno
+371,0
+372,pirlvl->numhprcs = rlvl->numhprcs
+373,pirlvl->numhprcs
+374,pirlvl
+375,numhprcs
+376,rlvl->numhprcs
+377,rlvl
+378,numhprcs
+379,if (pi->maxrlvls < tcomp->numrlvls)
+380,pi->maxrlvls < tcomp->numrlvls
+381,pi->maxrlvls
+382,pi
+383,maxrlvls
+384,tcomp->numrlvls
+385,tcomp
+386,numrlvls
+387,<empty>
+388,pi->maxrlvls = tcomp->numrlvls
+389,pi->maxrlvls
+390,pi
+391,maxrlvls
+392,tcomp->numrlvls
+393,tcomp
+394,numrlvls
+395,pi->numlyrs = tile->numlyrs
+396,pi->numlyrs
+397,pi
+398,numlyrs
+399,tile->numlyrs
+400,tile
+401,numlyrs
+402,pi->xstart = tile->tlx
+403,pi->xstart
+404,pi
+405,xstart
+406,tile->tlx
+407,tile
+408,tlx
+409,pi->ystart = tile->tly
+410,pi->ystart
+411,pi
+412,ystart
+413,tile->tly
+414,tile
+415,tly
+416,pi->xend = tile->brx
+417,pi->xend
+418,pi
+419,xend
+420,tile->brx
+421,tile
+422,brx
+423,pi->yend = tile->bry
+424,pi->yend
+425,pi
+426,yend
+427,tile->bry
+428,tile
+429,bry
+430,pi->picomp = 0
+431,pi->picomp
+432,pi
+433,picomp
+434,0
+435,pi->pirlvl = 0
+436,pi->pirlvl
+437,pi
+438,pirlvl
+439,0
+440,pi->x = 0
+441,pi->x
+442,pi
+443,x
+444,0
+445,pi->y = 0
+446,pi->y
+447,pi
+448,y
+449,0
+450,pi->compno = 0
+451,pi->compno
+452,pi
+453,compno
+454,0
+455,pi->rlvlno = 0
+456,pi->rlvlno
+457,pi
+458,rlvlno
+459,0
+460,pi->prcno = 0
+461,pi->prcno
+462,pi
+463,prcno
+464,0
+465,pi->lyrno = 0
+466,pi->lyrno
+467,pi
+468,lyrno
+469,0
+470,pi->xstep = 0
+471,pi->xstep
+472,pi
+473,xstep
+474,0
+475,pi->ystep = 0
+476,pi->ystep
+477,pi
+478,ystep
+479,0
+480,pi->pchgno = -1
+481,pi->pchgno
+482,pi
+483,pchgno
+484,-1
+485,1
+486,pi->defaultpchg.prgord = tile->prg
+487,pi->defaultpchg.prgord
+488,pi->defaultpchg
+489,pi
+490,defaultpchg
+491,prgord
+492,tile->prg
+493,tile
+494,prg
+495,pi->defaultpchg.compnostart = 0
+496,pi->defaultpchg.compnostart
+497,pi->defaultpchg
+498,pi
+499,defaultpchg
+500,compnostart
+501,0
+502,pi->defaultpchg.compnoend = pi->numcomps
+503,pi->defaultpchg.compnoend
+504,pi->defaultpchg
+505,pi
+506,defaultpchg
+507,compnoend
+508,pi->numcomps
+509,pi
+510,numcomps
+511,pi->defaultpchg.rlvlnostart = 0
+512,pi->defaultpchg.rlvlnostart
+513,pi->defaultpchg
+514,pi
+515,defaultpchg
+516,rlvlnostart
+517,0
+518,pi->defaultpchg.rlvlnoend = pi->maxrlvls
+519,pi->defaultpchg.rlvlnoend
+520,pi->defaultpchg
+521,pi
+522,defaultpchg
+523,rlvlnoend
+524,pi->maxrlvls
+525,pi
+526,maxrlvls
+527,pi->defaultpchg.lyrnoend = pi->numlyrs
+528,pi->defaultpchg.lyrnoend
+529,pi->defaultpchg
+530,pi
+531,defaultpchg
+532,lyrnoend
+533,pi->numlyrs
+534,pi
+535,numlyrs
+536,pi->pchg = 0
+537,pi->pchg
+538,pi
+539,pchg
+540,0
+541,pi->valid = 0
+542,pi->valid
+543,pi
+544,valid
+545,0
+546,return pi;
+547,pi
+548,RET
+549,jpc_enc_cp_t *cp
+550,jpc_enc_tile_t *tile
+551,RET
+552,jpc_pi_t jpc_enc_pi_create (jpc_enc_cp_t *cp,jpc_enc_tile_t *tile)
+553,jpc_enc_cp_t *cp
+554,jpc_enc_tile_t *tile
+555,<empty>
+556,jpc_pi_t* pi
+557,int compno
+558,jpc_picomp_t* picomp
+559,jpc_pirlvl_t* pirlvl
+560,jpc_enc_tcmpt_t* tcomp
+561,int rlvlno
+562,jpc_enc_rlvl_t* rlvl
+563,int prcno
+564,int* prclyrno
+565,if (!(pi = jpc_pi_create0()))
+566,!(pi = jpc_pi_create0())
+567,pi = jpc_pi_create0()
+568,pi
+569,jpc_pi_create0()
+570,<empty>
+571,return 0;
+572,0
+573,pi->pktno = -1
+574,pi->pktno
+575,pi
+576,pktno
+577,-1
+578,1
+579,pi->numcomps = cp->numcmpts
+580,pi->numcomps
+581,pi
+582,numcomps
+583,cp->numcmpts
+584,cp
+585,numcmpts
+586,if (!(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t))))
+587,!(pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t)))
+588,pi->picomps = jas_malloc(pi->numcomps * sizeof(jpc_picomp_t))
+589,pi->picomps
+590,pi
+591,picomps
+592,jas_malloc(pi->numcomps * sizeof(jpc_picomp_t))
+593,pi->numcomps * sizeof(jpc_picomp_t)
+594,pi->numcomps
+595,pi
+596,numcomps
+597,sizeof(jpc_picomp_t)
+598,jpc_picomp_t
+599,<empty>
+600,jpc_pi_destroy(pi)
+601,pi
+602,return 0;
+603,0
+604,for (compno = 0, picomp = pi->picomps;compno < pi->numcomps;++compno,
+605,	  ++picomp)
+606,<empty>
+607,compno = 0, picomp = pi->picomps
+608,compno = 0
+609,compno
+610,0
+611,picomp = pi->picomps
+612,picomp
+613,pi->picomps
+614,pi
+615,picomps
+616,compno < pi->numcomps
+617,compno
+618,pi->numcomps
+619,pi
+620,numcomps
+621,++compno,
+622,	  ++picomp
+623,++compno
+624,compno
+625,++picomp
+626,picomp
+627,<empty>
+628,picomp->pirlvls = 0
+629,picomp->pirlvls
+630,picomp
+631,pirlvls
+632,0
+633,for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+634,<empty>
+635,compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps
+636,compno = 0
+637,compno
+638,0
+639,tcomp = tile->tcmpts
+640,tcomp
+641,tile->tcmpts
+642,tile
+643,tcmpts
+644,picomp = pi->picomps
+645,picomp
+646,pi->picomps
+647,pi
+648,picomps
+649,compno < pi->numcomps
+650,compno
+651,pi->numcomps
+652,pi
+653,numcomps
+654,++compno, ++tcomp, ++picomp
+655,++compno
+656,compno
+657,++tcomp
+658,tcomp
+659,++picomp
+660,picomp
+661,<empty>
+662,picomp->numrlvls = tcomp->numrlvls
+663,picomp->numrlvls
+664,picomp
+665,numrlvls
+666,tcomp->numrlvls
+667,tcomp
+668,numrlvls
+669,if (!(picomp->pirlvls = jas_malloc(picomp->numrlvls *
+670,		  sizeof(jpc_pirlvl_t))))
+671,!(picomp->pirlvls = jas_malloc(picomp->numrlvls *
+672,		  sizeof(jpc_pirlvl_t)))
+673,picomp->pirlvls = jas_malloc(picomp->numrlvls *
+674,		  sizeof(jpc_pirlvl_t))
+675,picomp->pirlvls
+676,picomp
+677,pirlvls
+678,jas_malloc(picomp->numrlvls *
+679,		  sizeof(jpc_pirlvl_t))
+680,picomp->numrlvls *
+681,		  sizeof(jpc_pirlvl_t)
+682,picomp->numrlvls
+683,picomp
+684,numrlvls
+685,sizeof(jpc_pirlvl_t)
+686,jpc_pirlvl_t
+687,<empty>
+688,jpc_pi_destroy(pi)
+689,pi
+690,return 0;
+691,0
+692,for (rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno <
+693,		  picomp->numrlvls;++rlvlno, ++pirlvl)
+694,<empty>
+695,rlvlno = 0, pirlvl = picomp->pirlvls
+696,rlvlno = 0
+697,rlvlno
+698,0
+699,pirlvl = picomp->pirlvls
+700,pirlvl
+701,picomp->pirlvls
+702,picomp
+703,pirlvls
+704,rlvlno <
+705,		  picomp->numrlvls
+706,rlvlno
+707,picomp->numrlvls
+708,picomp
+709,numrlvls
+710,++rlvlno, ++pirlvl
+711,++rlvlno
+712,rlvlno
+713,++pirlvl
+714,pirlvl
+715,<empty>
+716,pirlvl->prclyrnos = 0
+717,pirlvl->prclyrnos
+718,pirlvl
+719,prclyrnos
+720,0
+721,for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+722,<empty>
+723,rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls
+724,rlvlno = 0
+725,rlvlno
+726,0
+727,pirlvl = picomp->pirlvls
+728,pirlvl
+729,picomp->pirlvls
+730,picomp
+731,pirlvls
+732,rlvl = tcomp->rlvls
+733,rlvl
+734,tcomp->rlvls
+735,tcomp
+736,rlvls
+737,rlvlno < picomp->numrlvls
+738,rlvlno
+739,picomp->numrlvls
+740,picomp
+741,numrlvls
+742,++rlvlno, ++pirlvl, ++rlvl
+743,++rlvlno
+744,rlvlno
+745,++pirlvl
+746,pirlvl
+747,++rlvl
+748,rlvl
+749,<empty>
+750,pirlvl->numprcs = rlvl->numprcs
+751,pirlvl->numprcs
+752,pirlvl
+753,numprcs
+754,rlvl->numprcs
+755,rlvl
+756,numprcs
+757,if (rlvl->numprcs)
+758,rlvl->numprcs
+759,rlvl
+760,numprcs
+761,<empty>
+762,if (!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *
+763,				  sizeof(long))))
+764,!(pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *
+765,				  sizeof(long)))
+766,pirlvl->prclyrnos = jas_malloc(pirlvl->numprcs *
+767,				  sizeof(long))
+768,pirlvl->prclyrnos
+769,pirlvl
+770,prclyrnos
+771,jas_malloc(pirlvl->numprcs *
+772,				  sizeof(long))
+773,pirlvl->numprcs *
+774,				  sizeof(long)
+775,pirlvl->numprcs
+776,pirlvl
+777,numprcs
+778,sizeof(long)
+779,long
+780,<empty>
+781,jpc_pi_destroy(pi)
+782,pi
+783,return 0;
+784,0
+785,else
+786,<empty>
+787,pirlvl->prclyrnos = 0
+788,pirlvl->prclyrnos
+789,pirlvl
+790,prclyrnos
+791,0
+792,pi->maxrlvls = 0
+793,pi->maxrlvls
+794,pi
+795,maxrlvls
+796,0
+797,for (compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+798,<empty>
+799,compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps
+800,compno = 0
+801,compno
+802,0
+803,tcomp = tile->tcmpts
+804,tcomp
+805,tile->tcmpts
+806,tile
+807,tcmpts
+808,picomp = pi->picomps
+809,picomp
+810,pi->picomps
+811,pi
+812,picomps
+813,compno < pi->numcomps
+814,compno
+815,pi->numcomps
+816,pi
+817,numcomps
+818,++compno, ++tcomp, ++picomp
+819,++compno
+820,compno
+821,++tcomp
+822,tcomp
+823,++picomp
+824,picomp
+825,<empty>
+826,picomp->hsamp = cp->ccps[compno].sampgrdstepx
+827,picomp->hsamp
+828,picomp
+829,hsamp
+830,cp->ccps[compno].sampgrdstepx
+831,cp->ccps[compno]
+832,cp->ccps
+833,cp
+834,ccps
+835,compno
+836,sampgrdstepx
+837,picomp->vsamp = cp->ccps[compno].sampgrdstepy
+838,picomp->vsamp
+839,picomp
+840,vsamp
+841,cp->ccps[compno].sampgrdstepy
+842,cp->ccps[compno]
+843,cp->ccps
+844,cp
+845,ccps
+846,compno
+847,sampgrdstepy
+848,for (rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+849,<empty>
+850,rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls
+851,rlvlno = 0
+852,rlvlno
+853,0
+854,pirlvl = picomp->pirlvls
+855,pirlvl
+856,picomp->pirlvls
+857,picomp
+858,pirlvls
+859,rlvl = tcomp->rlvls
+860,rlvl
+861,tcomp->rlvls
+862,tcomp
+863,rlvls
+864,rlvlno < picomp->numrlvls
+865,rlvlno
+866,picomp->numrlvls
+867,picomp
+868,numrlvls
+869,++rlvlno, ++pirlvl, ++rlvl
+870,++rlvlno
+871,rlvlno
+872,++pirlvl
+873,pirlvl
+874,++rlvl
+875,rlvl
+876,<empty>
+877,pirlvl->prcwidthexpn = rlvl->prcwidthexpn
+878,pirlvl->prcwidthexpn
+879,pirlvl
+880,prcwidthexpn
+881,rlvl->prcwidthexpn
+882,rlvl
+883,prcwidthexpn
+884,pirlvl->prcheightexpn = rlvl->prcheightexpn
+885,pirlvl->prcheightexpn
+886,pirlvl
+887,prcheightexpn
+888,rlvl->prcheightexpn
+889,rlvl
+890,prcheightexpn
+891,for (prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+892,<empty>
+893,prcno = 0, prclyrno = pirlvl->prclyrnos
+894,prcno = 0
+895,prcno
+896,0
+897,prclyrno = pirlvl->prclyrnos
+898,prclyrno
+899,pirlvl->prclyrnos
+900,pirlvl
+901,prclyrnos
+902,prcno < pirlvl->numprcs
+903,prcno
+904,pirlvl->numprcs
+905,pirlvl
+906,numprcs
+907,++prcno, ++prclyrno
+908,++prcno
+909,prcno
+910,++prclyrno
+911,prclyrno
+912,<empty>
+913,*prclyrno = 0
+914,*prclyrno
+915,prclyrno
+916,0
+917,pirlvl->numhprcs = rlvl->numhprcs
+918,pirlvl->numhprcs
+919,pirlvl
+920,numhprcs
+921,rlvl->numhprcs
+922,rlvl
+923,numhprcs
+924,if (pi->maxrlvls < tcomp->numrlvls)
+925,pi->maxrlvls < tcomp->numrlvls
+926,pi->maxrlvls
+927,pi
+928,maxrlvls
+929,tcomp->numrlvls
+930,tcomp
+931,numrlvls
+932,<empty>
+933,pi->maxrlvls = tcomp->numrlvls
+934,pi->maxrlvls
+935,pi
+936,maxrlvls
+937,tcomp->numrlvls
+938,tcomp
+939,numrlvls
+940,pi->numlyrs = tile->numlyrs
+941,pi->numlyrs
+942,pi
+943,numlyrs
+944,tile->numlyrs
+945,tile
+946,numlyrs
+947,pi->xstart = tile->tlx
+948,pi->xstart
+949,pi
+950,xstart
+951,tile->tlx
+952,tile
+953,tlx
+954,pi->ystart = tile->tly
+955,pi->ystart
+956,pi
+957,ystart
+958,tile->tly
+959,tile
+960,tly
+961,pi->xend = tile->brx
+962,pi->xend
+963,pi
+964,xend
+965,tile->brx
+966,tile
+967,brx
+968,pi->yend = tile->bry
+969,pi->yend
+970,pi
+971,yend
+972,tile->bry
+973,tile
+974,bry
+975,pi->picomp = 0
+976,pi->picomp
+977,pi
+978,picomp
+979,0
+980,pi->pirlvl = 0
+981,pi->pirlvl
+982,pi
+983,pirlvl
+984,0
+985,pi->x = 0
+986,pi->x
+987,pi
+988,x
+989,0
+990,pi->y = 0
+991,pi->y
+992,pi
+993,y
+994,0
+995,pi->compno = 0
+996,pi->compno
+997,pi
+998,compno
+999,0
+1000,pi->rlvlno = 0
+1001,pi->rlvlno
+1002,pi
+1003,rlvlno
+1004,0
+1005,pi->prcno = 0
+1006,pi->prcno
+1007,pi
+1008,prcno
+1009,0
+1010,pi->lyrno = 0
+1011,pi->lyrno
+1012,pi
+1013,lyrno
+1014,0
+1015,pi->xstep = 0
+1016,pi->xstep
+1017,pi
+1018,xstep
+1019,0
+1020,pi->ystep = 0
+1021,pi->ystep
+1022,pi
+1023,ystep
+1024,0
+1025,pi->pchgno = -1
+1026,pi->pchgno
+1027,pi
+1028,pchgno
+1029,-1
+1030,1
+1031,pi->defaultpchg.prgord = tile->prg
+1032,pi->defaultpchg.prgord
+1033,pi->defaultpchg
+1034,pi
+1035,defaultpchg
+1036,prgord
+1037,tile->prg
+1038,tile
+1039,prg
+1040,pi->defaultpchg.compnostart = 0
+1041,pi->defaultpchg.compnostart
+1042,pi->defaultpchg
+1043,pi
+1044,defaultpchg
+1045,compnostart
+1046,0
+1047,pi->defaultpchg.compnoend = pi->numcomps
+1048,pi->defaultpchg.compnoend
+1049,pi->defaultpchg
+1050,pi
+1051,defaultpchg
+1052,compnoend
+1053,pi->numcomps
+1054,pi
+1055,numcomps
+1056,pi->defaultpchg.rlvlnostart = 0
+1057,pi->defaultpchg.rlvlnostart
+1058,pi->defaultpchg
+1059,pi
+1060,defaultpchg
+1061,rlvlnostart
+1062,0
+1063,pi->defaultpchg.rlvlnoend = pi->maxrlvls
+1064,pi->defaultpchg.rlvlnoend
+1065,pi->defaultpchg
+1066,pi
+1067,defaultpchg
+1068,rlvlnoend
+1069,pi->maxrlvls
+1070,pi
+1071,maxrlvls
+1072,pi->defaultpchg.lyrnoend = pi->numlyrs
+1073,pi->defaultpchg.lyrnoend
+1074,pi->defaultpchg
+1075,pi
+1076,defaultpchg
+1077,lyrnoend
+1078,pi->numlyrs
+1079,pi
+1080,numlyrs
+1081,pi->pchg = 0
+1082,pi->pchg
+1083,pi
+1084,pchg
+1085,0
+1086,pi->valid = 0
+1087,pi->valid
+1088,pi
+1089,valid
+1090,0
+1091,return pi;
+1092,pi
+1093,RET
+1094,jpc_enc_cp_t *cp
+1095,jpc_enc_tile_t *tile
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jpc_pi_t *jpc_enc_pi_create(jpc_enc_cp_t *cp, jpc_enc_tile_t *tile) {
+jpc_pi_t *pi;
+int compno;
+jpc_picomp_t *picomp;
+jpc_pirlvl_t *pirlvl;
+jpc_enc_tcmpt_t *tcomp;
+int rlvlno;
+jpc_enc_rlvl_t *rlvl;
+int prcno;
+int *prclyrno;
+pi->pktno = -1;
+pi->numcomps = cp->numcmpts;
+for(compno = 0, picomp = pi->picomps;compno < pi->numcomps;++compno, 	  ++picomp)
+picomp->pirlvls = 0;
+for(compno = 0, picomp = pi->picomps;compno < pi->numcomps;++compno, 	  ++picomp)
+picomp->pirlvls = 0;
+for(compno = 0, picomp = pi->picomps;compno < pi->numcomps;++compno, 	  ++picomp)
+picomp->pirlvls = 0;
+for(compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+picomp->numrlvls = tcomp->numrlvls;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+picomp->numrlvls = tcomp->numrlvls;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+picomp->numrlvls = tcomp->numrlvls;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls;rlvlno < 		  picomp->numrlvls;++rlvlno, ++pirlvl)
+pirlvl->prclyrnos = 0;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->numprcs = rlvl->numprcs;
+if(rlvl->numprcs)
+pi->maxrlvls = 0;
+for(compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+picomp->hsamp = cp->ccps[compno].sampgrdstepx;
+picomp->vsamp = cp->ccps[compno].sampgrdstepy;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+if(pi->maxrlvls < tcomp->numrlvls)
+pi->maxrlvls = tcomp->numrlvls;
+for(compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+picomp->hsamp = cp->ccps[compno].sampgrdstepx;
+picomp->vsamp = cp->ccps[compno].sampgrdstepy;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(compno = 0, tcomp = tile->tcmpts, picomp = pi->picomps;compno < pi->numcomps;++compno, ++tcomp, ++picomp)
+picomp->hsamp = cp->ccps[compno].sampgrdstepx;
+picomp->vsamp = cp->ccps[compno].sampgrdstepy;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+for(rlvlno = 0, pirlvl = picomp->pirlvls, rlvl = tcomp->rlvls;rlvlno < picomp->numrlvls;++rlvlno, ++pirlvl, ++rlvl)
+pirlvl->prcwidthexpn = rlvl->prcwidthexpn;
+pirlvl->prcheightexpn = rlvl->prcheightexpn;
+for(prcno = 0, prclyrno = pirlvl->prclyrnos;prcno < pirlvl->numprcs;++prcno, ++prclyrno)
+*prclyrno = 0;
+pirlvl->numhprcs = rlvl->numhprcs;
+pi->numlyrs = tile->numlyrs;
+pi->xstart = tile->tlx;
+pi->ystart = tile->tly;
+pi->xend = tile->brx;
+pi->yend = tile->bry;
+pi->picomp = 0;
+pi->pirlvl = 0;
+pi->x = 0;
+pi->y = 0;
+pi->compno = 0;
+pi->rlvlno = 0;
+pi->prcno = 0;
+pi->lyrno = 0;
+pi->xstep = 0;
+pi->ystep = 0;
+pi->pchgno = -1;
+pi->defaultpchg.prgord = tile->prg;
+pi->defaultpchg.compnostart = 0;
+pi->defaultpchg.compnoend = pi->numcomps;
+pi->defaultpchg.rlvlnostart = 0;
+pi->defaultpchg.rlvlnoend = pi->maxrlvls;
+pi->defaultpchg.lyrnoend = pi->numlyrs;
+pi->pchg = 0;
+pi->valid = 0;
+return pi;
+=======================

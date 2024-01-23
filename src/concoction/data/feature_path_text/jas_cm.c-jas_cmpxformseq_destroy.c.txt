@@ -1,0 +1,544 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_destroy.c.txt
+--------------code--------------
+static void jas_cmpxformseq_destroy(jas_cmpxformseq_t *pxformseq)
+{
+	while (pxformseq->numpxforms > 0)
+		jas_cmpxformseq_delete(pxformseq, pxformseq->numpxforms - 1);
+	if (pxformseq->pxforms)
+		jas_free(pxformseq->pxforms);
+	jas_free(pxformseq);
+}
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq->pxforms)
+jas_free(pxformseq)
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmpxformseq_destroy (jas_cmpxformseq_t *pxformseq)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms > 0
+pxforms
+pxformseq->pxforms
+jas_free(pxformseq)
+RET
+--------------path over--------------

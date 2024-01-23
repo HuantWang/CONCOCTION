@@ -1,0 +1,992 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmprof_create.c.txt
+--------------code--------------
+static jas_cmprof_t *jas_cmprof_create()
+{
+	int i;
+	jas_cmprof_t *prof;
+	if (!(prof = jas_malloc(sizeof(jas_cmprof_t))))
+		return 0;
+	memset(prof, 0, sizeof(jas_cmprof_t));
+	prof->iccprof = 0;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i)
+		prof->pxformseqs[i] = 0;
+	return prof;
+}
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+pxformseqs
+prof->pxformseqs
+prof->pxformseqs[i]
+prof->pxformseqs[i] = 0
+++i
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmprof_t jas_cmprof_create ()
+sizeof(jas_cmprof_t)
+jas_malloc(sizeof(jas_cmprof_t))
+prof = jas_malloc(sizeof(jas_cmprof_t))
+!(prof = jas_malloc(sizeof(jas_cmprof_t)))
+sizeof(jas_cmprof_t)
+memset(prof 0 sizeof(jas_cmprof_t))
+iccprof
+prof->iccprof
+prof->iccprof = 0
+i = 0
+i < JAS_CMPROF_NUMPXFORMSEQS
+return prof;
+RET
+--------------path over--------------

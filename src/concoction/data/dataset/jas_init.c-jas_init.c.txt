@@ -1,0 +1,1514 @@
+-----label-----
+0
+-----code-----
+int jas_init()
+{
+	jas_image_fmtops_t fmtops;
+	int fmtid;
+
+	fmtid = 0;
+
+#if !defined(EXCLUDE_MIF_SUPPORT)
+	fmtops.decode = mif_decode;
+	fmtops.encode = mif_encode;
+	fmtops.validate = mif_validate;
+	jas_image_addfmt(fmtid, "mif", "mif", "My Image Format (MIF)", &fmtops);
+	++fmtid;
+#endif
+
+#if !defined(EXCLUDE_PNM_SUPPORT)
+	fmtops.decode = pnm_decode;
+	fmtops.encode = pnm_encode;
+	fmtops.validate = pnm_validate;
+	jas_image_addfmt(fmtid, "pnm", "pnm", "Portable Graymap/Pixmap (PNM)",
+	  &fmtops);
+	jas_image_addfmt(fmtid, "pnm", "pgm", "Portable Graymap/Pixmap (PNM)",
+	  &fmtops);
+	jas_image_addfmt(fmtid, "pnm", "ppm", "Portable Graymap/Pixmap (PNM)",
+	  &fmtops);
+	++fmtid;
+#endif
+
+#if !defined(EXCLUDE_BMP_SUPPORT)
+	fmtops.decode = bmp_decode;
+	fmtops.encode = bmp_encode;
+	fmtops.validate = bmp_validate;
+	jas_image_addfmt(fmtid, "bmp", "bmp", "Microsoft Bitmap (BMP)", &fmtops);
+	++fmtid;
+#endif
+
+#if !defined(EXCLUDE_RAS_SUPPORT)
+	fmtops.decode = ras_decode;
+	fmtops.encode = ras_encode;
+	fmtops.validate = ras_validate;
+	jas_image_addfmt(fmtid, "ras", "ras", "Sun Rasterfile (RAS)", &fmtops);
+	++fmtid;
+#endif
+
+#if !defined(EXCLUDE_JP2_SUPPORT)
+	fmtops.decode = jp2_decode;
+	fmtops.encode = jp2_encode;
+	fmtops.validate = jp2_validate;
+	jas_image_addfmt(fmtid, "jp2", "jp2",
+	  "JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)", &fmtops);
+	++fmtid;
+	fmtops.decode = jpc_decode;
+	fmtops.encode = jpc_encode;
+	fmtops.validate = jpc_validate;
+	jas_image_addfmt(fmtid, "jpc", "jpc",
+	  "JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)", &fmtops);
+	++fmtid;
+#endif
+
+#if !defined(EXCLUDE_JPG_SUPPORT)
+	fmtops.decode = jpg_decode;
+	fmtops.encode = jpg_encode;
+	fmtops.validate = jpg_validate;
+	jas_image_addfmt(fmtid, "jpg", "jpg", "JPEG (ISO/IEC 10918-1)", &fmtops);
+	++fmtid;
+#endif
+
+#if !defined(EXCLUDE_PGX_SUPPORT)
+	fmtops.decode = pgx_decode;
+	fmtops.encode = pgx_encode;
+	fmtops.validate = pgx_validate;
+	jas_image_addfmt(fmtid, "pgx", "pgx", "JPEG-2000 VM Format (PGX)", &fmtops);
+	++fmtid;
+#endif
+
+	/* We must not register the JasPer library exit handler until after
+	at least one memory allocation is performed.  This is desirable
+	as it ensures that the JasPer exit handler is called before the
+	debug memory allocator exit handler. */
+	atexit(jas_cleanup);
+
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+5,6
+5,7
+5,8
+5,9
+5,10
+5,11
+5,12
+5,13
+5,14
+5,15
+5,16
+5,17
+5,18
+5,19
+5,20
+5,21
+5,22
+5,23
+5,24
+5,25
+5,26
+5,27
+5,28
+5,29
+5,30
+5,31
+5,32
+5,33
+5,34
+5,35
+5,36
+5,37
+5,38
+5,39
+5,40
+5,41
+5,42
+5,43
+5,44
+5,45
+5,46
+5,47
+5,48
+5,49
+5,50
+5,51
+5,52
+6,7
+7,8
+7,9
+8,9
+10,11
+12,13
+13,14
+13,15
+15,16
+17,18
+18,19
+18,20
+19,20
+22,23
+23,24
+23,25
+24,25
+24,26
+25,26
+28,29
+30,31
+31,32
+31,33
+32,33
+32,34
+33,34
+36,37
+38,39
+39,40
+39,41
+40,41
+40,42
+41,42
+44,45
+46,47
+47,48
+47,49
+47,50
+47,51
+47,52
+47,53
+48,49
+50,51
+55,56
+56,57
+58,59
+59,60
+60,61
+62,63
+63,64
+63,65
+64,65
+64,66
+65,66
+68,69
+70,71
+71,72
+71,73
+72,73
+72,74
+73,74
+76,77
+78,79
+79,80
+79,81
+80,81
+80,82
+81,82
+84,85
+86,87
+87,88
+87,89
+87,90
+87,91
+87,92
+87,93
+88,89
+90,91
+95,96
+96,97
+98,99
+99,100
+99,101
+99,102
+99,103
+99,104
+99,105
+100,101
+102,103
+107,108
+108,109
+110,111
+111,112
+111,113
+111,114
+111,115
+111,116
+111,117
+112,113
+114,115
+119,120
+120,121
+122,123
+123,124
+124,125
+126,127
+127,128
+127,129
+128,129
+128,130
+129,130
+132,133
+134,135
+135,136
+135,137
+136,137
+136,138
+137,138
+140,141
+142,143
+143,144
+143,145
+144,145
+144,146
+145,146
+148,149
+150,151
+151,152
+151,153
+151,154
+151,155
+151,156
+151,157
+152,153
+154,155
+159,160
+160,161
+162,163
+163,164
+164,165
+166,167
+167,168
+167,169
+168,169
+168,170
+169,170
+172,173
+174,175
+175,176
+175,177
+176,177
+176,178
+177,178
+180,181
+182,183
+183,184
+183,185
+184,185
+184,186
+185,186
+188,189
+190,191
+191,192
+191,193
+191,194
+191,195
+191,196
+191,197
+192,193
+194,195
+199,200
+200,201
+202,203
+203,204
+204,205
+206,207
+207,208
+207,209
+208,209
+208,210
+209,210
+212,213
+214,215
+215,216
+215,217
+216,217
+216,218
+217,218
+220,221
+222,223
+223,224
+223,225
+224,225
+224,226
+225,226
+228,229
+230,231
+231,232
+231,233
+231,234
+231,235
+231,236
+231,237
+232,233
+234,235
+239,240
+240,241
+242,243
+243,244
+244,245
+246,247
+247,248
+247,249
+248,249
+248,250
+249,250
+252,253
+254,255
+255,256
+255,257
+256,257
+256,258
+257,258
+260,261
+262,263
+263,264
+263,265
+264,265
+264,266
+265,266
+268,269
+270,271
+271,272
+271,273
+271,274
+271,275
+271,276
+271,277
+272,273
+274,275
+279,280
+280,281
+282,283
+283,284
+284,285
+286,287
+287,288
+287,289
+288,289
+288,290
+289,290
+292,293
+294,295
+295,296
+295,297
+296,297
+296,298
+297,298
+300,301
+302,303
+303,304
+303,305
+304,305
+304,306
+305,306
+308,309
+310,311
+311,312
+311,313
+311,314
+311,315
+311,316
+311,317
+312,313
+314,315
+319,320
+320,321
+322,323
+323,324
+324,325
+326,327
+327,328
+327,329
+328,329
+328,330
+329,330
+332,333
+334,335
+335,336
+335,337
+336,337
+336,338
+337,338
+340,341
+342,343
+343,344
+343,345
+344,345
+344,346
+345,346
+348,349
+350,351
+351,352
+351,353
+351,354
+351,355
+351,356
+351,357
+352,353
+354,355
+359,360
+360,361
+362,363
+363,364
+364,365
+366,367
+367,368
+367,369
+368,369
+370,371
+371,372
+373,374
+-----nextToken-----
+2,4,9,11,14,16,20,21,26,27,29,34,35,37,42,43,45,49,51,52,53,54,57,61,66,67,69,74,75,77,82,83,85,89,91,92,93,94,97,101,103,104,105,106,109,113,115,116,117,118,121,125,130,131,133,138,139,141,146,147,149,153,155,156,157,158,161,165,170,171,173,178,179,181,186,187,189,193,195,196,197,198,201,205,210,211,213,218,219,221,226,227,229,233,235,236,237,238,241,245,250,251,253,258,259,261,266,267,269,273,275,276,277,278,281,285,290,291,293,298,299,301,306,307,309,313,315,316,317,318,321,325,330,331,333,338,339,341,346,347,349,353,355,356,357,358,361,365,369,372,374
+-----computeFrom-----
+18,19
+18,20
+23,24
+23,25
+31,32
+31,33
+39,40
+39,41
+63,64
+63,65
+71,72
+71,73
+79,80
+79,81
+127,128
+127,129
+135,136
+135,137
+143,144
+143,145
+167,168
+167,169
+175,176
+175,177
+183,184
+183,185
+207,208
+207,209
+215,216
+215,217
+223,224
+223,225
+247,248
+247,249
+255,256
+255,257
+263,264
+263,265
+287,288
+287,289
+295,296
+295,297
+303,304
+303,305
+327,328
+327,329
+335,336
+335,337
+343,344
+343,345
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Declarator;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jas_init(){	jas_image_fmtops_t fmtops;	int fmtid;	fmtid = 0;#if !defined(EXCLUDE_MIF_SUPPORT)	fmtops.decode = mif_decode;	fmtops.encode = mif_encode;	fmtops.validate = mif_validate;	jas_image_addfmt(fmtid, "mif", "mif", "My Image Format (MIF)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_PNM_SUPPORT)	fmtops.decode = pnm_decode;	fmtops.encode = pnm_encode;	fmtops.validate = pnm_validate;	jas_image_addfmt(fmtid, "pnm", "pnm", "Portable Graymap/Pixmap (PNM)",	  &fmtops);	jas_image_addfmt(fmtid, "pnm", "pgm", "Portable Graymap/Pixmap (PNM)",	  &fmtops);	jas_image_addfmt(fmtid, "pnm", "ppm", "Portable Graymap/Pixmap (PNM)",	  &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_BMP_SUPPORT)	fmtops.decode = bmp_decode;	fmtops.encode = bmp_encode;	fmtops.validate = bmp_validate;	jas_image_addfmt(fmtid, "bmp", "bmp", "Microsoft Bitmap (BMP)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_RAS_SUPPORT)	fmtops.decode = ras_decode;	fmtops.encode = ras_encode;	fmtops.validate = ras_validate;	jas_image_addfmt(fmtid, "ras", "ras", "Sun Rasterfile (RAS)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_JP2_SUPPORT)	fmtops.decode = jp2_decode;	fmtops.encode = jp2_encode;	fmtops.validate = jp2_validate;	jas_image_addfmt(fmtid, "jp2", "jp2",	  "JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)", &fmtops);	++fmtid;	fmtops.decode = jpc_decode;	fmtops.encode = jpc_encode;	fmtops.validate = jpc_validate;	jas_image_addfmt(fmtid, "jpc", "jpc",	  "JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_JPG_SUPPORT)	fmtops.decode = jpg_decode;	fmtops.encode = jpg_encode;	fmtops.validate = jpg_validate;	jas_image_addfmt(fmtid, "jpg", "jpg", "JPEG (ISO/IEC 10918-1)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_PGX_SUPPORT)	fmtops.decode = pgx_decode;	fmtops.encode = pgx_encode;	fmtops.validate = pgx_validate;	jas_image_addfmt(fmtid, "pgx", "pgx", "JPEG-2000 VM Format (PGX)", &fmtops);	++fmtid;#endif	/* We must not register the JasPer library exit handler until after	at least one memory allocation is performed.  This is desirable	as it ensures that the JasPer exit handler is called before the	debug memory allocator exit handler. */	atexit(jas_cleanup);	return 0;}
+int
+jas_init()
+jas_init
+{	jas_image_fmtops_t fmtops;	int fmtid;	fmtid = 0;#if !defined(EXCLUDE_MIF_SUPPORT)	fmtops.decode = mif_decode;	fmtops.encode = mif_encode;	fmtops.validate = mif_validate;	jas_image_addfmt(fmtid, "mif", "mif", "My Image Format (MIF)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_PNM_SUPPORT)	fmtops.decode = pnm_decode;	fmtops.encode = pnm_encode;	fmtops.validate = pnm_validate;	jas_image_addfmt(fmtid, "pnm", "pnm", "Portable Graymap/Pixmap (PNM)",	  &fmtops);	jas_image_addfmt(fmtid, "pnm", "pgm", "Portable Graymap/Pixmap (PNM)",	  &fmtops);	jas_image_addfmt(fmtid, "pnm", "ppm", "Portable Graymap/Pixmap (PNM)",	  &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_BMP_SUPPORT)	fmtops.decode = bmp_decode;	fmtops.encode = bmp_encode;	fmtops.validate = bmp_validate;	jas_image_addfmt(fmtid, "bmp", "bmp", "Microsoft Bitmap (BMP)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_RAS_SUPPORT)	fmtops.decode = ras_decode;	fmtops.encode = ras_encode;	fmtops.validate = ras_validate;	jas_image_addfmt(fmtid, "ras", "ras", "Sun Rasterfile (RAS)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_JP2_SUPPORT)	fmtops.decode = jp2_decode;	fmtops.encode = jp2_encode;	fmtops.validate = jp2_validate;	jas_image_addfmt(fmtid, "jp2", "jp2",	  "JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)", &fmtops);	++fmtid;	fmtops.decode = jpc_decode;	fmtops.encode = jpc_encode;	fmtops.validate = jpc_validate;	jas_image_addfmt(fmtid, "jpc", "jpc",	  "JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_JPG_SUPPORT)	fmtops.decode = jpg_decode;	fmtops.encode = jpg_encode;	fmtops.validate = jpg_validate;	jas_image_addfmt(fmtid, "jpg", "jpg", "JPEG (ISO/IEC 10918-1)", &fmtops);	++fmtid;#endif#if !defined(EXCLUDE_PGX_SUPPORT)	fmtops.decode = pgx_decode;	fmtops.encode = pgx_encode;	fmtops.validate = pgx_validate;	jas_image_addfmt(fmtid, "pgx", "pgx", "JPEG-2000 VM Format (PGX)", &fmtops);	++fmtid;#endif	/* We must not register the JasPer library exit handler until after	at least one memory allocation is performed.  This is desirable	as it ensures that the JasPer exit handler is called before the	debug memory allocator exit handler. */	atexit(jas_cleanup);	return 0;}
+jas_image_fmtops_t fmtops;
+jas_image_fmtops_t fmtops;
+jas_image_fmtops_t
+jas_image_fmtops_t
+fmtops
+fmtops
+int fmtid;
+int fmtid;
+int
+fmtid
+fmtid
+fmtid = 0;
+fmtid = 0
+fmtid
+fmtid
+0
+fmtops.decode = mif_decode;
+fmtops.decode = mif_decode
+fmtops.decode
+fmtops
+fmtops
+decode
+mif_decode
+mif_decode
+fmtops.encode = mif_encode;
+fmtops.encode = mif_encode
+fmtops.encode
+fmtops
+fmtops
+encode
+mif_encode
+mif_encode
+fmtops.validate = mif_validate;
+fmtops.validate = mif_validate
+fmtops.validate
+fmtops
+fmtops
+validate
+mif_validate
+mif_validate
+jas_image_addfmt(fmtid, "mif", "mif", "My Image Format (MIF)", &fmtops);
+jas_image_addfmt(fmtid, "mif", "mif", "My Image Format (MIF)", &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"mif"
+"mif"
+"My Image Format (MIF)"
+&fmtops
+fmtops
+fmtops
+++fmtid;
+++fmtid
+fmtid
+fmtid
+fmtops.decode = pnm_decode;
+fmtops.decode = pnm_decode
+fmtops.decode
+fmtops
+fmtops
+decode
+pnm_decode
+pnm_decode
+fmtops.encode = pnm_encode;
+fmtops.encode = pnm_encode
+fmtops.encode
+fmtops
+fmtops
+encode
+pnm_encode
+pnm_encode
+fmtops.validate = pnm_validate;
+fmtops.validate = pnm_validate
+fmtops.validate
+fmtops
+fmtops
+validate
+pnm_validate
+pnm_validate
+jas_image_addfmt(fmtid, "pnm", "pnm", "Portable Graymap/Pixmap (PNM)",	  &fmtops);
+jas_image_addfmt(fmtid, "pnm", "pnm", "Portable Graymap/Pixmap (PNM)",	  &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"pnm"
+"pnm"
+"Portable Graymap/Pixmap (PNM)"
+&fmtops
+fmtops
+fmtops
+jas_image_addfmt(fmtid, "pnm", "pgm", "Portable Graymap/Pixmap (PNM)",	  &fmtops);
+jas_image_addfmt(fmtid, "pnm", "pgm", "Portable Graymap/Pixmap (PNM)",	  &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"pnm"
+"pgm"
+"Portable Graymap/Pixmap (PNM)"
+&fmtops
+fmtops
+fmtops
+jas_image_addfmt(fmtid, "pnm", "ppm", "Portable Graymap/Pixmap (PNM)",	  &fmtops);
+jas_image_addfmt(fmtid, "pnm", "ppm", "Portable Graymap/Pixmap (PNM)",	  &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"pnm"
+"ppm"
+"Portable Graymap/Pixmap (PNM)"
+&fmtops
+fmtops
+fmtops
+++fmtid;
+++fmtid
+fmtid
+fmtid
+fmtops.decode = bmp_decode;
+fmtops.decode = bmp_decode
+fmtops.decode
+fmtops
+fmtops
+decode
+bmp_decode
+bmp_decode
+fmtops.encode = bmp_encode;
+fmtops.encode = bmp_encode
+fmtops.encode
+fmtops
+fmtops
+encode
+bmp_encode
+bmp_encode
+fmtops.validate = bmp_validate;
+fmtops.validate = bmp_validate
+fmtops.validate
+fmtops
+fmtops
+validate
+bmp_validate
+bmp_validate
+jas_image_addfmt(fmtid, "bmp", "bmp", "Microsoft Bitmap (BMP)", &fmtops);
+jas_image_addfmt(fmtid, "bmp", "bmp", "Microsoft Bitmap (BMP)", &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"bmp"
+"bmp"
+"Microsoft Bitmap (BMP)"
+&fmtops
+fmtops
+fmtops
+++fmtid;
+++fmtid
+fmtid
+fmtid
+fmtops.decode = ras_decode;
+fmtops.decode = ras_decode
+fmtops.decode
+fmtops
+fmtops
+decode
+ras_decode
+ras_decode
+fmtops.encode = ras_encode;
+fmtops.encode = ras_encode
+fmtops.encode
+fmtops
+fmtops
+encode
+ras_encode
+ras_encode
+fmtops.validate = ras_validate;
+fmtops.validate = ras_validate
+fmtops.validate
+fmtops
+fmtops
+validate
+ras_validate
+ras_validate
+jas_image_addfmt(fmtid, "ras", "ras", "Sun Rasterfile (RAS)", &fmtops);
+jas_image_addfmt(fmtid, "ras", "ras", "Sun Rasterfile (RAS)", &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"ras"
+"ras"
+"Sun Rasterfile (RAS)"
+&fmtops
+fmtops
+fmtops
+++fmtid;
+++fmtid
+fmtid
+fmtid
+fmtops.decode = jp2_decode;
+fmtops.decode = jp2_decode
+fmtops.decode
+fmtops
+fmtops
+decode
+jp2_decode
+jp2_decode
+fmtops.encode = jp2_encode;
+fmtops.encode = jp2_encode
+fmtops.encode
+fmtops
+fmtops
+encode
+jp2_encode
+jp2_encode
+fmtops.validate = jp2_validate;
+fmtops.validate = jp2_validate
+fmtops.validate
+fmtops
+fmtops
+validate
+jp2_validate
+jp2_validate
+jas_image_addfmt(fmtid, "jp2", "jp2",	  "JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)", &fmtops);
+jas_image_addfmt(fmtid, "jp2", "jp2",	  "JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)", &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"jp2"
+"jp2"
+"JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)"
+&fmtops
+fmtops
+fmtops
+++fmtid;
+++fmtid
+fmtid
+fmtid
+fmtops.decode = jpc_decode;
+fmtops.decode = jpc_decode
+fmtops.decode
+fmtops
+fmtops
+decode
+jpc_decode
+jpc_decode
+fmtops.encode = jpc_encode;
+fmtops.encode = jpc_encode
+fmtops.encode
+fmtops
+fmtops
+encode
+jpc_encode
+jpc_encode
+fmtops.validate = jpc_validate;
+fmtops.validate = jpc_validate
+fmtops.validate
+fmtops
+fmtops
+validate
+jpc_validate
+jpc_validate
+jas_image_addfmt(fmtid, "jpc", "jpc",	  "JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)", &fmtops);
+jas_image_addfmt(fmtid, "jpc", "jpc",	  "JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)", &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"jpc"
+"jpc"
+"JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)"
+&fmtops
+fmtops
+fmtops
+++fmtid;
+++fmtid
+fmtid
+fmtid
+fmtops.decode = jpg_decode;
+fmtops.decode = jpg_decode
+fmtops.decode
+fmtops
+fmtops
+decode
+jpg_decode
+jpg_decode
+fmtops.encode = jpg_encode;
+fmtops.encode = jpg_encode
+fmtops.encode
+fmtops
+fmtops
+encode
+jpg_encode
+jpg_encode
+fmtops.validate = jpg_validate;
+fmtops.validate = jpg_validate
+fmtops.validate
+fmtops
+fmtops
+validate
+jpg_validate
+jpg_validate
+jas_image_addfmt(fmtid, "jpg", "jpg", "JPEG (ISO/IEC 10918-1)", &fmtops);
+jas_image_addfmt(fmtid, "jpg", "jpg", "JPEG (ISO/IEC 10918-1)", &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"jpg"
+"jpg"
+"JPEG (ISO/IEC 10918-1)"
+&fmtops
+fmtops
+fmtops
+++fmtid;
+++fmtid
+fmtid
+fmtid
+fmtops.decode = pgx_decode;
+fmtops.decode = pgx_decode
+fmtops.decode
+fmtops
+fmtops
+decode
+pgx_decode
+pgx_decode
+fmtops.encode = pgx_encode;
+fmtops.encode = pgx_encode
+fmtops.encode
+fmtops
+fmtops
+encode
+pgx_encode
+pgx_encode
+fmtops.validate = pgx_validate;
+fmtops.validate = pgx_validate
+fmtops.validate
+fmtops
+fmtops
+validate
+pgx_validate
+pgx_validate
+jas_image_addfmt(fmtid, "pgx", "pgx", "JPEG-2000 VM Format (PGX)", &fmtops);
+jas_image_addfmt(fmtid, "pgx", "pgx", "JPEG-2000 VM Format (PGX)", &fmtops)
+jas_image_addfmt
+jas_image_addfmt
+fmtid
+fmtid
+"pgx"
+"pgx"
+"JPEG-2000 VM Format (PGX)"
+&fmtops
+fmtops
+fmtops
+++fmtid;
+++fmtid
+fmtid
+fmtid
+atexit(jas_cleanup);
+atexit(jas_cleanup);
+atexit
+atexit
+(jas_cleanup)
+jas_cleanup
+jas_cleanup
+return 0;
+0
+-----joern-----
+(0,1,0)
+(2,0,1)
+-----------------------------------
+(0,jas_image_clearfmts()
+(1,)
+(2,RET)
+-----cfg-----
+(7,11)
+(11,17)
+(14,22)
+(15,14)
+(17,15)
+(19,27)
+(20,19)
+(22,20)
+(24,34)
+(25,24)
+(27,25)
+(29,36)
+(34,29)
+(36,41)
+(38,46)
+(39,38)
+(41,39)
+(43,51)
+(44,43)
+(46,44)
+(48,58)
+(49,48)
+(51,49)
+(53,65)
+(58,53)
+(60,72)
+(65,60)
+(67,74)
+(72,67)
+(74,79)
+(76,84)
+(77,76)
+(79,77)
+(81,89)
+(82,81)
+(84,82)
+(86,96)
+(87,86)
+(89,87)
+(91,98)
+(96,91)
+(98,103)
+(100,108)
+(101,100)
+(103,101)
+(105,113)
+(106,105)
+(108,106)
+(110,120)
+(111,110)
+(113,111)
+(115,122)
+(120,115)
+(122,127)
+(124,132)
+(125,124)
+(127,125)
+(129,137)
+(130,129)
+(132,130)
+(134,144)
+(135,134)
+(137,135)
+(139,146)
+(144,139)
+(146,151)
+(148,156)
+(149,148)
+(151,149)
+(153,161)
+(154,153)
+(156,154)
+(158,168)
+(159,158)
+(161,159)
+(163,170)
+(168,163)
+(170,175)
+(172,180)
+(173,172)
+(175,173)
+(177,185)
+(178,177)
+(180,178)
+(182,192)
+(183,182)
+(185,183)
+(187,194)
+(192,187)
+(194,199)
+(196,204)
+(197,196)
+(199,197)
+(201,209)
+(202,201)
+(204,202)
+(206,216)
+(207,206)
+(209,207)
+(211,218)
+(216,211)
+(218,220)
+(220,222)
+(222,224)
+-----path-----
+7,11,17,15,14,22,20,19,27,25,24,34,29,36,41,39,38,46,44,43,51,49,48,58,53,65,60,72,67,74,79,77,76,84,82,81,89,87,86,96,91,98,103,101,100,108,106,105,113,111,110
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jas_init ()
+8,<empty>
+9,jas_image_fmtops_t fmtops
+10,int fmtid
+11,fmtid = 0
+12,fmtid
+13,0
+14,fmtops.decode = mif_decode
+15,fmtops.decode
+16,fmtops
+17,decode
+18,mif_decode
+19,fmtops.encode = mif_encode
+20,fmtops.encode
+21,fmtops
+22,encode
+23,mif_encode
+24,fmtops.validate = mif_validate
+25,fmtops.validate
+26,fmtops
+27,validate
+28,mif_validate
+29,jas_image_addfmt(fmtid, "mif", "mif", "My Image Format (MIF)", &fmtops)
+30,fmtid
+31,"mif"
+32,"mif"
+33,"My Image Format (MIF)"
+34,&fmtops
+35,fmtops
+36,++fmtid
+37,fmtid
+38,fmtops.decode = pnm_decode
+39,fmtops.decode
+40,fmtops
+41,decode
+42,pnm_decode
+43,fmtops.encode = pnm_encode
+44,fmtops.encode
+45,fmtops
+46,encode
+47,pnm_encode
+48,fmtops.validate = pnm_validate
+49,fmtops.validate
+50,fmtops
+51,validate
+52,pnm_validate
+53,jas_image_addfmt(fmtid, "pnm", "pnm", "Portable Graymap/Pixmap (PNM)",
+54,	  &fmtops)
+55,fmtid
+56,"pnm"
+57,"pnm"
+58,"Portable Graymap/Pixmap (PNM)"
+59,&fmtops
+60,fmtops
+61,jas_image_addfmt(fmtid, "pnm", "pgm", "Portable Graymap/Pixmap (PNM)",
+62,	  &fmtops)
+63,fmtid
+64,"pnm"
+65,"pgm"
+66,"Portable Graymap/Pixmap (PNM)"
+67,&fmtops
+68,fmtops
+69,jas_image_addfmt(fmtid, "pnm", "ppm", "Portable Graymap/Pixmap (PNM)",
+70,	  &fmtops)
+71,fmtid
+72,"pnm"
+73,"ppm"
+74,"Portable Graymap/Pixmap (PNM)"
+75,&fmtops
+76,fmtops
+77,++fmtid
+78,fmtid
+79,fmtops.decode = bmp_decode
+80,fmtops.decode
+81,fmtops
+82,decode
+83,bmp_decode
+84,fmtops.encode = bmp_encode
+85,fmtops.encode
+86,fmtops
+87,encode
+88,bmp_encode
+89,fmtops.validate = bmp_validate
+90,fmtops.validate
+91,fmtops
+92,validate
+93,bmp_validate
+94,jas_image_addfmt(fmtid, "bmp", "bmp", "Microsoft Bitmap (BMP)", &fmtops)
+95,fmtid
+96,"bmp"
+97,"bmp"
+98,"Microsoft Bitmap (BMP)"
+99,&fmtops
+100,fmtops
+101,++fmtid
+102,fmtid
+103,fmtops.decode = ras_decode
+104,fmtops.decode
+105,fmtops
+106,decode
+107,ras_decode
+108,fmtops.encode = ras_encode
+109,fmtops.encode
+110,fmtops
+111,encode
+112,ras_encode
+113,fmtops.validate = ras_validate
+114,fmtops.validate
+115,fmtops
+116,validate
+117,ras_validate
+118,jas_image_addfmt(fmtid, "ras", "ras", "Sun Rasterfile (RAS)", &fmtops)
+119,fmtid
+120,"ras"
+121,"ras"
+122,"Sun Rasterfile (RAS)"
+123,&fmtops
+124,fmtops
+125,++fmtid
+126,fmtid
+127,fmtops.decode = jp2_decode
+128,fmtops.decode
+129,fmtops
+130,decode
+131,jp2_decode
+132,fmtops.encode = jp2_encode
+133,fmtops.encode
+134,fmtops
+135,encode
+136,jp2_encode
+137,fmtops.validate = jp2_validate
+138,fmtops.validate
+139,fmtops
+140,validate
+141,jp2_validate
+142,jas_image_addfmt(fmtid, "jp2", "jp2",
+143,	  "JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)", &fmtops)
+144,fmtid
+145,"jp2"
+146,"jp2"
+147,"JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)"
+148,&fmtops
+149,fmtops
+150,++fmtid
+151,fmtid
+152,fmtops.decode = jpc_decode
+153,fmtops.decode
+154,fmtops
+155,decode
+156,jpc_decode
+157,fmtops.encode = jpc_encode
+158,fmtops.encode
+159,fmtops
+160,encode
+161,jpc_encode
+162,fmtops.validate = jpc_validate
+163,fmtops.validate
+164,fmtops
+165,validate
+166,jpc_validate
+167,jas_image_addfmt(fmtid, "jpc", "jpc",
+168,	  "JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)", &fmtops)
+169,fmtid
+170,"jpc"
+171,"jpc"
+172,"JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)"
+173,&fmtops
+174,fmtops
+175,++fmtid
+176,fmtid
+177,fmtops.decode = jpg_decode
+178,fmtops.decode
+179,fmtops
+180,decode
+181,jpg_decode
+182,fmtops.encode = jpg_encode
+183,fmtops.encode
+184,fmtops
+185,encode
+186,jpg_encode
+187,fmtops.validate = jpg_validate
+188,fmtops.validate
+189,fmtops
+190,validate
+191,jpg_validate
+192,jas_image_addfmt(fmtid, "jpg", "jpg", "JPEG (ISO/IEC 10918-1)", &fmtops)
+193,fmtid
+194,"jpg"
+195,"jpg"
+196,"JPEG (ISO/IEC 10918-1)"
+197,&fmtops
+198,fmtops
+199,++fmtid
+200,fmtid
+201,fmtops.decode = pgx_decode
+202,fmtops.decode
+203,fmtops
+204,decode
+205,pgx_decode
+206,fmtops.encode = pgx_encode
+207,fmtops.encode
+208,fmtops
+209,encode
+210,pgx_encode
+211,fmtops.validate = pgx_validate
+212,fmtops.validate
+213,fmtops
+214,validate
+215,pgx_validate
+216,jas_image_addfmt(fmtid, "pgx", "pgx", "JPEG-2000 VM Format (PGX)", &fmtops)
+217,fmtid
+218,"pgx"
+219,"pgx"
+220,"JPEG-2000 VM Format (PGX)"
+221,&fmtops
+222,fmtops
+223,++fmtid
+224,fmtid
+225,atexit(jas_cleanup)
+226,jas_cleanup
+227,return 0;
+228,0
+229,RET
+230,RET
+231,int jas_init ()
+232,<empty>
+233,jas_image_fmtops_t fmtops
+234,int fmtid
+235,fmtid = 0
+236,fmtid
+237,0
+238,fmtops.decode = mif_decode
+239,fmtops.decode
+240,fmtops
+241,decode
+242,mif_decode
+243,fmtops.encode = mif_encode
+244,fmtops.encode
+245,fmtops
+246,encode
+247,mif_encode
+248,fmtops.validate = mif_validate
+249,fmtops.validate
+250,fmtops
+251,validate
+252,mif_validate
+253,jas_image_addfmt(fmtid, "mif", "mif", "My Image Format (MIF)", &fmtops)
+254,fmtid
+255,"mif"
+256,"mif"
+257,"My Image Format (MIF)"
+258,&fmtops
+259,fmtops
+260,++fmtid
+261,fmtid
+262,fmtops.decode = pnm_decode
+263,fmtops.decode
+264,fmtops
+265,decode
+266,pnm_decode
+267,fmtops.encode = pnm_encode
+268,fmtops.encode
+269,fmtops
+270,encode
+271,pnm_encode
+272,fmtops.validate = pnm_validate
+273,fmtops.validate
+274,fmtops
+275,validate
+276,pnm_validate
+277,jas_image_addfmt(fmtid, "pnm", "pnm", "Portable Graymap/Pixmap (PNM)",
+278,	  &fmtops)
+279,fmtid
+280,"pnm"
+281,"pnm"
+282,"Portable Graymap/Pixmap (PNM)"
+283,&fmtops
+284,fmtops
+285,jas_image_addfmt(fmtid, "pnm", "pgm", "Portable Graymap/Pixmap (PNM)",
+286,	  &fmtops)
+287,fmtid
+288,"pnm"
+289,"pgm"
+290,"Portable Graymap/Pixmap (PNM)"
+291,&fmtops
+292,fmtops
+293,jas_image_addfmt(fmtid, "pnm", "ppm", "Portable Graymap/Pixmap (PNM)",
+294,	  &fmtops)
+295,fmtid
+296,"pnm"
+297,"ppm"
+298,"Portable Graymap/Pixmap (PNM)"
+299,&fmtops
+300,fmtops
+301,++fmtid
+302,fmtid
+303,fmtops.decode = bmp_decode
+304,fmtops.decode
+305,fmtops
+306,decode
+307,bmp_decode
+308,fmtops.encode = bmp_encode
+309,fmtops.encode
+310,fmtops
+311,encode
+312,bmp_encode
+313,fmtops.validate = bmp_validate
+314,fmtops.validate
+315,fmtops
+316,validate
+317,bmp_validate
+318,jas_image_addfmt(fmtid, "bmp", "bmp", "Microsoft Bitmap (BMP)", &fmtops)
+319,fmtid
+320,"bmp"
+321,"bmp"
+322,"Microsoft Bitmap (BMP)"
+323,&fmtops
+324,fmtops
+325,++fmtid
+326,fmtid
+327,fmtops.decode = ras_decode
+328,fmtops.decode
+329,fmtops
+330,decode
+331,ras_decode
+332,fmtops.encode = ras_encode
+333,fmtops.encode
+334,fmtops
+335,encode
+336,ras_encode
+337,fmtops.validate = ras_validate
+338,fmtops.validate
+339,fmtops
+340,validate
+341,ras_validate
+342,jas_image_addfmt(fmtid, "ras", "ras", "Sun Rasterfile (RAS)", &fmtops)
+343,fmtid
+344,"ras"
+345,"ras"
+346,"Sun Rasterfile (RAS)"
+347,&fmtops
+348,fmtops
+349,++fmtid
+350,fmtid
+351,fmtops.decode = jp2_decode
+352,fmtops.decode
+353,fmtops
+354,decode
+355,jp2_decode
+356,fmtops.encode = jp2_encode
+357,fmtops.encode
+358,fmtops
+359,encode
+360,jp2_encode
+361,fmtops.validate = jp2_validate
+362,fmtops.validate
+363,fmtops
+364,validate
+365,jp2_validate
+366,jas_image_addfmt(fmtid, "jp2", "jp2",
+367,	  "JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)", &fmtops)
+368,fmtid
+369,"jp2"
+370,"jp2"
+371,"JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)"
+372,&fmtops
+373,fmtops
+374,++fmtid
+375,fmtid
+376,fmtops.decode = jpc_decode
+377,fmtops.decode
+378,fmtops
+379,decode
+380,jpc_decode
+381,fmtops.encode = jpc_encode
+382,fmtops.encode
+383,fmtops
+384,encode
+385,jpc_encode
+386,fmtops.validate = jpc_validate
+387,fmtops.validate
+388,fmtops
+389,validate
+390,jpc_validate
+391,jas_image_addfmt(fmtid, "jpc", "jpc",
+392,	  "JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)", &fmtops)
+393,fmtid
+394,"jpc"
+395,"jpc"
+396,"JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)"
+397,&fmtops
+398,fmtops
+399,++fmtid
+400,fmtid
+401,fmtops.decode = jpg_decode
+402,fmtops.decode
+403,fmtops
+404,decode
+405,jpg_decode
+406,fmtops.encode = jpg_encode
+407,fmtops.encode
+408,fmtops
+409,encode
+410,jpg_encode
+411,fmtops.validate = jpg_validate
+412,fmtops.validate
+413,fmtops
+414,validate
+415,jpg_validate
+416,jas_image_addfmt(fmtid, "jpg", "jpg", "JPEG (ISO/IEC 10918-1)", &fmtops)
+417,fmtid
+418,"jpg"
+419,"jpg"
+420,"JPEG (ISO/IEC 10918-1)"
+421,&fmtops
+422,fmtops
+423,++fmtid
+424,fmtid
+425,fmtops.decode = pgx_decode
+426,fmtops.decode
+427,fmtops
+428,decode
+429,pgx_decode
+430,fmtops.encode = pgx_encode
+431,fmtops.encode
+432,fmtops
+433,encode
+434,pgx_encode
+435,fmtops.validate = pgx_validate
+436,fmtops.validate
+437,fmtops
+438,validate
+439,pgx_validate
+440,jas_image_addfmt(fmtid, "pgx", "pgx", "JPEG-2000 VM Format (PGX)", &fmtops)
+441,fmtid
+442,"pgx"
+443,"pgx"
+444,"JPEG-2000 VM Format (PGX)"
+445,&fmtops
+446,fmtops
+447,++fmtid
+448,fmtid
+449,atexit(jas_cleanup)
+450,jas_cleanup
+451,return 0;
+452,0
+453,RET
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jas_init() {
+jas_image_fmtops_t fmtops;
+int fmtid;
+fmtid = 0;
+fmtops.decode = mif_decode;
+fmtops.encode = mif_encode;
+fmtops.validate = mif_validate;
+jas_image_addfmt(fmtid, 'mif', 'mif', 'My Image Format (MIF)', &fmtops);
+++fmtid;
+fmtops.decode = pnm_decode;
+fmtops.encode = pnm_encode;
+fmtops.validate = pnm_validate;
+jas_image_addfmt(fmtid, 'pnm', 'pnm', 'Portable Graymap/Pixmap (PNM)', 	  &fmtops);
+jas_image_addfmt(fmtid, 'pnm', 'pgm', 'Portable Graymap/Pixmap (PNM)', 	  &fmtops);
+jas_image_addfmt(fmtid, 'pnm', 'ppm', 'Portable Graymap/Pixmap (PNM)', 	  &fmtops);
+++fmtid;
+fmtops.decode = bmp_decode;
+fmtops.encode = bmp_encode;
+fmtops.validate = bmp_validate;
+jas_image_addfmt(fmtid, 'bmp', 'bmp', 'Microsoft Bitmap (BMP)', &fmtops);
+++fmtid;
+fmtops.decode = ras_decode;
+fmtops.encode = ras_encode;
+fmtops.validate = ras_validate;
+jas_image_addfmt(fmtid, 'ras', 'ras', 'Sun Rasterfile (RAS)', &fmtops);
+++fmtid;
+fmtops.decode = jp2_decode;
+fmtops.encode = jp2_encode;
+fmtops.validate = jp2_validate;
+jas_image_addfmt(fmtid, 'jp2', 'jp2', 	  'JPEG-2000 JP2 File Format Syntax (ISO/IEC 15444-1)', &fmtops);
+++fmtid;
+fmtops.decode = jpc_decode;
+fmtops.encode = jpc_encode;
+fmtops.validate = jpc_validate;
+jas_image_addfmt(fmtid, 'jpc', 'jpc', 	  'JPEG-2000 Code Stream Syntax (ISO/IEC 15444-1)', &fmtops);
+++fmtid;
+fmtops.decode = jpg_decode;
+fmtops.encode = jpg_encode;
+fmtops.validate = jpg_validate;
+jas_image_addfmt(fmtid, 'jpg', 'jpg', 'JPEG (ISO/IEC 10918-1)', &fmtops);
+++fmtid;
+fmtops.decode = pgx_decode;
+fmtops.encode = pgx_encode;
+fmtops.validate = pgx_validate;
+jas_image_addfmt(fmtid, 'pgx', 'pgx', 'JPEG-2000 VM Format (PGX)', &fmtops);
+++fmtid;
+atexit(jas_cleanup);
+return 0;
+=======================

@@ -1,0 +1,323 @@
+-----label-----
+0
+-----code-----
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+16,19
+19,20
+20,21
+21,22
+21,23
+22,23
+22,24
+23,24
+27,28
+28,29
+28,30
+30,31
+32,33
+32,34
+32,35
+32,36
+33,34
+34,35
+34,36
+35,36
+38,39
+38,40
+39,40
+42,43
+43,44
+45,46
+46,47
+46,48
+47,48
+49,50
+50,51
+50,52
+51,52
+51,53
+52,53
+55,56
+-----nextToken-----
+2,4,7,9,10,15,17,18,24,25,26,29,31,36,37,40,41,44,48,53,54,56
+-----computeFrom-----
+34,35
+34,36
+38,39
+38,40
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;LiteralExpression;UnaryExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;
+-----ast_node-----
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform){	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;	int i;	for (i = 0; i < 3; ++i)		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);}
+static void
+jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+jas_cmshapmat_destroy
+jas_cmpxform_t *pxform
+jas_cmpxform_t
+jas_cmpxform_t
+*pxform
+*
+pxform
+{	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;	int i;	for (i = 0; i < 3; ++i)		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);}
+jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+jas_cmshapmat_t
+jas_cmshapmat_t
+*shapmat = &pxform->data.shapmat
+*
+shapmat
+= &pxform->data.shapmat
+&pxform->data.shapmat
+pxform->data.shapmat
+pxform->data
+pxform
+pxform
+data
+shapmat
+int i;
+int i;
+int
+i
+i
+for (i = 0; i < 3; ++i)		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+i = 0;
+i = 0
+i
+i
+0
+i < 3
+i
+i
+3
+++i
+i
+i
+jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+jas_cmshapmatlut_cleanup
+jas_cmshapmatlut_cleanup
+&shapmat->luts[i]
+shapmat->luts[i]
+shapmat->luts
+shapmat
+shapmat
+luts
+i
+i
+-----joern-----
+(13,1,0)
+(2,1,0)
+(4,15,0)
+(11,0,0)
+(14,2,0)
+(12,3,0)
+(9,16,0)
+(19,13,0)
+(6,15,0)
+(2,12,0)
+(15,16,0)
+(8,0,0)
+(12,2,0)
+(17,8,0)
+(0,3,0)
+(8,1,0)
+(21,6,0)
+(20,13,0)
+(5,6,0)
+(7,8,0)
+(10,2,0)
+(6,1,0)
+(20,19,1)
+(8,7,1)
+(0,11,1)
+(8,1,1)
+(4,6,1)
+(12,2,1)
+(17,12,1)
+(18,15,1)
+(6,1,1)
+(11,8,1)
+(13,1,1)
+(7,17,1)
+(21,5,1)
+(6,21,1)
+(13,20,1)
+(14,13,1)
+(15,4,1)
+(10,14,1)
+(2,1,1)
+(2,10,1)
+(5,0,1)
+(5,13,1)
+(2,13,2)
+(11,13,2)
+(8,1,2)
+(13,1,2)
+(12,2,2)
+(8,13,2)
+(0,13,2)
+(14,13,2)
+(10,13,2)
+(12,13,2)
+(17,13,2)
+(2,1,2)
+(7,13,2)
+(6,1,2)
+-----------------------------------
+(0,lut->data = 0)
+(1,jas_cmshapmatlut_t *lut)
+(2,lut->data)
+(3,)
+(4,0)
+(5,lut)
+(6,lut->size)
+(7,data)
+(8,lut->data)
+(9,if (lut->data)
+(10,data)
+(11,0)
+(12,jas_free(lut->data)
+(13,lut->data)
+(14,lut)
+(15,lut->size = 0)
+(16,)
+(17,lut)
+(18,RET)
+(19,lut)
+(20,data)
+(21,size)
+-----cfg-----
+(32,31)
+(33,32)
+(35,33)
+(7,17)
+(11,22)
+(13,11)
+(14,13)
+(15,18)
+(17,15)
+(18,14)
+(22,25)
+(25,37)
+(25,35)
+(28,25)
+(30,28)
+(31,30)
+-----path-----
+7,17,15,18,14,13,11,22,25,37
+7,17,15,18,14,13,11,22,25,35,33,32,31,30,28,25,37
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+8,jas_cmpxform_t *pxform
+9,<empty>
+10,jas_cmshapmat_t* shapmat
+11,*shapmat = &pxform->data.shapmat
+12,shapmat
+13,&pxform->data.shapmat
+14,pxform->data.shapmat
+15,pxform->data
+16,pxform
+17,data
+18,shapmat
+19,int i
+20,for (i = 0;i < 3;++i)
+21,<empty>
+22,i = 0
+23,i
+24,0
+25,i < 3
+26,i
+27,3
+28,++i
+29,i
+30,jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+31,&shapmat->luts[i]
+32,shapmat->luts[i]
+33,shapmat->luts
+34,shapmat
+35,luts
+36,i
+37,RET
+38,jas_cmpxform_t *pxform
+39,RET
+40,void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+41,jas_cmpxform_t *pxform
+42,<empty>
+43,jas_cmshapmat_t* shapmat
+44,*shapmat = &pxform->data.shapmat
+45,shapmat
+46,&pxform->data.shapmat
+47,pxform->data.shapmat
+48,pxform->data
+49,pxform
+50,data
+51,shapmat
+52,int i
+53,for (i = 0;i < 3;++i)
+54,<empty>
+55,i = 0
+56,i
+57,0
+58,i < 3
+59,i
+60,3
+61,++i
+62,i
+63,jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+64,&shapmat->luts[i]
+65,shapmat->luts[i]
+66,shapmat->luts
+67,shapmat
+68,luts
+69,i
+70,RET
+71,jas_cmpxform_t *pxform
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform) {
+jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+int i;
+for(i = 0;i < 3;++i)
+jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+for(i = 0;i < 3;++i)
+jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+for(i = 0;i < 3;++i)
+jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+=======================

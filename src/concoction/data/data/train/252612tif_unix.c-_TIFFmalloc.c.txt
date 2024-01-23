@@ -1,0 +1,117 @@
+-----label-----
+1
+-----code-----
+void*
+_TIFFmalloc(tmsize_t s)
+{
+	return (malloc((size_t) s));
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+6,7
+6,8
+7,8
+9,10
+11,12
+12,13
+13,14
+14,15
+14,16
+15,16
+17,18
+17,19
+18,19
+18,20
+19,20
+22,23
+-----nextToken-----
+2,4,5,8,10,16,20,21,23
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;CompoundStatement;ReturnStatement;UnaryExpression;FunctionCallExpression;IdExpression;Name;CastExpression;TypeId;NamedTypeSpecifier;Name;Declarator;IdExpression;Name;
+-----ast_node-----
+void*_TIFFmalloc(tmsize_t s){	return (malloc((size_t) s));}
+void
+*_TIFFmalloc(tmsize_t s)
+*
+_TIFFmalloc
+tmsize_t s
+tmsize_t
+tmsize_t
+s
+s
+{	return (malloc((size_t) s));}
+return (malloc((size_t) s));
+(malloc((size_t) s))
+malloc((size_t) s)
+malloc
+malloc
+(size_t) s
+size_t
+size_t
+size_t
+
+s
+s
+-----joern-----
+(3,0,0)
+(7,8,0)
+(6,4,0)
+(0,11,0)
+(7,5,0)
+(0,2,0)
+(0,6,0)
+(1,0,0)
+(0,7,0)
+(10,6,0)
+(7,0,0)
+(9,7,0)
+(8,7,0)
+(0,7,1)
+(0,11,1)
+(10,6,1)
+(0,2,1)
+(9,1,1)
+(7,5,1)
+(7,9,1)
+(7,8,1)
+(6,0,1)
+(1,3,1)
+(7,5,2)
+(0,11,2)
+(0,7,2)
+(0,2,2)
+(7,8,2)
+(10,6,2)
+-----------------------------------
+(0,memcmp(p1, p2, (size_t)
+(1,p2)
+(2,const void* p2)
+(3,p1)
+(4,)
+(5,tmsize_t c)
+(6,return (memcmp(p1, p2, (size_t)
+(7,(size_t)
+(8,size_t)
+(9,c)
+(10,RET)
+(11,const void* p1)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000020000000000100000000000000a4810000e8030000e9030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffc7a1b56300000000ffffffffffffffff63a2b56300000000ffffffffffffffff63a2b56300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0x4d4d002b000800000000000000000019ffffffffffffffffff0000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+void* _TIFFmalloc(tmsize_t s) {
+return (malloc((size_t) s));
+=======================

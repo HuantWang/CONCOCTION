@@ -1,0 +1,263 @@
+-----label-----
+1
+-----code-----
+char *jas_strdup(const char *s)
+{
+	size_t n;
+	char *p;
+	n = strlen(s) + 1;
+	if (!(p = jas_malloc(n))) {
+		return 0;
+	}
+	strcpy(p, s);
+	return p;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+6,7
+6,8
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+11,16
+11,17
+12,13
+13,14
+13,15
+14,15
+16,17
+18,19
+19,20
+19,21
+21,22
+21,23
+24,25
+25,26
+25,27
+26,27
+28,29
+28,30
+29,30
+29,31
+30,31
+32,33
+35,36
+35,37
+36,37
+37,38
+38,39
+38,40
+39,40
+41,42
+41,43
+42,43
+44,45
+46,47
+47,48
+49,50
+50,51
+50,52
+50,53
+51,52
+53,54
+55,56
+57,58
+58,59
+-----nextToken-----
+2,4,5,7,9,10,15,17,20,22,23,27,31,33,34,40,43,45,48,52,54,56,59
+-----computeFrom-----
+25,26
+25,27
+28,29
+28,30
+38,39
+38,40
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+char *jas_strdup(const char *s){	size_t n;	char *p;	n = strlen(s) + 1;	if (!(p = jas_malloc(n))) {		return 0;	}	strcpy(p, s);	return p;}
+char
+*jas_strdup(const char *s)
+*
+jas_strdup
+const char *s
+const char
+*s
+*
+s
+{	size_t n;	char *p;	n = strlen(s) + 1;	if (!(p = jas_malloc(n))) {		return 0;	}	strcpy(p, s);	return p;}
+size_t n;
+size_t n;
+size_t
+size_t
+n
+n
+char *p;
+char *p;
+char
+*p
+*
+p
+n = strlen(s) + 1;
+n = strlen(s) + 1
+n
+n
+strlen(s) + 1
+strlen(s)
+strlen
+strlen
+s
+s
+1
+if (!(p = jas_malloc(n))) {		return 0;	}
+!(p = jas_malloc(n))
+(p = jas_malloc(n))
+p = jas_malloc(n)
+p
+p
+jas_malloc(n)
+jas_malloc
+jas_malloc
+n
+n
+{		return 0;	}
+return 0;
+0
+strcpy(p, s);
+strcpy(p, s)
+strcpy
+strcpy
+p
+p
+s
+s
+return p;
+p
+p
+-----joern-----
+(5,21,0)
+(3,15,0)
+(22,24,0)
+(3,2,0)
+(1,15,0)
+(19,24,0)
+(1,24,0)
+(10,12,0)
+(12,10,0)
+(1,17,0)
+(21,23,0)
+(0,15,0)
+(5,6,0)
+(18,15,0)
+(12,17,0)
+(11,21,0)
+(2,10,0)
+(15,18,0)
+(7,10,0)
+(13,12,0)
+(8,2,0)
+(6,15,0)
+(20,24,0)
+(16,3,0)
+(10,2,0)
+(6,24,0)
+(9,1,0)
+(14,6,0)
+(2,24,0)
+(4,1,0)
+(15,3,0)
+(5,21,1)
+(7,12,1)
+(11,18,1)
+(14,1,1)
+(15,3,1)
+(12,13,1)
+(3,16,1)
+(6,15,1)
+(1,15,1)
+(4,18,1)
+(0,2,1)
+(13,8,1)
+(10,7,1)
+(21,11,1)
+(12,17,1)
+(18,15,1)
+(9,4,1)
+(2,10,1)
+(1,9,1)
+(16,0,1)
+(3,2,1)
+(5,6,1)
+(6,14,1)
+(10,12,1)
+(1,17,1)
+(14,18,2)
+(9,18,2)
+(1,15,2)
+(6,18,2)
+(5,6,2)
+(15,3,2)
+(1,17,2)
+(11,18,2)
+(10,12,2)
+(2,10,2)
+(21,18,2)
+(12,17,2)
+(4,18,2)
+(3,2,2)
+(18,15,2)
+(6,15,2)
+(1,18,2)
+(5,21,2)
+-----------------------------------
+(0,p)
+(1,strcpy(p, s)
+(2,n = strlen(s)
+(3,jas_malloc(n)
+(4,p)
+(5,RET)
+(6,return p;)
+(7,1)
+(8,n)
+(9,s)
+(10,strlen(s)
+(11,0)
+(12,strlen(s)
+(13,s)
+(14,p)
+(15,p = jas_malloc(n)
+(16,n)
+(17,const char *s)
+(18,!(p = jas_malloc(n)
+(19,p)
+(20,if (!(p = jas_malloc(n)
+(21,return 0;)
+(22,n)
+(23,)
+(24,)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000001000000000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffff4095ad6300000000ffffffffffffffff4095ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff5800030000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+char *jas_strdup(const char *s) {
+size_t n;
+char *p;
+n = strlen(s) + 1;
+strcpy(p, s);
+return p;
+=======================

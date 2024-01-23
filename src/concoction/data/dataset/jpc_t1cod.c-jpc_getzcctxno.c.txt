@@ -1,0 +1,1800 @@
+-----label-----
+0
+-----code-----
+int jpc_getzcctxno(int f, int orient)
+{
+	int h;
+	int v;
+	int d;
+	int n;
+	int t;
+	int hv;
+
+	/* Avoid compiler warning. */
+	n = 0;
+
+	h = ((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0);
+	v = ((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0);
+	d = ((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0);
+	switch (orient) {
+	case JPC_TSFB_HL:
+		t = h;
+		h = v;
+		v = t;
+	case JPC_TSFB_LL:
+	case JPC_TSFB_LH:
+		if (!h) {
+			if (!v) {
+				if (!d) {
+					n = 0;
+				} else if (d == 1) {
+					n = 1;
+				} else {
+					n = 2;
+				}
+			} else if (v == 1) {
+				n = 3;
+			} else {
+				n = 4;
+			}
+		} else if (h == 1) {
+			if (!v) {
+				if (!d) {
+					n = 5;
+				} else {
+					n = 6;
+				}
+			} else {
+				n = 7;
+			}
+		} else {
+			n = 8;
+		}
+		break;
+	case JPC_TSFB_HH:
+		hv = h + v;
+		if (!d) {
+			if (!hv) {
+				n = 0;
+			} else if (hv == 1) {
+				n = 1;
+			} else {
+				n = 2;
+			}
+		} else if (d == 1) {
+			if (!hv) {
+				n = 3;
+			} else if (hv == 1) {
+				n = 4;
+			} else {
+				n = 5;
+			}
+		} else if (d == 2) {
+			if (!hv) {
+				n = 6;
+			} else {
+				n = 7;
+			}
+		} else {
+			n = 8;
+		}
+		break;
+	}
+	assert(n < JPC_NUMZCCTXS);
+	return JPC_ZCCTXNO + n;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+7,8
+9,10
+9,11
+11,12
+13,14
+13,15
+13,16
+13,17
+13,18
+13,19
+13,20
+13,21
+13,22
+13,23
+13,24
+13,25
+13,26
+14,15
+15,16
+15,17
+17,18
+19,20
+20,21
+20,22
+22,23
+24,25
+25,26
+25,27
+27,28
+29,30
+30,31
+30,32
+32,33
+34,35
+35,36
+35,37
+37,38
+39,40
+40,41
+40,42
+42,43
+44,45
+45,46
+45,47
+46,47
+49,50
+50,51
+50,52
+51,52
+53,54
+53,55
+54,55
+55,56
+55,57
+56,57
+57,58
+57,59
+58,59
+60,61
+63,64
+64,65
+64,66
+65,66
+66,67
+66,68
+67,68
+69,70
+72,73
+73,74
+73,75
+74,75
+76,77
+76,78
+77,78
+78,79
+78,80
+79,80
+80,81
+80,82
+81,82
+83,84
+86,87
+87,88
+87,89
+88,89
+89,90
+89,91
+90,91
+92,93
+95,96
+96,97
+96,98
+97,98
+99,100
+99,101
+100,101
+100,102
+101,102
+101,103
+102,103
+103,104
+103,105
+104,105
+105,106
+105,107
+106,107
+108,109
+111,112
+112,113
+112,114
+113,114
+114,115
+114,116
+115,116
+117,118
+120,121
+121,122
+121,123
+122,123
+123,124
+123,125
+124,125
+126,127
+129,130
+130,131
+130,132
+131,132
+132,133
+132,134
+133,134
+135,136
+138,139
+138,140
+139,140
+141,142
+141,143
+141,144
+141,145
+141,146
+141,147
+141,148
+141,149
+141,150
+141,151
+141,152
+141,153
+142,143
+143,144
+145,146
+146,147
+146,148
+147,148
+149,150
+151,152
+152,153
+152,154
+153,154
+155,156
+157,158
+158,159
+158,160
+159,160
+161,162
+163,164
+164,165
+166,167
+167,168
+169,170
+169,171
+169,172
+170,171
+171,172
+173,174
+174,175
+174,176
+174,177
+175,176
+176,177
+178,179
+179,180
+179,181
+179,182
+180,181
+181,182
+183,184
+184,185
+185,186
+185,187
+186,187
+189,190
+189,191
+189,192
+190,191
+190,192
+191,192
+194,195
+195,196
+196,197
+196,198
+197,198
+200,201
+201,202
+202,203
+202,204
+203,204
+206,207
+206,208
+206,209
+207,208
+207,209
+208,209
+211,212
+212,213
+213,214
+213,215
+214,215
+217,218
+218,219
+219,220
+219,221
+220,221
+223,224
+223,225
+223,226
+224,225
+224,226
+225,226
+228,229
+229,230
+229,231
+229,232
+230,231
+231,232
+233,234
+234,235
+234,236
+234,237
+235,236
+236,237
+238,239
+239,240
+240,241
+240,242
+241,242
+244,245
+245,246
+246,247
+246,248
+247,248
+250,251
+251,252
+252,253
+252,254
+253,254
+256,257
+257,258
+258,259
+258,260
+259,260
+263,264
+264,265
+266,267
+267,268
+267,269
+268,269
+270,271
+270,272
+271,272
+273,274
+275,276
+275,277
+275,278
+276,277
+277,278
+279,280
+280,281
+280,282
+280,283
+281,282
+282,283
+284,285
+285,286
+286,287
+286,288
+287,288
+290,291
+290,292
+290,293
+291,292
+291,293
+292,293
+295,296
+296,297
+297,298
+297,299
+298,299
+301,302
+302,303
+303,304
+303,305
+304,305
+307,308
+307,309
+307,310
+308,309
+308,310
+309,310
+312,313
+313,314
+313,315
+313,316
+314,315
+315,316
+317,318
+318,319
+319,320
+319,321
+320,321
+323,324
+323,325
+323,326
+324,325
+324,326
+325,326
+328,329
+329,330
+330,331
+330,332
+331,332
+334,335
+335,336
+336,337
+336,338
+337,338
+340,341
+340,342
+340,343
+341,342
+341,343
+342,343
+345,346
+346,347
+346,348
+346,349
+347,348
+348,349
+350,351
+351,352
+352,353
+352,354
+353,354
+356,357
+357,358
+358,359
+358,360
+359,360
+362,363
+363,364
+364,365
+364,366
+365,366
+369,370
+370,371
+370,372
+371,372
+373,374
+373,375
+374,375
+376,377
+378,379
+379,380
+379,381
+380,381
+382,383
+-----nextToken-----
+2,4,6,8,10,12,16,18,21,23,26,28,31,33,36,38,41,43,47,48,52,59,61,62,68,70,71,75,82,84,85,91,93,94,98,107,109,110,116,118,119,125,127,128,134,136,137,140,144,148,150,154,156,160,162,165,168,172,177,182,187,188,192,193,198,199,204,205,209,210,215,216,221,222,226,227,232,237,242,243,248,249,254,255,260,261,262,265,269,272,274,278,283,288,289,293,294,299,300,305,306,310,311,316,321,322,326,327,332,333,338,339,343,344,349,354,355,360,361,366,367,368,372,375,377,381,383
+-----computeFrom-----
+45,46
+45,47
+50,51
+50,52
+53,54
+53,55
+55,56
+55,57
+57,58
+57,59
+64,65
+64,66
+66,67
+66,68
+73,74
+73,75
+76,77
+76,78
+78,79
+78,80
+80,81
+80,82
+87,88
+87,89
+89,90
+89,91
+96,97
+96,98
+99,100
+99,101
+100,101
+100,102
+101,102
+101,103
+103,104
+103,105
+105,106
+105,107
+112,113
+112,114
+114,115
+114,116
+121,122
+121,123
+123,124
+123,125
+130,131
+130,132
+132,133
+132,134
+146,147
+146,148
+152,153
+152,154
+158,159
+158,160
+185,186
+185,187
+190,191
+190,192
+196,197
+196,198
+202,203
+202,204
+207,208
+207,209
+213,214
+213,215
+219,220
+219,221
+224,225
+224,226
+240,241
+240,242
+246,247
+246,248
+252,253
+252,254
+258,259
+258,260
+267,268
+267,269
+270,271
+270,272
+286,287
+286,288
+291,292
+291,293
+297,298
+297,299
+303,304
+303,305
+308,309
+308,310
+319,320
+319,321
+324,325
+324,326
+330,331
+330,332
+336,337
+336,338
+341,342
+341,343
+352,353
+352,354
+358,359
+358,360
+364,365
+364,366
+373,374
+373,375
+379,380
+379,381
+-----guardedBy-----
+-----guardedByNegation-----
+310,343
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;BinaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;SwitchStatement;IdExpression;Name;CompoundStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CaseStatement;IdExpression;Name;CaseStatement;IdExpression;Name;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BreakStatement;CaseStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BreakStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+int jpc_getzcctxno(int f, int orient){	int h;	int v;	int d;	int n;	int t;	int hv;	/* Avoid compiler warning. */	n = 0;	h = ((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0);	v = ((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0);	d = ((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0);	switch (orient) {	case JPC_TSFB_HL:		t = h;		h = v;		v = t;	case JPC_TSFB_LL:	case JPC_TSFB_LH:		if (!h) {			if (!v) {				if (!d) {					n = 0;				} else if (d == 1) {					n = 1;				} else {					n = 2;				}			} else if (v == 1) {				n = 3;			} else {				n = 4;			}		} else if (h == 1) {			if (!v) {				if (!d) {					n = 5;				} else {					n = 6;				}			} else {				n = 7;			}		} else {			n = 8;		}		break;	case JPC_TSFB_HH:		hv = h + v;		if (!d) {			if (!hv) {				n = 0;			} else if (hv == 1) {				n = 1;			} else {				n = 2;			}		} else if (d == 1) {			if (!hv) {				n = 3;			} else if (hv == 1) {				n = 4;			} else {				n = 5;			}		} else if (d == 2) {			if (!hv) {				n = 6;			} else {				n = 7;			}		} else {			n = 8;		}		break;	}	assert(n < JPC_NUMZCCTXS);	return JPC_ZCCTXNO + n;}
+int
+jpc_getzcctxno(int f, int orient)
+jpc_getzcctxno
+int f
+int
+f
+f
+int orient
+int
+orient
+orient
+{	int h;	int v;	int d;	int n;	int t;	int hv;	/* Avoid compiler warning. */	n = 0;	h = ((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0);	v = ((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0);	d = ((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0);	switch (orient) {	case JPC_TSFB_HL:		t = h;		h = v;		v = t;	case JPC_TSFB_LL:	case JPC_TSFB_LH:		if (!h) {			if (!v) {				if (!d) {					n = 0;				} else if (d == 1) {					n = 1;				} else {					n = 2;				}			} else if (v == 1) {				n = 3;			} else {				n = 4;			}		} else if (h == 1) {			if (!v) {				if (!d) {					n = 5;				} else {					n = 6;				}			} else {				n = 7;			}		} else {			n = 8;		}		break;	case JPC_TSFB_HH:		hv = h + v;		if (!d) {			if (!hv) {				n = 0;			} else if (hv == 1) {				n = 1;			} else {				n = 2;			}		} else if (d == 1) {			if (!hv) {				n = 3;			} else if (hv == 1) {				n = 4;			} else {				n = 5;			}		} else if (d == 2) {			if (!hv) {				n = 6;			} else {				n = 7;			}		} else {			n = 8;		}		break;	}	assert(n < JPC_NUMZCCTXS);	return JPC_ZCCTXNO + n;}
+int h;
+int h;
+int
+h
+h
+int v;
+int v;
+int
+v
+v
+int d;
+int d;
+int
+d
+d
+int n;
+int n;
+int
+n
+n
+int t;
+int t;
+int
+t
+t
+int hv;
+int hv;
+int
+hv
+hv
+n = 0;
+n = 0
+n
+n
+0
+h = ((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0);
+h = ((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0)
+h
+h
+((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0)
+((f & JPC_WSIG) != 0)
+(f & JPC_WSIG) != 0
+(f & JPC_WSIG)
+f & JPC_WSIG
+f
+f
+JPC_WSIG
+JPC_WSIG
+0
+((f & JPC_ESIG) != 0)
+(f & JPC_ESIG) != 0
+(f & JPC_ESIG)
+f & JPC_ESIG
+f
+f
+JPC_ESIG
+JPC_ESIG
+0
+v = ((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0);
+v = ((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0)
+v
+v
+((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0)
+((f & JPC_NSIG) != 0)
+(f & JPC_NSIG) != 0
+(f & JPC_NSIG)
+f & JPC_NSIG
+f
+f
+JPC_NSIG
+JPC_NSIG
+0
+((f & JPC_SSIG) != 0)
+(f & JPC_SSIG) != 0
+(f & JPC_SSIG)
+f & JPC_SSIG
+f
+f
+JPC_SSIG
+JPC_SSIG
+0
+d = ((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0);
+d = ((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0)
+d
+d
+((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0)
+((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0)
+((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0)
+((f & JPC_NWSIG) != 0)
+(f & JPC_NWSIG) != 0
+(f & JPC_NWSIG)
+f & JPC_NWSIG
+f
+f
+JPC_NWSIG
+JPC_NWSIG
+0
+((f & JPC_NESIG) != 0)
+(f & JPC_NESIG) != 0
+(f & JPC_NESIG)
+f & JPC_NESIG
+f
+f
+JPC_NESIG
+JPC_NESIG
+0
+((f & JPC_SESIG) != 0)
+(f & JPC_SESIG) != 0
+(f & JPC_SESIG)
+f & JPC_SESIG
+f
+f
+JPC_SESIG
+JPC_SESIG
+0
+((f & JPC_SWSIG) != 0)
+(f & JPC_SWSIG) != 0
+(f & JPC_SWSIG)
+f & JPC_SWSIG
+f
+f
+JPC_SWSIG
+JPC_SWSIG
+0
+switch (orient) {	case JPC_TSFB_HL:		t = h;		h = v;		v = t;	case JPC_TSFB_LL:	case JPC_TSFB_LH:		if (!h) {			if (!v) {				if (!d) {					n = 0;				} else if (d == 1) {					n = 1;				} else {					n = 2;				}			} else if (v == 1) {				n = 3;			} else {				n = 4;			}		} else if (h == 1) {			if (!v) {				if (!d) {					n = 5;				} else {					n = 6;				}			} else {				n = 7;			}		} else {			n = 8;		}		break;	case JPC_TSFB_HH:		hv = h + v;		if (!d) {			if (!hv) {				n = 0;			} else if (hv == 1) {				n = 1;			} else {				n = 2;			}		} else if (d == 1) {			if (!hv) {				n = 3;			} else if (hv == 1) {				n = 4;			} else {				n = 5;			}		} else if (d == 2) {			if (!hv) {				n = 6;			} else {				n = 7;			}		} else {			n = 8;		}		break;	}
+orient
+orient
+{	case JPC_TSFB_HL:		t = h;		h = v;		v = t;	case JPC_TSFB_LL:	case JPC_TSFB_LH:		if (!h) {			if (!v) {				if (!d) {					n = 0;				} else if (d == 1) {					n = 1;				} else {					n = 2;				}			} else if (v == 1) {				n = 3;			} else {				n = 4;			}		} else if (h == 1) {			if (!v) {				if (!d) {					n = 5;				} else {					n = 6;				}			} else {				n = 7;			}		} else {			n = 8;		}		break;	case JPC_TSFB_HH:		hv = h + v;		if (!d) {			if (!hv) {				n = 0;			} else if (hv == 1) {				n = 1;			} else {				n = 2;			}		} else if (d == 1) {			if (!hv) {				n = 3;			} else if (hv == 1) {				n = 4;			} else {				n = 5;			}		} else if (d == 2) {			if (!hv) {				n = 6;			} else {				n = 7;			}		} else {			n = 8;		}		break;	}
+case JPC_TSFB_HL:
+JPC_TSFB_HL
+JPC_TSFB_HL
+t = h;
+t = h
+t
+t
+h
+h
+h = v;
+h = v
+h
+h
+v
+v
+v = t;
+v = t
+v
+v
+t
+t
+case JPC_TSFB_LL:
+JPC_TSFB_LL
+JPC_TSFB_LL
+case JPC_TSFB_LH:
+JPC_TSFB_LH
+JPC_TSFB_LH
+if (!h) {			if (!v) {				if (!d) {					n = 0;				} else if (d == 1) {					n = 1;				} else {					n = 2;				}			} else if (v == 1) {				n = 3;			} else {				n = 4;			}		} else if (h == 1) {			if (!v) {				if (!d) {					n = 5;				} else {					n = 6;				}			} else {				n = 7;			}		} else {			n = 8;		}
+!h
+h
+h
+{			if (!v) {				if (!d) {					n = 0;				} else if (d == 1) {					n = 1;				} else {					n = 2;				}			} else if (v == 1) {				n = 3;			} else {				n = 4;			}		}
+if (!v) {				if (!d) {					n = 0;				} else if (d == 1) {					n = 1;				} else {					n = 2;				}			} else if (v == 1) {				n = 3;			} else {				n = 4;			}
+!v
+v
+v
+{				if (!d) {					n = 0;				} else if (d == 1) {					n = 1;				} else {					n = 2;				}			}
+if (!d) {					n = 0;				} else if (d == 1) {					n = 1;				} else {					n = 2;				}
+!d
+d
+d
+{					n = 0;				}
+n = 0;
+n = 0
+n
+n
+0
+if (d == 1) {					n = 1;				} else {					n = 2;				}
+d == 1
+d
+d
+1
+{					n = 1;				}
+n = 1;
+n = 1
+n
+n
+1
+{					n = 2;				}
+n = 2;
+n = 2
+n
+n
+2
+if (v == 1) {				n = 3;			} else {				n = 4;			}
+v == 1
+v
+v
+1
+{				n = 3;			}
+n = 3;
+n = 3
+n
+n
+3
+{				n = 4;			}
+n = 4;
+n = 4
+n
+n
+4
+if (h == 1) {			if (!v) {				if (!d) {					n = 5;				} else {					n = 6;				}			} else {				n = 7;			}		} else {			n = 8;		}
+h == 1
+h
+h
+1
+{			if (!v) {				if (!d) {					n = 5;				} else {					n = 6;				}			} else {				n = 7;			}		}
+if (!v) {				if (!d) {					n = 5;				} else {					n = 6;				}			} else {				n = 7;			}
+!v
+v
+v
+{				if (!d) {					n = 5;				} else {					n = 6;				}			}
+if (!d) {					n = 5;				} else {					n = 6;				}
+!d
+d
+d
+{					n = 5;				}
+n = 5;
+n = 5
+n
+n
+5
+{					n = 6;				}
+n = 6;
+n = 6
+n
+n
+6
+{				n = 7;			}
+n = 7;
+n = 7
+n
+n
+7
+{			n = 8;		}
+n = 8;
+n = 8
+n
+n
+8
+break;
+case JPC_TSFB_HH:
+JPC_TSFB_HH
+JPC_TSFB_HH
+hv = h + v;
+hv = h + v
+hv
+hv
+h + v
+h
+h
+v
+v
+if (!d) {			if (!hv) {				n = 0;			} else if (hv == 1) {				n = 1;			} else {				n = 2;			}		} else if (d == 1) {			if (!hv) {				n = 3;			} else if (hv == 1) {				n = 4;			} else {				n = 5;			}		} else if (d == 2) {			if (!hv) {				n = 6;			} else {				n = 7;			}		} else {			n = 8;		}
+!d
+d
+d
+{			if (!hv) {				n = 0;			} else if (hv == 1) {				n = 1;			} else {				n = 2;			}		}
+if (!hv) {				n = 0;			} else if (hv == 1) {				n = 1;			} else {				n = 2;			}
+!hv
+hv
+hv
+{				n = 0;			}
+n = 0;
+n = 0
+n
+n
+0
+if (hv == 1) {				n = 1;			} else {				n = 2;			}
+hv == 1
+hv
+hv
+1
+{				n = 1;			}
+n = 1;
+n = 1
+n
+n
+1
+{				n = 2;			}
+n = 2;
+n = 2
+n
+n
+2
+if (d == 1) {			if (!hv) {				n = 3;			} else if (hv == 1) {				n = 4;			} else {				n = 5;			}		} else if (d == 2) {			if (!hv) {				n = 6;			} else {				n = 7;			}		} else {			n = 8;		}
+d == 1
+d
+d
+1
+{			if (!hv) {				n = 3;			} else if (hv == 1) {				n = 4;			} else {				n = 5;			}		}
+if (!hv) {				n = 3;			} else if (hv == 1) {				n = 4;			} else {				n = 5;			}
+!hv
+hv
+hv
+{				n = 3;			}
+n = 3;
+n = 3
+n
+n
+3
+if (hv == 1) {				n = 4;			} else {				n = 5;			}
+hv == 1
+hv
+hv
+1
+{				n = 4;			}
+n = 4;
+n = 4
+n
+n
+4
+{				n = 5;			}
+n = 5;
+n = 5
+n
+n
+5
+if (d == 2) {			if (!hv) {				n = 6;			} else {				n = 7;			}		} else {			n = 8;		}
+d == 2
+d
+d
+2
+{			if (!hv) {				n = 6;			} else {				n = 7;			}		}
+if (!hv) {				n = 6;			} else {				n = 7;			}
+!hv
+hv
+hv
+{				n = 6;			}
+n = 6;
+n = 6
+n
+n
+6
+{				n = 7;			}
+n = 7;
+n = 7
+n
+n
+7
+{			n = 8;		}
+n = 8;
+n = 8
+n
+n
+8
+break;
+assert(n < JPC_NUMZCCTXS);
+assert(n < JPC_NUMZCCTXS)
+assert
+assert
+n < JPC_NUMZCCTXS
+n
+n
+JPC_NUMZCCTXS
+JPC_NUMZCCTXS
+return JPC_ZCCTXNO + n;
+JPC_ZCCTXNO + n
+JPC_ZCCTXNO
+JPC_ZCCTXNO
+n
+n
+-----joern-----
+(10,9,0)
+(3,5,0)
+(14,9,0)
+(10,21,0)
+(2,33,0)
+(5,31,0)
+(8,9,0)
+(39,5,0)
+(38,24,0)
+(26,31,0)
+(32,31,0)
+(15,40,0)
+(16,37,0)
+(35,31,0)
+(27,23,0)
+(43,31,0)
+(29,10,0)
+(13,9,0)
+(19,16,0)
+(41,16,0)
+(22,31,0)
+(0,10,0)
+(1,2,0)
+(11,44,0)
+(12,40,0)
+(39,44,0)
+(16,33,0)
+(39,15,0)
+(24,12,0)
+(25,2,0)
+(39,28,0)
+(30,15,0)
+(37,9,0)
+(24,4,0)
+(28,31,0)
+(7,23,0)
+(12,24,0)
+(44,36,0)
+(6,17,0)
+(42,24,0)
+(18,28,0)
+(37,16,0)
+(23,20,0)
+(16,19,1)
+(39,8,1)
+(2,1,1)
+(23,7,1)
+(25,10,1)
+(24,4,1)
+(39,5,1)
+(8,32,1)
+(15,30,1)
+(16,33,1)
+(27,37,1)
+(24,42,1)
+(28,18,1)
+(39,28,1)
+(34,23,1)
+(10,0,1)
+(41,2,1)
+(38,23,1)
+(42,38,1)
+(23,20,1)
+(2,33,1)
+(11,2,1)
+(18,34,1)
+(12,24,1)
+(8,34,1)
+(30,12,1)
+(37,16,1)
+(8,35,1)
+(39,15,1)
+(7,27,1)
+(39,44,1)
+(19,41,1)
+(5,3,1)
+(0,29,1)
+(10,21,1)
+(44,11,1)
+(3,34,1)
+(1,25,1)
+(2,33,2)
+(34,23,2)
+(28,34,2)
+(23,20,2)
+(39,28,2)
+(39,15,2)
+(39,5,2)
+(42,23,2)
+(10,21,2)
+(30,23,2)
+(7,2,2)
+(41,2,2)
+(16,2,2)
+(8,34,2)
+(15,23,2)
+(18,34,2)
+(39,44,2)
+(3,34,2)
+(19,2,2)
+(11,2,2)
+(27,2,2)
+(23,2,2)
+(38,23,2)
+(37,16,2)
+(24,4,2)
+(12,24,2)
+(12,23,2)
+(44,2,2)
+(37,2,2)
+(16,33,2)
+(5,34,2)
+(24,23,2)
+-----------------------------------
+(0,0)
+(1,JPC_COX_INS)
+(2,qmfbid == JPC_COX_INS)
+(3,2)
+(4,int orient)
+(5,return 2;)
+(6,switch (orient)
+(7,0)
+(8,abort()
+(9,)
+(10,numlvls = 0)
+(11,0)
+(12,assert(orient == JPC_TSFB_LL)
+(13,if (qmfbid == JPC_COX_INS)
+(14,if (lvlno == 0)
+(15,return 0;)
+(16,qmfbid == JPC_COX_RFT)
+(17,)
+(18,1)
+(19,JPC_COX_RFT)
+(20,int lvlno)
+(21,int numlvls)
+(22,case JPC_TSFB_HH:)
+(23,lvlno == 0)
+(24,orient == JPC_TSFB_LL)
+(25,qmfbid)
+(26,case JPC_TSFB_LH:)
+(27,lvlno)
+(28,return 1;)
+(29,numlvls)
+(30,0)
+(31,)
+(32,break;)
+(33,int qmfbid)
+(34,orient)
+(35,break;)
+(36,)
+(37,assert(qmfbid == JPC_COX_RFT)
+(38,orient)
+(39,RET)
+(40,)
+(41,qmfbid)
+(42,JPC_TSFB_LL)
+(43,case JPC_TSFB_HL:)
+(44,return 0;)
+-----cfg-----
+(256,255)
+(259,263)
+(131,256)
+(260,259)
+(7,17)
+(137,142)
+(137,164)
+(142,146)
+(142,159)
+(17,24)
+(146,149)
+(146,154)
+(20,37)
+(149,256)
+(22,20)
+(23,29)
+(24,23)
+(154,256)
+(28,22)
+(29,28)
+(159,256)
+(33,52)
+(35,33)
+(36,42)
+(164,256)
+(37,36)
+(41,35)
+(170,176)
+(42,41)
+(172,170)
+(46,76)
+(46,90)
+(46,172)
+(46,256)
+(48,46)
+(176,180)
+(176,204)
+(49,67)
+(50,62)
+(51,57)
+(52,51)
+(180,183)
+(180,189)
+(183,256)
+(56,50)
+(57,56)
+(61,49)
+(189,193)
+(189,198)
+(62,61)
+(193,256)
+(66,48)
+(67,66)
+(198,256)
+(76,79)
+(204,209)
+(204,233)
+(79,82)
+(209,212)
+(209,218)
+(82,90)
+(212,256)
+(90,94)
+(90,137)
+(218,222)
+(218,227)
+(94,98)
+(94,122)
+(222,256)
+(98,101)
+(98,107)
+(227,256)
+(101,256)
+(233,238)
+(233,251)
+(107,111)
+(107,116)
+(238,241)
+(238,246)
+(111,256)
+(241,256)
+(116,256)
+(246,256)
+(122,126)
+(122,131)
+(251,256)
+(126,256)
+(255,260)
+-----path-----
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,76,79,82,90,94,98,101,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,76,79,82,90,94,98,107,111,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,76,79,82,90,94,98,107,116,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,76,79,82,90,94,122,126,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,76,79,82,90,94,122,131,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,76,79,82,90,137,142,146,149,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,76,79,82,90,137,142,146,154,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,76,79,82,90,137,142,159,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,76,79,82,90,137,164,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,90,94,98,101,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,90,94,98,107,111,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,90,94,98,107,116,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,90,94,122,126,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,90,94,122,131,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,90,137,142,146,149,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,90,137,142,146,154,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,90,137,142,159,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,90,137,164,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,172,170,176,180,183,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,172,170,176,180,189,193,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,172,170,176,180,189,198,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,172,170,176,204,209,212,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,172,170,176,204,209,218,222,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,172,170,176,204,209,218,227,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,172,170,176,204,233,238,241,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,172,170,176,204,233,238,246,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,172,170,176,204,233,251,256,255,260,259,263
+7,17,24,23,29,28,22,20,37,36,42,41,35,33,52,51,57,56,50,62,61,49,67,66,48,46,256,255,260,259,263
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_getzcctxno (int f,int orient)
+8,int f
+9,int orient
+10,<empty>
+11,int h
+12,int v
+13,int d
+14,int n
+15,int t
+16,int hv
+17,n = 0
+18,n
+19,0
+20,h = ((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0)
+21,h
+22,((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0)
+23,(f & JPC_WSIG) != 0
+24,f & JPC_WSIG
+25,f
+26,JPC_WSIG
+27,0
+28,(f & JPC_ESIG) != 0
+29,f & JPC_ESIG
+30,f
+31,JPC_ESIG
+32,0
+33,v = ((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0)
+34,v
+35,((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0)
+36,(f & JPC_NSIG) != 0
+37,f & JPC_NSIG
+38,f
+39,JPC_NSIG
+40,0
+41,(f & JPC_SSIG) != 0
+42,f & JPC_SSIG
+43,f
+44,JPC_SSIG
+45,0
+46,d = ((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0)
+47,d
+48,((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0)
+49,((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0)
+50,((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0)
+51,(f & JPC_NWSIG) != 0
+52,f & JPC_NWSIG
+53,f
+54,JPC_NWSIG
+55,0
+56,(f & JPC_NESIG) != 0
+57,f & JPC_NESIG
+58,f
+59,JPC_NESIG
+60,0
+61,(f & JPC_SESIG) != 0
+62,f & JPC_SESIG
+63,f
+64,JPC_SESIG
+65,0
+66,(f & JPC_SWSIG) != 0
+67,f & JPC_SWSIG
+68,f
+69,JPC_SWSIG
+70,0
+71,switch(orient)
+72,orient
+73,<empty>
+74,case JPC_TSFB_HL:
+75,JPC_TSFB_HL
+76,t = h
+77,t
+78,h
+79,h = v
+80,h
+81,v
+82,v = t
+83,v
+84,t
+85,case JPC_TSFB_LL:
+86,JPC_TSFB_LL
+87,case JPC_TSFB_LH:
+88,JPC_TSFB_LH
+89,if (!h)
+90,!h
+91,h
+92,<empty>
+93,if (!v)
+94,!v
+95,v
+96,<empty>
+97,if (!d)
+98,!d
+99,d
+100,<empty>
+101,n = 0
+102,n
+103,0
+104,else
+105,<empty>
+106,if (d == 1)
+107,d == 1
+108,d
+109,1
+110,<empty>
+111,n = 1
+112,n
+113,1
+114,else
+115,<empty>
+116,n = 2
+117,n
+118,2
+119,else
+120,<empty>
+121,if (v == 1)
+122,v == 1
+123,v
+124,1
+125,<empty>
+126,n = 3
+127,n
+128,3
+129,else
+130,<empty>
+131,n = 4
+132,n
+133,4
+134,else
+135,<empty>
+136,if (h == 1)
+137,h == 1
+138,h
+139,1
+140,<empty>
+141,if (!v)
+142,!v
+143,v
+144,<empty>
+145,if (!d)
+146,!d
+147,d
+148,<empty>
+149,n = 5
+150,n
+151,5
+152,else
+153,<empty>
+154,n = 6
+155,n
+156,6
+157,else
+158,<empty>
+159,n = 7
+160,n
+161,7
+162,else
+163,<empty>
+164,n = 8
+165,n
+166,8
+167,break;
+168,case JPC_TSFB_HH:
+169,JPC_TSFB_HH
+170,hv = h + v
+171,hv
+172,h + v
+173,h
+174,v
+175,if (!d)
+176,!d
+177,d
+178,<empty>
+179,if (!hv)
+180,!hv
+181,hv
+182,<empty>
+183,n = 0
+184,n
+185,0
+186,else
+187,<empty>
+188,if (hv == 1)
+189,hv == 1
+190,hv
+191,1
+192,<empty>
+193,n = 1
+194,n
+195,1
+196,else
+197,<empty>
+198,n = 2
+199,n
+200,2
+201,else
+202,<empty>
+203,if (d == 1)
+204,d == 1
+205,d
+206,1
+207,<empty>
+208,if (!hv)
+209,!hv
+210,hv
+211,<empty>
+212,n = 3
+213,n
+214,3
+215,else
+216,<empty>
+217,if (hv == 1)
+218,hv == 1
+219,hv
+220,1
+221,<empty>
+222,n = 4
+223,n
+224,4
+225,else
+226,<empty>
+227,n = 5
+228,n
+229,5
+230,else
+231,<empty>
+232,if (d == 2)
+233,d == 2
+234,d
+235,2
+236,<empty>
+237,if (!hv)
+238,!hv
+239,hv
+240,<empty>
+241,n = 6
+242,n
+243,6
+244,else
+245,<empty>
+246,n = 7
+247,n
+248,7
+249,else
+250,<empty>
+251,n = 8
+252,n
+253,8
+254,break;
+255,assert(n < JPC_NUMZCCTXS)
+256,n < JPC_NUMZCCTXS
+257,n
+258,JPC_NUMZCCTXS
+259,return JPC_ZCCTXNO + n;
+260,JPC_ZCCTXNO + n
+261,JPC_ZCCTXNO
+262,n
+263,RET
+264,int f
+265,int orient
+266,RET
+267,int jpc_getzcctxno (int f,int orient)
+268,int f
+269,int orient
+270,<empty>
+271,int h
+272,int v
+273,int d
+274,int n
+275,int t
+276,int hv
+277,n = 0
+278,n
+279,0
+280,h = ((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0)
+281,h
+282,((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0)
+283,(f & JPC_WSIG) != 0
+284,f & JPC_WSIG
+285,f
+286,JPC_WSIG
+287,0
+288,(f & JPC_ESIG) != 0
+289,f & JPC_ESIG
+290,f
+291,JPC_ESIG
+292,0
+293,v = ((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0)
+294,v
+295,((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0)
+296,(f & JPC_NSIG) != 0
+297,f & JPC_NSIG
+298,f
+299,JPC_NSIG
+300,0
+301,(f & JPC_SSIG) != 0
+302,f & JPC_SSIG
+303,f
+304,JPC_SSIG
+305,0
+306,d = ((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0)
+307,d
+308,((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0)
+309,((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0)
+310,((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0)
+311,(f & JPC_NWSIG) != 0
+312,f & JPC_NWSIG
+313,f
+314,JPC_NWSIG
+315,0
+316,(f & JPC_NESIG) != 0
+317,f & JPC_NESIG
+318,f
+319,JPC_NESIG
+320,0
+321,(f & JPC_SESIG) != 0
+322,f & JPC_SESIG
+323,f
+324,JPC_SESIG
+325,0
+326,(f & JPC_SWSIG) != 0
+327,f & JPC_SWSIG
+328,f
+329,JPC_SWSIG
+330,0
+331,switch(orient)
+332,orient
+333,<empty>
+334,case JPC_TSFB_HL:
+335,JPC_TSFB_HL
+336,t = h
+337,t
+338,h
+339,h = v
+340,h
+341,v
+342,v = t
+343,v
+344,t
+345,case JPC_TSFB_LL:
+346,JPC_TSFB_LL
+347,case JPC_TSFB_LH:
+348,JPC_TSFB_LH
+349,if (!h)
+350,!h
+351,h
+352,<empty>
+353,if (!v)
+354,!v
+355,v
+356,<empty>
+357,if (!d)
+358,!d
+359,d
+360,<empty>
+361,n = 0
+362,n
+363,0
+364,else
+365,<empty>
+366,if (d == 1)
+367,d == 1
+368,d
+369,1
+370,<empty>
+371,n = 1
+372,n
+373,1
+374,else
+375,<empty>
+376,n = 2
+377,n
+378,2
+379,else
+380,<empty>
+381,if (v == 1)
+382,v == 1
+383,v
+384,1
+385,<empty>
+386,n = 3
+387,n
+388,3
+389,else
+390,<empty>
+391,n = 4
+392,n
+393,4
+394,else
+395,<empty>
+396,if (h == 1)
+397,h == 1
+398,h
+399,1
+400,<empty>
+401,if (!v)
+402,!v
+403,v
+404,<empty>
+405,if (!d)
+406,!d
+407,d
+408,<empty>
+409,n = 5
+410,n
+411,5
+412,else
+413,<empty>
+414,n = 6
+415,n
+416,6
+417,else
+418,<empty>
+419,n = 7
+420,n
+421,7
+422,else
+423,<empty>
+424,n = 8
+425,n
+426,8
+427,break;
+428,case JPC_TSFB_HH:
+429,JPC_TSFB_HH
+430,hv = h + v
+431,hv
+432,h + v
+433,h
+434,v
+435,if (!d)
+436,!d
+437,d
+438,<empty>
+439,if (!hv)
+440,!hv
+441,hv
+442,<empty>
+443,n = 0
+444,n
+445,0
+446,else
+447,<empty>
+448,if (hv == 1)
+449,hv == 1
+450,hv
+451,1
+452,<empty>
+453,n = 1
+454,n
+455,1
+456,else
+457,<empty>
+458,n = 2
+459,n
+460,2
+461,else
+462,<empty>
+463,if (d == 1)
+464,d == 1
+465,d
+466,1
+467,<empty>
+468,if (!hv)
+469,!hv
+470,hv
+471,<empty>
+472,n = 3
+473,n
+474,3
+475,else
+476,<empty>
+477,if (hv == 1)
+478,hv == 1
+479,hv
+480,1
+481,<empty>
+482,n = 4
+483,n
+484,4
+485,else
+486,<empty>
+487,n = 5
+488,n
+489,5
+490,else
+491,<empty>
+492,if (d == 2)
+493,d == 2
+494,d
+495,2
+496,<empty>
+497,if (!hv)
+498,!hv
+499,hv
+500,<empty>
+501,n = 6
+502,n
+503,6
+504,else
+505,<empty>
+506,n = 7
+507,n
+508,7
+509,else
+510,<empty>
+511,n = 8
+512,n
+513,8
+514,break;
+515,assert(n < JPC_NUMZCCTXS)
+516,n < JPC_NUMZCCTXS
+517,n
+518,JPC_NUMZCCTXS
+519,return JPC_ZCCTXNO + n;
+520,JPC_ZCCTXNO + n
+521,JPC_ZCCTXNO
+522,n
+523,RET
+524,int f
+525,int orient
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_getzcctxno(int f, int orient) {
+int h;
+int v;
+int d;
+int n;
+int t;
+int hv;
+n = 0;
+h = ((f & JPC_WSIG) != 0) + ((f & JPC_ESIG) != 0);
+v = ((f & JPC_NSIG) != 0) + ((f & JPC_SSIG) != 0);
+d = ((f & JPC_NWSIG) != 0) + ((f & JPC_NESIG) != 0) + ((f & JPC_SESIG) != 0) + ((f & JPC_SWSIG) != 0);
+switch(orient)
+hv = h + v;
+n = 8;
+assert(n < JPC_NUMZCCTXS);
+return JPC_ZCCTXNO + n;
+=======================

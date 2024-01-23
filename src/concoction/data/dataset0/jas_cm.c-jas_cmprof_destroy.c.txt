@@ -1,0 +1,438 @@
+-----label-----
+0
+-----code-----
+void jas_cmprof_destroy(jas_cmprof_t *prof)
+{ 
+	int i;
+	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i) {
+		if (prof->pxformseqs[i]) {
+			jas_cmpxformseq_destroy(prof->pxformseqs[i]);
+			prof->pxformseqs[i] = 0;
+		}
+	}
+	if (prof->iccprof)
+		jas_iccprof_destroy(prof->iccprof);
+	jas_free(prof);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+12,13
+13,14
+13,15
+15,16
+17,18
+17,19
+17,20
+17,21
+18,19
+19,20
+19,21
+20,21
+23,24
+23,25
+24,25
+26,27
+28,29
+29,30
+31,32
+32,33
+32,34
+33,34
+33,35
+34,35
+34,36
+35,36
+38,39
+40,41
+40,42
+41,42
+42,43
+42,44
+43,44
+45,46
+45,47
+46,47
+46,48
+47,48
+50,51
+52,53
+53,54
+53,55
+54,55
+54,56
+55,56
+55,57
+56,57
+59,60
+62,63
+62,64
+63,64
+63,65
+64,65
+67,68
+68,69
+68,70
+69,70
+71,72
+71,73
+72,73
+75,76
+76,77
+76,78
+77,78
+79,80
+-----nextToken-----
+2,4,7,9,10,14,16,21,22,25,27,30,36,37,39,44,48,49,51,57,58,60,61,65,66,70,73,74,78,80
+-----computeFrom-----
+19,20
+19,21
+23,24
+23,25
+53,54
+53,55
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;LiteralExpression;IfStatement;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+void jas_cmprof_destroy(jas_cmprof_t *prof){ 	int i;	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i) {		if (prof->pxformseqs[i]) {			jas_cmpxformseq_destroy(prof->pxformseqs[i]);			prof->pxformseqs[i] = 0;		}	}	if (prof->iccprof)		jas_iccprof_destroy(prof->iccprof);	jas_free(prof);}
+void
+jas_cmprof_destroy(jas_cmprof_t *prof)
+jas_cmprof_destroy
+jas_cmprof_t *prof
+jas_cmprof_t
+jas_cmprof_t
+*prof
+*
+prof
+{ 	int i;	for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i) {		if (prof->pxformseqs[i]) {			jas_cmpxformseq_destroy(prof->pxformseqs[i]);			prof->pxformseqs[i] = 0;		}	}	if (prof->iccprof)		jas_iccprof_destroy(prof->iccprof);	jas_free(prof);}
+int i;
+int i;
+int
+i
+i
+for (i = 0; i < JAS_CMPROF_NUMPXFORMSEQS; ++i) {		if (prof->pxformseqs[i]) {			jas_cmpxformseq_destroy(prof->pxformseqs[i]);			prof->pxformseqs[i] = 0;		}	}
+i = 0;
+i = 0
+i
+i
+0
+i < JAS_CMPROF_NUMPXFORMSEQS
+i
+i
+JAS_CMPROF_NUMPXFORMSEQS
+JAS_CMPROF_NUMPXFORMSEQS
+++i
+i
+i
+{		if (prof->pxformseqs[i]) {			jas_cmpxformseq_destroy(prof->pxformseqs[i]);			prof->pxformseqs[i] = 0;		}	}
+if (prof->pxformseqs[i]) {			jas_cmpxformseq_destroy(prof->pxformseqs[i]);			prof->pxformseqs[i] = 0;		}
+prof->pxformseqs[i]
+prof->pxformseqs
+prof
+prof
+pxformseqs
+i
+i
+{			jas_cmpxformseq_destroy(prof->pxformseqs[i]);			prof->pxformseqs[i] = 0;		}
+jas_cmpxformseq_destroy(prof->pxformseqs[i]);
+jas_cmpxformseq_destroy(prof->pxformseqs[i])
+jas_cmpxformseq_destroy
+jas_cmpxformseq_destroy
+prof->pxformseqs[i]
+prof->pxformseqs
+prof
+prof
+pxformseqs
+i
+i
+prof->pxformseqs[i] = 0;
+prof->pxformseqs[i] = 0
+prof->pxformseqs[i]
+prof->pxformseqs
+prof
+prof
+pxformseqs
+i
+i
+0
+if (prof->iccprof)		jas_iccprof_destroy(prof->iccprof);
+prof->iccprof
+prof
+prof
+iccprof
+jas_iccprof_destroy(prof->iccprof);
+jas_iccprof_destroy(prof->iccprof)
+jas_iccprof_destroy
+jas_iccprof_destroy
+prof->iccprof
+prof
+prof
+iccprof
+jas_free(prof);
+jas_free(prof)
+jas_free
+jas_free
+prof
+prof
+-----joern-----
+(13,1,0)
+(2,1,0)
+(4,15,0)
+(11,0,0)
+(14,2,0)
+(12,3,0)
+(9,16,0)
+(19,13,0)
+(6,15,0)
+(2,12,0)
+(15,16,0)
+(8,0,0)
+(12,2,0)
+(17,8,0)
+(0,3,0)
+(8,1,0)
+(21,6,0)
+(20,13,0)
+(5,6,0)
+(7,8,0)
+(10,2,0)
+(6,1,0)
+(20,19,1)
+(8,7,1)
+(0,11,1)
+(8,1,1)
+(4,6,1)
+(12,2,1)
+(17,12,1)
+(18,15,1)
+(6,1,1)
+(11,8,1)
+(13,1,1)
+(7,17,1)
+(21,5,1)
+(6,21,1)
+(13,20,1)
+(14,13,1)
+(15,4,1)
+(10,14,1)
+(2,1,1)
+(2,10,1)
+(5,0,1)
+(5,13,1)
+(2,13,2)
+(11,13,2)
+(8,1,2)
+(13,1,2)
+(12,2,2)
+(8,13,2)
+(0,13,2)
+(14,13,2)
+(10,13,2)
+(12,13,2)
+(17,13,2)
+(2,1,2)
+(7,13,2)
+(6,1,2)
+-----------------------------------
+(0,lut->data = 0)
+(1,jas_cmshapmatlut_t *lut)
+(2,lut->data)
+(3,)
+(4,0)
+(5,lut)
+(6,lut->size)
+(7,data)
+(8,lut->data)
+(9,if (lut->data)
+(10,data)
+(11,0)
+(12,jas_free(lut->data)
+(13,lut->data)
+(14,lut)
+(15,lut->size = 0)
+(16,)
+(17,lut)
+(18,RET)
+(19,lut)
+(20,data)
+(21,size)
+-----cfg-----
+(33,31)
+(35,19)
+(36,35)
+(37,36)
+(39,37)
+(7,13)
+(43,50)
+(43,51)
+(13,16)
+(45,43)
+(47,51)
+(16,26)
+(16,45)
+(48,47)
+(50,48)
+(51,53)
+(19,16)
+(23,33)
+(23,19)
+(24,23)
+(26,24)
+(29,39)
+(30,29)
+(31,30)
+-----path-----
+7,13,16,26,24,23,33,31,30,29,39,37,36,35,19,16,45,43,50,48,47,51,53
+7,13,16,26,24,23,33,31,30,29,39,37,36,35,19,16,45,43,51,53
+7,13,16,26,24,23,19,16,45,43,50,48,47,51,53
+7,13,16,26,24,23,19,16,45,43,51,53
+7,13,16,45,43,50,48,47,51,53
+7,13,16,45,43,51,53
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jas_cmprof_destroy (jas_cmprof_t *prof)
+8,jas_cmprof_t *prof
+9,<empty>
+10,int i
+11,for (i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+12,<empty>
+13,i = 0
+14,i
+15,0
+16,i < JAS_CMPROF_NUMPXFORMSEQS
+17,i
+18,JAS_CMPROF_NUMPXFORMSEQS
+19,++i
+20,i
+21,<empty>
+22,if (prof->pxformseqs[i])
+23,prof->pxformseqs[i]
+24,prof->pxformseqs
+25,prof
+26,pxformseqs
+27,i
+28,<empty>
+29,jas_cmpxformseq_destroy(prof->pxformseqs[i])
+30,prof->pxformseqs[i]
+31,prof->pxformseqs
+32,prof
+33,pxformseqs
+34,i
+35,prof->pxformseqs[i] = 0
+36,prof->pxformseqs[i]
+37,prof->pxformseqs
+38,prof
+39,pxformseqs
+40,i
+41,0
+42,if (prof->iccprof)
+43,prof->iccprof
+44,prof
+45,iccprof
+46,<empty>
+47,jas_iccprof_destroy(prof->iccprof)
+48,prof->iccprof
+49,prof
+50,iccprof
+51,jas_free(prof)
+52,prof
+53,RET
+54,jas_cmprof_t *prof
+55,RET
+56,void jas_cmprof_destroy (jas_cmprof_t *prof)
+57,jas_cmprof_t *prof
+58,<empty>
+59,int i
+60,for (i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+61,<empty>
+62,i = 0
+63,i
+64,0
+65,i < JAS_CMPROF_NUMPXFORMSEQS
+66,i
+67,JAS_CMPROF_NUMPXFORMSEQS
+68,++i
+69,i
+70,<empty>
+71,if (prof->pxformseqs[i])
+72,prof->pxformseqs[i]
+73,prof->pxformseqs
+74,prof
+75,pxformseqs
+76,i
+77,<empty>
+78,jas_cmpxformseq_destroy(prof->pxformseqs[i])
+79,prof->pxformseqs[i]
+80,prof->pxformseqs
+81,prof
+82,pxformseqs
+83,i
+84,prof->pxformseqs[i] = 0
+85,prof->pxformseqs[i]
+86,prof->pxformseqs
+87,prof
+88,pxformseqs
+89,i
+90,0
+91,if (prof->iccprof)
+92,prof->iccprof
+93,prof
+94,iccprof
+95,<empty>
+96,jas_iccprof_destroy(prof->iccprof)
+97,prof->iccprof
+98,prof
+99,iccprof
+100,jas_free(prof)
+101,prof
+102,RET
+103,jas_cmprof_t *prof
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+void jas_cmprof_destroy(jas_cmprof_t *prof) {
+int i;
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+if(prof->pxformseqs[i])
+jas_cmpxformseq_destroy(prof->pxformseqs[i]);
+prof->pxformseqs[i] = 0;
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+if(prof->pxformseqs[i])
+jas_cmpxformseq_destroy(prof->pxformseqs[i]);
+prof->pxformseqs[i] = 0;
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+for(i = 0;i < JAS_CMPROF_NUMPXFORMSEQS;++i)
+if(prof->iccprof)
+jas_iccprof_destroy(prof->iccprof);
+jas_free(prof);
+=======================

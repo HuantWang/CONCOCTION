@@ -1,0 +1,624 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxform_create0.c.txt
+--------------code--------------
+static jas_cmpxform_t *jas_cmpxform_create0()
+{
+	jas_cmpxform_t *pxform;
+	if (!(pxform = jas_malloc(sizeof(jas_cmpxform_t))))
+		return 0;
+	memset(pxform, 0, sizeof(jas_cmpxform_t));
+	pxform->refcnt = 0;
+	pxform->ops = 0;
+	return pxform;
+}
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+jas_cmpxform_t jas_cmpxform_create0 ()
+sizeof(jas_cmpxform_t)
+jas_malloc(sizeof(jas_cmpxform_t))
+pxform = jas_malloc(sizeof(jas_cmpxform_t))
+!(pxform = jas_malloc(sizeof(jas_cmpxform_t)))
+sizeof(jas_cmpxform_t)
+memset(pxform 0 sizeof(jas_cmpxform_t))
+refcnt
+pxform->refcnt
+pxform->refcnt = 0
+ops
+pxform->ops
+pxform->ops = 0
+return pxform;
+RET
+--------------path over--------------

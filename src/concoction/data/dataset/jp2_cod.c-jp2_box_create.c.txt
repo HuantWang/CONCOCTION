@@ -1,0 +1,521 @@
+-----label-----
+0
+-----code-----
+jp2_box_t *jp2_box_create(int type)
+{
+	jp2_box_t *box;
+	jp2_boxinfo_t *boxinfo;
+
+	if (!(box = jas_malloc(sizeof(jp2_box_t)))) {
+		return 0;
+	}
+	memset(box, 0, sizeof(jp2_box_t));
+	box->type = type;
+	box->len = 0;
+	if (!(boxinfo = jp2_boxinfolookup(type))) {
+		return 0;
+	}
+	box->info = boxinfo;
+	box->ops = &boxinfo->ops;
+	return box;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+7,8
+7,9
+9,10
+11,12
+11,13
+11,14
+11,15
+11,16
+11,17
+11,18
+11,19
+11,20
+11,21
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+19,20
+20,21
+20,22
+21,22
+23,24
+23,25
+26,27
+26,28
+27,28
+28,29
+29,30
+29,31
+30,31
+32,33
+32,34
+33,34
+35,36
+36,37
+36,38
+37,38
+40,41
+41,42
+43,44
+44,45
+44,46
+44,47
+44,48
+45,46
+47,48
+50,51
+51,52
+51,53
+52,53
+55,56
+56,57
+56,58
+57,58
+57,59
+58,59
+61,62
+63,64
+64,65
+64,66
+65,66
+65,67
+66,67
+70,71
+70,72
+71,72
+72,73
+73,74
+73,75
+74,75
+76,77
+76,78
+77,78
+79,80
+81,82
+82,83
+84,85
+85,86
+85,87
+86,87
+86,88
+87,88
+90,91
+92,93
+93,94
+93,95
+94,95
+94,96
+95,96
+98,99
+99,100
+99,101
+100,101
+103,104
+104,105
+-----nextToken-----
+3,5,6,8,10,15,17,18,22,24,25,31,34,38,39,42,46,48,49,53,54,59,60,62,67,68,69,75,78,80,83,88,89,91,96,97,101,102,105
+-----computeFrom-----
+29,30
+29,31
+56,57
+56,58
+64,65
+64,66
+73,74
+73,75
+85,86
+85,87
+93,94
+93,95
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+jp2_box_t *jp2_box_create(int type){	jp2_box_t *box;	jp2_boxinfo_t *boxinfo;	if (!(box = jas_malloc(sizeof(jp2_box_t)))) {		return 0;	}	memset(box, 0, sizeof(jp2_box_t));	box->type = type;	box->len = 0;	if (!(boxinfo = jp2_boxinfolookup(type))) {		return 0;	}	box->info = boxinfo;	box->ops = &boxinfo->ops;	return box;}
+jp2_box_t
+jp2_box_t
+*jp2_box_create(int type)
+*
+jp2_box_create
+int type
+int
+type
+type
+{	jp2_box_t *box;	jp2_boxinfo_t *boxinfo;	if (!(box = jas_malloc(sizeof(jp2_box_t)))) {		return 0;	}	memset(box, 0, sizeof(jp2_box_t));	box->type = type;	box->len = 0;	if (!(boxinfo = jp2_boxinfolookup(type))) {		return 0;	}	box->info = boxinfo;	box->ops = &boxinfo->ops;	return box;}
+jp2_box_t *box;
+jp2_box_t *box;
+jp2_box_t
+jp2_box_t
+*box
+*
+box
+jp2_boxinfo_t *boxinfo;
+jp2_boxinfo_t *boxinfo;
+jp2_boxinfo_t
+jp2_boxinfo_t
+*boxinfo
+*
+boxinfo
+if (!(box = jas_malloc(sizeof(jp2_box_t)))) {		return 0;	}
+!(box = jas_malloc(sizeof(jp2_box_t)))
+(box = jas_malloc(sizeof(jp2_box_t)))
+box = jas_malloc(sizeof(jp2_box_t))
+box
+box
+jas_malloc(sizeof(jp2_box_t))
+jas_malloc
+jas_malloc
+sizeof(jp2_box_t)
+jp2_box_t
+jp2_box_t
+jp2_box_t
+
+{		return 0;	}
+return 0;
+0
+memset(box, 0, sizeof(jp2_box_t));
+memset(box, 0, sizeof(jp2_box_t))
+memset
+memset
+box
+box
+0
+sizeof(jp2_box_t)
+jp2_box_t
+jp2_box_t
+jp2_box_t
+
+box->type = type;
+box->type = type
+box->type
+box
+box
+type
+type
+type
+box->len = 0;
+box->len = 0
+box->len
+box
+box
+len
+0
+if (!(boxinfo = jp2_boxinfolookup(type))) {		return 0;	}
+!(boxinfo = jp2_boxinfolookup(type))
+(boxinfo = jp2_boxinfolookup(type))
+boxinfo = jp2_boxinfolookup(type)
+boxinfo
+boxinfo
+jp2_boxinfolookup(type)
+jp2_boxinfolookup
+jp2_boxinfolookup
+type
+type
+{		return 0;	}
+return 0;
+0
+box->info = boxinfo;
+box->info = boxinfo
+box->info
+box
+box
+info
+boxinfo
+boxinfo
+box->ops = &boxinfo->ops;
+box->ops = &boxinfo->ops
+box->ops
+box
+box
+ops
+&boxinfo->ops
+boxinfo->ops
+boxinfo
+boxinfo
+ops
+return box;
+box
+box
+-----joern-----
+(5,11,0)
+(18,14,0)
+(21,25,0)
+(0,7,0)
+(22,11,0)
+(1,15,0)
+(15,11,0)
+(11,0,0)
+(13,7,0)
+(11,8,0)
+(18,7,0)
+(25,24,0)
+(7,18,0)
+(3,25,0)
+(0,11,0)
+(24,2,0)
+(20,5,0)
+(7,0,0)
+(4,18,0)
+(9,15,0)
+(10,18,0)
+(16,8,0)
+(12,6,0)
+(5,6,0)
+(25,11,0)
+(24,25,0)
+(17,5,0)
+(19,8,0)
+(6,2,0)
+(0,7,1)
+(21,15,1)
+(9,11,1)
+(23,6,1)
+(10,22,1)
+(1,9,1)
+(11,0,1)
+(17,20,1)
+(13,18,1)
+(12,5,1)
+(18,4,1)
+(5,11,1)
+(24,25,1)
+(7,18,1)
+(23,15,1)
+(20,24,1)
+(15,11,1)
+(3,21,1)
+(6,12,1)
+(25,3,1)
+(18,14,1)
+(7,13,1)
+(15,1,1)
+(5,17,1)
+(4,10,1)
+(25,11,1)
+(12,15,2)
+(3,15,2)
+(11,0,2)
+(25,11,2)
+(25,15,2)
+(24,15,2)
+(24,25,2)
+(0,7,2)
+(15,11,2)
+(5,11,2)
+(21,15,2)
+(20,15,2)
+(17,15,2)
+(6,15,2)
+(5,15,2)
+(7,18,2)
+(18,14,2)
+-----------------------------------
+(0,&box->data.cdef)
+(1,ents)
+(2,)
+(3,ents)
+(4,data)
+(5,cdef->ents)
+(6,cdef->ents = 0)
+(7,box->data.cdef)
+(8,)
+(9,cdef)
+(10,box)
+(11,*cdef = &box->data.cdef)
+(12,0)
+(13,cdef)
+(14,jp2_box_t *box)
+(15,cdef->ents)
+(16,if (cdef->ents)
+(17,ents)
+(18,box->data)
+(19,cdef)
+(20,cdef)
+(21,cdef)
+(22,cdef)
+(23,RET)
+(24,jas_free(cdef->ents)
+(25,cdef->ents)
+-----cfg-----
+(7,17)
+(13,20)
+(13,25)
+(14,13)
+(16,14)
+(17,16)
+(20,61)
+(22,30)
+(25,22)
+(27,35)
+(28,27)
+(30,28)
+(32,41)
+(33,32)
+(35,33)
+(38,44)
+(38,49)
+(39,38)
+(41,39)
+(44,61)
+(46,54)
+(47,46)
+(49,47)
+(51,59)
+(52,58)
+(54,52)
+(55,51)
+(56,55)
+(58,56)
+(59,61)
+-----path-----
+7,17,16,14,13,20,61
+7,17,16,14,13,25,22,30,28,27,35,33,32,41,39,38,44,61
+7,17,16,14,13,25,22,30,28,27,35,33,32,41,39,38,49,47,46,54,52,58,56,55,51,59,61
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jp2_box_t jp2_box_create (int type)
+8,int type
+9,<empty>
+10,jp2_box_t* box
+11,jp2_boxinfo_t* boxinfo
+12,if (!(box = jas_malloc(sizeof(jp2_box_t))))
+13,!(box = jas_malloc(sizeof(jp2_box_t)))
+14,box = jas_malloc(sizeof(jp2_box_t))
+15,box
+16,jas_malloc(sizeof(jp2_box_t))
+17,sizeof(jp2_box_t)
+18,jp2_box_t
+19,<empty>
+20,return 0;
+21,0
+22,memset(box, 0, sizeof(jp2_box_t))
+23,box
+24,0
+25,sizeof(jp2_box_t)
+26,jp2_box_t
+27,box->type = type
+28,box->type
+29,box
+30,type
+31,type
+32,box->len = 0
+33,box->len
+34,box
+35,len
+36,0
+37,if (!(boxinfo = jp2_boxinfolookup(type)))
+38,!(boxinfo = jp2_boxinfolookup(type))
+39,boxinfo = jp2_boxinfolookup(type)
+40,boxinfo
+41,jp2_boxinfolookup(type)
+42,type
+43,<empty>
+44,return 0;
+45,0
+46,box->info = boxinfo
+47,box->info
+48,box
+49,info
+50,boxinfo
+51,box->ops = &boxinfo->ops
+52,box->ops
+53,box
+54,ops
+55,&boxinfo->ops
+56,boxinfo->ops
+57,boxinfo
+58,ops
+59,return box;
+60,box
+61,RET
+62,int type
+63,RET
+64,jp2_box_t jp2_box_create (int type)
+65,int type
+66,<empty>
+67,jp2_box_t* box
+68,jp2_boxinfo_t* boxinfo
+69,if (!(box = jas_malloc(sizeof(jp2_box_t))))
+70,!(box = jas_malloc(sizeof(jp2_box_t)))
+71,box = jas_malloc(sizeof(jp2_box_t))
+72,box
+73,jas_malloc(sizeof(jp2_box_t))
+74,sizeof(jp2_box_t)
+75,jp2_box_t
+76,<empty>
+77,return 0;
+78,0
+79,memset(box, 0, sizeof(jp2_box_t))
+80,box
+81,0
+82,sizeof(jp2_box_t)
+83,jp2_box_t
+84,box->type = type
+85,box->type
+86,box
+87,type
+88,type
+89,box->len = 0
+90,box->len
+91,box
+92,len
+93,0
+94,if (!(boxinfo = jp2_boxinfolookup(type)))
+95,!(boxinfo = jp2_boxinfolookup(type))
+96,boxinfo = jp2_boxinfolookup(type)
+97,boxinfo
+98,jp2_boxinfolookup(type)
+99,type
+100,<empty>
+101,return 0;
+102,0
+103,box->info = boxinfo
+104,box->info
+105,box
+106,info
+107,boxinfo
+108,box->ops = &boxinfo->ops
+109,box->ops
+110,box
+111,ops
+112,&boxinfo->ops
+113,boxinfo->ops
+114,boxinfo
+115,ops
+116,return box;
+117,box
+118,RET
+119,int type
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jp2_box_t *jp2_box_create(int type) {
+jp2_box_t *box;
+jp2_boxinfo_t *boxinfo;
+memset(box, 0, sizeof(jp2_box_t));
+box->type = type;
+box->len = 0;
+box->info = boxinfo;
+box->ops = &boxinfo->ops;
+return box;
+=======================

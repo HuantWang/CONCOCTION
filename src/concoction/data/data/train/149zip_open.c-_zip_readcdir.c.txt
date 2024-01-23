@@ -1,0 +1,3149 @@
+-----label-----
+1
+-----code-----
+static struct zip_cdir *
+_zip_readcdir(FILE *fp, off_t buf_offset, unsigned char *buf, unsigned char *eocd, int buflen,
+	      int flags, struct zip_error *error)
+{
+    struct zip_cdir *cd;
+    unsigned char *cdp, **bufp;
+    int i, comlen, nentry;
+    zip_uint32_t left;
+
+    comlen = buf + buflen - eocd - EOCDLEN;
+    if (comlen < 0) {
+	/* not enough bytes left for comment */
+	_zip_error_set(error, ZIP_ER_NOZIP, 0);
+	return NULL;
+    }
+
+    /* check for end-of-central-dir magic */
+    if (memcmp(eocd, EOCD_MAGIC, 4) != 0) {
+	_zip_error_set(error, ZIP_ER_NOZIP, 0);
+	return NULL;
+    }
+
+    if (memcmp(eocd+4, "\0\0\0\0", 4) != 0) {
+	_zip_error_set(error, ZIP_ER_MULTIDISK, 0);
+	return NULL;
+    }
+
+    cdp = eocd + 8;
+    /* number of cdir-entries on this disk */
+    i = _zip_read2(&cdp);
+    /* number of cdir-entries */
+    nentry = _zip_read2(&cdp);
+
+    if ((cd=_zip_cdir_new(nentry, error)) == NULL)
+	return NULL;
+
+    cd->size = _zip_read4(&cdp);
+    cd->offset = _zip_read4(&cdp);
+    cd->comment = NULL;
+    cd->comment_len = _zip_read2(&cdp);
+
+    if (cd->offset+cd->size > buf_offset + (eocd-buf)) {
+	/* cdir spans past EOCD record */
+	_zip_error_set(error, ZIP_ER_INCONS, 0);
+	cd->nentry = 0;
+	_zip_cdir_free(cd);
+	return NULL;
+    }
+
+    if ((comlen < cd->comment_len) || (cd->nentry != i)) {
+	_zip_error_set(error, ZIP_ER_NOZIP, 0);
+	cd->nentry = 0;
+	_zip_cdir_free(cd);
+	return NULL;
+    }
+    if ((flags & ZIP_CHECKCONS) && comlen != cd->comment_len) {
+	_zip_error_set(error, ZIP_ER_INCONS, 0);
+	cd->nentry = 0;
+	_zip_cdir_free(cd);
+	return NULL;
+    }
+
+    if (cd->comment_len) {
+	if ((cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,
+					     cd->comment_len, error))
+	    == NULL) {
+	    cd->nentry = 0;
+	    _zip_cdir_free(cd);
+	    return NULL;
+	}
+    }
+
+    if (cd->offset >= buf_offset) {
+	/* if buffer already read in, use it */
+	cdp = buf + (cd->offset - buf_offset);
+	bufp = &cdp;
+    }
+    else {
+	/* go to start of cdir and read it entry by entry */
+	bufp = NULL;
+	clearerr(fp);
+	fseeko(fp, cd->offset, SEEK_SET);
+	/* possible consistency check: cd->offset =
+	   len-(cd->size+cd->comment_len+EOCDLEN) ? */
+	if (ferror(fp) || ((unsigned long)ftello(fp) != cd->offset)) {
+	    /* seek error or offset of cdir wrong */
+	    if (ferror(fp))
+		_zip_error_set(error, ZIP_ER_SEEK, errno);
+	    else
+		_zip_error_set(error, ZIP_ER_NOZIP, 0);
+	    cd->nentry = 0;
+	    _zip_cdir_free(cd);
+	    return NULL;
+	}
+    }
+
+    left = cd->size;
+    i=0;
+    do {
+	if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0) {
+	    cd->nentry = i;
+	    _zip_cdir_free(cd);
+	    return NULL;
+	}
+	i++;
+	
+	if (i == cd->nentry && left > 0) {
+	    /* Infozip extension for more than 64k entries:
+	       nentries wraps around, size indicates correct EOCD */
+	    if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {
+		cd->nentry = i;
+		_zip_cdir_free(cd);
+		return NULL;
+	    }
+	}
+    } while (i<cd->nentry && left > 0);
+
+    cd->nentry = i;
+    
+    return cd;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+4,8
+4,9
+4,10
+4,11
+4,12
+4,13
+7,8
+7,9
+8,9
+10,11
+10,12
+13,14
+13,15
+14,15
+16,17
+18,19
+18,20
+20,21
+20,22
+23,24
+23,25
+25,26
+25,27
+28,29
+28,30
+30,31
+32,33
+32,34
+34,35
+36,37
+36,38
+37,38
+39,40
+39,41
+42,43
+42,44
+42,45
+42,46
+42,47
+42,48
+42,49
+42,50
+42,51
+42,52
+42,53
+42,54
+42,55
+42,56
+42,57
+42,58
+42,59
+42,60
+42,61
+42,62
+42,63
+42,64
+42,65
+42,66
+42,67
+42,68
+43,44
+44,45
+44,46
+45,46
+47,48
+47,49
+50,51
+51,52
+51,53
+51,54
+53,54
+53,55
+56,57
+56,58
+56,59
+60,61
+61,62
+61,63
+61,64
+61,65
+63,64
+65,66
+67,68
+69,70
+70,71
+70,72
+71,72
+73,74
+75,76
+76,77
+76,78
+77,78
+79,80
+79,81
+80,81
+80,82
+81,82
+81,83
+82,83
+84,85
+86,87
+88,89
+90,91
+90,92
+91,92
+91,93
+92,93
+95,96
+95,97
+96,97
+97,98
+97,99
+97,100
+97,101
+98,99
+100,101
+102,103
+105,106
+106,107
+108,109
+108,110
+109,110
+109,111
+110,111
+110,112
+110,113
+110,114
+111,112
+113,114
+115,116
+119,120
+119,121
+120,121
+121,122
+121,123
+121,124
+121,125
+122,123
+124,125
+126,127
+129,130
+130,131
+132,133
+132,134
+133,134
+133,135
+134,135
+134,136
+134,137
+134,138
+135,136
+137,138
+137,139
+138,139
+144,145
+144,146
+145,146
+146,147
+146,148
+146,149
+146,150
+147,148
+149,150
+151,152
+154,155
+155,156
+157,158
+158,159
+158,160
+159,160
+161,162
+161,163
+162,163
+165,166
+166,167
+166,168
+167,168
+169,170
+169,171
+170,171
+172,173
+173,174
+175,176
+176,177
+176,178
+177,178
+179,180
+179,181
+180,181
+182,183
+183,184
+185,186
+185,187
+186,187
+186,188
+187,188
+188,189
+188,190
+189,190
+191,192
+191,193
+191,194
+192,193
+194,195
+196,197
+198,199
+200,201
+201,202
+203,204
+204,205
+204,206
+205,206
+205,207
+206,207
+209,210
+209,211
+210,211
+212,213
+213,214
+215,216
+216,217
+216,218
+217,218
+217,219
+218,219
+221,222
+221,223
+222,223
+224,225
+225,226
+227,228
+228,229
+228,230
+229,230
+229,231
+230,231
+233,234
+235,236
+236,237
+236,238
+237,238
+237,239
+238,239
+241,242
+241,243
+242,243
+244,245
+245,246
+247,248
+247,249
+248,249
+248,250
+249,250
+249,251
+250,251
+250,252
+251,252
+254,255
+254,256
+255,256
+258,259
+258,260
+259,260
+261,262
+262,263
+262,264
+263,264
+265,266
+267,268
+267,269
+267,270
+267,271
+268,269
+269,270
+269,271
+269,272
+269,273
+270,271
+272,273
+274,275
+277,278
+278,279
+278,280
+279,280
+279,281
+280,281
+284,285
+285,286
+285,287
+286,287
+288,289
+290,291
+291,292
+293,294
+293,295
+294,295
+294,296
+295,296
+296,297
+296,298
+297,298
+299,300
+299,301
+300,301
+303,304
+304,305
+304,306
+305,306
+305,307
+306,307
+309,310
+311,312
+311,313
+311,314
+311,315
+312,313
+313,314
+313,315
+313,316
+313,317
+314,315
+316,317
+318,319
+321,322
+322,323
+322,324
+323,324
+323,325
+324,325
+328,329
+329,330
+329,331
+330,331
+332,333
+334,335
+335,336
+337,338
+337,339
+338,339
+338,340
+339,340
+340,341
+340,342
+341,342
+343,344
+345,346
+345,347
+346,347
+348,349
+348,350
+349,350
+352,353
+352,354
+352,355
+352,356
+353,354
+354,355
+354,356
+354,357
+354,358
+355,356
+357,358
+359,360
+362,363
+363,364
+363,365
+364,365
+364,366
+365,366
+369,370
+370,371
+370,372
+371,372
+373,374
+375,376
+376,377
+378,379
+378,380
+379,380
+379,381
+380,381
+383,384
+384,385
+384,386
+385,386
+385,387
+386,387
+387,388
+387,389
+388,389
+388,390
+389,390
+392,393
+392,394
+393,394
+393,395
+395,396
+397,398
+397,399
+397,400
+397,401
+398,399
+400,401
+400,402
+401,402
+403,404
+405,406
+405,407
+406,407
+409,410
+411,412
+413,414
+413,415
+413,416
+414,415
+415,416
+415,417
+416,417
+416,418
+417,418
+421,422
+422,423
+422,424
+423,424
+425,426
+427,428
+428,429
+430,431
+430,432
+430,433
+431,432
+431,433
+432,433
+432,434
+433,434
+436,437
+438,439
+438,440
+439,440
+440,441
+440,442
+441,442
+443,444
+443,445
+444,445
+446,447
+447,448
+447,449
+448,449
+448,450
+449,450
+452,453
+454,455
+455,456
+455,457
+456,457
+458,459
+459,460
+461,462
+461,463
+461,464
+461,465
+462,463
+463,464
+463,465
+464,465
+466,467
+468,469
+469,470
+469,471
+470,471
+472,473
+474,475
+475,476
+475,477
+475,478
+475,479
+476,477
+478,479
+480,481
+480,482
+481,482
+484,485
+486,487
+486,488
+487,488
+487,489
+488,489
+488,490
+489,490
+491,492
+493,494
+494,495
+494,496
+495,496
+495,497
+496,497
+496,498
+499,500
+499,501
+500,501
+502,503
+504,505
+504,506
+505,506
+508,509
+508,510
+508,511
+508,512
+509,510
+509,511
+509,512
+510,511
+510,512
+511,512
+513,514
+515,516
+516,517
+516,518
+516,519
+516,520
+517,518
+519,520
+521,522
+523,524
+525,526
+526,527
+526,528
+526,529
+526,530
+527,528
+529,530
+531,532
+534,535
+535,536
+535,537
+536,537
+536,538
+537,538
+541,542
+542,543
+542,544
+543,544
+545,546
+547,548
+548,549
+550,551
+551,552
+551,553
+552,553
+554,555
+554,556
+555,556
+558,559
+559,560
+559,561
+560,561
+563,564
+563,565
+564,565
+564,566
+564,567
+565,566
+565,567
+566,567
+566,568
+567,568
+568,569
+568,570
+568,571
+568,572
+568,573
+568,574
+568,575
+569,570
+571,572
+571,573
+572,573
+572,574
+573,574
+576,577
+578,579
+580,581
+582,583
+583,584
+586,587
+589,590
+589,591
+589,592
+590,591
+591,592
+591,593
+592,593
+592,594
+593,594
+596,597
+598,599
+599,600
+599,601
+600,601
+602,603
+604,605
+605,606
+607,608
+608,609
+609,610
+611,612
+611,613
+612,613
+612,614
+613,614
+613,615
+614,615
+616,617
+616,618
+617,618
+620,621
+620,622
+621,622
+624,625
+625,626
+625,627
+626,627
+626,628
+627,628
+627,629
+627,630
+627,631
+628,629
+630,631
+632,633
+632,634
+633,634
+633,635
+634,635
+637,638
+639,640
+642,643
+642,644
+642,645
+643,644
+644,645
+644,646
+645,646
+645,647
+646,647
+649,650
+651,652
+652,653
+652,654
+653,654
+655,656
+657,658
+658,659
+660,661
+660,662
+661,662
+661,663
+662,663
+664,665
+664,666
+665,666
+668,669
+668,670
+669,670
+672,673
+673,674
+673,675
+674,675
+674,676
+675,676
+678,679
+680,681
+681,682
+-----nextToken-----
+3,5,6,9,11,12,15,17,19,21,22,24,26,27,29,31,33,35,38,40,41,46,48,49,52,54,55,57,58,59,62,64,66,68,72,74,78,83,85,87,89,93,94,99,101,103,104,107,112,114,116,117,118,123,125,127,128,131,136,139,140,141,142,143,148,150,152,153,156,160,163,164,168,171,174,178,181,184,190,193,195,197,199,202,207,208,211,214,219,220,223,226,231,232,234,239,240,243,246,252,253,256,257,260,264,266,271,273,275,276,281,282,283,287,289,292,298,301,302,307,308,310,315,317,319,320,325,326,327,331,333,336,342,344,347,350,351,356,358,360,361,366,367,368,372,374,377,381,382,390,391,394,396,399,402,404,407,408,410,412,418,419,420,424,426,429,434,435,437,442,445,450,451,453,457,460,465,467,471,473,477,479,482,483,485,490,492,497,498,501,503,506,507,512,514,518,520,522,524,528,530,532,533,538,539,540,544,546,549,553,556,557,561,562,570,574,575,577,579,581,584,585,587,588,594,595,597,601,603,606,610,615,618,619,622,623,629,631,635,636,638,640,641,647,648,650,654,656,659,663,666,667,670,671,676,677,679,682
+-----computeFrom-----
+76,77
+76,78
+79,80
+79,81
+80,81
+80,82
+81,82
+81,83
+91,92
+91,93
+109,110
+109,111
+133,134
+133,135
+137,138
+137,139
+158,159
+158,160
+161,162
+161,163
+166,167
+166,168
+176,177
+176,178
+186,187
+186,188
+188,189
+188,190
+204,205
+204,206
+216,217
+216,218
+228,229
+228,230
+236,237
+236,238
+248,249
+248,250
+249,250
+249,251
+258,259
+258,260
+262,263
+262,264
+278,279
+278,280
+294,295
+294,296
+296,297
+296,298
+304,305
+304,306
+322,323
+322,324
+338,339
+338,340
+340,341
+340,342
+345,346
+345,347
+363,364
+363,365
+385,386
+385,387
+387,388
+387,389
+400,401
+400,402
+415,416
+415,417
+431,432
+431,433
+440,441
+440,442
+443,444
+443,445
+447,448
+447,449
+455,456
+455,457
+463,464
+463,465
+487,488
+487,489
+494,495
+494,496
+535,536
+535,537
+551,552
+551,553
+559,560
+559,561
+566,567
+566,568
+571,572
+571,573
+591,592
+591,593
+612,613
+612,614
+613,614
+613,615
+620,621
+620,622
+626,627
+626,628
+632,633
+632,634
+644,645
+644,646
+660,661
+660,662
+661,662
+661,663
+668,669
+668,670
+673,674
+673,675
+-----guardedBy-----
+199,202
+256,289
+307,333
+308,326
+350,374
+407,426
+412,429
+434,450
+435,451
+437,453
+490,512
+506,546
+503,514
+574,603
+577,597
+618,656
+615,650
+619,648
+635,656
+636,648
+-----guardedByNegation-----
+434,546
+435,507
+-----lastLexicalUse-----
+434,546
+435,507
+-----jump-----
+434,546
+435,507
+-----attribute-----
+FunctionDefinition;ElaboratedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;ParameterDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;ElaboratedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;Declarator;Pointer;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;Declarator;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;BinaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ReturnStatement;IdExpression;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ReturnStatement;IdExpression;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;LiteralExpression;LiteralExpression;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;IfStatement;BinaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;IfStatement;FieldReference;IdExpression;Name;Name;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;Pointer;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;BinaryExpression;CastExpression;TypeId;SimpleDeclSpecifier;Declarator;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;DoStatement;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;FunctionCallExpression;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;LiteralExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;IfStatement;BinaryExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;LiteralExpression;CompoundStatement;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;BinaryExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+static struct zip_cdir *_zip_readcdir(FILE *fp, off_t buf_offset, unsigned char *buf, unsigned char *eocd, int buflen,	      int flags, struct zip_error *error){    struct zip_cdir *cd;    unsigned char *cdp, **bufp;    int i, comlen, nentry;    zip_uint32_t left;    comlen = buf + buflen - eocd - EOCDLEN;    if (comlen < 0) {	/* not enough bytes left for comment */	_zip_error_set(error, ZIP_ER_NOZIP, 0);	return NULL;    }    /* check for end-of-central-dir magic */    if (memcmp(eocd, EOCD_MAGIC, 4) != 0) {	_zip_error_set(error, ZIP_ER_NOZIP, 0);	return NULL;    }    if (memcmp(eocd+4, "\0\0\0\0", 4) != 0) {	_zip_error_set(error, ZIP_ER_MULTIDISK, 0);	return NULL;    }    cdp = eocd + 8;    /* number of cdir-entries on this disk */    i = _zip_read2(&cdp);    /* number of cdir-entries */    nentry = _zip_read2(&cdp);    if ((cd=_zip_cdir_new(nentry, error)) == NULL)	return NULL;    cd->size = _zip_read4(&cdp);    cd->offset = _zip_read4(&cdp);    cd->comment = NULL;    cd->comment_len = _zip_read2(&cdp);    if (cd->offset+cd->size > buf_offset + (eocd-buf)) {	/* cdir spans past EOCD record */	_zip_error_set(error, ZIP_ER_INCONS, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }    if ((comlen < cd->comment_len) || (cd->nentry != i)) {	_zip_error_set(error, ZIP_ER_NOZIP, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }    if ((flags & ZIP_CHECKCONS) && comlen != cd->comment_len) {	_zip_error_set(error, ZIP_ER_INCONS, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }    if (cd->comment_len) {	if ((cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error))	    == NULL) {	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}    }    if (cd->offset >= buf_offset) {	/* if buffer already read in, use it */	cdp = buf + (cd->offset - buf_offset);	bufp = &cdp;    }    else {	/* go to start of cdir and read it entry by entry */	bufp = NULL;	clearerr(fp);	fseeko(fp, cd->offset, SEEK_SET);	/* possible consistency check: cd->offset =	   len-(cd->size+cd->comment_len+EOCDLEN) ? */	if (ferror(fp) || ((unsigned long)ftello(fp) != cd->offset)) {	    /* seek error or offset of cdir wrong */	    if (ferror(fp))		_zip_error_set(error, ZIP_ER_SEEK, errno);	    else		_zip_error_set(error, ZIP_ER_NOZIP, 0);	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}    }    left = cd->size;    i=0;    do {	if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0) {	    cd->nentry = i;	    _zip_cdir_free(cd);	    return NULL;	}	i++;		if (i == cd->nentry && left > 0) {	    /* Infozip extension for more than 64k entries:	       nentries wraps around, size indicates correct EOCD */	    if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {		cd->nentry = i;		_zip_cdir_free(cd);		return NULL;	    }	}    } while (i<cd->nentry && left > 0);    cd->nentry = i;        return cd;}
+static struct zip_cdir
+zip_cdir
+*_zip_readcdir(FILE *fp, off_t buf_offset, unsigned char *buf, unsigned char *eocd, int buflen,	      int flags, struct zip_error *error)
+*
+_zip_readcdir
+FILE *fp
+FILE
+FILE
+*fp
+*
+fp
+off_t buf_offset
+off_t
+off_t
+buf_offset
+buf_offset
+unsigned char *buf
+unsigned char
+*buf
+*
+buf
+unsigned char *eocd
+unsigned char
+*eocd
+*
+eocd
+int buflen
+int
+buflen
+buflen
+int flags
+int
+flags
+flags
+struct zip_error *error
+struct zip_error
+zip_error
+*error
+*
+error
+{    struct zip_cdir *cd;    unsigned char *cdp, **bufp;    int i, comlen, nentry;    zip_uint32_t left;    comlen = buf + buflen - eocd - EOCDLEN;    if (comlen < 0) {	/* not enough bytes left for comment */	_zip_error_set(error, ZIP_ER_NOZIP, 0);	return NULL;    }    /* check for end-of-central-dir magic */    if (memcmp(eocd, EOCD_MAGIC, 4) != 0) {	_zip_error_set(error, ZIP_ER_NOZIP, 0);	return NULL;    }    if (memcmp(eocd+4, "\0\0\0\0", 4) != 0) {	_zip_error_set(error, ZIP_ER_MULTIDISK, 0);	return NULL;    }    cdp = eocd + 8;    /* number of cdir-entries on this disk */    i = _zip_read2(&cdp);    /* number of cdir-entries */    nentry = _zip_read2(&cdp);    if ((cd=_zip_cdir_new(nentry, error)) == NULL)	return NULL;    cd->size = _zip_read4(&cdp);    cd->offset = _zip_read4(&cdp);    cd->comment = NULL;    cd->comment_len = _zip_read2(&cdp);    if (cd->offset+cd->size > buf_offset + (eocd-buf)) {	/* cdir spans past EOCD record */	_zip_error_set(error, ZIP_ER_INCONS, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }    if ((comlen < cd->comment_len) || (cd->nentry != i)) {	_zip_error_set(error, ZIP_ER_NOZIP, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }    if ((flags & ZIP_CHECKCONS) && comlen != cd->comment_len) {	_zip_error_set(error, ZIP_ER_INCONS, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }    if (cd->comment_len) {	if ((cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error))	    == NULL) {	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}    }    if (cd->offset >= buf_offset) {	/* if buffer already read in, use it */	cdp = buf + (cd->offset - buf_offset);	bufp = &cdp;    }    else {	/* go to start of cdir and read it entry by entry */	bufp = NULL;	clearerr(fp);	fseeko(fp, cd->offset, SEEK_SET);	/* possible consistency check: cd->offset =	   len-(cd->size+cd->comment_len+EOCDLEN) ? */	if (ferror(fp) || ((unsigned long)ftello(fp) != cd->offset)) {	    /* seek error or offset of cdir wrong */	    if (ferror(fp))		_zip_error_set(error, ZIP_ER_SEEK, errno);	    else		_zip_error_set(error, ZIP_ER_NOZIP, 0);	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}    }    left = cd->size;    i=0;    do {	if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0) {	    cd->nentry = i;	    _zip_cdir_free(cd);	    return NULL;	}	i++;		if (i == cd->nentry && left > 0) {	    /* Infozip extension for more than 64k entries:	       nentries wraps around, size indicates correct EOCD */	    if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {		cd->nentry = i;		_zip_cdir_free(cd);		return NULL;	    }	}    } while (i<cd->nentry && left > 0);    cd->nentry = i;        return cd;}
+struct zip_cdir *cd;
+struct zip_cdir *cd;
+struct zip_cdir
+zip_cdir
+*cd
+*
+cd
+unsigned char *cdp, **bufp;
+unsigned char *cdp, **bufp;
+unsigned char
+*cdp
+*
+cdp
+**bufp
+*
+*
+bufp
+int i, comlen, nentry;
+int i, comlen, nentry;
+int
+i
+i
+comlen
+comlen
+nentry
+nentry
+zip_uint32_t left;
+zip_uint32_t left;
+zip_uint32_t
+zip_uint32_t
+left
+left
+comlen = buf + buflen - eocd - EOCDLEN;
+comlen = buf + buflen - eocd - EOCDLEN
+comlen
+comlen
+buf + buflen - eocd - EOCDLEN
+buf + buflen - eocd
+buf + buflen
+buf
+buf
+buflen
+buflen
+eocd
+eocd
+EOCDLEN
+EOCDLEN
+if (comlen < 0) {	/* not enough bytes left for comment */	_zip_error_set(error, ZIP_ER_NOZIP, 0);	return NULL;    }
+comlen < 0
+comlen
+comlen
+0
+{	/* not enough bytes left for comment */	_zip_error_set(error, ZIP_ER_NOZIP, 0);	return NULL;    }
+_zip_error_set(error, ZIP_ER_NOZIP, 0);
+_zip_error_set(error, ZIP_ER_NOZIP, 0)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_NOZIP
+ZIP_ER_NOZIP
+0
+return NULL;
+NULL
+NULL
+if (memcmp(eocd, EOCD_MAGIC, 4) != 0) {	_zip_error_set(error, ZIP_ER_NOZIP, 0);	return NULL;    }
+memcmp(eocd, EOCD_MAGIC, 4) != 0
+memcmp(eocd, EOCD_MAGIC, 4)
+memcmp
+memcmp
+eocd
+eocd
+EOCD_MAGIC
+EOCD_MAGIC
+4
+0
+{	_zip_error_set(error, ZIP_ER_NOZIP, 0);	return NULL;    }
+_zip_error_set(error, ZIP_ER_NOZIP, 0);
+_zip_error_set(error, ZIP_ER_NOZIP, 0)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_NOZIP
+ZIP_ER_NOZIP
+0
+return NULL;
+NULL
+NULL
+if (memcmp(eocd+4, "\0\0\0\0", 4) != 0) {	_zip_error_set(error, ZIP_ER_MULTIDISK, 0);	return NULL;    }
+memcmp(eocd+4, "\0\0\0\0", 4) != 0
+memcmp(eocd+4, "\0\0\0\0", 4)
+memcmp
+memcmp
+eocd+4
+eocd
+eocd
+4
+"\0\0\0\0"
+4
+0
+{	_zip_error_set(error, ZIP_ER_MULTIDISK, 0);	return NULL;    }
+_zip_error_set(error, ZIP_ER_MULTIDISK, 0);
+_zip_error_set(error, ZIP_ER_MULTIDISK, 0)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_MULTIDISK
+ZIP_ER_MULTIDISK
+0
+return NULL;
+NULL
+NULL
+cdp = eocd + 8;
+cdp = eocd + 8
+cdp
+cdp
+eocd + 8
+eocd
+eocd
+8
+i = _zip_read2(&cdp);
+i = _zip_read2(&cdp)
+i
+i
+_zip_read2(&cdp)
+_zip_read2
+_zip_read2
+&cdp
+cdp
+cdp
+nentry = _zip_read2(&cdp);
+nentry = _zip_read2(&cdp)
+nentry
+nentry
+_zip_read2(&cdp)
+_zip_read2
+_zip_read2
+&cdp
+cdp
+cdp
+if ((cd=_zip_cdir_new(nentry, error)) == NULL)	return NULL;
+(cd=_zip_cdir_new(nentry, error)) == NULL
+(cd=_zip_cdir_new(nentry, error))
+cd=_zip_cdir_new(nentry, error)
+cd
+cd
+_zip_cdir_new(nentry, error)
+_zip_cdir_new
+_zip_cdir_new
+nentry
+nentry
+error
+error
+NULL
+NULL
+return NULL;
+NULL
+NULL
+cd->size = _zip_read4(&cdp);
+cd->size = _zip_read4(&cdp)
+cd->size
+cd
+cd
+size
+_zip_read4(&cdp)
+_zip_read4
+_zip_read4
+&cdp
+cdp
+cdp
+cd->offset = _zip_read4(&cdp);
+cd->offset = _zip_read4(&cdp)
+cd->offset
+cd
+cd
+offset
+_zip_read4(&cdp)
+_zip_read4
+_zip_read4
+&cdp
+cdp
+cdp
+cd->comment = NULL;
+cd->comment = NULL
+cd->comment
+cd
+cd
+comment
+NULL
+NULL
+cd->comment_len = _zip_read2(&cdp);
+cd->comment_len = _zip_read2(&cdp)
+cd->comment_len
+cd
+cd
+comment_len
+_zip_read2(&cdp)
+_zip_read2
+_zip_read2
+&cdp
+cdp
+cdp
+if (cd->offset+cd->size > buf_offset + (eocd-buf)) {	/* cdir spans past EOCD record */	_zip_error_set(error, ZIP_ER_INCONS, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }
+cd->offset+cd->size > buf_offset + (eocd-buf)
+cd->offset+cd->size
+cd->offset
+cd
+cd
+offset
+cd->size
+cd
+cd
+size
+buf_offset + (eocd-buf)
+buf_offset
+buf_offset
+(eocd-buf)
+eocd-buf
+eocd
+eocd
+buf
+buf
+{	/* cdir spans past EOCD record */	_zip_error_set(error, ZIP_ER_INCONS, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }
+_zip_error_set(error, ZIP_ER_INCONS, 0);
+_zip_error_set(error, ZIP_ER_INCONS, 0)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_INCONS
+ZIP_ER_INCONS
+0
+cd->nentry = 0;
+cd->nentry = 0
+cd->nentry
+cd
+cd
+nentry
+0
+_zip_cdir_free(cd);
+_zip_cdir_free(cd)
+_zip_cdir_free
+_zip_cdir_free
+cd
+cd
+return NULL;
+NULL
+NULL
+if ((comlen < cd->comment_len) || (cd->nentry != i)) {	_zip_error_set(error, ZIP_ER_NOZIP, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }
+(comlen < cd->comment_len) || (cd->nentry != i)
+(comlen < cd->comment_len)
+comlen < cd->comment_len
+comlen
+comlen
+cd->comment_len
+cd
+cd
+comment_len
+(cd->nentry != i)
+cd->nentry != i
+cd->nentry
+cd
+cd
+nentry
+i
+i
+{	_zip_error_set(error, ZIP_ER_NOZIP, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }
+_zip_error_set(error, ZIP_ER_NOZIP, 0);
+_zip_error_set(error, ZIP_ER_NOZIP, 0)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_NOZIP
+ZIP_ER_NOZIP
+0
+cd->nentry = 0;
+cd->nentry = 0
+cd->nentry
+cd
+cd
+nentry
+0
+_zip_cdir_free(cd);
+_zip_cdir_free(cd)
+_zip_cdir_free
+_zip_cdir_free
+cd
+cd
+return NULL;
+NULL
+NULL
+if ((flags & ZIP_CHECKCONS) && comlen != cd->comment_len) {	_zip_error_set(error, ZIP_ER_INCONS, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }
+(flags & ZIP_CHECKCONS) && comlen != cd->comment_len
+(flags & ZIP_CHECKCONS)
+flags & ZIP_CHECKCONS
+flags
+flags
+ZIP_CHECKCONS
+ZIP_CHECKCONS
+comlen != cd->comment_len
+comlen
+comlen
+cd->comment_len
+cd
+cd
+comment_len
+{	_zip_error_set(error, ZIP_ER_INCONS, 0);	cd->nentry = 0;	_zip_cdir_free(cd);	return NULL;    }
+_zip_error_set(error, ZIP_ER_INCONS, 0);
+_zip_error_set(error, ZIP_ER_INCONS, 0)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_INCONS
+ZIP_ER_INCONS
+0
+cd->nentry = 0;
+cd->nentry = 0
+cd->nentry
+cd
+cd
+nentry
+0
+_zip_cdir_free(cd);
+_zip_cdir_free(cd)
+_zip_cdir_free
+_zip_cdir_free
+cd
+cd
+return NULL;
+NULL
+NULL
+if (cd->comment_len) {	if ((cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error))	    == NULL) {	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}    }
+cd->comment_len
+cd
+cd
+comment_len
+{	if ((cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error))	    == NULL) {	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}    }
+if ((cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error))	    == NULL) {	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}
+(cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error))	    == NULL
+(cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error))
+cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error)
+cd->comment
+cd
+cd
+comment
+(char *)_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error)
+char *
+char
+*
+*
+_zip_memdup(eocd+EOCDLEN,					     cd->comment_len, error)
+_zip_memdup
+_zip_memdup
+eocd+EOCDLEN
+eocd
+eocd
+EOCDLEN
+EOCDLEN
+cd->comment_len
+cd
+cd
+comment_len
+error
+error
+NULL
+NULL
+{	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}
+cd->nentry = 0;
+cd->nentry = 0
+cd->nentry
+cd
+cd
+nentry
+0
+_zip_cdir_free(cd);
+_zip_cdir_free(cd)
+_zip_cdir_free
+_zip_cdir_free
+cd
+cd
+return NULL;
+NULL
+NULL
+if (cd->offset >= buf_offset) {	/* if buffer already read in, use it */	cdp = buf + (cd->offset - buf_offset);	bufp = &cdp;    }    else {	/* go to start of cdir and read it entry by entry */	bufp = NULL;	clearerr(fp);	fseeko(fp, cd->offset, SEEK_SET);	/* possible consistency check: cd->offset =	   len-(cd->size+cd->comment_len+EOCDLEN) ? */	if (ferror(fp) || ((unsigned long)ftello(fp) != cd->offset)) {	    /* seek error or offset of cdir wrong */	    if (ferror(fp))		_zip_error_set(error, ZIP_ER_SEEK, errno);	    else		_zip_error_set(error, ZIP_ER_NOZIP, 0);	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}    }
+cd->offset >= buf_offset
+cd->offset
+cd
+cd
+offset
+buf_offset
+buf_offset
+{	/* if buffer already read in, use it */	cdp = buf + (cd->offset - buf_offset);	bufp = &cdp;    }
+cdp = buf + (cd->offset - buf_offset);
+cdp = buf + (cd->offset - buf_offset)
+cdp
+cdp
+buf + (cd->offset - buf_offset)
+buf
+buf
+(cd->offset - buf_offset)
+cd->offset - buf_offset
+cd->offset
+cd
+cd
+offset
+buf_offset
+buf_offset
+bufp = &cdp;
+bufp = &cdp
+bufp
+bufp
+&cdp
+cdp
+cdp
+{	/* go to start of cdir and read it entry by entry */	bufp = NULL;	clearerr(fp);	fseeko(fp, cd->offset, SEEK_SET);	/* possible consistency check: cd->offset =	   len-(cd->size+cd->comment_len+EOCDLEN) ? */	if (ferror(fp) || ((unsigned long)ftello(fp) != cd->offset)) {	    /* seek error or offset of cdir wrong */	    if (ferror(fp))		_zip_error_set(error, ZIP_ER_SEEK, errno);	    else		_zip_error_set(error, ZIP_ER_NOZIP, 0);	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}    }
+bufp = NULL;
+bufp = NULL
+bufp
+bufp
+NULL
+NULL
+clearerr(fp);
+clearerr(fp)
+clearerr
+clearerr
+fp
+fp
+fseeko(fp, cd->offset, SEEK_SET);
+fseeko(fp, cd->offset, SEEK_SET)
+fseeko
+fseeko
+fp
+fp
+cd->offset
+cd
+cd
+offset
+SEEK_SET
+SEEK_SET
+if (ferror(fp) || ((unsigned long)ftello(fp) != cd->offset)) {	    /* seek error or offset of cdir wrong */	    if (ferror(fp))		_zip_error_set(error, ZIP_ER_SEEK, errno);	    else		_zip_error_set(error, ZIP_ER_NOZIP, 0);	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}
+ferror(fp) || ((unsigned long)ftello(fp) != cd->offset)
+ferror(fp)
+ferror
+ferror
+fp
+fp
+((unsigned long)ftello(fp) != cd->offset)
+(unsigned long)ftello(fp) != cd->offset
+(unsigned long)ftello(fp)
+unsigned long
+unsigned long
+
+ftello(fp)
+ftello
+ftello
+fp
+fp
+cd->offset
+cd
+cd
+offset
+{	    /* seek error or offset of cdir wrong */	    if (ferror(fp))		_zip_error_set(error, ZIP_ER_SEEK, errno);	    else		_zip_error_set(error, ZIP_ER_NOZIP, 0);	    cd->nentry = 0;	    _zip_cdir_free(cd);	    return NULL;	}
+if (ferror(fp))		_zip_error_set(error, ZIP_ER_SEEK, errno);	    else		_zip_error_set(error, ZIP_ER_NOZIP, 0);
+ferror(fp)
+ferror
+ferror
+fp
+fp
+_zip_error_set(error, ZIP_ER_SEEK, errno);
+_zip_error_set(error, ZIP_ER_SEEK, errno)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_SEEK
+ZIP_ER_SEEK
+errno
+errno
+_zip_error_set(error, ZIP_ER_NOZIP, 0);
+_zip_error_set(error, ZIP_ER_NOZIP, 0)
+_zip_error_set
+_zip_error_set
+error
+error
+ZIP_ER_NOZIP
+ZIP_ER_NOZIP
+0
+cd->nentry = 0;
+cd->nentry = 0
+cd->nentry
+cd
+cd
+nentry
+0
+_zip_cdir_free(cd);
+_zip_cdir_free(cd)
+_zip_cdir_free
+_zip_cdir_free
+cd
+cd
+return NULL;
+NULL
+NULL
+left = cd->size;
+left = cd->size
+left
+left
+cd->size
+cd
+cd
+size
+i=0;
+i=0
+i
+i
+0
+do {	if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0) {	    cd->nentry = i;	    _zip_cdir_free(cd);	    return NULL;	}	i++;		if (i == cd->nentry && left > 0) {	    /* Infozip extension for more than 64k entries:	       nentries wraps around, size indicates correct EOCD */	    if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {		cd->nentry = i;		_zip_cdir_free(cd);		return NULL;	    }	}    } while (i<cd->nentry && left > 0);
+{	if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0) {	    cd->nentry = i;	    _zip_cdir_free(cd);	    return NULL;	}	i++;		if (i == cd->nentry && left > 0) {	    /* Infozip extension for more than 64k entries:	       nentries wraps around, size indicates correct EOCD */	    if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {		cd->nentry = i;		_zip_cdir_free(cd);		return NULL;	    }	}    }
+if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0) {	    cd->nentry = i;	    _zip_cdir_free(cd);	    return NULL;	}
+(_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0
+(_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error))
+_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)
+_zip_dirent_read
+_zip_dirent_read
+cd->entry+i
+cd->entry
+cd
+cd
+entry
+i
+i
+fp
+fp
+bufp
+bufp
+&left
+left
+left
+0
+error
+error
+0
+{	    cd->nentry = i;	    _zip_cdir_free(cd);	    return NULL;	}
+cd->nentry = i;
+cd->nentry = i
+cd->nentry
+cd
+cd
+nentry
+i
+i
+_zip_cdir_free(cd);
+_zip_cdir_free(cd)
+_zip_cdir_free
+_zip_cdir_free
+cd
+cd
+return NULL;
+NULL
+NULL
+i++;
+i++
+i
+i
+if (i == cd->nentry && left > 0) {	    /* Infozip extension for more than 64k entries:	       nentries wraps around, size indicates correct EOCD */	    if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {		cd->nentry = i;		_zip_cdir_free(cd);		return NULL;	    }	}
+i == cd->nentry && left > 0
+i == cd->nentry
+i
+i
+cd->nentry
+cd
+cd
+nentry
+left > 0
+left
+left
+0
+{	    /* Infozip extension for more than 64k entries:	       nentries wraps around, size indicates correct EOCD */	    if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {		cd->nentry = i;		_zip_cdir_free(cd);		return NULL;	    }	}
+if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {		cd->nentry = i;		_zip_cdir_free(cd);		return NULL;	    }
+_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0
+_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error)
+_zip_cdir_grow
+_zip_cdir_grow
+cd
+cd
+cd->nentry+ZIP_UINT16_MAX
+cd->nentry
+cd
+cd
+nentry
+ZIP_UINT16_MAX
+ZIP_UINT16_MAX
+error
+error
+0
+{		cd->nentry = i;		_zip_cdir_free(cd);		return NULL;	    }
+cd->nentry = i;
+cd->nentry = i
+cd->nentry
+cd
+cd
+nentry
+i
+i
+_zip_cdir_free(cd);
+_zip_cdir_free(cd)
+_zip_cdir_free
+_zip_cdir_free
+cd
+cd
+return NULL;
+NULL
+NULL
+i<cd->nentry && left > 0
+i<cd->nentry
+i
+i
+cd->nentry
+cd
+cd
+nentry
+left > 0
+left
+left
+0
+cd->nentry = i;
+cd->nentry = i
+cd->nentry
+cd
+cd
+nentry
+i
+i
+return cd;
+cd
+cd
+-----joern-----
+(9,29,0)
+(18,1,0)
+(17,0,0)
+(27,0,0)
+(31,1,0)
+(41,38,0)
+(6,28,0)
+(16,29,0)
+(25,18,0)
+(23,4,0)
+(39,43,0)
+(34,1,0)
+(14,29,0)
+(41,6,0)
+(3,35,0)
+(29,10,0)
+(42,8,0)
+(18,11,0)
+(29,20,0)
+(40,18,0)
+(15,35,0)
+(8,7,0)
+(41,43,0)
+(18,6,0)
+(24,38,0)
+(1,34,0)
+(32,34,0)
+(8,10,0)
+(19,28,0)
+(0,7,0)
+(5,18,0)
+(4,11,0)
+(26,28,0)
+(33,35,0)
+(18,7,0)
+(2,35,0)
+(43,35,0)
+(0,1,0)
+(30,8,0)
+(41,15,0)
+(4,10,0)
+(4,7,0)
+(22,4,0)
+(13,28,0)
+(37,18,0)
+(1,0,0)
+(18,10,0)
+(36,4,0)
+(21,35,0)
+(38,20,0)
+(8,15,0)
+(12,18,0)
+(5,12,1)
+(40,5,1)
+(9,16,1)
+(4,11,1)
+(4,7,1)
+(12,25,1)
+(8,10,1)
+(0,27,1)
+(4,10,1)
+(41,43,1)
+(17,31,1)
+(16,14,1)
+(34,32,1)
+(29,9,1)
+(30,42,1)
+(0,7,1)
+(41,6,1)
+(31,2,1)
+(18,10,1)
+(23,22,1)
+(1,0,1)
+(4,23,1)
+(25,34,1)
+(38,24,1)
+(22,36,1)
+(34,1,1)
+(18,11,1)
+(15,8,1)
+(32,1,1)
+(37,40,1)
+(24,29,1)
+(27,17,1)
+(2,4,1)
+(41,38,1)
+(8,30,1)
+(18,37,1)
+(29,10,1)
+(18,7,1)
+(14,34,1)
+(8,7,1)
+(6,18,1)
+(41,15,1)
+(42,4,1)
+(43,39,1)
+(18,1,1)
+(18,11,2)
+(12,34,2)
+(1,4,2)
+(8,10,2)
+(29,34,2)
+(6,34,2)
+(16,34,2)
+(37,34,2)
+(18,34,2)
+(40,34,2)
+(0,7,2)
+(18,10,2)
+(25,34,2)
+(4,11,2)
+(17,4,2)
+(18,7,2)
+(41,6,2)
+(2,4,2)
+(8,4,2)
+(0,4,2)
+(41,43,2)
+(14,34,2)
+(30,4,2)
+(29,10,2)
+(24,34,2)
+(34,1,2)
+(18,1,2)
+(4,7,2)
+(1,0,2)
+(4,10,2)
+(41,15,2)
+(31,4,2)
+(38,34,2)
+(15,4,2)
+(27,4,2)
+(8,7,2)
+(42,4,2)
+(32,4,2)
+(5,34,2)
+(41,38,2)
+(34,4,2)
+(9,34,2)
+-----------------------------------
+(0,fopen(fn, "rb")
+(1,fp=fopen(fn, "rb")
+(2,break;)
+(3,default:)
+(4,_zip_file_exists(fn, flags, zep)
+(5,flags)
+(6,return _zip_open(fn, fp, flags, 0, zep)
+(7,const char *fn)
+(8,_zip_allocate_new(fn, zep)
+(9,ZIP_ER_OPEN)
+(10,int *zep)
+(11,int flags)
+(12,fp)
+(13,switch (_zip_file_exists(fn, flags, zep)
+(14,zep)
+(15,return _zip_allocate_new(fn, zep)
+(16,NULL)
+(17,fn)
+(18,_zip_open(fn, fp, flags, 0, zep)
+(19,if ((fp=fopen(fn, "rb")
+(20,)
+(21,case 0:)
+(22,flags)
+(23,zep)
+(24,NULL)
+(25,fn)
+(26,fp)
+(27,"rb")
+(28,)
+(29,set_error(zep, NULL, ZIP_ER_OPEN)
+(30,zep)
+(31,fp)
+(32,NULL)
+(33,1:)
+(34,(fp=fopen(fn, "rb")
+(35,)
+(36,fn)
+(37,zep)
+(38,return NULL;)
+(39,NULL)
+(40,0)
+(41,RET)
+(42,fn)
+(43,return NULL;)
+-----cfg-----
+(257,260)
+(260,266)
+(262,270)
+(7,27)
+(264,262)
+(266,264)
+(269,282)
+(269,308)
+(270,274)
+(270,269)
+(272,269)
+(273,279)
+(274,275)
+(275,273)
+(277,272)
+(23,33)
+(279,277)
+(25,23)
+(26,25)
+(282,285)
+(282,291)
+(27,26)
+(285,298)
+(33,37)
+(33,45)
+(291,298)
+(37,41)
+(295,300)
+(296,295)
+(41,389)
+(298,296)
+(44,51)
+(44,60)
+(300,302)
+(45,44)
+(302,389)
+(304,309)
+(306,304)
+(51,55)
+(308,306)
+(309,320)
+(55,389)
+(58,67)
+(58,75)
+(59,58)
+(315,333)
+(315,339)
+(60,59)
+(316,315)
+(317,324)
+(318,317)
+(320,318)
+(67,71)
+(324,316)
+(71,389)
+(73,81)
+(330,335)
+(75,73)
+(331,330)
+(333,331)
+(78,86)
+(335,337)
+(80,78)
+(81,80)
+(337,389)
+(83,92)
+(339,347)
+(85,83)
+(86,85)
+(342,378)
+(342,359)
+(343,342)
+(343,348)
+(89,97)
+(89,102)
+(345,343)
+(90,89)
+(347,345)
+(92,90)
+(348,342)
+(97,389)
+(353,378)
+(353,367)
+(354,353)
+(99,109)
+(100,104)
+(356,354)
+(357,356)
+(102,100)
+(103,99)
+(359,357)
+(104,103)
+(106,116)
+(107,111)
+(364,369)
+(109,107)
+(365,364)
+(110,106)
+(111,110)
+(367,365)
+(113,121)
+(369,371)
+(114,113)
+(371,389)
+(116,114)
+(373,320)
+(373,385)
+(118,130)
+(374,373)
+(374,379)
+(119,123)
+(376,374)
+(121,119)
+(122,118)
+(378,376)
+(123,122)
+(379,373)
+(382,387)
+(126,140)
+(126,159)
+(383,382)
+(127,136)
+(128,133)
+(385,383)
+(130,128)
+(387,389)
+(131,127)
+(133,131)
+(134,126)
+(136,134)
+(140,147)
+(144,149)
+(145,144)
+(147,145)
+(149,151)
+(151,389)
+(154,166)
+(154,181)
+(155,154)
+(155,163)
+(157,155)
+(159,157)
+(160,154)
+(161,160)
+(163,161)
+(166,173)
+(170,175)
+(171,170)
+(173,171)
+(175,177)
+(177,389)
+(180,190)
+(180,206)
+(181,180)
+(181,188)
+(184,180)
+(186,184)
+(188,186)
+(190,197)
+(194,199)
+(195,194)
+(197,195)
+(199,201)
+(201,389)
+(204,213)
+(204,239)
+(206,204)
+(209,229)
+(209,239)
+(210,209)
+(211,215)
+(213,211)
+(214,210)
+(215,217)
+(216,214)
+(217,222)
+(220,216)
+(222,220)
+(226,231)
+(227,226)
+(229,227)
+(231,233)
+(233,389)
+(236,249)
+(236,257)
+(237,236)
+(239,237)
+(242,253)
+(244,242)
+(246,244)
+(247,246)
+(249,247)
+(251,308)
+(253,251)
+-----path-----
+7,27,26,25,23,33,37,41,389
+7,27,26,25,23,33,45,44,51,55,389
+7,27,26,25,23,33,45,44,60,59,58,67,71,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,97,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,140,147,145,144,149,151,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,166,173,171,170,175,177,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,190,197,195,194,199,201,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,229,227,226,231,233,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385,383,382,387
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373,385,383,382
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,190,197,195,194,199,201,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,229,227,226,231,233,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,166,173,171,170,175,177,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,190,197,195,194,199,201,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,229,227,226,231,233,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,190,197,195,194,199,201,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,229,227,226,231,233,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,333,331,330
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,213,211,215,217,222,220,216,214,210,209,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385,383,382,387
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373,385,383,382
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,249,247,246,244,242,253,251,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,274,275,273,279,277,272,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,282,285,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,282,291,298,296,295,300,302,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,333,331,330,335,337,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,378,376,374,379,373,385,383,382,387
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,342,359,357,356,354,353,367,365,364,369,371,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,378,376,374,379,373,385,383,382,387,389
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,373,385,383,382,387
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,378,376,374,379,373,385,383,382
+7,27,26,25,23,33,45,44,60,59,58,75,73,81,80,78,86,85,83,92,90,89,102,100,104,103,99,109,107,111,110,106,116,114,113,121,119,123,122,118,130,128,133,131,127,136,134,126,159,157,155,163,161,160,154,181,188,186,184,180,206,204,239,237,236,257,260,266,264,262,270,269,308,306,304,309,320,318,317,324,316,315,339,347,345,343,348,342,359,357,356,354,353,367,365,364,369,371,389
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,struct zip_cdir _zip_readcdir (FILE *fp,off_t buf_offset,unsigned char *buf,unsigned char *eocd,int buflen,int flags,struct zip_error *error)
+8,FILE *fp
+9,off_t buf_offset
+10,unsigned char *buf
+11,unsigned char *eocd
+12,int buflen
+13,int flags
+14,struct zip_error *error
+15,<empty>
+16,struct zip_cdir* cd
+17,unsigned char* cdp
+18,unsigned char** bufp
+19,int i
+20,int comlen
+21,int nentry
+22,zip_uint32_t left
+23,comlen = buf + buflen - eocd - EOCDLEN
+24,comlen
+25,buf + buflen - eocd - EOCDLEN
+26,buf + buflen - eocd
+27,buf + buflen
+28,buf
+29,buflen
+30,eocd
+31,EOCDLEN
+32,if (comlen < 0)
+33,comlen < 0
+34,comlen
+35,0
+36,<empty>
+37,_zip_error_set(error, ZIP_ER_NOZIP, 0)
+38,error
+39,ZIP_ER_NOZIP
+40,0
+41,return NULL;
+42,NULL
+43,if (memcmp(eocd, EOCD_MAGIC, 4) != 0)
+44,memcmp(eocd, EOCD_MAGIC, 4) != 0
+45,memcmp(eocd, EOCD_MAGIC, 4)
+46,eocd
+47,EOCD_MAGIC
+48,4
+49,0
+50,<empty>
+51,_zip_error_set(error, ZIP_ER_NOZIP, 0)
+52,error
+53,ZIP_ER_NOZIP
+54,0
+55,return NULL;
+56,NULL
+57,if (memcmp(eocd+4, "\0\0\0\0", 4) != 0)
+58,memcmp(eocd+4, "\0\0\0\0", 4) != 0
+59,memcmp(eocd+4, "\0\0\0\0", 4)
+60,eocd+4
+61,eocd
+62,4
+63,"\0\0\0\0"
+64,4
+65,0
+66,<empty>
+67,_zip_error_set(error, ZIP_ER_MULTIDISK, 0)
+68,error
+69,ZIP_ER_MULTIDISK
+70,0
+71,return NULL;
+72,NULL
+73,cdp = eocd + 8
+74,cdp
+75,eocd + 8
+76,eocd
+77,8
+78,i = _zip_read2(&cdp)
+79,i
+80,_zip_read2(&cdp)
+81,&cdp
+82,cdp
+83,nentry = _zip_read2(&cdp)
+84,nentry
+85,_zip_read2(&cdp)
+86,&cdp
+87,cdp
+88,if ((cd=_zip_cdir_new(nentry, error)) == NULL)
+89,(cd=_zip_cdir_new(nentry, error)) == NULL
+90,cd=_zip_cdir_new(nentry, error)
+91,cd
+92,_zip_cdir_new(nentry, error)
+93,nentry
+94,error
+95,NULL
+96,<empty>
+97,return NULL;
+98,NULL
+99,cd->size = _zip_read4(&cdp)
+100,cd->size
+101,cd
+102,size
+103,_zip_read4(&cdp)
+104,&cdp
+105,cdp
+106,cd->offset = _zip_read4(&cdp)
+107,cd->offset
+108,cd
+109,offset
+110,_zip_read4(&cdp)
+111,&cdp
+112,cdp
+113,cd->comment = NULL
+114,cd->comment
+115,cd
+116,comment
+117,NULL
+118,cd->comment_len = _zip_read2(&cdp)
+119,cd->comment_len
+120,cd
+121,comment_len
+122,_zip_read2(&cdp)
+123,&cdp
+124,cdp
+125,if (cd->offset+cd->size > buf_offset + (eocd-buf))
+126,cd->offset+cd->size > buf_offset + (eocd-buf)
+127,cd->offset+cd->size
+128,cd->offset
+129,cd
+130,offset
+131,cd->size
+132,cd
+133,size
+134,buf_offset + (eocd-buf)
+135,buf_offset
+136,eocd-buf
+137,eocd
+138,buf
+139,<empty>
+140,_zip_error_set(error, ZIP_ER_INCONS, 0)
+141,error
+142,ZIP_ER_INCONS
+143,0
+144,cd->nentry = 0
+145,cd->nentry
+146,cd
+147,nentry
+148,0
+149,_zip_cdir_free(cd)
+150,cd
+151,return NULL;
+152,NULL
+153,if ((comlen < cd->comment_len) || (cd->nentry != i))
+154,(comlen < cd->comment_len) || (cd->nentry != i)
+155,comlen < cd->comment_len
+156,comlen
+157,cd->comment_len
+158,cd
+159,comment_len
+160,cd->nentry != i
+161,cd->nentry
+162,cd
+163,nentry
+164,i
+165,<empty>
+166,_zip_error_set(error, ZIP_ER_NOZIP, 0)
+167,error
+168,ZIP_ER_NOZIP
+169,0
+170,cd->nentry = 0
+171,cd->nentry
+172,cd
+173,nentry
+174,0
+175,_zip_cdir_free(cd)
+176,cd
+177,return NULL;
+178,NULL
+179,if ((flags & ZIP_CHECKCONS) && comlen != cd->comment_len)
+180,(flags & ZIP_CHECKCONS) && comlen != cd->comment_len
+181,flags & ZIP_CHECKCONS
+182,flags
+183,ZIP_CHECKCONS
+184,comlen != cd->comment_len
+185,comlen
+186,cd->comment_len
+187,cd
+188,comment_len
+189,<empty>
+190,_zip_error_set(error, ZIP_ER_INCONS, 0)
+191,error
+192,ZIP_ER_INCONS
+193,0
+194,cd->nentry = 0
+195,cd->nentry
+196,cd
+197,nentry
+198,0
+199,_zip_cdir_free(cd)
+200,cd
+201,return NULL;
+202,NULL
+203,if (cd->comment_len)
+204,cd->comment_len
+205,cd
+206,comment_len
+207,<empty>
+208,if ((cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,
+209,					     cd->comment_len, error))
+210,	    == NULL)
+211,(cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,
+212,					     cd->comment_len, error))
+213,	    == NULL
+214,cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,
+215,					     cd->comment_len, error)
+216,cd->comment
+217,cd
+218,comment
+219,(char *)_zip_memdup(eocd+EOCDLEN,
+220,					     cd->comment_len, error)
+221,char *
+222,_zip_memdup(eocd+EOCDLEN,
+223,					     cd->comment_len, error)
+224,eocd+EOCDLEN
+225,eocd
+226,EOCDLEN
+227,cd->comment_len
+228,cd
+229,comment_len
+230,error
+231,NULL
+232,<empty>
+233,cd->nentry = 0
+234,cd->nentry
+235,cd
+236,nentry
+237,0
+238,_zip_cdir_free(cd)
+239,cd
+240,return NULL;
+241,NULL
+242,if (cd->offset >= buf_offset)
+243,cd->offset >= buf_offset
+244,cd->offset
+245,cd
+246,offset
+247,buf_offset
+248,<empty>
+249,cdp = buf + (cd->offset - buf_offset)
+250,cdp
+251,buf + (cd->offset - buf_offset)
+252,buf
+253,cd->offset - buf_offset
+254,cd->offset
+255,cd
+256,offset
+257,buf_offset
+258,bufp = &cdp
+259,bufp
+260,&cdp
+261,cdp
+262,else
+263,<empty>
+264,bufp = NULL
+265,bufp
+266,NULL
+267,clearerr(fp)
+268,fp
+269,fseeko(fp, cd->offset, SEEK_SET)
+270,fp
+271,cd->offset
+272,cd
+273,offset
+274,SEEK_SET
+275,if (ferror(fp) || ((unsigned long)ftello(fp) != cd->offset))
+276,ferror(fp) || ((unsigned long)ftello(fp) != cd->offset)
+277,ferror(fp)
+278,fp
+279,(unsigned long)ftello(fp) != cd->offset
+280,(unsigned long)ftello(fp)
+281,unsigned long
+282,ftello(fp)
+283,fp
+284,cd->offset
+285,cd
+286,offset
+287,<empty>
+288,if (ferror(fp))
+289,ferror(fp)
+290,fp
+291,<empty>
+292,_zip_error_set(error, ZIP_ER_SEEK, errno)
+293,error
+294,ZIP_ER_SEEK
+295,errno
+296,else
+297,<empty>
+298,_zip_error_set(error, ZIP_ER_NOZIP, 0)
+299,error
+300,ZIP_ER_NOZIP
+301,0
+302,cd->nentry = 0
+303,cd->nentry
+304,cd
+305,nentry
+306,0
+307,_zip_cdir_free(cd)
+308,cd
+309,return NULL;
+310,NULL
+311,left = cd->size
+312,left
+313,cd->size
+314,cd
+315,size
+316,i=0
+317,i
+318,0
+319,do {
+320,	if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0) {
+321,	    cd->nentry = i;
+322,	    _zip_cdir_free(cd);
+323,	    return NULL;
+324,	}
+325,	i++;
+326,	
+327,	if (i == cd->nentry && left > 0) {
+328,	    /* Infozip extension for more than 64k entries:
+329,	       nentries wraps around, size indicates correct EOCD */
+330,	    if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {
+331,		cd->nentry = i;
+332,		_zip_cdir_free(cd);
+333,		return NULL;
+334,	    }
+335,	}
+336,    } while (i<cd->nentry && left > 0);
+337,<empty>
+338,if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0)
+339,(_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0
+340,_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)
+341,cd->entry+i
+342,cd->entry
+343,cd
+344,entry
+345,i
+346,fp
+347,bufp
+348,&left
+349,left
+350,0
+351,error
+352,0
+353,<empty>
+354,cd->nentry = i
+355,cd->nentry
+356,cd
+357,nentry
+358,i
+359,_zip_cdir_free(cd)
+360,cd
+361,return NULL;
+362,NULL
+363,i++
+364,i
+365,if (i == cd->nentry && left > 0)
+366,i == cd->nentry && left > 0
+367,i == cd->nentry
+368,i
+369,cd->nentry
+370,cd
+371,nentry
+372,left > 0
+373,left
+374,0
+375,<empty>
+376,if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0)
+377,_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0
+378,_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error)
+379,cd
+380,cd->nentry+ZIP_UINT16_MAX
+381,cd->nentry
+382,cd
+383,nentry
+384,ZIP_UINT16_MAX
+385,error
+386,0
+387,<empty>
+388,cd->nentry = i
+389,cd->nentry
+390,cd
+391,nentry
+392,i
+393,_zip_cdir_free(cd)
+394,cd
+395,return NULL;
+396,NULL
+397,i<cd->nentry && left > 0
+398,i<cd->nentry
+399,i
+400,cd->nentry
+401,cd
+402,nentry
+403,left > 0
+404,left
+405,0
+406,cd->nentry = i
+407,cd->nentry
+408,cd
+409,nentry
+410,i
+411,return cd;
+412,cd
+413,RET
+414,FILE *fp
+415,off_t buf_offset
+416,unsigned char *buf
+417,unsigned char *eocd
+418,int buflen
+419,int flags
+420,struct zip_error *error
+421,RET
+422,struct zip_cdir _zip_readcdir (FILE *fp,off_t buf_offset,unsigned char *buf,unsigned char *eocd,int buflen,int flags,struct zip_error *error)
+423,FILE *fp
+424,off_t buf_offset
+425,unsigned char *buf
+426,unsigned char *eocd
+427,int buflen
+428,int flags
+429,struct zip_error *error
+430,<empty>
+431,struct zip_cdir* cd
+432,unsigned char* cdp
+433,unsigned char** bufp
+434,int i
+435,int comlen
+436,int nentry
+437,zip_uint32_t left
+438,comlen = buf + buflen - eocd - EOCDLEN
+439,comlen
+440,buf + buflen - eocd - EOCDLEN
+441,buf + buflen - eocd
+442,buf + buflen
+443,buf
+444,buflen
+445,eocd
+446,EOCDLEN
+447,if (comlen < 0)
+448,comlen < 0
+449,comlen
+450,0
+451,<empty>
+452,_zip_error_set(error, ZIP_ER_NOZIP, 0)
+453,error
+454,ZIP_ER_NOZIP
+455,0
+456,return NULL;
+457,NULL
+458,if (memcmp(eocd, EOCD_MAGIC, 4) != 0)
+459,memcmp(eocd, EOCD_MAGIC, 4) != 0
+460,memcmp(eocd, EOCD_MAGIC, 4)
+461,eocd
+462,EOCD_MAGIC
+463,4
+464,0
+465,<empty>
+466,_zip_error_set(error, ZIP_ER_NOZIP, 0)
+467,error
+468,ZIP_ER_NOZIP
+469,0
+470,return NULL;
+471,NULL
+472,if (memcmp(eocd+4, "\0\0\0\0", 4) != 0)
+473,memcmp(eocd+4, "\0\0\0\0", 4) != 0
+474,memcmp(eocd+4, "\0\0\0\0", 4)
+475,eocd+4
+476,eocd
+477,4
+478,"\0\0\0\0"
+479,4
+480,0
+481,<empty>
+482,_zip_error_set(error, ZIP_ER_MULTIDISK, 0)
+483,error
+484,ZIP_ER_MULTIDISK
+485,0
+486,return NULL;
+487,NULL
+488,cdp = eocd + 8
+489,cdp
+490,eocd + 8
+491,eocd
+492,8
+493,i = _zip_read2(&cdp)
+494,i
+495,_zip_read2(&cdp)
+496,&cdp
+497,cdp
+498,nentry = _zip_read2(&cdp)
+499,nentry
+500,_zip_read2(&cdp)
+501,&cdp
+502,cdp
+503,if ((cd=_zip_cdir_new(nentry, error)) == NULL)
+504,(cd=_zip_cdir_new(nentry, error)) == NULL
+505,cd=_zip_cdir_new(nentry, error)
+506,cd
+507,_zip_cdir_new(nentry, error)
+508,nentry
+509,error
+510,NULL
+511,<empty>
+512,return NULL;
+513,NULL
+514,cd->size = _zip_read4(&cdp)
+515,cd->size
+516,cd
+517,size
+518,_zip_read4(&cdp)
+519,&cdp
+520,cdp
+521,cd->offset = _zip_read4(&cdp)
+522,cd->offset
+523,cd
+524,offset
+525,_zip_read4(&cdp)
+526,&cdp
+527,cdp
+528,cd->comment = NULL
+529,cd->comment
+530,cd
+531,comment
+532,NULL
+533,cd->comment_len = _zip_read2(&cdp)
+534,cd->comment_len
+535,cd
+536,comment_len
+537,_zip_read2(&cdp)
+538,&cdp
+539,cdp
+540,if (cd->offset+cd->size > buf_offset + (eocd-buf))
+541,cd->offset+cd->size > buf_offset + (eocd-buf)
+542,cd->offset+cd->size
+543,cd->offset
+544,cd
+545,offset
+546,cd->size
+547,cd
+548,size
+549,buf_offset + (eocd-buf)
+550,buf_offset
+551,eocd-buf
+552,eocd
+553,buf
+554,<empty>
+555,_zip_error_set(error, ZIP_ER_INCONS, 0)
+556,error
+557,ZIP_ER_INCONS
+558,0
+559,cd->nentry = 0
+560,cd->nentry
+561,cd
+562,nentry
+563,0
+564,_zip_cdir_free(cd)
+565,cd
+566,return NULL;
+567,NULL
+568,if ((comlen < cd->comment_len) || (cd->nentry != i))
+569,(comlen < cd->comment_len) || (cd->nentry != i)
+570,comlen < cd->comment_len
+571,comlen
+572,cd->comment_len
+573,cd
+574,comment_len
+575,cd->nentry != i
+576,cd->nentry
+577,cd
+578,nentry
+579,i
+580,<empty>
+581,_zip_error_set(error, ZIP_ER_NOZIP, 0)
+582,error
+583,ZIP_ER_NOZIP
+584,0
+585,cd->nentry = 0
+586,cd->nentry
+587,cd
+588,nentry
+589,0
+590,_zip_cdir_free(cd)
+591,cd
+592,return NULL;
+593,NULL
+594,if ((flags & ZIP_CHECKCONS) && comlen != cd->comment_len)
+595,(flags & ZIP_CHECKCONS) && comlen != cd->comment_len
+596,flags & ZIP_CHECKCONS
+597,flags
+598,ZIP_CHECKCONS
+599,comlen != cd->comment_len
+600,comlen
+601,cd->comment_len
+602,cd
+603,comment_len
+604,<empty>
+605,_zip_error_set(error, ZIP_ER_INCONS, 0)
+606,error
+607,ZIP_ER_INCONS
+608,0
+609,cd->nentry = 0
+610,cd->nentry
+611,cd
+612,nentry
+613,0
+614,_zip_cdir_free(cd)
+615,cd
+616,return NULL;
+617,NULL
+618,if (cd->comment_len)
+619,cd->comment_len
+620,cd
+621,comment_len
+622,<empty>
+623,if ((cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,
+624,					     cd->comment_len, error))
+625,	    == NULL)
+626,(cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,
+627,					     cd->comment_len, error))
+628,	    == NULL
+629,cd->comment=(char *)_zip_memdup(eocd+EOCDLEN,
+630,					     cd->comment_len, error)
+631,cd->comment
+632,cd
+633,comment
+634,(char *)_zip_memdup(eocd+EOCDLEN,
+635,					     cd->comment_len, error)
+636,char *
+637,_zip_memdup(eocd+EOCDLEN,
+638,					     cd->comment_len, error)
+639,eocd+EOCDLEN
+640,eocd
+641,EOCDLEN
+642,cd->comment_len
+643,cd
+644,comment_len
+645,error
+646,NULL
+647,<empty>
+648,cd->nentry = 0
+649,cd->nentry
+650,cd
+651,nentry
+652,0
+653,_zip_cdir_free(cd)
+654,cd
+655,return NULL;
+656,NULL
+657,if (cd->offset >= buf_offset)
+658,cd->offset >= buf_offset
+659,cd->offset
+660,cd
+661,offset
+662,buf_offset
+663,<empty>
+664,cdp = buf + (cd->offset - buf_offset)
+665,cdp
+666,buf + (cd->offset - buf_offset)
+667,buf
+668,cd->offset - buf_offset
+669,cd->offset
+670,cd
+671,offset
+672,buf_offset
+673,bufp = &cdp
+674,bufp
+675,&cdp
+676,cdp
+677,else
+678,<empty>
+679,bufp = NULL
+680,bufp
+681,NULL
+682,clearerr(fp)
+683,fp
+684,fseeko(fp, cd->offset, SEEK_SET)
+685,fp
+686,cd->offset
+687,cd
+688,offset
+689,SEEK_SET
+690,if (ferror(fp) || ((unsigned long)ftello(fp) != cd->offset))
+691,ferror(fp) || ((unsigned long)ftello(fp) != cd->offset)
+692,ferror(fp)
+693,fp
+694,(unsigned long)ftello(fp) != cd->offset
+695,(unsigned long)ftello(fp)
+696,unsigned long
+697,ftello(fp)
+698,fp
+699,cd->offset
+700,cd
+701,offset
+702,<empty>
+703,if (ferror(fp))
+704,ferror(fp)
+705,fp
+706,<empty>
+707,_zip_error_set(error, ZIP_ER_SEEK, errno)
+708,error
+709,ZIP_ER_SEEK
+710,errno
+711,else
+712,<empty>
+713,_zip_error_set(error, ZIP_ER_NOZIP, 0)
+714,error
+715,ZIP_ER_NOZIP
+716,0
+717,cd->nentry = 0
+718,cd->nentry
+719,cd
+720,nentry
+721,0
+722,_zip_cdir_free(cd)
+723,cd
+724,return NULL;
+725,NULL
+726,left = cd->size
+727,left
+728,cd->size
+729,cd
+730,size
+731,i=0
+732,i
+733,0
+734,do {
+735,	if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0) {
+736,	    cd->nentry = i;
+737,	    _zip_cdir_free(cd);
+738,	    return NULL;
+739,	}
+740,	i++;
+741,	
+742,	if (i == cd->nentry && left > 0) {
+743,	    /* Infozip extension for more than 64k entries:
+744,	       nentries wraps around, size indicates correct EOCD */
+745,	    if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0) {
+746,		cd->nentry = i;
+747,		_zip_cdir_free(cd);
+748,		return NULL;
+749,	    }
+750,	}
+751,    } while (i<cd->nentry && left > 0);
+752,<empty>
+753,if ((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0)
+754,(_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0
+755,_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)
+756,cd->entry+i
+757,cd->entry
+758,cd
+759,entry
+760,i
+761,fp
+762,bufp
+763,&left
+764,left
+765,0
+766,error
+767,0
+768,<empty>
+769,cd->nentry = i
+770,cd->nentry
+771,cd
+772,nentry
+773,i
+774,_zip_cdir_free(cd)
+775,cd
+776,return NULL;
+777,NULL
+778,i++
+779,i
+780,if (i == cd->nentry && left > 0)
+781,i == cd->nentry && left > 0
+782,i == cd->nentry
+783,i
+784,cd->nentry
+785,cd
+786,nentry
+787,left > 0
+788,left
+789,0
+790,<empty>
+791,if (_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0)
+792,_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error) < 0
+793,_zip_cdir_grow(cd, cd->nentry+ZIP_UINT16_MAX, error)
+794,cd
+795,cd->nentry+ZIP_UINT16_MAX
+796,cd->nentry
+797,cd
+798,nentry
+799,ZIP_UINT16_MAX
+800,error
+801,0
+802,<empty>
+803,cd->nentry = i
+804,cd->nentry
+805,cd
+806,nentry
+807,i
+808,_zip_cdir_free(cd)
+809,cd
+810,return NULL;
+811,NULL
+812,i<cd->nentry && left > 0
+813,i<cd->nentry
+814,i
+815,cd->nentry
+816,cd
+817,nentry
+818,left > 0
+819,left
+820,0
+821,cd->nentry = i
+822,cd->nentry
+823,cd
+824,nentry
+825,i
+826,return cd;
+827,cd
+828,RET
+829,FILE *fp
+830,off_t buf_offset
+831,unsigned char *buf
+832,unsigned char *eocd
+833,int buflen
+834,int flags
+835,struct zip_error *error
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000010000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffb1fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffb0fd436400000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xd0407058514040405854d0d05858587070405140105810581070515840585851d04058585810585840544058585858d070d058405858d0d0d0585858585858584058585158545870585800005110504b050600000000ffffffffd0ffffff4e0000000000
+arg00:0x2d76ff
+=========trace=========
+static struct zip_cdir * _zip_readcdir(FILE *fp, off_t buf_offset, unsigned char *buf, unsigned char *eocd, int buflen, 	      int flags, struct zip_error *error) {
+struct zip_cdir *cd;
+unsigned char *cdp, **bufp;
+int i, comlen, nentry;
+zip_uint32_t left;
+comlen = buf + buflen - eocd - EOCDLEN;
+cdp = eocd + 8;
+i = _zip_read2(&cdp);
+nentry = _zip_read2(&cdp);
+cd->size = _zip_read4(&cdp);
+cd->offset = _zip_read4(&cdp);
+cd->comment = NULL;
+cd->comment_len = _zip_read2(&cdp);
+if(cd->offset >= buf_offset)
+cdp = buf + (cd->offset - buf_offset);
+bufp = &cdp;
+left = cd->size;
+i=0;
+if((_zip_dirent_read(cd->entry+i, fp, bufp, &left, 0, error)) < 0)
+cd->nentry = i;
+_zip_cdir_free(cd);
+return NULL;
+=======================

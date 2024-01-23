@@ -1,0 +1,371 @@
+-----label-----
+0
+-----code-----
+static void jpc_cod_destroyparms(jpc_ms_t *ms)
+{
+	jpc_cod_t *cod = &ms->parms.cod;
+	jpc_cox_destroycompparms(&cod->compparms);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+16,19
+19,20
+20,21
+21,22
+21,23
+22,23
+22,24
+23,24
+27,28
+28,29
+28,30
+29,30
+31,32
+32,33
+32,34
+33,34
+-----nextToken-----
+2,4,7,9,10,15,17,18,24,25,26,30,34,35
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;
+-----ast_node-----
+static void jpc_cod_destroyparms(jpc_ms_t *ms){	jpc_cod_t *cod = &ms->parms.cod;	jpc_cox_destroycompparms(&cod->compparms);}
+static void
+jpc_cod_destroyparms(jpc_ms_t *ms)
+jpc_cod_destroyparms
+jpc_ms_t *ms
+jpc_ms_t
+jpc_ms_t
+*ms
+*
+ms
+{	jpc_cod_t *cod = &ms->parms.cod;	jpc_cox_destroycompparms(&cod->compparms);}
+jpc_cod_t *cod = &ms->parms.cod;
+jpc_cod_t *cod = &ms->parms.cod;
+jpc_cod_t
+jpc_cod_t
+*cod = &ms->parms.cod
+*
+cod
+= &ms->parms.cod
+&ms->parms.cod
+ms->parms.cod
+ms->parms
+ms
+ms
+parms
+cod
+jpc_cox_destroycompparms(&cod->compparms);
+jpc_cox_destroycompparms(&cod->compparms)
+jpc_cox_destroycompparms
+jpc_cox_destroycompparms
+&cod->compparms
+cod->compparms
+cod
+cod
+compparms
+-----joern-----
+(24,32,0)
+(21,17,0)
+(20,43,0)
+(3,43,0)
+(45,23,0)
+(6,27,0)
+(9,14,0)
+(15,40,0)
+(19,28,0)
+(0,15,0)
+(29,23,0)
+(28,10,0)
+(15,7,0)
+(17,27,0)
+(49,36,0)
+(30,38,0)
+(43,7,0)
+(36,27,0)
+(23,27,0)
+(23,48,0)
+(28,38,0)
+(10,26,0)
+(51,39,0)
+(6,41,0)
+(10,41,0)
+(14,18,0)
+(50,11,0)
+(48,23,0)
+(46,11,0)
+(36,38,0)
+(32,11,0)
+(38,36,0)
+(1,51,0)
+(38,28,0)
+(31,51,0)
+(16,28,0)
+(51,27,0)
+(44,36,0)
+(11,32,0)
+(13,26,0)
+(2,14,0)
+(43,4,0)
+(32,43,0)
+(34,6,0)
+(38,7,0)
+(17,7,0)
+(17,33,0)
+(41,10,0)
+(43,32,0)
+(25,4,0)
+(38,26,0)
+(5,39,0)
+(42,15,0)
+(22,6,0)
+(35,26,0)
+(14,7,0)
+(11,27,0)
+(37,38,0)
+(41,6,0)
+(39,51,0)
+(47,17,0)
+(8,10,0)
+(48,23,1)
+(38,7,1)
+(42,39,1)
+(11,46,1)
+(39,5,1)
+(32,24,1)
+(21,39,1)
+(17,27,1)
+(23,27,1)
+(14,9,1)
+(38,36,1)
+(43,32,1)
+(51,27,1)
+(45,38,1)
+(44,49,1)
+(47,21,1)
+(2,48,1)
+(37,30,1)
+(20,48,1)
+(6,27,1)
+(28,16,1)
+(10,41,1)
+(19,36,1)
+(12,15,1)
+(39,51,1)
+(6,34,1)
+(32,11,1)
+(29,45,1)
+(15,0,1)
+(23,29,1)
+(3,20,1)
+(38,28,1)
+(5,51,1)
+(0,42,1)
+(11,27,1)
+(12,17,1)
+(15,7,1)
+(43,7,1)
+(22,8,1)
+(49,37,1)
+(41,6,1)
+(12,14,1)
+(1,43,1)
+(14,7,1)
+(17,47,1)
+(9,2,1)
+(50,3,1)
+(36,44,1)
+(24,11,1)
+(46,50,1)
+(36,27,1)
+(28,10,1)
+(31,1,1)
+(51,31,1)
+(17,7,1)
+(16,19,1)
+(30,10,1)
+(34,22,1)
+(51,27,2)
+(11,48,2)
+(32,11,2)
+(28,10,2)
+(15,7,2)
+(42,39,2)
+(38,7,2)
+(20,48,2)
+(38,36,2)
+(51,48,2)
+(17,39,2)
+(3,48,2)
+(14,7,2)
+(5,48,2)
+(9,48,2)
+(14,48,2)
+(24,48,2)
+(43,48,2)
+(17,27,2)
+(6,27,2)
+(41,6,2)
+(39,48,2)
+(39,51,2)
+(11,27,2)
+(38,28,2)
+(50,48,2)
+(2,48,2)
+(31,48,2)
+(47,39,2)
+(10,41,2)
+(21,39,2)
+(32,48,2)
+(46,48,2)
+(15,39,2)
+(23,27,2)
+(48,23,2)
+(0,39,2)
+(17,7,2)
+(36,27,2)
+(43,7,2)
+(1,48,2)
+(43,32,2)
+-----------------------------------
+(0,"\\n")
+(1,ms)
+(2,out)
+(3," len = %d;")
+(4,)
+(5,dumpparms)
+(6,ms->id)
+(7,FILE *out)
+(8,mstabent)
+(9,"\\n")
+(10,mstabent = jpc_mstab_lookup(ms->id)
+(11,ms->len)
+(12,RET)
+(13,mstabent)
+(14,fprintf(out, "\\n")
+(15,fprintf(out, "\\n")
+(16,name)
+(17,(*ms->ops->dumpparms)
+(18,)
+(19,mstabent)
+(20,out)
+(21,ms)
+(22,ms)
+(23,ms->id)
+(24,2)
+(25,if (ms->ops->dumpparms)
+(26,)
+(27,jpc_ms_t *ms)
+(28,mstabent->name)
+(29,id)
+(30,out)
+(31,ops)
+(32,ms->len + 2)
+(33,)
+(34,id)
+(35,if (JPC_MS_HASPARMS(ms->id)
+(36,ms->id)
+(37,"type = 0x%04x (%s)
+(38,fprintf(out, "type = 0x%04x (%s)
+(39,ms->ops->dumpparms)
+(40,)
+(41,jpc_mstab_lookup(ms->id)
+(42,out)
+(43,fprintf(out, " len = %d;", ms->len + 2)
+(44,id)
+(45,ms)
+(46,len)
+(47,out)
+(48,JPC_MS_HASPARMS(ms->id)
+(49,ms)
+(50,ms)
+(51,ms->ops)
+-----cfg-----
+(17,15)
+(18,14)
+(19,24)
+(20,19)
+(21,20)
+(23,21)
+(7,17)
+(11,23)
+(13,11)
+(14,13)
+(15,18)
+-----path-----
+7,17,15,18,14,13,11,23,21,20,19,24
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void jpc_cod_destroyparms (jpc_ms_t *ms)
+8,jpc_ms_t *ms
+9,<empty>
+10,jpc_cod_t* cod
+11,*cod = &ms->parms.cod
+12,cod
+13,&ms->parms.cod
+14,ms->parms.cod
+15,ms->parms
+16,ms
+17,parms
+18,cod
+19,jpc_cox_destroycompparms(&cod->compparms)
+20,&cod->compparms
+21,cod->compparms
+22,cod
+23,compparms
+24,RET
+25,jpc_ms_t *ms
+26,RET
+27,void jpc_cod_destroyparms (jpc_ms_t *ms)
+28,jpc_ms_t *ms
+29,<empty>
+30,jpc_cod_t* cod
+31,*cod = &ms->parms.cod
+32,cod
+33,&ms->parms.cod
+34,ms->parms.cod
+35,ms->parms
+36,ms
+37,parms
+38,cod
+39,jpc_cox_destroycompparms(&cod->compparms)
+40,&cod->compparms
+41,cod->compparms
+42,cod
+43,compparms
+44,RET
+45,jpc_ms_t *ms
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static void jpc_cod_destroyparms(jpc_ms_t *ms) {
+jpc_cod_t *cod = &ms->parms.cod;
+jpc_cox_destroycompparms(&cod->compparms);
+=======================

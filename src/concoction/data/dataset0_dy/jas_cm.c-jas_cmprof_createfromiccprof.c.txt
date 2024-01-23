@@ -1,0 +1,25 @@
+
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof) {
+jas_cmprof_t *prof;
+jas_icchdr_t icchdr;
+jas_cmpxformseq_t *fwdpxformseq;
+jas_cmpxformseq_t *revpxformseq;
+prof = 0;
+fwdpxformseq = 0;
+revpxformseq = 0;
+jas_iccprof_gethdr(iccprof, &icchdr);
+prof->clrspc = icctoclrspc(icchdr.colorspc, 0);
+prof->refclrspc = icctoclrspc(icchdr.refcolorspc, 1);
+prof->numchans = jas_clrspc_numchans(prof->clrspc);
+prof->numrefchans = jas_clrspc_numchans(prof->refclrspc);
+if(prof->numchans == 3)
+prof->pxformseqs[SEQFWD(0)] = fwdpxformseq;
+prof->pxformseqs[SEQREV(0)] = revpxformseq;
+return prof;
+=======================

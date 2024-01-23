@@ -1,0 +1,367 @@
+-----label-----
+0
+-----code-----
+char *jas_strdup(const char *s)
+{
+	int n;
+	char *p;
+	n = strlen(s) + 1;
+	if (!(p = jas_malloc(n * sizeof(char)))) {
+		return 0;
+	}
+	strcpy(p, s);
+	return p;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+6,7
+6,8
+8,9
+8,10
+11,12
+11,13
+11,14
+11,15
+11,16
+11,17
+12,13
+13,14
+13,15
+15,16
+17,18
+18,19
+18,20
+20,21
+20,22
+23,24
+24,25
+24,26
+25,26
+27,28
+27,29
+28,29
+28,30
+29,30
+31,32
+34,35
+34,36
+35,36
+36,37
+37,38
+37,39
+38,39
+40,41
+40,42
+41,42
+43,44
+43,45
+44,45
+46,47
+47,48
+47,49
+50,51
+51,52
+53,54
+54,55
+54,56
+54,57
+55,56
+57,58
+59,60
+61,62
+62,63
+-----nextToken-----
+2,4,5,7,9,10,14,16,19,21,22,26,30,32,33,39,42,45,48,49,52,56,58,60,63
+-----computeFrom-----
+24,25
+24,26
+27,28
+27,29
+37,38
+37,39
+43,44
+43,45
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;BinaryExpression;IdExpression;Name;TypeIdExpression;TypeId;SimpleDeclSpecifier;Declarator;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+char *jas_strdup(const char *s){	int n;	char *p;	n = strlen(s) + 1;	if (!(p = jas_malloc(n * sizeof(char)))) {		return 0;	}	strcpy(p, s);	return p;}
+char
+*jas_strdup(const char *s)
+*
+jas_strdup
+const char *s
+const char
+*s
+*
+s
+{	int n;	char *p;	n = strlen(s) + 1;	if (!(p = jas_malloc(n * sizeof(char)))) {		return 0;	}	strcpy(p, s);	return p;}
+int n;
+int n;
+int
+n
+n
+char *p;
+char *p;
+char
+*p
+*
+p
+n = strlen(s) + 1;
+n = strlen(s) + 1
+n
+n
+strlen(s) + 1
+strlen(s)
+strlen
+strlen
+s
+s
+1
+if (!(p = jas_malloc(n * sizeof(char)))) {		return 0;	}
+!(p = jas_malloc(n * sizeof(char)))
+(p = jas_malloc(n * sizeof(char)))
+p = jas_malloc(n * sizeof(char))
+p
+p
+jas_malloc(n * sizeof(char))
+jas_malloc
+jas_malloc
+n * sizeof(char)
+n
+n
+sizeof(char)
+char
+char
+
+{		return 0;	}
+return 0;
+0
+strcpy(p, s);
+strcpy(p, s)
+strcpy
+strcpy
+p
+p
+s
+s
+return p;
+p
+p
+-----joern-----
+(6,27,0)
+(3,13,0)
+(10,5,0)
+(23,1,0)
+(7,17,0)
+(2,5,0)
+(20,27,0)
+(17,10,0)
+(26,25,0)
+(20,15,0)
+(16,20,0)
+(13,1,0)
+(26,15,0)
+(19,13,0)
+(14,25,0)
+(27,5,0)
+(11,25,0)
+(1,12,0)
+(3,4,0)
+(13,25,0)
+(12,1,0)
+(12,10,0)
+(27,20,0)
+(10,17,0)
+(1,23,0)
+(26,1,0)
+(5,25,0)
+(4,24,0)
+(10,12,0)
+(9,26,0)
+(22,1,0)
+(5,27,0)
+(21,26,0)
+(0,25,0)
+(18,4,0)
+(8,10,0)
+(12,10,1)
+(26,15,1)
+(9,21,1)
+(22,5,1)
+(8,22,1)
+(20,15,1)
+(27,6,1)
+(19,26,1)
+(1,12,1)
+(6,20,1)
+(10,5,1)
+(16,2,1)
+(18,23,1)
+(23,1,1)
+(5,27,1)
+(17,7,1)
+(3,4,1)
+(13,19,1)
+(13,1,1)
+(27,20,1)
+(4,18,1)
+(26,1,1)
+(7,8,1)
+(10,17,1)
+(26,9,1)
+(21,23,1)
+(3,13,1)
+(20,16,1)
+(21,23,2)
+(3,4,2)
+(26,23,2)
+(4,23,2)
+(20,15,2)
+(5,27,2)
+(27,20,2)
+(1,12,2)
+(23,1,2)
+(13,23,2)
+(26,15,2)
+(18,23,2)
+(19,23,2)
+(26,1,2)
+(13,1,2)
+(12,10,2)
+(10,5,2)
+(3,13,2)
+(9,23,2)
+(10,17,2)
+-----------------------------------
+(0,p)
+(1,p = jas_malloc(n * sizeof(char)
+(2,n)
+(3,RET)
+(4,return 0;)
+(5,n = strlen(s)
+(6,1)
+(7,char)
+(8,n)
+(9,s)
+(10,n * sizeof(char)
+(11,n)
+(12,jas_malloc(n * sizeof(char)
+(13,return p;)
+(14,if (!(p = jas_malloc(n * sizeof(char)
+(15,const char *s)
+(16,s)
+(17,sizeof(char)
+(18,0)
+(19,p)
+(20,strlen(s)
+(21,p)
+(22,p)
+(23,!(p = jas_malloc(n * sizeof(char)
+(24,)
+(25,)
+(26,strcpy(p, s)
+(27,strlen(s)
+-----cfg-----
+(33,35)
+(7,15)
+(12,25)
+(14,12)
+(15,14)
+(19,28)
+(19,30)
+(20,19)
+(22,20)
+(23,22)
+(25,23)
+(28,35)
+(30,33)
+-----path-----
+7,15,14,12,25,23,22,20,19,28,35
+7,15,14,12,25,23,22,20,19,30,33,35
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,char* jas_strdup (const char *s)
+8,const char *s
+9,<empty>
+10,int n
+11,char* p
+12,n = strlen(s) + 1
+13,n
+14,strlen(s) + 1
+15,strlen(s)
+16,s
+17,1
+18,if (!(p = jas_malloc(n * sizeof(char))))
+19,!(p = jas_malloc(n * sizeof(char)))
+20,p = jas_malloc(n * sizeof(char))
+21,p
+22,jas_malloc(n * sizeof(char))
+23,n * sizeof(char)
+24,n
+25,sizeof(char)
+26,char
+27,<empty>
+28,return 0;
+29,0
+30,strcpy(p, s)
+31,p
+32,s
+33,return p;
+34,p
+35,RET
+36,const char *s
+37,RET
+38,char* jas_strdup (const char *s)
+39,const char *s
+40,<empty>
+41,int n
+42,char* p
+43,n = strlen(s) + 1
+44,n
+45,strlen(s) + 1
+46,strlen(s)
+47,s
+48,1
+49,if (!(p = jas_malloc(n * sizeof(char))))
+50,!(p = jas_malloc(n * sizeof(char)))
+51,p = jas_malloc(n * sizeof(char))
+52,p
+53,jas_malloc(n * sizeof(char))
+54,n * sizeof(char)
+55,n
+56,sizeof(char)
+57,char
+58,<empty>
+59,return 0;
+60,0
+61,strcpy(p, s)
+62,p
+63,s
+64,return p;
+65,p
+66,RET
+67,const char *s
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+char *jas_strdup(const char *s) {
+int n;
+char *p;
+n = strlen(s) + 1;
+strcpy(p, s);
+return p;
+=======================

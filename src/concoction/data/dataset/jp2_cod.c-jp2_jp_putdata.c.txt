@@ -1,0 +1,306 @@
+-----label-----
+0
+-----code-----
+static int jp2_jp_putdata(jp2_box_t *box, jas_stream_t *out)
+{
+	jp2_jp_t *jp = &box->data.jp;
+	if (jp2_putuint32(out, jp->magic)) {
+		return -1;
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+17,20
+18,19
+19,20
+19,21
+20,21
+22,23
+22,24
+22,25
+25,26
+26,27
+27,28
+27,29
+28,29
+28,30
+29,30
+33,34
+33,35
+34,35
+34,36
+34,37
+35,36
+37,38
+39,40
+39,41
+40,41
+43,44
+44,45
+45,46
+47,48
+-----nextToken-----
+2,4,7,9,10,13,15,16,21,23,24,30,31,32,36,38,41,42,46,48
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;EqualsInitializer;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int jp2_jp_putdata(jp2_box_t *box, jas_stream_t *out){	jp2_jp_t *jp = &box->data.jp;	if (jp2_putuint32(out, jp->magic)) {		return -1;	}	return 0;}
+static int
+jp2_jp_putdata(jp2_box_t *box, jas_stream_t *out)
+jp2_jp_putdata
+jp2_box_t *box
+jp2_box_t
+jp2_box_t
+*box
+*
+box
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+{	jp2_jp_t *jp = &box->data.jp;	if (jp2_putuint32(out, jp->magic)) {		return -1;	}	return 0;}
+jp2_jp_t *jp = &box->data.jp;
+jp2_jp_t *jp = &box->data.jp;
+jp2_jp_t
+jp2_jp_t
+*jp = &box->data.jp
+*
+jp
+= &box->data.jp
+&box->data.jp
+box->data.jp
+box->data
+box
+box
+data
+jp
+if (jp2_putuint32(out, jp->magic)) {		return -1;	}
+jp2_putuint32(out, jp->magic)
+jp2_putuint32
+jp2_putuint32
+out
+out
+jp->magic
+jp
+jp
+magic
+{		return -1;	}
+return -1;
+-1
+1
+return 0;
+0
+-----joern-----
+(5,11,0)
+(18,14,0)
+(21,25,0)
+(0,7,0)
+(22,11,0)
+(1,15,0)
+(15,11,0)
+(11,0,0)
+(13,7,0)
+(11,8,0)
+(18,7,0)
+(25,24,0)
+(7,18,0)
+(3,25,0)
+(0,11,0)
+(24,2,0)
+(20,5,0)
+(7,0,0)
+(4,18,0)
+(9,15,0)
+(10,18,0)
+(16,8,0)
+(12,6,0)
+(5,6,0)
+(25,11,0)
+(24,25,0)
+(17,5,0)
+(19,8,0)
+(6,2,0)
+(0,7,1)
+(21,15,1)
+(9,11,1)
+(23,6,1)
+(10,22,1)
+(1,9,1)
+(11,0,1)
+(17,20,1)
+(13,18,1)
+(12,5,1)
+(18,4,1)
+(5,11,1)
+(24,25,1)
+(7,18,1)
+(23,15,1)
+(20,24,1)
+(15,11,1)
+(3,21,1)
+(6,12,1)
+(25,3,1)
+(18,14,1)
+(7,13,1)
+(15,1,1)
+(5,17,1)
+(4,10,1)
+(25,11,1)
+(12,15,2)
+(3,15,2)
+(11,0,2)
+(25,11,2)
+(25,15,2)
+(24,15,2)
+(24,25,2)
+(0,7,2)
+(15,11,2)
+(5,11,2)
+(21,15,2)
+(20,15,2)
+(17,15,2)
+(6,15,2)
+(5,15,2)
+(7,18,2)
+(18,14,2)
+-----------------------------------
+(0,&box->data.cdef)
+(1,ents)
+(2,)
+(3,ents)
+(4,data)
+(5,cdef->ents)
+(6,cdef->ents = 0)
+(7,box->data.cdef)
+(8,)
+(9,cdef)
+(10,box)
+(11,*cdef = &box->data.cdef)
+(12,0)
+(13,cdef)
+(14,jp2_box_t *box)
+(15,cdef->ents)
+(16,if (cdef->ents)
+(17,ents)
+(18,box->data)
+(19,cdef)
+(20,cdef)
+(21,cdef)
+(22,cdef)
+(23,RET)
+(24,jas_free(cdef->ents)
+(25,cdef->ents)
+-----cfg-----
+(7,18)
+(12,25)
+(14,12)
+(15,14)
+(16,19)
+(18,16)
+(19,15)
+(21,28)
+(21,30)
+(23,21)
+(25,23)
+(27,32)
+(28,27)
+(30,32)
+-----path-----
+7,18,16,19,15,14,12,25,23,21,28,27,32
+7,18,16,19,15,14,12,25,23,21,30,32
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jp2_jp_putdata (jp2_box_t *box,jas_stream_t *out)
+8,jp2_box_t *box
+9,jas_stream_t *out
+10,<empty>
+11,jp2_jp_t* jp
+12,*jp = &box->data.jp
+13,jp
+14,&box->data.jp
+15,box->data.jp
+16,box->data
+17,box
+18,data
+19,jp
+20,if (jp2_putuint32(out, jp->magic))
+21,jp2_putuint32(out, jp->magic)
+22,out
+23,jp->magic
+24,jp
+25,magic
+26,<empty>
+27,return -1;
+28,-1
+29,1
+30,return 0;
+31,0
+32,RET
+33,jp2_box_t *box
+34,jas_stream_t *out
+35,RET
+36,int jp2_jp_putdata (jp2_box_t *box,jas_stream_t *out)
+37,jp2_box_t *box
+38,jas_stream_t *out
+39,<empty>
+40,jp2_jp_t* jp
+41,*jp = &box->data.jp
+42,jp
+43,&box->data.jp
+44,box->data.jp
+45,box->data
+46,box
+47,data
+48,jp
+49,if (jp2_putuint32(out, jp->magic))
+50,jp2_putuint32(out, jp->magic)
+51,out
+52,jp->magic
+53,jp
+54,magic
+55,<empty>
+56,return -1;
+57,-1
+58,1
+59,return 0;
+60,0
+61,RET
+62,jp2_box_t *box
+63,jas_stream_t *out
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int jp2_jp_putdata(jp2_box_t *box, jas_stream_t *out) {
+jp2_jp_t *jp = &box->data.jp;
+return 0;
+=======================

@@ -1,0 +1,1808 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmpxformseq_delete.c.txt
+--------------code--------------
+static int jas_cmpxformseq_delete(jas_cmpxformseq_t *pxformseq, int i)
+{
+	assert(i >= 0 && i < pxformseq->numpxforms);
+	if (i != pxformseq->numpxforms - 1)
+		abort();
+	jas_cmpxform_destroy(pxformseq->pxforms[i]);
+	pxformseq->pxforms[i] = 0;
+	--pxformseq->numpxforms;
+	return 0;
+}
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+abort()
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------
+--------------path--------------
+int jas_cmpxformseq_delete (jas_cmpxformseq_t *pxformseqint i)
+i >= 0
+numpxforms
+pxformseq->numpxforms
+i < pxformseq->numpxforms
+i >= 0 && i < pxformseq->numpxforms
+assert(i >= 0 && i < pxformseq->numpxforms)
+numpxforms
+pxformseq->numpxforms
+pxformseq->numpxforms - 1
+i != pxformseq->numpxforms - 1
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+jas_cmpxform_destroy(pxformseq->pxforms[i])
+pxforms
+pxformseq->pxforms
+pxformseq->pxforms[i]
+pxformseq->pxforms[i] = 0
+numpxforms
+pxformseq->numpxforms
+--pxformseq->numpxforms
+return 0;
+RET
+--------------path over--------------

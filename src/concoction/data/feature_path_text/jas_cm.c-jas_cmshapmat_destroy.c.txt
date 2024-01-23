@@ -1,0 +1,656 @@
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------
+--------------filename--------------
+/homee/concoction/data/dataset0/jas_cm.c-jas_cmshapmat_destroy.c.txt
+--------------code--------------
+static void jas_cmshapmat_destroy(jas_cmpxform_t *pxform)
+{
+	jas_cmshapmat_t *shapmat = &pxform->data.shapmat;
+	int i;
+	for (i = 0; i < 3; ++i)
+		jas_cmshapmatlut_cleanup(&shapmat->luts[i]);
+}
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+RET
+--------------path over--------------
+--------------path--------------
+void jas_cmshapmat_destroy (jas_cmpxform_t *pxform)
+data
+pxform->data
+shapmat
+pxform->data.shapmat
+&pxform->data.shapmat
+*shapmat = &pxform->data.shapmat
+i = 0
+i < 3
+luts
+shapmat->luts
+shapmat->luts[i]
+&shapmat->luts[i]
+jas_cmshapmatlut_cleanup(&shapmat->luts[i])
+++i
+i < 3
+RET
+--------------path over--------------

@@ -1,0 +1,735 @@
+-----label-----
+0
+-----code-----
+static int jpc_qcx_putcompparms(jpc_qcxcp_t *compparms, jpc_cstate_t *cstate,
+  jas_stream_t *out)
+{
+	int i;
+
+	/* Eliminate compiler warning about unused variables. */
+	cstate = 0;
+
+	jpc_putuint8(out, ((compparms->numguard & 7) << 5) | compparms->qntsty);
+	for (i = 0; i < compparms->numstepsizes; ++i) {
+		if (compparms->qntsty == JPC_QCX_NOQNT) {
+			jpc_putuint8(out, JPC_QCX_GETEXPN(
+			  compparms->stepsizes[i]) << 3);
+		} else {
+			jpc_putuint16(out, compparms->stepsizes[i]);
+		}
+	}
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+23,25
+23,26
+23,27
+23,28
+24,25
+25,26
+25,27
+27,28
+29,30
+30,31
+30,32
+31,32
+34,35
+35,36
+35,37
+35,38
+36,37
+38,39
+40,41
+40,42
+41,42
+42,43
+42,44
+43,44
+44,45
+44,46
+45,46
+45,47
+46,47
+51,52
+51,53
+52,53
+55,56
+55,57
+55,58
+55,59
+56,57
+57,58
+57,59
+58,59
+61,62
+61,63
+62,63
+64,65
+64,66
+65,66
+68,69
+69,70
+71,72
+72,73
+72,74
+72,75
+73,74
+73,75
+74,75
+74,76
+75,76
+78,79
+80,81
+81,82
+82,83
+82,84
+82,85
+83,84
+85,86
+87,88
+87,89
+88,89
+88,90
+89,90
+91,92
+91,93
+92,93
+92,94
+93,94
+96,97
+99,100
+100,101
+101,102
+101,103
+101,104
+102,103
+104,105
+106,107
+106,108
+107,108
+107,109
+108,109
+111,112
+113,114
+-----nextToken-----
+2,4,7,9,10,13,15,16,19,21,22,26,28,32,33,37,39,47,48,49,50,53,54,59,60,63,66,67,70,76,77,79,84,86,90,94,95,97,98,103,105,109,110,112,114
+-----computeFrom-----
+30,31
+30,32
+40,41
+40,42
+42,43
+42,44
+44,45
+44,46
+57,58
+57,59
+61,62
+61,63
+73,74
+73,75
+87,88
+87,89
+-----guardedBy-----
+76,94
+-----guardedByNegation-----
+76,109
+-----lastLexicalUse-----
+76,109
+-----jump-----
+76,109
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;LiteralExpression;FieldReference;IdExpression;Name;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;FunctionCallExpression;IdExpression;Name;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ArraySubscriptExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+static int jpc_qcx_putcompparms(jpc_qcxcp_t *compparms, jpc_cstate_t *cstate,  jas_stream_t *out){	int i;	/* Eliminate compiler warning about unused variables. */	cstate = 0;	jpc_putuint8(out, ((compparms->numguard & 7) << 5) | compparms->qntsty);	for (i = 0; i < compparms->numstepsizes; ++i) {		if (compparms->qntsty == JPC_QCX_NOQNT) {			jpc_putuint8(out, JPC_QCX_GETEXPN(			  compparms->stepsizes[i]) << 3);		} else {			jpc_putuint16(out, compparms->stepsizes[i]);		}	}	return 0;}
+static int
+jpc_qcx_putcompparms(jpc_qcxcp_t *compparms, jpc_cstate_t *cstate,  jas_stream_t *out)
+jpc_qcx_putcompparms
+jpc_qcxcp_t *compparms
+jpc_qcxcp_t
+jpc_qcxcp_t
+*compparms
+*
+compparms
+jpc_cstate_t *cstate
+jpc_cstate_t
+jpc_cstate_t
+*cstate
+*
+cstate
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+{	int i;	/* Eliminate compiler warning about unused variables. */	cstate = 0;	jpc_putuint8(out, ((compparms->numguard & 7) << 5) | compparms->qntsty);	for (i = 0; i < compparms->numstepsizes; ++i) {		if (compparms->qntsty == JPC_QCX_NOQNT) {			jpc_putuint8(out, JPC_QCX_GETEXPN(			  compparms->stepsizes[i]) << 3);		} else {			jpc_putuint16(out, compparms->stepsizes[i]);		}	}	return 0;}
+int i;
+int i;
+int
+i
+i
+cstate = 0;
+cstate = 0
+cstate
+cstate
+0
+jpc_putuint8(out, ((compparms->numguard & 7) << 5) | compparms->qntsty);
+jpc_putuint8(out, ((compparms->numguard & 7) << 5) | compparms->qntsty)
+jpc_putuint8
+jpc_putuint8
+out
+out
+((compparms->numguard & 7) << 5) | compparms->qntsty
+((compparms->numguard & 7) << 5)
+(compparms->numguard & 7) << 5
+(compparms->numguard & 7)
+compparms->numguard & 7
+compparms->numguard
+compparms
+compparms
+numguard
+7
+5
+compparms->qntsty
+compparms
+compparms
+qntsty
+for (i = 0; i < compparms->numstepsizes; ++i) {		if (compparms->qntsty == JPC_QCX_NOQNT) {			jpc_putuint8(out, JPC_QCX_GETEXPN(			  compparms->stepsizes[i]) << 3);		} else {			jpc_putuint16(out, compparms->stepsizes[i]);		}	}
+i = 0;
+i = 0
+i
+i
+0
+i < compparms->numstepsizes
+i
+i
+compparms->numstepsizes
+compparms
+compparms
+numstepsizes
+++i
+i
+i
+{		if (compparms->qntsty == JPC_QCX_NOQNT) {			jpc_putuint8(out, JPC_QCX_GETEXPN(			  compparms->stepsizes[i]) << 3);		} else {			jpc_putuint16(out, compparms->stepsizes[i]);		}	}
+if (compparms->qntsty == JPC_QCX_NOQNT) {			jpc_putuint8(out, JPC_QCX_GETEXPN(			  compparms->stepsizes[i]) << 3);		} else {			jpc_putuint16(out, compparms->stepsizes[i]);		}
+compparms->qntsty == JPC_QCX_NOQNT
+compparms->qntsty
+compparms
+compparms
+qntsty
+JPC_QCX_NOQNT
+JPC_QCX_NOQNT
+{			jpc_putuint8(out, JPC_QCX_GETEXPN(			  compparms->stepsizes[i]) << 3);		}
+jpc_putuint8(out, JPC_QCX_GETEXPN(			  compparms->stepsizes[i]) << 3);
+jpc_putuint8(out, JPC_QCX_GETEXPN(			  compparms->stepsizes[i]) << 3)
+jpc_putuint8
+jpc_putuint8
+out
+out
+JPC_QCX_GETEXPN(			  compparms->stepsizes[i]) << 3
+JPC_QCX_GETEXPN(			  compparms->stepsizes[i])
+JPC_QCX_GETEXPN
+JPC_QCX_GETEXPN
+compparms->stepsizes[i]
+compparms->stepsizes
+compparms
+compparms
+stepsizes
+i
+i
+3
+{			jpc_putuint16(out, compparms->stepsizes[i]);		}
+jpc_putuint16(out, compparms->stepsizes[i]);
+jpc_putuint16(out, compparms->stepsizes[i])
+jpc_putuint16
+jpc_putuint16
+out
+out
+compparms->stepsizes[i]
+compparms->stepsizes
+compparms
+compparms
+stepsizes
+i
+i
+return 0;
+0
+-----joern-----
+(24,32,0)
+(21,17,0)
+(20,43,0)
+(3,43,0)
+(45,23,0)
+(6,27,0)
+(9,14,0)
+(15,40,0)
+(19,28,0)
+(0,15,0)
+(29,23,0)
+(28,10,0)
+(15,7,0)
+(17,27,0)
+(49,36,0)
+(30,38,0)
+(43,7,0)
+(36,27,0)
+(23,27,0)
+(23,48,0)
+(28,38,0)
+(10,26,0)
+(51,39,0)
+(6,41,0)
+(10,41,0)
+(14,18,0)
+(50,11,0)
+(48,23,0)
+(46,11,0)
+(36,38,0)
+(32,11,0)
+(38,36,0)
+(1,51,0)
+(38,28,0)
+(31,51,0)
+(16,28,0)
+(51,27,0)
+(44,36,0)
+(11,32,0)
+(13,26,0)
+(2,14,0)
+(43,4,0)
+(32,43,0)
+(34,6,0)
+(38,7,0)
+(17,7,0)
+(17,33,0)
+(41,10,0)
+(43,32,0)
+(25,4,0)
+(38,26,0)
+(5,39,0)
+(42,15,0)
+(22,6,0)
+(35,26,0)
+(14,7,0)
+(11,27,0)
+(37,38,0)
+(41,6,0)
+(39,51,0)
+(47,17,0)
+(8,10,0)
+(48,23,1)
+(38,7,1)
+(42,39,1)
+(11,46,1)
+(39,5,1)
+(32,24,1)
+(21,39,1)
+(17,27,1)
+(23,27,1)
+(14,9,1)
+(38,36,1)
+(43,32,1)
+(51,27,1)
+(45,38,1)
+(44,49,1)
+(47,21,1)
+(2,48,1)
+(37,30,1)
+(20,48,1)
+(6,27,1)
+(28,16,1)
+(10,41,1)
+(19,36,1)
+(12,15,1)
+(39,51,1)
+(6,34,1)
+(32,11,1)
+(29,45,1)
+(15,0,1)
+(23,29,1)
+(3,20,1)
+(38,28,1)
+(5,51,1)
+(0,42,1)
+(11,27,1)
+(12,17,1)
+(15,7,1)
+(43,7,1)
+(22,8,1)
+(49,37,1)
+(41,6,1)
+(12,14,1)
+(1,43,1)
+(14,7,1)
+(17,47,1)
+(9,2,1)
+(50,3,1)
+(36,44,1)
+(24,11,1)
+(46,50,1)
+(36,27,1)
+(28,10,1)
+(31,1,1)
+(51,31,1)
+(17,7,1)
+(16,19,1)
+(30,10,1)
+(34,22,1)
+(51,27,2)
+(11,48,2)
+(32,11,2)
+(28,10,2)
+(15,7,2)
+(42,39,2)
+(38,7,2)
+(20,48,2)
+(38,36,2)
+(51,48,2)
+(17,39,2)
+(3,48,2)
+(14,7,2)
+(5,48,2)
+(9,48,2)
+(14,48,2)
+(24,48,2)
+(43,48,2)
+(17,27,2)
+(6,27,2)
+(41,6,2)
+(39,48,2)
+(39,51,2)
+(11,27,2)
+(38,28,2)
+(50,48,2)
+(2,48,2)
+(31,48,2)
+(47,39,2)
+(10,41,2)
+(21,39,2)
+(32,48,2)
+(46,48,2)
+(15,39,2)
+(23,27,2)
+(48,23,2)
+(0,39,2)
+(17,7,2)
+(36,27,2)
+(43,7,2)
+(1,48,2)
+(43,32,2)
+-----------------------------------
+(0,"\\n")
+(1,ms)
+(2,out)
+(3," len = %d;")
+(4,)
+(5,dumpparms)
+(6,ms->id)
+(7,FILE *out)
+(8,mstabent)
+(9,"\\n")
+(10,mstabent = jpc_mstab_lookup(ms->id)
+(11,ms->len)
+(12,RET)
+(13,mstabent)
+(14,fprintf(out, "\\n")
+(15,fprintf(out, "\\n")
+(16,name)
+(17,(*ms->ops->dumpparms)
+(18,)
+(19,mstabent)
+(20,out)
+(21,ms)
+(22,ms)
+(23,ms->id)
+(24,2)
+(25,if (ms->ops->dumpparms)
+(26,)
+(27,jpc_ms_t *ms)
+(28,mstabent->name)
+(29,id)
+(30,out)
+(31,ops)
+(32,ms->len + 2)
+(33,)
+(34,id)
+(35,if (JPC_MS_HASPARMS(ms->id)
+(36,ms->id)
+(37,"type = 0x%04x (%s)
+(38,fprintf(out, "type = 0x%04x (%s)
+(39,ms->ops->dumpparms)
+(40,)
+(41,jpc_mstab_lookup(ms->id)
+(42,out)
+(43,fprintf(out, " len = %d;", ms->len + 2)
+(44,id)
+(45,ms)
+(46,len)
+(47,out)
+(48,JPC_MS_HASPARMS(ms->id)
+(49,ms)
+(50,ms)
+(51,ms->ops)
+-----cfg-----
+(64,63)
+(66,64)
+(68,70)
+(7,13)
+(13,23)
+(16,31)
+(18,16)
+(19,28)
+(20,19)
+(21,20)
+(23,21)
+(26,18)
+(28,26)
+(31,38)
+(34,46)
+(34,68)
+(36,34)
+(38,36)
+(39,38)
+(43,56)
+(43,66)
+(44,43)
+(46,44)
+(49,39)
+(51,49)
+(52,51)
+(53,52)
+(54,53)
+(56,54)
+(61,39)
+(63,61)
+-----path-----
+7,13,23,21,20,19,28,26,18,16,31,38,36,34,68,70
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_qcx_putcompparms (jpc_qcxcp_t *compparms,jpc_cstate_t *cstate,jas_stream_t *out)
+8,jpc_qcxcp_t *compparms
+9,jpc_cstate_t *cstate
+10,jas_stream_t *out
+11,<empty>
+12,int i
+13,cstate = 0
+14,cstate
+15,0
+16,jpc_putuint8(out, ((compparms->numguard & 7) << 5) | compparms->qntsty)
+17,out
+18,((compparms->numguard & 7) << 5) | compparms->qntsty
+19,(compparms->numguard & 7) << 5
+20,compparms->numguard & 7
+21,compparms->numguard
+22,compparms
+23,numguard
+24,7
+25,5
+26,compparms->qntsty
+27,compparms
+28,qntsty
+29,for (i = 0;i < compparms->numstepsizes;++i)
+30,<empty>
+31,i = 0
+32,i
+33,0
+34,i < compparms->numstepsizes
+35,i
+36,compparms->numstepsizes
+37,compparms
+38,numstepsizes
+39,++i
+40,i
+41,<empty>
+42,if (compparms->qntsty == JPC_QCX_NOQNT)
+43,compparms->qntsty == JPC_QCX_NOQNT
+44,compparms->qntsty
+45,compparms
+46,qntsty
+47,JPC_QCX_NOQNT
+48,<empty>
+49,jpc_putuint8(out, JPC_QCX_GETEXPN(
+50,			  compparms->stepsizes[i]) << 3)
+51,out
+52,JPC_QCX_GETEXPN(
+53,			  compparms->stepsizes[i]) << 3
+54,JPC_QCX_GETEXPN(
+55,			  compparms->stepsizes[i])
+56,compparms->stepsizes[i]
+57,compparms->stepsizes
+58,compparms
+59,stepsizes
+60,i
+61,3
+62,else
+63,<empty>
+64,jpc_putuint16(out, compparms->stepsizes[i])
+65,out
+66,compparms->stepsizes[i]
+67,compparms->stepsizes
+68,compparms
+69,stepsizes
+70,i
+71,return 0;
+72,0
+73,RET
+74,jpc_qcxcp_t *compparms
+75,jpc_cstate_t *cstate
+76,jas_stream_t *out
+77,RET
+78,int jpc_qcx_putcompparms (jpc_qcxcp_t *compparms,jpc_cstate_t *cstate,jas_stream_t *out)
+79,jpc_qcxcp_t *compparms
+80,jpc_cstate_t *cstate
+81,jas_stream_t *out
+82,<empty>
+83,int i
+84,cstate = 0
+85,cstate
+86,0
+87,jpc_putuint8(out, ((compparms->numguard & 7) << 5) | compparms->qntsty)
+88,out
+89,((compparms->numguard & 7) << 5) | compparms->qntsty
+90,(compparms->numguard & 7) << 5
+91,compparms->numguard & 7
+92,compparms->numguard
+93,compparms
+94,numguard
+95,7
+96,5
+97,compparms->qntsty
+98,compparms
+99,qntsty
+100,for (i = 0;i < compparms->numstepsizes;++i)
+101,<empty>
+102,i = 0
+103,i
+104,0
+105,i < compparms->numstepsizes
+106,i
+107,compparms->numstepsizes
+108,compparms
+109,numstepsizes
+110,++i
+111,i
+112,<empty>
+113,if (compparms->qntsty == JPC_QCX_NOQNT)
+114,compparms->qntsty == JPC_QCX_NOQNT
+115,compparms->qntsty
+116,compparms
+117,qntsty
+118,JPC_QCX_NOQNT
+119,<empty>
+120,jpc_putuint8(out, JPC_QCX_GETEXPN(
+121,			  compparms->stepsizes[i]) << 3)
+122,out
+123,JPC_QCX_GETEXPN(
+124,			  compparms->stepsizes[i]) << 3
+125,JPC_QCX_GETEXPN(
+126,			  compparms->stepsizes[i])
+127,compparms->stepsizes[i]
+128,compparms->stepsizes
+129,compparms
+130,stepsizes
+131,i
+132,3
+133,else
+134,<empty>
+135,jpc_putuint16(out, compparms->stepsizes[i])
+136,out
+137,compparms->stepsizes[i]
+138,compparms->stepsizes
+139,compparms
+140,stepsizes
+141,i
+142,return 0;
+143,0
+144,RET
+145,jpc_qcxcp_t *compparms
+146,jpc_cstate_t *cstate
+147,jas_stream_t *out
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int jpc_qcx_putcompparms(jpc_qcxcp_t *compparms, jpc_cstate_t *cstate,   jas_stream_t *out) {
+int i;
+cstate = 0;
+jpc_putuint8(out, ((compparms->numguard & 7) << 5) | compparms->qntsty);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+for(i = 0;i < compparms->numstepsizes;++i)
+if(compparms->qntsty == JPC_QCX_NOQNT)
+jpc_putuint8(out, JPC_QCX_GETEXPN( 			  compparms->stepsizes[i]) << 3);
+return 0;
+=======================

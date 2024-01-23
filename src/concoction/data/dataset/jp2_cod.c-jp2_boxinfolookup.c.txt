@@ -1,0 +1,330 @@
+-----label-----
+0
+-----code-----
+jp2_boxinfo_t *jp2_boxinfolookup(int type)
+{
+	jp2_boxinfo_t *boxinfo;
+	for (boxinfo = jp2_boxinfos; boxinfo->name; ++boxinfo) {
+		if (boxinfo->type == type) {
+			return boxinfo;
+		}
+	}
+	return &jp2_boxinfo_unk;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+7,8
+7,9
+9,10
+11,12
+11,13
+11,14
+12,13
+13,14
+13,15
+14,15
+16,17
+16,18
+19,20
+19,21
+19,22
+19,23
+20,21
+21,22
+21,23
+22,23
+24,25
+26,27
+26,28
+27,28
+30,31
+31,32
+33,34
+34,35
+34,36
+35,36
+35,37
+36,37
+36,38
+37,38
+40,41
+42,43
+43,44
+44,45
+46,47
+47,48
+48,49
+-----nextToken-----
+3,5,6,8,10,15,17,18,23,25,28,29,32,38,39,41,45,49
+-----computeFrom-----
+21,22
+21,23
+35,36
+35,37
+-----guardedBy-----
+38,45
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ReturnStatement;IdExpression;Name;ReturnStatement;UnaryExpression;IdExpression;Name;
+-----ast_node-----
+jp2_boxinfo_t *jp2_boxinfolookup(int type){	jp2_boxinfo_t *boxinfo;	for (boxinfo = jp2_boxinfos; boxinfo->name; ++boxinfo) {		if (boxinfo->type == type) {			return boxinfo;		}	}	return &jp2_boxinfo_unk;}
+jp2_boxinfo_t
+jp2_boxinfo_t
+*jp2_boxinfolookup(int type)
+*
+jp2_boxinfolookup
+int type
+int
+type
+type
+{	jp2_boxinfo_t *boxinfo;	for (boxinfo = jp2_boxinfos; boxinfo->name; ++boxinfo) {		if (boxinfo->type == type) {			return boxinfo;		}	}	return &jp2_boxinfo_unk;}
+jp2_boxinfo_t *boxinfo;
+jp2_boxinfo_t *boxinfo;
+jp2_boxinfo_t
+jp2_boxinfo_t
+*boxinfo
+*
+boxinfo
+for (boxinfo = jp2_boxinfos; boxinfo->name; ++boxinfo) {		if (boxinfo->type == type) {			return boxinfo;		}	}
+boxinfo = jp2_boxinfos;
+boxinfo = jp2_boxinfos
+boxinfo
+boxinfo
+jp2_boxinfos
+jp2_boxinfos
+boxinfo->name
+boxinfo
+boxinfo
+name
+++boxinfo
+boxinfo
+boxinfo
+{		if (boxinfo->type == type) {			return boxinfo;		}	}
+if (boxinfo->type == type) {			return boxinfo;		}
+boxinfo->type == type
+boxinfo->type
+boxinfo
+boxinfo
+type
+type
+type
+{			return boxinfo;		}
+return boxinfo;
+boxinfo
+boxinfo
+return &jp2_boxinfo_unk;
+&jp2_boxinfo_unk
+jp2_boxinfo_unk
+jp2_boxinfo_unk
+-----joern-----
+(5,11,0)
+(18,14,0)
+(21,25,0)
+(0,7,0)
+(22,11,0)
+(1,15,0)
+(15,11,0)
+(11,0,0)
+(13,7,0)
+(11,8,0)
+(18,7,0)
+(25,24,0)
+(7,18,0)
+(3,25,0)
+(0,11,0)
+(24,2,0)
+(20,5,0)
+(7,0,0)
+(4,18,0)
+(9,15,0)
+(10,18,0)
+(16,8,0)
+(12,6,0)
+(5,6,0)
+(25,11,0)
+(24,25,0)
+(17,5,0)
+(19,8,0)
+(6,2,0)
+(0,7,1)
+(21,15,1)
+(9,11,1)
+(23,6,1)
+(10,22,1)
+(1,9,1)
+(11,0,1)
+(17,20,1)
+(13,18,1)
+(12,5,1)
+(18,4,1)
+(5,11,1)
+(24,25,1)
+(7,18,1)
+(23,15,1)
+(20,24,1)
+(15,11,1)
+(3,21,1)
+(6,12,1)
+(25,3,1)
+(18,14,1)
+(7,13,1)
+(15,1,1)
+(5,17,1)
+(4,10,1)
+(25,11,1)
+(12,15,2)
+(3,15,2)
+(11,0,2)
+(25,11,2)
+(25,15,2)
+(24,15,2)
+(24,25,2)
+(0,7,2)
+(15,11,2)
+(5,11,2)
+(21,15,2)
+(20,15,2)
+(17,15,2)
+(6,15,2)
+(5,15,2)
+(7,18,2)
+(18,14,2)
+-----------------------------------
+(0,&box->data.cdef)
+(1,ents)
+(2,)
+(3,ents)
+(4,data)
+(5,cdef->ents)
+(6,cdef->ents = 0)
+(7,box->data.cdef)
+(8,)
+(9,cdef)
+(10,box)
+(11,*cdef = &box->data.cdef)
+(12,0)
+(13,cdef)
+(14,jp2_box_t *box)
+(15,cdef->ents)
+(16,if (cdef->ents)
+(17,ents)
+(18,box->data)
+(19,cdef)
+(20,cdef)
+(21,cdef)
+(22,cdef)
+(23,RET)
+(24,jas_free(cdef->ents)
+(25,cdef->ents)
+-----cfg-----
+(16,26)
+(16,32)
+(32,31)
+(18,16)
+(19,18)
+(23,29)
+(23,19)
+(7,13)
+(24,23)
+(26,24)
+(13,18)
+(29,34)
+(31,34)
+-----path-----
+7,13,18,16,26,24,23,29,34
+7,13,18,16,32,31,34
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jp2_boxinfo_t jp2_boxinfolookup (int type)
+8,int type
+9,<empty>
+10,jp2_boxinfo_t* boxinfo
+11,for (boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+12,<empty>
+13,boxinfo = jp2_boxinfos
+14,boxinfo
+15,jp2_boxinfos
+16,boxinfo->name
+17,boxinfo
+18,name
+19,++boxinfo
+20,boxinfo
+21,<empty>
+22,if (boxinfo->type == type)
+23,boxinfo->type == type
+24,boxinfo->type
+25,boxinfo
+26,type
+27,type
+28,<empty>
+29,return boxinfo;
+30,boxinfo
+31,return &jp2_boxinfo_unk;
+32,&jp2_boxinfo_unk
+33,jp2_boxinfo_unk
+34,RET
+35,int type
+36,RET
+37,jp2_boxinfo_t jp2_boxinfolookup (int type)
+38,int type
+39,<empty>
+40,jp2_boxinfo_t* boxinfo
+41,for (boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+42,<empty>
+43,boxinfo = jp2_boxinfos
+44,boxinfo
+45,jp2_boxinfos
+46,boxinfo->name
+47,boxinfo
+48,name
+49,++boxinfo
+50,boxinfo
+51,<empty>
+52,if (boxinfo->type == type)
+53,boxinfo->type == type
+54,boxinfo->type
+55,boxinfo
+56,type
+57,type
+58,<empty>
+59,return boxinfo;
+60,boxinfo
+61,return &jp2_boxinfo_unk;
+62,&jp2_boxinfo_unk
+63,jp2_boxinfo_unk
+64,RET
+65,int type
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jp2_boxinfo_t *jp2_boxinfolookup(int type) {
+jp2_boxinfo_t *boxinfo;
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+for(boxinfo = jp2_boxinfos;boxinfo->name;++boxinfo)
+if(boxinfo->type == type)
+return boxinfo;
+=======================

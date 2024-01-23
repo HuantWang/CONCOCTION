@@ -1,0 +1,587 @@
+-----label-----
+0
+-----code-----
+static jpc_tagtree_t *jpc_tagtree_alloc()
+{
+	jpc_tagtree_t *tree;
+
+	if (!(tree = jas_malloc(sizeof(jpc_tagtree_t)))) {
+		return 0;
+	}
+	tree->numleafsh_ = 0;
+	tree->numleafsv_ = 0;
+	tree->numnodes_ = 0;
+	tree->nodes_ = 0;
+
+	return tree;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+7,8
+7,9
+7,10
+7,11
+7,12
+7,13
+7,14
+8,9
+9,10
+9,11
+10,11
+12,13
+12,14
+15,16
+15,17
+16,17
+17,18
+18,19
+18,20
+19,20
+21,22
+21,23
+22,23
+24,25
+25,26
+25,27
+26,27
+29,30
+30,31
+32,33
+33,34
+33,35
+34,35
+34,36
+35,36
+39,40
+40,41
+40,42
+41,42
+41,43
+42,43
+46,47
+47,48
+47,49
+48,49
+48,50
+49,50
+53,54
+54,55
+54,56
+55,56
+55,57
+56,57
+60,61
+61,62
+-----nextToken-----
+3,5,6,11,13,14,20,23,27,28,31,36,37,38,43,44,45,50,51,52,57,58,59,62
+-----computeFrom-----
+18,19
+18,20
+33,34
+33,35
+40,41
+40,42
+47,48
+47,49
+54,55
+54,56
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+static jpc_tagtree_t *jpc_tagtree_alloc(){	jpc_tagtree_t *tree;	if (!(tree = jas_malloc(sizeof(jpc_tagtree_t)))) {		return 0;	}	tree->numleafsh_ = 0;	tree->numleafsv_ = 0;	tree->numnodes_ = 0;	tree->nodes_ = 0;	return tree;}
+static jpc_tagtree_t
+jpc_tagtree_t
+*jpc_tagtree_alloc()
+*
+jpc_tagtree_alloc
+{	jpc_tagtree_t *tree;	if (!(tree = jas_malloc(sizeof(jpc_tagtree_t)))) {		return 0;	}	tree->numleafsh_ = 0;	tree->numleafsv_ = 0;	tree->numnodes_ = 0;	tree->nodes_ = 0;	return tree;}
+jpc_tagtree_t *tree;
+jpc_tagtree_t *tree;
+jpc_tagtree_t
+jpc_tagtree_t
+*tree
+*
+tree
+if (!(tree = jas_malloc(sizeof(jpc_tagtree_t)))) {		return 0;	}
+!(tree = jas_malloc(sizeof(jpc_tagtree_t)))
+(tree = jas_malloc(sizeof(jpc_tagtree_t)))
+tree = jas_malloc(sizeof(jpc_tagtree_t))
+tree
+tree
+jas_malloc(sizeof(jpc_tagtree_t))
+jas_malloc
+jas_malloc
+sizeof(jpc_tagtree_t)
+jpc_tagtree_t
+jpc_tagtree_t
+jpc_tagtree_t
+
+{		return 0;	}
+return 0;
+0
+tree->numleafsh_ = 0;
+tree->numleafsh_ = 0
+tree->numleafsh_
+tree
+tree
+numleafsh_
+0
+tree->numleafsv_ = 0;
+tree->numleafsv_ = 0
+tree->numleafsv_
+tree
+tree
+numleafsv_
+0
+tree->numnodes_ = 0;
+tree->numnodes_ = 0
+tree->numnodes_
+tree
+tree
+numnodes_
+0
+tree->nodes_ = 0;
+tree->nodes_ = 0
+tree->nodes_
+tree
+tree
+nodes_
+0
+return tree;
+tree
+tree
+-----joern-----
+(12,8,0)
+(27,0,0)
+(68,13,0)
+(6,67,0)
+(54,28,0)
+(56,43,0)
+(6,27,0)
+(5,21,0)
+(52,61,0)
+(8,32,0)
+(65,46,0)
+(44,17,0)
+(61,51,0)
+(62,42,0)
+(44,28,0)
+(66,42,0)
+(24,45,0)
+(10,27,0)
+(49,10,0)
+(28,51,0)
+(22,0,0)
+(39,61,0)
+(0,11,0)
+(32,61,0)
+(40,62,0)
+(2,28,0)
+(57,62,0)
+(36,23,0)
+(4,21,0)
+(8,64,0)
+(41,13,0)
+(18,6,0)
+(59,53,0)
+(15,46,0)
+(62,51,0)
+(26,6,0)
+(55,53,0)
+(23,24,0)
+(5,51,0)
+(29,43,0)
+(20,43,0)
+(24,23,0)
+(28,44,0)
+(13,21,0)
+(37,5,0)
+(30,32,0)
+(17,11,0)
+(53,42,0)
+(60,67,0)
+(32,43,0)
+(34,17,0)
+(21,5,0)
+(66,29,0)
+(17,44,0)
+(38,10,0)
+(21,43,0)
+(4,45,0)
+(48,0,0)
+(19,60,0)
+(42,62,0)
+(58,64,0)
+(9,43,0)
+(63,27,0)
+(47,23,0)
+(42,66,0)
+(27,43,0)
+(50,60,0)
+(14,21,0)
+(1,27,0)
+(46,27,0)
+(63,45,0)
+(0,27,0)
+(10,24,0)
+(46,41,0)
+(61,32,0)
+(41,45,0)
+(67,60,0)
+(23,21,0)
+(60,21,0)
+(7,4,0)
+(3,63,0)
+(13,41,0)
+(66,44,0)
+(53,11,0)
+(35,13,0)
+(44,66,0)
+(42,53,0)
+(16,5,0)
+(33,43,0)
+(25,17,0)
+(29,66,0)
+(64,8,0)
+(67,45,0)
+(37,14,1)
+(12,27,1)
+(67,60,1)
+(66,42,1)
+(36,10,1)
+(13,35,1)
+(60,50,1)
+(10,27,1)
+(31,64,1)
+(46,65,1)
+(24,23,1)
+(25,34,1)
+(14,32,1)
+(23,21,1)
+(58,8,1)
+(48,22,1)
+(62,51,1)
+(32,61,1)
+(22,1,1)
+(10,38,1)
+(42,53,1)
+(8,32,1)
+(53,59,1)
+(34,28,1)
+(66,44,1)
+(6,27,1)
+(39,30,1)
+(57,44,1)
+(30,29,1)
+(13,21,1)
+(49,41,1)
+(15,67,1)
+(17,25,1)
+(29,66,1)
+(23,47,1)
+(28,54,1)
+(61,51,1)
+(40,57,1)
+(21,5,1)
+(42,62,1)
+(41,13,1)
+(5,16,1)
+(65,15,1)
+(4,7,1)
+(53,11,1)
+(50,19,1)
+(68,46,1)
+(26,64,1)
+(0,11,1)
+(38,49,1)
+(0,48,1)
+(55,62,1)
+(8,12,1)
+(64,8,1)
+(47,36,1)
+(12,4,1)
+(60,21,1)
+(46,27,1)
+(64,58,1)
+(1,21,1)
+(52,39,1)
+(4,21,1)
+(35,68,1)
+(54,2,1)
+(62,40,1)
+(63,27,1)
+(5,51,1)
+(44,28,1)
+(19,6,1)
+(63,3,1)
+(59,55,1)
+(7,63,1)
+(17,11,1)
+(28,51,1)
+(6,18,1)
+(18,26,1)
+(16,37,1)
+(61,52,1)
+(3,24,1)
+(44,17,1)
+(27,0,1)
+(42,53,2)
+(53,44,2)
+(19,64,2)
+(36,64,2)
+(0,11,2)
+(10,27,2)
+(41,13,2)
+(15,64,2)
+(63,27,2)
+(55,44,2)
+(5,51,2)
+(44,17,2)
+(8,32,2)
+(6,64,2)
+(61,51,2)
+(59,44,2)
+(3,64,2)
+(38,64,2)
+(7,64,2)
+(12,64,2)
+(4,64,2)
+(53,11,2)
+(58,64,2)
+(49,64,2)
+(17,11,2)
+(64,64,2)
+(24,64,2)
+(46,64,2)
+(41,64,2)
+(13,21,2)
+(67,64,2)
+(57,44,2)
+(32,61,2)
+(35,64,2)
+(23,64,2)
+(40,44,2)
+(42,44,2)
+(46,27,2)
+(24,23,2)
+(66,44,2)
+(64,8,2)
+(28,51,2)
+(8,64,2)
+(42,62,2)
+(13,64,2)
+(63,64,2)
+(29,66,2)
+(68,64,2)
+(27,0,2)
+(21,5,2)
+(60,64,2)
+(65,64,2)
+(47,64,2)
+(18,64,2)
+(10,64,2)
+(60,21,2)
+(66,42,2)
+(6,27,2)
+(62,51,2)
+(50,64,2)
+(23,21,2)
+(44,28,2)
+(67,60,2)
+(4,21,2)
+(62,44,2)
+(26,64,2)
+-----------------------------------
+(0,dsttree->nodes_)
+(1,dstnode)
+(2,srctree)
+(3,dstnode)
+(4,++srcnode)
+(5,srctree->nodes_)
+(6,dstnode->value_)
+(7,srcnode)
+(8,--n)
+(9,n)
+(10,dstnode->known_)
+(11,jpc_tagtree_t *dsttree)
+(12,n)
+(13,srcnode->low_)
+(14,srcnode)
+(15,dstnode)
+(16,nodes_)
+(17,dsttree->numleafsh_)
+(18,value_)
+(19,srcnode)
+(20,while (--n >= 0)
+(21,srcnode = srctree->nodes_)
+(22,dsttree)
+(23,srcnode->known_)
+(24,dstnode->known_ = srcnode->known_)
+(25,numleafsh_)
+(26,dstnode)
+(27,dstnode = dsttree->nodes_)
+(28,srctree->numleafsh_)
+(29,assert(srctree->numleafsh_ == dsttree->numleafsh_ &&\\n\\t  srctree->numleafsv_ == dsttree->numleafsv_)
+(30,n)
+(31,RET)
+(32,n = srctree->numnodes_)
+(33,srcnode)
+(34,dsttree)
+(35,low_)
+(36,srcnode)
+(37,srctree)
+(38,known_)
+(39,srctree)
+(40,numleafsv_)
+(41,dstnode->low_ = srcnode->low_)
+(42,srctree->numleafsv_ == dsttree->numleafsv_)
+(43,)
+(44,srctree->numleafsh_ == dsttree->numleafsh_)
+(45,)
+(46,dstnode->low_)
+(47,known_)
+(48,nodes_)
+(49,dstnode)
+(50,value_)
+(51,jpc_tagtree_t *srctree)
+(52,numnodes_)
+(53,dsttree->numleafsv_)
+(54,numleafsh_)
+(55,dsttree)
+(56,dstnode)
+(57,srctree)
+(58,0)
+(59,numleafsv_)
+(60,srcnode->value_)
+(61,srctree->numnodes_)
+(62,srctree->numleafsv_)
+(63,++dstnode)
+(64,--n >= 0)
+(65,low_)
+(66,srctree->numleafsh_ == dsttree->numleafsh_ &&\\n\\t  srctree->numleafsv_ == dsttree->numleafsv_)
+(67,dstnode->value_ = srcnode->value_)
+(68,srcnode)
+-----cfg-----
+(33,31)
+(35,40)
+(36,35)
+(38,36)
+(7,15)
+(40,42)
+(11,18)
+(11,23)
+(12,11)
+(14,12)
+(15,14)
+(18,42)
+(20,28)
+(21,20)
+(23,21)
+(25,33)
+(26,25)
+(28,26)
+(30,38)
+(31,30)
+-----path-----
+7,15,14,12,11,18,42
+7,15,14,12,11,23,21,20,28,26,25,33,31,30,38,36,35,40,42
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jpc_tagtree_t jpc_tagtree_alloc ()
+8,<empty>
+9,jpc_tagtree_t* tree
+10,if (!(tree = jas_malloc(sizeof(jpc_tagtree_t))))
+11,!(tree = jas_malloc(sizeof(jpc_tagtree_t)))
+12,tree = jas_malloc(sizeof(jpc_tagtree_t))
+13,tree
+14,jas_malloc(sizeof(jpc_tagtree_t))
+15,sizeof(jpc_tagtree_t)
+16,jpc_tagtree_t
+17,<empty>
+18,return 0;
+19,0
+20,tree->numleafsh_ = 0
+21,tree->numleafsh_
+22,tree
+23,numleafsh_
+24,0
+25,tree->numleafsv_ = 0
+26,tree->numleafsv_
+27,tree
+28,numleafsv_
+29,0
+30,tree->numnodes_ = 0
+31,tree->numnodes_
+32,tree
+33,numnodes_
+34,0
+35,tree->nodes_ = 0
+36,tree->nodes_
+37,tree
+38,nodes_
+39,0
+40,return tree;
+41,tree
+42,RET
+43,RET
+44,jpc_tagtree_t jpc_tagtree_alloc ()
+45,<empty>
+46,jpc_tagtree_t* tree
+47,if (!(tree = jas_malloc(sizeof(jpc_tagtree_t))))
+48,!(tree = jas_malloc(sizeof(jpc_tagtree_t)))
+49,tree = jas_malloc(sizeof(jpc_tagtree_t))
+50,tree
+51,jas_malloc(sizeof(jpc_tagtree_t))
+52,sizeof(jpc_tagtree_t)
+53,jpc_tagtree_t
+54,<empty>
+55,return 0;
+56,0
+57,tree->numleafsh_ = 0
+58,tree->numleafsh_
+59,tree
+60,numleafsh_
+61,0
+62,tree->numleafsv_ = 0
+63,tree->numleafsv_
+64,tree
+65,numleafsv_
+66,0
+67,tree->numnodes_ = 0
+68,tree->numnodes_
+69,tree
+70,numnodes_
+71,0
+72,tree->nodes_ = 0
+73,tree->nodes_
+74,tree
+75,nodes_
+76,0
+77,return tree;
+78,tree
+79,RET
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static jpc_tagtree_t *jpc_tagtree_alloc() {
+jpc_tagtree_t *tree;
+tree->numleafsh_ = 0;
+tree->numleafsv_ = 0;
+tree->numnodes_ = 0;
+tree->nodes_ = 0;
+return tree;
+=======================

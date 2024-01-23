@@ -1,0 +1,631 @@
+-----label-----
+0
+-----code-----
+jas_iccattrval_t *jas_iccattrval_create(jas_iccuint32_t type)
+{
+	jas_iccattrval_t *attrval;
+	jas_iccattrvalinfo_t *info;
+
+	if (!(info = jas_iccattrvalinfo_lookup(type)))
+		goto error;
+	if (!(attrval = jas_iccattrval_create0()))
+		goto error;
+	attrval->ops = &info->ops;
+	attrval->type = type;
+	++attrval->refcnt;
+	memset(&attrval->data, 0, sizeof(attrval->data));
+	return attrval;
+error:
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+7,8
+7,9
+8,9
+10,11
+12,13
+12,14
+12,15
+12,16
+12,17
+12,18
+12,19
+12,20
+12,21
+12,22
+13,14
+14,15
+14,16
+15,16
+17,18
+17,19
+20,21
+21,22
+21,23
+22,23
+24,25
+24,26
+27,28
+27,29
+28,29
+29,30
+30,31
+30,32
+31,32
+33,34
+33,35
+34,35
+36,37
+38,39
+40,41
+40,42
+41,42
+42,43
+43,44
+43,45
+44,45
+46,47
+47,48
+49,50
+51,52
+52,53
+52,54
+53,54
+53,55
+54,55
+57,58
+58,59
+58,60
+59,60
+62,63
+63,64
+63,65
+64,65
+64,66
+65,66
+68,69
+70,71
+71,72
+72,73
+72,74
+73,74
+76,77
+77,78
+77,79
+77,80
+77,81
+78,79
+80,81
+81,82
+81,83
+82,83
+86,87
+87,88
+88,89
+88,90
+89,90
+92,93
+93,94
+95,96
+95,97
+97,98
+-----nextToken-----
+3,5,6,9,11,16,18,19,23,25,26,32,35,37,39,45,48,50,55,56,60,61,66,67,69,74,75,79,83,84,85,90,91,94,96,98
+-----computeFrom-----
+30,31
+30,32
+43,44
+43,45
+52,53
+52,54
+63,64
+63,65
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;GotoStatement;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;GotoStatement;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;ExpressionStatement;UnaryExpression;FieldReference;IdExpression;Name;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;UnaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;UnaryExpression;UnaryExpression;FieldReference;IdExpression;Name;Name;ReturnStatement;IdExpression;Name;LabelStatement;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+jas_iccattrval_t *jas_iccattrval_create(jas_iccuint32_t type){	jas_iccattrval_t *attrval;	jas_iccattrvalinfo_t *info;	if (!(info = jas_iccattrvalinfo_lookup(type)))		goto error;	if (!(attrval = jas_iccattrval_create0()))		goto error;	attrval->ops = &info->ops;	attrval->type = type;	++attrval->refcnt;	memset(&attrval->data, 0, sizeof(attrval->data));	return attrval;error:	return 0;}
+jas_iccattrval_t
+jas_iccattrval_t
+*jas_iccattrval_create(jas_iccuint32_t type)
+*
+jas_iccattrval_create
+jas_iccuint32_t type
+jas_iccuint32_t
+jas_iccuint32_t
+type
+type
+{	jas_iccattrval_t *attrval;	jas_iccattrvalinfo_t *info;	if (!(info = jas_iccattrvalinfo_lookup(type)))		goto error;	if (!(attrval = jas_iccattrval_create0()))		goto error;	attrval->ops = &info->ops;	attrval->type = type;	++attrval->refcnt;	memset(&attrval->data, 0, sizeof(attrval->data));	return attrval;error:	return 0;}
+jas_iccattrval_t *attrval;
+jas_iccattrval_t *attrval;
+jas_iccattrval_t
+jas_iccattrval_t
+*attrval
+*
+attrval
+jas_iccattrvalinfo_t *info;
+jas_iccattrvalinfo_t *info;
+jas_iccattrvalinfo_t
+jas_iccattrvalinfo_t
+*info
+*
+info
+if (!(info = jas_iccattrvalinfo_lookup(type)))		goto error;
+!(info = jas_iccattrvalinfo_lookup(type))
+(info = jas_iccattrvalinfo_lookup(type))
+info = jas_iccattrvalinfo_lookup(type)
+info
+info
+jas_iccattrvalinfo_lookup(type)
+jas_iccattrvalinfo_lookup
+jas_iccattrvalinfo_lookup
+type
+type
+goto error;
+error
+if (!(attrval = jas_iccattrval_create0()))		goto error;
+!(attrval = jas_iccattrval_create0())
+(attrval = jas_iccattrval_create0())
+attrval = jas_iccattrval_create0()
+attrval
+attrval
+jas_iccattrval_create0()
+jas_iccattrval_create0
+jas_iccattrval_create0
+goto error;
+error
+attrval->ops = &info->ops;
+attrval->ops = &info->ops
+attrval->ops
+attrval
+attrval
+ops
+&info->ops
+info->ops
+info
+info
+ops
+attrval->type = type;
+attrval->type = type
+attrval->type
+attrval
+attrval
+type
+type
+type
+++attrval->refcnt;
+++attrval->refcnt
+attrval->refcnt
+attrval
+attrval
+refcnt
+memset(&attrval->data, 0, sizeof(attrval->data));
+memset(&attrval->data, 0, sizeof(attrval->data))
+memset
+memset
+&attrval->data
+attrval->data
+attrval
+attrval
+data
+0
+sizeof(attrval->data)
+(attrval->data)
+attrval->data
+attrval
+attrval
+data
+return attrval;
+attrval
+attrval
+error:	return 0;
+error
+return 0;
+0
+-----joern-----
+(4,40,0)
+(39,28,0)
+(47,3,0)
+(36,29,0)
+(17,47,0)
+(35,23,0)
+(26,28,0)
+(40,22,0)
+(43,40,0)
+(31,15,0)
+(19,28,0)
+(22,28,0)
+(46,29,0)
+(38,28,0)
+(33,21,0)
+(1,39,0)
+(23,38,0)
+(45,47,0)
+(42,47,0)
+(24,12,0)
+(1,17,0)
+(21,33,0)
+(47,45,0)
+(25,12,0)
+(9,42,0)
+(11,28,0)
+(16,23,0)
+(41,12,0)
+(42,31,0)
+(39,1,0)
+(14,39,0)
+(12,47,0)
+(10,19,0)
+(13,28,0)
+(6,19,0)
+(27,7,0)
+(36,38,0)
+(2,48,0)
+(29,21,0)
+(48,21,0)
+(17,1,0)
+(49,42,0)
+(5,28,0)
+(21,48,0)
+(22,40,0)
+(29,36,0)
+(40,47,0)
+(31,28,0)
+(20,21,0)
+(23,47,0)
+(12,25,0)
+(19,47,0)
+(37,17,0)
+(0,17,0)
+(8,28,0)
+(32,29,0)
+(38,36,0)
+(39,25,0)
+(18,31,0)
+(7,28,0)
+(48,15,0)
+(25,39,0)
+(30,47,0)
+(3,47,0)
+(6,7,0)
+(27,44,1)
+(47,45,1)
+(25,12,1)
+(16,35,1)
+(22,40,1)
+(33,21,1)
+(19,10,1)
+(6,7,1)
+(38,36,1)
+(6,19,1)
+(32,46,1)
+(12,47,1)
+(48,2,1)
+(7,27,1)
+(39,25,1)
+(14,1,1)
+(21,48,1)
+(31,15,1)
+(3,47,1)
+(23,16,1)
+(45,30,1)
+(40,47,1)
+(17,47,1)
+(35,3,1)
+(17,0,1)
+(18,42,1)
+(2,20,1)
+(40,43,1)
+(44,33,1)
+(23,47,1)
+(48,15,1)
+(42,9,1)
+(29,32,1)
+(37,22,1)
+(34,3,1)
+(24,41,1)
+(0,37,1)
+(1,17,1)
+(12,24,1)
+(4,31,1)
+(49,38,1)
+(9,49,1)
+(27,34,1)
+(30,33,1)
+(29,21,1)
+(39,1,1)
+(41,14,1)
+(43,4,1)
+(31,18,1)
+(36,29,1)
+(42,47,1)
+(46,23,1)
+(10,39,1)
+(19,47,1)
+(6,19,2)
+(41,3,2)
+(36,29,2)
+(18,3,2)
+(1,17,2)
+(27,3,2)
+(39,1,2)
+(31,15,2)
+(22,3,2)
+(47,33,2)
+(45,33,2)
+(3,47,2)
+(4,3,2)
+(22,40,2)
+(32,3,2)
+(25,12,2)
+(17,47,2)
+(47,45,2)
+(42,47,2)
+(23,3,2)
+(38,36,2)
+(27,33,2)
+(29,3,2)
+(40,47,2)
+(36,3,2)
+(23,47,2)
+(9,3,2)
+(39,25,2)
+(7,33,2)
+(21,48,2)
+(12,47,2)
+(38,3,2)
+(31,3,2)
+(48,15,2)
+(3,33,2)
+(30,33,2)
+(40,3,2)
+(37,3,2)
+(10,3,2)
+(24,3,2)
+(19,3,2)
+(0,3,2)
+(1,3,2)
+(33,21,2)
+(44,33,2)
+(49,3,2)
+(43,3,2)
+(35,3,2)
+(14,3,2)
+(42,3,2)
+(46,3,2)
+(12,3,2)
+(39,3,2)
+(6,7,2)
+(17,3,2)
+(34,3,2)
+(7,3,2)
+(29,21,2)
+(16,3,2)
+(25,3,2)
+(19,47,2)
+-----------------------------------
+(0,data)
+(1,&attrval->data)
+(2,type)
+(3,!(attrval = jas_iccattrval_create0()
+(4,attrval)
+(5,error:)
+(6,RET)
+(7,return 0;)
+(8,attrval)
+(9,type)
+(10,attrval)
+(11,if (!(attrval = jas_iccattrval_create0()
+(12,attrval->data)
+(13,info)
+(14,0)
+(15,jas_iccuint32_t type)
+(16,ops)
+(17,attrval->data)
+(18,type)
+(19,return attrval;)
+(20,info)
+(21,info = jas_iccattrvalinfo_lookup(type)
+(22,++attrval->refcnt)
+(23,attrval->ops)
+(24,data)
+(25,sizeof(attrval->data)
+(26,if (!(info = jas_iccattrvalinfo_lookup(type)
+(27,0)
+(28,)
+(29,info->ops)
+(30,attrval)
+(31,attrval->type = type)
+(32,ops)
+(33,!(info = jas_iccattrvalinfo_lookup(type)
+(34,goto error;)
+(35,attrval)
+(36,&info->ops)
+(37,attrval)
+(38,attrval->ops = &info->ops)
+(39,memset(&attrval->data, 0, sizeof(attrval->data)
+(40,attrval->refcnt)
+(41,attrval)
+(42,attrval->type)
+(43,refcnt)
+(44,goto error;)
+(45,jas_iccattrval_create0()
+(46,info)
+(47,attrval = jas_iccattrval_create0()
+(48,jas_iccattrvalinfo_lookup(type)
+(49,attrval)
+-----cfg-----
+(7,16)
+(13,57)
+(13,24)
+(14,13)
+(16,14)
+(21,57)
+(21,30)
+(22,21)
+(24,22)
+(27,38)
+(28,34)
+(30,28)
+(31,27)
+(32,31)
+(34,32)
+(35,43)
+(36,35)
+(38,36)
+(40,48)
+(41,40)
+(43,41)
+(44,54)
+(45,53)
+(46,45)
+(48,46)
+(50,44)
+(51,50)
+(53,51)
+(54,59)
+(57,59)
+-----path-----
+7,16,14,13,57,59
+7,16,14,13,24,22,21,57,59
+7,16,14,13,24,22,21,30,28,34,32,31,27,38,36,35,43,41,40,48,46,45,53,51,50,44,54,59
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jas_iccattrval_t jas_iccattrval_create (jas_iccuint32_t type)
+8,jas_iccuint32_t type
+9,<empty>
+10,jas_iccattrval_t* attrval
+11,jas_iccattrvalinfo_t* info
+12,if (!(info = jas_iccattrvalinfo_lookup(type)))
+13,!(info = jas_iccattrvalinfo_lookup(type))
+14,info = jas_iccattrvalinfo_lookup(type)
+15,info
+16,jas_iccattrvalinfo_lookup(type)
+17,type
+18,<empty>
+19,goto error;
+20,if (!(attrval = jas_iccattrval_create0()))
+21,!(attrval = jas_iccattrval_create0())
+22,attrval = jas_iccattrval_create0()
+23,attrval
+24,jas_iccattrval_create0()
+25,<empty>
+26,goto error;
+27,attrval->ops = &info->ops
+28,attrval->ops
+29,attrval
+30,ops
+31,&info->ops
+32,info->ops
+33,info
+34,ops
+35,attrval->type = type
+36,attrval->type
+37,attrval
+38,type
+39,type
+40,++attrval->refcnt
+41,attrval->refcnt
+42,attrval
+43,refcnt
+44,memset(&attrval->data, 0, sizeof(attrval->data))
+45,&attrval->data
+46,attrval->data
+47,attrval
+48,data
+49,0
+50,sizeof(attrval->data)
+51,attrval->data
+52,attrval
+53,data
+54,return attrval;
+55,attrval
+56,error:
+57,	return 0;
+58,return 0;
+59,0
+60,RET
+61,jas_iccuint32_t type
+62,RET
+63,jas_iccattrval_t jas_iccattrval_create (jas_iccuint32_t type)
+64,jas_iccuint32_t type
+65,<empty>
+66,jas_iccattrval_t* attrval
+67,jas_iccattrvalinfo_t* info
+68,if (!(info = jas_iccattrvalinfo_lookup(type)))
+69,!(info = jas_iccattrvalinfo_lookup(type))
+70,info = jas_iccattrvalinfo_lookup(type)
+71,info
+72,jas_iccattrvalinfo_lookup(type)
+73,type
+74,<empty>
+75,goto error;
+76,if (!(attrval = jas_iccattrval_create0()))
+77,!(attrval = jas_iccattrval_create0())
+78,attrval = jas_iccattrval_create0()
+79,attrval
+80,jas_iccattrval_create0()
+81,<empty>
+82,goto error;
+83,attrval->ops = &info->ops
+84,attrval->ops
+85,attrval
+86,ops
+87,&info->ops
+88,info->ops
+89,info
+90,ops
+91,attrval->type = type
+92,attrval->type
+93,attrval
+94,type
+95,type
+96,++attrval->refcnt
+97,attrval->refcnt
+98,attrval
+99,refcnt
+100,memset(&attrval->data, 0, sizeof(attrval->data))
+101,&attrval->data
+102,attrval->data
+103,attrval
+104,data
+105,0
+106,sizeof(attrval->data)
+107,attrval->data
+108,attrval
+109,data
+110,return attrval;
+111,attrval
+112,error:
+113,	return 0;
+114,return 0;
+115,0
+116,RET
+117,jas_iccuint32_t type
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+jas_iccattrval_t *jas_iccattrval_create(jas_iccuint32_t type) {
+jas_iccattrval_t *attrval;
+jas_iccattrvalinfo_t *info;
+attrval->ops = &info->ops;
+attrval->type = type;
+++attrval->refcnt;
+memset(&attrval->data, 0, sizeof(attrval->data));
+return attrval;
+=======================

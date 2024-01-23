@@ -1,0 +1,371 @@
+-----label-----
+0
+-----code-----
+static jpc_bitstream_t *jpc_bitstream_alloc()
+{
+	jpc_bitstream_t *bitstream;
+
+	/* Allocate memory for the new bit stream object. */
+	if (!(bitstream = jas_malloc(sizeof(jpc_bitstream_t)))) {
+		return 0;
+	}
+	/* Initialize all of the data members. */
+	bitstream->stream_ = 0;
+	bitstream->cnt_ = 0;
+	bitstream->flags_ = 0;
+	bitstream->openmode_ = 0;
+
+	return bitstream;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+7,8
+7,9
+7,10
+7,11
+7,12
+7,13
+7,14
+8,9
+9,10
+9,11
+10,11
+12,13
+12,14
+15,16
+15,17
+16,17
+17,18
+18,19
+18,20
+19,20
+21,22
+21,23
+22,23
+24,25
+25,26
+25,27
+26,27
+29,30
+30,31
+32,33
+33,34
+33,35
+34,35
+34,36
+35,36
+39,40
+40,41
+40,42
+41,42
+41,43
+42,43
+46,47
+47,48
+47,49
+48,49
+48,50
+49,50
+53,54
+54,55
+54,56
+55,56
+55,57
+56,57
+60,61
+61,62
+-----nextToken-----
+3,5,6,11,13,14,20,23,27,28,31,36,37,38,43,44,45,50,51,52,57,58,59,62
+-----computeFrom-----
+18,19
+18,20
+33,34
+33,35
+40,41
+40,42
+47,48
+47,49
+54,55
+54,56
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+static jpc_bitstream_t *jpc_bitstream_alloc(){	jpc_bitstream_t *bitstream;	/* Allocate memory for the new bit stream object. */	if (!(bitstream = jas_malloc(sizeof(jpc_bitstream_t)))) {		return 0;	}	/* Initialize all of the data members. */	bitstream->stream_ = 0;	bitstream->cnt_ = 0;	bitstream->flags_ = 0;	bitstream->openmode_ = 0;	return bitstream;}
+static jpc_bitstream_t
+jpc_bitstream_t
+*jpc_bitstream_alloc()
+*
+jpc_bitstream_alloc
+{	jpc_bitstream_t *bitstream;	/* Allocate memory for the new bit stream object. */	if (!(bitstream = jas_malloc(sizeof(jpc_bitstream_t)))) {		return 0;	}	/* Initialize all of the data members. */	bitstream->stream_ = 0;	bitstream->cnt_ = 0;	bitstream->flags_ = 0;	bitstream->openmode_ = 0;	return bitstream;}
+jpc_bitstream_t *bitstream;
+jpc_bitstream_t *bitstream;
+jpc_bitstream_t
+jpc_bitstream_t
+*bitstream
+*
+bitstream
+if (!(bitstream = jas_malloc(sizeof(jpc_bitstream_t)))) {		return 0;	}
+!(bitstream = jas_malloc(sizeof(jpc_bitstream_t)))
+(bitstream = jas_malloc(sizeof(jpc_bitstream_t)))
+bitstream = jas_malloc(sizeof(jpc_bitstream_t))
+bitstream
+bitstream
+jas_malloc(sizeof(jpc_bitstream_t))
+jas_malloc
+jas_malloc
+sizeof(jpc_bitstream_t)
+jpc_bitstream_t
+jpc_bitstream_t
+jpc_bitstream_t
+
+{		return 0;	}
+return 0;
+0
+bitstream->stream_ = 0;
+bitstream->stream_ = 0
+bitstream->stream_
+bitstream
+bitstream
+stream_
+0
+bitstream->cnt_ = 0;
+bitstream->cnt_ = 0
+bitstream->cnt_
+bitstream
+bitstream
+cnt_
+0
+bitstream->flags_ = 0;
+bitstream->flags_ = 0
+bitstream->flags_
+bitstream
+bitstream
+flags_
+0
+bitstream->openmode_ = 0;
+bitstream->openmode_ = 0
+bitstream->openmode_
+bitstream
+bitstream
+openmode_
+0
+return bitstream;
+bitstream
+bitstream
+-----joern-----
+(17,10,0)
+(13,0,0)
+(3,15,0)
+(1,19,0)
+(15,9,0)
+(22,21,0)
+(14,15,0)
+(24,0,0)
+(5,9,0)
+(0,19,0)
+(6,11,0)
+(9,15,0)
+(7,16,0)
+(8,10,0)
+(16,4,0)
+(20,7,0)
+(23,8,0)
+(24,16,0)
+(10,8,0)
+(24,22,0)
+(18,8,0)
+(15,2,0)
+(12,22,0)
+(8,2,0)
+(7,20,1)
+(15,2,1)
+(10,17,1)
+(5,15,1)
+(9,15,1)
+(23,9,1)
+(17,8,1)
+(12,10,1)
+(10,8,1)
+(24,22,1)
+(24,0,1)
+(22,12,1)
+(16,7,1)
+(8,2,1)
+(3,14,1)
+(8,18,1)
+(20,9,1)
+(18,23,1)
+(15,3,1)
+(13,10,1)
+(9,5,1)
+(24,16,1)
+(0,13,1)
+(22,10,2)
+(10,8,2)
+(8,9,2)
+(20,9,2)
+(23,9,2)
+(24,16,2)
+(17,9,2)
+(0,10,2)
+(13,10,2)
+(8,2,2)
+(7,9,2)
+(15,2,2)
+(10,9,2)
+(24,0,2)
+(12,10,2)
+(9,15,2)
+(24,22,2)
+(18,9,2)
+(16,9,2)
+-----------------------------------
+(0,return 0;)
+(1,if (bitstream->cnt_ < 8)
+(2,jpc_bitstream_t *bitstream)
+(3,openmode_)
+(4,)
+(5,JPC_BITSTREAM_WRITE)
+(6,if (bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(7,-1)
+(8,bitstream->cnt_)
+(9,bitstream->openmode_ & JPC_BITSTREAM_WRITE)
+(10,bitstream->cnt_ < 8)
+(11,)
+(12,1)
+(13,0)
+(14,bitstream)
+(15,bitstream->openmode_)
+(16,return -1;)
+(17,8)
+(18,cnt_)
+(19,)
+(20,1)
+(21,)
+(22,return 1;)
+(23,bitstream)
+(24,RET)
+-----cfg-----
+(33,31)
+(35,40)
+(36,35)
+(38,36)
+(7,15)
+(40,42)
+(11,18)
+(11,23)
+(12,11)
+(14,12)
+(15,14)
+(18,42)
+(20,28)
+(21,20)
+(23,21)
+(25,33)
+(26,25)
+(28,26)
+(30,38)
+(31,30)
+-----path-----
+7,15,14,12,11,18,42
+7,15,14,12,11,23,21,20,28,26,25,33,31,30,38,36,35,40,42
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,jpc_bitstream_t jpc_bitstream_alloc ()
+8,<empty>
+9,jpc_bitstream_t* bitstream
+10,if (!(bitstream = jas_malloc(sizeof(jpc_bitstream_t))))
+11,!(bitstream = jas_malloc(sizeof(jpc_bitstream_t)))
+12,bitstream = jas_malloc(sizeof(jpc_bitstream_t))
+13,bitstream
+14,jas_malloc(sizeof(jpc_bitstream_t))
+15,sizeof(jpc_bitstream_t)
+16,jpc_bitstream_t
+17,<empty>
+18,return 0;
+19,0
+20,bitstream->stream_ = 0
+21,bitstream->stream_
+22,bitstream
+23,stream_
+24,0
+25,bitstream->cnt_ = 0
+26,bitstream->cnt_
+27,bitstream
+28,cnt_
+29,0
+30,bitstream->flags_ = 0
+31,bitstream->flags_
+32,bitstream
+33,flags_
+34,0
+35,bitstream->openmode_ = 0
+36,bitstream->openmode_
+37,bitstream
+38,openmode_
+39,0
+40,return bitstream;
+41,bitstream
+42,RET
+43,RET
+44,jpc_bitstream_t jpc_bitstream_alloc ()
+45,<empty>
+46,jpc_bitstream_t* bitstream
+47,if (!(bitstream = jas_malloc(sizeof(jpc_bitstream_t))))
+48,!(bitstream = jas_malloc(sizeof(jpc_bitstream_t)))
+49,bitstream = jas_malloc(sizeof(jpc_bitstream_t))
+50,bitstream
+51,jas_malloc(sizeof(jpc_bitstream_t))
+52,sizeof(jpc_bitstream_t)
+53,jpc_bitstream_t
+54,<empty>
+55,return 0;
+56,0
+57,bitstream->stream_ = 0
+58,bitstream->stream_
+59,bitstream
+60,stream_
+61,0
+62,bitstream->cnt_ = 0
+63,bitstream->cnt_
+64,bitstream
+65,cnt_
+66,0
+67,bitstream->flags_ = 0
+68,bitstream->flags_
+69,bitstream
+70,flags_
+71,0
+72,bitstream->openmode_ = 0
+73,bitstream->openmode_
+74,bitstream
+75,openmode_
+76,0
+77,return bitstream;
+78,bitstream
+79,RET
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static jpc_bitstream_t *jpc_bitstream_alloc() {
+jpc_bitstream_t *bitstream;
+bitstream->stream_ = 0;
+bitstream->cnt_ = 0;
+bitstream->flags_ = 0;
+bitstream->openmode_ = 0;
+return bitstream;
+=======================

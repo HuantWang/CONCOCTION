@@ -1,0 +1,5351 @@
+-----label-----
+0
+-----code-----
+static int pnm_getdata(jas_stream_t *in, pnm_hdr_t *hdr, jas_image_t *image)
+{
+	int ret;
+#if 0
+	int numcmpts;
+#endif
+	int cmptno;
+	int fmt;
+	jas_matrix_t *data[3];
+	int x;
+	int y;
+	int_fast64_t v;
+	int depth;
+	int type;
+	int c;
+	int n;
+
+	ret = -1;
+
+#if 0
+	numcmpts = jas_image_numcmpts(image);
+#endif
+	fmt = pnm_fmt(hdr->magic);
+	type = pnm_type(hdr->magic);
+	depth = pnm_maxvaltodepth(hdr->maxval);
+
+	data[0] = 0;
+	data[1] = 0;
+	data[2] = 0;
+	for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {
+		if (!(data[cmptno] = jas_matrix_create(1, hdr->width))) {
+			goto done;
+		}
+	}
+
+	for (y = 0; y < hdr->height; ++y) {
+		if (type == PNM_TYPE_PBM) {
+			if (fmt == PNM_FMT_BIN) {
+				for (x = 0; x < hdr->width;) {
+					if ((c = jas_stream_getc(in)) == EOF) {
+						goto done;
+					}
+					n = 8;
+					while (n > 0 && x < hdr->width) {
+						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));
+						c <<= 1;
+						--n;
+						++x;
+					}
+				}
+			} else {
+				for (x = 0; x < hdr->width; ++x) {
+					int uv;
+					if (pnm_getbitstr(in, &uv)) {
+						goto done;
+					}
+					jas_matrix_set(data[0], 0, x, 1 - uv);
+				}
+			}
+		} else {
+			for (x = 0; x < hdr->width; ++x) {
+				for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {
+					if (fmt == PNM_FMT_BIN) {
+						/* The sample data is in binary format. */
+						if (hdr->sgnd) {
+							/* The sample data is signed. */
+							int_fast32_t sv;
+							if (pnm_getsint(in, depth, &sv)) {
+								if (!pnm_allowtrunc) {
+									goto done;
+								}
+								sv = 0;
+							}
+							v = sv;
+						} else {
+							/* The sample data is unsigned. */
+							uint_fast32_t uv;
+							if (pnm_getuint(in, depth, &uv)) {
+								if (!pnm_allowtrunc) {
+									goto done;
+								}
+								uv = 0;
+							}
+							v = uv;
+						}
+					} else {
+						/* The sample data is in text format. */
+						if (hdr->sgnd) {
+							/* The sample data is signed. */
+							int_fast32_t sv;
+							if (pnm_getsintstr(in, &sv)) {
+								if (!pnm_allowtrunc) {
+									goto done;
+								}
+								sv = 0;
+							}
+							v = sv;
+						} else {
+							/* The sample data is unsigned. */
+							uint_fast32_t uv;
+							if (pnm_getuintstr(in, &uv)) {
+								if (!pnm_allowtrunc) {
+									goto done;
+								}
+								uv = 0;
+							}
+							v = uv;
+						}
+					}
+					jas_matrix_set(data[cmptno], 0, x, v);
+				}
+			}
+		}
+		for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {
+			if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,
+			  data[cmptno])) {
+				goto done;
+			}
+		}
+	}
+
+	ret = 0;
+
+done:
+
+	for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {
+		if (data[cmptno]) {
+			jas_matrix_destroy(data[cmptno]);
+		}
+	}
+
+	return ret;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+23,25
+23,26
+23,27
+23,28
+23,29
+23,30
+23,31
+23,32
+23,33
+23,34
+23,35
+23,36
+23,37
+23,38
+23,39
+23,40
+23,41
+23,42
+23,43
+23,44
+23,45
+23,46
+24,25
+25,26
+25,27
+27,28
+29,30
+30,31
+30,32
+32,33
+34,35
+35,36
+35,37
+37,38
+39,40
+40,41
+40,42
+41,42
+43,44
+43,45
+43,46
+46,47
+48,49
+49,50
+49,51
+51,52
+53,54
+54,55
+54,56
+56,57
+58,59
+59,60
+59,61
+60,61
+62,63
+64,65
+65,66
+65,67
+67,68
+69,70
+70,71
+70,72
+72,73
+74,75
+75,76
+75,77
+77,78
+79,80
+80,81
+80,82
+82,83
+84,85
+85,86
+85,87
+86,87
+88,89
+90,91
+91,92
+91,93
+92,93
+94,95
+94,96
+95,96
+97,98
+97,99
+98,99
+101,102
+102,103
+102,104
+103,104
+105,106
+105,107
+106,107
+108,109
+108,110
+109,110
+112,113
+113,114
+113,115
+114,115
+116,117
+116,118
+117,118
+119,120
+119,121
+120,121
+123,124
+124,125
+124,126
+125,126
+125,127
+126,127
+130,131
+131,132
+131,133
+132,133
+132,134
+133,134
+137,138
+138,139
+138,140
+139,140
+139,141
+140,141
+144,145
+144,146
+144,147
+144,148
+145,146
+146,147
+146,148
+147,148
+150,151
+150,152
+151,152
+153,154
+153,155
+154,155
+157,158
+158,159
+160,161
+161,162
+161,163
+162,163
+163,164
+164,165
+164,166
+165,166
+165,167
+166,167
+168,169
+170,171
+170,172
+170,173
+171,172
+174,175
+174,176
+175,176
+178,179
+179,180
+181,182
+181,183
+181,184
+181,185
+182,183
+183,184
+183,185
+184,185
+187,188
+187,189
+188,189
+190,191
+190,192
+191,192
+194,195
+195,196
+197,198
+197,199
+198,199
+198,200
+198,201
+199,200
+199,201
+200,201
+202,203
+204,205
+205,206
+205,207
+205,208
+206,207
+206,208
+207,208
+209,210
+211,212
+212,213
+212,214
+212,215
+213,214
+214,215
+214,216
+215,216
+218,219
+218,220
+219,220
+221,222
+221,223
+222,223
+225,226
+225,227
+225,228
+226,227
+226,228
+227,228
+227,229
+228,229
+229,230
+229,231
+230,231
+232,233
+232,234
+233,234
+235,236
+237,238
+239,240
+240,241
+242,243
+243,244
+243,245
+244,245
+247,248
+247,249
+248,249
+248,250
+249,250
+249,251
+250,251
+253,254
+253,255
+254,255
+256,257
+256,258
+257,258
+260,261
+260,262
+260,263
+260,264
+261,262
+262,263
+262,264
+262,265
+262,266
+262,267
+263,264
+265,266
+265,267
+266,267
+270,271
+272,273
+272,274
+274,275
+275,276
+275,277
+276,277
+277,278
+277,279
+278,279
+282,283
+283,284
+283,285
+284,285
+287,288
+288,289
+289,290
+291,292
+292,293
+293,294
+295,296
+296,297
+296,298
+296,299
+296,300
+297,298
+298,299
+298,300
+299,300
+302,303
+302,304
+303,304
+305,306
+305,307
+306,307
+309,310
+310,311
+312,313
+312,314
+312,315
+313,314
+314,315
+314,316
+316,317
+318,319
+318,320
+319,320
+319,321
+319,322
+320,321
+322,323
+324,325
+325,326
+327,328
+328,329
+330,331
+331,332
+331,333
+331,334
+331,335
+331,336
+332,333
+334,335
+334,336
+335,336
+339,340
+341,342
+341,343
+343,344
+345,346
+346,347
+346,348
+346,349
+346,350
+347,348
+348,349
+348,350
+349,350
+352,353
+352,354
+353,354
+355,356
+355,357
+356,357
+359,360
+360,361
+362,363
+363,364
+363,365
+363,366
+363,367
+364,365
+365,366
+365,367
+366,367
+369,370
+369,371
+370,371
+372,373
+372,374
+373,374
+376,377
+377,378
+379,380
+379,381
+380,381
+380,382
+380,383
+381,382
+381,383
+382,383
+384,385
+386,387
+387,388
+387,389
+387,390
+388,389
+388,390
+389,390
+392,393
+392,394
+392,395
+393,394
+394,395
+394,396
+395,396
+397,398
+399,400
+399,401
+400,401
+400,402
+400,403
+400,404
+401,402
+403,404
+405,406
+407,408
+408,409
+410,411
+410,412
+411,412
+411,413
+412,413
+413,414
+415,416
+416,417
+418,419
+419,420
+419,421
+420,421
+423,424
+424,425
+424,426
+425,426
+427,428
+429,430
+429,431
+429,432
+430,431
+431,432
+431,433
+432,433
+434,435
+436,437
+436,438
+437,438
+437,439
+437,440
+437,441
+438,439
+440,441
+442,443
+444,445
+445,446
+447,448
+447,449
+448,449
+448,450
+449,450
+450,451
+452,453
+453,454
+455,456
+456,457
+456,458
+457,458
+460,461
+461,462
+461,463
+462,463
+464,465
+466,467
+467,468
+467,469
+467,470
+468,469
+468,470
+469,470
+472,473
+472,474
+472,475
+473,474
+474,475
+474,476
+475,476
+477,478
+479,480
+479,481
+480,481
+480,482
+480,483
+481,482
+483,484
+485,486
+486,487
+488,489
+488,490
+489,490
+489,491
+490,491
+491,492
+493,494
+494,495
+496,497
+497,498
+497,499
+498,499
+501,502
+502,503
+502,504
+503,504
+505,506
+507,508
+507,509
+507,510
+508,509
+509,510
+509,511
+510,511
+512,513
+514,515
+514,516
+515,516
+515,517
+515,518
+516,517
+518,519
+520,521
+521,522
+523,524
+523,525
+524,525
+524,526
+525,526
+526,527
+528,529
+529,530
+531,532
+532,533
+532,534
+533,534
+536,537
+537,538
+537,539
+538,539
+540,541
+542,543
+543,544
+543,545
+543,546
+543,547
+543,548
+544,545
+546,547
+546,548
+547,548
+549,550
+552,553
+554,555
+556,557
+556,558
+556,559
+556,560
+557,558
+558,559
+558,560
+559,560
+562,563
+562,564
+563,564
+565,566
+565,567
+566,567
+569,570
+570,571
+572,573
+573,574
+573,575
+574,575
+574,576
+574,577
+574,578
+574,579
+574,580
+574,581
+574,582
+575,576
+577,578
+579,580
+582,583
+584,585
+584,586
+585,586
+589,590
+589,591
+590,591
+592,593
+594,595
+595,596
+597,598
+598,599
+598,600
+599,600
+602,603
+602,604
+604,605
+604,606
+604,607
+604,608
+605,606
+606,607
+606,608
+607,608
+610,611
+610,612
+611,612
+613,614
+613,615
+614,615
+617,618
+618,619
+620,621
+621,622
+621,623
+622,623
+622,624
+623,624
+625,626
+627,628
+628,629
+629,630
+629,631
+630,631
+632,633
+632,634
+633,634
+635,636
+637,638
+638,639
+-----nextToken-----
+2,4,7,9,10,13,15,16,19,21,22,26,28,31,33,36,38,42,44,45,47,50,52,55,57,61,63,66,68,71,73,76,78,81,83,87,89,93,96,99,100,104,107,110,111,115,118,121,122,127,128,129,134,135,136,141,142,143,148,149,152,155,156,159,167,169,172,173,176,177,180,185,186,189,192,193,196,201,203,208,210,216,217,220,223,224,231,234,236,238,241,245,246,251,252,255,258,259,264,267,268,269,271,273,279,280,281,285,286,290,294,300,301,304,307,308,311,315,317,321,323,326,329,333,336,337,338,340,342,344,350,351,354,357,358,361,367,368,371,374,375,378,383,385,390,391,396,398,402,404,406,409,414,417,421,422,426,428,433,435,439,441,443,446,451,454,458,459,463,465,470,471,476,478,482,484,487,492,495,499,500,504,506,511,513,517,519,522,527,530,534,535,539,541,545,548,550,551,553,555,560,561,564,567,568,571,576,578,580,581,583,586,587,588,591,593,596,600,601,603,608,609,612,615,616,619,624,626,631,634,636,639
+-----computeFrom-----
+85,86
+85,87
+91,92
+91,93
+102,103
+102,104
+113,114
+113,115
+124,125
+124,126
+131,132
+131,133
+138,139
+138,140
+146,147
+146,148
+150,151
+150,152
+164,165
+164,166
+183,184
+183,185
+187,188
+187,189
+199,200
+199,201
+206,207
+206,208
+214,215
+214,216
+218,219
+218,220
+227,228
+227,229
+229,230
+229,231
+243,244
+243,245
+248,249
+248,250
+249,250
+249,251
+253,254
+253,255
+272,273
+272,274
+275,276
+275,277
+277,278
+277,279
+283,284
+283,285
+298,299
+298,300
+302,303
+302,304
+341,342
+341,343
+348,349
+348,350
+352,353
+352,354
+365,366
+365,367
+369,370
+369,371
+381,382
+381,383
+419,420
+419,421
+424,425
+424,426
+456,457
+456,458
+461,462
+461,463
+497,498
+497,499
+502,503
+502,504
+532,533
+532,534
+537,538
+537,539
+558,559
+558,560
+562,563
+562,564
+598,599
+598,600
+606,607
+606,608
+610,611
+610,612
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;ArrayDeclarator;Pointer;Name;ArrayModifier;LiteralExpression;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;LiteralExpression;ExpressionStatement;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;LiteralExpression;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;ArraySubscriptExpression;IdExpression;Name;IdExpression;Name;FunctionCallExpression;IdExpression;Name;LiteralExpression;FieldReference;IdExpression;Name;Name;CompoundStatement;GotoStatement;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;GotoStatement;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;WhileStatement;BinaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;LiteralExpression;IdExpression;Name;BinaryExpression;LiteralExpression;UnaryExpression;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;LiteralExpression;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;UnaryExpression;IdExpression;Name;ExpressionStatement;UnaryExpression;IdExpression;Name;CompoundStatement;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;GotoStatement;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;ArraySubscriptExpression;IdExpression;Name;LiteralExpression;LiteralExpression;IdExpression;Name;BinaryExpression;LiteralExpression;IdExpression;Name;CompoundStatement;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;IfStatement;FieldReference;IdExpression;Name;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;GotoStatement;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;GotoStatement;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;IfStatement;FieldReference;IdExpression;Name;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;GotoStatement;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;UnaryExpression;IdExpression;Name;CompoundStatement;GotoStatement;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;ExpressionStatement;BinaryExpression;IdExpression;Name;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;ArraySubscriptExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;IdExpression;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;LiteralExpression;ArraySubscriptExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;GotoStatement;Name;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;LabelStatement;Name;ForStatement;ExpressionStatement;BinaryExpression;IdExpression;Name;LiteralExpression;BinaryExpression;IdExpression;Name;FieldReference;IdExpression;Name;Name;UnaryExpression;IdExpression;Name;CompoundStatement;IfStatement;ArraySubscriptExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;ArraySubscriptExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+static int pnm_getdata(jas_stream_t *in, pnm_hdr_t *hdr, jas_image_t *image){	int ret;#if 0	int numcmpts;#endif	int cmptno;	int fmt;	jas_matrix_t *data[3];	int x;	int y;	int_fast64_t v;	int depth;	int type;	int c;	int n;	ret = -1;#if 0	numcmpts = jas_image_numcmpts(image);#endif	fmt = pnm_fmt(hdr->magic);	type = pnm_type(hdr->magic);	depth = pnm_maxvaltodepth(hdr->maxval);	data[0] = 0;	data[1] = 0;	data[2] = 0;	for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {		if (!(data[cmptno] = jas_matrix_create(1, hdr->width))) {			goto done;		}	}	for (y = 0; y < hdr->height; ++y) {		if (type == PNM_TYPE_PBM) {			if (fmt == PNM_FMT_BIN) {				for (x = 0; x < hdr->width;) {					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}			} else {				for (x = 0; x < hdr->width; ++x) {					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}			}		} else {			for (x = 0; x < hdr->width; ++x) {				for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}			}		}		for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {			if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,			  data[cmptno])) {				goto done;			}		}	}	ret = 0;done:	for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {		if (data[cmptno]) {			jas_matrix_destroy(data[cmptno]);		}	}	return ret;}
+static int
+pnm_getdata(jas_stream_t *in, pnm_hdr_t *hdr, jas_image_t *image)
+pnm_getdata
+jas_stream_t *in
+jas_stream_t
+jas_stream_t
+*in
+*
+in
+pnm_hdr_t *hdr
+pnm_hdr_t
+pnm_hdr_t
+*hdr
+*
+hdr
+jas_image_t *image
+jas_image_t
+jas_image_t
+*image
+*
+image
+{	int ret;#if 0	int numcmpts;#endif	int cmptno;	int fmt;	jas_matrix_t *data[3];	int x;	int y;	int_fast64_t v;	int depth;	int type;	int c;	int n;	ret = -1;#if 0	numcmpts = jas_image_numcmpts(image);#endif	fmt = pnm_fmt(hdr->magic);	type = pnm_type(hdr->magic);	depth = pnm_maxvaltodepth(hdr->maxval);	data[0] = 0;	data[1] = 0;	data[2] = 0;	for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {		if (!(data[cmptno] = jas_matrix_create(1, hdr->width))) {			goto done;		}	}	for (y = 0; y < hdr->height; ++y) {		if (type == PNM_TYPE_PBM) {			if (fmt == PNM_FMT_BIN) {				for (x = 0; x < hdr->width;) {					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}			} else {				for (x = 0; x < hdr->width; ++x) {					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}			}		} else {			for (x = 0; x < hdr->width; ++x) {				for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}			}		}		for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {			if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,			  data[cmptno])) {				goto done;			}		}	}	ret = 0;done:	for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {		if (data[cmptno]) {			jas_matrix_destroy(data[cmptno]);		}	}	return ret;}
+int ret;
+int ret;
+int
+ret
+ret
+int cmptno;
+int cmptno;
+int
+cmptno
+cmptno
+int fmt;
+int fmt;
+int
+fmt
+fmt
+jas_matrix_t *data[3];
+jas_matrix_t *data[3];
+jas_matrix_t
+jas_matrix_t
+*data[3]
+*
+data
+[3]
+3
+int x;
+int x;
+int
+x
+x
+int y;
+int y;
+int
+y
+y
+int_fast64_t v;
+int_fast64_t v;
+int_fast64_t
+int_fast64_t
+v
+v
+int depth;
+int depth;
+int
+depth
+depth
+int type;
+int type;
+int
+type
+type
+int c;
+int c;
+int
+c
+c
+int n;
+int n;
+int
+n
+n
+ret = -1;
+ret = -1
+ret
+ret
+-1
+1
+fmt = pnm_fmt(hdr->magic);
+fmt = pnm_fmt(hdr->magic)
+fmt
+fmt
+pnm_fmt(hdr->magic)
+pnm_fmt
+pnm_fmt
+hdr->magic
+hdr
+hdr
+magic
+type = pnm_type(hdr->magic);
+type = pnm_type(hdr->magic)
+type
+type
+pnm_type(hdr->magic)
+pnm_type
+pnm_type
+hdr->magic
+hdr
+hdr
+magic
+depth = pnm_maxvaltodepth(hdr->maxval);
+depth = pnm_maxvaltodepth(hdr->maxval)
+depth
+depth
+pnm_maxvaltodepth(hdr->maxval)
+pnm_maxvaltodepth
+pnm_maxvaltodepth
+hdr->maxval
+hdr
+hdr
+maxval
+data[0] = 0;
+data[0] = 0
+data[0]
+data
+data
+0
+0
+data[1] = 0;
+data[1] = 0
+data[1]
+data
+data
+1
+0
+data[2] = 0;
+data[2] = 0
+data[2]
+data
+data
+2
+0
+for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {		if (!(data[cmptno] = jas_matrix_create(1, hdr->width))) {			goto done;		}	}
+cmptno = 0;
+cmptno = 0
+cmptno
+cmptno
+0
+cmptno < hdr->numcmpts
+cmptno
+cmptno
+hdr->numcmpts
+hdr
+hdr
+numcmpts
+++cmptno
+cmptno
+cmptno
+{		if (!(data[cmptno] = jas_matrix_create(1, hdr->width))) {			goto done;		}	}
+if (!(data[cmptno] = jas_matrix_create(1, hdr->width))) {			goto done;		}
+!(data[cmptno] = jas_matrix_create(1, hdr->width))
+(data[cmptno] = jas_matrix_create(1, hdr->width))
+data[cmptno] = jas_matrix_create(1, hdr->width)
+data[cmptno]
+data
+data
+cmptno
+cmptno
+jas_matrix_create(1, hdr->width)
+jas_matrix_create
+jas_matrix_create
+1
+hdr->width
+hdr
+hdr
+width
+{			goto done;		}
+goto done;
+done
+for (y = 0; y < hdr->height; ++y) {		if (type == PNM_TYPE_PBM) {			if (fmt == PNM_FMT_BIN) {				for (x = 0; x < hdr->width;) {					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}			} else {				for (x = 0; x < hdr->width; ++x) {					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}			}		} else {			for (x = 0; x < hdr->width; ++x) {				for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}			}		}		for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {			if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,			  data[cmptno])) {				goto done;			}		}	}
+y = 0;
+y = 0
+y
+y
+0
+y < hdr->height
+y
+y
+hdr->height
+hdr
+hdr
+height
+++y
+y
+y
+{		if (type == PNM_TYPE_PBM) {			if (fmt == PNM_FMT_BIN) {				for (x = 0; x < hdr->width;) {					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}			} else {				for (x = 0; x < hdr->width; ++x) {					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}			}		} else {			for (x = 0; x < hdr->width; ++x) {				for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}			}		}		for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {			if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,			  data[cmptno])) {				goto done;			}		}	}
+if (type == PNM_TYPE_PBM) {			if (fmt == PNM_FMT_BIN) {				for (x = 0; x < hdr->width;) {					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}			} else {				for (x = 0; x < hdr->width; ++x) {					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}			}		} else {			for (x = 0; x < hdr->width; ++x) {				for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}			}		}
+type == PNM_TYPE_PBM
+type
+type
+PNM_TYPE_PBM
+PNM_TYPE_PBM
+{			if (fmt == PNM_FMT_BIN) {				for (x = 0; x < hdr->width;) {					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}			} else {				for (x = 0; x < hdr->width; ++x) {					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}			}		}
+if (fmt == PNM_FMT_BIN) {				for (x = 0; x < hdr->width;) {					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}			} else {				for (x = 0; x < hdr->width; ++x) {					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}			}
+fmt == PNM_FMT_BIN
+fmt
+fmt
+PNM_FMT_BIN
+PNM_FMT_BIN
+{				for (x = 0; x < hdr->width;) {					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}			}
+for (x = 0; x < hdr->width;) {					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}
+x = 0;
+x = 0
+x
+x
+0
+x < hdr->width
+x
+x
+hdr->width
+hdr
+hdr
+width
+{					if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}					n = 8;					while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}				}
+if ((c = jas_stream_getc(in)) == EOF) {						goto done;					}
+(c = jas_stream_getc(in)) == EOF
+(c = jas_stream_getc(in))
+c = jas_stream_getc(in)
+c
+c
+jas_stream_getc(in)
+jas_stream_getc
+jas_stream_getc
+in
+in
+EOF
+EOF
+{						goto done;					}
+goto done;
+done
+n = 8;
+n = 8
+n
+n
+8
+while (n > 0 && x < hdr->width) {						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}
+n > 0 && x < hdr->width
+n > 0
+n
+n
+0
+x < hdr->width
+x
+x
+hdr->width
+hdr
+hdr
+width
+{						jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));						c <<= 1;						--n;						++x;					}
+jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1));
+jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1))
+jas_matrix_set
+jas_matrix_set
+data[0]
+data
+data
+0
+0
+x
+x
+1 - ((c >> 7) & 1)
+1
+((c >> 7) & 1)
+(c >> 7) & 1
+(c >> 7)
+c >> 7
+c
+c
+7
+1
+c <<= 1;
+c <<= 1
+c
+c
+1
+--n;
+--n
+n
+n
+++x;
+++x
+x
+x
+{				for (x = 0; x < hdr->width; ++x) {					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}			}
+for (x = 0; x < hdr->width; ++x) {					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}
+x = 0;
+x = 0
+x
+x
+0
+x < hdr->width
+x
+x
+hdr->width
+hdr
+hdr
+width
+++x
+x
+x
+{					int uv;					if (pnm_getbitstr(in, &uv)) {						goto done;					}					jas_matrix_set(data[0], 0, x, 1 - uv);				}
+int uv;
+int uv;
+int
+uv
+uv
+if (pnm_getbitstr(in, &uv)) {						goto done;					}
+pnm_getbitstr(in, &uv)
+pnm_getbitstr
+pnm_getbitstr
+in
+in
+&uv
+uv
+uv
+{						goto done;					}
+goto done;
+done
+jas_matrix_set(data[0], 0, x, 1 - uv);
+jas_matrix_set(data[0], 0, x, 1 - uv)
+jas_matrix_set
+jas_matrix_set
+data[0]
+data
+data
+0
+0
+x
+x
+1 - uv
+1
+uv
+uv
+{			for (x = 0; x < hdr->width; ++x) {				for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}			}		}
+for (x = 0; x < hdr->width; ++x) {				for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}			}
+x = 0;
+x = 0
+x
+x
+0
+x < hdr->width
+x
+x
+hdr->width
+hdr
+hdr
+width
+++x
+x
+x
+{				for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}			}
+for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}
+cmptno = 0;
+cmptno = 0
+cmptno
+cmptno
+0
+cmptno < hdr->numcmpts
+cmptno
+cmptno
+hdr->numcmpts
+hdr
+hdr
+numcmpts
+++cmptno
+cmptno
+cmptno
+{					if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}					jas_matrix_set(data[cmptno], 0, x, v);				}
+if (fmt == PNM_FMT_BIN) {						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					} else {						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}
+fmt == PNM_FMT_BIN
+fmt
+fmt
+PNM_FMT_BIN
+PNM_FMT_BIN
+{						/* The sample data is in binary format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}
+if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}
+hdr->sgnd
+hdr
+hdr
+sgnd
+{							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						}
+int_fast32_t sv;
+int_fast32_t sv;
+int_fast32_t
+int_fast32_t
+sv
+sv
+if (pnm_getsint(in, depth, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}
+pnm_getsint(in, depth, &sv)
+pnm_getsint
+pnm_getsint
+in
+in
+depth
+depth
+&sv
+sv
+sv
+{								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}
+if (!pnm_allowtrunc) {									goto done;								}
+!pnm_allowtrunc
+pnm_allowtrunc
+pnm_allowtrunc
+{									goto done;								}
+goto done;
+done
+sv = 0;
+sv = 0
+sv
+sv
+0
+v = sv;
+v = sv
+v
+v
+sv
+sv
+{							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}
+uint_fast32_t uv;
+uint_fast32_t uv;
+uint_fast32_t
+uint_fast32_t
+uv
+uv
+if (pnm_getuint(in, depth, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}
+pnm_getuint(in, depth, &uv)
+pnm_getuint
+pnm_getuint
+in
+in
+depth
+depth
+&uv
+uv
+uv
+{								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}
+if (!pnm_allowtrunc) {									goto done;								}
+!pnm_allowtrunc
+pnm_allowtrunc
+pnm_allowtrunc
+{									goto done;								}
+goto done;
+done
+uv = 0;
+uv = 0
+uv
+uv
+0
+v = uv;
+v = uv
+v
+v
+uv
+uv
+{						/* The sample data is in text format. */						if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}					}
+if (hdr->sgnd) {							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						} else {							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}
+hdr->sgnd
+hdr
+hdr
+sgnd
+{							/* The sample data is signed. */							int_fast32_t sv;							if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}							v = sv;						}
+int_fast32_t sv;
+int_fast32_t sv;
+int_fast32_t
+int_fast32_t
+sv
+sv
+if (pnm_getsintstr(in, &sv)) {								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}
+pnm_getsintstr(in, &sv)
+pnm_getsintstr
+pnm_getsintstr
+in
+in
+&sv
+sv
+sv
+{								if (!pnm_allowtrunc) {									goto done;								}								sv = 0;							}
+if (!pnm_allowtrunc) {									goto done;								}
+!pnm_allowtrunc
+pnm_allowtrunc
+pnm_allowtrunc
+{									goto done;								}
+goto done;
+done
+sv = 0;
+sv = 0
+sv
+sv
+0
+v = sv;
+v = sv
+v
+v
+sv
+sv
+{							/* The sample data is unsigned. */							uint_fast32_t uv;							if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}							v = uv;						}
+uint_fast32_t uv;
+uint_fast32_t uv;
+uint_fast32_t
+uint_fast32_t
+uv
+uv
+if (pnm_getuintstr(in, &uv)) {								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}
+pnm_getuintstr(in, &uv)
+pnm_getuintstr
+pnm_getuintstr
+in
+in
+&uv
+uv
+uv
+{								if (!pnm_allowtrunc) {									goto done;								}								uv = 0;							}
+if (!pnm_allowtrunc) {									goto done;								}
+!pnm_allowtrunc
+pnm_allowtrunc
+pnm_allowtrunc
+{									goto done;								}
+goto done;
+done
+uv = 0;
+uv = 0
+uv
+uv
+0
+v = uv;
+v = uv
+v
+v
+uv
+uv
+jas_matrix_set(data[cmptno], 0, x, v);
+jas_matrix_set(data[cmptno], 0, x, v)
+jas_matrix_set
+jas_matrix_set
+data[cmptno]
+data
+data
+cmptno
+cmptno
+0
+x
+x
+v
+v
+for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {			if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,			  data[cmptno])) {				goto done;			}		}
+cmptno = 0;
+cmptno = 0
+cmptno
+cmptno
+0
+cmptno < hdr->numcmpts
+cmptno
+cmptno
+hdr->numcmpts
+hdr
+hdr
+numcmpts
+++cmptno
+cmptno
+cmptno
+{			if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,			  data[cmptno])) {				goto done;			}		}
+if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,			  data[cmptno])) {				goto done;			}
+jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,			  data[cmptno])
+jas_image_writecmpt
+jas_image_writecmpt
+image
+image
+cmptno
+cmptno
+0
+y
+y
+hdr->width
+hdr
+hdr
+width
+1
+data[cmptno]
+data
+data
+cmptno
+cmptno
+{				goto done;			}
+goto done;
+done
+ret = 0;
+ret = 0
+ret
+ret
+0
+done:	for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {		if (data[cmptno]) {			jas_matrix_destroy(data[cmptno]);		}	}
+done
+for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {		if (data[cmptno]) {			jas_matrix_destroy(data[cmptno]);		}	}
+cmptno = 0;
+cmptno = 0
+cmptno
+cmptno
+0
+cmptno < hdr->numcmpts
+cmptno
+cmptno
+hdr->numcmpts
+hdr
+hdr
+numcmpts
+++cmptno
+cmptno
+cmptno
+{		if (data[cmptno]) {			jas_matrix_destroy(data[cmptno]);		}	}
+if (data[cmptno]) {			jas_matrix_destroy(data[cmptno]);		}
+data[cmptno]
+data
+data
+cmptno
+cmptno
+{			jas_matrix_destroy(data[cmptno]);		}
+jas_matrix_destroy(data[cmptno]);
+jas_matrix_destroy(data[cmptno])
+jas_matrix_destroy
+jas_matrix_destroy
+data[cmptno]
+data
+data
+cmptno
+cmptno
+return ret;
+ret
+ret
+-----joern-----
+(76,81,0)
+(20,10,0)
+(74,111,0)
+(12,77,0)
+(7,84,0)
+(106,45,0)
+(34,36,0)
+(50,20,0)
+(40,60,0)
+(80,28,0)
+(23,27,0)
+(66,105,0)
+(27,60,0)
+(13,69,0)
+(71,105,0)
+(45,5,0)
+(19,84,0)
+(12,107,0)
+(5,68,0)
+(53,80,0)
+(12,41,0)
+(7,35,0)
+(11,40,0)
+(51,2,0)
+(68,62,0)
+(102,105,0)
+(85,15,0)
+(52,45,0)
+(96,105,0)
+(1,28,0)
+(43,10,0)
+(37,15,0)
+(111,74,0)
+(41,24,0)
+(63,103,0)
+(36,61,0)
+(31,60,0)
+(32,72,0)
+(100,34,0)
+(6,105,0)
+(103,60,0)
+(111,62,0)
+(38,60,0)
+(44,77,0)
+(48,28,0)
+(9,36,0)
+(73,103,0)
+(75,41,0)
+(31,94,0)
+(108,102,0)
+(54,101,0)
+(94,95,0)
+(45,62,0)
+(2,35,0)
+(22,107,0)
+(35,20,0)
+(95,49,0)
+(94,31,0)
+(56,81,0)
+(21,38,0)
+(57,64,0)
+(90,15,0)
+(17,105,0)
+(26,52,0)
+(4,17,0)
+(46,19,0)
+(27,32,0)
+(42,20,0)
+(0,105,0)
+(77,17,0)
+(69,76,0)
+(3,68,0)
+(39,95,0)
+(12,103,0)
+(49,5,0)
+(8,77,0)
+(25,31,0)
+(68,5,0)
+(32,64,0)
+(45,52,0)
+(5,45,0)
+(33,80,0)
+(77,60,0)
+(104,88,0)
+(35,14,0)
+(35,103,0)
+(69,60,0)
+(7,12,0)
+(109,69,0)
+(41,60,0)
+(12,20,0)
+(5,49,0)
+(101,15,0)
+(20,60,0)
+(86,107,0)
+(78,15,0)
+(40,55,0)
+(91,74,0)
+(84,18,0)
+(49,95,0)
+(107,60,0)
+(110,38,0)
+(12,27,0)
+(24,61,0)
+(65,105,0)
+(107,102,0)
+(59,12,0)
+(12,34,0)
+(103,101,0)
+(88,68,0)
+(55,40,0)
+(72,28,0)
+(81,76,0)
+(89,15,0)
+(83,72,0)
+(99,31,0)
+(10,15,0)
+(87,105,0)
+(97,57,0)
+(95,94,0)
+(93,41,0)
+(92,24,0)
+(72,32,0)
+(30,105,0)
+(29,111,0)
+(16,27,0)
+(12,15,0)
+(79,15,0)
+(76,69,0)
+(67,40,0)
+(70,34,0)
+(12,38,0)
+(95,62,0)
+(24,28,0)
+(28,82,0)
+(47,15,0)
+(68,88,0)
+(98,58,0)
+(34,60,0)
+(38,57,0)
+(52,26,1)
+(77,44,1)
+(10,43,1)
+(86,55,1)
+(91,29,1)
+(38,21,1)
+(24,92,1)
+(7,84,1)
+(92,41,1)
+(45,62,1)
+(57,97,1)
+(94,31,1)
+(104,3,1)
+(95,94,1)
+(22,86,1)
+(83,27,1)
+(73,49,1)
+(75,80,1)
+(28,48,1)
+(27,16,1)
+(50,42,1)
+(56,76,1)
+(46,49,1)
+(12,41,1)
+(72,28,1)
+(35,2,1)
+(76,69,1)
+(40,11,1)
+(44,8,1)
+(31,60,1)
+(72,83,1)
+(20,50,1)
+(59,30,1)
+(35,20,1)
+(68,88,1)
+(4,77,1)
+(70,100,1)
+(102,108,1)
+(24,28,1)
+(107,60,1)
+(12,59,1)
+(100,24,1)
+(74,91,1)
+(1,81,1)
+(34,70,1)
+(9,34,1)
+(40,60,1)
+(12,20,1)
+(12,38,1)
+(80,53,1)
+(80,28,1)
+(59,87,1)
+(12,103,1)
+(49,95,1)
+(21,110,1)
+(69,60,1)
+(13,109,1)
+(32,72,1)
+(49,5,1)
+(12,34,1)
+(29,81,1)
+(7,12,1)
+(84,19,1)
+(67,36,1)
+(43,20,1)
+(11,67,1)
+(5,45,1)
+(93,75,1)
+(54,103,1)
+(99,39,1)
+(27,60,1)
+(103,60,1)
+(12,27,1)
+(97,38,1)
+(108,107,1)
+(81,76,1)
+(12,107,1)
+(103,63,1)
+(110,32,1)
+(5,68,1)
+(63,73,1)
+(111,62,1)
+(41,60,1)
+(59,71,1)
+(12,77,1)
+(48,1,1)
+(38,60,1)
+(45,52,1)
+(33,28,1)
+(34,60,1)
+(109,10,1)
+(36,9,1)
+(7,35,1)
+(17,4,1)
+(25,99,1)
+(30,102,1)
+(16,23,1)
+(42,101,1)
+(87,17,1)
+(51,111,1)
+(20,60,1)
+(107,22,1)
+(55,40,1)
+(8,55,1)
+(88,104,1)
+(19,46,1)
+(95,62,1)
+(101,54,1)
+(31,25,1)
+(69,13,1)
+(106,68,1)
+(35,103,1)
+(53,33,1)
+(68,62,1)
+(23,80,1)
+(26,106,1)
+(71,0,1)
+(41,93,1)
+(111,74,1)
+(81,56,1)
+(3,95,1)
+(77,60,1)
+(67,57,1)
+(0,55,1)
+(2,51,1)
+(33,111,1)
+(9,80,2)
+(67,81,2)
+(100,80,2)
+(7,35,2)
+(32,72,2)
+(68,95,2)
+(59,81,2)
+(20,49,2)
+(93,80,2)
+(36,80,2)
+(104,95,2)
+(53,111,2)
+(41,60,2)
+(44,55,2)
+(111,74,2)
+(17,55,2)
+(84,49,2)
+(68,62,2)
+(11,81,2)
+(95,62,2)
+(40,81,2)
+(106,68,2)
+(45,62,2)
+(12,107,2)
+(12,27,2)
+(1,81,2)
+(55,111,2)
+(75,80,2)
+(54,49,2)
+(35,111,2)
+(2,111,2)
+(88,95,2)
+(92,80,2)
+(12,81,2)
+(12,20,2)
+(5,95,2)
+(20,60,2)
+(50,49,2)
+(87,55,2)
+(38,60,2)
+(77,55,2)
+(72,28,2)
+(80,81,2)
+(41,80,2)
+(63,49,2)
+(22,55,2)
+(32,80,2)
+(4,55,2)
+(3,95,2)
+(48,81,2)
+(102,55,2)
+(12,34,2)
+(111,62,2)
+(110,80,2)
+(40,60,2)
+(33,111,2)
+(30,55,2)
+(28,81,2)
+(72,80,2)
+(81,76,2)
+(29,81,2)
+(107,55,2)
+(80,28,2)
+(11,111,2)
+(51,111,2)
+(71,55,2)
+(5,68,2)
+(12,38,2)
+(94,31,2)
+(91,81,2)
+(52,68,2)
+(26,68,2)
+(35,103,2)
+(49,5,2)
+(77,60,2)
+(19,49,2)
+(7,12,2)
+(35,20,2)
+(23,80,2)
+(103,49,2)
+(56,49,2)
+(69,49,2)
+(95,94,2)
+(69,60,2)
+(12,111,2)
+(21,80,2)
+(53,81,2)
+(55,81,2)
+(59,111,2)
+(86,55,2)
+(76,69,2)
+(83,80,2)
+(57,80,2)
+(8,55,2)
+(34,60,2)
+(27,80,2)
+(34,80,2)
+(13,49,2)
+(49,95,2)
+(24,28,2)
+(67,111,2)
+(73,49,2)
+(40,111,2)
+(0,55,2)
+(38,80,2)
+(43,49,2)
+(12,103,2)
+(101,49,2)
+(46,49,2)
+(74,81,2)
+(107,60,2)
+(111,81,2)
+(109,49,2)
+(42,49,2)
+(108,55,2)
+(33,81,2)
+(27,60,2)
+(68,88,2)
+(76,49,2)
+(16,80,2)
+(81,49,2)
+(55,40,2)
+(45,52,2)
+(70,80,2)
+(24,80,2)
+(12,41,2)
+(7,84,2)
+(31,60,2)
+(103,60,2)
+(97,80,2)
+(45,68,2)
+(10,49,2)
+(80,111,2)
+(5,45,2)
+(12,77,2)
+-----------------------------------
+(0,abort()
+(1,maxval)
+(2,-1)
+(3,in)
+(4,3)
+(5,pnm_getsintstr(in, &width)
+(6,case PNM_TYPE_PBM:)
+(7,RET)
+(8,hdr)
+(9,false)
+(10,hdr->height = height)
+(11,magic)
+(12,return 0;)
+(13,magic)
+(14,)
+(15,)
+(16,maxval)
+(17,hdr->numcmpts = 3)
+(18,)
+(19,-1)
+(20,hdr->height)
+(21,sgnd)
+(22,numcmpts)
+(23,hdr)
+(24,hdr->maxval = maxval)
+(25,magic)
+(26,height)
+(27,hdr->maxval)
+(28,maxval = 1)
+(29,in)
+(30,break;)
+(31,hdr->magic)
+(32,hdr->maxval = -maxval)
+(33,maxval)
+(34,hdr->sgnd)
+(35,return -1;)
+(36,hdr->sgnd = false)
+(37,width)
+(38,hdr->sgnd)
+(39,in)
+(40,hdr->magic)
+(41,hdr->maxval)
+(42,hdr)
+(43,height)
+(44,numcmpts)
+(45,pnm_getsintstr(in, &height)
+(46,1)
+(47,height)
+(48,1)
+(49,pnm_getint16(in, &hdr->magic)
+(50,height)
+(51,1)
+(52,&height)
+(53,0)
+(54,width)
+(55,pnm_type(hdr->magic)
+(56,PNM_TYPE_PBM)
+(57,hdr->sgnd = true)
+(58,)
+(59,0)
+(60,pnm_hdr_t *hdr)
+(61,)
+(62,jas_stream_t *in)
+(63,width)
+(64,)
+(65,default:)
+(66,case PNM_TYPE_PPM:)
+(67,hdr)
+(68,pnm_getsintstr(in, &width)
+(69,hdr->magic)
+(70,sgnd)
+(71,break;)
+(72,-maxval)
+(73,hdr)
+(74,&maxval)
+(75,hdr)
+(76,pnm_type(hdr->magic)
+(77,hdr->numcmpts)
+(78,if (pnm_getint16(in, &hdr->magic)
+(79,switch (pnm_type(hdr->magic)
+(80,maxval < 0)
+(81,pnm_type(hdr->magic)
+(82,)
+(83,maxval)
+(84,return -1;)
+(85,if (maxval < 0)
+(86,hdr)
+(87,break;)
+(88,&width)
+(89,maxval)
+(90,if (pnm_type(hdr->magic)
+(91,maxval)
+(92,maxval)
+(93,maxval)
+(94,&hdr->magic)
+(95,pnm_getint16(in, &hdr->magic)
+(96,case PNM_TYPE_PGM:)
+(97,true)
+(98,if (pnm_getsintstr(in, &maxval)
+(99,hdr)
+(100,hdr)
+(101,hdr->width = width)
+(102,hdr->numcmpts = 1)
+(103,hdr->width)
+(104,width)
+(105,)
+(106,in)
+(107,hdr->numcmpts)
+(108,1)
+(109,hdr)
+(110,hdr)
+(111,pnm_getsintstr(in, &maxval)
+-----cfg-----
+(256,263)
+(256,270)
+(259,256)
+(263,359)
+(263,267)
+(7,25)
+(267,270)
+(270,319)
+(276,284)
+(276,304)
+(278,276)
+(23,32)
+(25,23)
+(282,288)
+(282,295)
+(27,38)
+(284,282)
+(29,27)
+(30,29)
+(32,30)
+(288,359)
+(288,292)
+(33,44)
+(35,33)
+(36,35)
+(292,295)
+(38,36)
+(39,46)
+(295,319)
+(41,39)
+(42,41)
+(44,42)
+(45,51)
+(46,45)
+(302,308)
+(302,315)
+(304,302)
+(50,56)
+(51,50)
+(308,359)
+(308,312)
+(55,62)
+(56,55)
+(312,315)
+(315,319)
+(62,69)
+(318,220)
+(319,318)
+(65,76)
+(65,88)
+(67,65)
+(69,67)
+(70,69)
+(327,334)
+(74,359)
+(74,70)
+(330,346)
+(330,96)
+(75,74)
+(332,330)
+(76,83)
+(334,332)
+(335,334)
+(79,75)
+(81,79)
+(339,359)
+(339,335)
+(83,81)
+(88,95)
+(344,348)
+(346,344)
+(91,100)
+(91,353)
+(348,339)
+(93,91)
+(95,93)
+(96,95)
+(353,359)
+(100,105)
+(100,199)
+(359,366)
+(105,111)
+(105,167)
+(362,371)
+(362,379)
+(364,362)
+(366,364)
+(367,366)
+(111,118)
+(114,124)
+(114,327)
+(371,376)
+(371,367)
+(116,114)
+(118,116)
+(375,367)
+(376,375)
+(121,359)
+(121,129)
+(122,121)
+(379,381)
+(124,122)
+(129,134)
+(133,118)
+(133,144)
+(134,133)
+(134,141)
+(137,133)
+(139,137)
+(141,139)
+(143,156)
+(144,152)
+(149,143)
+(151,149)
+(152,151)
+(156,159)
+(159,161)
+(161,134)
+(167,174)
+(170,182)
+(170,327)
+(172,170)
+(174,172)
+(175,174)
+(180,359)
+(180,187)
+(182,180)
+(186,175)
+(187,192)
+(192,186)
+(199,206)
+(202,212)
+(202,327)
+(204,202)
+(206,204)
+(207,206)
+(212,219)
+(215,224)
+(215,207)
+(217,215)
+(219,217)
+(220,219)
+(224,231)
+(224,278)
+(229,238)
+(229,259)
+(231,229)
+(235,242)
+(235,249)
+(238,235)
+(242,359)
+(242,246)
+(246,249)
+(249,319)
+-----path-----
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,76,83,81,79,75,74,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,105,111,118,116,114,124,122,121,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,105,111,118,116,114,124,122,121,129,134,133,144,152,151,149,143,156,159,161,134,141
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,105,111,118,116,114,124,122,121,129,134,141,139,137,133,144,152,151,149,143,156,159
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,105,111,118,116,114,327,334,332,330,346,344,348,339,359,366,364,362,371,376,375,367
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,105,111,118,116,114,327,334,332,330,346,344,348,339,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,105,167,174,172,170,182,180,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,105,167,174,172,170,327,334,332,330,346,344,348,339,359,366,364,362,371,376,375,367
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,105,167,174,172,170,327,334,332,330,346,344,348,339,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,199,206,204,202,212,219,217,215,224,231,229,238,235,242,359,366,364,362,371,376,375
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,199,206,204,202,212,219,217,215,224,231,229,238,235,242,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,199,206,204,202,212,219,217,215,224,231,229,259,256,263,359,366,364,362,371,376,375
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,199,206,204,202,212,219,217,215,224,231,229,259,256,263,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,199,206,204,202,212,219,217,215,224,278,276,284,282,288,359,366,364,362,371,376,375
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,199,206,204,202,212,219,217,215,224,278,276,284,282,288,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,199,206,204,202,212,219,217,215,224,278,276,304,302,308,359,366,364,362,371,376,375
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,199,206,204,202,212,219,217,215,224,278,276,304,302,308,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,100,199,206,204,202,327,334,332,330,346,344,348,339,359,366,364,362,379,381
+7,25,23,32,30,29,27,38,36,35,33,44,42,41,39,46,45,51,50,56,55,62,69,67,65,88,95,93,91,353,359,366,364,362,379,381
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int pnm_getdata (jas_stream_t *in,pnm_hdr_t *hdr,jas_image_t *image)
+8,jas_stream_t *in
+9,pnm_hdr_t *hdr
+10,jas_image_t *image
+11,<empty>
+12,int ret
+13,int cmptno
+14,int fmt
+15,jas_matrix_t ** [3] data
+16,int x
+17,int y
+18,int_fast64_t v
+19,int depth
+20,int type
+21,int c
+22,int n
+23,ret = -1
+24,ret
+25,-1
+26,1
+27,fmt = pnm_fmt(hdr->magic)
+28,fmt
+29,pnm_fmt(hdr->magic)
+30,hdr->magic
+31,hdr
+32,magic
+33,type = pnm_type(hdr->magic)
+34,type
+35,pnm_type(hdr->magic)
+36,hdr->magic
+37,hdr
+38,magic
+39,depth = pnm_maxvaltodepth(hdr->maxval)
+40,depth
+41,pnm_maxvaltodepth(hdr->maxval)
+42,hdr->maxval
+43,hdr
+44,maxval
+45,data[0] = 0
+46,data[0]
+47,data
+48,0
+49,0
+50,data[1] = 0
+51,data[1]
+52,data
+53,1
+54,0
+55,data[2] = 0
+56,data[2]
+57,data
+58,2
+59,0
+60,for (cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+61,<empty>
+62,cmptno = 0
+63,cmptno
+64,0
+65,cmptno < hdr->numcmpts
+66,cmptno
+67,hdr->numcmpts
+68,hdr
+69,numcmpts
+70,++cmptno
+71,cmptno
+72,<empty>
+73,if (!(data[cmptno] = jas_matrix_create(1, hdr->width)))
+74,!(data[cmptno] = jas_matrix_create(1, hdr->width))
+75,data[cmptno] = jas_matrix_create(1, hdr->width)
+76,data[cmptno]
+77,data
+78,cmptno
+79,jas_matrix_create(1, hdr->width)
+80,1
+81,hdr->width
+82,hdr
+83,width
+84,<empty>
+85,goto done;
+86,for (y = 0;y < hdr->height;++y)
+87,<empty>
+88,y = 0
+89,y
+90,0
+91,y < hdr->height
+92,y
+93,hdr->height
+94,hdr
+95,height
+96,++y
+97,y
+98,<empty>
+99,if (type == PNM_TYPE_PBM)
+100,type == PNM_TYPE_PBM
+101,type
+102,PNM_TYPE_PBM
+103,<empty>
+104,if (fmt == PNM_FMT_BIN)
+105,fmt == PNM_FMT_BIN
+106,fmt
+107,PNM_FMT_BIN
+108,<empty>
+109,for (x = 0;x < hdr->width;)
+110,<empty>
+111,x = 0
+112,x
+113,0
+114,x < hdr->width
+115,x
+116,hdr->width
+117,hdr
+118,width
+119,<empty>
+120,if ((c = jas_stream_getc(in)) == EOF)
+121,(c = jas_stream_getc(in)) == EOF
+122,c = jas_stream_getc(in)
+123,c
+124,jas_stream_getc(in)
+125,in
+126,EOF
+127,<empty>
+128,goto done;
+129,n = 8
+130,n
+131,8
+132,while (n > 0 && x < hdr->width)
+133,n > 0 && x < hdr->width
+134,n > 0
+135,n
+136,0
+137,x < hdr->width
+138,x
+139,hdr->width
+140,hdr
+141,width
+142,<empty>
+143,jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1))
+144,data[0]
+145,data
+146,0
+147,0
+148,x
+149,1 - ((c >> 7) & 1)
+150,1
+151,(c >> 7) & 1
+152,c >> 7
+153,c
+154,7
+155,1
+156,c <<= 1
+157,c
+158,1
+159,--n
+160,n
+161,++x
+162,x
+163,else
+164,<empty>
+165,for (x = 0;x < hdr->width;++x)
+166,<empty>
+167,x = 0
+168,x
+169,0
+170,x < hdr->width
+171,x
+172,hdr->width
+173,hdr
+174,width
+175,++x
+176,x
+177,<empty>
+178,int uv
+179,if (pnm_getbitstr(in, &uv))
+180,pnm_getbitstr(in, &uv)
+181,in
+182,&uv
+183,uv
+184,<empty>
+185,goto done;
+186,jas_matrix_set(data[0], 0, x, 1 - uv)
+187,data[0]
+188,data
+189,0
+190,0
+191,x
+192,1 - uv
+193,1
+194,uv
+195,else
+196,<empty>
+197,for (x = 0;x < hdr->width;++x)
+198,<empty>
+199,x = 0
+200,x
+201,0
+202,x < hdr->width
+203,x
+204,hdr->width
+205,hdr
+206,width
+207,++x
+208,x
+209,<empty>
+210,for (cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+211,<empty>
+212,cmptno = 0
+213,cmptno
+214,0
+215,cmptno < hdr->numcmpts
+216,cmptno
+217,hdr->numcmpts
+218,hdr
+219,numcmpts
+220,++cmptno
+221,cmptno
+222,<empty>
+223,if (fmt == PNM_FMT_BIN)
+224,fmt == PNM_FMT_BIN
+225,fmt
+226,PNM_FMT_BIN
+227,<empty>
+228,if (hdr->sgnd)
+229,hdr->sgnd
+230,hdr
+231,sgnd
+232,<empty>
+233,int_fast32_t sv
+234,if (pnm_getsint(in, depth, &sv))
+235,pnm_getsint(in, depth, &sv)
+236,in
+237,depth
+238,&sv
+239,sv
+240,<empty>
+241,if (!pnm_allowtrunc)
+242,!pnm_allowtrunc
+243,pnm_allowtrunc
+244,<empty>
+245,goto done;
+246,sv = 0
+247,sv
+248,0
+249,v = sv
+250,v
+251,sv
+252,else
+253,<empty>
+254,uint_fast32_t uv
+255,if (pnm_getuint(in, depth, &uv))
+256,pnm_getuint(in, depth, &uv)
+257,in
+258,depth
+259,&uv
+260,uv
+261,<empty>
+262,if (!pnm_allowtrunc)
+263,!pnm_allowtrunc
+264,pnm_allowtrunc
+265,<empty>
+266,goto done;
+267,uv = 0
+268,uv
+269,0
+270,v = uv
+271,v
+272,uv
+273,else
+274,<empty>
+275,if (hdr->sgnd)
+276,hdr->sgnd
+277,hdr
+278,sgnd
+279,<empty>
+280,int_fast32_t sv
+281,if (pnm_getsintstr(in, &sv))
+282,pnm_getsintstr(in, &sv)
+283,in
+284,&sv
+285,sv
+286,<empty>
+287,if (!pnm_allowtrunc)
+288,!pnm_allowtrunc
+289,pnm_allowtrunc
+290,<empty>
+291,goto done;
+292,sv = 0
+293,sv
+294,0
+295,v = sv
+296,v
+297,sv
+298,else
+299,<empty>
+300,uint_fast32_t uv
+301,if (pnm_getuintstr(in, &uv))
+302,pnm_getuintstr(in, &uv)
+303,in
+304,&uv
+305,uv
+306,<empty>
+307,if (!pnm_allowtrunc)
+308,!pnm_allowtrunc
+309,pnm_allowtrunc
+310,<empty>
+311,goto done;
+312,uv = 0
+313,uv
+314,0
+315,v = uv
+316,v
+317,uv
+318,jas_matrix_set(data[cmptno], 0, x, v)
+319,data[cmptno]
+320,data
+321,cmptno
+322,0
+323,x
+324,v
+325,for (cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+326,<empty>
+327,cmptno = 0
+328,cmptno
+329,0
+330,cmptno < hdr->numcmpts
+331,cmptno
+332,hdr->numcmpts
+333,hdr
+334,numcmpts
+335,++cmptno
+336,cmptno
+337,<empty>
+338,if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,
+339,			  data[cmptno]))
+340,jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,
+341,			  data[cmptno])
+342,image
+343,cmptno
+344,0
+345,y
+346,hdr->width
+347,hdr
+348,width
+349,1
+350,data[cmptno]
+351,data
+352,cmptno
+353,<empty>
+354,goto done;
+355,ret = 0
+356,ret
+357,0
+358,done:
+359,
+360,	for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {
+361,		if (data[cmptno]) {
+362,			jas_matrix_destroy(data[cmptno]);
+363,		}
+364,	}
+365,for (cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+366,<empty>
+367,cmptno = 0
+368,cmptno
+369,0
+370,cmptno < hdr->numcmpts
+371,cmptno
+372,hdr->numcmpts
+373,hdr
+374,numcmpts
+375,++cmptno
+376,cmptno
+377,<empty>
+378,if (data[cmptno])
+379,data[cmptno]
+380,data
+381,cmptno
+382,<empty>
+383,jas_matrix_destroy(data[cmptno])
+384,data[cmptno]
+385,data
+386,cmptno
+387,return ret;
+388,ret
+389,RET
+390,jas_stream_t *in
+391,pnm_hdr_t *hdr
+392,jas_image_t *image
+393,RET
+394,int pnm_getdata (jas_stream_t *in,pnm_hdr_t *hdr,jas_image_t *image)
+395,jas_stream_t *in
+396,pnm_hdr_t *hdr
+397,jas_image_t *image
+398,<empty>
+399,int ret
+400,int cmptno
+401,int fmt
+402,jas_matrix_t ** [3] data
+403,int x
+404,int y
+405,int_fast64_t v
+406,int depth
+407,int type
+408,int c
+409,int n
+410,ret = -1
+411,ret
+412,-1
+413,1
+414,fmt = pnm_fmt(hdr->magic)
+415,fmt
+416,pnm_fmt(hdr->magic)
+417,hdr->magic
+418,hdr
+419,magic
+420,type = pnm_type(hdr->magic)
+421,type
+422,pnm_type(hdr->magic)
+423,hdr->magic
+424,hdr
+425,magic
+426,depth = pnm_maxvaltodepth(hdr->maxval)
+427,depth
+428,pnm_maxvaltodepth(hdr->maxval)
+429,hdr->maxval
+430,hdr
+431,maxval
+432,data[0] = 0
+433,data[0]
+434,data
+435,0
+436,0
+437,data[1] = 0
+438,data[1]
+439,data
+440,1
+441,0
+442,data[2] = 0
+443,data[2]
+444,data
+445,2
+446,0
+447,for (cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+448,<empty>
+449,cmptno = 0
+450,cmptno
+451,0
+452,cmptno < hdr->numcmpts
+453,cmptno
+454,hdr->numcmpts
+455,hdr
+456,numcmpts
+457,++cmptno
+458,cmptno
+459,<empty>
+460,if (!(data[cmptno] = jas_matrix_create(1, hdr->width)))
+461,!(data[cmptno] = jas_matrix_create(1, hdr->width))
+462,data[cmptno] = jas_matrix_create(1, hdr->width)
+463,data[cmptno]
+464,data
+465,cmptno
+466,jas_matrix_create(1, hdr->width)
+467,1
+468,hdr->width
+469,hdr
+470,width
+471,<empty>
+472,goto done;
+473,for (y = 0;y < hdr->height;++y)
+474,<empty>
+475,y = 0
+476,y
+477,0
+478,y < hdr->height
+479,y
+480,hdr->height
+481,hdr
+482,height
+483,++y
+484,y
+485,<empty>
+486,if (type == PNM_TYPE_PBM)
+487,type == PNM_TYPE_PBM
+488,type
+489,PNM_TYPE_PBM
+490,<empty>
+491,if (fmt == PNM_FMT_BIN)
+492,fmt == PNM_FMT_BIN
+493,fmt
+494,PNM_FMT_BIN
+495,<empty>
+496,for (x = 0;x < hdr->width;)
+497,<empty>
+498,x = 0
+499,x
+500,0
+501,x < hdr->width
+502,x
+503,hdr->width
+504,hdr
+505,width
+506,<empty>
+507,if ((c = jas_stream_getc(in)) == EOF)
+508,(c = jas_stream_getc(in)) == EOF
+509,c = jas_stream_getc(in)
+510,c
+511,jas_stream_getc(in)
+512,in
+513,EOF
+514,<empty>
+515,goto done;
+516,n = 8
+517,n
+518,8
+519,while (n > 0 && x < hdr->width)
+520,n > 0 && x < hdr->width
+521,n > 0
+522,n
+523,0
+524,x < hdr->width
+525,x
+526,hdr->width
+527,hdr
+528,width
+529,<empty>
+530,jas_matrix_set(data[0], 0, x, 1 - ((c >> 7) & 1))
+531,data[0]
+532,data
+533,0
+534,0
+535,x
+536,1 - ((c >> 7) & 1)
+537,1
+538,(c >> 7) & 1
+539,c >> 7
+540,c
+541,7
+542,1
+543,c <<= 1
+544,c
+545,1
+546,--n
+547,n
+548,++x
+549,x
+550,else
+551,<empty>
+552,for (x = 0;x < hdr->width;++x)
+553,<empty>
+554,x = 0
+555,x
+556,0
+557,x < hdr->width
+558,x
+559,hdr->width
+560,hdr
+561,width
+562,++x
+563,x
+564,<empty>
+565,int uv
+566,if (pnm_getbitstr(in, &uv))
+567,pnm_getbitstr(in, &uv)
+568,in
+569,&uv
+570,uv
+571,<empty>
+572,goto done;
+573,jas_matrix_set(data[0], 0, x, 1 - uv)
+574,data[0]
+575,data
+576,0
+577,0
+578,x
+579,1 - uv
+580,1
+581,uv
+582,else
+583,<empty>
+584,for (x = 0;x < hdr->width;++x)
+585,<empty>
+586,x = 0
+587,x
+588,0
+589,x < hdr->width
+590,x
+591,hdr->width
+592,hdr
+593,width
+594,++x
+595,x
+596,<empty>
+597,for (cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+598,<empty>
+599,cmptno = 0
+600,cmptno
+601,0
+602,cmptno < hdr->numcmpts
+603,cmptno
+604,hdr->numcmpts
+605,hdr
+606,numcmpts
+607,++cmptno
+608,cmptno
+609,<empty>
+610,if (fmt == PNM_FMT_BIN)
+611,fmt == PNM_FMT_BIN
+612,fmt
+613,PNM_FMT_BIN
+614,<empty>
+615,if (hdr->sgnd)
+616,hdr->sgnd
+617,hdr
+618,sgnd
+619,<empty>
+620,int_fast32_t sv
+621,if (pnm_getsint(in, depth, &sv))
+622,pnm_getsint(in, depth, &sv)
+623,in
+624,depth
+625,&sv
+626,sv
+627,<empty>
+628,if (!pnm_allowtrunc)
+629,!pnm_allowtrunc
+630,pnm_allowtrunc
+631,<empty>
+632,goto done;
+633,sv = 0
+634,sv
+635,0
+636,v = sv
+637,v
+638,sv
+639,else
+640,<empty>
+641,uint_fast32_t uv
+642,if (pnm_getuint(in, depth, &uv))
+643,pnm_getuint(in, depth, &uv)
+644,in
+645,depth
+646,&uv
+647,uv
+648,<empty>
+649,if (!pnm_allowtrunc)
+650,!pnm_allowtrunc
+651,pnm_allowtrunc
+652,<empty>
+653,goto done;
+654,uv = 0
+655,uv
+656,0
+657,v = uv
+658,v
+659,uv
+660,else
+661,<empty>
+662,if (hdr->sgnd)
+663,hdr->sgnd
+664,hdr
+665,sgnd
+666,<empty>
+667,int_fast32_t sv
+668,if (pnm_getsintstr(in, &sv))
+669,pnm_getsintstr(in, &sv)
+670,in
+671,&sv
+672,sv
+673,<empty>
+674,if (!pnm_allowtrunc)
+675,!pnm_allowtrunc
+676,pnm_allowtrunc
+677,<empty>
+678,goto done;
+679,sv = 0
+680,sv
+681,0
+682,v = sv
+683,v
+684,sv
+685,else
+686,<empty>
+687,uint_fast32_t uv
+688,if (pnm_getuintstr(in, &uv))
+689,pnm_getuintstr(in, &uv)
+690,in
+691,&uv
+692,uv
+693,<empty>
+694,if (!pnm_allowtrunc)
+695,!pnm_allowtrunc
+696,pnm_allowtrunc
+697,<empty>
+698,goto done;
+699,uv = 0
+700,uv
+701,0
+702,v = uv
+703,v
+704,uv
+705,jas_matrix_set(data[cmptno], 0, x, v)
+706,data[cmptno]
+707,data
+708,cmptno
+709,0
+710,x
+711,v
+712,for (cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+713,<empty>
+714,cmptno = 0
+715,cmptno
+716,0
+717,cmptno < hdr->numcmpts
+718,cmptno
+719,hdr->numcmpts
+720,hdr
+721,numcmpts
+722,++cmptno
+723,cmptno
+724,<empty>
+725,if (jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,
+726,			  data[cmptno]))
+727,jas_image_writecmpt(image, cmptno, 0, y, hdr->width, 1,
+728,			  data[cmptno])
+729,image
+730,cmptno
+731,0
+732,y
+733,hdr->width
+734,hdr
+735,width
+736,1
+737,data[cmptno]
+738,data
+739,cmptno
+740,<empty>
+741,goto done;
+742,ret = 0
+743,ret
+744,0
+745,done:
+746,
+747,	for (cmptno = 0; cmptno < hdr->numcmpts; ++cmptno) {
+748,		if (data[cmptno]) {
+749,			jas_matrix_destroy(data[cmptno]);
+750,		}
+751,	}
+752,for (cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+753,<empty>
+754,cmptno = 0
+755,cmptno
+756,0
+757,cmptno < hdr->numcmpts
+758,cmptno
+759,hdr->numcmpts
+760,hdr
+761,numcmpts
+762,++cmptno
+763,cmptno
+764,<empty>
+765,if (data[cmptno])
+766,data[cmptno]
+767,data
+768,cmptno
+769,<empty>
+770,jas_matrix_destroy(data[cmptno])
+771,data[cmptno]
+772,data
+773,cmptno
+774,return ret;
+775,ret
+776,RET
+777,jas_stream_t *in
+778,pnm_hdr_t *hdr
+779,jas_image_t *image
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+static int pnm_getdata(jas_stream_t *in, pnm_hdr_t *hdr, jas_image_t *image) {
+int ret;
+int cmptno;
+int fmt;
+jas_matrix_t *data[3];
+int x;
+int y;
+int_fast64_t v;
+int depth;
+int type;
+int c;
+int n;
+ret = -1;
+fmt = pnm_fmt(hdr->magic);
+type = pnm_type(hdr->magic);
+depth = pnm_maxvaltodepth(hdr->maxval);
+data[0] = 0;
+data[1] = 0;
+data[2] = 0;
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(y = 0;y < hdr->height;++y)
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(x = 0;x < hdr->width;++x)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+uint_fast32_t uv;
+if(pnm_getuintstr(in, &uv))
+uv = 0;
+v = uv;
+jas_matrix_set(data[cmptno], 0, x, v);
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+for(cmptno = 0;cmptno < hdr->numcmpts;++cmptno)
+ret = 0;
+if(data[cmptno])
+jas_matrix_destroy(data[cmptno]);
+if(data[cmptno])
+jas_matrix_destroy(data[cmptno]);
+if(data[cmptno])
+jas_matrix_destroy(data[cmptno]);
+return ret;
+=======================

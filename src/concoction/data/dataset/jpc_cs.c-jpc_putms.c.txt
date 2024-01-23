@@ -1,0 +1,1148 @@
+-----label-----
+0
+-----code-----
+int jpc_putms(jas_stream_t *out, jpc_cstate_t *cstate, jpc_ms_t *ms)
+{
+	jas_stream_t *tmpstream;
+	int len;
+
+	/* Output the marker segment type. */
+	if (jpc_putuint16(out, ms->id)) {
+		return -1;
+	}
+
+	/* Output the marker segment length and parameters if necessary. */
+	if (ms->ops->putparms) {
+		/* Create a temporary stream in which to buffer the
+		  parameter data. */
+		if (!(tmpstream = jas_stream_memopen(0, 0))) {
+			return -1;
+		}
+		if ((*ms->ops->putparms)(ms, cstate, tmpstream)) {
+			jas_stream_close(tmpstream);
+			return -1;
+		}
+		/* Get the number of bytes of parameter data written. */
+		if ((len = jas_stream_tell(tmpstream)) < 0) {
+			jas_stream_close(tmpstream);
+			return -1;
+		}
+		ms->len = len;
+		/* Write the marker segment length and parameter data to
+		  the output stream. */
+		if (jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||
+		  jpc_putuint16(out, ms->len + 2) ||
+		  jas_stream_copy(out, tmpstream, ms->len) < 0) {
+			jas_stream_close(tmpstream);
+			return -1;
+		}
+		/* Close the temporary stream. */
+		jas_stream_close(tmpstream);
+	}
+
+	/* This is a bit of a hack, but I'm not going to define another
+	  type of virtual function for this one special case. */
+	if (ms->id == JPC_MS_SIZ) {
+		cstate->numcomps = ms->parms.siz.numcomps;
+	}
+
+	if (jas_getdbglevel() > 0) {
+		jpc_ms_dump(ms, stderr);
+	}
+
+	return 0;
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+3,6
+3,7
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+11,13
+12,13
+14,15
+14,16
+17,18
+17,19
+18,19
+20,21
+20,22
+23,24
+23,25
+23,26
+23,27
+23,28
+23,29
+23,30
+24,25
+25,26
+25,27
+26,27
+28,29
+28,30
+31,32
+32,33
+32,34
+34,35
+36,37
+36,38
+37,38
+37,39
+37,40
+38,39
+40,41
+42,43
+42,44
+43,44
+46,47
+47,48
+48,49
+50,51
+50,52
+51,52
+51,53
+52,53
+52,54
+53,54
+57,58
+57,59
+57,60
+57,61
+57,62
+57,63
+58,59
+58,60
+59,60
+60,61
+61,62
+61,63
+62,63
+64,65
+64,66
+64,67
+65,66
+69,70
+70,71
+71,72
+73,74
+73,75
+74,75
+74,76
+74,77
+74,78
+75,76
+76,77
+77,78
+77,79
+78,79
+78,80
+79,80
+83,84
+85,86
+87,88
+89,90
+89,91
+90,91
+91,92
+91,93
+92,93
+94,95
+96,97
+97,98
+99,100
+99,101
+100,101
+100,102
+101,102
+102,103
+102,104
+103,104
+105,106
+105,107
+106,107
+108,109
+111,112
+111,113
+112,113
+113,114
+113,115
+114,115
+116,117
+118,119
+119,120
+121,122
+122,123
+122,124
+123,124
+123,125
+124,125
+127,128
+129,130
+129,131
+130,131
+130,132
+131,132
+131,133
+132,133
+132,134
+133,134
+133,135
+133,136
+133,137
+134,135
+136,137
+139,140
+142,143
+142,144
+142,145
+143,144
+145,146
+147,148
+147,149
+148,149
+148,150
+149,150
+153,154
+153,155
+154,155
+154,156
+154,157
+154,158
+155,156
+157,158
+159,160
+161,162
+161,163
+162,163
+166,167
+166,168
+167,168
+168,169
+168,170
+169,170
+171,172
+173,174
+174,175
+176,177
+177,178
+177,179
+178,179
+180,181
+182,183
+182,184
+183,184
+183,185
+184,185
+184,186
+185,186
+188,189
+190,191
+191,192
+192,193
+192,194
+193,194
+193,195
+194,195
+197,198
+197,199
+198,199
+198,200
+199,200
+199,201
+200,201
+205,206
+205,207
+206,207
+206,208
+207,208
+208,209
+211,212
+212,213
+213,214
+213,215
+213,216
+214,215
+216,217
+218,219
+220,221
+-----nextToken-----
+2,4,7,9,10,13,15,16,19,21,22,27,29,30,33,35,39,41,44,45,49,54,55,56,63,66,67,68,72,80,81,82,84,86,88,93,95,98,104,107,109,110,115,117,120,125,126,128,135,137,138,140,141,144,146,150,151,152,156,158,160,163,164,165,170,172,175,179,181,186,187,189,195,196,201,202,203,204,209,210,215,217,219,221
+-----computeFrom-----
+61,62
+61,63
+100,101
+100,102
+102,103
+102,104
+122,123
+122,124
+130,131
+130,132
+131,132
+131,133
+132,133
+132,134
+147,148
+147,149
+153,154
+153,155
+183,184
+183,185
+192,193
+192,194
+206,207
+206,208
+-----guardedBy-----
+109,117
+160,172
+186,201
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;DeclarationStatement;SimpleDeclaration;SimpleDeclSpecifier;Declarator;Name;IfStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;FieldReference;FieldReference;IdExpression;Name;Name;Name;CompoundStatement;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;LiteralExpression;LiteralExpression;CompoundStatement;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;FunctionCallExpression;UnaryExpression;UnaryExpression;FieldReference;FieldReference;IdExpression;Name;Name;Name;IdExpression;Name;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;IfStatement;BinaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;IfStatement;BinaryExpression;BinaryExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;LiteralExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;BinaryExpression;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;FieldReference;IdExpression;Name;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;UnaryExpression;LiteralExpression;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IfStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;FieldReference;FieldReference;IdExpression;Name;Name;Name;Name;IfStatement;BinaryExpression;FunctionCallExpression;IdExpression;Name;LiteralExpression;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;
+-----ast_node-----
+int jpc_putms(jas_stream_t *out, jpc_cstate_t *cstate, jpc_ms_t *ms){	jas_stream_t *tmpstream;	int len;	/* Output the marker segment type. */	if (jpc_putuint16(out, ms->id)) {		return -1;	}	/* Output the marker segment length and parameters if necessary. */	if (ms->ops->putparms) {		/* Create a temporary stream in which to buffer the		  parameter data. */		if (!(tmpstream = jas_stream_memopen(0, 0))) {			return -1;		}		if ((*ms->ops->putparms)(ms, cstate, tmpstream)) {			jas_stream_close(tmpstream);			return -1;		}		/* Get the number of bytes of parameter data written. */		if ((len = jas_stream_tell(tmpstream)) < 0) {			jas_stream_close(tmpstream);			return -1;		}		ms->len = len;		/* Write the marker segment length and parameter data to		  the output stream. */		if (jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||		  jpc_putuint16(out, ms->len + 2) ||		  jas_stream_copy(out, tmpstream, ms->len) < 0) {			jas_stream_close(tmpstream);			return -1;		}		/* Close the temporary stream. */		jas_stream_close(tmpstream);	}	/* This is a bit of a hack, but I'm not going to define another	  type of virtual function for this one special case. */	if (ms->id == JPC_MS_SIZ) {		cstate->numcomps = ms->parms.siz.numcomps;	}	if (jas_getdbglevel() > 0) {		jpc_ms_dump(ms, stderr);	}	return 0;}
+int
+jpc_putms(jas_stream_t *out, jpc_cstate_t *cstate, jpc_ms_t *ms)
+jpc_putms
+jas_stream_t *out
+jas_stream_t
+jas_stream_t
+*out
+*
+out
+jpc_cstate_t *cstate
+jpc_cstate_t
+jpc_cstate_t
+*cstate
+*
+cstate
+jpc_ms_t *ms
+jpc_ms_t
+jpc_ms_t
+*ms
+*
+ms
+{	jas_stream_t *tmpstream;	int len;	/* Output the marker segment type. */	if (jpc_putuint16(out, ms->id)) {		return -1;	}	/* Output the marker segment length and parameters if necessary. */	if (ms->ops->putparms) {		/* Create a temporary stream in which to buffer the		  parameter data. */		if (!(tmpstream = jas_stream_memopen(0, 0))) {			return -1;		}		if ((*ms->ops->putparms)(ms, cstate, tmpstream)) {			jas_stream_close(tmpstream);			return -1;		}		/* Get the number of bytes of parameter data written. */		if ((len = jas_stream_tell(tmpstream)) < 0) {			jas_stream_close(tmpstream);			return -1;		}		ms->len = len;		/* Write the marker segment length and parameter data to		  the output stream. */		if (jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||		  jpc_putuint16(out, ms->len + 2) ||		  jas_stream_copy(out, tmpstream, ms->len) < 0) {			jas_stream_close(tmpstream);			return -1;		}		/* Close the temporary stream. */		jas_stream_close(tmpstream);	}	/* This is a bit of a hack, but I'm not going to define another	  type of virtual function for this one special case. */	if (ms->id == JPC_MS_SIZ) {		cstate->numcomps = ms->parms.siz.numcomps;	}	if (jas_getdbglevel() > 0) {		jpc_ms_dump(ms, stderr);	}	return 0;}
+jas_stream_t *tmpstream;
+jas_stream_t *tmpstream;
+jas_stream_t
+jas_stream_t
+*tmpstream
+*
+tmpstream
+int len;
+int len;
+int
+len
+len
+if (jpc_putuint16(out, ms->id)) {		return -1;	}
+jpc_putuint16(out, ms->id)
+jpc_putuint16
+jpc_putuint16
+out
+out
+ms->id
+ms
+ms
+id
+{		return -1;	}
+return -1;
+-1
+1
+if (ms->ops->putparms) {		/* Create a temporary stream in which to buffer the		  parameter data. */		if (!(tmpstream = jas_stream_memopen(0, 0))) {			return -1;		}		if ((*ms->ops->putparms)(ms, cstate, tmpstream)) {			jas_stream_close(tmpstream);			return -1;		}		/* Get the number of bytes of parameter data written. */		if ((len = jas_stream_tell(tmpstream)) < 0) {			jas_stream_close(tmpstream);			return -1;		}		ms->len = len;		/* Write the marker segment length and parameter data to		  the output stream. */		if (jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||		  jpc_putuint16(out, ms->len + 2) ||		  jas_stream_copy(out, tmpstream, ms->len) < 0) {			jas_stream_close(tmpstream);			return -1;		}		/* Close the temporary stream. */		jas_stream_close(tmpstream);	}
+ms->ops->putparms
+ms->ops
+ms
+ms
+ops
+putparms
+{		/* Create a temporary stream in which to buffer the		  parameter data. */		if (!(tmpstream = jas_stream_memopen(0, 0))) {			return -1;		}		if ((*ms->ops->putparms)(ms, cstate, tmpstream)) {			jas_stream_close(tmpstream);			return -1;		}		/* Get the number of bytes of parameter data written. */		if ((len = jas_stream_tell(tmpstream)) < 0) {			jas_stream_close(tmpstream);			return -1;		}		ms->len = len;		/* Write the marker segment length and parameter data to		  the output stream. */		if (jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||		  jpc_putuint16(out, ms->len + 2) ||		  jas_stream_copy(out, tmpstream, ms->len) < 0) {			jas_stream_close(tmpstream);			return -1;		}		/* Close the temporary stream. */		jas_stream_close(tmpstream);	}
+if (!(tmpstream = jas_stream_memopen(0, 0))) {			return -1;		}
+!(tmpstream = jas_stream_memopen(0, 0))
+(tmpstream = jas_stream_memopen(0, 0))
+tmpstream = jas_stream_memopen(0, 0)
+tmpstream
+tmpstream
+jas_stream_memopen(0, 0)
+jas_stream_memopen
+jas_stream_memopen
+0
+0
+{			return -1;		}
+return -1;
+-1
+1
+if ((*ms->ops->putparms)(ms, cstate, tmpstream)) {			jas_stream_close(tmpstream);			return -1;		}
+(*ms->ops->putparms)(ms, cstate, tmpstream)
+(*ms->ops->putparms)
+*ms->ops->putparms
+ms->ops->putparms
+ms->ops
+ms
+ms
+ops
+putparms
+ms
+ms
+cstate
+cstate
+tmpstream
+tmpstream
+{			jas_stream_close(tmpstream);			return -1;		}
+jas_stream_close(tmpstream);
+jas_stream_close(tmpstream)
+jas_stream_close
+jas_stream_close
+tmpstream
+tmpstream
+return -1;
+-1
+1
+if ((len = jas_stream_tell(tmpstream)) < 0) {			jas_stream_close(tmpstream);			return -1;		}
+(len = jas_stream_tell(tmpstream)) < 0
+(len = jas_stream_tell(tmpstream))
+len = jas_stream_tell(tmpstream)
+len
+len
+jas_stream_tell(tmpstream)
+jas_stream_tell
+jas_stream_tell
+tmpstream
+tmpstream
+0
+{			jas_stream_close(tmpstream);			return -1;		}
+jas_stream_close(tmpstream);
+jas_stream_close(tmpstream)
+jas_stream_close
+jas_stream_close
+tmpstream
+tmpstream
+return -1;
+-1
+1
+ms->len = len;
+ms->len = len
+ms->len
+ms
+ms
+len
+len
+len
+if (jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||		  jpc_putuint16(out, ms->len + 2) ||		  jas_stream_copy(out, tmpstream, ms->len) < 0) {			jas_stream_close(tmpstream);			return -1;		}
+jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||		  jpc_putuint16(out, ms->len + 2) ||		  jas_stream_copy(out, tmpstream, ms->len) < 0
+jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||		  jpc_putuint16(out, ms->len + 2)
+jas_stream_seek(tmpstream, 0, SEEK_SET) < 0
+jas_stream_seek(tmpstream, 0, SEEK_SET)
+jas_stream_seek
+jas_stream_seek
+tmpstream
+tmpstream
+0
+SEEK_SET
+SEEK_SET
+0
+jpc_putuint16(out, ms->len + 2)
+jpc_putuint16
+jpc_putuint16
+out
+out
+ms->len + 2
+ms->len
+ms
+ms
+len
+2
+jas_stream_copy(out, tmpstream, ms->len) < 0
+jas_stream_copy(out, tmpstream, ms->len)
+jas_stream_copy
+jas_stream_copy
+out
+out
+tmpstream
+tmpstream
+ms->len
+ms
+ms
+len
+0
+{			jas_stream_close(tmpstream);			return -1;		}
+jas_stream_close(tmpstream);
+jas_stream_close(tmpstream)
+jas_stream_close
+jas_stream_close
+tmpstream
+tmpstream
+return -1;
+-1
+1
+jas_stream_close(tmpstream);
+jas_stream_close(tmpstream)
+jas_stream_close
+jas_stream_close
+tmpstream
+tmpstream
+if (ms->id == JPC_MS_SIZ) {		cstate->numcomps = ms->parms.siz.numcomps;	}
+ms->id == JPC_MS_SIZ
+ms->id
+ms
+ms
+id
+JPC_MS_SIZ
+JPC_MS_SIZ
+{		cstate->numcomps = ms->parms.siz.numcomps;	}
+cstate->numcomps = ms->parms.siz.numcomps;
+cstate->numcomps = ms->parms.siz.numcomps
+cstate->numcomps
+cstate
+cstate
+numcomps
+ms->parms.siz.numcomps
+ms->parms.siz
+ms->parms
+ms
+ms
+parms
+siz
+numcomps
+if (jas_getdbglevel() > 0) {		jpc_ms_dump(ms, stderr);	}
+jas_getdbglevel() > 0
+jas_getdbglevel()
+jas_getdbglevel
+jas_getdbglevel
+0
+{		jpc_ms_dump(ms, stderr);	}
+jpc_ms_dump(ms, stderr);
+jpc_ms_dump(ms, stderr)
+jpc_ms_dump
+jpc_ms_dump
+ms
+ms
+stderr
+stderr
+return 0;
+0
+-----joern-----
+(24,32,0)
+(21,17,0)
+(20,43,0)
+(3,43,0)
+(45,23,0)
+(6,27,0)
+(9,14,0)
+(15,40,0)
+(19,28,0)
+(0,15,0)
+(29,23,0)
+(28,10,0)
+(15,7,0)
+(17,27,0)
+(49,36,0)
+(30,38,0)
+(43,7,0)
+(36,27,0)
+(23,27,0)
+(23,48,0)
+(28,38,0)
+(10,26,0)
+(51,39,0)
+(6,41,0)
+(10,41,0)
+(14,18,0)
+(50,11,0)
+(48,23,0)
+(46,11,0)
+(36,38,0)
+(32,11,0)
+(38,36,0)
+(1,51,0)
+(38,28,0)
+(31,51,0)
+(16,28,0)
+(51,27,0)
+(44,36,0)
+(11,32,0)
+(13,26,0)
+(2,14,0)
+(43,4,0)
+(32,43,0)
+(34,6,0)
+(38,7,0)
+(17,7,0)
+(17,33,0)
+(41,10,0)
+(43,32,0)
+(25,4,0)
+(38,26,0)
+(5,39,0)
+(42,15,0)
+(22,6,0)
+(35,26,0)
+(14,7,0)
+(11,27,0)
+(37,38,0)
+(41,6,0)
+(39,51,0)
+(47,17,0)
+(8,10,0)
+(48,23,1)
+(38,7,1)
+(42,39,1)
+(11,46,1)
+(39,5,1)
+(32,24,1)
+(21,39,1)
+(17,27,1)
+(23,27,1)
+(14,9,1)
+(38,36,1)
+(43,32,1)
+(51,27,1)
+(45,38,1)
+(44,49,1)
+(47,21,1)
+(2,48,1)
+(37,30,1)
+(20,48,1)
+(6,27,1)
+(28,16,1)
+(10,41,1)
+(19,36,1)
+(12,15,1)
+(39,51,1)
+(6,34,1)
+(32,11,1)
+(29,45,1)
+(15,0,1)
+(23,29,1)
+(3,20,1)
+(38,28,1)
+(5,51,1)
+(0,42,1)
+(11,27,1)
+(12,17,1)
+(15,7,1)
+(43,7,1)
+(22,8,1)
+(49,37,1)
+(41,6,1)
+(12,14,1)
+(1,43,1)
+(14,7,1)
+(17,47,1)
+(9,2,1)
+(50,3,1)
+(36,44,1)
+(24,11,1)
+(46,50,1)
+(36,27,1)
+(28,10,1)
+(31,1,1)
+(51,31,1)
+(17,7,1)
+(16,19,1)
+(30,10,1)
+(34,22,1)
+(51,27,2)
+(11,48,2)
+(32,11,2)
+(28,10,2)
+(15,7,2)
+(42,39,2)
+(38,7,2)
+(20,48,2)
+(38,36,2)
+(51,48,2)
+(17,39,2)
+(3,48,2)
+(14,7,2)
+(5,48,2)
+(9,48,2)
+(14,48,2)
+(24,48,2)
+(43,48,2)
+(17,27,2)
+(6,27,2)
+(41,6,2)
+(39,48,2)
+(39,51,2)
+(11,27,2)
+(38,28,2)
+(50,48,2)
+(2,48,2)
+(31,48,2)
+(47,39,2)
+(10,41,2)
+(21,39,2)
+(32,48,2)
+(46,48,2)
+(15,39,2)
+(23,27,2)
+(48,23,2)
+(0,39,2)
+(17,7,2)
+(36,27,2)
+(43,7,2)
+(1,48,2)
+(43,32,2)
+-----------------------------------
+(0,"\\n")
+(1,ms)
+(2,out)
+(3," len = %d;")
+(4,)
+(5,dumpparms)
+(6,ms->id)
+(7,FILE *out)
+(8,mstabent)
+(9,"\\n")
+(10,mstabent = jpc_mstab_lookup(ms->id)
+(11,ms->len)
+(12,RET)
+(13,mstabent)
+(14,fprintf(out, "\\n")
+(15,fprintf(out, "\\n")
+(16,name)
+(17,(*ms->ops->dumpparms)
+(18,)
+(19,mstabent)
+(20,out)
+(21,ms)
+(22,ms)
+(23,ms->id)
+(24,2)
+(25,if (ms->ops->dumpparms)
+(26,)
+(27,jpc_ms_t *ms)
+(28,mstabent->name)
+(29,id)
+(30,out)
+(31,ops)
+(32,ms->len + 2)
+(33,)
+(34,id)
+(35,if (JPC_MS_HASPARMS(ms->id)
+(36,ms->id)
+(37,"type = 0x%04x (%s)
+(38,fprintf(out, "type = 0x%04x (%s)
+(39,ms->ops->dumpparms)
+(40,)
+(41,jpc_mstab_lookup(ms->id)
+(42,out)
+(43,fprintf(out, " len = %d;", ms->len + 2)
+(44,id)
+(45,ms)
+(46,len)
+(47,out)
+(48,JPC_MS_HASPARMS(ms->id)
+(49,ms)
+(50,ms)
+(51,ms->ops)
+-----cfg-----
+(128,132)
+(128,135)
+(129,128)
+(132,135)
+(135,137)
+(7,19)
+(15,22)
+(15,28)
+(17,15)
+(19,17)
+(21,137)
+(22,21)
+(25,35)
+(25,113)
+(26,29)
+(28,26)
+(29,25)
+(32,40)
+(32,48)
+(33,32)
+(35,33)
+(39,137)
+(40,39)
+(43,54)
+(43,63)
+(44,43)
+(45,44)
+(46,49)
+(48,46)
+(49,45)
+(54,57)
+(56,137)
+(57,56)
+(60,67)
+(60,75)
+(61,60)
+(63,61)
+(67,70)
+(69,137)
+(70,69)
+(72,81)
+(73,72)
+(75,73)
+(78,102)
+(78,107)
+(79,78)
+(79,99)
+(80,79)
+(80,91)
+(81,80)
+(86,79)
+(88,86)
+(89,88)
+(91,89)
+(93,78)
+(94,93)
+(97,94)
+(99,97)
+(102,105)
+(104,137)
+(105,104)
+(107,113)
+(110,129)
+(110,119)
+(111,110)
+(113,111)
+(116,129)
+(117,124)
+(119,117)
+(120,116)
+(121,126)
+(122,125)
+(124,122)
+(125,121)
+(126,120)
+-----path-----
+7,19,17,15,22,21,137
+7,19,17,15,28,26,29,25,35,33,32,40,39,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,54,57,56,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,67,70,69,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,78,102,105,104,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,78,107,113,111,110,129,128,132,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,78,107,113,111,110,129,128,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,78,107,113,111,110,119,117,124,122,125,121,126,120,116,129,128,132,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,78,107,113,111,110,119,117,124,122,125,121,126,120,116,129,128,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,99,97,94,93,78,102,105,104,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,99,97,94,93,78,107,113,111,110,129,128,132,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,99,97,94,93,78,107,113,111,110,129,128,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,99,97,94,93,78,107,113,111,110,119,117,124,122,125,121,126,120,116,129,128,132,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,79,99,97,94,93,78,107,113,111,110,119,117,124,122,125,121,126,120,116,129,128,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,78,102,105,104,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,78,107,113,111,110,129,128,132,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,78,107,113,111,110,129,128,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,78,107,113,111,110,119,117,124,122,125,121,126,120,116,129,128,132,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,78,107,113,111,110,119,117,124,122,125,121,126,120,116,129,128,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,99,97,94,93,78,102,105,104,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,99,97,94,93,78,107,113,111,110,129,128,132,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,99,97,94,93,78,107,113,111,110,129,128,135,137
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,99,97,94,93,78,107,113,111,110,119,117,124,122,125,121,126,120,116,129,128,132
+7,19,17,15,28,26,29,25,35,33,32,48,46,49,45,44,43,63,61,60,75,73,72,81,80,91,89,88,86,79,99,97,94,93,78,107,113,111,110,119,117,124,122,125,121,126,120,116,129,128,135
+7,19,17,15,28,26,29,25,113,111,110,129,128,132,135,137
+7,19,17,15,28,26,29,25,113,111,110,129,128,135,137
+7,19,17,15,28,26,29,25,113,111,110,119,117,124,122,125,121,126,120,116,129,128,132,135,137
+7,19,17,15,28,26,29,25,113,111,110,119,117,124,122,125,121,126,120,116,129,128,135,137
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int jpc_putms (jas_stream_t *out,jpc_cstate_t *cstate,jpc_ms_t *ms)
+8,jas_stream_t *out
+9,jpc_cstate_t *cstate
+10,jpc_ms_t *ms
+11,<empty>
+12,jas_stream_t* tmpstream
+13,int len
+14,if (jpc_putuint16(out, ms->id))
+15,jpc_putuint16(out, ms->id)
+16,out
+17,ms->id
+18,ms
+19,id
+20,<empty>
+21,return -1;
+22,-1
+23,1
+24,if (ms->ops->putparms)
+25,ms->ops->putparms
+26,ms->ops
+27,ms
+28,ops
+29,putparms
+30,<empty>
+31,if (!(tmpstream = jas_stream_memopen(0, 0)))
+32,!(tmpstream = jas_stream_memopen(0, 0))
+33,tmpstream = jas_stream_memopen(0, 0)
+34,tmpstream
+35,jas_stream_memopen(0, 0)
+36,0
+37,0
+38,<empty>
+39,return -1;
+40,-1
+41,1
+42,if ((*ms->ops->putparms)(ms, cstate, tmpstream))
+43,(*ms->ops->putparms)(ms, cstate, tmpstream)
+44,*ms->ops->putparms
+45,ms->ops->putparms
+46,ms->ops
+47,ms
+48,ops
+49,putparms
+50,ms
+51,cstate
+52,tmpstream
+53,<empty>
+54,jas_stream_close(tmpstream)
+55,tmpstream
+56,return -1;
+57,-1
+58,1
+59,if ((len = jas_stream_tell(tmpstream)) < 0)
+60,(len = jas_stream_tell(tmpstream)) < 0
+61,len = jas_stream_tell(tmpstream)
+62,len
+63,jas_stream_tell(tmpstream)
+64,tmpstream
+65,0
+66,<empty>
+67,jas_stream_close(tmpstream)
+68,tmpstream
+69,return -1;
+70,-1
+71,1
+72,ms->len = len
+73,ms->len
+74,ms
+75,len
+76,len
+77,if (jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||
+78,		  jpc_putuint16(out, ms->len + 2) ||
+79,		  jas_stream_copy(out, tmpstream, ms->len) < 0)
+80,jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||
+81,		  jpc_putuint16(out, ms->len + 2) ||
+82,		  jas_stream_copy(out, tmpstream, ms->len) < 0
+83,jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||
+84,		  jpc_putuint16(out, ms->len + 2)
+85,jas_stream_seek(tmpstream, 0, SEEK_SET) < 0
+86,jas_stream_seek(tmpstream, 0, SEEK_SET)
+87,tmpstream
+88,0
+89,SEEK_SET
+90,0
+91,jpc_putuint16(out, ms->len + 2)
+92,out
+93,ms->len + 2
+94,ms->len
+95,ms
+96,len
+97,2
+98,jas_stream_copy(out, tmpstream, ms->len) < 0
+99,jas_stream_copy(out, tmpstream, ms->len)
+100,out
+101,tmpstream
+102,ms->len
+103,ms
+104,len
+105,0
+106,<empty>
+107,jas_stream_close(tmpstream)
+108,tmpstream
+109,return -1;
+110,-1
+111,1
+112,jas_stream_close(tmpstream)
+113,tmpstream
+114,if (ms->id == JPC_MS_SIZ)
+115,ms->id == JPC_MS_SIZ
+116,ms->id
+117,ms
+118,id
+119,JPC_MS_SIZ
+120,<empty>
+121,cstate->numcomps = ms->parms.siz.numcomps
+122,cstate->numcomps
+123,cstate
+124,numcomps
+125,ms->parms.siz.numcomps
+126,ms->parms.siz
+127,ms->parms
+128,ms
+129,parms
+130,siz
+131,numcomps
+132,if (jas_getdbglevel() > 0)
+133,jas_getdbglevel() > 0
+134,jas_getdbglevel()
+135,0
+136,<empty>
+137,jpc_ms_dump(ms, stderr)
+138,ms
+139,stderr
+140,return 0;
+141,0
+142,RET
+143,jas_stream_t *out
+144,jpc_cstate_t *cstate
+145,jpc_ms_t *ms
+146,RET
+147,int jpc_putms (jas_stream_t *out,jpc_cstate_t *cstate,jpc_ms_t *ms)
+148,jas_stream_t *out
+149,jpc_cstate_t *cstate
+150,jpc_ms_t *ms
+151,<empty>
+152,jas_stream_t* tmpstream
+153,int len
+154,if (jpc_putuint16(out, ms->id))
+155,jpc_putuint16(out, ms->id)
+156,out
+157,ms->id
+158,ms
+159,id
+160,<empty>
+161,return -1;
+162,-1
+163,1
+164,if (ms->ops->putparms)
+165,ms->ops->putparms
+166,ms->ops
+167,ms
+168,ops
+169,putparms
+170,<empty>
+171,if (!(tmpstream = jas_stream_memopen(0, 0)))
+172,!(tmpstream = jas_stream_memopen(0, 0))
+173,tmpstream = jas_stream_memopen(0, 0)
+174,tmpstream
+175,jas_stream_memopen(0, 0)
+176,0
+177,0
+178,<empty>
+179,return -1;
+180,-1
+181,1
+182,if ((*ms->ops->putparms)(ms, cstate, tmpstream))
+183,(*ms->ops->putparms)(ms, cstate, tmpstream)
+184,*ms->ops->putparms
+185,ms->ops->putparms
+186,ms->ops
+187,ms
+188,ops
+189,putparms
+190,ms
+191,cstate
+192,tmpstream
+193,<empty>
+194,jas_stream_close(tmpstream)
+195,tmpstream
+196,return -1;
+197,-1
+198,1
+199,if ((len = jas_stream_tell(tmpstream)) < 0)
+200,(len = jas_stream_tell(tmpstream)) < 0
+201,len = jas_stream_tell(tmpstream)
+202,len
+203,jas_stream_tell(tmpstream)
+204,tmpstream
+205,0
+206,<empty>
+207,jas_stream_close(tmpstream)
+208,tmpstream
+209,return -1;
+210,-1
+211,1
+212,ms->len = len
+213,ms->len
+214,ms
+215,len
+216,len
+217,if (jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||
+218,		  jpc_putuint16(out, ms->len + 2) ||
+219,		  jas_stream_copy(out, tmpstream, ms->len) < 0)
+220,jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||
+221,		  jpc_putuint16(out, ms->len + 2) ||
+222,		  jas_stream_copy(out, tmpstream, ms->len) < 0
+223,jas_stream_seek(tmpstream, 0, SEEK_SET) < 0 ||
+224,		  jpc_putuint16(out, ms->len + 2)
+225,jas_stream_seek(tmpstream, 0, SEEK_SET) < 0
+226,jas_stream_seek(tmpstream, 0, SEEK_SET)
+227,tmpstream
+228,0
+229,SEEK_SET
+230,0
+231,jpc_putuint16(out, ms->len + 2)
+232,out
+233,ms->len + 2
+234,ms->len
+235,ms
+236,len
+237,2
+238,jas_stream_copy(out, tmpstream, ms->len) < 0
+239,jas_stream_copy(out, tmpstream, ms->len)
+240,out
+241,tmpstream
+242,ms->len
+243,ms
+244,len
+245,0
+246,<empty>
+247,jas_stream_close(tmpstream)
+248,tmpstream
+249,return -1;
+250,-1
+251,1
+252,jas_stream_close(tmpstream)
+253,tmpstream
+254,if (ms->id == JPC_MS_SIZ)
+255,ms->id == JPC_MS_SIZ
+256,ms->id
+257,ms
+258,id
+259,JPC_MS_SIZ
+260,<empty>
+261,cstate->numcomps = ms->parms.siz.numcomps
+262,cstate->numcomps
+263,cstate
+264,numcomps
+265,ms->parms.siz.numcomps
+266,ms->parms.siz
+267,ms->parms
+268,ms
+269,parms
+270,siz
+271,numcomps
+272,if (jas_getdbglevel() > 0)
+273,jas_getdbglevel() > 0
+274,jas_getdbglevel()
+275,0
+276,<empty>
+277,jpc_ms_dump(ms, stderr)
+278,ms
+279,stderr
+280,return 0;
+281,0
+282,RET
+283,jas_stream_t *out
+284,jpc_cstate_t *cstate
+285,jpc_ms_t *ms
+=====================================
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0xa20000000000000010101010101002100100000000000000a48100000000000000000000101010100000000000000000101010101010101000100000000000001010101010101010c5490a6500000000101010101010101099c4096500000000101010101010101099c40965000000001010101010101010101010101010101010101010101010101010101010101010
+A-data:0x503337230a0930230000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a230a31370c0c30303123000a0c000c23
+=========trace=========
+int jpc_putms(jas_stream_t *out, jpc_cstate_t *cstate, jpc_ms_t *ms) {
+jas_stream_t *tmpstream;
+int len;
+return 0;
+=======================

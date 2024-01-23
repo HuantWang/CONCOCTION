@@ -1,0 +1,272 @@
+-----label-----
+0
+-----code-----
+jas_tvparser_t *jas_tvparser_create(const char *s)
+{
+	jas_tvparser_t *tvp;
+	if (!(tvp = jas_malloc(sizeof(jas_tvparser_t)))) {
+		return 0;
+	}
+	if (!(tvp->buf = jas_strdup(s))) {
+		jas_tvparser_destroy(tvp);
+		return 0;
+	}
+	tvp->pos = tvp->buf;
+	tvp->tag = 0;
+	tvp->val = 0;
+	return tvp;
+}
+-----children-----
+1,2
+1,3
+1,4
+2,3
+4,5
+4,6
+4,7
+7,8
+7,9
+9,10
+9,11
+12,13
+12,14
+12,15
+12,16
+12,17
+12,18
+12,19
+13,14
+14,15
+14,16
+15,16
+17,18
+17,19
+20,21
+20,22
+21,22
+22,23
+23,24
+23,25
+24,25
+26,27
+26,28
+27,28
+29,30
+30,31
+30,32
+31,32
+34,35
+35,36
+37,38
+37,39
+38,39
+39,40
+40,41
+40,42
+41,42
+41,43
+42,43
+45,46
+45,47
+46,47
+48,49
+50,51
+50,52
+51,52
+52,53
+52,54
+53,54
+55,56
+57,58
+59,60
+60,61
+60,62
+61,62
+61,63
+62,63
+65,66
+65,67
+66,67
+69,70
+70,71
+70,72
+71,72
+71,73
+72,73
+76,77
+77,78
+77,79
+78,79
+78,80
+79,80
+83,84
+84,85
+-----nextToken-----
+3,5,6,8,10,11,16,18,19,25,28,32,33,36,43,44,47,49,54,56,58,63,64,67,68,73,74,75,80,81,82,85
+-----computeFrom-----
+23,24
+23,25
+40,41
+40,42
+60,61
+60,62
+70,71
+70,72
+77,78
+77,79
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;NamedTypeSpecifier;Name;FunctionDeclarator;Pointer;Name;ParameterDeclaration;SimpleDeclSpecifier;Declarator;Pointer;Name;CompoundStatement;DeclarationStatement;SimpleDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;IdExpression;Name;FunctionCallExpression;IdExpression;Name;TypeIdExpression;TypeId;NamedTypeSpecifier;Name;Declarator;CompoundStatement;ReturnStatement;LiteralExpression;IfStatement;UnaryExpression;UnaryExpression;BinaryExpression;FieldReference;IdExpression;Name;Name;FunctionCallExpression;IdExpression;Name;IdExpression;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;ReturnStatement;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;FieldReference;IdExpression;Name;Name;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ExpressionStatement;BinaryExpression;FieldReference;IdExpression;Name;Name;LiteralExpression;ReturnStatement;IdExpression;Name;
+-----ast_node-----
+jas_tvparser_t *jas_tvparser_create(const char *s){	jas_tvparser_t *tvp;	if (!(tvp = jas_malloc(sizeof(jas_tvparser_t)))) {		return 0;	}	if (!(tvp->buf = jas_strdup(s))) {		jas_tvparser_destroy(tvp);		return 0;	}	tvp->pos = tvp->buf;	tvp->tag = 0;	tvp->val = 0;	return tvp;}
+jas_tvparser_t
+jas_tvparser_t
+*jas_tvparser_create(const char *s)
+*
+jas_tvparser_create
+const char *s
+const char
+*s
+*
+s
+{	jas_tvparser_t *tvp;	if (!(tvp = jas_malloc(sizeof(jas_tvparser_t)))) {		return 0;	}	if (!(tvp->buf = jas_strdup(s))) {		jas_tvparser_destroy(tvp);		return 0;	}	tvp->pos = tvp->buf;	tvp->tag = 0;	tvp->val = 0;	return tvp;}
+jas_tvparser_t *tvp;
+jas_tvparser_t *tvp;
+jas_tvparser_t
+jas_tvparser_t
+*tvp
+*
+tvp
+if (!(tvp = jas_malloc(sizeof(jas_tvparser_t)))) {		return 0;	}
+!(tvp = jas_malloc(sizeof(jas_tvparser_t)))
+(tvp = jas_malloc(sizeof(jas_tvparser_t)))
+tvp = jas_malloc(sizeof(jas_tvparser_t))
+tvp
+tvp
+jas_malloc(sizeof(jas_tvparser_t))
+jas_malloc
+jas_malloc
+sizeof(jas_tvparser_t)
+jas_tvparser_t
+jas_tvparser_t
+jas_tvparser_t
+
+{		return 0;	}
+return 0;
+0
+if (!(tvp->buf = jas_strdup(s))) {		jas_tvparser_destroy(tvp);		return 0;	}
+!(tvp->buf = jas_strdup(s))
+(tvp->buf = jas_strdup(s))
+tvp->buf = jas_strdup(s)
+tvp->buf
+tvp
+tvp
+buf
+jas_strdup(s)
+jas_strdup
+jas_strdup
+s
+s
+{		jas_tvparser_destroy(tvp);		return 0;	}
+jas_tvparser_destroy(tvp);
+jas_tvparser_destroy(tvp)
+jas_tvparser_destroy
+jas_tvparser_destroy
+tvp
+tvp
+return 0;
+0
+tvp->pos = tvp->buf;
+tvp->pos = tvp->buf
+tvp->pos
+tvp
+tvp
+pos
+tvp->buf
+tvp
+tvp
+buf
+tvp->tag = 0;
+tvp->tag = 0
+tvp->tag
+tvp
+tvp
+tag
+0
+tvp->val = 0;
+tvp->val = 0
+tvp->val
+tvp
+tvp
+val
+0
+return tvp;
+tvp
+tvp
+-----joern-----
+(13,11,0)
+(9,1,0)
+(0,8,0)
+(3,9,0)
+(8,13,0)
+(5,1,0)
+(10,2,0)
+(8,1,0)
+(5,2,0)
+(13,8,0)
+(4,8,0)
+(7,9,0)
+(6,5,0)
+(13,8,1)
+(4,9,1)
+(12,5,1)
+(7,3,1)
+(6,13,1)
+(5,1,1)
+(8,0,1)
+(8,1,1)
+(9,7,1)
+(9,1,1)
+(6,9,1)
+(5,6,1)
+(0,4,1)
+(4,9,2)
+(9,1,2)
+(5,1,2)
+(8,9,2)
+(0,9,2)
+(13,8,2)
+(13,9,2)
+(8,1,2)
+-----------------------------------
+(0,buf)
+(1,jas_tvparser_t *tvp)
+(2,)
+(3,tvp)
+(4,tvp)
+(5,jas_free(tvp)
+(6,tvp)
+(7,buf)
+(8,tvp->buf)
+(9,tvp->buf)
+(10,if (tvp->buf)
+(11,)
+(12,RET)
+(13,jas_free(tvp->buf)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------dynamic----------------
+=======testcase========
+model_version:0x01000000
+A-data-stat:0x000800000000000000000040000000000100000000000000a4810000e8030000e8030000ffffffff0000000000000000ffffffffffffffff0010000000000000ffffffffffffffffe694ad6300000000ffffffffffffffffbea0ad6300000000ffffffffffffffffbea0ad6300000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+A-data:0xff4fff5f00090100ffff00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+=========trace=========
+jas_tvparser_t *jas_tvparser_create(const char *s) {
+jas_tvparser_t *tvp;
+tvp->pos = tvp->buf;
+tvp->tag = 0;
+tvp->val = 0;
+return tvp;
+=======================
