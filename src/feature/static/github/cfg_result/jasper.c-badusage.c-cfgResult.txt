@@ -1,0 +1,38 @@
+-----cfg-----
+(16,18)
+(7,9)
+(9,12)
+(12,16)
+-----path-----
+7,9,12,16,18
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void badusage ()
+8,<empty>
+9,fprintf(stderr,
+10,	  "For more information on how to use this command, type:\n")
+11,stderr
+12,"For more information on how to use this command, type:\n"
+13,fprintf(stderr, "    %s --help\n", cmdname)
+14,stderr
+15,"    %s --help\n"
+16,cmdname
+17,exit(EXIT_FAILURE)
+18,EXIT_FAILURE
+19,RET
+20,RET
+21,void badusage ()
+22,<empty>
+23,fprintf(stderr,
+24,	  "For more information on how to use this command, type:\n")
+25,stderr
+26,"For more information on how to use this command, type:\n"
+27,fprintf(stderr, "    %s --help\n", cmdname)
+28,stderr
+29,"    %s --help\n"
+30,cmdname
+31,exit(EXIT_FAILURE)
+32,EXIT_FAILURE
+33,RET
+=====================================

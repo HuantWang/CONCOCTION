@@ -1,0 +1,349 @@
+<global>
+<empty>
+int main (int argc,char **argv)
+int argc
+char **argv
+<empty>
+int fmtid
+int id
+char* infile
+jas_stream_t* instream
+jas_image_t* image
+int width
+int height
+int depth
+int numcmpts
+int verbose
+char* fmtname
+if (jas_init())
+jas_init()
+<empty>
+abort()
+cmdname = argv[0]
+cmdname
+argv[0]
+argv
+0
+infile = 0
+infile
+0
+verbose = 0
+verbose
+0
+while ((id = jas_getopt(argc, argv, opts)) >= 0)
+(id = jas_getopt(argc, argv, opts)) >= 0
+id = jas_getopt(argc, argv, opts)
+id
+jas_getopt(argc, argv, opts)
+argc
+argv
+opts
+0
+<empty>
+switch(id)
+id
+<empty>
+case OPT_VERBOSE:
+OPT_VERBOSE
+verbose = 1
+verbose
+1
+break;
+case OPT_VERSION:
+OPT_VERSION
+printf("%s\n", JAS_VERSION)
+"%s\n"
+JAS_VERSION
+exit(EXIT_SUCCESS)
+EXIT_SUCCESS
+break;
+case OPT_INFILE:
+OPT_INFILE
+infile = jas_optarg
+infile
+jas_optarg
+break;
+case OPT_HELP:
+OPT_HELP
+default:
+usage()
+break;
+if (infile)
+infile
+<empty>
+if (!(instream = jas_stream_fopen(infile, "rb")))
+!(instream = jas_stream_fopen(infile, "rb"))
+instream = jas_stream_fopen(infile, "rb")
+instream
+jas_stream_fopen(infile, "rb")
+infile
+"rb"
+<empty>
+fprintf(stderr, "cannot open input image file %s\n", infile)
+stderr
+"cannot open input image file %s\n"
+infile
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+else
+<empty>
+if (!(instream = jas_stream_fdopen(0, "rb")))
+!(instream = jas_stream_fdopen(0, "rb"))
+instream = jas_stream_fdopen(0, "rb")
+instream
+jas_stream_fdopen(0, "rb")
+0
+"rb"
+<empty>
+fprintf(stderr, "cannot open standard input\n")
+stderr
+"cannot open standard input\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if ((fmtid = jas_image_getfmt(instream)) < 0)
+(fmtid = jas_image_getfmt(instream)) < 0
+fmtid = jas_image_getfmt(instream)
+fmtid
+jas_image_getfmt(instream)
+instream
+0
+<empty>
+fprintf(stderr, "unknown image format\n")
+stderr
+"unknown image format\n"
+if (!(image = jas_image_decode(instream, fmtid, 0)))
+!(image = jas_image_decode(instream, fmtid, 0))
+image = jas_image_decode(instream, fmtid, 0)
+image
+jas_image_decode(instream, fmtid, 0)
+instream
+fmtid
+0
+<empty>
+fprintf(stderr, "cannot load image\n")
+stderr
+"cannot load image\n"
+return EXIT_FAILURE;
+EXIT_FAILURE
+jas_stream_close(instream)
+instream
+numcmpts = jas_image_numcmpts(image)
+numcmpts
+jas_image_numcmpts(image)
+image
+width = jas_image_cmptwidth(image, 0)
+width
+jas_image_cmptwidth(image, 0)
+image
+0
+height = jas_image_cmptheight(image, 0)
+height
+jas_image_cmptheight(image, 0)
+image
+0
+depth = jas_image_cmptprec(image, 0)
+depth
+jas_image_cmptprec(image, 0)
+image
+0
+if (!(fmtname = jas_image_fmttostr(fmtid)))
+!(fmtname = jas_image_fmttostr(fmtid))
+fmtname = jas_image_fmttostr(fmtid)
+fmtname
+jas_image_fmttostr(fmtid)
+fmtid
+<empty>
+abort()
+printf("%s %d %d %d %d %ld\n", fmtname, numcmpts, width, height, depth, (long) jas_image_rawsize(image))
+"%s %d %d %d %d %ld\n"
+fmtname
+numcmpts
+width
+height
+depth
+(long) jas_image_rawsize(image)
+long
+jas_image_rawsize(image)
+image
+jas_image_destroy(image)
+image
+jas_image_clearfmts()
+return EXIT_SUCCESS;
+EXIT_SUCCESS
+RET
+int argc
+char **argv
+RET
+int main (int argc,char **argv)
+int argc
+char **argv
+<empty>
+int fmtid
+int id
+char* infile
+jas_stream_t* instream
+jas_image_t* image
+int width
+int height
+int depth
+int numcmpts
+int verbose
+char* fmtname
+if (jas_init())
+jas_init()
+<empty>
+abort()
+cmdname = argv[0]
+cmdname
+argv[0]
+argv
+0
+infile = 0
+infile
+0
+verbose = 0
+verbose
+0
+while ((id = jas_getopt(argc, argv, opts)) >= 0)
+(id = jas_getopt(argc, argv, opts)) >= 0
+id = jas_getopt(argc, argv, opts)
+id
+jas_getopt(argc, argv, opts)
+argc
+argv
+opts
+0
+<empty>
+switch(id)
+id
+<empty>
+case OPT_VERBOSE:
+OPT_VERBOSE
+verbose = 1
+verbose
+1
+break;
+case OPT_VERSION:
+OPT_VERSION
+printf("%s\n", JAS_VERSION)
+"%s\n"
+JAS_VERSION
+exit(EXIT_SUCCESS)
+EXIT_SUCCESS
+break;
+case OPT_INFILE:
+OPT_INFILE
+infile = jas_optarg
+infile
+jas_optarg
+break;
+case OPT_HELP:
+OPT_HELP
+default:
+usage()
+break;
+if (infile)
+infile
+<empty>
+if (!(instream = jas_stream_fopen(infile, "rb")))
+!(instream = jas_stream_fopen(infile, "rb"))
+instream = jas_stream_fopen(infile, "rb")
+instream
+jas_stream_fopen(infile, "rb")
+infile
+"rb"
+<empty>
+fprintf(stderr, "cannot open input image file %s\n", infile)
+stderr
+"cannot open input image file %s\n"
+infile
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+else
+<empty>
+if (!(instream = jas_stream_fdopen(0, "rb")))
+!(instream = jas_stream_fdopen(0, "rb"))
+instream = jas_stream_fdopen(0, "rb")
+instream
+jas_stream_fdopen(0, "rb")
+0
+"rb"
+<empty>
+fprintf(stderr, "cannot open standard input\n")
+stderr
+"cannot open standard input\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if ((fmtid = jas_image_getfmt(instream)) < 0)
+(fmtid = jas_image_getfmt(instream)) < 0
+fmtid = jas_image_getfmt(instream)
+fmtid
+jas_image_getfmt(instream)
+instream
+0
+<empty>
+fprintf(stderr, "unknown image format\n")
+stderr
+"unknown image format\n"
+if (!(image = jas_image_decode(instream, fmtid, 0)))
+!(image = jas_image_decode(instream, fmtid, 0))
+image = jas_image_decode(instream, fmtid, 0)
+image
+jas_image_decode(instream, fmtid, 0)
+instream
+fmtid
+0
+<empty>
+fprintf(stderr, "cannot load image\n")
+stderr
+"cannot load image\n"
+return EXIT_FAILURE;
+EXIT_FAILURE
+jas_stream_close(instream)
+instream
+numcmpts = jas_image_numcmpts(image)
+numcmpts
+jas_image_numcmpts(image)
+image
+width = jas_image_cmptwidth(image, 0)
+width
+jas_image_cmptwidth(image, 0)
+image
+0
+height = jas_image_cmptheight(image, 0)
+height
+jas_image_cmptheight(image, 0)
+image
+0
+depth = jas_image_cmptprec(image, 0)
+depth
+jas_image_cmptprec(image, 0)
+image
+0
+if (!(fmtname = jas_image_fmttostr(fmtid)))
+!(fmtname = jas_image_fmttostr(fmtid))
+fmtname = jas_image_fmttostr(fmtid)
+fmtname
+jas_image_fmttostr(fmtid)
+fmtid
+<empty>
+abort()
+printf("%s %d %d %d %d %ld\n", fmtname, numcmpts, width, height, depth, (long) jas_image_rawsize(image))
+"%s %d %d %d %d %ld\n"
+fmtname
+numcmpts
+width
+height
+depth
+(long) jas_image_rawsize(image)
+long
+jas_image_rawsize(image)
+image
+jas_image_destroy(image)
+image
+jas_image_clearfmts()
+return EXIT_SUCCESS;
+EXIT_SUCCESS
+RET
+int argc
+char **argv

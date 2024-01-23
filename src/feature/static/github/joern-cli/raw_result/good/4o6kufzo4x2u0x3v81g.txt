@@ -1,0 +1,1 @@
+(Some(N/A-jas_image_destroy),List(),List(),List(),List(),List(),List())

@@ -1,0 +1,30 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"29" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "29" 
+}
+
+digraph "bmp_info_create" {  
+"20" [label = <(&lt;operator&gt;.assignment,info-&gt;palents = 0)<SUB>7</SUB>> ]
+"25" [label = <(RETURN,return info;,return info;)<SUB>8</SUB>> ]
+"11" [label = <(&lt;operator&gt;.logicalNot,!(info = jas_malloc(sizeof(bmp_info_t))))<SUB>4</SUB>> ]
+"21" [label = <(&lt;operator&gt;.indirectFieldAccess,info-&gt;palents)<SUB>7</SUB>> ]
+"12" [label = <(&lt;operator&gt;.assignment,info = jas_malloc(sizeof(bmp_info_t)))<SUB>4</SUB>> ]
+"18" [label = <(RETURN,return 0;,return 0;)<SUB>5</SUB>> ]
+"23" [label = <(FIELD_IDENTIFIER,palents,palents)<SUB>7</SUB>> ]
+"14" [label = <(jas_malloc,jas_malloc(sizeof(bmp_info_t)))<SUB>4</SUB>> ]
+"15" [label = <(&lt;operator&gt;.sizeOf,sizeof(bmp_info_t))<SUB>4</SUB>> ]
+"7" [label = <(METHOD,bmp_info_create)<SUB>1</SUB>> ]
+"27" [label = <(METHOD_RETURN,bmp_info_t)<SUB>1</SUB>> ]
+  "20" -> "25" 
+  "25" -> "27" 
+  "11" -> "18" 
+  "11" -> "23" 
+  "21" -> "20" 
+  "12" -> "11" 
+  "18" -> "27" 
+  "23" -> "21" 
+  "14" -> "12" 
+  "15" -> "14" 
+  "7" -> "15" 
+}

@@ -1,0 +1,61 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"75" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "75" 
+}
+
+digraph "cmdusage" {  
+"13" [label = <(cmdinfo,cmdinfo())<SUB>7</SUB>> ]
+"14" [label = <(fprintf,fprintf(stderr, &quot;usage: %s [options]\n&quot;, cmdname))<SUB>8</SUB>> ]
+"43" [label = <(fprintf,fprintf(stderr, &quot;The following formats are supported:\n&quot;))<SUB>12</SUB>> ]
+"71" [label = <(exit,exit(EXIT_FAILURE))<SUB>20</SUB>> ]
+"30" [label = <(&lt;operator&gt;.expressionList,++i, s = helpinfo[i])<SUB>9</SUB>> ]
+"51" [label = <(&lt;operator&gt;.preIncrement,++fmtid)<SUB>13</SUB>> ]
+"20" [label = <(&lt;operator&gt;.expressionList,i = 0, s = helpinfo[i])<SUB>9</SUB>> ]
+"31" [label = <(&lt;operator&gt;.preIncrement,++i)<SUB>9</SUB>> ]
+"33" [label = <(&lt;operator&gt;.assignment,s = helpinfo[i])<SUB>9</SUB>> ]
+"39" [label = <(fprintf,fprintf(stderr, &quot;%s&quot;, s))<SUB>10</SUB>> ]
+"48" [label = <(&lt;operator&gt;.assignment,fmtid = 0)<SUB>13</SUB>> ]
+"62" [label = <(fprintf,fprintf(stderr, &quot;    %-5s    %s\n&quot;, fmtinfo-&gt;name,\012\011\011  fmtinfo-&gt;desc))<SUB>17</SUB>> ]
+"21" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>9</SUB>> ]
+"24" [label = <(&lt;operator&gt;.assignment,s = helpinfo[i])<SUB>9</SUB>> ]
+"35" [label = <(&lt;operator&gt;.indirectIndexAccess,helpinfo[i])<SUB>9</SUB>> ]
+"55" [label = <(&lt;operator&gt;.logicalNot,!(fmtinfo = jas_image_lookupfmtbyid(fmtid)))<SUB>14</SUB>> ]
+"65" [label = <(&lt;operator&gt;.indirectFieldAccess,fmtinfo-&gt;name)<SUB>17</SUB>> ]
+"68" [label = <(&lt;operator&gt;.indirectFieldAccess,fmtinfo-&gt;desc)<SUB>18</SUB>> ]
+"26" [label = <(&lt;operator&gt;.indirectIndexAccess,helpinfo[i])<SUB>9</SUB>> ]
+"56" [label = <(&lt;operator&gt;.assignment,fmtinfo = jas_image_lookupfmtbyid(fmtid))<SUB>14</SUB>> ]
+"67" [label = <(FIELD_IDENTIFIER,name,name)<SUB>17</SUB>> ]
+"70" [label = <(FIELD_IDENTIFIER,desc,desc)<SUB>18</SUB>> ]
+"58" [label = <(jas_image_lookupfmtbyid,jas_image_lookupfmtbyid(fmtid))<SUB>14</SUB>> ]
+"7" [label = <(METHOD,cmdusage)<SUB>1</SUB>> ]
+"73" [label = <(METHOD_RETURN,void)<SUB>1</SUB>> ]
+  "13" -> "14" 
+  "14" -> "21" 
+  "43" -> "48" 
+  "71" -> "73" 
+  "30" -> "39" 
+  "30" -> "43" 
+  "51" -> "58" 
+  "51" -> "71" 
+  "20" -> "39" 
+  "20" -> "43" 
+  "31" -> "35" 
+  "33" -> "30" 
+  "39" -> "31" 
+  "48" -> "51" 
+  "62" -> "51" 
+  "21" -> "26" 
+  "24" -> "20" 
+  "35" -> "33" 
+  "55" -> "71" 
+  "55" -> "67" 
+  "65" -> "70" 
+  "68" -> "62" 
+  "26" -> "24" 
+  "56" -> "55" 
+  "67" -> "65" 
+  "70" -> "68" 
+  "58" -> "56" 
+  "7" -> "13" 
+}

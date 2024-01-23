@@ -1,0 +1,33 @@
+<global>
+<empty>
+void cmdinfo ()
+<empty>
+fprintf(stderr, "Image Information Utility (Version %s).\n",
+	  JAS_VERSION)
+stderr
+"Image Information Utility (Version %s).\n"
+JAS_VERSION
+fprintf(stderr,
+	  "Copyright (c) 2001 Michael David Adams.\n"
+	  "All rights reserved.\n"
+	  )
+stderr
+"Copyright (c) 2001 Michael David Adams.\n"
+	  "All rights reserved.\n"
+RET
+RET
+void cmdinfo ()
+<empty>
+fprintf(stderr, "Image Information Utility (Version %s).\n",
+	  JAS_VERSION)
+stderr
+"Image Information Utility (Version %s).\n"
+JAS_VERSION
+fprintf(stderr,
+	  "Copyright (c) 2001 Michael David Adams.\n"
+	  "All rights reserved.\n"
+	  )
+stderr
+"Copyright (c) 2001 Michael David Adams.\n"
+	  "All rights reserved.\n"
+RET

@@ -1,0 +1,24 @@
+-----cfg-----
+(7,10)
+(10,12)
+-----path-----
+7,10,12
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void cmdopts_destroy (cmdopts_t *cmdopts)
+8,cmdopts_t *cmdopts
+9,<empty>
+10,free(cmdopts)
+11,cmdopts
+12,RET
+13,cmdopts_t *cmdopts
+14,RET
+15,void cmdopts_destroy (cmdopts_t *cmdopts)
+16,cmdopts_t *cmdopts
+17,<empty>
+18,free(cmdopts)
+19,cmdopts
+20,RET
+21,cmdopts_t *cmdopts
+=====================================

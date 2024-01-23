@@ -1,0 +1,89 @@
+<global>
+<empty>
+int addopt (char *optstr,int maxlen,char *s)
+char *optstr
+int maxlen
+char *s
+<empty>
+int n
+int m
+n = strlen(optstr)
+n
+strlen(optstr)
+optstr
+m = n + strlen(s) + 1
+m
+n + strlen(s) + 1
+n + strlen(s)
+n
+strlen(s)
+s
+1
+if (m > maxlen)
+m > maxlen
+m
+maxlen
+<empty>
+return 1;
+1
+if (n > 0)
+n > 0
+n
+0
+<empty>
+strcat(optstr, "\n")
+optstr
+"\n"
+strcat(optstr, s)
+optstr
+s
+return 0;
+0
+RET
+char *optstr
+int maxlen
+char *s
+RET
+int addopt (char *optstr,int maxlen,char *s)
+char *optstr
+int maxlen
+char *s
+<empty>
+int n
+int m
+n = strlen(optstr)
+n
+strlen(optstr)
+optstr
+m = n + strlen(s) + 1
+m
+n + strlen(s) + 1
+n + strlen(s)
+n
+strlen(s)
+s
+1
+if (m > maxlen)
+m > maxlen
+m
+maxlen
+<empty>
+return 1;
+1
+if (n > 0)
+n > 0
+n
+0
+<empty>
+strcat(optstr, "\n")
+optstr
+"\n"
+strcat(optstr, s)
+optstr
+s
+return 0;
+0
+RET
+char *optstr
+int maxlen
+char *s

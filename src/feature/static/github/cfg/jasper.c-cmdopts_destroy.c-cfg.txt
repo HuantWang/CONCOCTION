@@ -1,0 +1,13 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"14" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "14" 
+}
+
+digraph "cmdopts_destroy" {  
+"10" [label = <(free,free(cmdopts))<SUB>3</SUB>> ]
+"7" [label = <(METHOD,cmdopts_destroy)<SUB>1</SUB>> ]
+"12" [label = <(METHOD_RETURN,void)<SUB>1</SUB>> ]
+  "10" -> "12" 
+  "7" -> "10" 
+}

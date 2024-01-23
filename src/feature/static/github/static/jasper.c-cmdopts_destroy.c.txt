@@ -1,0 +1,89 @@
+-----label-----
+0
+-----code-----
+void cmdopts_destroy(cmdopts_t *cmdopts)
+{
+	free(cmdopts);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+3,5
+5,6
+5,7
+6,7
+8,9
+8,10
+11,12
+12,13
+13,14
+13,15
+14,15
+16,17
+-----nextToken-----
+2,4,7,9,10,15,17
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;ParameterDeclaration;NamedTypeSpecifier;Name;Declarator;Pointer;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;
+-----ast_node-----
+void cmdopts_destroy(cmdopts_t *cmdopts){	free(cmdopts);}
+void
+cmdopts_destroy(cmdopts_t *cmdopts)
+cmdopts_destroy
+cmdopts_t *cmdopts
+cmdopts_t
+cmdopts_t
+*cmdopts
+*
+cmdopts
+{	free(cmdopts);}
+free(cmdopts);
+free(cmdopts)
+free
+free
+cmdopts
+cmdopts
+-----joern-----
+(4,2,0)
+(4,3,0)
+(0,4,0)
+(4,3,1)
+(1,4,1)
+(4,0,1)
+(4,3,2)
+-----------------------------------
+(0,cmdopts)
+(1,RET)
+(2,)
+(3,cmdopts_t *cmdopts)
+(4,free(cmdopts)
+-----cfg-----
+(7,10)
+(10,12)
+-----path-----
+7,10,12
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void cmdopts_destroy (cmdopts_t *cmdopts)
+8,cmdopts_t *cmdopts
+9,<empty>
+10,free(cmdopts)
+11,cmdopts
+12,RET
+13,cmdopts_t *cmdopts
+14,RET
+15,void cmdopts_destroy (cmdopts_t *cmdopts)
+16,cmdopts_t *cmdopts
+17,<empty>
+18,free(cmdopts)
+19,cmdopts
+20,RET
+21,cmdopts_t *cmdopts
+=====================================

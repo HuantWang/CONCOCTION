@@ -1,0 +1,17 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"20" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "20" 
+}
+
+digraph "badusage" {  
+"9" [label = <(fprintf,fprintf(stderr,\012\011  &quot;For more information on how to use this command, type:\n&quot;))<SUB>3</SUB>> ]
+"12" [label = <(fprintf,fprintf(stderr, &quot;    %s --help\n&quot;, cmdname))<SUB>5</SUB>> ]
+"16" [label = <(exit,exit(EXIT_FAILURE))<SUB>6</SUB>> ]
+"7" [label = <(METHOD,badusage)<SUB>1</SUB>> ]
+"18" [label = <(METHOD_RETURN,void)<SUB>1</SUB>> ]
+  "9" -> "12" 
+  "12" -> "16" 
+  "16" -> "18" 
+  "7" -> "9" 
+}

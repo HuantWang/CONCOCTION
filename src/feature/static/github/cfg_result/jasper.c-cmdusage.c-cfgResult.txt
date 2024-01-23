@@ -1,0 +1,177 @@
+-----cfg-----
+(65,70)
+(67,65)
+(68,62)
+(70,68)
+(71,73)
+(7,13)
+(13,14)
+(14,21)
+(20,39)
+(20,43)
+(21,26)
+(24,20)
+(26,24)
+(30,39)
+(30,43)
+(31,35)
+(33,30)
+(35,33)
+(39,31)
+(43,48)
+(48,51)
+(51,58)
+(51,71)
+(55,71)
+(55,67)
+(56,55)
+(58,56)
+(62,51)
+-----path-----
+7,13,14,21,26,24,20,39,31,35,33,30,43,48,51,58,56,55,71,73
+7,13,14,21,26,24,20,39,31,35,33,30,43,48,51,58,56,55,67,65,70,68,62,51,71,73
+7,13,14,21,26,24,20,39,31,35,33,30,43,48,51,71,73
+7,13,14,21,26,24,20,43,48,51,58,56,55,71,73
+7,13,14,21,26,24,20,43,48,51,58,56,55,67,65,70,68,62,51,71,73
+7,13,14,21,26,24,20,43,48,51,71,73
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void cmdusage ()
+8,<empty>
+9,int fmtid
+10,jas_image_fmtinfo_t* fmtinfo
+11,char* s
+12,int i
+13,cmdinfo()
+14,fprintf(stderr, "usage: %s [options]\n", cmdname)
+15,stderr
+16,"usage: %s [options]\n"
+17,cmdname
+18,for (i = 0, s = helpinfo[i];s;++i, s = helpinfo[i])
+19,<empty>
+20,i = 0, s = helpinfo[i]
+21,i = 0
+22,i
+23,0
+24,s = helpinfo[i]
+25,s
+26,helpinfo[i]
+27,helpinfo
+28,i
+29,s
+30,++i, s = helpinfo[i]
+31,++i
+32,i
+33,s = helpinfo[i]
+34,s
+35,helpinfo[i]
+36,helpinfo
+37,i
+38,<empty>
+39,fprintf(stderr, "%s", s)
+40,stderr
+41,"%s"
+42,s
+43,fprintf(stderr, "The following formats are supported:\n")
+44,stderr
+45,"The following formats are supported:\n"
+46,for (fmtid = 0;;++fmtid)
+47,<empty>
+48,fmtid = 0
+49,fmtid
+50,0
+51,++fmtid
+52,fmtid
+53,<empty>
+54,if (!(fmtinfo = jas_image_lookupfmtbyid(fmtid)))
+55,!(fmtinfo = jas_image_lookupfmtbyid(fmtid))
+56,fmtinfo = jas_image_lookupfmtbyid(fmtid)
+57,fmtinfo
+58,jas_image_lookupfmtbyid(fmtid)
+59,fmtid
+60,<empty>
+61,break;
+62,fprintf(stderr, "    %-5s    %s\n", fmtinfo->name,
+63,		  fmtinfo->desc)
+64,stderr
+65,"    %-5s    %s\n"
+66,fmtinfo->name
+67,fmtinfo
+68,name
+69,fmtinfo->desc
+70,fmtinfo
+71,desc
+72,exit(EXIT_FAILURE)
+73,EXIT_FAILURE
+74,RET
+75,RET
+76,void cmdusage ()
+77,<empty>
+78,int fmtid
+79,jas_image_fmtinfo_t* fmtinfo
+80,char* s
+81,int i
+82,cmdinfo()
+83,fprintf(stderr, "usage: %s [options]\n", cmdname)
+84,stderr
+85,"usage: %s [options]\n"
+86,cmdname
+87,for (i = 0, s = helpinfo[i];s;++i, s = helpinfo[i])
+88,<empty>
+89,i = 0, s = helpinfo[i]
+90,i = 0
+91,i
+92,0
+93,s = helpinfo[i]
+94,s
+95,helpinfo[i]
+96,helpinfo
+97,i
+98,s
+99,++i, s = helpinfo[i]
+100,++i
+101,i
+102,s = helpinfo[i]
+103,s
+104,helpinfo[i]
+105,helpinfo
+106,i
+107,<empty>
+108,fprintf(stderr, "%s", s)
+109,stderr
+110,"%s"
+111,s
+112,fprintf(stderr, "The following formats are supported:\n")
+113,stderr
+114,"The following formats are supported:\n"
+115,for (fmtid = 0;;++fmtid)
+116,<empty>
+117,fmtid = 0
+118,fmtid
+119,0
+120,++fmtid
+121,fmtid
+122,<empty>
+123,if (!(fmtinfo = jas_image_lookupfmtbyid(fmtid)))
+124,!(fmtinfo = jas_image_lookupfmtbyid(fmtid))
+125,fmtinfo = jas_image_lookupfmtbyid(fmtid)
+126,fmtinfo
+127,jas_image_lookupfmtbyid(fmtid)
+128,fmtid
+129,<empty>
+130,break;
+131,fprintf(stderr, "    %-5s    %s\n", fmtinfo->name,
+132,		  fmtinfo->desc)
+133,stderr
+134,"    %-5s    %s\n"
+135,fmtinfo->name
+136,fmtinfo
+137,name
+138,fmtinfo->desc
+139,fmtinfo
+140,desc
+141,exit(EXIT_FAILURE)
+142,EXIT_FAILURE
+143,RET
+=====================================

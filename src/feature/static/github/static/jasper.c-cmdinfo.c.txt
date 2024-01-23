@@ -1,0 +1,142 @@
+-----label-----
+0
+-----code-----
+void cmdinfo()
+{
+	fprintf(stderr, "JasPer Transcoder (Version %s).\n",
+	  JAS_VERSION);
+	fprintf(stderr, "%s\n", JAS_COPYRIGHT);
+	fprintf(stderr, "%s\n", JAS_NOTES);
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+5,6
+5,7
+5,8
+6,7
+7,8
+7,9
+7,10
+7,11
+8,9
+10,11
+13,14
+15,16
+16,17
+16,18
+16,19
+16,20
+17,18
+19,20
+22,23
+24,25
+25,26
+25,27
+25,28
+25,29
+26,27
+28,29
+31,32
+-----nextToken-----
+2,4,9,11,12,14,18,20,21,23,27,29,30,32
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;
+-----ast_node-----
+void cmdinfo(){	fprintf(stderr, "JasPer Transcoder (Version %s).\n",	  JAS_VERSION);	fprintf(stderr, "%s\n", JAS_COPYRIGHT);	fprintf(stderr, "%s\n", JAS_NOTES);}
+void
+cmdinfo()
+cmdinfo
+{	fprintf(stderr, "JasPer Transcoder (Version %s).\n",	  JAS_VERSION);	fprintf(stderr, "%s\n", JAS_COPYRIGHT);	fprintf(stderr, "%s\n", JAS_NOTES);}
+fprintf(stderr, "JasPer Transcoder (Version %s).\n",	  JAS_VERSION);
+fprintf(stderr, "JasPer Transcoder (Version %s).\n",	  JAS_VERSION)
+fprintf
+fprintf
+stderr
+stderr
+"JasPer Transcoder (Version %s).\n"
+JAS_VERSION
+JAS_VERSION
+fprintf(stderr, "%s\n", JAS_COPYRIGHT);
+fprintf(stderr, "%s\n", JAS_COPYRIGHT)
+fprintf
+fprintf
+stderr
+stderr
+"%s\n"
+JAS_COPYRIGHT
+JAS_COPYRIGHT
+fprintf(stderr, "%s\n", JAS_NOTES);
+fprintf(stderr, "%s\n", JAS_NOTES)
+fprintf
+fprintf
+stderr
+stderr
+"%s\n"
+JAS_NOTES
+JAS_NOTES
+-----joern-----
+(4,2,0)
+(4,3,0)
+(0,4,0)
+(4,3,1)
+(1,4,1)
+(4,0,1)
+(4,3,2)
+-----------------------------------
+(0,cmdopts)
+(1,RET)
+(2,)
+(3,cmdopts_t *cmdopts)
+(4,free(cmdopts)
+-----cfg-----
+(17,21)
+(7,9)
+(9,13)
+(13,17)
+-----path-----
+7,9,13,17,21
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void cmdinfo ()
+8,<empty>
+9,fprintf(stderr, "JasPer Transcoder (Version %s).\n",
+10,	  JAS_VERSION)
+11,stderr
+12,"JasPer Transcoder (Version %s).\n"
+13,JAS_VERSION
+14,fprintf(stderr, "%s\n", JAS_COPYRIGHT)
+15,stderr
+16,"%s\n"
+17,JAS_COPYRIGHT
+18,fprintf(stderr, "%s\n", JAS_NOTES)
+19,stderr
+20,"%s\n"
+21,JAS_NOTES
+22,RET
+23,RET
+24,void cmdinfo ()
+25,<empty>
+26,fprintf(stderr, "JasPer Transcoder (Version %s).\n",
+27,	  JAS_VERSION)
+28,stderr
+29,"JasPer Transcoder (Version %s).\n"
+30,JAS_VERSION
+31,fprintf(stderr, "%s\n", JAS_COPYRIGHT)
+32,stderr
+33,"%s\n"
+34,JAS_COPYRIGHT
+35,fprintf(stderr, "%s\n", JAS_NOTES)
+36,stderr
+37,"%s\n"
+38,JAS_NOTES
+39,RET
+=====================================

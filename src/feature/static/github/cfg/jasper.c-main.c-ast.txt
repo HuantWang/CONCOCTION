@@ -1,0 +1,697 @@
+<global>
+<empty>
+int main (int argc,char **argv)
+int argc
+char **argv
+<empty>
+jas_image_t* image
+cmdopts_t* cmdopts
+jas_stream_t* in
+jas_stream_t* out
+jas_tmr_t dectmr
+jas_tmr_t enctmr
+double dectime
+double enctime
+int_fast16_t numcmpts
+int i
+if ((cmdname = strrchr(argv[0], '/')))
+cmdname = strrchr(argv[0], '/')
+cmdname
+strrchr(argv[0], '/')
+argv[0]
+argv
+0
+'/'
+<empty>
+++cmdname
+cmdname
+else
+<empty>
+cmdname = argv[0]
+cmdname
+argv[0]
+argv
+0
+if (jas_init())
+jas_init()
+<empty>
+abort()
+if (!(cmdopts = cmdopts_parse(argc, argv)))
+!(cmdopts = cmdopts_parse(argc, argv))
+cmdopts = cmdopts_parse(argc, argv)
+cmdopts
+cmdopts_parse(argc, argv)
+argc
+argv
+<empty>
+fprintf(stderr, "error: cannot parse command line\n")
+stderr
+"error: cannot parse command line\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if (cmdopts->version)
+cmdopts->version
+cmdopts
+version
+<empty>
+printf("%s\n", JAS_VERSION)
+"%s\n"
+JAS_VERSION
+fprintf(stderr, "libjasper %s\n", jas_getversion())
+stderr
+"libjasper %s\n"
+jas_getversion()
+exit(EXIT_SUCCESS)
+EXIT_SUCCESS
+jas_setdbglevel(cmdopts->debug)
+cmdopts->debug
+cmdopts
+debug
+if (cmdopts->verbose)
+cmdopts->verbose
+cmdopts
+verbose
+<empty>
+cmdinfo()
+if (cmdopts->infile)
+cmdopts->infile
+cmdopts
+infile
+<empty>
+if (!(in = jas_stream_fopen(cmdopts->infile, "rb")))
+!(in = jas_stream_fopen(cmdopts->infile, "rb"))
+in = jas_stream_fopen(cmdopts->infile, "rb")
+in
+jas_stream_fopen(cmdopts->infile, "rb")
+cmdopts->infile
+cmdopts
+infile
+"rb"
+<empty>
+fprintf(stderr, "error: cannot open input image file %s\n",
+			  cmdopts->infile)
+stderr
+"error: cannot open input image file %s\n"
+cmdopts->infile
+cmdopts
+infile
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+else
+<empty>
+if (!(in = jas_stream_fdopen(0, "rb")))
+!(in = jas_stream_fdopen(0, "rb"))
+in = jas_stream_fdopen(0, "rb")
+in
+jas_stream_fdopen(0, "rb")
+0
+"rb"
+<empty>
+fprintf(stderr, "error: cannot open standard input\n")
+stderr
+"error: cannot open standard input\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if (cmdopts->outfile)
+cmdopts->outfile
+cmdopts
+outfile
+<empty>
+if (!(out = jas_stream_fopen(cmdopts->outfile, "w+b")))
+!(out = jas_stream_fopen(cmdopts->outfile, "w+b"))
+out = jas_stream_fopen(cmdopts->outfile, "w+b")
+out
+jas_stream_fopen(cmdopts->outfile, "w+b")
+cmdopts->outfile
+cmdopts
+outfile
+"w+b"
+<empty>
+fprintf(stderr, "error: cannot open output image file %s\n",
+			  cmdopts->outfile)
+stderr
+"error: cannot open output image file %s\n"
+cmdopts->outfile
+cmdopts
+outfile
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+else
+<empty>
+if (!(out = jas_stream_fdopen(1, "w+b")))
+!(out = jas_stream_fdopen(1, "w+b"))
+out = jas_stream_fdopen(1, "w+b")
+out
+jas_stream_fdopen(1, "w+b")
+1
+"w+b"
+<empty>
+fprintf(stderr, "error: cannot open standard output\n")
+stderr
+"error: cannot open standard output\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if (cmdopts->infmt < 0)
+cmdopts->infmt < 0
+cmdopts->infmt
+cmdopts
+infmt
+0
+<empty>
+if ((cmdopts->infmt = jas_image_getfmt(in)) < 0)
+(cmdopts->infmt = jas_image_getfmt(in)) < 0
+cmdopts->infmt = jas_image_getfmt(in)
+cmdopts->infmt
+cmdopts
+infmt
+jas_image_getfmt(in)
+in
+0
+<empty>
+fprintf(stderr, "error: input image has unknown format\n")
+stderr
+"error: input image has unknown format\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+jas_tmr_start(&dectmr)
+&dectmr
+dectmr
+if (!(image = jas_image_decode(in, cmdopts->infmt, cmdopts->inopts)))
+!(image = jas_image_decode(in, cmdopts->infmt, cmdopts->inopts))
+image = jas_image_decode(in, cmdopts->infmt, cmdopts->inopts)
+image
+jas_image_decode(in, cmdopts->infmt, cmdopts->inopts)
+in
+cmdopts->infmt
+cmdopts
+infmt
+cmdopts->inopts
+cmdopts
+inopts
+<empty>
+fprintf(stderr, "error: cannot load image data\n")
+stderr
+"error: cannot load image data\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+jas_tmr_stop(&dectmr)
+&dectmr
+dectmr
+dectime = jas_tmr_get(&dectmr)
+dectime
+jas_tmr_get(&dectmr)
+&dectmr
+dectmr
+numcmpts = jas_image_numcmpts(image)
+numcmpts
+jas_image_numcmpts(image)
+image
+if (cmdopts->cmptno >= 0 && cmdopts->cmptno < numcmpts)
+cmdopts->cmptno >= 0 && cmdopts->cmptno < numcmpts
+cmdopts->cmptno >= 0
+cmdopts->cmptno
+cmdopts
+cmptno
+0
+cmdopts->cmptno < numcmpts
+cmdopts->cmptno
+cmdopts
+cmptno
+numcmpts
+<empty>
+for (i = numcmpts - 1;i >= 0;--i)
+<empty>
+i = numcmpts - 1
+i
+numcmpts - 1
+numcmpts
+1
+i >= 0
+i
+0
+--i
+i
+<empty>
+if (i != cmdopts->cmptno)
+i != cmdopts->cmptno
+i
+cmdopts->cmptno
+cmdopts
+cmptno
+<empty>
+jas_image_delcmpt(image, i)
+image
+i
+if (cmdopts->srgb)
+cmdopts->srgb
+cmdopts
+srgb
+<empty>
+jas_image_t* newimage
+jas_cmprof_t* outprof
+jas_eprintf("forcing conversion to sRGB\n")
+"forcing conversion to sRGB\n"
+if (!(outprof = jas_cmprof_createfromclrspc(JAS_CLRSPC_SRGB)))
+!(outprof = jas_cmprof_createfromclrspc(JAS_CLRSPC_SRGB))
+outprof = jas_cmprof_createfromclrspc(JAS_CLRSPC_SRGB)
+outprof
+jas_cmprof_createfromclrspc(JAS_CLRSPC_SRGB)
+JAS_CLRSPC_SRGB
+<empty>
+jas_eprintf("cannot create sRGB profile\n")
+"cannot create sRGB profile\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if (!(newimage = jas_image_chclrspc(image, outprof, JAS_CMXFORM_INTENT_PER)))
+!(newimage = jas_image_chclrspc(image, outprof, JAS_CMXFORM_INTENT_PER))
+newimage = jas_image_chclrspc(image, outprof, JAS_CMXFORM_INTENT_PER)
+newimage
+jas_image_chclrspc(image, outprof, JAS_CMXFORM_INTENT_PER)
+image
+outprof
+JAS_CMXFORM_INTENT_PER
+<empty>
+jas_eprintf("cannot convert to sRGB\n")
+"cannot convert to sRGB\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+jas_image_destroy(image)
+image
+jas_cmprof_destroy(outprof)
+outprof
+image = newimage
+image
+newimage
+jas_tmr_start(&enctmr)
+&enctmr
+enctmr
+if (jas_image_encode(image, out, cmdopts->outfmt, cmdopts->outopts))
+jas_image_encode(image, out, cmdopts->outfmt, cmdopts->outopts)
+image
+out
+cmdopts->outfmt
+cmdopts
+outfmt
+cmdopts->outopts
+cmdopts
+outopts
+<empty>
+fprintf(stderr, "error: cannot encode image\n")
+stderr
+"error: cannot encode image\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+jas_stream_flush(out)
+out
+jas_tmr_stop(&enctmr)
+&enctmr
+enctmr
+enctime = jas_tmr_get(&enctmr)
+enctime
+jas_tmr_get(&enctmr)
+&enctmr
+enctmr
+if (cmdopts->verbose)
+cmdopts->verbose
+cmdopts
+verbose
+<empty>
+fprintf(stderr, "decoding time = %f\n", dectime)
+stderr
+"decoding time = %f\n"
+dectime
+fprintf(stderr, "encoding time = %f\n", enctime)
+stderr
+"encoding time = %f\n"
+enctime
+(void) jas_stream_close(in)
+void
+jas_stream_close(in)
+in
+if (jas_stream_close(out))
+jas_stream_close(out)
+out
+<empty>
+fprintf(stderr, "error: cannot close output image file\n")
+stderr
+"error: cannot close output image file\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+cmdopts_destroy(cmdopts)
+cmdopts
+jas_image_destroy(image)
+image
+jas_image_clearfmts()
+return EXIT_SUCCESS;
+EXIT_SUCCESS
+RET
+int argc
+char **argv
+RET
+int main (int argc,char **argv)
+int argc
+char **argv
+<empty>
+jas_image_t* image
+cmdopts_t* cmdopts
+jas_stream_t* in
+jas_stream_t* out
+jas_tmr_t dectmr
+jas_tmr_t enctmr
+double dectime
+double enctime
+int_fast16_t numcmpts
+int i
+if ((cmdname = strrchr(argv[0], '/')))
+cmdname = strrchr(argv[0], '/')
+cmdname
+strrchr(argv[0], '/')
+argv[0]
+argv
+0
+'/'
+<empty>
+++cmdname
+cmdname
+else
+<empty>
+cmdname = argv[0]
+cmdname
+argv[0]
+argv
+0
+if (jas_init())
+jas_init()
+<empty>
+abort()
+if (!(cmdopts = cmdopts_parse(argc, argv)))
+!(cmdopts = cmdopts_parse(argc, argv))
+cmdopts = cmdopts_parse(argc, argv)
+cmdopts
+cmdopts_parse(argc, argv)
+argc
+argv
+<empty>
+fprintf(stderr, "error: cannot parse command line\n")
+stderr
+"error: cannot parse command line\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if (cmdopts->version)
+cmdopts->version
+cmdopts
+version
+<empty>
+printf("%s\n", JAS_VERSION)
+"%s\n"
+JAS_VERSION
+fprintf(stderr, "libjasper %s\n", jas_getversion())
+stderr
+"libjasper %s\n"
+jas_getversion()
+exit(EXIT_SUCCESS)
+EXIT_SUCCESS
+jas_setdbglevel(cmdopts->debug)
+cmdopts->debug
+cmdopts
+debug
+if (cmdopts->verbose)
+cmdopts->verbose
+cmdopts
+verbose
+<empty>
+cmdinfo()
+if (cmdopts->infile)
+cmdopts->infile
+cmdopts
+infile
+<empty>
+if (!(in = jas_stream_fopen(cmdopts->infile, "rb")))
+!(in = jas_stream_fopen(cmdopts->infile, "rb"))
+in = jas_stream_fopen(cmdopts->infile, "rb")
+in
+jas_stream_fopen(cmdopts->infile, "rb")
+cmdopts->infile
+cmdopts
+infile
+"rb"
+<empty>
+fprintf(stderr, "error: cannot open input image file %s\n",
+			  cmdopts->infile)
+stderr
+"error: cannot open input image file %s\n"
+cmdopts->infile
+cmdopts
+infile
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+else
+<empty>
+if (!(in = jas_stream_fdopen(0, "rb")))
+!(in = jas_stream_fdopen(0, "rb"))
+in = jas_stream_fdopen(0, "rb")
+in
+jas_stream_fdopen(0, "rb")
+0
+"rb"
+<empty>
+fprintf(stderr, "error: cannot open standard input\n")
+stderr
+"error: cannot open standard input\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if (cmdopts->outfile)
+cmdopts->outfile
+cmdopts
+outfile
+<empty>
+if (!(out = jas_stream_fopen(cmdopts->outfile, "w+b")))
+!(out = jas_stream_fopen(cmdopts->outfile, "w+b"))
+out = jas_stream_fopen(cmdopts->outfile, "w+b")
+out
+jas_stream_fopen(cmdopts->outfile, "w+b")
+cmdopts->outfile
+cmdopts
+outfile
+"w+b"
+<empty>
+fprintf(stderr, "error: cannot open output image file %s\n",
+			  cmdopts->outfile)
+stderr
+"error: cannot open output image file %s\n"
+cmdopts->outfile
+cmdopts
+outfile
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+else
+<empty>
+if (!(out = jas_stream_fdopen(1, "w+b")))
+!(out = jas_stream_fdopen(1, "w+b"))
+out = jas_stream_fdopen(1, "w+b")
+out
+jas_stream_fdopen(1, "w+b")
+1
+"w+b"
+<empty>
+fprintf(stderr, "error: cannot open standard output\n")
+stderr
+"error: cannot open standard output\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if (cmdopts->infmt < 0)
+cmdopts->infmt < 0
+cmdopts->infmt
+cmdopts
+infmt
+0
+<empty>
+if ((cmdopts->infmt = jas_image_getfmt(in)) < 0)
+(cmdopts->infmt = jas_image_getfmt(in)) < 0
+cmdopts->infmt = jas_image_getfmt(in)
+cmdopts->infmt
+cmdopts
+infmt
+jas_image_getfmt(in)
+in
+0
+<empty>
+fprintf(stderr, "error: input image has unknown format\n")
+stderr
+"error: input image has unknown format\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+jas_tmr_start(&dectmr)
+&dectmr
+dectmr
+if (!(image = jas_image_decode(in, cmdopts->infmt, cmdopts->inopts)))
+!(image = jas_image_decode(in, cmdopts->infmt, cmdopts->inopts))
+image = jas_image_decode(in, cmdopts->infmt, cmdopts->inopts)
+image
+jas_image_decode(in, cmdopts->infmt, cmdopts->inopts)
+in
+cmdopts->infmt
+cmdopts
+infmt
+cmdopts->inopts
+cmdopts
+inopts
+<empty>
+fprintf(stderr, "error: cannot load image data\n")
+stderr
+"error: cannot load image data\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+jas_tmr_stop(&dectmr)
+&dectmr
+dectmr
+dectime = jas_tmr_get(&dectmr)
+dectime
+jas_tmr_get(&dectmr)
+&dectmr
+dectmr
+numcmpts = jas_image_numcmpts(image)
+numcmpts
+jas_image_numcmpts(image)
+image
+if (cmdopts->cmptno >= 0 && cmdopts->cmptno < numcmpts)
+cmdopts->cmptno >= 0 && cmdopts->cmptno < numcmpts
+cmdopts->cmptno >= 0
+cmdopts->cmptno
+cmdopts
+cmptno
+0
+cmdopts->cmptno < numcmpts
+cmdopts->cmptno
+cmdopts
+cmptno
+numcmpts
+<empty>
+for (i = numcmpts - 1;i >= 0;--i)
+<empty>
+i = numcmpts - 1
+i
+numcmpts - 1
+numcmpts
+1
+i >= 0
+i
+0
+--i
+i
+<empty>
+if (i != cmdopts->cmptno)
+i != cmdopts->cmptno
+i
+cmdopts->cmptno
+cmdopts
+cmptno
+<empty>
+jas_image_delcmpt(image, i)
+image
+i
+if (cmdopts->srgb)
+cmdopts->srgb
+cmdopts
+srgb
+<empty>
+jas_image_t* newimage
+jas_cmprof_t* outprof
+jas_eprintf("forcing conversion to sRGB\n")
+"forcing conversion to sRGB\n"
+if (!(outprof = jas_cmprof_createfromclrspc(JAS_CLRSPC_SRGB)))
+!(outprof = jas_cmprof_createfromclrspc(JAS_CLRSPC_SRGB))
+outprof = jas_cmprof_createfromclrspc(JAS_CLRSPC_SRGB)
+outprof
+jas_cmprof_createfromclrspc(JAS_CLRSPC_SRGB)
+JAS_CLRSPC_SRGB
+<empty>
+jas_eprintf("cannot create sRGB profile\n")
+"cannot create sRGB profile\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+if (!(newimage = jas_image_chclrspc(image, outprof, JAS_CMXFORM_INTENT_PER)))
+!(newimage = jas_image_chclrspc(image, outprof, JAS_CMXFORM_INTENT_PER))
+newimage = jas_image_chclrspc(image, outprof, JAS_CMXFORM_INTENT_PER)
+newimage
+jas_image_chclrspc(image, outprof, JAS_CMXFORM_INTENT_PER)
+image
+outprof
+JAS_CMXFORM_INTENT_PER
+<empty>
+jas_eprintf("cannot convert to sRGB\n")
+"cannot convert to sRGB\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+jas_image_destroy(image)
+image
+jas_cmprof_destroy(outprof)
+outprof
+image = newimage
+image
+newimage
+jas_tmr_start(&enctmr)
+&enctmr
+enctmr
+if (jas_image_encode(image, out, cmdopts->outfmt, cmdopts->outopts))
+jas_image_encode(image, out, cmdopts->outfmt, cmdopts->outopts)
+image
+out
+cmdopts->outfmt
+cmdopts
+outfmt
+cmdopts->outopts
+cmdopts
+outopts
+<empty>
+fprintf(stderr, "error: cannot encode image\n")
+stderr
+"error: cannot encode image\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+jas_stream_flush(out)
+out
+jas_tmr_stop(&enctmr)
+&enctmr
+enctmr
+enctime = jas_tmr_get(&enctmr)
+enctime
+jas_tmr_get(&enctmr)
+&enctmr
+enctmr
+if (cmdopts->verbose)
+cmdopts->verbose
+cmdopts
+verbose
+<empty>
+fprintf(stderr, "decoding time = %f\n", dectime)
+stderr
+"decoding time = %f\n"
+dectime
+fprintf(stderr, "encoding time = %f\n", enctime)
+stderr
+"encoding time = %f\n"
+enctime
+(void) jas_stream_close(in)
+void
+jas_stream_close(in)
+in
+if (jas_stream_close(out))
+jas_stream_close(out)
+out
+<empty>
+fprintf(stderr, "error: cannot close output image file\n")
+stderr
+"error: cannot close output image file\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+cmdopts_destroy(cmdopts)
+cmdopts
+jas_image_destroy(image)
+image
+jas_image_clearfmts()
+return EXIT_SUCCESS;
+EXIT_SUCCESS
+RET
+int argc
+char **argv

@@ -1,0 +1,35 @@
+<global>
+<empty>
+void usage ()
+<empty>
+cmdinfo()
+fprintf(stderr, "usage:\n")
+stderr
+"usage:\n"
+fprintf(stderr,"%s ", cmdname)
+stderr
+"%s "
+cmdname
+fprintf(stderr, "[-f image_file]\n")
+stderr
+"[-f image_file]\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+RET
+RET
+void usage ()
+<empty>
+cmdinfo()
+fprintf(stderr, "usage:\n")
+stderr
+"usage:\n"
+fprintf(stderr,"%s ", cmdname)
+stderr
+"%s "
+cmdname
+fprintf(stderr, "[-f image_file]\n")
+stderr
+"[-f image_file]\n"
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+RET

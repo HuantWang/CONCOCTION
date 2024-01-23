@@ -1,0 +1,17 @@
+<global>
+<empty>
+void cmdopts_destroy (cmdopts_t *cmdopts)
+cmdopts_t *cmdopts
+<empty>
+free(cmdopts)
+cmdopts
+RET
+cmdopts_t *cmdopts
+RET
+void cmdopts_destroy (cmdopts_t *cmdopts)
+cmdopts_t *cmdopts
+<empty>
+free(cmdopts)
+cmdopts
+RET
+cmdopts_t *cmdopts

@@ -1,0 +1,21 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"24" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "24" 
+}
+
+digraph "usage" {  
+"9" [label = <(cmdinfo,cmdinfo())<SUB>3</SUB>> ]
+"10" [label = <(fprintf,fprintf(stderr, &quot;usage:\n&quot;))<SUB>4</SUB>> ]
+"13" [label = <(fprintf,fprintf(stderr,&quot;%s &quot;, cmdname))<SUB>5</SUB>> ]
+"17" [label = <(fprintf,fprintf(stderr, &quot;[-f image_file]\n&quot;))<SUB>6</SUB>> ]
+"20" [label = <(exit,exit(EXIT_FAILURE))<SUB>7</SUB>> ]
+"7" [label = <(METHOD,usage)<SUB>1</SUB>> ]
+"22" [label = <(METHOD_RETURN,void)<SUB>1</SUB>> ]
+  "9" -> "10" 
+  "10" -> "13" 
+  "13" -> "17" 
+  "17" -> "20" 
+  "20" -> "22" 
+  "7" -> "9" 
+}

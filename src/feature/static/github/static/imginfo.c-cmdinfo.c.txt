@@ -1,0 +1,148 @@
+-----label-----
+0
+-----code-----
+static void cmdinfo()
+{
+	fprintf(stderr, "Image Information Utility (Version %s).\n",
+	  JAS_VERSION);
+	fprintf(stderr,
+	  "Copyright (c) 2001 Michael David Adams.\n"
+	  "All rights reserved.\n"
+	  );
+}
+-----children-----
+1,2
+1,3
+1,4
+3,4
+5,6
+5,7
+6,7
+7,8
+7,9
+7,10
+7,11
+8,9
+10,11
+13,14
+15,16
+16,17
+16,18
+16,19
+17,18
+19,20
+-----nextToken-----
+2,4,9,11,12,14,18,20,21
+-----computeFrom-----
+-----guardedBy-----
+-----guardedByNegation-----
+-----lastLexicalUse-----
+-----jump-----
+-----attribute-----
+FunctionDefinition;SimpleDeclSpecifier;FunctionDeclarator;Name;CompoundStatement;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;IdExpression;Name;ExpressionStatement;FunctionCallExpression;IdExpression;Name;IdExpression;Name;LiteralExpression;
+-----ast_node-----
+static void cmdinfo(){	fprintf(stderr, "Image Information Utility (Version %s).\n",	  JAS_VERSION);	fprintf(stderr,	  "Copyright (c) 2001 Michael David Adams.\n"	  "All rights reserved.\n"	  );}
+static void
+cmdinfo()
+cmdinfo
+{	fprintf(stderr, "Image Information Utility (Version %s).\n",	  JAS_VERSION);	fprintf(stderr,	  "Copyright (c) 2001 Michael David Adams.\n"	  "All rights reserved.\n"	  );}
+fprintf(stderr, "Image Information Utility (Version %s).\n",	  JAS_VERSION);
+fprintf(stderr, "Image Information Utility (Version %s).\n",	  JAS_VERSION)
+fprintf
+fprintf
+stderr
+stderr
+"Image Information Utility (Version %s).\n"
+JAS_VERSION
+JAS_VERSION
+fprintf(stderr,	  "Copyright (c) 2001 Michael David Adams.\n"	  "All rights reserved.\n"	  );
+fprintf(stderr,	  "Copyright (c) 2001 Michael David Adams.\n"	  "All rights reserved.\n"	  )
+fprintf
+fprintf
+stderr
+stderr
+"Copyright (c) 2001 Michael David Adams.\n"	  "All rights reserved.\n"
+-----joern-----
+(6,12,0)
+(11,3,0)
+(8,0,0)
+(0,10,0)
+(7,4,0)
+(3,10,0)
+(2,12,0)
+(4,10,0)
+(5,3,0)
+(13,10,0)
+(14,4,0)
+(1,12,0)
+(12,10,0)
+(14,7,1)
+(12,6,1)
+(11,5,1)
+(2,4,1)
+(1,2,1)
+(8,3,1)
+(5,12,1)
+(0,8,1)
+(9,0,1)
+(6,1,1)
+(4,14,1)
+(7,13,1)
+(3,11,1)
+-----------------------------------
+(0,exit(EXIT_FAILURE)
+(1,"%s ")
+(2,stderr)
+(3,fprintf(stderr, "[-f image_file]\\n")
+(4,fprintf(stderr, "usage:\\n")
+(5,stderr)
+(6,cmdname)
+(7,stderr)
+(8,EXIT_FAILURE)
+(9,RET)
+(10,)
+(11,"[-f image_file]\\n")
+(12,fprintf(stderr,"%s ", cmdname)
+(13,cmdinfo()
+(14,"usage:\\n")
+-----cfg-----
+(7,9)
+(9,13)
+(13,16)
+-----path-----
+7,9,13,16
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void cmdinfo ()
+8,<empty>
+9,fprintf(stderr, "Image Information Utility (Version %s).\n",
+10,	  JAS_VERSION)
+11,stderr
+12,"Image Information Utility (Version %s).\n"
+13,JAS_VERSION
+14,fprintf(stderr,
+15,	  "Copyright (c) 2001 Michael David Adams.\n"
+16,	  "All rights reserved.\n"
+17,	  )
+18,stderr
+19,"Copyright (c) 2001 Michael David Adams.\n"
+20,	  "All rights reserved.\n"
+21,RET
+22,RET
+23,void cmdinfo ()
+24,<empty>
+25,fprintf(stderr, "Image Information Utility (Version %s).\n",
+26,	  JAS_VERSION)
+27,stderr
+28,"Image Information Utility (Version %s).\n"
+29,JAS_VERSION
+30,fprintf(stderr,
+31,	  "Copyright (c) 2001 Michael David Adams.\n"
+32,	  "All rights reserved.\n"
+33,	  )
+34,stderr
+35,"Copyright (c) 2001 Michael David Adams.\n"
+36,	  "All rights reserved.\n"
+37,RET
+=====================================

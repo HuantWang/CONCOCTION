@@ -1,0 +1,29 @@
+<global>
+<empty>
+void badusage ()
+<empty>
+fprintf(stderr,
+	  "For more information on how to use this command, type:\n")
+stderr
+"For more information on how to use this command, type:\n"
+fprintf(stderr, "    %s --help\n", cmdname)
+stderr
+"    %s --help\n"
+cmdname
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+RET
+RET
+void badusage ()
+<empty>
+fprintf(stderr,
+	  "For more information on how to use this command, type:\n")
+stderr
+"For more information on how to use this command, type:\n"
+fprintf(stderr, "    %s --help\n", cmdname)
+stderr
+"    %s --help\n"
+cmdname
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+RET

@@ -1,0 +1,139 @@
+<global>
+<empty>
+void cmdusage ()
+<empty>
+int fmtid
+jas_image_fmtinfo_t* fmtinfo
+char* s
+int i
+cmdinfo()
+fprintf(stderr, "usage: %s [options]\n", cmdname)
+stderr
+"usage: %s [options]\n"
+cmdname
+for (i = 0, s = helpinfo[i];s;++i, s = helpinfo[i])
+<empty>
+i = 0, s = helpinfo[i]
+i = 0
+i
+0
+s = helpinfo[i]
+s
+helpinfo[i]
+helpinfo
+i
+s
+++i, s = helpinfo[i]
+++i
+i
+s = helpinfo[i]
+s
+helpinfo[i]
+helpinfo
+i
+<empty>
+fprintf(stderr, "%s", s)
+stderr
+"%s"
+s
+fprintf(stderr, "The following formats are supported:\n")
+stderr
+"The following formats are supported:\n"
+for (fmtid = 0;;++fmtid)
+<empty>
+fmtid = 0
+fmtid
+0
+++fmtid
+fmtid
+<empty>
+if (!(fmtinfo = jas_image_lookupfmtbyid(fmtid)))
+!(fmtinfo = jas_image_lookupfmtbyid(fmtid))
+fmtinfo = jas_image_lookupfmtbyid(fmtid)
+fmtinfo
+jas_image_lookupfmtbyid(fmtid)
+fmtid
+<empty>
+break;
+fprintf(stderr, "    %-5s    %s\n", fmtinfo->name,
+		  fmtinfo->desc)
+stderr
+"    %-5s    %s\n"
+fmtinfo->name
+fmtinfo
+name
+fmtinfo->desc
+fmtinfo
+desc
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+RET
+RET
+void cmdusage ()
+<empty>
+int fmtid
+jas_image_fmtinfo_t* fmtinfo
+char* s
+int i
+cmdinfo()
+fprintf(stderr, "usage: %s [options]\n", cmdname)
+stderr
+"usage: %s [options]\n"
+cmdname
+for (i = 0, s = helpinfo[i];s;++i, s = helpinfo[i])
+<empty>
+i = 0, s = helpinfo[i]
+i = 0
+i
+0
+s = helpinfo[i]
+s
+helpinfo[i]
+helpinfo
+i
+s
+++i, s = helpinfo[i]
+++i
+i
+s = helpinfo[i]
+s
+helpinfo[i]
+helpinfo
+i
+<empty>
+fprintf(stderr, "%s", s)
+stderr
+"%s"
+s
+fprintf(stderr, "The following formats are supported:\n")
+stderr
+"The following formats are supported:\n"
+for (fmtid = 0;;++fmtid)
+<empty>
+fmtid = 0
+fmtid
+0
+++fmtid
+fmtid
+<empty>
+if (!(fmtinfo = jas_image_lookupfmtbyid(fmtid)))
+!(fmtinfo = jas_image_lookupfmtbyid(fmtid))
+fmtinfo = jas_image_lookupfmtbyid(fmtid)
+fmtinfo
+jas_image_lookupfmtbyid(fmtid)
+fmtid
+<empty>
+break;
+fprintf(stderr, "    %-5s    %s\n", fmtinfo->name,
+		  fmtinfo->desc)
+stderr
+"    %-5s    %s\n"
+fmtinfo->name
+fmtinfo
+name
+fmtinfo->desc
+fmtinfo
+desc
+exit(EXIT_FAILURE)
+EXIT_FAILURE
+RET

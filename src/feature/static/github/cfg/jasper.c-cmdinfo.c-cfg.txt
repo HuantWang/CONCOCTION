@@ -1,0 +1,17 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"23" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "23" 
+}
+
+digraph "cmdinfo" {  
+"9" [label = <(fprintf,fprintf(stderr, &quot;JasPer Transcoder (Version %s).\n&quot;,\012\011  JAS_VERSION))<SUB>3</SUB>> ]
+"13" [label = <(fprintf,fprintf(stderr, &quot;%s\n&quot;, JAS_COPYRIGHT))<SUB>5</SUB>> ]
+"17" [label = <(fprintf,fprintf(stderr, &quot;%s\n&quot;, JAS_NOTES))<SUB>6</SUB>> ]
+"7" [label = <(METHOD,cmdinfo)<SUB>1</SUB>> ]
+"21" [label = <(METHOD_RETURN,void)<SUB>1</SUB>> ]
+  "9" -> "13" 
+  "13" -> "17" 
+  "17" -> "21" 
+  "7" -> "9" 
+}

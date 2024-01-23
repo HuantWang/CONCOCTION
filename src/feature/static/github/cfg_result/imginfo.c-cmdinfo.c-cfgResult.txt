@@ -1,0 +1,41 @@
+-----cfg-----
+(7,9)
+(9,13)
+(13,16)
+-----path-----
+7,9,13,16
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void cmdinfo ()
+8,<empty>
+9,fprintf(stderr, "Image Information Utility (Version %s).\n",
+10,	  JAS_VERSION)
+11,stderr
+12,"Image Information Utility (Version %s).\n"
+13,JAS_VERSION
+14,fprintf(stderr,
+15,	  "Copyright (c) 2001 Michael David Adams.\n"
+16,	  "All rights reserved.\n"
+17,	  )
+18,stderr
+19,"Copyright (c) 2001 Michael David Adams.\n"
+20,	  "All rights reserved.\n"
+21,RET
+22,RET
+23,void cmdinfo ()
+24,<empty>
+25,fprintf(stderr, "Image Information Utility (Version %s).\n",
+26,	  JAS_VERSION)
+27,stderr
+28,"Image Information Utility (Version %s).\n"
+29,JAS_VERSION
+30,fprintf(stderr,
+31,	  "Copyright (c) 2001 Michael David Adams.\n"
+32,	  "All rights reserved.\n"
+33,	  )
+34,stderr
+35,"Copyright (c) 2001 Michael David Adams.\n"
+36,	  "All rights reserved.\n"
+37,RET
+=====================================

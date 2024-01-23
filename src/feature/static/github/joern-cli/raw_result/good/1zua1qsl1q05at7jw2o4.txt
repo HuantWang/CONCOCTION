@@ -1,0 +1,1 @@
+(Some(N/A-<operator>.logicalAnd),List(),List(),List(),List(),List(),List())

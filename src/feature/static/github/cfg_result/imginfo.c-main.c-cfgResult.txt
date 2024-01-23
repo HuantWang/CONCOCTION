@@ -1,0 +1,466 @@
+-----cfg-----
+(130,177)
+(132,136)
+(134,140)
+(7,23)
+(136,134)
+(138,145)
+(140,138)
+(143,150)
+(145,143)
+(148,157)
+(150,148)
+(23,25)
+(23,28)
+(25,28)
+(26,31)
+(154,160)
+(154,169)
+(155,154)
+(28,26)
+(157,155)
+(31,34)
+(160,169)
+(161,172)
+(34,41)
+(38,52)
+(38,58)
+(38,66)
+(38,73)
+(38,82)
+(38,98)
+(39,38)
+(168,161)
+(169,170)
+(41,39)
+(170,168)
+(172,174)
+(174,175)
+(175,177)
+(52,41)
+(58,61)
+(61,41)
+(66,41)
+(73,41)
+(79,86)
+(79,111)
+(80,79)
+(82,80)
+(86,90)
+(90,111)
+(95,102)
+(95,111)
+(96,95)
+(98,96)
+(102,105)
+(105,111)
+(108,115)
+(108,122)
+(109,108)
+(111,109)
+(115,122)
+(119,127)
+(119,132)
+(120,119)
+(122,120)
+(127,130)
+-----path-----
+7,23,25,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,115,122,120,119,127,130,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,122,120,119,127,130,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,111,109,108,115,122,120,119,127,130,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,111,109,108,122,120,119,127,130,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,82,80,79,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,115,122,120,119,127,130,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,122,120,119,127,130,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,111,109,108,115,122,120,119,127,130,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,111,109,108,122,120,119,127,130,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,25,28,26,31,34,41,39,38,98,96,95,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,115,122,120,119,127,130,177
+7,23,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,122,120,119,127,130,177
+7,23,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,82,80,79,86,90,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,82,80,79,111,109,108,115,122,120,119,127,130,177
+7,23,28,26,31,34,41,39,38,82,80,79,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,82,80,79,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,82,80,79,111,109,108,122,120,119,127,130,177
+7,23,28,26,31,34,41,39,38,82,80,79,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,82,80,79,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,115,122,120,119,127,130,177
+7,23,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,122,120,119,127,130,177
+7,23,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,98,96,95,102,105,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,98,96,95,111,109,108,115,122,120,119,127,130,177
+7,23,28,26,31,34,41,39,38,98,96,95,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,98,96,95,111,109,108,115,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,98,96,95,111,109,108,122,120,119,127,130,177
+7,23,28,26,31,34,41,39,38,98,96,95,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,160,169,170,168,161,172,174,175,177
+7,23,28,26,31,34,41,39,38,98,96,95,111,109,108,122,120,119,132,136,134,140,138,145,143,150,148,157,155,154,169,170,168,161,172,174,175,177
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int main (int argc,char **argv)
+8,int argc
+9,char **argv
+10,<empty>
+11,int fmtid
+12,int id
+13,char* infile
+14,jas_stream_t* instream
+15,jas_image_t* image
+16,int width
+17,int height
+18,int depth
+19,int numcmpts
+20,int verbose
+21,char* fmtname
+22,if (jas_init())
+23,jas_init()
+24,<empty>
+25,abort()
+26,cmdname = argv[0]
+27,cmdname
+28,argv[0]
+29,argv
+30,0
+31,infile = 0
+32,infile
+33,0
+34,verbose = 0
+35,verbose
+36,0
+37,while ((id = jas_getopt(argc, argv, opts)) >= 0)
+38,(id = jas_getopt(argc, argv, opts)) >= 0
+39,id = jas_getopt(argc, argv, opts)
+40,id
+41,jas_getopt(argc, argv, opts)
+42,argc
+43,argv
+44,opts
+45,0
+46,<empty>
+47,switch(id)
+48,id
+49,<empty>
+50,case OPT_VERBOSE:
+51,OPT_VERBOSE
+52,verbose = 1
+53,verbose
+54,1
+55,break;
+56,case OPT_VERSION:
+57,OPT_VERSION
+58,printf("%s\n", JAS_VERSION)
+59,"%s\n"
+60,JAS_VERSION
+61,exit(EXIT_SUCCESS)
+62,EXIT_SUCCESS
+63,break;
+64,case OPT_INFILE:
+65,OPT_INFILE
+66,infile = jas_optarg
+67,infile
+68,jas_optarg
+69,break;
+70,case OPT_HELP:
+71,OPT_HELP
+72,default:
+73,usage()
+74,break;
+75,if (infile)
+76,infile
+77,<empty>
+78,if (!(instream = jas_stream_fopen(infile, "rb")))
+79,!(instream = jas_stream_fopen(infile, "rb"))
+80,instream = jas_stream_fopen(infile, "rb")
+81,instream
+82,jas_stream_fopen(infile, "rb")
+83,infile
+84,"rb"
+85,<empty>
+86,fprintf(stderr, "cannot open input image file %s\n", infile)
+87,stderr
+88,"cannot open input image file %s\n"
+89,infile
+90,exit(EXIT_FAILURE)
+91,EXIT_FAILURE
+92,else
+93,<empty>
+94,if (!(instream = jas_stream_fdopen(0, "rb")))
+95,!(instream = jas_stream_fdopen(0, "rb"))
+96,instream = jas_stream_fdopen(0, "rb")
+97,instream
+98,jas_stream_fdopen(0, "rb")
+99,0
+100,"rb"
+101,<empty>
+102,fprintf(stderr, "cannot open standard input\n")
+103,stderr
+104,"cannot open standard input\n"
+105,exit(EXIT_FAILURE)
+106,EXIT_FAILURE
+107,if ((fmtid = jas_image_getfmt(instream)) < 0)
+108,(fmtid = jas_image_getfmt(instream)) < 0
+109,fmtid = jas_image_getfmt(instream)
+110,fmtid
+111,jas_image_getfmt(instream)
+112,instream
+113,0
+114,<empty>
+115,fprintf(stderr, "unknown image format\n")
+116,stderr
+117,"unknown image format\n"
+118,if (!(image = jas_image_decode(instream, fmtid, 0)))
+119,!(image = jas_image_decode(instream, fmtid, 0))
+120,image = jas_image_decode(instream, fmtid, 0)
+121,image
+122,jas_image_decode(instream, fmtid, 0)
+123,instream
+124,fmtid
+125,0
+126,<empty>
+127,fprintf(stderr, "cannot load image\n")
+128,stderr
+129,"cannot load image\n"
+130,return EXIT_FAILURE;
+131,EXIT_FAILURE
+132,jas_stream_close(instream)
+133,instream
+134,numcmpts = jas_image_numcmpts(image)
+135,numcmpts
+136,jas_image_numcmpts(image)
+137,image
+138,width = jas_image_cmptwidth(image, 0)
+139,width
+140,jas_image_cmptwidth(image, 0)
+141,image
+142,0
+143,height = jas_image_cmptheight(image, 0)
+144,height
+145,jas_image_cmptheight(image, 0)
+146,image
+147,0
+148,depth = jas_image_cmptprec(image, 0)
+149,depth
+150,jas_image_cmptprec(image, 0)
+151,image
+152,0
+153,if (!(fmtname = jas_image_fmttostr(fmtid)))
+154,!(fmtname = jas_image_fmttostr(fmtid))
+155,fmtname = jas_image_fmttostr(fmtid)
+156,fmtname
+157,jas_image_fmttostr(fmtid)
+158,fmtid
+159,<empty>
+160,abort()
+161,printf("%s %d %d %d %d %ld\n", fmtname, numcmpts, width, height, depth, (long) jas_image_rawsize(image))
+162,"%s %d %d %d %d %ld\n"
+163,fmtname
+164,numcmpts
+165,width
+166,height
+167,depth
+168,(long) jas_image_rawsize(image)
+169,long
+170,jas_image_rawsize(image)
+171,image
+172,jas_image_destroy(image)
+173,image
+174,jas_image_clearfmts()
+175,return EXIT_SUCCESS;
+176,EXIT_SUCCESS
+177,RET
+178,int argc
+179,char **argv
+180,RET
+181,int main (int argc,char **argv)
+182,int argc
+183,char **argv
+184,<empty>
+185,int fmtid
+186,int id
+187,char* infile
+188,jas_stream_t* instream
+189,jas_image_t* image
+190,int width
+191,int height
+192,int depth
+193,int numcmpts
+194,int verbose
+195,char* fmtname
+196,if (jas_init())
+197,jas_init()
+198,<empty>
+199,abort()
+200,cmdname = argv[0]
+201,cmdname
+202,argv[0]
+203,argv
+204,0
+205,infile = 0
+206,infile
+207,0
+208,verbose = 0
+209,verbose
+210,0
+211,while ((id = jas_getopt(argc, argv, opts)) >= 0)
+212,(id = jas_getopt(argc, argv, opts)) >= 0
+213,id = jas_getopt(argc, argv, opts)
+214,id
+215,jas_getopt(argc, argv, opts)
+216,argc
+217,argv
+218,opts
+219,0
+220,<empty>
+221,switch(id)
+222,id
+223,<empty>
+224,case OPT_VERBOSE:
+225,OPT_VERBOSE
+226,verbose = 1
+227,verbose
+228,1
+229,break;
+230,case OPT_VERSION:
+231,OPT_VERSION
+232,printf("%s\n", JAS_VERSION)
+233,"%s\n"
+234,JAS_VERSION
+235,exit(EXIT_SUCCESS)
+236,EXIT_SUCCESS
+237,break;
+238,case OPT_INFILE:
+239,OPT_INFILE
+240,infile = jas_optarg
+241,infile
+242,jas_optarg
+243,break;
+244,case OPT_HELP:
+245,OPT_HELP
+246,default:
+247,usage()
+248,break;
+249,if (infile)
+250,infile
+251,<empty>
+252,if (!(instream = jas_stream_fopen(infile, "rb")))
+253,!(instream = jas_stream_fopen(infile, "rb"))
+254,instream = jas_stream_fopen(infile, "rb")
+255,instream
+256,jas_stream_fopen(infile, "rb")
+257,infile
+258,"rb"
+259,<empty>
+260,fprintf(stderr, "cannot open input image file %s\n", infile)
+261,stderr
+262,"cannot open input image file %s\n"
+263,infile
+264,exit(EXIT_FAILURE)
+265,EXIT_FAILURE
+266,else
+267,<empty>
+268,if (!(instream = jas_stream_fdopen(0, "rb")))
+269,!(instream = jas_stream_fdopen(0, "rb"))
+270,instream = jas_stream_fdopen(0, "rb")
+271,instream
+272,jas_stream_fdopen(0, "rb")
+273,0
+274,"rb"
+275,<empty>
+276,fprintf(stderr, "cannot open standard input\n")
+277,stderr
+278,"cannot open standard input\n"
+279,exit(EXIT_FAILURE)
+280,EXIT_FAILURE
+281,if ((fmtid = jas_image_getfmt(instream)) < 0)
+282,(fmtid = jas_image_getfmt(instream)) < 0
+283,fmtid = jas_image_getfmt(instream)
+284,fmtid
+285,jas_image_getfmt(instream)
+286,instream
+287,0
+288,<empty>
+289,fprintf(stderr, "unknown image format\n")
+290,stderr
+291,"unknown image format\n"
+292,if (!(image = jas_image_decode(instream, fmtid, 0)))
+293,!(image = jas_image_decode(instream, fmtid, 0))
+294,image = jas_image_decode(instream, fmtid, 0)
+295,image
+296,jas_image_decode(instream, fmtid, 0)
+297,instream
+298,fmtid
+299,0
+300,<empty>
+301,fprintf(stderr, "cannot load image\n")
+302,stderr
+303,"cannot load image\n"
+304,return EXIT_FAILURE;
+305,EXIT_FAILURE
+306,jas_stream_close(instream)
+307,instream
+308,numcmpts = jas_image_numcmpts(image)
+309,numcmpts
+310,jas_image_numcmpts(image)
+311,image
+312,width = jas_image_cmptwidth(image, 0)
+313,width
+314,jas_image_cmptwidth(image, 0)
+315,image
+316,0
+317,height = jas_image_cmptheight(image, 0)
+318,height
+319,jas_image_cmptheight(image, 0)
+320,image
+321,0
+322,depth = jas_image_cmptprec(image, 0)
+323,depth
+324,jas_image_cmptprec(image, 0)
+325,image
+326,0
+327,if (!(fmtname = jas_image_fmttostr(fmtid)))
+328,!(fmtname = jas_image_fmttostr(fmtid))
+329,fmtname = jas_image_fmttostr(fmtid)
+330,fmtname
+331,jas_image_fmttostr(fmtid)
+332,fmtid
+333,<empty>
+334,abort()
+335,printf("%s %d %d %d %d %ld\n", fmtname, numcmpts, width, height, depth, (long) jas_image_rawsize(image))
+336,"%s %d %d %d %d %ld\n"
+337,fmtname
+338,numcmpts
+339,width
+340,height
+341,depth
+342,(long) jas_image_rawsize(image)
+343,long
+344,jas_image_rawsize(image)
+345,image
+346,jas_image_destroy(image)
+347,image
+348,jas_image_clearfmts()
+349,return EXIT_SUCCESS;
+350,EXIT_SUCCESS
+351,RET
+352,int argc
+353,char **argv
+=====================================

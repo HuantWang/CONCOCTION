@@ -1,0 +1,1 @@
+(Some(N/A-<operator>.indirectIndexAccess),List(),List(),List(),List(),List(),List())

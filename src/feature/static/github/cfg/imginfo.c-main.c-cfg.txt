@@ -1,0 +1,128 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"179" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "179" 
+}
+
+digraph "main" {  
+"26" [label = <(&lt;operator&gt;.assignment,cmdname = argv[0])<SUB>19</SUB>> ]
+"31" [label = <(&lt;operator&gt;.assignment,infile = 0)<SUB>21</SUB>> ]
+"34" [label = <(&lt;operator&gt;.assignment,verbose = 0)<SUB>22</SUB>> ]
+"132" [label = <(jas_stream_close,jas_stream_close(instream))<SUB>70</SUB>> ]
+"134" [label = <(&lt;operator&gt;.assignment,numcmpts = jas_image_numcmpts(image))<SUB>72</SUB>> ]
+"138" [label = <(&lt;operator&gt;.assignment,width = jas_image_cmptwidth(image, 0))<SUB>73</SUB>> ]
+"143" [label = <(&lt;operator&gt;.assignment,height = jas_image_cmptheight(image, 0))<SUB>74</SUB>> ]
+"148" [label = <(&lt;operator&gt;.assignment,depth = jas_image_cmptprec(image, 0))<SUB>75</SUB>> ]
+"161" [label = <(printf,printf(&quot;%s %d %d %d %d %ld\n&quot;, fmtname, numcmpts, width, height, depth, (long) jas_image_rawsize(image)))<SUB>79</SUB>> ]
+"172" [label = <(jas_image_destroy,jas_image_destroy(image))<SUB>81</SUB>> ]
+"174" [label = <(jas_image_clearfmts,jas_image_clearfmts())<SUB>82</SUB>> ]
+"175" [label = <(RETURN,return EXIT_SUCCESS;,return EXIT_SUCCESS;)<SUB>84</SUB>> ]
+"23" [label = <(jas_init,jas_init())<SUB>15</SUB>> ]
+"28" [label = <(&lt;operator&gt;.indirectIndexAccess,argv[0])<SUB>19</SUB>> ]
+"38" [label = <(&lt;operator&gt;.greaterEqualsThan,(id = jas_getopt(argc, argv, opts)) &gt;= 0)<SUB>25</SUB>> ]
+"108" [label = <(&lt;operator&gt;.lessThan,(fmtid = jas_image_getfmt(instream)) &lt; 0)<SUB>59</SUB>> ]
+"119" [label = <(&lt;operator&gt;.logicalNot,!(image = jas_image_decode(instream, fmtid, 0)))<SUB>64</SUB>> ]
+"136" [label = <(jas_image_numcmpts,jas_image_numcmpts(image))<SUB>72</SUB>> ]
+"140" [label = <(jas_image_cmptwidth,jas_image_cmptwidth(image, 0))<SUB>73</SUB>> ]
+"145" [label = <(jas_image_cmptheight,jas_image_cmptheight(image, 0))<SUB>74</SUB>> ]
+"150" [label = <(jas_image_cmptprec,jas_image_cmptprec(image, 0))<SUB>75</SUB>> ]
+"154" [label = <(&lt;operator&gt;.logicalNot,!(fmtname = jas_image_fmttostr(fmtid)))<SUB>76</SUB>> ]
+"168" [label = <(&lt;operator&gt;.cast,(long) jas_image_rawsize(image))<SUB>79</SUB>> ]
+"25" [label = <(abort,abort())<SUB>16</SUB>> ]
+"39" [label = <(&lt;operator&gt;.assignment,id = jas_getopt(argc, argv, opts))<SUB>25</SUB>> ]
+"109" [label = <(&lt;operator&gt;.assignment,fmtid = jas_image_getfmt(instream))<SUB>59</SUB>> ]
+"115" [label = <(fprintf,fprintf(stderr, &quot;unknown image format\n&quot;))<SUB>60</SUB>> ]
+"120" [label = <(&lt;operator&gt;.assignment,image = jas_image_decode(instream, fmtid, 0))<SUB>64</SUB>> ]
+"127" [label = <(fprintf,fprintf(stderr, &quot;cannot load image\n&quot;))<SUB>65</SUB>> ]
+"130" [label = <(RETURN,return EXIT_FAILURE;,return EXIT_FAILURE;)<SUB>66</SUB>> ]
+"155" [label = <(&lt;operator&gt;.assignment,fmtname = jas_image_fmttostr(fmtid))<SUB>76</SUB>> ]
+"160" [label = <(abort,abort())<SUB>77</SUB>> ]
+"169" [label = <(UNKNOWN,long,long)<SUB>79</SUB>> ]
+"170" [label = <(jas_image_rawsize,jas_image_rawsize(image))<SUB>79</SUB>> ]
+"41" [label = <(jas_getopt,jas_getopt(argc, argv, opts))<SUB>25</SUB>> ]
+"79" [label = <(&lt;operator&gt;.logicalNot,!(instream = jas_stream_fopen(infile, &quot;rb&quot;)))<SUB>47</SUB>> ]
+"111" [label = <(jas_image_getfmt,jas_image_getfmt(instream))<SUB>59</SUB>> ]
+"122" [label = <(jas_image_decode,jas_image_decode(instream, fmtid, 0))<SUB>64</SUB>> ]
+"157" [label = <(jas_image_fmttostr,jas_image_fmttostr(fmtid))<SUB>76</SUB>> ]
+"52" [label = <(&lt;operator&gt;.assignment,verbose = 1)<SUB>28</SUB>> ]
+"58" [label = <(printf,printf(&quot;%s\n&quot;, JAS_VERSION))<SUB>31</SUB>> ]
+"61" [label = <(exit,exit(EXIT_SUCCESS))<SUB>32</SUB>> ]
+"66" [label = <(&lt;operator&gt;.assignment,infile = jas_optarg)<SUB>35</SUB>> ]
+"73" [label = <(usage,usage())<SUB>39</SUB>> ]
+"80" [label = <(&lt;operator&gt;.assignment,instream = jas_stream_fopen(infile, &quot;rb&quot;))<SUB>47</SUB>> ]
+"86" [label = <(fprintf,fprintf(stderr, &quot;cannot open input image file %s\n&quot;, infile))<SUB>48</SUB>> ]
+"90" [label = <(exit,exit(EXIT_FAILURE))<SUB>49</SUB>> ]
+"95" [label = <(&lt;operator&gt;.logicalNot,!(instream = jas_stream_fdopen(0, &quot;rb&quot;)))<SUB>53</SUB>> ]
+"82" [label = <(jas_stream_fopen,jas_stream_fopen(infile, &quot;rb&quot;))<SUB>47</SUB>> ]
+"96" [label = <(&lt;operator&gt;.assignment,instream = jas_stream_fdopen(0, &quot;rb&quot;))<SUB>53</SUB>> ]
+"102" [label = <(fprintf,fprintf(stderr, &quot;cannot open standard input\n&quot;))<SUB>54</SUB>> ]
+"105" [label = <(exit,exit(EXIT_FAILURE))<SUB>55</SUB>> ]
+"98" [label = <(jas_stream_fdopen,jas_stream_fdopen(0, &quot;rb&quot;))<SUB>53</SUB>> ]
+"7" [label = <(METHOD,main)<SUB>1</SUB>> ]
+"177" [label = <(METHOD_RETURN,int)<SUB>1</SUB>> ]
+  "26" -> "31" 
+  "31" -> "34" 
+  "34" -> "41" 
+  "132" -> "136" 
+  "134" -> "140" 
+  "138" -> "145" 
+  "143" -> "150" 
+  "148" -> "157" 
+  "161" -> "172" 
+  "172" -> "174" 
+  "174" -> "175" 
+  "175" -> "177" 
+  "23" -> "25" 
+  "23" -> "28" 
+  "28" -> "26" 
+  "38" -> "52" 
+  "38" -> "58" 
+  "38" -> "66" 
+  "38" -> "73" 
+  "38" -> "82" 
+  "38" -> "98" 
+  "108" -> "115" 
+  "108" -> "122" 
+  "119" -> "127" 
+  "119" -> "132" 
+  "136" -> "134" 
+  "140" -> "138" 
+  "145" -> "143" 
+  "150" -> "148" 
+  "154" -> "160" 
+  "154" -> "169" 
+  "168" -> "161" 
+  "25" -> "28" 
+  "39" -> "38" 
+  "109" -> "108" 
+  "115" -> "122" 
+  "120" -> "119" 
+  "127" -> "130" 
+  "130" -> "177" 
+  "155" -> "154" 
+  "160" -> "169" 
+  "169" -> "170" 
+  "170" -> "168" 
+  "41" -> "39" 
+  "79" -> "86" 
+  "79" -> "111" 
+  "111" -> "109" 
+  "122" -> "120" 
+  "157" -> "155" 
+  "52" -> "41" 
+  "58" -> "61" 
+  "61" -> "41" 
+  "66" -> "41" 
+  "73" -> "41" 
+  "80" -> "79" 
+  "86" -> "90" 
+  "90" -> "111" 
+  "95" -> "102" 
+  "95" -> "111" 
+  "82" -> "80" 
+  "96" -> "95" 
+  "102" -> "105" 
+  "105" -> "111" 
+  "98" -> "96" 
+  "7" -> "23" 
+}

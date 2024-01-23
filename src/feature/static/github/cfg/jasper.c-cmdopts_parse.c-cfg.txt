@@ -1,0 +1,353 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"396" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "396" 
+}
+
+digraph "cmdopts_parse" {  
+"13" [label = <(&lt;operator&gt;.assignment,cmdoptions[] = {\012\011\011{CMDOPT_HELP, &quot;help&quot;, 0},\012\011\011{CMDOPT_VERBOSE, &quot;verbose&quot;, 0},\012\011\011{CMDOPT_INFILE, &quot;input&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INFILE, &quot;f&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INFMT, &quot;input-format&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INFMT, &quot;t&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INOPT, &quot;input-option&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INOPT, &quot;o&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTFILE, &quot;output&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTFILE, &quot;F&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTFMT, &quot;output-format&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTFMT, &quot;T&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTOPT, &quot;output-option&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTOPT, &quot;O&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_VERSION, &quot;version&quot;, 0},\012\011\011{CMDOPT_DEBUG, &quot;debug-level&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_CMPTNO, &quot;cmptno&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_SRGB, &quot;force-srgb&quot;, 0},\012\011\011{CMDOPT_SRGB, &quot;S&quot;, 0},\012\011\011{-1, 0, 0}\012\011})<SUB>19</SUB>> ]
+"112" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;infile = 0)<SUB>50</SUB>> ]
+"117" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;infmt = -1)<SUB>51</SUB>> ]
+"123" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;inopts = 0)<SUB>52</SUB>> ]
+"128" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;inoptsbuf[0] = '\0')<SUB>53</SUB>> ]
+"135" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;outfile = 0)<SUB>54</SUB>> ]
+"140" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;outfmt = -1)<SUB>55</SUB>> ]
+"146" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;outopts = 0)<SUB>56</SUB>> ]
+"151" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;outoptsbuf[0] = '\0')<SUB>57</SUB>> ]
+"158" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;verbose = 0)<SUB>58</SUB>> ]
+"163" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;version = 0)<SUB>59</SUB>> ]
+"168" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;cmptno = -1)<SUB>60</SUB>> ]
+"174" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;debug = 0)<SUB>61</SUB>> ]
+"179" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;srgb = 0)<SUB>62</SUB>> ]
+"392" [label = <(RETURN,return cmdopts;,return cmdopts;)<SUB>141</SUB>> ]
+"15" [label = <(&lt;operator&gt;.arrayInitializer,{\012\011\011{CMDOPT_HELP, &quot;help&quot;, 0},\012\011\011{CMDOPT_VERBOSE, &quot;verbose&quot;, 0},\012\011\011{CMDOPT_INFILE, &quot;input&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INFILE, &quot;f&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INFMT, &quot;input-format&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INFMT, &quot;t&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INOPT, &quot;input-option&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_INOPT, &quot;o&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTFILE, &quot;output&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTFILE, &quot;F&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTFMT, &quot;output-format&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTFMT, &quot;T&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTOPT, &quot;output-option&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_OUTOPT, &quot;O&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_VERSION, &quot;version&quot;, 0},\012\011\011{CMDOPT_DEBUG, &quot;debug-level&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_CMPTNO, &quot;cmptno&quot;, JAS_OPT_HASARG},\012\011\011{CMDOPT_SRGB, &quot;force-srgb&quot;, 0},\012\011\011{CMDOPT_SRGB, &quot;S&quot;, 0},\012\011\011{-1, 0, 0}\012\011})<SUB>19</SUB>> ]
+"100" [label = <(&lt;operator&gt;.logicalNot,!(cmdopts = malloc(sizeof(cmdopts_t))))<SUB>45</SUB>> ]
+"113" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;infile)<SUB>50</SUB>> ]
+"118" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;infmt)<SUB>51</SUB>> ]
+"121" [label = <(&lt;operator&gt;.minus,-1)<SUB>51</SUB>> ]
+"124" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;inopts)<SUB>52</SUB>> ]
+"129" [label = <(&lt;operator&gt;.indirectIndexAccess,cmdopts-&gt;inoptsbuf[0])<SUB>53</SUB>> ]
+"136" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outfile)<SUB>54</SUB>> ]
+"141" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outfmt)<SUB>55</SUB>> ]
+"144" [label = <(&lt;operator&gt;.minus,-1)<SUB>55</SUB>> ]
+"147" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outopts)<SUB>56</SUB>> ]
+"152" [label = <(&lt;operator&gt;.indirectIndexAccess,cmdopts-&gt;outoptsbuf[0])<SUB>57</SUB>> ]
+"159" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;verbose)<SUB>58</SUB>> ]
+"164" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;version)<SUB>59</SUB>> ]
+"169" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;cmptno)<SUB>60</SUB>> ]
+"172" [label = <(&lt;operator&gt;.minus,-1)<SUB>60</SUB>> ]
+"175" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;debug)<SUB>61</SUB>> ]
+"180" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;srgb)<SUB>62</SUB>> ]
+"185" [label = <(&lt;operator&gt;.notEquals,(c = jas_getopt(argc, argv, cmdoptions)) != EOF)<SUB>64</SUB>> ]
+"336" [label = <(&lt;operator&gt;.lessThan,jas_optind &lt; argc)<SUB>117</SUB>> ]
+"349" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;version)<SUB>124</SUB>> ]
+"355" [label = <(&lt;operator&gt;.logicalAnd,cmdopts-&gt;outfmt &lt; 0 &amp;&amp; cmdopts-&gt;outfile)<SUB>128</SUB>> ]
+"381" [label = <(&lt;operator&gt;.lessThan,cmdopts-&gt;outfmt &lt; 0)<SUB>135</SUB>> ]
+"16" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_HELP, &quot;help&quot;, 0})<SUB>20</SUB>> ]
+"20" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_VERBOSE, &quot;verbose&quot;, 0})<SUB>21</SUB>> ]
+"24" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_INFILE, &quot;input&quot;, JAS_OPT_HASARG})<SUB>22</SUB>> ]
+"28" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_INFILE, &quot;f&quot;, JAS_OPT_HASARG})<SUB>23</SUB>> ]
+"32" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_INFMT, &quot;input-format&quot;, JAS_OPT_HASARG})<SUB>24</SUB>> ]
+"36" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_INFMT, &quot;t&quot;, JAS_OPT_HASARG})<SUB>25</SUB>> ]
+"40" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_INOPT, &quot;input-option&quot;, JAS_OPT_HASARG})<SUB>26</SUB>> ]
+"44" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_INOPT, &quot;o&quot;, JAS_OPT_HASARG})<SUB>27</SUB>> ]
+"48" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_OUTFILE, &quot;output&quot;, JAS_OPT_HASARG})<SUB>28</SUB>> ]
+"52" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_OUTFILE, &quot;F&quot;, JAS_OPT_HASARG})<SUB>29</SUB>> ]
+"56" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_OUTFMT, &quot;output-format&quot;, JAS_OPT_HASARG})<SUB>30</SUB>> ]
+"60" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_OUTFMT, &quot;T&quot;, JAS_OPT_HASARG})<SUB>31</SUB>> ]
+"64" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_OUTOPT, &quot;output-option&quot;, JAS_OPT_HASARG})<SUB>32</SUB>> ]
+"68" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_OUTOPT, &quot;O&quot;, JAS_OPT_HASARG})<SUB>33</SUB>> ]
+"72" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_VERSION, &quot;version&quot;, 0})<SUB>34</SUB>> ]
+"76" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_DEBUG, &quot;debug-level&quot;, JAS_OPT_HASARG})<SUB>35</SUB>> ]
+"80" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_CMPTNO, &quot;cmptno&quot;, JAS_OPT_HASARG})<SUB>36</SUB>> ]
+"84" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_SRGB, &quot;force-srgb&quot;, 0})<SUB>37</SUB>> ]
+"88" [label = <(&lt;operator&gt;.arrayInitializer,{CMDOPT_SRGB, &quot;S&quot;, 0})<SUB>38</SUB>> ]
+"92" [label = <(&lt;operator&gt;.arrayInitializer,{-1, 0, 0})<SUB>39</SUB>> ]
+"101" [label = <(&lt;operator&gt;.assignment,cmdopts = malloc(sizeof(cmdopts_t)))<SUB>45</SUB>> ]
+"107" [label = <(fprintf,fprintf(stderr, &quot;error: insufficient memory\n&quot;))<SUB>46</SUB>> ]
+"110" [label = <(exit,exit(EXIT_FAILURE))<SUB>47</SUB>> ]
+"115" [label = <(FIELD_IDENTIFIER,infile,infile)<SUB>50</SUB>> ]
+"120" [label = <(FIELD_IDENTIFIER,infmt,infmt)<SUB>51</SUB>> ]
+"126" [label = <(FIELD_IDENTIFIER,inopts,inopts)<SUB>52</SUB>> ]
+"130" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;inoptsbuf)<SUB>53</SUB>> ]
+"138" [label = <(FIELD_IDENTIFIER,outfile,outfile)<SUB>54</SUB>> ]
+"143" [label = <(FIELD_IDENTIFIER,outfmt,outfmt)<SUB>55</SUB>> ]
+"149" [label = <(FIELD_IDENTIFIER,outopts,outopts)<SUB>56</SUB>> ]
+"153" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outoptsbuf)<SUB>57</SUB>> ]
+"161" [label = <(FIELD_IDENTIFIER,verbose,verbose)<SUB>58</SUB>> ]
+"166" [label = <(FIELD_IDENTIFIER,version,version)<SUB>59</SUB>> ]
+"171" [label = <(FIELD_IDENTIFIER,cmptno,cmptno)<SUB>60</SUB>> ]
+"177" [label = <(FIELD_IDENTIFIER,debug,debug)<SUB>61</SUB>> ]
+"182" [label = <(FIELD_IDENTIFIER,srgb,srgb)<SUB>62</SUB>> ]
+"186" [label = <(&lt;operator&gt;.assignment,c = jas_getopt(argc, argv, cmdoptions))<SUB>64</SUB>> ]
+"340" [label = <(fprintf,fprintf(stderr,\012\011\011  &quot;warning: ignoring bogus command line argument %s\n&quot;,\012\011\011  argv[jas_optind]))<SUB>118</SUB>> ]
+"346" [label = <(&lt;operator&gt;.preIncrement,++jas_optind)<SUB>121</SUB>> ]
+"351" [label = <(FIELD_IDENTIFIER,version,version)<SUB>124</SUB>> ]
+"356" [label = <(&lt;operator&gt;.lessThan,cmdopts-&gt;outfmt &lt; 0)<SUB>128</SUB>> ]
+"361" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outfile)<SUB>128</SUB>> ]
+"382" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outfmt)<SUB>135</SUB>> ]
+"387" [label = <(fprintf,fprintf(stderr, &quot;error: no output format specified\n&quot;))<SUB>136</SUB>> ]
+"390" [label = <(badusage,badusage())<SUB>137</SUB>> ]
+"93" [label = <(&lt;operator&gt;.minus,-1)<SUB>39</SUB>> ]
+"103" [label = <(malloc,malloc(sizeof(cmdopts_t)))<SUB>45</SUB>> ]
+"132" [label = <(FIELD_IDENTIFIER,inoptsbuf,inoptsbuf)<SUB>53</SUB>> ]
+"155" [label = <(FIELD_IDENTIFIER,outoptsbuf,outoptsbuf)<SUB>57</SUB>> ]
+"188" [label = <(jas_getopt,jas_getopt(argc, argv, cmdoptions))<SUB>64</SUB>> ]
+"343" [label = <(&lt;operator&gt;.indirectIndexAccess,argv[jas_optind])<SUB>120</SUB>> ]
+"357" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outfmt)<SUB>128</SUB>> ]
+"363" [label = <(FIELD_IDENTIFIER,outfile,outfile)<SUB>128</SUB>> ]
+"366" [label = <(&lt;operator&gt;.lessThan,(cmdopts-&gt;outfmt = jas_image_fmtfromname(cmdopts-&gt;outfile)) &lt; 0)<SUB>129</SUB>> ]
+"384" [label = <(FIELD_IDENTIFIER,outfmt,outfmt)<SUB>135</SUB>> ]
+"104" [label = <(&lt;operator&gt;.sizeOf,sizeof(cmdopts_t))<SUB>45</SUB>> ]
+"199" [label = <(cmdusage,cmdusage())<SUB>67</SUB>> ]
+"203" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;verbose = 1)<SUB>70</SUB>> ]
+"211" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;version = 1)<SUB>73</SUB>> ]
+"219" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;debug = atoi(jas_optarg))<SUB>76</SUB>> ]
+"228" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;infile = jas_optarg)<SUB>79</SUB>> ]
+"259" [label = <(addopt,addopt(cmdopts-&gt;inoptsbuf, OPTSMAX, jas_optarg))<SUB>89</SUB>> ]
+"265" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;inopts = cmdopts-&gt;inoptsbuf)<SUB>90</SUB>> ]
+"275" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;outfile = jas_optarg)<SUB>93</SUB>> ]
+"301" [label = <(addopt,addopt(cmdopts-&gt;outoptsbuf, OPTSMAX, jas_optarg))<SUB>102</SUB>> ]
+"307" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;outopts = cmdopts-&gt;outoptsbuf)<SUB>103</SUB>> ]
+"317" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;cmptno = atoi(jas_optarg))<SUB>106</SUB>> ]
+"326" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;srgb = 1)<SUB>109</SUB>> ]
+"333" [label = <(badusage,badusage())<SUB>112</SUB>> ]
+"359" [label = <(FIELD_IDENTIFIER,outfmt,outfmt)<SUB>128</SUB>> ]
+"367" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;outfmt = jas_image_fmtfromname(cmdopts-&gt;outfile))<SUB>129</SUB>> ]
+"377" [label = <(fprintf,fprintf(stderr,\012\011\011\011  &quot;error: cannot guess image format from output file name\n&quot;))<SUB>130</SUB>> ]
+"204" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;verbose)<SUB>70</SUB>> ]
+"212" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;version)<SUB>73</SUB>> ]
+"220" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;debug)<SUB>76</SUB>> ]
+"223" [label = <(atoi,atoi(jas_optarg))<SUB>76</SUB>> ]
+"229" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;infile)<SUB>79</SUB>> ]
+"237" [label = <(&lt;operator&gt;.lessThan,(cmdopts-&gt;infmt = jas_image_strtofmt(jas_optarg)) &lt; 0)<SUB>82</SUB>> ]
+"260" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;inoptsbuf)<SUB>89</SUB>> ]
+"266" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;inopts)<SUB>90</SUB>> ]
+"269" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;inoptsbuf)<SUB>90</SUB>> ]
+"276" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outfile)<SUB>93</SUB>> ]
+"284" [label = <(&lt;operator&gt;.lessThan,(cmdopts-&gt;outfmt = jas_image_strtofmt(jas_optarg)) &lt; 0)<SUB>96</SUB>> ]
+"302" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outoptsbuf)<SUB>102</SUB>> ]
+"308" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outopts)<SUB>103</SUB>> ]
+"311" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outoptsbuf)<SUB>103</SUB>> ]
+"318" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;cmptno)<SUB>106</SUB>> ]
+"321" [label = <(atoi,atoi(jas_optarg))<SUB>106</SUB>> ]
+"327" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;srgb)<SUB>109</SUB>> ]
+"368" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outfmt)<SUB>129</SUB>> ]
+"371" [label = <(jas_image_fmtfromname,jas_image_fmtfromname(cmdopts-&gt;outfile))<SUB>129</SUB>> ]
+"206" [label = <(FIELD_IDENTIFIER,verbose,verbose)<SUB>70</SUB>> ]
+"214" [label = <(FIELD_IDENTIFIER,version,version)<SUB>73</SUB>> ]
+"222" [label = <(FIELD_IDENTIFIER,debug,debug)<SUB>76</SUB>> ]
+"231" [label = <(FIELD_IDENTIFIER,infile,infile)<SUB>79</SUB>> ]
+"238" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;infmt = jas_image_strtofmt(jas_optarg))<SUB>82</SUB>> ]
+"246" [label = <(fprintf,fprintf(stderr, &quot;warning: ignoring invalid input format %s\n&quot;,\012\011\011\011\011  jas_optarg))<SUB>83</SUB>> ]
+"250" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;infmt = -1)<SUB>85</SUB>> ]
+"262" [label = <(FIELD_IDENTIFIER,inoptsbuf,inoptsbuf)<SUB>89</SUB>> ]
+"268" [label = <(FIELD_IDENTIFIER,inopts,inopts)<SUB>90</SUB>> ]
+"271" [label = <(FIELD_IDENTIFIER,inoptsbuf,inoptsbuf)<SUB>90</SUB>> ]
+"278" [label = <(FIELD_IDENTIFIER,outfile,outfile)<SUB>93</SUB>> ]
+"285" [label = <(&lt;operator&gt;.assignment,cmdopts-&gt;outfmt = jas_image_strtofmt(jas_optarg))<SUB>96</SUB>> ]
+"293" [label = <(fprintf,fprintf(stderr, &quot;error: invalid output format %s\n&quot;, jas_optarg))<SUB>97</SUB>> ]
+"297" [label = <(badusage,badusage())<SUB>98</SUB>> ]
+"304" [label = <(FIELD_IDENTIFIER,outoptsbuf,outoptsbuf)<SUB>102</SUB>> ]
+"310" [label = <(FIELD_IDENTIFIER,outopts,outopts)<SUB>103</SUB>> ]
+"313" [label = <(FIELD_IDENTIFIER,outoptsbuf,outoptsbuf)<SUB>103</SUB>> ]
+"320" [label = <(FIELD_IDENTIFIER,cmptno,cmptno)<SUB>106</SUB>> ]
+"329" [label = <(FIELD_IDENTIFIER,srgb,srgb)<SUB>109</SUB>> ]
+"370" [label = <(FIELD_IDENTIFIER,outfmt,outfmt)<SUB>129</SUB>> ]
+"372" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outfile)<SUB>129</SUB>> ]
+"239" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;infmt)<SUB>82</SUB>> ]
+"242" [label = <(jas_image_strtofmt,jas_image_strtofmt(jas_optarg))<SUB>82</SUB>> ]
+"251" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;infmt)<SUB>85</SUB>> ]
+"254" [label = <(&lt;operator&gt;.minus,-1)<SUB>85</SUB>> ]
+"286" [label = <(&lt;operator&gt;.indirectFieldAccess,cmdopts-&gt;outfmt)<SUB>96</SUB>> ]
+"289" [label = <(jas_image_strtofmt,jas_image_strtofmt(jas_optarg))<SUB>96</SUB>> ]
+"374" [label = <(FIELD_IDENTIFIER,outfile,outfile)<SUB>129</SUB>> ]
+"241" [label = <(FIELD_IDENTIFIER,infmt,infmt)<SUB>82</SUB>> ]
+"253" [label = <(FIELD_IDENTIFIER,infmt,infmt)<SUB>85</SUB>> ]
+"288" [label = <(FIELD_IDENTIFIER,outfmt,outfmt)<SUB>96</SUB>> ]
+"7" [label = <(METHOD,cmdopts_parse)<SUB>1</SUB>> ]
+"394" [label = <(METHOD_RETURN,cmdopts_t)<SUB>1</SUB>> ]
+  "13" -> "104" 
+  "112" -> "120" 
+  "117" -> "126" 
+  "123" -> "132" 
+  "128" -> "138" 
+  "135" -> "143" 
+  "140" -> "149" 
+  "146" -> "155" 
+  "151" -> "161" 
+  "158" -> "166" 
+  "163" -> "171" 
+  "168" -> "177" 
+  "174" -> "182" 
+  "179" -> "188" 
+  "392" -> "394" 
+  "15" -> "13" 
+  "100" -> "107" 
+  "100" -> "115" 
+  "113" -> "112" 
+  "118" -> "121" 
+  "121" -> "117" 
+  "124" -> "123" 
+  "129" -> "128" 
+  "136" -> "135" 
+  "141" -> "144" 
+  "144" -> "140" 
+  "147" -> "146" 
+  "152" -> "151" 
+  "159" -> "158" 
+  "164" -> "163" 
+  "169" -> "172" 
+  "172" -> "168" 
+  "175" -> "174" 
+  "180" -> "179" 
+  "185" -> "199" 
+  "185" -> "206" 
+  "185" -> "214" 
+  "185" -> "222" 
+  "185" -> "231" 
+  "185" -> "241" 
+  "185" -> "262" 
+  "185" -> "278" 
+  "185" -> "288" 
+  "185" -> "304" 
+  "185" -> "320" 
+  "185" -> "329" 
+  "185" -> "333" 
+  "185" -> "336" 
+  "336" -> "343" 
+  "336" -> "351" 
+  "349" -> "392" 
+  "349" -> "359" 
+  "355" -> "370" 
+  "355" -> "384" 
+  "381" -> "387" 
+  "381" -> "392" 
+  "16" -> "20" 
+  "20" -> "24" 
+  "24" -> "28" 
+  "28" -> "32" 
+  "32" -> "36" 
+  "36" -> "40" 
+  "40" -> "44" 
+  "44" -> "48" 
+  "48" -> "52" 
+  "52" -> "56" 
+  "56" -> "60" 
+  "60" -> "64" 
+  "64" -> "68" 
+  "68" -> "72" 
+  "72" -> "76" 
+  "76" -> "80" 
+  "80" -> "84" 
+  "84" -> "88" 
+  "88" -> "93" 
+  "92" -> "15" 
+  "101" -> "100" 
+  "107" -> "110" 
+  "110" -> "115" 
+  "115" -> "113" 
+  "120" -> "118" 
+  "126" -> "124" 
+  "130" -> "129" 
+  "138" -> "136" 
+  "143" -> "141" 
+  "149" -> "147" 
+  "153" -> "152" 
+  "161" -> "159" 
+  "166" -> "164" 
+  "171" -> "169" 
+  "177" -> "175" 
+  "182" -> "180" 
+  "186" -> "185" 
+  "340" -> "346" 
+  "346" -> "336" 
+  "351" -> "349" 
+  "356" -> "355" 
+  "356" -> "363" 
+  "361" -> "355" 
+  "382" -> "381" 
+  "387" -> "390" 
+  "390" -> "392" 
+  "93" -> "92" 
+  "103" -> "101" 
+  "132" -> "130" 
+  "155" -> "153" 
+  "188" -> "186" 
+  "343" -> "340" 
+  "357" -> "356" 
+  "363" -> "361" 
+  "366" -> "377" 
+  "366" -> "384" 
+  "384" -> "382" 
+  "104" -> "103" 
+  "199" -> "188" 
+  "203" -> "188" 
+  "211" -> "188" 
+  "219" -> "188" 
+  "228" -> "188" 
+  "259" -> "268" 
+  "265" -> "188" 
+  "275" -> "188" 
+  "301" -> "310" 
+  "307" -> "188" 
+  "317" -> "188" 
+  "326" -> "188" 
+  "333" -> "188" 
+  "359" -> "357" 
+  "367" -> "366" 
+  "377" -> "384" 
+  "204" -> "203" 
+  "212" -> "211" 
+  "220" -> "223" 
+  "223" -> "219" 
+  "229" -> "228" 
+  "237" -> "246" 
+  "237" -> "188" 
+  "260" -> "259" 
+  "266" -> "271" 
+  "269" -> "265" 
+  "276" -> "275" 
+  "284" -> "293" 
+  "284" -> "188" 
+  "302" -> "301" 
+  "308" -> "313" 
+  "311" -> "307" 
+  "318" -> "321" 
+  "321" -> "317" 
+  "327" -> "326" 
+  "368" -> "374" 
+  "371" -> "367" 
+  "206" -> "204" 
+  "214" -> "212" 
+  "222" -> "220" 
+  "231" -> "229" 
+  "238" -> "237" 
+  "246" -> "253" 
+  "250" -> "188" 
+  "262" -> "260" 
+  "268" -> "266" 
+  "271" -> "269" 
+  "278" -> "276" 
+  "285" -> "284" 
+  "293" -> "297" 
+  "297" -> "188" 
+  "304" -> "302" 
+  "310" -> "308" 
+  "313" -> "311" 
+  "320" -> "318" 
+  "329" -> "327" 
+  "370" -> "368" 
+  "372" -> "371" 
+  "239" -> "242" 
+  "242" -> "238" 
+  "251" -> "254" 
+  "254" -> "250" 
+  "286" -> "289" 
+  "289" -> "285" 
+  "374" -> "372" 
+  "241" -> "239" 
+  "253" -> "251" 
+  "288" -> "286" 
+  "7" -> "16" 
+}

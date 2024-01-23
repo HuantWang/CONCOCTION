@@ -1,0 +1,46 @@
+-----cfg-----
+(17,20)
+(20,22)
+(7,9)
+(9,10)
+(10,13)
+(13,17)
+-----path-----
+7,9,10,13,17,20,22
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,void usage ()
+8,<empty>
+9,cmdinfo()
+10,fprintf(stderr, "usage:\n")
+11,stderr
+12,"usage:\n"
+13,fprintf(stderr,"%s ", cmdname)
+14,stderr
+15,"%s "
+16,cmdname
+17,fprintf(stderr, "[-f image_file]\n")
+18,stderr
+19,"[-f image_file]\n"
+20,exit(EXIT_FAILURE)
+21,EXIT_FAILURE
+22,RET
+23,RET
+24,void usage ()
+25,<empty>
+26,cmdinfo()
+27,fprintf(stderr, "usage:\n")
+28,stderr
+29,"usage:\n"
+30,fprintf(stderr,"%s ", cmdname)
+31,stderr
+32,"%s "
+33,cmdname
+34,fprintf(stderr, "[-f image_file]\n")
+35,stderr
+36,"[-f image_file]\n"
+37,exit(EXIT_FAILURE)
+38,EXIT_FAILURE
+39,RET
+=====================================

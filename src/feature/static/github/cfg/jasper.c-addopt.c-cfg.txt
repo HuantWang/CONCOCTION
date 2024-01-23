@@ -1,0 +1,37 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"48" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "48" 
+}
+
+digraph "addopt" {  
+"14" [label = <(&lt;operator&gt;.assignment,n = strlen(optstr))<SUB>6</SUB>> ]
+"18" [label = <(&lt;operator&gt;.assignment,m = n + strlen(s) + 1)<SUB>7</SUB>> ]
+"41" [label = <(strcat,strcat(optstr, s))<SUB>14</SUB>> ]
+"44" [label = <(RETURN,return 0;,return 0;)<SUB>15</SUB>> ]
+"16" [label = <(strlen,strlen(optstr))<SUB>6</SUB>> ]
+"20" [label = <(&lt;operator&gt;.addition,n + strlen(s) + 1)<SUB>7</SUB>> ]
+"27" [label = <(&lt;operator&gt;.greaterThan,m &gt; maxlen)<SUB>8</SUB>> ]
+"34" [label = <(&lt;operator&gt;.greaterThan,n &gt; 0)<SUB>11</SUB>> ]
+"21" [label = <(&lt;operator&gt;.addition,n + strlen(s))<SUB>7</SUB>> ]
+"31" [label = <(RETURN,return 1;,return 1;)<SUB>9</SUB>> ]
+"38" [label = <(strcat,strcat(optstr, &quot;\n&quot;))<SUB>12</SUB>> ]
+"23" [label = <(strlen,strlen(s))<SUB>7</SUB>> ]
+"7" [label = <(METHOD,addopt)<SUB>1</SUB>> ]
+"46" [label = <(METHOD_RETURN,int)<SUB>1</SUB>> ]
+  "14" -> "23" 
+  "18" -> "27" 
+  "41" -> "44" 
+  "44" -> "46" 
+  "16" -> "14" 
+  "20" -> "18" 
+  "27" -> "31" 
+  "27" -> "34" 
+  "34" -> "38" 
+  "34" -> "41" 
+  "21" -> "20" 
+  "31" -> "46" 
+  "38" -> "41" 
+  "23" -> "21" 
+  "7" -> "16" 
+}

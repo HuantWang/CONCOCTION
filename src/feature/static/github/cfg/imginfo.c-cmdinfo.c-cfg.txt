@@ -1,0 +1,15 @@
+digraph "&lt;global&gt;" {  
+"5" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"18" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "5" -> "18" 
+}
+
+digraph "cmdinfo" {  
+"9" [label = <(fprintf,fprintf(stderr, &quot;Image Information Utility (Version %s).\n&quot;,\012\011  JAS_VERSION))<SUB>3</SUB>> ]
+"13" [label = <(fprintf,fprintf(stderr,\012\011  &quot;Copyright (c) 2001 Michael David Adams.\n&quot;\012\011  &quot;All rights reserved.\n&quot;\012\011  ))<SUB>5</SUB>> ]
+"7" [label = <(METHOD,cmdinfo)<SUB>1</SUB>> ]
+"16" [label = <(METHOD_RETURN,void)<SUB>1</SUB>> ]
+  "9" -> "13" 
+  "13" -> "16" 
+  "7" -> "9" 
+}

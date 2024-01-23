@@ -1,0 +1,111 @@
+-----cfg-----
+(34,38)
+(34,41)
+(38,41)
+(7,16)
+(41,44)
+(44,46)
+(14,23)
+(16,14)
+(18,27)
+(20,18)
+(21,20)
+(23,21)
+(27,31)
+(27,34)
+(31,46)
+-----path-----
+7,16,14,23,21,20,18,27,31,46
+7,16,14,23,21,20,18,27,34,38,41,44,46
+7,16,14,23,21,20,18,27,34,41,44,46
+-----cfgNode-----
+5,<global>
+6,<empty>
+7,int addopt (char *optstr,int maxlen,char *s)
+8,char *optstr
+9,int maxlen
+10,char *s
+11,<empty>
+12,int n
+13,int m
+14,n = strlen(optstr)
+15,n
+16,strlen(optstr)
+17,optstr
+18,m = n + strlen(s) + 1
+19,m
+20,n + strlen(s) + 1
+21,n + strlen(s)
+22,n
+23,strlen(s)
+24,s
+25,1
+26,if (m > maxlen)
+27,m > maxlen
+28,m
+29,maxlen
+30,<empty>
+31,return 1;
+32,1
+33,if (n > 0)
+34,n > 0
+35,n
+36,0
+37,<empty>
+38,strcat(optstr, "\n")
+39,optstr
+40,"\n"
+41,strcat(optstr, s)
+42,optstr
+43,s
+44,return 0;
+45,0
+46,RET
+47,char *optstr
+48,int maxlen
+49,char *s
+50,RET
+51,int addopt (char *optstr,int maxlen,char *s)
+52,char *optstr
+53,int maxlen
+54,char *s
+55,<empty>
+56,int n
+57,int m
+58,n = strlen(optstr)
+59,n
+60,strlen(optstr)
+61,optstr
+62,m = n + strlen(s) + 1
+63,m
+64,n + strlen(s) + 1
+65,n + strlen(s)
+66,n
+67,strlen(s)
+68,s
+69,1
+70,if (m > maxlen)
+71,m > maxlen
+72,m
+73,maxlen
+74,<empty>
+75,return 1;
+76,1
+77,if (n > 0)
+78,n > 0
+79,n
+80,0
+81,<empty>
+82,strcat(optstr, "\n")
+83,optstr
+84,"\n"
+85,strcat(optstr, s)
+86,optstr
+87,s
+88,return 0;
+89,0
+90,RET
+91,char *optstr
+92,int maxlen
+93,char *s
+=====================================
