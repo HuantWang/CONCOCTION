@@ -45,7 +45,7 @@ $ sudo docker images
 
 ```
 
-Run the docker image.
+Run the docker image in a GPU-enabled environment
 
 ```
 $ docker run -itd --gpus all  -p 10054:22 -p 10053:8888 --name Concoction concoctionnwu/concoction:v2 /bin/bash
