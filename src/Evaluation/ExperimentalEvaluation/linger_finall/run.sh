@@ -1,9 +1,0 @@
-#!/bin/bash
-/root/anaconda3/envs/liger/bin/python /home/ExperimentalEvaluation/lingerwj/run_group.py  --train_data_file /home/ExperimentalEvaluation/data/github_0.6_new/train --lr 0.001 --epoch 50 --n_hidden 150 > 0.001_50_150.log
-/root/anaconda3/envs/liger/bin/python /home/ExperimentalEvaluation/lingerwj/run_group.py  --train_data_file /home/ExperimentalEvaluation/data/github_0.6_new/train --lr 0.001 --epoch 50 --n_hidden 250 > 0.001_50_250.log
-/root/anaconda3/envs/liger/bin/python /home/ExperimentalEvaluation/lingerwj/run_group.py  --train_data_file /home/ExperimentalEvaluation/data/github_0.6_new/train --lr 0.001 --epoch 40 --n_hidden 200 > 0.001_40_200.log
-/root/anaconda3/envs/liger/bin/python /home/ExperimentalEvaluation/lingerwj/run_group.py  --train_data_file /home/ExperimentalEvaluation/data/github_0.6_new/train --lr 0.001 --epoch 40 --n_hidden 250 > 0.001_40_250.log
-/root/anaconda3/envs/liger/bin/python /home/ExperimentalEvaluation/lingerwj/run_group.py  --train_data_file /home/ExperimentalEvaluation/data/github_0.6_new/train --lr 0.001 --epoch 50 --n_hidden 250 > 0.001_50_250.log
-/root/anaconda3/envs/liger/bin/python /home/ExperimentalEvaluation/lingerwj/run_group.py  --train_data_file /home/ExperimentalEvaluation/data/github_0.6_new/train --lr 0.01 --epoch 40 --n_hidden 200 > 0.01_40_200.log
-/root/anaconda3/envs/liger/bin/python /home/ExperimentalEvaluation/lingerwj/run_group.py  --train_data_file /home/ExperimentalEvaluation/data/github_0.6_new/train --lr 0.01 --epoch 40 --n_hidden 250 > 0.01_40_250.log
-/root/anaconda3/envs/liger/bin/python /home/ExperimentalEvaluation/lingerwj/run_group.py  --train_data_file /home/ExperimentalEvaluation/data/github_0.6_new/train --lr 0.01 --epoch 40 --n_hidden 150 > 0.01_40_150.log

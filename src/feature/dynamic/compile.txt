@@ -1,2 +1,0 @@
-CC=wllvm CXX=wllvm++ ./configure
-CC=wllvm CXX=wllvm++ make

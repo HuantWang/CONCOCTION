@@ -1,2 +1,0 @@
-./linevul/microsoft/codebert-base/pytorch_model.bin filter=lfs diff=lfs merge=lfs -text
-./linevul/saved_models/checkpoint-best-f1/model.bin filter=lfs diff=lfs merge=lfs -text
