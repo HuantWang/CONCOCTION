@@ -1,6 +1,7 @@
 import os
 import tarfile
 import shutil
+import sys
 
 def extract_tar_gz(tar_gz_file, destination_dir):
     with tarfile.open(tar_gz_file, 'r:gz') as tar:
