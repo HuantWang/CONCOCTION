@@ -33,6 +33,15 @@ $ docker exec -it Concoction /bin/bash
 ```
 
 ## Building from Source
+## 1.0 Source code
+Due to the limitation of GitHub repositories in storing large files, we have stored the large files on Google Drive. Please download them using the following method and store them in the corresponding locations in the source code.
+https://drive.google.com/file/d/1ubcNOPoqzj1kk1yGtUAXvL2t-QKU_nuq/view?usp=drive_link
+```
+# extract the compressed archive and copy the files inside it to the appropriate destination
+cd ./src
+python ./cpLargeFile.py  [The storage location of the downloaded files from Google Drive] [the desired location to store the extracted files]
+# eg: python ./cpLargeFile.py /CONCOCTION_largeFile/CONCOCTION_largeFile.tar.gz /CONCOCTION_largeFile/CONCOCTION_largeFile
+```
 
 ## 1.1. Dependences
 
