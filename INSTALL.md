@@ -11,7 +11,7 @@ Install docker engine by following the instructions [here](https://docs.docker.c
 Fetch the docker image from docker hub.
 
 ```
-$ sudo docker pull concoctionnwu/concoction:v2
+$ sudo docker pull concoctionnwu/concoction:v3
 ```
 
 To check the list of images, run:
@@ -33,6 +33,15 @@ $ docker exec -it Concoction /bin/bash
 ```
 
 ## Building from Source
+## 1.0 Source code
+Due to the limitation of GitHub repositories in storing large files, we have stored the large files on Google Drive. Please download them using the following method and store them in the corresponding locations in the source code.
+https://drive.google.com/file/d/1ubcNOPoqzj1kk1yGtUAXvL2t-QKU_nuq/view?usp=drive_link
+```
+# extract the compressed archive and copy the files inside it to the appropriate destination
+cd ./src
+python ./cpLargeFile.py  [The storage location of the downloaded files from Google Drive] [the desired location to store the extracted files]
+# eg: python ./cpLargeFile.py /CONCOCTION_largeFile/CONCOCTION_largeFile.tar.gz /CONCOCTION_largeFile/CONCOCTION_largeFile
+```
 
 ## 1.1. Dependences
 
@@ -43,33 +52,6 @@ We recommend using [conda](https://docs.conda.io/projects/conda/en/latest/user-g
 ```shell
 # add concoction python environment, 
 $ conda env create -f environment.yml
-```
-
-#### ***Alternative: using different environments to evaluate other SOTA approaches***
-
-|  Approaches   |  Conda name   |
-| :-----------: | :-----------: |
-|    LineVul    |   sotaEnv1    |
-| VulDeepecker  |   sotaEnv2    |
-|    Devign     | sotaEnv2 |
-| GraphCodeBERT | sotaEnv2 |
-|    REVEAL     | sotaEnv2 |
-|   CodeXGLUE   | sotaEnv2 |
-|    Funded     |    sotaEnv3     |
-|    LineVD     |    sotaEnv1    |
-|     ReGVD     | sotaEnv2 |
-|  ContraFlow   |  pytorch1.7.1 |
-|     LIGER     |     sotaEnv4     |
-|  Concoction   |  pytorch1.7.1 |
-
-Using following command to control your anaconda version：
-
-```shell
-# add different environments to evaluate other SOTA 
-$ conda env create -f environment_sotaEnv1.yml
-$ conda env create -f environment_sotaEnv3.yml
-$ conda env create -f environment_sotaEnv4.yml
-$ conda env create -f environment_sotaEnv2.yml
 ```
 
 ## 1.2. KLEE
