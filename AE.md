@@ -107,9 +107,9 @@ $ python /homee/Evaluation/demo1/concoction_2.py --program test_a.c
 
 ```
 # Execute the script to extract dynamic information, 
-# passing the program path (path) and the script path (ScriptPath) as arguments
-# bash [ScriptPath]  [path]
-$ bash /homee/Evaluation/demo1/getDynamic.sh /homee/Evaluation/exampleProject/jasper-version-1.900.1
+# bash [ScriptPath]  [project_path] [Description of Dependencies to Install] [Compilation Instructions for the Project] [Execution Instructions for the Project]
+$ cd /homee/feature/dynamic
+$ bash main.sh /homee/Evaluation/exampleProject/jasper-version-1.900.1 ./before_insert.txt ./compile.txt ./do.txt
 ```
 
 #### Training
