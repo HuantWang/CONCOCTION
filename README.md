@@ -44,24 +44,12 @@ This is our introduction to the training and validation dataset used in the pape
 You can download the dataset from [here](https://drive.google.com/file/d/1ObjOKKWl0cS81ZF5KPMoSPprThVav5aA/view?usp=drive_link)
 
 ### Open datasets used in training and evaluation
-| Source |    Projects     |       Versions       | Samples | Vulnerability samples |
-| ------ | :-------------: | :------------------: | :-----: | :-------------------: |
-| SARD   |        /        |          /           | 30,954  |         5,477         |
-| Github |     Jasper      |  v1.900.1-5,v2.0.12  | 24,996  |          666          |
-|        |     Libtiff     |       v4.0.3-9       |  6,336  |          724          |
-|        |     Libzip      |     v0.10,v1.2.0     |  5,686  |          66           |
-|        |     Libyaml     |        v0.1.4        | 27,625  |          42           |
-|        |     Sqlite      |        v3.8.2        |  1,825  |          31           |
-|        | Ok-file-formats |       203defd        |  1,014  |          17           |
-|        |     libpng      | v1.2.7,v1.5.4,v1.6.0 |   954   |          12           |
-|        |     libming     |       v0.4.7-8       |  1,104  |          16           |
-|        |    libexpat     |        v2.0.1        |  1,051  |          14           |
 
-This folder contains all the datasets used in our paper.
+This folder contains the datasets used in our paper.
 
-`github:` This folder contains more than 68K C functions from 9 large C-language open-source projects.
+`github:` This folder contains overall 6.8K C functions from C-language open-source projects.
 
-`sard:` This folder contains more than 30K C functions from the SARD standard vulnerability dataset.
+`sard:` This folder contains overall 10K C functions from the SARD standard vulnerability dataset.
 
 ### Data structure
 
