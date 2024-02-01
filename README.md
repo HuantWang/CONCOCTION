@@ -18,7 +18,7 @@ framework. This is the first DL system to learn program presentations by
 combining static source code information and dynamic program execution 
 traces.
 
-Check [our paper](https://github.com/HuantWang/HuantWang.github.io/blob/main/ICSE_24.pdf) for detailed information.
+Check [our paper]([https://github.com/HuantWang/HuantWang.github.io/blob/main/ICSE_24.pdf](https://eprints.whiterose.ac.uk/208077/1/ICSE_24___Camera_Ready__Copy_.pdf)) for detailed information.
 
 ## Installation
 
