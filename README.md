@@ -47,9 +47,9 @@ You can download the dataset from [here](https://drive.google.com/file/d/1ObjOKK
 
 This folder contains the datasets used in our paper.
 
-`github:` This folder contains overall 6.8K C functions from C-language open-source projects.
+`github:` This folder contains C functions from C-language open-source projects.
 
-`sard:` This folder contains overall 10K C functions from the SARD standard vulnerability dataset.
+`sard:` This folder contains C functions from the SARD standard vulnerability dataset.
 
 ### Data structure
 
