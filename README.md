@@ -36,7 +36,7 @@ See [INSTALL.md](INSTALL.md) for further details.
 
 ## Usage
 
-See [usage.md](./AE.md) for a step-by-step demo of Concoction.
+See [usage.md](./usage.md) for a step-by-step demo of Concoction.
 
 ## Data
 
