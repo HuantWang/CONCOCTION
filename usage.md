@@ -2,17 +2,12 @@
 
 The recommended approach for AE is to use the pre-configured, interactive Jupyter notebook with the instructions given in the AE submission.
 
-The following step-by-step instructions are provided for using a Docker Image running on a local host. Our Docker image (80 GB uncompressed) contains the entire execution environment (including Python and system dependencies), benchmarks, and source code, which includes 16 state-of-the-art bug detection frameworks. All of our code and data are open-sourced and have been developed with extensibility as a primary goal.
-
-Please check [the notebook](http://43.129.205.177:8080/) for a small-scale demo showcasing vulnerability detection and evaluation as described in the paper.
+The following step-by-step instructions are provided for using a Docker Image running on a local host. Our Docker image contains the entire execution environment (including Python and system dependencies), benchmarks, and source code, which includes 16 state-of-the-art bug detection frameworks. All of our code and data are open-sourced and have been developed with extensibility as a primary goal.
 
 *Disclaim: Although we have worked hard to ensure that our AE scripts are robust, our tool remains a \*research prototype\*. It may still have glitches when used in complex, real-life settings. If you discover any bugs, please raise an issue, describing how you ran the program and the problem you encountered. We will get back to you ASAP. Thank you.*
 
 # Step-by-Step Instructions 
 
-## ★ Main Results 
-
-The main results of our work are presented in Figures 7 to 8 and Tables 3 to 5 in the submitted paper, which compare Concoction against 16 alternative techniques for bug detection.
 
 ## ★ Docker Image
 
