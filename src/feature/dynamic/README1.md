@@ -1,4 +1,4 @@
-# Get static feature of the program
+# Get hybid feature of the program
 
 **Environment requirements [klee docker]: features are processed in the klee tool's container** 
 
