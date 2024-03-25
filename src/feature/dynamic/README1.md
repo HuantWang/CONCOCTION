@@ -75,25 +75,6 @@ $ python3 get_composite.py
 # Get the composite folder where the hybrid features are stored, in the /home/feature/dynamic/ directory
 ```
 
-
-
-
-
-# extract dynamic feature
-## dependency
-install klee and llvm
-```
-# klee -version
-KLEE 2.1 (https://klee.github.io)
-  Build mode: RelWithDebInfo (Asserts: ON)
-  Build revision: unknown
-
-LLVM (http://llvm.org/):
-  LLVM version 6.0.1
-  Optimized build.
-  Default target: x86_64-unknown-linux-gnu
-  Host CPU: skylake-avx512
-```
 ## run the example
 extract the dynamic feature from project 'jasper1.9.1'
 ```
