@@ -1,4 +1,4 @@
-# Get static feature of the program
+# Get hybrid feature of the program
 
 **Environment requirements [klee docker]: features are processed in the klee tool's container** 
 
@@ -77,3 +77,10 @@ $ python3 get_composite.py
 
 
 
+## run the example
+
+extract the dynamic feature from project 'jasper1.9.1'
+
+```
+sh main.sh /home/example/jasper-version-1.900.1 ./before_insert.txt ./compile.txt ./do.txt
+```
