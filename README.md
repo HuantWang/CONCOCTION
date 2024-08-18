@@ -40,7 +40,7 @@ See [usage.md](./usage.md) for a step-by-step demo of Concoction.
 
 ## Data
 
-This is our introduction to the training and validation dataset used in the paper.
+This is our introduction to the training and validation dataset used in the paper(We manually verified the original dataset and removed low-quality samples, ensuring faster training speed without compromising the model's performance).
 You can download the dataset from [here](https://drive.google.com/file/d/1ObjOKKWl0cS81ZF5KPMoSPprThVav5aA/view?usp=drive_link)
 
 ### Open datasets used in training and evaluation
